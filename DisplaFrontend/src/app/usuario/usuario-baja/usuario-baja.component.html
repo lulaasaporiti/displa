@@ -1,0 +1,12 @@
+<div class="dialog-content">
+    <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+        <p class="dialog-title" *ngIf="data.modelUsuario.Activo">¿Está seguro que quiere desactivar el usuario {{data.modelUsuario.UserName}}?</p>
+        <p class="dialog-title" *ngIf="!data.modelUsuario.Activo">¿Está seguro que quiere activar el usuario {{data.modelUsuario.UserName}}?</p>
+    </div>
+
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+        <button mat-raised-button (click)="onNoClick()" [mat-dialog-close]="false">No</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data">Si</button>
+    </div>
+</div>

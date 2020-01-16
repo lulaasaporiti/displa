@@ -1,0 +1,11 @@
+<form #userNameForm="ngForm">
+  <mat-form-field fxFill>
+      <input matInput placeholder="Usuario" [ngModel]=username id="userName" name="userName" #userName required/>
+      <mat-error *ngIf="userName.invalid">Este campo es obligatorio.</mat-error>
+  </mat-form-field>
+</form>
+
+<mat-dialog-actions fxLayoutAlign="space-evenly center" fxFill>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [disabled]="!userNameForm.form.valid" [mat-dialog-close]="userName.value">Enviar</button>
+</mat-dialog-actions>

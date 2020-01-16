@@ -1,0 +1,12 @@
+.dialog-content{
+    padding: 15px 25px 30px 25px;
+}
+
+.dialog-title{
+    font-family: "Chalet London" !important;
+    font-size: 18px;
+}
+
+.dialog-botones{
+    margin-top: 20px !important;
+}

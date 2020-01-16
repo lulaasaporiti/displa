@@ -1,0 +1,22 @@
+.msgErrorUser {
+    color: #ff5722;
+    font-size: 75%;
+    /* margin-left: 14px; */
+}
+
+.dialog-content {
+    padding: 15px 25px 30px 25px;
+}
+
+.dialog-title {
+    font-family: "Chalet London" !important;
+    font-size: 18px;
+}
+
+.dialog-botones {
+    margin-top: 20px !important;
+}
+
+.mat-dialog-content {
+    height: 80px;
+}

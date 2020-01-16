@@ -1,0 +1,35 @@
+<form fxLayoutAlign="center center" class="login-content" name="loginForm" #loginForm="ngForm" novalidate fxFill
+    [class.login-dark]="isDarkTheme">
+    <div fxFlex.gt.xs="65">
+        <mat-card fxFlex class="login-card" fxLayoutAlign="center start">
+            <mat-card-content fxLayout="column" fxFill fxFlex="85">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" fxFlex="20">
+                    <h4 fxLayout="column" class="titulo" fxFlex>Ingreso a DISPLA <br>  </h4>
+                </div>
+                <!-- <div fxLayout="row" fxLayoutAlign="start center" fxFlex="40" fxLayoutGap="45px" fxFlexOffset="2"> -->
+                    <div fxLayou="column" fxFlex="60">
+                        <mat-form-field fxFill class="login-input">
+                            <input matInput placeholder="Usuario" [(ngModel)]="usuario.username" #username="ngModel"
+                                name="user" required>
+                            <mat-error *ngIf="username.invalid">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFill class="login-input margin-top">
+                            <input matInput placeholder="Contraseña" [(ngModel)]="usuario.password" #password="ngModel"
+                                [type]="hidePassword ? 'password' : 'text'" name="password" required>
+                            <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+                                {{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                            <mat-error *ngIf="password.invalid">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
+                        <div style="margin-top:10px"><a (click)="forgotPassword()" class="contraseña">¿Olvidaste tu
+                                contraseña?</a></div>
+                    </div>
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlexOffset="6" fxFlex="10">
+                    <button mat-raised-button class="iniciar_sesion" (click)="login()">INICIAR SESIÓN</button>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="center end" fxFlexOffset="9" fxFlex>
+                    
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</form>

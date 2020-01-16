@@ -1,0 +1,85 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px">add_circle_outline</mat-icon>
+            <p class="dialog-title">Agregar usuario</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Usuario" [(ngModel)]="data.modelUsuario.UserName" name="usuario"
+                    #usuario="ngModel" required>
+                <mat-error *ngIf="usuario.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelUsuario.Nombre" name="nombre"
+                    #nombre="ngModel" required>
+                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Apellido" [(ngModel)]="data.modelUsuario.Apellido" name="apellido"
+                    #usuario="ngModel" required>
+                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Email" [(ngModel)]="data.modelUsuario.Email" id="email" name="email"
+                    #email="ngModel" required (input)="chequearEmail()"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                <mat-error *ngIf="email.invalid && !email.errors?.pattern">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+            <p class="msgErrorUser" *ngIf="email.errors?.pattern">El formato del mail es inválido.</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="column">
+            <mat-form-field>
+                <input matInput placeholder="Contraseña" [(ngModel)]="data.modelUsuario.Password"
+                    [ngModelOptions]="{standalone: true}" id="password" #password="ngModel"
+                    [type]="hidePassword ? 'password' : 'text'"
+                    (blur)="onBlurPassVerification($event, password.value, confirmpassword.value)" required>
+                <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+                    {{hidePassword ? 'visibility' : 'visibility_off'}}
+                </mat-icon>
+                <mat-error *ngIf="password.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+            <p class="msgErrorUser" *ngIf="msgErrorFormato">La contraseña tiene que tener mínimo 6 caracteres.</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="column">
+            <mat-form-field>
+                <input matInput placeholder="Confirme contraseña" [(ngModel)]="data.modelUsuario.ConfirmPassword"
+                    id="confirmpassword" name="confirmpassword" #confirmpassword="ngModel"
+                    [type]="hideConfirmPassword ? 'password' : 'text'"
+                    (blur)="onBlurPassVerification($event, password.value, confirmpassword.value)" required>
+                <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+                    {{hideConfirmPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="confirmpassword.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <p class="msgErrorUser" *ngIf="msgErrorPass">Las contraseñas no coinciden.</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <mat-select placeholder="Roles" [(ngModel)]="data.modelUsuario.Roles" name="roles" #rols required>
+
+                    <mat-option *ngFor="let rol of rolesList" [value]="rol.Name">{{rol.Name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="rols.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="data">Agregar</button>
+        </div>
+    </div>
+</form>

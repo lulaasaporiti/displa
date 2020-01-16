@@ -1,0 +1,7 @@
+img {
+    opacity: 0.75;
+    filter: alpha(opacity=75); /* For IE8 and earlier */
+    max-width: 600px; 
+    max-height: 700px; 
+    position: absolute;
+}

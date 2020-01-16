@@ -1,0 +1,115 @@
+mat-toolbar {
+    /* height: 165px; */
+    /* padding-top: 8px; */
+    color: white;
+    background-color: #616161;
+}
+
+mat-menu-panel {
+    background-color: #616161;
+}
+
+::ng-deep .mat-menu-content{    
+    background-color: #616161;
+}
+
+mat-menu {
+    background-color: #616161 !important;
+}
+
+mat-nav-list {
+    min-width: 100%;    
+    padding: 0;
+}
+
+.menu-nav { 
+    padding: 0px 30px;
+}
+
+/* mat-nav-list mat-nav-list div {
+    margin-left: 50px;
+} */
+
+/* mat-nav-list mat-nav-list .button-list.mat-button {
+    min-width: 88%;
+} */
+
+.login_text{
+    color: #f5f5f5; 
+}
+
+.button-list {
+    /* min-width: 100%; */
+    font-size: 14px;
+    height: 48px;
+    /* padding: 0px 40px; */
+    color: #f5f5f5;
+    align-items: center;
+
+}
+
+.heading-children.expanded {
+    visibility: visible;
+    opacity: 1;
+    max-height: 4000px;
+    transition: visibility .5s, opacity .5s, max-height .5s;
+    transition-timing-function: ease-in-out;
+}
+
+.heading-children.collapsed {
+    visibility: hidden;
+    opacity: 0;
+    max-height: 1px;
+    transition: visibility 275ms, opacity 275ms, max-height 280ms;
+    transition-timing-function: ease-out;
+}
+
+#imgicono {
+    width: 65%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.link{
+    font-family: "Chalet London";
+    font-size: 25px;
+    letter-spacing: 0.03em;
+}
+
+.link:link {
+    color: #ead246;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.link:visited {
+    color: #ead246;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #ead246;
+    background-color: transparent;
+    text-decoration: underline;
+}
+.link:active {
+    color: #ead246;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+.imagen {
+    position: absolute;
+    bottom: 0;
+}
+
+.toolbar-content{
+    /* padding: 5px 16px 0 16px; */
+    width: 980px; 
+    flex-direction: row;
+    margin: auto;
+    vertical-align: middle;
+
+}

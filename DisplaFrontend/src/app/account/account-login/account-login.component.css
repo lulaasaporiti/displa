@@ -1,0 +1,55 @@
+/* ////// Login input /////// */
+
+::ng-deep .mat-form-field.login-input .mat-form-field-label {
+    color: #f5f5f5!important;
+}
+
+::ng-deep .mat-form-field.login-input .mat-form-field-underline {
+    background-color: #fdd306;
+}
+
+::ng-deep .mat-form-field.login-input.mat-focused .mat-form-field-ripple {
+    background-color: #fdd306;
+}
+
+/* /////////////////////////// */
+
+.login-content{
+    background-color: #474747;
+    height: 100%;
+    position: fixed;
+    
+}
+
+.login-card{
+    background-color: #333;
+    border-radius: 20px;
+    height: 70%;
+    color: #f5f5f5;
+    padding: 40px 0;
+    max-width: 828px;
+}
+
+.titulo{
+    font-family: "Chalet London" !important;
+    color: #f5f5f5;
+} 
+
+.contraseña{
+    font-size: 12px;
+    cursor: pointer;
+     
+}
+
+.iniciar_sesion{
+    color: #f5f5f5;
+    background-color: firebrick;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+
+
+.margin-top{
+    margin-top: 8px;
+}

@@ -1,0 +1,55 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px">edit</mat-icon>
+            <p class="dialog-title">Editar usuario</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Usuario" [(ngModel)]="data.modelUsuario.UserName" name="username"
+                    #username="ngModel" disabled>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelUsuario.Nombre" name="nombre"
+                    #nombre="ngModel" required>
+                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Apellido" [(ngModel)]="data.modelUsuario.Apellido" name="apellido"
+                    #apellido="ngModel" required>
+                <mat-error *ngIf="apellido.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Email" [(ngModel)]="data.modelUsuario.Mail" name="mail" #mail="ngModel"
+                    required>
+                <mat-error *ngIf="mail.invalid && !mail.errors?.pattern">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+        <p class="msgErrorUser" *ngIf="mail.errors?.pattern">El formato del mail es inválido.</p>
+
+
+        <mat-form-field fxLayout="column">
+            <mat-select placeholder="Roles" [(ngModel)]="data.modelUsuario.Roles.Name" name="roles" #rols required>
+
+                <mat-option *ngFor="let rol of rolesList" [value]="rol.Name">{{rol.Name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="rols.invalid">Este campo es obligatorio.</mat-error>
+        </mat-form-field>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="data">Guardar</button>
+        </div>
+    </div>
+</form>

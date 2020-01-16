@@ -1,0 +1,49 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+    <mat-nav-list fxLayout="row">
+        <div fxLayout="row" fxFill class="menu-nav">
+            <a mat-button fxLayoutAlign="start center" routerLink="Home" class="button-list" fxLayout="row">
+                <mat-icon svgIcon="logo_displa"></mat-icon>
+            </a>
+            <button mat-button class="button-list" [matMenuTriggerFor]="menuProductos">Productos</button>
+            <mat-menu fxLayoutAlign="start center" #menuProductos="matMenu">
+                <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Lentes</a>
+                <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Artículos varios</a>
+                <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Servicios</a>
+                <a mat-menu-item class="button-list" routerLink="Insumo/Listado">Insumos</a>
+                <a mat-menu-item class="button-list" routerLink="Block/Listado">Blocks</a>
+                <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatos">Datos de referencia</button>
+            </mat-menu>
+            
+            <mat-menu fxLayoutAlign="start center" #menuDatos="matMenu">
+                <a mat-menu-item class="button-list" routerLink="TipoBlock/Listado">Tipos de block</a>
+                <a mat-menu-item class="button-list" routerLink="TipoInsumo/Listado">Tipos de insumo</a>
+                <a mat-menu-item class="button-list" routerLink="Ubicacion/Listado">Ubicaciones</a>
+            </mat-menu>
+
+            <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Clientes</button>
+            <mat-menu fxLayoutAlign="start center" #menuClientes="matMenu">
+                <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Listado</a>
+                <a mat-menu-item class="button-list" routerLink="Cliente/Deuda">Deudas</a>
+            </mat-menu>
+            <a mat-button routerLink="Proveedor/Listado" class="button-list" fxLayout="row">
+                Proveedores
+            </a>
+            <a mat-button routerLink="Tarjeta/Listado" class="button-list" fxLayout="row">
+                Tarjetas de crédito
+            </a>
+            <a mat-button routerLink="Usuario/Listado" class="button-list" fxLayout="row">
+                Caja
+            </a>
+            <a mat-button routerLink="Usuario/Listado" class="button-list" fxLayout="row">
+                Banco
+            </a>
+            <a mat-button routerLink="Usuario/Listado" class="button-list" fxLayout="row">
+                Usuarios
+            </a>
+            <button mat-button class="button-list" fxLayout="row" fxLayoutAlign="start end" (click)="logout();">
+                <!-- <mat-icon matPrefix style="margin-right: 20px" svgIcon="cerrar_sesion"></mat-icon> -->
+                Cerrar sesión
+            </button>
+        </div>
+    </mat-nav-list>
+</mat-toolbar>

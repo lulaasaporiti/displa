@@ -1,0 +1,3 @@
+<app-header *ngIf="sessionService.isAuthenticated()" fxfill></app-header>
+<router-outlet></router-outlet>
+<app-footer *ngIf="sessionService.isAuthenticated()" fxfill></app-footer>
