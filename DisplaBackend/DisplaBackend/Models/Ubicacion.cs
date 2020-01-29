@@ -14,6 +14,6 @@ namespace DisplaBackend.Models
         public string Nombre { get; set; }
         public bool Borrado { get; set; }
 
-        public ICollection<MovimientoBlock> MovimientoBlock { get; set; }
+        public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
     }
 }

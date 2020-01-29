@@ -27,7 +27,7 @@ export class UsuarioListadoComponent implements OnInit {
 
   idUser: number;
 
-  displayedColumns: string[] = ['activo', 'username', 'nombre', 'apellido', 'mail', 'roles', 'opciones'];
+  displayedColumns: string[] = ['Activo', 'Username', 'Nombre', 'Apellido', 'Roles', 'Opciones'];
   dataSource = new MatTableDataSource<Usuario>();
 
 

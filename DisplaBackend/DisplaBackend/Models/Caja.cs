@@ -11,6 +11,6 @@ namespace DisplaBackend.Models
         public int Cantidad { get; set; }
         public int IdMovimientoBlock { get; set; }
 
-        public MovimientoBlock IdMovimientoBlockNavigation { get; set; }
+        public virtual MovimientoBlock IdMovimientoBlockNavigation { get; set; }
     }
 }

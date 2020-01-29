@@ -7,6 +7,7 @@ namespace DisplaBackend.Models
     {
         public Localidad()
         {
+            Cliente = new HashSet<Cliente>();
             Proveedor = new HashSet<Proveedor>();
         }
 
@@ -16,7 +17,8 @@ namespace DisplaBackend.Models
         public int IdProvincia { get; set; }
         public bool Borrado { get; set; }
 
-        public Provincia IdProvinciaNavigation { get; set; }
-        public ICollection<Proveedor> Proveedor { get; set; }
+        public virtual Provincia IdProvinciaNavigation { get; set; }
+        public virtual ICollection<Cliente> Cliente { get; set; }
+        public virtual ICollection<Proveedor> Proveedor { get; set; }
     }
 }

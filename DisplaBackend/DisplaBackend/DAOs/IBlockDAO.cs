@@ -31,7 +31,7 @@ namespace DisplaBackend.DAOs
         {
             return _context.Block
                 .Include(b => b.IdTipoBlockNavigation)
-                .Where(b => b.Borrado == true)
+                .Where(b => b.Borrado == false)
                 //.OrderByDescending(b => b.Borrado)
                 .ToList();
         }

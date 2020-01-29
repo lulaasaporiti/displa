@@ -15,6 +15,6 @@ namespace DisplaBackend.Models
         public string Pais { get; set; }
         public bool Borrado { get; set; }
 
-        public ICollection<Localidad> Localidad { get; set; }
+        public virtual ICollection<Localidad> Localidad { get; set; }
     }
 }

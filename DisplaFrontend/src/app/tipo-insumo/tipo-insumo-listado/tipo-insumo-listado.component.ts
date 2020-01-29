@@ -17,7 +17,7 @@ import { SessionService } from 'src/services/session.service';
 })
 export class TipoInsumoListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['nombre', 'notificaStockMinimo', 'borrado', 'opciones'];
+  displayedColumns: string[] = ['Nombre', 'NotificaStockMinimo', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<TipoInsumo>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

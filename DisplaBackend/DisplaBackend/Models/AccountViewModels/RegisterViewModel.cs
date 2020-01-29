@@ -5,11 +5,6 @@ namespace DisplaBackend.Models.AccountViewModels
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
         [Display(Name = "Usuario")]
         public string UserName { get; set; }
 

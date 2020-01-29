@@ -17,7 +17,7 @@ import { SessionService } from 'src/services/session.service';
 })
 export class UbicacionListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['nombre', 'borrado', 'opciones'];
+  displayedColumns: string[] = ['Nombre', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Ubicacion>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

@@ -19,8 +19,8 @@ namespace DisplaBackend.Models
         public int IdTipoInsumo { get; set; }
         public bool Borrado { get; set; }
 
-        public TipoInsumo IdTipoInsumoNavigation { get; set; }
-        public ICollection<InsumoProveedor> InsumoProveedor { get; set; }
-        public ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
+        public virtual TipoInsumo IdTipoInsumoNavigation { get; set; }
+        public virtual ICollection<InsumoProveedor> InsumoProveedor { get; set; }
+        public virtual ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace DisplaBackend.Models
         public DateTime Fecha { get; set; }
         public int Cantidad { get; set; }
 
-        public Insumo IdInsumoNavigation { get; set; }
-        public AspNetUsers IdUsuarioNavigation { get; set; }
+        public virtual Insumo IdInsumoNavigation { get; set; }
+        public virtual AspNetUsers IdUsuarioNavigation { get; set; }
     }
 }

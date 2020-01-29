@@ -8,6 +8,6 @@ namespace DisplaBackend.Models
         public int IdInsumo { get; set; }
         public int IdProveedor { get; set; }
 
-        public Insumo IdInsumoNavigation { get; set; }
+        public virtual Insumo IdInsumoNavigation { get; set; }
     }
 }

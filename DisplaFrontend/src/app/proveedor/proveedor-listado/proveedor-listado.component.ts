@@ -17,10 +17,10 @@ import { SessionService } from 'src/services/session.service';
 })
 export class ProveedorListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['nombre', 'notificaStockMinimo', 'borrado', 'opciones'];
+  displayedColumns: string[] = ['Nombre', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Proveedor>();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
 
@@ -63,6 +63,7 @@ export class ProveedorListadoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
+        console.log(result)
         this.proveedorService.saveOrUpdateProveedor(Proveedor).subscribe(
           data => {
             this.sessionService.showSuccess("El tipo de insumo se ha agregado correctamente.");

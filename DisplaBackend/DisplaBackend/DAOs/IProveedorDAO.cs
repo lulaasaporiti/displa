@@ -37,7 +37,7 @@ namespace DisplaBackend.DAOs
         public List<Proveedor> GetProveedoresVigentes()
         {
             return _context.Proveedor
-                .Where(u => u.Borrado == true)
+                .Where(u => u.Borrado == false)
                 .ToList();
         }
 

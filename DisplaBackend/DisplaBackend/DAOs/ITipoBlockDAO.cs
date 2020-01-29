@@ -37,7 +37,7 @@ namespace DisplaBackend.DAOs
         public List<TipoBlock> GetTiposBlockVigentes()
         {
             return _context.TipoBlock
-                .Where(tb => tb.Borrado == true)
+                .Where(tb => tb.Borrado == false)
                 .ToList();
         }
 

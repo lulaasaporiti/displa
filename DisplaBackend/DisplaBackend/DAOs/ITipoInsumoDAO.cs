@@ -37,7 +37,7 @@ namespace DisplaBackend.DAOs
         public List<TipoInsumo> GetTiposInsumoVigentes()
         {
             return _context.TipoInsumo
-                .Where(ti => ti.Borrado == true)
+                .Where(ti => ti.Borrado == false)
                 .ToList();
         }
 

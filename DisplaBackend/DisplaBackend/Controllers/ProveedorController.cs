@@ -16,29 +16,29 @@ namespace DisplaBackend.Controllers
 
     public class ProveedorController : Controller
     {
-        public IProveedorService _ubicacionService;
+        public IProveedorService _proveedorService;
 
-        public ProveedorController(IProveedorService ubicacionService) //Este es el constructor
+        public ProveedorController(IProveedorService proveedorService) //Este es el constructor
         {
-            _ubicacionService = ubicacionService;
+            _proveedorService = proveedorService;
         }
 
         [HttpGet, Route("GetProveedores")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetProveedores()
         {
-            return _ubicacionService.GetProveedores();
+            return _proveedorService.GetProveedores();
         }
 
         [HttpGet, Route("GetProveedoresVigentes")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetProveedoresVigentes()
         {
-            return _ubicacionService.GetProveedoresVigentes();
+            return _proveedorService.GetProveedoresVigentes();
         }
 
         [HttpPost]
-        public IActionResult SaveOrUpdate([FromBody]Proveedor ubicacion)
+        public IActionResult SaveOrUpdate([FromBody]Proveedor proveedor)
         {
             if (!ModelState.IsValid)
             {
@@ -47,9 +47,9 @@ namespace DisplaBackend.Controllers
             //int idAsignacion = Convert.ToInt32(model.GetValue("idAsignacion").Value<string>());
 
             //var aux = model.GetValue("nombre").ToString();
-            //Proveedor ubicacion = JsonConvert.DeserializeObject<Proveedor>(aux);
+            //Proveedor proveedor = JsonConvert.DeserializeObject<Proveedor>(aux);
 
-            return Ok(_ubicacionService.SaveOrUpdate(ubicacion));
+            return Ok(_proveedorService.SaveOrUpdate(proveedor));
             
         }
 
@@ -61,14 +61,14 @@ namespace DisplaBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ubicacion = _ubicacionService.GetById(idProveedor);
+            var proveedor = _proveedorService.GetById(idProveedor);
 
-            if (ubicacion == null)
+            if (proveedor == null)
             {
                 return NotFound();
             }
 
-            return Ok(_ubicacionService.Delete(ubicacion));
+            return Ok(_proveedorService.Delete(proveedor));
         }
 
     }

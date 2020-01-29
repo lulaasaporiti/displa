@@ -8,7 +8,7 @@ namespace DisplaBackend.Models
         public int UserId { get; set; }
         public int RoleId { get; set; }
 
-        public AspNetRoles Role { get; set; }
-        public AspNetUsers User { get; set; }
+        public virtual AspNetRoles Role { get; set; }
+        public virtual AspNetUsers User { get; set; }
     }
 }

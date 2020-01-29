@@ -15,6 +15,6 @@ namespace DisplaBackend.Models
         public string Name { get; set; }
         public string NormalizedName { get; set; }
 
-        public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
     }
 }

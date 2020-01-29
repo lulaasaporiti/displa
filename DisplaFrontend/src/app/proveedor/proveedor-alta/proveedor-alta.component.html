@@ -15,27 +15,32 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Domicilio" [(ngModel)]="data.modelProveedor.domicilio" name="domicilio"
-                    #domicilio="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+                <input matInput placeholder="CUIT" [(ngModel)]="data.modelProveedor.cuit" name="cuit"
+                    #cuit="ngModel" required>
+                <mat-error *ngIf="cuit.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Teléfonos" [(ngModel)]="data.modelProveedor.telefonos" name="nombre"
-                    #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+                <input matInput placeholder="Domicilio" [(ngModel)]="data.modelProveedor.domicilio" name="domicilio"
+                    #domicilio="ngModel">
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Teléfonos" [(ngModel)]="data.modelProveedor.telefonos" name="telefonos"
+                    #telefonos="ngModel">
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input matInput placeholder="Email" [(ngModel)]="data.modelProveedor.mail" id="email" name="email"
-                    #email="ngModel" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                <mat-error *ngIf="email.invalid && !email.errors?.pattern">Este campo es obligatorio.</mat-error>
+                    #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                <mat-error *ngIf="email.errors?.pattern">El formato es inválido.</mat-error>
             </mat-form-field>
-            <p class="msgErrorUser" *ngIf="email.errors?.pattern">El formato del mail es inválido.</p>
         </div>
 
         <div mat-dialog-content fxLayout="row">
@@ -46,13 +51,13 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <mat-select placeholder="Localidad" [(ngModel)]="data.modelProveedor.idLocalidad" name="localidad"
-                    #localidad="ngModel" required>
-                    <mat-option *ngFor="let l of localidades" [value]="l.Id">
-                        {{ l.Nombre }}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="localidad.invalid">Este campo es obligatorio.</mat-error>
+                <input type="text" placeholder="Localidad" aria-label="Localidad" matInput [formControl]="localidadesControl" [matAutocomplete]="auto" [(ngModel)]="data.modelProveedor.idLocalidad" name="localidad" (blur)="setIdLocalidad(this.localidadesControl,
+                this.data)">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLocalidad">
+                <mat-option *ngFor="let l of filteredLocalidades | async" [value]="l">
+                    {{ l.Nombre }} - {{l.Cp}}
+                </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </div>
 

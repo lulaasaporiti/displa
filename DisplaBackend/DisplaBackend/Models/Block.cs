@@ -18,7 +18,7 @@ namespace DisplaBackend.Models
         public int IdTipoBlock { get; set; }
         public bool Borrado { get; set; }
 
-        public TipoBlock IdTipoBlockNavigation { get; set; }
-        public ICollection<MovimientoBlock> MovimientoBlock { get; set; }
+        public virtual TipoBlock IdTipoBlockNavigation { get; set; }
+        public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
     }
 }

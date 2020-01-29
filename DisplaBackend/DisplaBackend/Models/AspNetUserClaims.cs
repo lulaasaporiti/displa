@@ -10,6 +10,6 @@ namespace DisplaBackend.Models
         public string ClaimValue { get; set; }
         public int UserId { get; set; }
 
-        public AspNetUsers User { get; set; }
+        public virtual AspNetUsers User { get; set; }
     }
 }

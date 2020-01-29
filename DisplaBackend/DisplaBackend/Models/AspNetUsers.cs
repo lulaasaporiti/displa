@@ -18,7 +18,7 @@ namespace DisplaBackend.Models
         public int AccessFailedCount { get; set; }
         public string ConcurrencyStamp { get; set; }
         public string Email { get; set; }
-        public bool EmailConfirmed { get; set; }
+        public bool? EmailConfirmed { get; set; }
         public bool LockoutEnabled { get; set; }
         public DateTimeOffset? LockoutEnd { get; set; }
         public string NormalizedEmail { get; set; }
@@ -33,10 +33,10 @@ namespace DisplaBackend.Models
         public string Nombre { get; set; }
         public string Apellido { get; set; }
 
-        public ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
-        public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
-        public ICollection<MovimientoBlock> MovimientoBlock { get; set; }
-        public ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
+        public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
+        public virtual ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace DisplaBackend.DAOs
         public List<Provincia> GetProvinciasVigentes()
         {
             return _context.Provincia
-                .Where(p => p.Borrado == true)
+                .Where(p => p.Borrado == false)
                 .ToList();
         }
 

@@ -35,10 +35,11 @@ namespace DisplaBackend
         {
             //Development
             services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
                 //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
             var connection = Configuration.GetConnectionString("DisplaApiConnection");
             services.AddDbContext<DisplaNEWContext>(options => options.UseSqlServer(connection));
@@ -49,8 +50,13 @@ namespace DisplaBackend
 
         public void ConfigureStagingServices(IServiceCollection services)
         {
-            services.AddMvc();
             //Staging
+            services.AddMvc().AddJsonOptions(options => {
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                ////options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             var connection = Configuration.GetConnectionString("DisplaApiConnection");
             services.AddDbContext<DisplaNEWContext>(options => options.UseSqlServer(connection));
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
@@ -60,7 +66,13 @@ namespace DisplaBackend
 
         public void ConfigureProductionServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             //Producción
             var connection = Configuration.GetConnectionString("DisplaApiConnection");
             services.AddDbContext<DisplaNEWContext>(options => options.UseSqlServer(connection));
@@ -71,8 +83,11 @@ namespace DisplaBackend
 
         public void ConfigureQAServices(IServiceCollection services)
         {
-            //Development
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             var connection = Configuration.GetConnectionString("DisplaApiConnection");
             services.AddDbContext<DisplaNEWContext>(options => options.UseSqlServer(connection));
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));

@@ -29,7 +29,6 @@ export class AccountService {
     }
 
     getRolesList(): Observable<any> {
-        console.log("entra al service")
         return this.mainService.get(this.apiUrl + "GetRoles", new HttpParams());
     }
 

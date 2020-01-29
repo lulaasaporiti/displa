@@ -20,9 +20,9 @@ namespace DisplaBackend.Models
         public double? Adicion { get; set; }
         public double Precio { get; set; }
 
-        public Block IdBlockNavigation { get; set; }
-        public Ubicacion IdUbicacionNavigation { get; set; }
-        public AspNetUsers IdUsuarioNavigation { get; set; }
-        public ICollection<Caja> Caja { get; set; }
+        public virtual Block IdBlockNavigation { get; set; }
+        public virtual Ubicacion IdUbicacionNavigation { get; set; }
+        public virtual AspNetUsers IdUsuarioNavigation { get; set; }
+        public virtual ICollection<Caja> Caja { get; set; }
     }
 }

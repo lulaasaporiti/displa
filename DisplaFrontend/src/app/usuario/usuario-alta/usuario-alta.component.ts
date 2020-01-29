@@ -39,18 +39,4 @@ export class UsuarioAltaComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close(false);
   }
-  
-
-  chequearEmail() {
-    // this.msgMail = false;
-    // if (this.data.modelUsuario.email != "") {
-    //   this.data.usuarios.forEach(u => {
-    //     if (u.email.toLowerCase() == this.data.modelUsuario.email.toLowerCase()) {
-    //       this.msgMail = true;
-    //     }
-    //   });
-    // }
-  }
-
-
 }

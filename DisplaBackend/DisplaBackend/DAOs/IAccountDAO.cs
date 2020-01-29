@@ -91,7 +91,6 @@ namespace DisplaBackend.DAOs
                 item.Apellido = usuario.Apellido;
                 item.NormalizedUserName = usuario.NormalizedUserName;
                 item.UserName = usuario.UserName;
-                item.Mail = usuario.Email;
                 item.Roles = usuario.AspNetUserRoles.Select(r => new RolesDTO { Id = r.Role.Id, Name = r.Role.Name, NormalizedName = r.Role.NormalizedName }).OrderBy(o => o.NormalizedName).FirstOrDefault();
                 result.Add(item);
             }

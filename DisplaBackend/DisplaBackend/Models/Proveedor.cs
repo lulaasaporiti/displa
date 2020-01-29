@@ -13,7 +13,8 @@ namespace DisplaBackend.Models
         public int? IdLocalidad { get; set; }
         public bool? UtilizaIibb { get; set; }
         public bool Borrado { get; set; }
+        public string Cuit { get; set; }
 
-        public Localidad IdLocalidadNavigation { get; set; }
+        public virtual Localidad IdLocalidadNavigation { get; set; }
     }
 }

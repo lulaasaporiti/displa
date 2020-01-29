@@ -37,7 +37,7 @@ namespace DisplaBackend.DAOs
         public List<Localidad> GetLocalidadesVigentes()
         {
             return _context.Localidad
-                .Where(l => l.Borrado == true)
+                .Where(l => l.Borrado == false)
                 .ToList();
         }
 

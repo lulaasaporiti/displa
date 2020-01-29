@@ -15,6 +15,6 @@ namespace DisplaBackend.Models
         public bool NotificaStockMinimo { get; set; }
         public bool Borrado { get; set; }
 
-        public ICollection<Insumo> Insumo { get; set; }
+        public virtual ICollection<Insumo> Insumo { get; set; }
     }
 }

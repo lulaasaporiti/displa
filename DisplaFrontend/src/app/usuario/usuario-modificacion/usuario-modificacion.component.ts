@@ -17,7 +17,6 @@ export class UsuarioModificacionComponent implements OnInit {
     public dialogRef: MatDialogRef<UsuarioModificacionComponent>,
     private accountService: AccountService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
     }
 
     ngOnInit() {
@@ -33,14 +32,4 @@ export class UsuarioModificacionComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  chequearEmail() {
-    // this.msgMail = false;
-    // if (this.data.modelUsuario.email != "") {
-    //   this.data.usuarios.forEach(u => {
-    //     if (u.email.toLowerCase() == this.data.modelUsuario.email.toLowerCase()) {
-    //       this.msgMail = true;
-    //     }
-    //   });
-    // }
-  }
 }

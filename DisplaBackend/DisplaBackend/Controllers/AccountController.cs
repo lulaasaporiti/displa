@@ -132,12 +132,16 @@ namespace DisplaBackend.Controllers
             if (ModelState.IsValid)
             {
                 var lastId = _accountService.GetLastId();
+
+                //Alejo no quiere mails, por eso hay que crearlos con un mail random.
+                var email = RandomString(5, true);
+
                 var user = new ApplicationUser
                 {
                     //Id = lastId,
                     UserName = model.UserName,
-                    Email = model.Email
-                    
+                    Email = email + "@hotmail.com"
+
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -195,8 +199,6 @@ namespace DisplaBackend.Controllers
             }
 
             AspNetUsers user = _accountService.GetUser(usuarioEditado.Id);
-            user.Email = usuarioEditado.Mail.Trim();
-            user.NormalizedEmail = usuarioEditado.Mail.ToUpper().Trim();
             user.Apellido = usuarioEditado.Apellido;
             user.Nombre = usuarioEditado.Nombre;
             _accountService.Edit(user);
@@ -224,8 +226,8 @@ namespace DisplaBackend.Controllers
         private async Task<string> BuildToken(LoginViewModel user)
         {
             var usuario = _accountService.GetCurrentUser(user.UserName);
-            // Resolve the user via their email
-            var applicationUser = await _userManager.FindByEmailAsync(usuario.Email);
+            // Resolve the user via their username
+            var applicationUser = await _userManager.FindByNameAsync(usuario.UserName);
             // Get the roles for the user
             var roles = await _userManager.GetRolesAsync(applicationUser);
             var claims = new[] {
@@ -397,6 +399,21 @@ namespace DisplaBackend.Controllers
         public IActionResult ResetPasswordConfirmation()
         {
             return View();
+        }
+
+        public string RandomString(int size, bool lowerCase)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+            if (lowerCase)
+                return builder.ToString().ToLower();
+            return builder.ToString();
         }
     }
 }

@@ -17,7 +17,7 @@ import { SessionService } from 'src/services/session.service';
 })
 export class TipoBlockListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['nombre', 'borrado', 'opciones'];
+  displayedColumns: string[] = ['Nombre', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<TipoBlock>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -50,7 +50,6 @@ export class TipoBlockListadoComponent implements OnInit {
     this.loadingSpinnerService.show()
     this.tipoBlockService.getTiposBlocksList()
       .subscribe(r => {
-        console.log(r)
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })

@@ -39,7 +39,7 @@ namespace DisplaBackend.DAOs
         {
             return _context.Insumo
                 .Include(i => i.IdTipoInsumoNavigation)
-                .Where(i => i.Borrado == true)
+                .Where(i => i.Borrado == false)
                 .ToList();
         }
 

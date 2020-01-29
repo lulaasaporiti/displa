@@ -14,6 +14,6 @@ namespace DisplaBackend.Models
         public string Nombre { get; set; }
         public bool Borrado { get; set; }
 
-        public ICollection<Block> Block { get; set; }
+        public virtual ICollection<Block> Block { get; set; }
     }
 }
