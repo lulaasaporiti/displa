@@ -23,12 +23,18 @@ namespace DisplaBackend.Controllers
             _ubicacionService = ubicacionService;
         }
 
-
         [HttpGet, Route("GetUbicaciones")]
         [EnableCors("DisplaAPIPolicy")]
-        public object GetTiposBlock()
+        public object GetUbicaciones()
         {
             return _ubicacionService.GetUbicaciones();
+        }
+
+        [HttpGet, Route("GetUbicacionesVigentes")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetUbicacionesVigentes()
+        {
+            return _ubicacionService.GetUbicacionesVigentes();
         }
 
         [HttpPost]

@@ -31,6 +31,13 @@ namespace DisplaBackend.Controllers
             return _insumoService.GetInsumos();
         }
 
+        [HttpGet, Route("GetInsumosVigentes")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetInsumosVigentes()
+        {
+            return _insumoService.GetInsumosVigentes();
+        }
+
         [HttpPost]
         public IActionResult SaveOrUpdate([FromBody]Insumo insumo)
         {

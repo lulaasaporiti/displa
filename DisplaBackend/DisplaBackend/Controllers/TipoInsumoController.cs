@@ -22,13 +22,19 @@ namespace DisplaBackend.Controllers
         {
             _tipoInsumoService = tipoInsumoService;
         }
-
-
+        
         [HttpGet, Route("GetTiposInsumo")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetTiposInsumo()
         {
             return _tipoInsumoService.GetTiposInsumo();
+        }
+
+        [HttpGet, Route("GetTiposInsumoVigentes")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetTiposInsumoVigentes()
+        {
+            return _tipoInsumoService.GetTiposInsumoVigentes();
         }
 
         [HttpPost]

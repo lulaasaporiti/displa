@@ -10,6 +10,7 @@ namespace DisplaBackend.DAOs
     public interface ITipoBlockDAO
     {
         List<TipoBlock> GetTiposBlock();
+        List<TipoBlock> GetTiposBlockVigentes();
         bool SaveOrUpdate(TipoBlock tipoBlock);
         bool Delete(TipoBlock tipoBlock);
         TipoBlock GetById(int idTipoBlock);
@@ -30,6 +31,13 @@ namespace DisplaBackend.DAOs
         {
             return _context.TipoBlock
                 .OrderByDescending(tb => tb.Borrado)
+                .ToList();
+        }
+
+        public List<TipoBlock> GetTiposBlockVigentes()
+        {
+            return _context.TipoBlock
+                .Where(tb => tb.Borrado == true)
                 .ToList();
         }
 

@@ -8,6 +8,7 @@ namespace DisplaBackend.Services
     public interface IInsumoService
     {
         List<Insumo> GetInsumos();
+        List<Insumo> GetInsumosVigentes();
         bool SaveOrUpdate(Insumo insumo);
         bool Delete(Insumo insumo);
         Insumo GetById(int idInsumo);
@@ -25,6 +26,11 @@ namespace DisplaBackend.Services
         public List<Insumo> GetInsumos()
         {
             return _insumoDAO.GetInsumos();
+        }
+
+        public List<Insumo> GetInsumosVigentes()
+        {
+            return _insumoDAO.GetInsumosVigentes();
         }
 
         public bool SaveOrUpdate(Insumo insumo)

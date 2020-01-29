@@ -35,7 +35,8 @@ namespace DisplaBackend
         {
             //Development
             services.AddMvc().AddJsonOptions(options => {
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
@@ -172,8 +173,16 @@ namespace DisplaBackend
             services.AddScoped<ICajaDAO, CajaDAO>();
             services.AddScoped<IInsumoService, InsumoService>();
             services.AddScoped<IInsumoDAO, InsumoDAO>();
+            services.AddScoped<ILocalidadService, LocalidadService>();
+            services.AddScoped<ILocalidadDAO, LocalidadDAO>();
             services.AddScoped<IMovimientoBlockService, MovimientoBlockService>();
             services.AddScoped<IMovimientoBlockDAO, MovimientoBlockDAO>();
+            services.AddScoped<IMovimientoInsumoService, MovimientoInsumoService>();
+            services.AddScoped<IMovimientoInsumoDAO, MovimientoInsumoDAO>();
+            services.AddScoped<IProveedorService, ProveedorService>();
+            services.AddScoped<IProveedorDAO, ProveedorDAO>();
+            services.AddScoped<IProvinciaService, ProvinciaService>();
+            services.AddScoped<IProvinciaDAO, ProvinciaDAO>();
             services.AddScoped<ITipoBlockService, TipoBlockService>();
             services.AddScoped<ITipoBlockDAO, TipoBlockDAO>();
             services.AddScoped<ITipoInsumoService, TipoInsumoService>();

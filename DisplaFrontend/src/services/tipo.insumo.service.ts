@@ -16,6 +16,10 @@ export class TipoInsumoService {
         return this.http.get(`${this.baseUrl}/GetTiposInsumo`);
     }
     
+    getTiposInsumosVigentesList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetTiposInsumoVigentes`);
+    }
+
     saveOrUpdateTipoInsumo(tipoInsumo: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, tipoInsumo);
     }

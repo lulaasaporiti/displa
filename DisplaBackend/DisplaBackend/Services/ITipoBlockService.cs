@@ -8,6 +8,7 @@ namespace DisplaBackend.Services
     public interface ITipoBlockService
     {
         List<TipoBlock> GetTiposBlock();
+        List<TipoBlock> GetTiposBlockVigentes();
         bool SaveOrUpdate(TipoBlock tipoBlock);
         bool Delete(TipoBlock tipoBlock);
         TipoBlock GetById(int idTipoBlock);
@@ -25,6 +26,11 @@ namespace DisplaBackend.Services
         public List<TipoBlock> GetTiposBlock()
         {
             return _tipoBlockDAO.GetTiposBlock();
+        }
+
+        public List<TipoBlock> GetTiposBlockVigentes()
+        {
+            return _tipoBlockDAO.GetTiposBlockVigentes();
         }
 
         public bool SaveOrUpdate(TipoBlock tipoBlock)

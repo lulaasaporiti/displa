@@ -8,6 +8,7 @@ namespace DisplaBackend.Services
     public interface IUbicacionService
     {
         List<Ubicacion> GetUbicaciones();
+        List<Ubicacion> GetUbicacionesVigentes();
         bool SaveOrUpdate(Ubicacion ubicacion);
         bool Delete(Ubicacion ubicacion);
         Ubicacion GetById(int idUbicacion);
@@ -25,6 +26,11 @@ namespace DisplaBackend.Services
         public List<Ubicacion> GetUbicaciones()
         {
             return _ubicacionDAO.GetUbicaciones();
+        }
+
+        public List<Ubicacion> GetUbicacionesVigentes()
+        {
+            return _ubicacionDAO.GetUbicacionesVigentes();
         }
 
         public bool SaveOrUpdate(Ubicacion ubicacion)

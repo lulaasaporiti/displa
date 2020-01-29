@@ -22,13 +22,19 @@ namespace DisplaBackend.Controllers
         {
             _tipoBlockService = tipoBlockService;
         }
-
-
+        
         [HttpGet, Route("GetTiposBlock")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetTiposBlock()
         {
             return _tipoBlockService.GetTiposBlock();
+        }
+
+        [HttpGet, Route("GetTiposBlockVigentes")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetTiposBlockVigentes()
+        {
+            return _tipoBlockService.GetTiposBlockVigentes();
         }
 
         [HttpPost]

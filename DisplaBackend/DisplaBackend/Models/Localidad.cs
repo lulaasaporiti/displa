@@ -14,6 +14,7 @@ namespace DisplaBackend.Models
         public string Nombre { get; set; }
         public string Cp { get; set; }
         public int IdProvincia { get; set; }
+        public bool Borrado { get; set; }
 
         public Provincia IdProvinciaNavigation { get; set; }
         public ICollection<Proveedor> Proveedor { get; set; }

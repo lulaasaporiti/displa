@@ -16,6 +16,10 @@ export class UbicacionService {
         return this.http.get(`${this.baseUrl}/GetUbicaciones`);
     }
     
+    getUbicacionesVigentesList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetUbicacionesVigentes`);
+    }
+    
     saveOrUpdateUbicacion(ubicacion: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, ubicacion);
     }

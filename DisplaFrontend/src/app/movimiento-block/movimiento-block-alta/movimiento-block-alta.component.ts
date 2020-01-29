@@ -19,7 +19,7 @@ export class MovimientoBlockAltaComponent {
   }
 
   ngOnInit() {
-    this.ubicacionService.getUbicacionesList().subscribe(r => {
+    this.ubicacionService.getUbicacionesVigentesList().subscribe(r => {
       this.ubicaciones = r;
     });
   }

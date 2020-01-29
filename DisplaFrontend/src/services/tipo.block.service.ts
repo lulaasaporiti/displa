@@ -16,6 +16,10 @@ export class TipoBlockService {
         return this.http.get(`${this.baseUrl}/GetTiposBlock`);
     }
     
+    getTiposBlocksVigentesList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetTiposBlockVigentes`);
+    }
+
     saveOrUpdateTipoBlock(tipoBlock: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, tipoBlock);
     }

@@ -10,6 +10,7 @@ namespace DisplaBackend.DAOs
     public interface ITipoInsumoDAO
     {
         List<TipoInsumo> GetTiposInsumo();
+        List<TipoInsumo> GetTiposInsumoVigentes();
         bool SaveOrUpdate(TipoInsumo tipoInsumo);
         bool Delete(TipoInsumo tipoInsumo);
         TipoInsumo GetById(int idTipoInsumo);
@@ -29,7 +30,14 @@ namespace DisplaBackend.DAOs
         public List<TipoInsumo> GetTiposInsumo()
         {
             return _context.TipoInsumo
-                .OrderByDescending(tb => tb.Borrado)
+                .OrderByDescending(ti => ti.Borrado)
+                .ToList();
+        }
+
+        public List<TipoInsumo> GetTiposInsumoVigentes()
+        {
+            return _context.TipoInsumo
+                .Where(ti => ti.Borrado == true)
                 .ToList();
         }
 

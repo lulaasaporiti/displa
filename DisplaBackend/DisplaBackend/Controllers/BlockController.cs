@@ -31,6 +31,13 @@ namespace DisplaBackend.Controllers
             return _blockService.GetBlocks();
         }
 
+        [HttpGet, Route("GetBlocksVigentes")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetBlocksVigentes()
+        {
+            return _blockService.GetBlocksVigentes();
+        }
+
         [HttpPost]
         public IActionResult SaveOrUpdate([FromBody]Block block)
         {

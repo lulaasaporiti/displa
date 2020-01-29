@@ -10,6 +10,7 @@ namespace DisplaBackend.DAOs
     public interface IBlockDAO
     {
         List<Block> GetBlocks();
+        List<Block> GetBlocksVigentes();
         bool SaveOrUpdate(Block block);
         bool Delete(Block block);
         Block GetById(int idBlock);
@@ -25,6 +26,15 @@ namespace DisplaBackend.DAOs
             _context = context;
         }
 
+
+        public List<Block> GetBlocksVigentes()
+        {
+            return _context.Block
+                .Include(b => b.IdTipoBlockNavigation)
+                .Where(b => b.Borrado == true)
+                //.OrderByDescending(b => b.Borrado)
+                .ToList();
+        }
 
         public List<Block> GetBlocks()
         {

@@ -8,6 +8,7 @@ namespace DisplaBackend.Services
     public interface ITipoInsumoService
     {
         List<TipoInsumo> GetTiposInsumo();
+        List<TipoInsumo> GetTiposInsumoVigentes();
         bool SaveOrUpdate(TipoInsumo tipoInsumo);
         bool Delete(TipoInsumo tipoInsumo);
         TipoInsumo GetById(int idTipoInsumo);
@@ -25,6 +26,11 @@ namespace DisplaBackend.Services
         public List<TipoInsumo> GetTiposInsumo()
         {
             return _tipoInsumoDAO.GetTiposInsumo();
+        }
+
+        public List<TipoInsumo> GetTiposInsumoVigentes()
+        {
+            return _tipoInsumoDAO.GetTiposInsumoVigentes();
         }
 
         public bool SaveOrUpdate(TipoInsumo tipoInsumo)

@@ -15,7 +15,11 @@ export class InsumoService {
     getInsumosList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetInsumos`);
     }
-    
+
+    getInsumosVigentesList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetInsumosVigentes`);
+    }
+
     saveOrUpdateInsumo(insumo: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, insumo);
     }

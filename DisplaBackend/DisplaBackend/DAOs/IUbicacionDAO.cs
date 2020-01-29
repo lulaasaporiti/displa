@@ -10,6 +10,7 @@ namespace DisplaBackend.DAOs
     public interface IUbicacionDAO
     {
         List<Ubicacion> GetUbicaciones();
+        List<Ubicacion> GetUbicacionesVigentes();
         bool SaveOrUpdate(Ubicacion ubicacion);
         bool Delete(Ubicacion ubicacion);
         Ubicacion GetById(int idUbicacion);
@@ -30,6 +31,13 @@ namespace DisplaBackend.DAOs
         {
             return _context.Ubicacion
                 .OrderByDescending(u => u.Borrado)
+                .ToList();
+        }
+
+        public List<Ubicacion> GetUbicacionesVigentes()
+        {
+            return _context.Ubicacion
+                .Where(u => u.Borrado == true)
                 .ToList();
         }
 

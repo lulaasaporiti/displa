@@ -8,7 +8,7 @@ export interface MovimientoBlock {
     fecha: Date,
     base: number,
     adicion?: number,
-    precio: number,
+    precioCosto: number,
     idBlock: number,
     idBlockNavigation: Block,
     idUbicacion: number,

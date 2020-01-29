@@ -42,7 +42,6 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
-  </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20,60]"></mat-paginator>
-
+  </table>  
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

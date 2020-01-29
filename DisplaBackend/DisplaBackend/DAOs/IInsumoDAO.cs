@@ -10,6 +10,7 @@ namespace DisplaBackend.DAOs
     public interface IInsumoDAO
     {
         List<Insumo> GetInsumos();
+        List<Insumo> GetInsumosVigentes();
         bool SaveOrUpdate(Insumo insumo);
         bool Delete(Insumo insumo);
         Insumo GetById(int idInsumo);
@@ -31,6 +32,14 @@ namespace DisplaBackend.DAOs
             return _context.Insumo
                 .Include(b => b.IdTipoInsumoNavigation)
                 .OrderByDescending(b => b.Borrado)
+                .ToList();
+        }
+
+        public List<Insumo> GetInsumosVigentes()
+        {
+            return _context.Insumo
+                .Include(i => i.IdTipoInsumoNavigation)
+                .Where(i => i.Borrado == true)
                 .ToList();
         }
 

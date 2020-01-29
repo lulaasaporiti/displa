@@ -18,7 +18,7 @@ export class InsumoAltaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoInsumoService.getTiposInsumosList().subscribe(r => {
+    this.tipoInsumoService.getTiposInsumosVigentesList().subscribe(r => {
       this.tiposInsumo = r;
     });
   }

@@ -18,7 +18,7 @@ export class BlockAltaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoBlockService.getTiposBlocksList().subscribe(r => {
+    this.tipoBlockService.getTiposBlocksVigentesList().subscribe(r => {
       this.tiposBlock = r;
     });
   }

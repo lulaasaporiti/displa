@@ -35,15 +35,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=DisplaNEW;user id=sa;password=1234;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AspNetRoles>(entity =>
@@ -203,6 +194,8 @@ namespace DisplaBackend.Models
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Borrado).HasColumnName("borrado");
+
                 entity.Property(e => e.Cp)
                     .IsRequired()
                     .HasColumnName("cp")
@@ -336,6 +329,8 @@ namespace DisplaBackend.Models
             modelBuilder.Entity<Provincia>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Borrado).HasColumnName("borrado");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()

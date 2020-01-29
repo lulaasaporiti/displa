@@ -16,6 +16,10 @@ export class BlockService {
         return this.http.get(`${this.baseUrl}/GetBlocks`);
     }
     
+    getBlocksVigentesList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetBlocksVigentes`);
+    }
+
     saveOrUpdateBlock(block: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, block);
     }

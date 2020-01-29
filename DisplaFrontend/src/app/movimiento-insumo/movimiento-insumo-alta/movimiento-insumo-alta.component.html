@@ -1,0 +1,68 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px">add_circle_outline</mat-icon>
+            <p class="dialog-title">Agregar movimiento de block</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="data.modelMovimientoBlock.fecha"
+                name="fecha" #fecha="ngModel" readonly required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="fecha.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-radio-group class="radio-group" [(ngModel)]="data.modelMovimientoBlock.tipoMovimiento"
+                name="tipoMovimiento" #tipoMovimiento="ngModel">
+                <mat-radio-button value="Alta">Alta</mat-radio-button>
+                <mat-radio-button style="margin-left: 5px;" value="Baja">Baja</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Precio" [(ngModel)]="data.modelMovimientoBlock.precio" name="precio"
+                    #precio="ngModel" required>
+                <mat-error *ngIf="precio.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Base" [(ngModel)]="data.modelMovimientoBlock.base" name="base"
+                    #base="ngModel" required>
+                <mat-error *ngIf="base.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Adición" [(ngModel)]="data.modelMovimientoBlock.adicion" name="adicion"
+                    #adicion="ngModel" required>
+                <mat-error *ngIf="adicion.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <mat-select placeholder="Ubicacion" [(ngModel)]="data.modelMovimientoBlock.idUbicacion" name="ubicacion"
+                    #ubicacion="ngModel" required>
+                    <mat-option *ngFor="let u of ubicaciones" [value]="u.Id">
+                        {{ u.Nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="ubicacion.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="data">Agregar</button>
+        </div>
+    </div>
+</form>

@@ -24,6 +24,8 @@ import { MAT_DATE_LOCALE, MatPaginatorIntl } from '@angular/material';
 import { MatPaginatorIntLabelProvider } from '../providers/MatPaginatorIntLabel-provider';
 import { TipoInsumoModule } from './tipo-insumo/tipo-insumo.module';
 import { InsumoModule } from './insumo/insumo.module';
+import { MovimientoInsumoModule } from './movimiento-insumo/movimiento-insumo.module';
+import { ProveedorModule } from './proveedor/proveedor.module';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { InsumoModule } from './insumo/insumo.module';
     BlockModule,
     InsumoModule,
     UbicacionModule,
-    MovimientoBlockModule
+    MovimientoBlockModule,
+    MovimientoInsumoModule,
+    ProveedorModule
   ],
   providers: [
     LoggedInGuard,

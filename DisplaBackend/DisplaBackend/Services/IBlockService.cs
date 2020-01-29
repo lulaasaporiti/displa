@@ -8,6 +8,7 @@ namespace DisplaBackend.Services
     public interface IBlockService
     {
         List<Block> GetBlocks();
+        List<Block> GetBlocksVigentes();
         bool SaveOrUpdate(Block block);
         bool Delete(Block block);
         Block GetById(int idBlock);
@@ -25,6 +26,11 @@ namespace DisplaBackend.Services
         public List<Block> GetBlocks()
         {
             return _blockDAO.GetBlocks();
+        }
+
+        public List<Block> GetBlocksVigentes()
+        {
+            return _blockDAO.GetBlocksVigentes();
         }
 
         public bool SaveOrUpdate(Block block)

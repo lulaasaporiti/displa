@@ -37,6 +37,7 @@
                 <mat-error *ngIf="email.invalid && !email.errors?.pattern">Este campo es obligatorio</mat-error>
             </mat-form-field>
             <p class="msgErrorUser" *ngIf="email.errors?.pattern">El formato del mail es inválido.</p>
+            <p class="msgErrorUser" *ngIf="msgMail">El email ingresado ya existe.</p>
         </div>
 
         <div mat-dialog-content fxLayout="column">
