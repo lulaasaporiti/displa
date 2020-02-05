@@ -8,7 +8,6 @@ import { CategoriaIVAAltaComponent } from './categoria-iva-alta/categoria-iva-al
 import { CategoriaIVABajaComponent } from './categoria-iva-baja/categoria-iva-baja.component';
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-// import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     entryComponents: [CategoriaIVAAltaComponent, CategoriaIVABajaComponent, CategoriaIVAModificacionComponent],
@@ -20,4 +19,4 @@ import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
         LoadingSpinnerModule
     ]
 })
-export class InsumoModule { }
+export class CategoriaIVAModule { }

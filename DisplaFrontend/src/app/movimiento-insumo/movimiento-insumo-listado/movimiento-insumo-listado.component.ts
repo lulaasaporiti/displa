@@ -16,7 +16,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class MovimientoInsumoListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['tipoMovimiendo', 'fecha', 'cantidad', 'usuario', 'opciones'];
+  displayedColumns: string[] = ['TipoMovimiendo', 'Fecha', 'Cantidad', 'Usuario', 'Opciones'];
   dataSource = new MatTableDataSource<MovimientoInsumo>();
 
   idInsumo: number;
@@ -64,8 +64,8 @@ export class MovimientoInsumoListadoComponent implements OnInit {
 
   agregarMovimientoInsumo(): void {
     let movimientoInsumo = <MovimientoInsumo>{};
-    movimientoInsumo.idInsumo = this.idInsumo;
-    movimientoInsumo.idUsuario = this.sessionService.getPayload()['idUser'];
+    movimientoInsumo.IdInsumo = this.idInsumo;
+    movimientoInsumo.IdUsuario = this.sessionService.getPayload()['idUser'];
 
     const dialogRef = this.dialog.open(MovimientoInsumoAltaComponent, {
       width: '550px',

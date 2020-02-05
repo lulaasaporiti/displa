@@ -7,7 +7,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelTipoBlock.nombre" name="nombre"
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelTipoBlock.Nombre" name="nombre"
                     #nombre="ngModel" (keyup.enter)="onEnter();" required>
                 <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>

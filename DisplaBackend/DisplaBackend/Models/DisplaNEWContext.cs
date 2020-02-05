@@ -33,6 +33,10 @@ namespace DisplaBackend.Models
         public virtual DbSet<Localidad> Localidad { get; set; }
         public virtual DbSet<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual DbSet<MovimientoInsumo> MovimientoInsumo { get; set; }
+        public virtual DbSet<PrecioArticulo> PrecioArticulo { get; set; }
+        public virtual DbSet<PrecioEspecialArticuloCliente> PrecioEspecialArticuloCliente { get; set; }
+        public virtual DbSet<PrecioEspecialServicioCliente> PrecioEspecialServicioCliente { get; set; }
+        public virtual DbSet<PrecioServicio> PrecioServicio { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<Servicio> Servicio { get; set; }
@@ -41,7 +45,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
-        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -196,6 +199,8 @@ namespace DisplaBackend.Models
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Borrado).HasColumnName("borrado");
+
                 entity.Property(e => e.CodigoRece).HasColumnName("codigoRECE");
 
                 entity.Property(e => e.Descripcion)
@@ -297,6 +302,8 @@ namespace DisplaBackend.Models
             modelBuilder.Entity<CondicionVenta>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Borrado).HasColumnName("borrado");
 
                 entity.Property(e => e.Descripcion)
                     .IsRequired()
@@ -445,6 +452,82 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovimientoInsumo_AspNetUsers");
+            });
+
+            modelBuilder.Entity<PrecioArticulo>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdArticulo).HasColumnName("idArticulo");
+
+                entity.Property(e => e.Precio).HasColumnName("precio");
+
+                entity.HasOne(d => d.IdArticuloNavigation)
+                    .WithMany(p => p.PrecioArticulo)
+                    .HasForeignKey(d => d.IdArticulo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrecioArticulo_ArticuloVario");
+            });
+
+            modelBuilder.Entity<PrecioEspecialArticuloCliente>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.IdPrecioArticulo).HasColumnName("idPrecioArticulo");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.PrecioEspecialArticuloCliente)
+                    .HasForeignKey<PrecioEspecialArticuloCliente>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrecioEspecialArticuloCliente_Cliente");
+
+                entity.HasOne(d => d.IdPrecioArticuloNavigation)
+                    .WithMany(p => p.PrecioEspecialArticuloCliente)
+                    .HasForeignKey(d => d.IdPrecioArticulo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrecioEspecialArticuloCliente_PrecioArticulo");
+            });
+
+            modelBuilder.Entity<PrecioEspecialServicioCliente>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.IdPrecioServicio).HasColumnName("idPrecioServicio");
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.PrecioEspecialServicioCliente)
+                    .HasForeignKey(d => d.IdCliente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrecioEspecialServicioCliente_Cliente");
+
+                entity.HasOne(d => d.IdPrecioServicioNavigation)
+                    .WithMany(p => p.PrecioEspecialServicioCliente)
+                    .HasForeignKey(d => d.IdPrecioServicio)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrecioEspecialServicioCliente_PrecioServicio");
+            });
+
+            modelBuilder.Entity<PrecioServicio>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdServicio).HasColumnName("idServicio");
+
+                entity.Property(e => e.Precio).HasColumnName("precio");
+
+                entity.HasOne(d => d.IdServicioNavigation)
+                    .WithMany(p => p.PrecioServicio)
+                    .HasForeignKey(d => d.IdServicio)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrecioServicio_Servicio");
             });
 
             modelBuilder.Entity<Proveedor>(entity =>

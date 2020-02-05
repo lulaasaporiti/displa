@@ -15,42 +15,42 @@
   <mat-divider></mat-divider>
 
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
-    <ng-container matColumnDef="tipoMovimiento">
+    <ng-container matColumnDef="TipoMovimiento">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="40"> TIPO MOVIMIENTO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="80" fxLayoutAlign="start center"> {{row.tipoMovimiento}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex="80" fxLayoutAlign="start center"> {{row.TipoMovimiento}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="fecha">
+    <ng-container matColumnDef="Fecha">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> FECHA </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.fecha}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Fecha}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="cantidad">
+    <ng-container matColumnDef="Cantidad">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> CANTIDAD </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.cantidad}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Cantidad}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="base">
+    <ng-container matColumnDef="Base">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> BASE </th>
-      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.base}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Base}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="adicion">
+    <ng-container matColumnDef="Adicion">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> ADICION </th>
-      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.adicion}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Adicion}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="ubicacion">
+    <ng-container matColumnDef="Ubicacion">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> UBICACION </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.IdUbicacionNavigation.descripcion}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.IdUbicacionNavigation.Descripcion}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="usuario">
+    <ng-container matColumnDef="Usuario">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> USUARIO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.IdUsuarioNavigation.userName}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.IdUsuarioNavigation.UserName}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="opciones">
+    <ng-container matColumnDef="Opciones">
       <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="end">
         <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"

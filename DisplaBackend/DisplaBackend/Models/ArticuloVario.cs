@@ -5,6 +5,11 @@ namespace DisplaBackend.Models
 {
     public partial class ArticuloVario
     {
+        public ArticuloVario()
+        {
+            PrecioArticulo = new HashSet<PrecioArticulo>();
+        }
+
         public int Id { get; set; }
         public string Nombre { get; set; }
         public int StockMinimo { get; set; }
@@ -15,5 +20,6 @@ namespace DisplaBackend.Models
         public bool Borrado { get; set; }
 
         public virtual TipoArticulo IdTipoArticuloNavigation { get; set; }
+        public virtual ICollection<PrecioArticulo> PrecioArticulo { get; set; }
     }
 }

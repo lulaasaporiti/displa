@@ -26,6 +26,11 @@ import { TipoInsumoModule } from './tipo-insumo/tipo-insumo.module';
 import { InsumoModule } from './insumo/insumo.module';
 import { MovimientoInsumoModule } from './movimiento-insumo/movimiento-insumo.module';
 import { ProveedorModule } from './proveedor/proveedor.module';
+import { CategoriaIVAModule } from './categoria-iva/categoria-iva.module';
+import { CondicionVentaModule } from './condicion-venta/condicion-venta.module';
+import { TipoServicioModule } from './tipo-servicio/tipo-servicio.module';
+import { TipoArticuloModule } from './tipo-articulo/tipo-articulo.module';
+import { ServicioModule } from './servicio/servicio.module';
 
 @NgModule({
   declarations: [
@@ -49,15 +54,20 @@ import { ProveedorModule } from './proveedor/proveedor.module';
       positionClass: 'toast-bottom-left',
       progressBar: true,
     }), // ToastrModule added
-    UsuarioModule,
-    TipoBlockModule,
-    TipoInsumoModule,
     BlockModule,
+    CategoriaIVAModule,
+    CondicionVentaModule,
     InsumoModule,
-    UbicacionModule,
     MovimientoBlockModule,
     MovimientoInsumoModule,
-    ProveedorModule
+    ProveedorModule,
+    ServicioModule,
+    TipoArticuloModule,
+    TipoBlockModule,
+    TipoInsumoModule,
+    TipoServicioModule,
+    UbicacionModule,
+    UsuarioModule
   ],
   providers: [
     LoggedInGuard,

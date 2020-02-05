@@ -13,11 +13,11 @@ export class CategoriaIVAService {
     constructor(private http: HttpClient) { }
 
     getCategoriaIVAList(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetCategoriaIVAes`);
+        return this.http.get(`${this.baseUrl}/GetCategoriasIVA`);
     }
     
     getCategoriaIVAVigentesList(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetCategoriaIVAesVigentes`);
+        return this.http.get(`${this.baseUrl}/GetCategoriasIVAVigentes`);
     }
     
     saveOrUpdateCategoriaIVA(categoriaIVA: Object): Observable<object> {

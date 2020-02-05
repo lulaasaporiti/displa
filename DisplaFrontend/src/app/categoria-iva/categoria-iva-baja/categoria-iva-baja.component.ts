@@ -11,6 +11,7 @@ export class CategoriaIVABajaComponent {
   constructor( 
     public dialogRef: MatDialogRef<CategoriaIVABajaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log(data)
     }
 
   

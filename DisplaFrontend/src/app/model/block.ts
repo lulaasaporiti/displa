@@ -1,12 +1,12 @@
 import { TipoBlock } from './tipoBlock';
 
 export interface Block {
-    id: number,
-    nombre: string,
-    stockMinimo: number,
-    stockActual: number,    
-    precioCosto?: number,
-    borrado: boolean
-    idTipoBlock: number,
-    idTipoBlockNavigation: TipoBlock
+    Id: number,
+    Nombre: string,
+    StockMinimo: number,
+    StockActual: number,    
+    PrecioCosto?: number,
+    Borrado: boolean
+    IdTipoBlock: number,
+    IdTipoBlockNavigation: TipoBlock
 }

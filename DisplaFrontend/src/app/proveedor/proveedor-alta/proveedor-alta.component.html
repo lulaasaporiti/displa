@@ -7,7 +7,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelProveedor.nombre" name="nombre"
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelProveedor.Nombre" name="nombre"
                     #nombre="ngModel" required>
                 <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -15,7 +15,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="CUIT" [(ngModel)]="data.modelProveedor.cuit" name="cuit"
+                <input matInput placeholder="CUIT" [(ngModel)]="data.modelProveedor.Cuit" name="cuit"
                     #cuit="ngModel" required>
                 <mat-error *ngIf="cuit.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -23,35 +23,35 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Domicilio" [(ngModel)]="data.modelProveedor.domicilio" name="domicilio"
+                <input matInput placeholder="Domicilio" [(ngModel)]="data.modelProveedor.Domicilio" name="domicilio"
                     #domicilio="ngModel">
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Teléfonos" [(ngModel)]="data.modelProveedor.telefonos" name="telefonos"
+                <input matInput placeholder="Teléfonos" [(ngModel)]="data.modelProveedor.Telefonos" name="telefonos"
                     #telefonos="ngModel">
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Email" [(ngModel)]="data.modelProveedor.mail" id="email" name="email"
+                <input matInput placeholder="Email" [(ngModel)]="data.modelProveedor.Mail" id="email" name="email"
                     #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                 <mat-error *ngIf="email.errors?.pattern">El formato es inválido.</mat-error>
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayout="row">
-            <mat-checkbox class="radio-group" [(ngModel)]="data.modelProveedor.utilizaIIBB"
+            <mat-checkbox class="radio-group" [(ngModel)]="data.modelProveedor.UtilizaIIBB"
                 name="utilizaIIBB" #utilizaIIBB="ngModel">Utiliza IIBB
             </mat-checkbox>
         </div>
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input type="text" placeholder="Localidad" aria-label="Localidad" matInput [formControl]="localidadesControl" [matAutocomplete]="auto" [(ngModel)]="data.modelProveedor.idLocalidad" name="localidad" (blur)="setIdLocalidad(this.localidadesControl,
+                <input type="text" placeholder="Localidad" aria-label="Localidad" matInput [formControl]="localidadesControl" [matAutocomplete]="auto" [(ngModel)]="data.modelProveedor.IdLocalidad" name="localidad" (blur)="setIdLocalidad(this.localidadesControl,
                 this.data)">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLocalidad">
                 <mat-option *ngFor="let l of filteredLocalidades | async" [value]="l">

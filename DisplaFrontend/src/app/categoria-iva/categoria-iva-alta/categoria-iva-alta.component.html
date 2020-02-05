@@ -7,16 +7,51 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelCategoriaIva.Nombre" name="nombre"
-                    #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+                <input matInput placeholder="Descripción" [(ngModel)]="data.modelCategoriaIva.Descripcion" name="descripcion"
+                    #descripcion="ngModel" required>
+                <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Tasa" [(ngModel)]="data.modelCategoriaIva.Tasa" name="tasa"
+                    #tasa="ngModel" pattern="[0-9]*.?[0-9]?">
+            </mat-form-field>
+            <mat-error *ngIf="tasa.errors?.pattern">El formato del número es inválido.</mat-error>
+        </div>
+        
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Sobretasa" [(ngModel)]="data.modelCategoriaIva.SobreTasa" name="sobretasa"
+                    #sobretasa="ngModel" pattern="[0-9]*.[0-9]">
+            </mat-form-field>
+            <mat-error *ngIf="sobretasa.errors?.pattern">El formato del número es inválido.</mat-error>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-checkbox class="radio-group" [(ngModel)]="data.modelCategoriaIva.Discrimina"
+                name="discrimina" #discrimina="ngModel">Discrimina
+            </mat-checkbox>
+        </div>
+
+        
+        <div mat-dialog-content fxLayout="row">
+            <mat-checkbox class="radio-group" [(ngModel)]="data.modelCategoriaIva.Recateg"
+                name="recateg" #recateg="ngModel">Recateg
+            </mat-checkbox>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Código RECE" [(ngModel)]="data.modelCategoriaIva.CodigoRece" name="codigoRece"
+                    #codigoRece="ngModel">
             </mat-form-field>
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
-                cdkFocusInitial>Agregar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Agregar</button>
         </div>
     </div>
 

@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class BlockListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['nombre', 'stockMinimo', 'stockActual', 'precio', 'tipoBlock', 'borrado', 'opciones'];
+  displayedColumns: string[] = ['Nombre', 'StockMinimo', 'StockActual', 'Precio', 'TipoBlock', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Block>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

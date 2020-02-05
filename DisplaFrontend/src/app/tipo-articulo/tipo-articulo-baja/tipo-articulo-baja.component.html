@@ -1,0 +1,13 @@
+<div class="dialog-content">
+    <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+        <mat-icon color="primary" style="font-size:30px">delete</mat-icon>
+        <p class="dialog-title" *ngIf="!data.modelTipoArticulo.Borrado">¿Está seguro que quiere eliminar el tipo de artículo {{data.modelTipoArticulo.Nombre}}?</p>
+        <p class="dialog-title" *ngIf="data.modelTipoArticulo.Borrado">¿Está seguro que quiere recuperar el tipo de artículo {{data.modelTipoArticulo.Nombre}}?</p>
+    </div>
+
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+        <button mat-raised-button (click)="onNoClick()" [mat-dialog-close]="false">Cancelar</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data.modelTipoArticulo.Id">Confirmar</button>
+    </div>
+</div>

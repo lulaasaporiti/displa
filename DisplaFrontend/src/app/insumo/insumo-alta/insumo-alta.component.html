@@ -7,7 +7,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelInsumo.nombre" name="nombre"
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelInsumo.Nombre" name="nombre"
                     #nombre="ngModel" required>
                 <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -15,7 +15,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Stock mínimo" [(ngModel)]="data.modelInsumo.stockMinimo" name="stockMinimo"
+                <input matInput placeholder="Stock mínimo" [(ngModel)]="data.modelInsumo.StockMinimo" name="stockMinimo"
                     #stockMinimo="ngModel" required>
                 <mat-error *ngIf="stockMinimo.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -23,14 +23,14 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Precio costo" [(ngModel)]="data.modelInsumo.precioCosto" name="precioCosto"
+                <input matInput placeholder="Precio costo" [(ngModel)]="data.modelInsumo.PrecioCosto" name="precioCosto"
                     #precioCosto="ngModel">
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <mat-select placeholder="Tipo de insumo" [(ngModel)]="data.modelInsumo.idTipoInsumo" name="tipo"
+                <mat-select placeholder="Tipo de insumo" [(ngModel)]="data.modelInsumo.IdTipoInsumo" name="tipo"
                     #tipo="ngModel" required>
                     <mat-option *ngFor="let ti of tiposInsumo" [value]="tb.Id">
                         {{ ti.Nombre }}

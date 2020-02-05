@@ -7,7 +7,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelBlock.nombre" name="nombre"
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelBlock.Nombre" name="nombre"
                     #nombre="ngModel" required>
                 <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -15,7 +15,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Stock mínimo" [(ngModel)]="data.modelBlock.stockMinimo" name="stockMinimo"
+                <input matInput placeholder="Stock mínimo" [(ngModel)]="data.modelBlock.StockMinimo" name="stockMinimo"
                     #stockMinimo="ngModel" required>
                 <mat-error *ngIf="stockMinimo.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -23,14 +23,14 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Precio costo" [(ngModel)]="data.modelBlock.precioCosto" name="precioCosto"
+                <input matInput placeholder="Precio costo" [(ngModel)]="data.modelBlock.PrecioCosto" name="precioCosto"
                     #precioCosto="ngModel">
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <mat-select placeholder="Tipo de Block" [(ngModel)]="data.modelBlock.idTipoBlock" name="tipo"
+                <mat-select placeholder="Tipo de Block" [(ngModel)]="data.modelBlock.IdTipoBlock" name="tipo"
                     #tipo="ngModel" required>
                     <mat-option *ngFor="let tb of tiposBlock" [value]="tb.Id">
                         {{ tb.Nombre }}
@@ -43,8 +43,7 @@
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
-                cdkFocusInitial>Agregar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Agregar</button>
         </div>
     </div>
 

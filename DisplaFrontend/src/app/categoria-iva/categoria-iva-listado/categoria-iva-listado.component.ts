@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class CategoriaIVAListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['Nombre', 'Borrado', 'Opciones'];
+  displayedColumns: string[] = ['Descripcion', 'Tasa', 'SobreTasa', 'Discrimina', 'Recateg', 'CodigoRece', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<CategoriaIVA>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -27,7 +27,7 @@ export class CategoriaIVAListadoComponent implements OnInit {
   
   constructor(
     public dialog: MatDialog,
-    private router: Router,
+    // private router: Router,
     private categoriaIVAService: CategoriaIVAService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) { }
@@ -52,6 +52,7 @@ export class CategoriaIVAListadoComponent implements OnInit {
     this.categoriaIVAService.getCategoriaIVAList()
       .subscribe(r => {
         this.dataSource.data = r;
+        console.log(this.dataSource.data)
         this.loadingSpinnerService.hide();
       })
   }
@@ -60,18 +61,18 @@ export class CategoriaIVAListadoComponent implements OnInit {
     let categoriaIVA = <CategoriaIVA>{};
     const dialogRef = this.dialog.open(CategoriaIVAAltaComponent, {
       width: '550px',
-      data: { modelCategoriaIVA: categoriaIVA }
+      data: { modelCategoriaIva: categoriaIVA }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
         this.categoriaIVAService.saveOrUpdateCategoriaIVA(categoriaIVA).subscribe(
           data => {
-            this.sessionService.showSuccess("El categoriaIVA se ha agregado correctamente.");
+            this.sessionService.showSuccess("La categoría IVA se ha agregado correctamente.");
             this.loadCategoriaIVAPage();
           },
           error => {
             // console.log(error)
-            this.sessionService.showError("El categoriaIVA no se agregó.");
+            this.sessionService.showError("La categoría IVA no se agregó.");
           }
         );
       }
@@ -81,18 +82,18 @@ export class CategoriaIVAListadoComponent implements OnInit {
 
   eliminarCategoriaIVA(categoriaIVA: CategoriaIVA): void {
     const dialogRef = this.dialog.open(CategoriaIVABajaComponent, {
-      data: { modelCategoriaIVA: categoriaIVA }
+      data: { modelCategoriaIva: categoriaIVA }
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
         this.categoriaIVAService.deleteCategoriaIVA(result).subscribe(
           data => {
-            this.sessionService.showSuccess("El categoriaIVA se ha borrado correctamente");
+            this.sessionService.showSuccess("La categoría IVA se ha borrado correctamente");
             this.loadCategoriaIVAPage();
           },
           error => {
             // console.log(error)
-            this.sessionService.showError("El categoriaIVA no se borró.");
+            this.sessionService.showError("La categoría IVA no se borró.");
           }
         );
       }
@@ -104,18 +105,18 @@ export class CategoriaIVAListadoComponent implements OnInit {
     event = JSON.parse(JSON.stringify(event));
     const dialogRef = this.dialog.open(CategoriaIVAModificacionComponent, {
       width: '550px',
-      data: { modelCategoriaIVA: event }
+      data: { modelCategoriaIva: event }
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
         this.categoriaIVAService.saveOrUpdateCategoriaIVA(event).subscribe(
           data => {
-            this.sessionService.showSuccess("El categoriaIVA se ha modificado correctamente");
+            this.sessionService.showSuccess("La categoría IVA se ha modificado correctamente");
             this.loadCategoriaIVAPage();
           },
           error => {
             // console.log(error)
-            this.sessionService.showError("El categoriaIVA no se modificó.");
+            this.sessionService.showError("La categoría IVA no se modificó.");
           }
         );
       }

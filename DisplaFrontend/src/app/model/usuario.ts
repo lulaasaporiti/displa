@@ -1,20 +1,20 @@
 export interface Usuario {
-    id: number,
-    nombre: string,
-    apellido: string,
-    mail: string;
-    userName: string,
-    password: string,
-    confirmPassword: string,
-    roles: any,
-    activo: boolean
+    Id: number,
+    Nombre: string,
+    Apellido: string,
+    Mail: string;
+    UserName: string,
+    Password: string,
+    ConfirmPassword: string,
+    Roles: any,
+    Activo: boolean
 }
 
 export interface EditUsuarioDTO {
-    id: number,
-    userName: string,
-    nombre: string,
-    apellido: string,
-    mail: string,
-    roles: string[]
+    Id: number,
+    UserName: string,
+    Nombre: string,
+    Apellido: string,
+    Mail: string,
+    Roles: string[]
 }

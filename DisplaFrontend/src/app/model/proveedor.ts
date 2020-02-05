@@ -1,13 +1,13 @@
 import { Localidad } from './localidad'
 
 export interface Proveedor {
-    id: number,
-    nombre: string,
-    domicilio?: string,
-    telefonos?: string,
-    mail?: string,
-    idLocalidad?: number,
-    idLocalidadNavigation?: Localidad,
-    utilizaIIBB?: boolean,
-    borrado: boolean
+    Id: number,
+    Nombre: string,
+    Domicilio?: string,
+    Telefonos?: string,
+    Mail?: string,
+    IdLocalidad?: number,
+    IdLocalidadNavigation?: Localidad,
+    UtilizaIIBB?: boolean,
+    Borrado: boolean
 }

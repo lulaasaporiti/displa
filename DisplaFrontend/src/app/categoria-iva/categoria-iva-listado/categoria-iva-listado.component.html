@@ -1,13 +1,13 @@
 <div class="content">
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-    <h4 fxLayout="column" class="titulo" fxFlex>Insumos</h4>
+    <h4 fxLayout="column" class="titulo" fxFlex>Categorias IVA</h4>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
       <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
     </mat-form-field>
   </div>
   <mat-divider fxFlexOffset="2"></mat-divider>
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
-    <button mat-mini-fab class="buttonFixed" color="primary" (click)="agregarInsumo()">
+    <button mat-mini-fab class="buttonFixed" color="primary" (click)="agregarCategoriaIVA()">
       <mat-icon>add</mat-icon>
     </button>
     <p>Agregar</p>
@@ -16,49 +16,50 @@
 
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
 
-    <ng-container matColumnDef="nombre">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="40"> NOMBRE </th>
-      <td mat-cell *matCellDef="let row" fxFlex="40" fxLayoutAlign="start center"> {{row.Nombre}} </td>
+    <ng-container matColumnDef="Descripcion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> DESCRIPCIÓN </th>
+      <td mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{row.Descripcion}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="stockMinimo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> STOCK MINIMO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.StockMinimo}} </td>
+    <ng-container matColumnDef="Tasa">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> TASA </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Tasa}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="stockActual">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> STOCK ACTUAL </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.StockActual}} </td>
+    <ng-container matColumnDef="SobreTasa">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> SOBRETASA </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.SobreTasa}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="precio">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> PRECIO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.PrecioCosto}} </td>
+    <ng-container matColumnDef="Discrimina">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> DISCRIMINA </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Discrimina == true ? 'Si' : 'No'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="tipoInsumo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> TIPO DE INSUMO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.IdTipoInsumoNavigation.Nombre}} </td>
+    <ng-container matColumnDef="Recateg">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> RECATEG </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Recateg == true ? 'Si' : 'No'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="borrado">
+    <ng-container matColumnDef="CodigoRece">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> CODIGO RECE </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.CodigoRece}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Borrado">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> BORRADO </th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="opciones">
+    <ng-container matColumnDef="Opciones">
       <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="end">
-        <button mat-icon-button matTooltip="Movimientos" [matTooltipPosition]="'above'" aria-label="Movimientos"
-          (click)="getMovimientosInsumo(row.Id)">
-          <mat-icon svgIcon="movimiento" class="tabla_icono"></mat-icon>
-        </button>
         <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
-          (click)="modificarInsumo(row)">
+          (click)="modificarCategoriaIVA(row)">
           <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
         </button>
         <button mat-icon-button matTooltip="Eliminar" [matTooltipPosition]="'above'" aria-label="Eliminar"
-          (click)="eliminarInsumo(row)">
+          (click)="eliminarCategoriaIVA(row)">
           <mat-icon class="tabla_icono">delete_outline</mat-icon>
         </button>
       </td>

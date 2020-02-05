@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class InsumoListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['nombre', 'stockMinimo', 'stockActual', 'precio', 'tipoInsumo', 'borrado', 'opciones'];
+  displayedColumns: string[] = ['Nombre', 'StockMinimo', 'StockActual', 'Precio', 'TipoInsumo', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Insumo>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

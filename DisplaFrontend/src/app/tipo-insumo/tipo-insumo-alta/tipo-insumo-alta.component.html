@@ -7,14 +7,14 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelTipoInsumo.nombre" name="nombre"
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelTipoInsumo.Nombre" name="nombre"
                     #nombre="ngModel" (keyup.enter)="onEnter();" required>
                 <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayout="row">
-            <mat-checkbox class="radio-group" [(ngModel)]="data.modelTipoInsumo.notificaStockMinimo"
+            <mat-checkbox class="radio-group" [(ngModel)]="data.modelTipoInsumo.NotificaStockMinimo"
                 name="notificaStockMinimo" #notificaStockMinimo="ngModel">Notifica stock
             </mat-checkbox>
         </div>

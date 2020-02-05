@@ -1,6 +1,6 @@
 export interface TipoInsumo {
-    id: number,
-    nombre: string,
-    notificaStockMinimo: boolean;
-    borrado: boolean
+    Id: number,
+    Nombre: string,
+    NotificaStockMinimo: boolean;
+    Borrado: boolean
 }

@@ -31,7 +31,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <mat-select placeholder="Tipo de Block" [(ngModel)]="data.modelBlock.idTipoBlock" name="tipo"
+                <mat-select placeholder="Tipo de Block" [(ngModel)]="data.modelBlock.IdTipoBlock" name="tipo"
                     #tipo="ngModel" required>
                     <mat-option *ngFor="let tb of tiposBlock" [value]="tb.Id">
                         {{ tb.Nombre }}
@@ -44,8 +44,7 @@
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
-                cdkFocusInitial>Guardar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>
         </div>
     </div>
 </form>

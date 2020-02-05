@@ -3,16 +3,16 @@ import { Ubicacion } from './Ubicacion';
 import { Usuario } from './usuario';
 
 export interface MovimientoBlock {
-    id: number,
-    tipoMovimiento: string,
-    fecha: Date,
-    base: number,
-    adicion?: number,
-    precioCosto: number,
-    idBlock: number,
-    idBlockNavigation: Block,
-    idUbicacion: number,
-    idUbicacionNavigation: Ubicacion,
-    idUsuario: number,
-    idUsuarioNavigation: Usuario
+    Id: number,
+    TipoMovimiento: string,
+    Fecha: Date,
+    Base: number,
+    Adicion?: number,
+    PrecioCosto: number,
+    IdBlock: number,
+    IdBlockNavigation: Block,
+    IdUbicacion: number,
+    IdUbicacionNavigation: Ubicacion,
+    IdUsuario: number,
+    IdUsuarioNavigation: Usuario
 }

@@ -1,5 +1,5 @@
 export interface Ubicacion {
-    id: number,
-    nombre: string,
-    borrado: boolean
+    Id: number,
+    Nombre: string,
+    Borrado: boolean
 }

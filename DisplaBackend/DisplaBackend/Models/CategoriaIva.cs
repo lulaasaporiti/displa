@@ -17,6 +17,7 @@ namespace DisplaBackend.Models
         public bool? Discrimina { get; set; }
         public bool? Recateg { get; set; }
         public int? CodigoRece { get; set; }
+        public bool Borrado { get; set; }
 
         public virtual ICollection<Cliente> Cliente { get; set; }
     }

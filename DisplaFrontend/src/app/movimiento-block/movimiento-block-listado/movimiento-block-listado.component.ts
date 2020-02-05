@@ -64,8 +64,8 @@ export class MovimientoBlockListadoComponent implements OnInit {
 
   agregarMovimientoBlock(): void {
     let movimientoBlock = <MovimientoBlock>{};
-    movimientoBlock.idBlock = this.idBlock;
-    movimientoBlock.idUsuario = this.sessionService.getPayload()['idUser'];
+    movimientoBlock.IdBlock = this.idBlock;
+    movimientoBlock.IdUsuario = this.sessionService.getPayload()['idUser'];
 
     const dialogRef = this.dialog.open(MovimientoBlockAltaComponent, {
       width: '550px',

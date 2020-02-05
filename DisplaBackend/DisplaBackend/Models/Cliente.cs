@@ -5,6 +5,11 @@ namespace DisplaBackend.Models
 {
     public partial class Cliente
     {
+        public Cliente()
+        {
+            PrecioEspecialServicioCliente = new HashSet<PrecioEspecialServicioCliente>();
+        }
+
         public int Id { get; set; }
         public string Optica { get; set; }
         public string Cuit { get; set; }
@@ -27,5 +32,7 @@ namespace DisplaBackend.Models
         public virtual CategoriaIva IdCategoriaIvaNavigation { get; set; }
         public virtual CondicionVenta IdCondicionVentaNavigation { get; set; }
         public virtual Localidad IdLocalidadNavigation { get; set; }
+        public virtual PrecioEspecialArticuloCliente PrecioEspecialArticuloCliente { get; set; }
+        public virtual ICollection<PrecioEspecialServicioCliente> PrecioEspecialServicioCliente { get; set; }
     }
 }

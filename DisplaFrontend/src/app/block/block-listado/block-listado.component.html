@@ -16,37 +16,37 @@
 
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
 
-    <ng-container matColumnDef="nombre">
+    <ng-container matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="40"> NOMBRE </th>
       <td mat-cell *matCellDef="let row" fxFlex="40" fxLayoutAlign="start center"> {{row.Nombre}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="stockMinimo">
+    <ng-container matColumnDef="StockMinimo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> STOCK MINIMO </th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.StockMinimo}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="stockActual">
+    <ng-container matColumnDef="StockActual">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> STOCK ACTUAL </th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.StockActual}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="precio">
+    <ng-container matColumnDef="Precio">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> PRECIO </th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.PrecioCosto}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="tipoBlock">
+    <ng-container matColumnDef="TipoBlock">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> TIPO DE BLOCK </th>
       <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.IdTipoBlockNavigation.Nombre}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="borrado">
+    <ng-container matColumnDef="Borrado">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> BORRADO </th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="opciones">
+    <ng-container matColumnDef="Opciones">
       <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="end">
         <button mat-icon-button matTooltip="Movimientos" [matTooltipPosition]="'above'" aria-label="Movimientos"

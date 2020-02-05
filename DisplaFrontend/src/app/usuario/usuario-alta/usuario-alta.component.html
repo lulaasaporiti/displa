@@ -29,7 +29,7 @@
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayout="column">
+        <div mat-dialog-content fxLayout="row">
             <mat-form-field>
                 <input matInput placeholder="Contraseña" [(ngModel)]="data.modelUsuario.Password"
                     [ngModelOptions]="{standalone: true}" id="password" #password="ngModel"
@@ -43,7 +43,7 @@
             <p class="msgErrorUser" *ngIf="msgErrorFormato">La contraseña tiene que tener mínimo 6 caracteres.</p>
         </div>
 
-        <div mat-dialog-content fxLayout="column">
+        <div mat-dialog-content fxLayout="row">
             <mat-form-field>
                 <input matInput placeholder="Confirme contraseña" [(ngModel)]="data.modelUsuario.ConfirmPassword"
                     id="confirmpassword" name="confirmpassword" #confirmpassword="ngModel"

@@ -1,11 +1,11 @@
 import { TipoInsumo } from './tipoInsumo';
 
 export interface Insumo {
-    id: number,
-    nombre: string,
-    stockMinimo: number,
-    stockActual: number,    
-    borrado: boolean
-    idTipoInsumo: number,
-    idTipoInsumoNavigation: TipoInsumo
+    Id: number,
+    Nombre: string,
+    StockMinimo: number,
+    StockActual: number,    
+    Borrado: boolean
+    IdTipoInsumo: number,
+    IdTipoInsumoNavigation: TipoInsumo
 }

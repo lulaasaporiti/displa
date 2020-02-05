@@ -186,6 +186,10 @@ namespace DisplaBackend
             services.AddScoped<IBlockDAO, BlockDAO>();
             services.AddScoped<ICajaService, CajaService>();
             services.AddScoped<ICajaDAO, CajaDAO>();
+            services.AddScoped<ICategoriaIVAService, CategoriaIVAService>();
+            services.AddScoped<ICategoriaIVADAO, CategoriaIVADAO>();
+            services.AddScoped<ICondicionVentaService, CondicionVentaService>();
+            services.AddScoped<ICondicionVentaDAO, CondicionVentaDAO>();
             services.AddScoped<IInsumoService, InsumoService>();
             services.AddScoped<IInsumoDAO, InsumoDAO>();
             services.AddScoped<ILocalidadService, LocalidadService>();
@@ -198,10 +202,16 @@ namespace DisplaBackend
             services.AddScoped<IProveedorDAO, ProveedorDAO>();
             services.AddScoped<IProvinciaService, ProvinciaService>();
             services.AddScoped<IProvinciaDAO, ProvinciaDAO>();
+            services.AddScoped<IServicioService, ServicioService>();
+            services.AddScoped<IServicioDAO, ServicioDAO>();
+            services.AddScoped<ITipoArticuloService, TipoArticuloService>();
+            services.AddScoped<ITipoArticuloDAO, TipoArticuloDAO>();
             services.AddScoped<ITipoBlockService, TipoBlockService>();
             services.AddScoped<ITipoBlockDAO, TipoBlockDAO>();
             services.AddScoped<ITipoInsumoService, TipoInsumoService>();
             services.AddScoped<ITipoInsumoDAO, TipoInsumoDAO>();
+            services.AddScoped<ITipoServicioService, TipoServicioService>();
+            services.AddScoped<ITipoServicioDAO, TipoServicioDAO>();
             services.AddScoped<IUbicacionService, UbicacionService>();
             services.AddScoped<IUbicacionDAO, UbicacionDAO>();
 

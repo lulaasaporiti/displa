@@ -3,49 +3,55 @@
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
             <mat-icon color="primary" style="font-size:30px">edit</mat-icon>
-            <p class="dialog-title">Editar insumo</p>
+            <p class="dialog-title">Editar categoria IVA</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="column">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Descripción" [(ngModel)]="data.modelCategoriaIva.Descripcion" name="descripcion"
+                    #descripcion="ngModel" required>
+                <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="column">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Tasa" [(ngModel)]="data.modelCategoriaIva.Tasa" name="tasa"
+                    #tasa="ngModel" pattern="[0-9]*.?[0-9]?">
+            </mat-form-field>
+            <mat-error *ngIf="tasa.errors?.pattern">El formato del número es inválido.</mat-error>
+        </div>
+        
+        <div mat-dialog-content fxLayout="column">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Sobretasa" [(ngModel)]="data.modelCategoriaIva.SobreTasa" name="sobretasa"
+                    #sobretasa="ngModel" pattern="[0-9]*(.[0-9])?">
+            </mat-form-field>
+            <mat-error *ngIf="sobretasa.errors?.pattern">El formato del número es inválido.</mat-error>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-checkbox class="radio-group" [(ngModel)]="data.modelCategoriaIva.Discrimina"
+                name="discrimina" #discrimina="ngModel">Discrimina
+            </mat-checkbox>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-checkbox class="radio-group" [(ngModel)]="data.modelCategoriaIva.Recateg"
+                name="recateg" #recateg="ngModel">Recateg
+            </mat-checkbox>
         </div>
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelInsumo.Nombre" name="nombre"
-                    #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+                <input matInput placeholder="Código RECE" [(ngModel)]="data.modelCategoriaIva.CodigoRece" name="codigoRece"
+                    #codigoRece="ngModel">
             </mat-form-field>
         </div>
-
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Stock mínimo" [(ngModel)]="data.modelInsumo.StockMinimo" name="stockMinimo"
-                    #stockMinimo="ngModel" required>
-                <mat-error *ngIf="stockMinimo.invalid">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
-        </div>
-
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Precio costo" [(ngModel)]="data.modelInsumo.PrecioCosto" name="precioCosto"
-                    #precioCosto="ngModel">
-            </mat-form-field>
-        </div>
-
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <mat-select placeholder="Tipo de Insumo" [(ngModel)]="data.modelInsumo.idTipoInsumo" name="tipo"
-                    #tipo="ngModel" required>
-                    <mat-option *ngFor="let tb of tiposInsumo" [value]="tb.Id">
-                        {{ tb.Nombre }}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="tipo.invalid">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
-        </div>
-
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
-                cdkFocusInitial>Guardar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>
         </div>
     </div>
 </form>
