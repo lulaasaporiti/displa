@@ -62,6 +62,7 @@ export class ServicioListadoComponent implements OnInit {
 
   agregarServicio(): void {
     let servicio = <Servicio>{};
+    servicio.PrecioServicio = [];
     const dialogRef = this.dialog.open(ServicioAltaComponent, {
       width: '550px',
       data: { modelServicio: servicio }

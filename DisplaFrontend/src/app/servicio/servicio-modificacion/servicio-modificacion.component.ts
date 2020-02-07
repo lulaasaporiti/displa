@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TipoServicio } from 'src/app/model/tipoServicio';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
+import { PrecioServicio } from 'src/app/model/precioServicio';
 
 @Component({
   selector: 'app-servicio-modificacion',
@@ -10,6 +11,8 @@ import { TipoServicioService } from 'src/services/tipo.servicio.service';
 })
 export class ServicioModificacionComponent implements OnInit{
   tiposServicio: TipoServicio[];
+  selectedPrecio = new EventEmitter<PrecioServicio[]>();
+
 
   constructor( 
     public dialogRef: MatDialogRef<ServicioModificacionComponent>,
@@ -27,4 +30,24 @@ export class ServicioModificacionComponent implements OnInit{
     this.dialogRef.close(false);
   }
 
+  agregarPrecio() {
+    let item = <PrecioServicio>{};
+    this.data.modelServicio.PrecioServicio.push(item);
+}
+
+eliminarUltimoPrecio() {
+  this.data.modelServicio.PrecioServicio.pop();
+  this.updateStatePrecio();
+}
+
+precioSelected() {
+  this.updateStatePrecio();
+}
+
+updateStatePrecio() {
+  //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
+  //y el ngOnChanges() lo detecte
+  let modelPrecio = JSON.parse(JSON.stringify(this.data.modelServicio.PrecioServicio));
+  this.selectedPrecio.emit(modelPrecio);
+}
 }

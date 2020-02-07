@@ -182,6 +182,8 @@ namespace DisplaBackend
             // Aca van los services y los DAO
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAccountDAO, AccountDAO>();
+            services.AddScoped<IArticuloVarioService, ArticuloVarioService>();
+            services.AddScoped<IArticuloVarioDAO, ArticuloVarioDAO>();
             services.AddScoped<IBlockService, BlockService>();
             services.AddScoped<IBlockDAO, BlockDAO>();
             services.AddScoped<ICajaService, CajaService>();

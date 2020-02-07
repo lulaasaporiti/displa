@@ -17,8 +17,8 @@
             <mat-form-field fxFill>
                 <mat-select placeholder="Tipo de servicio" [(ngModel)]="data.modelServicio.IdTipoServicio" name="tipo"
                     #tipo="ngModel" required>
-                    <mat-option *ngFor="let ti of tiposServicio" [value]="tb.Id">
-                        {{ ti.Nombre }}
+                    <mat-option *ngFor="let ts of tiposServicio" [value]="ts.Id">
+                        {{ ts.Nombre }}
                     </mat-option>
                 </mat-select>
                 <mat-error *ngIf="tipo.invalid">Este campo es obligatorio.</mat-error>
@@ -26,10 +26,30 @@
         </div>
 
 
+        <div mat-dialog-content xLayout="row" (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
+                <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end end">
+            <div fxFlex='10' fxFlexOffset='80'>
+                <button mat-mini-fab color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
+                    <mat-icon class="md-icon-black-18">add</mat-icon>
+                </button>
+            </div>
+
+            <div fxFlex>
+                <button mat-mini-fab color="warn" (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1">
+                    <mat-icon class="md-icon-black-18">delete</mat-icon>
+                </button>
+            </div>
+        </div>
+
+
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
-                cdkFocusInitial>Agregar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Agregar</button>
         </div>
     </div>
 

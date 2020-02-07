@@ -25,11 +25,31 @@
             </mat-form-field>
         </div>
 
+        <div mat-dialog-content xLayout="row" (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
+                <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end end">
+            <div fxFlex='10' fxFlexOffset='80'>
+                <button mat-mini-fab color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
+                    <mat-icon class="md-icon-black-18">add</mat-icon>
+                </button>
+            </div>
+
+            <div fxFlex>
+                <button mat-mini-fab color="warn" (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1">
+                    <mat-icon class="md-icon-black-18">delete</mat-icon>
+                </button>
+            </div>
+        </div>
+
+
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
-                cdkFocusInitial>Guardar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>
         </div>
     </div>
 </form>

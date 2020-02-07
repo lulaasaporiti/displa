@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module';
 import { AccountModule } from './account/account.module';
+import { ArticuloVarioModule } from './articulo-vario/articulo-vario.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuarioModule } from './usuario/usuario.module';
 import { LoggedInGuard } from 'src/guards/loggedIn-guard';
@@ -46,6 +47,7 @@ import { ServicioModule } from './servicio/servicio.module';
     MaterialModule,
     LoadingSpinnerModule,
     AccountModule,
+    ArticuloVarioModule,
     HttpClientModule,
     ToastrModule.forRoot({
       closeButton: true,

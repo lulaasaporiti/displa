@@ -1,0 +1,79 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px">edit</mat-icon>
+            <p class="dialog-title">Editar artículo vario</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelArticuloVario.Nombre" name="nombre"
+                    #nombre="ngModel" required>
+                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <mat-select placeholder="Tipo de ArticuloVario" [(ngModel)]="data.modelArticuloVario.IdTipoArticulo" name="tipo"
+                    #tipo="ngModel" required>
+                    <mat-option *ngFor="let tb of tiposArticuloVario" [value]="tb.Id">
+                        {{ tb.Nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="tipo.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Stock mínimo" [(ngModel)]="data.modelArticuloVario.StockMinimo" name="stockMinimo"
+                    #stockMinimo="ngModel" required>
+                <mat-error *ngIf="stockMinimo.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Precio costo" [(ngModel)]="data.modelArticuloVario.PrecioCosto" name="precioCosto"
+                    #precioCosto="ngModel" required>
+                <mat-error *ngIf="precioCosto.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Utilidad %" [(ngModel)]="data.modelArticuloVario.PorcentajeUtilidad" name="porcentajeUtilidad"
+                    #porcentajeUtilidad="ngModel" required>
+                <mat-error *ngIf="porcentajeUtilidad.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content xLayout="row" (change)="precioSelected()" *ngFor="let p of data.modelArticuloVario.PrecioArticulo; let index = index">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Precio" [(ngModel)]="data.modelArticuloVario.PrecioArticulo[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
+                <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end end">
+            <div fxFlex='10' fxFlexOffset='80'>
+                <button mat-mini-fab color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
+                    <mat-icon class="md-icon-black-18">add</mat-icon>
+                </button>
+            </div>
+
+            <div fxFlex>
+                <button mat-mini-fab color="warn" (click)="eliminarUltimoPrecio()" [disabled]="data.modelArticuloVario.PrecioArticulo.length < 1">
+                    <mat-icon class="md-icon-black-18">delete</mat-icon>
+                </button>
+            </div>
+        </div>
+
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>
+        </div>
+    </div>
+</form>

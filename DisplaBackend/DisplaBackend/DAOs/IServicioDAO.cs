@@ -31,6 +31,7 @@ namespace DisplaBackend.DAOs
         {
             return _context.Servicio
                 .Include(b => b.IdTipoServicioNavigation)
+                .Include(b => b.PrecioServicio)
                 .OrderByDescending(b => b.Borrado)
                 .ToList();
         }
@@ -50,14 +51,41 @@ namespace DisplaBackend.DAOs
                 if (servicio.Id == 0)
                 {
                     servicio = _context.Add(servicio).Entity;
+                    servicio.PrecioServicio.ToList().ForEach(p =>
+                    {
+                        p.IdServicio = servicio.Id;
+                        p.Precio = p.Precio;
+                    });
                 }
                 else
                 {
+                    var precioServicio = _context.PrecioServicio.Where(s => s.IdServicio == servicio.Id).ToList();
+                    if (precioServicio.Count() > 0)
+                    {
+                        foreach (var p in precioServicio)
+                        {
+                            _context.PrecioServicio.Remove(p);
+                        }
+                        _context.SaveChanges();
+                    }
+
+                    List<PrecioServicio> precioServicioNuevos = servicio.PrecioServicio.ToList();
+                    servicio.PrecioServicio = null;
+
                     servicio = _context.Servicio.Update(servicio).Entity;
 
+                    if (precioServicioNuevos != null)
+                    {
+                        precioServicioNuevos.ForEach(p =>
+                        {
+                            p.Id = 0;
+                            p.IdServicio = servicio.Id;
+                            p.IdServicioNavigation = null;
+                            _context.PrecioServicio.Add(p);
+                        });
+                    }
                 }
                 return _context.SaveChanges() >= 1;
-
             }
             catch (Exception e)
             {
