@@ -64,14 +64,18 @@ export class ProveedorListadoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
         console.log(result)
+        Proveedor.IdLocalidad = Proveedor.IdLocalidadNavigation.Id;
+        Proveedor.IdLocalidadNavigation = null;
+        console.log(Proveedor)
+
         this.proveedorService.saveOrUpdateProveedor(Proveedor).subscribe(
           data => {
-            this.sessionService.showSuccess("El tipo de insumo se ha agregado correctamente.");
+            this.sessionService.showSuccess("El proveedor se ha agregado correctamente.");
             this.loadProveedorPage();
           },
           error => {
             // console.log(error)
-            this.sessionService.showError("El tipo de insumo no se agregó.");
+            this.sessionService.showError("El proveedor no se agregó.");
           }
         );
       }
@@ -89,11 +93,11 @@ export class ProveedorListadoComponent implements OnInit {
         this.proveedorService.deleteProveedor(result).subscribe(
           data => {
             this.loadProveedorPage()
-            this.sessionService.showSuccess("El tipo de insumo se ha borrado correctamente");
+            this.sessionService.showSuccess("El proveedor se ha borrado correctamente");
           },
           error => {
             // console.log(error)
-            this.sessionService.showError("El tipo de insumo no se borró.");
+            this.sessionService.showError("El proveedor no se borró.");
           }
         );
       }
@@ -111,13 +115,13 @@ export class ProveedorListadoComponent implements OnInit {
       if (result != undefined && result != false) {
         this.proveedorService.saveOrUpdateProveedor(event).subscribe(
           data => {
-            this.sessionService.showSuccess("El tipo de insumo se ha modificado correctamente");
+            this.sessionService.showSuccess("El proveedor se ha modificado correctamente");
             this.loadProveedorPage();
 
           },
           error => {
             // console.log(error)
-            this.sessionService.showError("El tipo de insumo no se modificó.");
+            this.sessionService.showError("El proveedor no se modificó.");
           }
         );
       }

@@ -52,7 +52,7 @@
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input type="text" placeholder="Localidad" aria-label="Localidad" matInput [formControl]="localidadesControl" [matAutocomplete]="auto" [(ngModel)]="data.modelProveedor.IdLocalidad" name="localidad" (blur)="setIdLocalidad(this.localidadesControl,
-                this.data)">
+                this.data)" [(ngModel)]="data.modelProveedor.IdLocalidadNavigation">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLocalidad">
                 <mat-option *ngFor="let l of filteredLocalidades | async" [value]="l">
                     {{ l.Nombre }} - {{l.Cp}}

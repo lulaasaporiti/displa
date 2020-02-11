@@ -55,6 +55,7 @@ namespace DisplaBackend.DAOs
                     {
                         p.IdArticulo = articuloVario.Id;
                         p.Precio = p.Precio;
+                        _context.PrecioArticulo.Add(p);
                     });
                 }
                 else

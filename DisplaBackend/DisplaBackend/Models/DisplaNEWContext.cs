@@ -30,12 +30,15 @@ namespace DisplaBackend.Models
         public virtual DbSet<CondicionVenta> CondicionVenta { get; set; }
         public virtual DbSet<Insumo> Insumo { get; set; }
         public virtual DbSet<InsumoProveedor> InsumoProveedor { get; set; }
+        public virtual DbSet<Lente> Lente { get; set; }
         public virtual DbSet<Localidad> Localidad { get; set; }
         public virtual DbSet<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual DbSet<MovimientoInsumo> MovimientoInsumo { get; set; }
         public virtual DbSet<PrecioArticulo> PrecioArticulo { get; set; }
         public virtual DbSet<PrecioEspecialArticuloCliente> PrecioEspecialArticuloCliente { get; set; }
+        public virtual DbSet<PrecioEspecialLenteCliente> PrecioEspecialLenteCliente { get; set; }
         public virtual DbSet<PrecioEspecialServicioCliente> PrecioEspecialServicioCliente { get; set; }
+        public virtual DbSet<PrecioLente> PrecioLente { get; set; }
         public virtual DbSet<PrecioServicio> PrecioServicio { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
@@ -45,6 +48,8 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
+
+       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -353,6 +358,46 @@ namespace DisplaBackend.Models
                     .HasConstraintName("FK_InsumoProveedor_Insumo");
             });
 
+            modelBuilder.Entity<Lente>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Borrado).HasColumnName("borrado");
+
+                entity.Property(e => e.Combinacion)
+                    .HasColumnName("combinacion")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.ControlaStock).HasColumnName("controlaStock");
+
+                entity.Property(e => e.DescripcionFactura)
+                    .HasColumnName("descripcionFactura")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.EsBifocal).HasColumnName("esBifocal");
+
+                entity.Property(e => e.FechaCreacion)
+                    .HasColumnName("fechaCreacion")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.GraduacionesCilindricas)
+                    .HasColumnName("graduacionesCilindricas")
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.Property(e => e.IngresosBrutos).HasColumnName("ingresosBrutos");
+
+                entity.Property(e => e.MediosPares)
+                    .HasColumnName("mediosPares")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasMaxLength(200);
+            });
+
             modelBuilder.Entity<Localidad>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -473,7 +518,7 @@ namespace DisplaBackend.Models
             {
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 
@@ -490,6 +535,21 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdPrecioArticulo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PrecioEspecialArticuloCliente_PrecioArticulo");
+            });
+
+            modelBuilder.Entity<PrecioEspecialLenteCliente>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.IdPrecioLente).HasColumnName("idPrecioLente");
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.PrecioEspecialLenteCliente)
+                    .HasForeignKey(d => d.IdCliente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrecioEspecialLenteCliente_Cliente");
             });
 
             modelBuilder.Entity<PrecioEspecialServicioCliente>(entity =>
@@ -513,6 +573,25 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdPrecioServicio)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PrecioEspecialServicioCliente_PrecioServicio");
+            });
+
+            modelBuilder.Entity<PrecioLente>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Cilindrico).HasColumnName("cilindrico");
+
+                entity.Property(e => e.Esferico).HasColumnName("esferico");
+
+                entity.Property(e => e.IdLente).HasColumnName("idLente");
+
+                entity.Property(e => e.Precio).HasColumnName("precio");
+
+                entity.HasOne(d => d.IdLenteNavigation)
+                    .WithMany(p => p.PrecioLente)
+                    .HasForeignKey(d => d.IdLente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PrecioLente_Lente");
             });
 
             modelBuilder.Entity<PrecioServicio>(entity =>

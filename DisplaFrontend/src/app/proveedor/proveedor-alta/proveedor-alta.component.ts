@@ -58,7 +58,9 @@ export class ProveedorAltaComponent implements OnInit {
   }
 
   setIdLocalidad(control, data) {
-    if (control.value != null) data.modelProveedor.idLocalidad = control.value.id;
+    console.log(data)
+    console.log(control)
+    if (control.value != null) data.modelProveedor.IdLocalidad = control.value;
 }
 
 filterLocalidad(nombre: any): Localidad[] {

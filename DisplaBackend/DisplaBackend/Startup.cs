@@ -190,6 +190,8 @@ namespace DisplaBackend
             services.AddScoped<ICajaDAO, CajaDAO>();
             services.AddScoped<ICategoriaIVAService, CategoriaIVAService>();
             services.AddScoped<ICategoriaIVADAO, CategoriaIVADAO>();
+            services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IClienteDAO, ClienteDAO>();
             services.AddScoped<ICondicionVentaService, CondicionVentaService>();
             services.AddScoped<ICondicionVentaDAO, CondicionVentaDAO>();
             services.AddScoped<IInsumoService, InsumoService>();
