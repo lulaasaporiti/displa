@@ -32,6 +32,7 @@ import { CondicionVentaModule } from './condicion-venta/condicion-venta.module';
 import { TipoServicioModule } from './tipo-servicio/tipo-servicio.module';
 import { TipoArticuloModule } from './tipo-articulo/tipo-articulo.module';
 import { ServicioModule } from './servicio/servicio.module';
+import { LenteModule } from './lente/lente.module';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ServicioModule } from './servicio/servicio.module';
     CategoriaIVAModule,
     CondicionVentaModule,
     InsumoModule,
+    LenteModule,
     MovimientoBlockModule,
     MovimientoInsumoModule,
     ProveedorModule,

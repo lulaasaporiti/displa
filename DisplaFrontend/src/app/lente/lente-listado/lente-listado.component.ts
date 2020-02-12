@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class LenteListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['Id', 'Nombre', 'TipoLente', 'Borrado', 'Opciones'];
+  displayedColumns: string[] = ['Id', 'Nombre', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Lente>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -61,26 +61,7 @@ export class LenteListadoComponent implements OnInit {
   }
 
   agregarLente(): void {
-    let lente = <Lente>{};
-    lente.PrecioLente = [];
-    const dialogRef = this.dialog.open(LenteAltaComponent, {
-      width: '550px',
-      data: { modelLente: lente }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined && result != false) {
-        this.lenteService.saveOrUpdateLente(lente).subscribe(
-          data => {
-            this.sessionService.showSuccess("El lente se ha agregado correctamente.");
-            this.loadLentePage();
-          },
-          error => {
-            // console.log(error)
-            this.sessionService.showError("El lente no se agregó.");
-          }
-        );
-      }
-    });
+    this.router.navigateByUrl('/Lente/Alta')
   }
 
 

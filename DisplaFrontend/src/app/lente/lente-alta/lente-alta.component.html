@@ -1,43 +1,141 @@
-<form #modalForm="ngForm">
-    <div class="dialog-content">
-        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-            <mat-icon color="primary" style="font-size:30px">add_circle_outline</mat-icon>
-            <p class="dialog-title">Agregar lente</p>
+<div class="content">
+    <!-- <app-loading-spinner></app-loading-spinner> -->
+    <form name="lenteForm" #lenteForm="ngForm" fxLayout="column" fxFlexFill>
+
+        <!-- // HEADER // -->
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <h4 class="titulo" fxFlex>Agregar lente</h4>
         </div>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelLente.Nombre" name="nombre"
-                    #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+        <!-- /////////// -->
+
+        <div fxLayout="row" fxLayoutGap="2vw">
+            <mat-form-field fxFlex='30' fxLayout="column">
+                <input matInput placeholder="Código" [(ngModel)]="modelLente.Id" name="codigo" #codigo="ngModel"
+                    required>
+                <mat-error *ngIf="codigo.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex='40' fxLayout="column">
+                <input placeholder="Descripción" matInput [(ngModel)]="modelLente.Nombre" name="descripcion"
+                    #descripcion="ngModel" required>
+                <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex='30' fxLayout="column">
+                <input placeholder="Descripción factura" matInput [(ngModel)]="modelLente.DescripcionFactura"
+                    name="descripcionFactura" #descripcionFactura="ngModel">
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content xLayout="row" (change)="precioSelected()" *ngFor="let p of data.modelLente.PrecioLente; let index = index">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Precio" [(ngModel)]="data.modelLente.PrecioLente[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
-                <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+
+        <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
+            <div fxLayout="row" fxFlex='40'>
+                <label>Graduaciones cilíndricas</label>
+                <mat-radio-group class="radio-group" [(ngModel)]="modelLente.GraduacionesCilindricas"
+                    name="graduacionesCilindricas" #graduacionesCilindricas="ngModel" fxLayout="row">
+                    <mat-radio-button style="margin-left: 10px;" value="+">Positivas</mat-radio-button>
+                    <mat-radio-button style="margin-left: 10px;" value="-">Negativas</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.EsBifocal" name="esBifocal"
+                #esBifocal="ngModel">Es bifocal
+            </mat-checkbox>
+
+            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.ControlaStock" name="controlaStock"
+                #controlaStock="ngModel">Controla stock
+           </mat-checkbox>
+
+            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
+                #mediosPares="ngModel">Medios pares
+            </mat-checkbox>
+            
+        </div>
+
+        <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
+            <mat-form-field fxFlex='30'>
+                <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion'
+                    name="combinacion" #combinacion="ngModel" required>
+                    <mat-option value="+ +  / - +">+ +  / - +</mat-option>
+                    <mat-option value="+ -  / - -">+ -  / - -</mat-option>
+                </mat-select>
+                <mat-error *ngIf="combinacion.invalid">Este campo es obligatorio</mat-error>
             </mat-form-field>
+
+           <mat-form-field fxFlex='35'>
+            <input matInput placeholder="Ingresos brutos" [(ngModel)]="modelLente.IngresosBrutos"
+                name="ingresosBrutos" #ingresosBrutos="ngModel" >
+        </mat-form-field>
         </div>
-        <div fxLayout="row" fxLayoutAlign="end end">
-            <div fxFlex='10' fxFlexOffset='80'>
-                <button mat-mini-fab color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
-                    <mat-icon class="md-icon-black-18">add</mat-icon>
-                </button>
+
+
+     
+        
+        <div fxLayout="row" fxFlexOffset="4" fxLayoutAlign="start center">
+            <p>Precio por graduación</p>
+            <button mat-icon-button color="primary" matTooltip="Agregar clasificador" (click)="agregarClasificador()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+
+        <div fxLayout="row" fxFill>
+            <div style="display: block">
+                <div fxFlex fxLayoutGap="3vw" *ngFor="let p of modelPrecio; let i = index">
+                    <mat-form-field>
+                        <input matInput placeholder="Esférico" [(ngModel)]="p.Esferico"
+                        name="esferico" #ingresosBrutos="ngModel" >
+
+                        <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                            (click)="eliminarUltimoClasificador(i)" [disabled]="modelCuadroClasificador.length < 1">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
             </div>
+        </div>
 
-            <div fxFlex>
-                <button mat-mini-fab color="warn" (click)="eliminarUltimoPrecio()" [disabled]="data.modelLente.PrecioLente.length < 1">
-                    <mat-icon class="md-icon-black-18">delete</mat-icon>
-                </button>
+        <!-- //////////////// -->
+        <!--
+        <mat-divider fxFlexOffset="4"></mat-divider>
+
+        <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxFill>
+            <div fxLayout="column" fxFlex='50'>
+                <p>Cuadros e informes relacionados
+                    <button mat-icon-button color="primary" matTooltip="Agregar informe" (click)="agregarInforme()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </p>
+                <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' *ngFor="let l of modelCuadroInforme; let i = index">
+                    <mat-form-field>
+                        <input type="text" placeholder="Titulo" matInput #inputInforme
+                            (keyup)="filterLinksOnUp(inputInforme.value)" (blur)="cuadroInformeSelected(i)"
+                            [(ngModel)]="l.idLinkNavigation" id="link{{i}}" name="link{{i}}" [matAutocomplete]="link">
+                        <mat-autocomplete #link="matAutocomplete" [displayWith]="displayLinks">
+                            <mat-option *ngFor="let li of filteredLinks | async" [value]="li">
+                                {{ li.descripcion }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Link" [(ngModel)]="modelCuadroInforme[i].idLinkNavigation.ruta"
+                            id="ruta{{i}}" name="ruta{{i}}" #ruta disabled>
+                    </mat-form-field>
+                    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimoInforme(i)"
+                        [disabled]="modelCuadroInforme.length < 1">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
 
+    -->
 
-        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Agregar</button>
+        <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8">
+            <button mat-raised-button (click)="cancelar()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!lenteForm.form.valid"
+                (click)="altaLente()">Agregar</button>
         </div>
-    </div>
-
-</form>
+    </form>
+</div>

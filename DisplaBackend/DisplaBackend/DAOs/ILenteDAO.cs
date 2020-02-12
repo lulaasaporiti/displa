@@ -31,7 +31,7 @@ namespace DisplaBackend.DAOs
         {
             return _context.Lente
                 .Include(l => l.PrecioLente)
-                .OrderByDescending(l => l.Borrado)
+                .OrderBy(l => l.Borrado)
                 .ToList();
         }
 

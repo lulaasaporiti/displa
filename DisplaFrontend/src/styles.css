@@ -144,14 +144,18 @@ mat-form-field{
 }
 
 
-.footer {
+/* .footer {
 position: sticky;
 margin: 32px auto;  
 bottom: 0;
 max-width: 1000px; 
+} */
+
+.footer-p{
+  font-size: 11px;
+  color: #717170;
+  text-decoration: none !important;
 }
-
-
 
 
   /* Responsive Styles */
@@ -180,3 +184,15 @@ max-width: 1000px;
     }
   }
 
+  .content {
+    display: flex;
+    margin: 32px auto;
+    padding: 0 16px;
+    max-width: 1000px; 
+    flex-direction: column;
+    /* align-items: center; */
+    color: #333;
+    /* height: stretch; */
+    /* position: absolute; */
+    margin-bottom: 90px !important; 
+  }
