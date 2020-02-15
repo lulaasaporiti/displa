@@ -1,5 +1,4 @@
 import { Component, Inject, EventEmitter } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { PrecioLente } from 'src/app/model/precioLente';
 import { Lente } from 'src/app/model/lente';
 
@@ -20,23 +19,23 @@ export class LenteAltaComponent {
 
   agregarPrecio() {
       let item = <PrecioLente>{};
-      // this.data.modelLente.PrecioLente.push(item);
+      this.modelPrecio.push(item);
   }
 
-  eliminarUltimoPrecio() {
-    // this.data.modelLente.PrecioLente.pop();
-    // this.updateStatePrecio();
+  eliminarPrecio(index) {
+    this.modelPrecio.splice(index,1);
+    this.updateStatePrecio();
   }
 
   precioSelected() {
-    // this.updateStatePrecio();
+    this.updateStatePrecio();
   }
 
   updateStatePrecio() {
     //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
     //y el ngOnChanges() lo detecte
-    // let modelPrecio = JSON.parse(JSON.stringify(this.data.modelLente.PrecioLente));
-    // this.selectedPrecio.emit(modelPrecio);
+    let modelPrecio = JSON.parse(JSON.stringify(this.modelPrecio));
+    this.selectedPrecio.emit(modelPrecio);
   }
 
 

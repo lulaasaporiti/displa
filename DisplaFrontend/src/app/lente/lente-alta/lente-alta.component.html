@@ -71,66 +71,41 @@
         </div>
 
 
-     
-        
-        <div fxLayout="row" fxFlexOffset="4" fxLayoutAlign="start center">
-            <p>Precio por graduación</p>
-            <button mat-icon-button color="primary" matTooltip="Agregar clasificador" (click)="agregarClasificador()">
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
-
-        <div fxLayout="row" fxFill>
-            <div style="display: block">
-                <div fxFlex fxLayoutGap="3vw" *ngFor="let p of modelPrecio; let i = index">
-                    <mat-form-field>
-                        <input matInput placeholder="Esférico" [(ngModel)]="p.Esferico"
-                        name="esferico" #ingresosBrutos="ngModel" >
-
-                        <button mat-button matSuffix mat-icon-button aria-label="Clear"
-                            (click)="eliminarUltimoClasificador(i)" [disabled]="modelCuadroClasificador.length < 1">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-
         <!-- //////////////// -->
-        <!--
-        <mat-divider fxFlexOffset="4"></mat-divider>
 
         <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxFill>
             <div fxLayout="column" fxFlex='50'>
-                <p>Cuadros e informes relacionados
-                    <button mat-icon-button color="primary" matTooltip="Agregar informe" (click)="agregarInforme()">
+                <p>Precios
+                    <button mat-icon-button color="primary" matTooltip="Agregar precio" (click)="agregarPrecio()">
                         <mat-icon>add</mat-icon>
                     </button>
                 </p>
-                <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' *ngFor="let l of modelCuadroInforme; let i = index">
+                <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' *ngFor="let p of modelPrecio; let i = index">
                     <mat-form-field>
-                        <input type="text" placeholder="Titulo" matInput #inputInforme
-                            (keyup)="filterLinksOnUp(inputInforme.value)" (blur)="cuadroInformeSelected(i)"
-                            [(ngModel)]="l.idLinkNavigation" id="link{{i}}" name="link{{i}}" [matAutocomplete]="link">
-                        <mat-autocomplete #link="matAutocomplete" [displayWith]="displayLinks">
-                            <mat-option *ngFor="let li of filteredLinks | async" [value]="li">
-                                {{ li.descripcion }}
-                            </mat-option>
-                        </mat-autocomplete>
+                        <input type="text" placeholder="Esférico" matInput #inputEsferico pattern="[0-9]*"
+                            [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}">
                     </mat-form-field>
+
                     <mat-form-field>
-                        <input matInput placeholder="Link" [(ngModel)]="modelCuadroInforme[i].idLinkNavigation.ruta"
-                            id="ruta{{i}}" name="ruta{{i}}" #ruta disabled>
+                        <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico pattern="[0-9]*"
+                            [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}">
                     </mat-form-field>
-                    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimoInforme(i)"
-                        [disabled]="modelCuadroInforme.length < 1">
+
+                    <mat-form-field>
+                        <input type="text" placeholder="Precio" matInput #inputPrecio pattern="[0-9]*"
+                            [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}">
+                    </mat-form-field>
+
+                    
+                    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarPrecio(i)"
+                        [disabled]="modelPrecio.length < 1">
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
             </div>
         </div>
 
-    -->
+
 
         <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8">
             <button mat-raised-button (click)="cancelar()">Cancelar</button>
