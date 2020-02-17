@@ -1,5 +1,5 @@
 <div class="content">
-    <!-- <app-loading-spinner></app-loading-spinner> -->
+    <app-loading-spinner></app-loading-spinner>
     <form name="lenteForm" #lenteForm="ngForm" fxLayout="column" fxFlexFill>
 
         <!-- // HEADER // -->
@@ -13,8 +13,7 @@
         <div fxLayout="row" fxLayoutGap="2vw">
             <mat-form-field fxFlex='30' fxLayout="column">
                 <input matInput placeholder="Código" [(ngModel)]="modelLente.Id" name="codigo" #codigo="ngModel"
-                    required>
-                <mat-error *ngIf="codigo.invalid">Este campo es obligatorio</mat-error>
+                    required disabled>
             </mat-form-field>
 
             <mat-form-field fxFlex='40' fxLayout="column">
@@ -73,27 +72,30 @@
 
         <!-- //////////////// -->
 
-        <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxFill>
-            <div fxLayout="column" fxFlex='50'>
+        <div fxLayout="row" fxFlexOffset="4" fxFill>
+            <div fxLayout="column">
                 <p>Precios
                     <button mat-icon-button color="primary" matTooltip="Agregar precio" (click)="agregarPrecio()">
                         <mat-icon>add</mat-icon>
                     </button>
                 </p>
-                <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' *ngFor="let p of modelPrecio; let i = index">
+                <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center" *ngFor="let p of modelPrecio; let i = index">
                     <mat-form-field>
-                        <input type="text" placeholder="Esférico" matInput #inputEsferico pattern="[0-9]*"
-                            [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}">
+                        <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" pattern="[0-9]*"
+                            [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" required>
+                        <mat-error *ngIf="inputEsferico.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
-                        <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico pattern="[0-9]*"
-                            [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}">
+                        <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" pattern="[0-9]*"
+                            [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" required>
+                        <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
-                        <input type="text" placeholder="Precio" matInput #inputPrecio pattern="[0-9]*"
-                            [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}">
+                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]*"
+                            [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" required>
+                        <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
                     
@@ -105,6 +107,35 @@
             </div>
         </div>
 
+        <mat-divider fxFlexOffset="4"></mat-divider>
+
+        <div fxLayout="row" fxFlexOffset="4" fxFill>
+            <div fxLayout="column">
+                <p>Recargos
+                    <button mat-icon-button color="primary" matTooltip="Agregar recargo" (click)="agregarRecargo()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </p>
+                <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center" *ngFor="let r of modelRecargo; let i = index">
+                    <mat-form-field>
+                        <input type="text" placeholder="Descripción" matInput #inputDescripcion="ngModel"
+                            [(ngModel)]="r.Descripcion" id="descripcion{{i}}" name="descripcion{{i}}" required>
+                            <mat-error *ngIf="inputDescripcion.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input type="text" placeholder="Porcentaje" matInput #inputPorcentaje="ngModel"
+                            [(ngModel)]="r.Porcentaje" id="porcentaje{{i}}" name="porcentaje{{i}}" required>
+                        <mat-error *ngIf="inputPorcentaje.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+                    
+                    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarPorcentaje(i)"
+                        [disabled]="modelRecargo.length < 1">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
 
 
         <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8">

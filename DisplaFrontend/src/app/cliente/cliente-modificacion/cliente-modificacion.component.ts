@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '../cliente-listado/node_modules/@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '../cliente-listado/node_modules/@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Localidad } from 'src/app/model/localidad';
 import { LocalidadService } from 'src/services/localidad.service';
 

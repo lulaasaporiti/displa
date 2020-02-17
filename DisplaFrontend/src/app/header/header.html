@@ -61,19 +61,20 @@
 </mat-toolbar>
 <router-outlet></router-outlet>
 <footer>
-    <div class="footer-content" fxLayoutAlign="space-between center">
-        <p class="footer-p">
+    <!-- fxLayoutAlign="space-between center" -->
+    <div class="footer-content" fxLayoutAlign="start center">
+        <p fxLayout="row" fxFlexFill class="footer-p" fxLayoutAlign="space-between center">
             <a mat-button class="title-list">Accesos directos:</a>
-            <a mat-button class="button-list" routerLink="">Factura</a>
+            <a mat-button class="footer-list" routerLink="">Factura</a>
             <!-- <a mat-button class="button-list">Listado clientes</a> -->
-            <a mat-button class="button-list" routerLink="">Recibos</a>
-            <a mat-button class="button-list" routerLink="">Stock en uso</a>
-            <a mat-button class="button-list" routerLink="">Stock depósito</a>
-            <a mat-button class="button-list" routerLink="">Sacar lentes de depósito</a>
-            <a mat-button class="button-list" routerLink="">Facturas proveedores</a>
-            <a mat-button class="button-list" routerLink="">Cuentas proveedores</a>
-            <a mat-button class="button-list" routerLink="">Recibos proveedores</a>
-            <a mat-button class="button-list" routerLink="">Alta de sobres</a>
+            <a mat-button class="footer-list" routerLink="">Recibos</a>
+            <a mat-button class="footer-list" routerLink="">Stock en uso</a>
+            <a mat-button class="footer-list" routerLink="">Stock depósito</a>
+            <a mat-button class="footer-list" routerLink="">Sacar lentes de depósito</a>
+            <a mat-button class="footer-list" routerLink="">Facturas proveedores</a>
+            <a mat-button class="footer-list" routerLink="">Cuentas proveedores</a>
+            <a mat-button class="footer-list" routerLink="">Recibos proveedores</a>
+            <a mat-button class="footer-list" routerLink="">Alta de sobres</a>
         </p>
     </div>
 </footer>

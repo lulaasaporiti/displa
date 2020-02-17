@@ -64,6 +64,10 @@ export class LenteListadoComponent implements OnInit {
     this.router.navigateByUrl('/Lente/Alta')
   }
 
+  modificarLente(id: number) {
+    this.router.navigateByUrl('Lente/Modificacion?id=' + id);
+  }
+
 
   eliminarLente(lente: Lente): void {
     const dialogRef = this.dialog.open(LenteBajaComponent, {
@@ -85,26 +89,4 @@ export class LenteListadoComponent implements OnInit {
     })
   }
 
-  modificarLente(event: any) {
-    let lenteViejo = JSON.parse(JSON.stringify(event));
-    event = JSON.parse(JSON.stringify(event));
-    const dialogRef = this.dialog.open(LenteModificacionComponent, {
-      width: '550px',
-      data: { modelLente: event }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined && result != false) {
-        this.lenteService.saveOrUpdateLente(event).subscribe(
-          data => {
-            this.sessionService.showSuccess("El lente se ha modificado correctamente");
-            this.loadLentePage();
-          },
-          error => {
-            // console.log(error)
-            this.sessionService.showError("El lente no se modificó.");
-          }
-        );
-      }
-    });
-  }
 }

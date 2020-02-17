@@ -1,5 +1,5 @@
-import { Component, Inject } from '../cliente-listado/node_modules/@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '../cliente-listado/node_modules/@angular/material';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-cliente-baja',

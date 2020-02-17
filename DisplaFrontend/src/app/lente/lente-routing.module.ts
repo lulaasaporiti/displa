@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LenteListadoComponent } from './lente-listado/lente-listado.component';
 import { LoggedInGuard } from 'src/guards/loggedIn-guard';
 import { LenteAltaComponent } from './lente-alta/lente-alta.component';
+import { LenteModificacionComponent } from './lente-modificacion/lente-modificacion.component';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
     children: [
       {path: 'Lente/Listado', component: LenteListadoComponent},
       {path: 'Lente/Alta', component: LenteAltaComponent},
-
+      {path: 'Lente/Alta', component: LenteAltaComponent},
+      {path: 'Lente/Modificacion', component: LenteModificacionComponent},
     ]
   }
 ];

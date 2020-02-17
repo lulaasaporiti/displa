@@ -23,6 +23,12 @@ namespace DisplaBackend.Controllers
             _lenteService = lenteService;
         }
 
+        [HttpGet("{id}")]
+        //[EnableCors("DisplaAPIPolicy")]
+        public object GetById([FromRoute] int id)
+        {
+            return _lenteService.GetById(id);
+        }
 
         [HttpGet, Route("GetLentes")]
         [EnableCors("DisplaAPIPolicy")]
@@ -36,6 +42,13 @@ namespace DisplaBackend.Controllers
         public object GetLentesVigentes()
         {
             return _lenteService.GetLentesVigentes();
+        }
+
+        [HttpGet, Route("GetLastCode")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetLastCode()
+        {
+            return _lenteService.GetLastCode();
         }
 
         [HttpPost]

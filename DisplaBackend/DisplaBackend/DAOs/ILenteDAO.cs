@@ -14,7 +14,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(Lente lente);
         bool Delete(Lente lente);
         Lente GetById(int idLente);
-
+        int GetLastCode();
     }
 
     public class LenteDAO : ILenteDAO
@@ -42,6 +42,10 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
+        public int GetLastCode() {
+            return _context.Lente.Last().Id + 1;
+        }
+
         public bool SaveOrUpdate(Lente lente)
         {
             try
@@ -51,12 +55,19 @@ namespace DisplaBackend.DAOs
                     lente = _context.Add(lente).Entity;
                     lente.PrecioLente.ToList().ForEach(p =>
                     {
-                        p.IdLente = lente.Id;
-                        p.Precio = p.Precio;
-                        p.Cilindrico = p.Cilindrico;
-                        p.Esferico = p.Esferico;
+                        //p.IdLente = lente.Id;
+                        //p.Precio = p.Precio;
+                        //p.Cilindrico = p.Cilindrico;
+                        //p.Esferico = p.Esferico;
                         _context.PrecioLente.Add(p);
                     });
+
+                    if (lente.RecargoLente.Count > 0) {
+                        lente.RecargoLente.ToList().ForEach(r =>
+                        {
+                            _context.RecargoLente.Add(r);
+                        });
+                    }
                 }
                 else
                 {
@@ -71,17 +82,27 @@ namespace DisplaBackend.DAOs
                     }
 
                     List<PrecioLente> precioLenteNuevos = lente.PrecioLente.ToList();
+                    List<RecargoLente> recargoLenteNuevos = lente.RecargoLente.ToList();
                     lente.PrecioLente = null;
+                    lente.RecargoLente = null;
 
-                    lente = _context.Lente.Update(lente).Entity;
+                    lente = _context.Lente.Add(lente).Entity;
 
-                    if (precioLenteNuevos != null)
+                    if (precioLenteNuevos.Count > 0)
                     {
                         precioLenteNuevos.ForEach(p =>
                         {
-                            p.Id = 0;
-                            p.IdLente = lente.Id;
+                            //p.Id = 0;
+                            //p.IdLente = lente.Id;
                             _context.PrecioLente.Add(p);
+                        });
+                    }
+
+                    if (recargoLenteNuevos.Count > 0)
+                    {
+                        recargoLenteNuevos.ForEach(r =>
+                        {
+                            _context.RecargoLente.Add(r);
                         });
                     }
                 }
@@ -95,7 +116,10 @@ namespace DisplaBackend.DAOs
 
         public Lente GetById(int idLente)
         {
-            return _context.Lente.FirstOrDefault(tb => tb.Id == idLente);
+            return _context.Lente
+                .Include(l => l.PrecioLente)
+                .Include(l => l.RecargoLente)
+                .FirstOrDefault(tb => tb.Id == idLente);
         }
 
         public bool Delete(Lente lente)

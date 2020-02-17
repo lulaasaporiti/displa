@@ -48,7 +48,7 @@ export class ClienteListadoComponent implements OnInit {
 
   loadClientePage() {
     this.loadingSpinnerService.show()
-    this.clienteService.getClienteesList()
+    this.clienteService.getClientesList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();

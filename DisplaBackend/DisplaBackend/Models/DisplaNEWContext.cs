@@ -23,6 +23,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Banco> Banco { get; set; }
         public virtual DbSet<Block> Block { get; set; }
         public virtual DbSet<Caja> Caja { get; set; }
         public virtual DbSet<CategoriaIva> CategoriaIva { get; set; }
@@ -42,14 +43,14 @@ namespace DisplaBackend.Models
         public virtual DbSet<PrecioServicio> PrecioServicio { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
+        public virtual DbSet<RecargoLente> RecargoLente { get; set; }
         public virtual DbSet<Servicio> Servicio { get; set; }
+        public virtual DbSet<TarjetaCredito> TarjetaCredito { get; set; }
         public virtual DbSet<TipoArticulo> TipoArticulo { get; set; }
         public virtual DbSet<TipoBlock> TipoBlock { get; set; }
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
-
-       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -149,6 +150,24 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.UserName)
                     .IsRequired()
                     .HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<Banco>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Cuit)
+                    .HasColumnName("cuit")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Direccion)
+                    .HasColumnName("direccion")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Block>(entity =>
@@ -360,7 +379,9 @@ namespace DisplaBackend.Models
 
             modelBuilder.Entity<Lente>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Borrado).HasColumnName("borrado");
 
@@ -665,6 +686,26 @@ namespace DisplaBackend.Models
                     .HasMaxLength(50);
             });
 
+            modelBuilder.Entity<RecargoLente>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.IdLente).HasColumnName("idLente");
+
+                entity.Property(e => e.Porcentaje).HasColumnName("porcentaje");
+
+                entity.HasOne(d => d.IdLenteNavigation)
+                    .WithMany(p => p.RecargoLente)
+                    .HasForeignKey(d => d.IdLente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecargoLente_Lente");
+            });
+
             modelBuilder.Entity<Servicio>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -683,6 +724,24 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdTipoServicio)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Servicio_TipoServicio");
+            });
+
+            modelBuilder.Entity<TarjetaCredito>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdBanco).HasColumnName("idBanco");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.IdBancoNavigation)
+                    .WithMany(p => p.TarjetaCredito)
+                    .HasForeignKey(d => d.IdBanco)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TarjetaCredito_Banco");
             });
 
             modelBuilder.Entity<TipoArticulo>(entity =>

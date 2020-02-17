@@ -8,6 +8,7 @@ namespace DisplaBackend.Models
         public Lente()
         {
             PrecioLente = new HashSet<PrecioLente>();
+            RecargoLente = new HashSet<RecargoLente>();
         }
 
         public int Id { get; set; }
@@ -24,5 +25,6 @@ namespace DisplaBackend.Models
         public bool Borrado { get; set; }
 
         public virtual ICollection<PrecioLente> PrecioLente { get; set; }
+        public virtual ICollection<RecargoLente> RecargoLente { get; set; }
     }
 }

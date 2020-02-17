@@ -46,11 +46,6 @@ p {
   color:#333;
 }
 
-.footer-p{
-  font-size: 11px;
-  color: #a6a4a4;
-}
-
 .titulo{
   font-family: "Chalet London" !important;
 } 
@@ -66,10 +61,11 @@ mat-label{
     font-weight: 200;
 }
 
-mat-form-field{
+mat-form-field, mat-radio-button, mat-checkbox {
   font-size: 14px !important;
   line-height: 1.425 !important;
 }
+
 
 /* ///////////////////////// */
 
@@ -153,10 +149,10 @@ max-width: 1000px;
 
 .footer-p{
   font-size: 11px;
-  color: #717170;
+  /* color: #717170; */
+  margin: 0;
   text-decoration: none !important;
 }
-
 
   /* Responsive Styles */
   @media screen and (max-width: 767px) {

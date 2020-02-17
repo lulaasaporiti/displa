@@ -1,5 +1,6 @@
 import { Usuario } from './usuario';
 import { PrecioLente } from './precioLente';
+import { RecargoLente } from './recargoLente';
 
 export interface Lente {
     Id: number,
@@ -15,5 +16,7 @@ export interface Lente {
     FechaCreacion: Date,
     IngresosBrutos: number,
     Borrado: boolean
-    PrecioLente: PrecioLente[]
+    PrecioLente: PrecioLente[],
+    RecargoLente: RecargoLente[]
+
 }
