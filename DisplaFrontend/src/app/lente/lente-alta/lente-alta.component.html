@@ -75,7 +75,7 @@
         <div fxLayout="row" fxFlexOffset="4" fxFill>
             <div fxLayout="column">
                 <p>Precios
-                    <button mat-icon-button color="primary" matTooltip="Agregar precio" (click)="agregarPrecio()">
+                    <button mat-icon-button color="primary" matTooltip="Agregar rango y precio" (click)="agregarRangoPrecio()">
                         <mat-icon>add</mat-icon>
                     </button>
                 </p>
@@ -98,7 +98,9 @@
                         <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
-                    
+                    <button mat-icon-button matSuffix matTooltip="Agregar precio al rango" (click)="agregarPrecio(i)">
+                        <mat-icon>add</mat-icon>
+                    </button>
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarPrecio(i)"
                         [disabled]="modelPrecio.length < 1">
                         <mat-icon>close</mat-icon>

@@ -1,18 +1,17 @@
-import { Component, Inject, EventEmitter } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { PrecioLente } from 'src/app/model/precioLente';
 import { RecargoLente } from 'src/app/model/recargoLente';
 import { Lente } from 'src/app/model/lente';
 import { LenteService } from 'src/services/lente.service';
-import { SessionService } from 'src/services/session.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
-  selector: 'app-lente-modificacion',
-  templateUrl: './lente-modificacion.component.html',
-  styleUrls: ['./lente-modificacion.component.css']
+  selector: 'app-lente-detalle',
+  templateUrl: './lente-detalle.component.html',
+  styleUrls: ['./lente-detalle.component.css']
 })
-export class LenteModificacionComponent {
+export class LenteDetalleComponent {
   modelPrecio: PrecioLente[] = [];
   selectedPrecio = new EventEmitter<PrecioLente[]>();
   modelRecargo: RecargoLente[] = [];
@@ -22,7 +21,6 @@ export class LenteModificacionComponent {
 
   constructor(
     private lenteService: LenteService,
-    private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService,
     private router: Router,
     private segment: ActivatedRoute
@@ -97,20 +95,5 @@ export class LenteModificacionComponent {
     //y el ngOnChanges() lo detecte
     let modelRecargo = JSON.parse(JSON.stringify(this.modelRecargo));
     this.selectedRecargo.emit(modelRecargo);
-  }
-
-
-  editarLente() {
-    this.modelLente.PrecioLente = this.modelPrecio;
-    this.modelLente.RecargoLente = this.modelRecargo;
-    this.lenteService.saveOrUpdateLente(this.modelLente).subscribe(
-      data => {
-        this.router.navigateByUrl('Lente/Listado')
-        this.sessionService.showSuccess("La lente se modificó correctamente.");
-      },
-      error => {
-        this.sessionService.showError("La lente no se modificó.");
-      }
-    );
   }
 }
