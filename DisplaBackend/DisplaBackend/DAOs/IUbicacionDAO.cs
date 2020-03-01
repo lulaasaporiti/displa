@@ -65,7 +65,7 @@ namespace DisplaBackend.DAOs
 
         public Ubicacion GetById(int idUbicacion)
         {
-            return _context.Ubicacion.FirstOrDefault(tb => tb.Id == idUbicacion);
+            return _context.Ubicacion.FirstOrDefault(u => u.Id == idUbicacion);
         }
 
         public bool Delete(Ubicacion ubicacion)

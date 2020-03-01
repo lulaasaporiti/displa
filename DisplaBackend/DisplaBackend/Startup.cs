@@ -198,6 +198,8 @@ namespace DisplaBackend
             services.AddScoped<IInsumoDAO, InsumoDAO>();
             services.AddScoped<ILenteService, LenteService>();
             services.AddScoped<ILenteDAO, LenteDAO>();
+            services.AddScoped<ILimitesGrillaService, LimitesGrillaService>();
+            services.AddScoped<ILimitesGrillaDAO, LimitesGrillaDAO>();
             services.AddScoped<ILocalidadService, LocalidadService>();
             services.AddScoped<ILocalidadDAO, LocalidadDAO>();
             services.AddScoped<IMovimientoBlockService, MovimientoBlockService>();
@@ -210,6 +212,8 @@ namespace DisplaBackend
             services.AddScoped<IProvinciaDAO, ProvinciaDAO>();
             services.AddScoped<IServicioService, ServicioService>();
             services.AddScoped<IServicioDAO, ServicioDAO>();
+            services.AddScoped<IStockLenteService, StockLenteService>();
+            services.AddScoped<IStockLenteDAO, StockLenteDAO>();
             services.AddScoped<ITipoArticuloService, TipoArticuloService>();
             services.AddScoped<ITipoArticuloDAO, TipoArticuloDAO>();
             services.AddScoped<ITipoBlockService, TipoBlockService>();

@@ -32,6 +32,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Insumo> Insumo { get; set; }
         public virtual DbSet<InsumoProveedor> InsumoProveedor { get; set; }
         public virtual DbSet<Lente> Lente { get; set; }
+        public virtual DbSet<LimitesGrilla> LimitesGrilla { get; set; }
         public virtual DbSet<Localidad> Localidad { get; set; }
         public virtual DbSet<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual DbSet<MovimientoInsumo> MovimientoInsumo { get; set; }
@@ -45,6 +46,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<RecargoLente> RecargoLente { get; set; }
         public virtual DbSet<Servicio> Servicio { get; set; }
+        public virtual DbSet<StockLente> StockLente { get; set; }
         public virtual DbSet<TarjetaCredito> TarjetaCredito { get; set; }
         public virtual DbSet<TipoArticulo> TipoArticulo { get; set; }
         public virtual DbSet<TipoBlock> TipoBlock { get; set; }
@@ -419,6 +421,26 @@ namespace DisplaBackend.Models
                     .HasMaxLength(200);
             });
 
+            modelBuilder.Entity<LimitesGrilla>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Combinacion)
+                    .IsRequired()
+                    .HasColumnName("combinacion")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.LimiteInferiorCilindrico).HasColumnName("limiteInferiorCilindrico");
+
+                entity.Property(e => e.LimiteInferiorEsferico).HasColumnName("limiteInferiorEsferico");
+
+                entity.Property(e => e.LimiteSuperiorCilindrico).HasColumnName("limiteSuperiorCilindrico");
+
+                entity.Property(e => e.LimiteSuperiorEsferico).HasColumnName("limiteSuperiorEsferico");
+            });
+
             modelBuilder.Entity<Localidad>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -724,6 +746,25 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdTipoServicio)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Servicio_TipoServicio");
+            });
+
+            modelBuilder.Entity<StockLente>(entity =>
+            {
+                entity.HasKey(e => new { e.MedidaEsferico, e.MedidaCilindrico, e.IdLente });
+
+                entity.Property(e => e.MedidaEsferico).HasColumnName("medidaEsferico");
+
+                entity.Property(e => e.MedidaCilindrico).HasColumnName("medidaCilindrico");
+
+                entity.Property(e => e.IdLente).HasColumnName("idLente");
+
+                entity.Property(e => e.Stock).HasColumnName("stock");
+
+                entity.HasOne(d => d.IdLenteNavigation)
+                    .WithMany(p => p.StockLente)
+                    .HasForeignKey(d => d.IdLente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StockLente_Lente");
             });
 
             modelBuilder.Entity<TarjetaCredito>(entity =>

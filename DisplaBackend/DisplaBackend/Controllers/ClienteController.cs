@@ -38,7 +38,7 @@ namespace DisplaBackend.Controllers
             return _clienteService.GetClientesVigentes();
         }
 
-        [HttpGet, Route("GetClientesActivos520")]
+        [HttpGet, Route("GetClientesActivos")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetClientesActivos()
         {
@@ -52,11 +52,6 @@ namespace DisplaBackend.Controllers
             {
                 return BadRequest(ModelState);
             }
-            //int idAsignacion = Convert.ToInt32(model.GetValue("idAsignacion").Value<string>());
-
-            //var aux = model.GetValue("nombre").ToString();
-            //Cliente cliente = JsonConvert.DeserializeObject<Cliente>(aux);
-
             return Ok(_clienteService.SaveOrUpdate(cliente));
             
         }
