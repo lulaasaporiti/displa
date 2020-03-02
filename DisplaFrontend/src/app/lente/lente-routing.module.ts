@@ -5,6 +5,7 @@ import { LoggedInGuard } from 'src/guards/loggedIn-guard';
 import { LenteAltaComponent } from './lente-alta/lente-alta.component';
 import { LenteModificacionComponent } from './lente-modificacion/lente-modificacion.component';
 import { LenteDetalleComponent } from './lente-detalle/lente-detalle.component';
+import { GrillaComponent } from './grilla/grilla.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
       {path: 'Lente/Alta', component: LenteAltaComponent},
       {path: 'Lente/Modificacion', component: LenteModificacionComponent},
       {path: 'Lente/Detalle', component: LenteDetalleComponent},
+      {path: 'Lente/Stock', component: GrillaComponent},
     ]
   }
 ];

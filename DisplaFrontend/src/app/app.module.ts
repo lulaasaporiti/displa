@@ -33,7 +33,7 @@ import { TipoServicioModule } from './tipo-servicio/tipo-servicio.module';
 import { TipoArticuloModule } from './tipo-articulo/tipo-articulo.module';
 import { ServicioModule } from './servicio/servicio.module';
 import { LenteModule } from './lente/lente.module';
-import { GrillaComponent } from './grilla/grilla.component';
+import { GrillaComponent } from './lente/grilla/grilla.component';
 
 @NgModule({
   declarations: [

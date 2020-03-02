@@ -10,7 +10,7 @@ namespace DisplaBackend.Services
         List<StockLente> GetStockLente(int idLente);
         bool SaveOrUpdate(StockLente stockLente);
         bool Delete(StockLente stockLente);
-        StockLente GetStockLente(float medidaCilindrico, float medidaEsferico, int idLente)
+        StockLente GetStockLente(float medidaCilindrico, float medidaEsferico, int idLente);
     }
 
     public class StockLenteService : IStockLenteService
