@@ -1,9 +1,9 @@
 import { Lente } from './lente';
 
-export interface Caja {
+export interface StockLente {
     MedidaEsferico: number,
     MedidaCilindrico: number,
-    idLente: number,
+    IdLente: number,
     IdLenteNavigation: Lente,
-    stock: number
+    Stock: number
 }

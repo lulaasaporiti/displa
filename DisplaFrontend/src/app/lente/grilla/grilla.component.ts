@@ -1,10 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { LimitesGrillaService } from 'src/services/limites.grilla.service';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
-import { combineLatest } from 'rxjs';
+import { combineLatest, iif } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { StockLenteService } from 'src/services/stock.lente.service';
 import { LenteService } from 'src/services/lente.service';
+import { StockLente } from 'src/app/model/stockLente';
+import { Lente } from 'src/app/model/lente';
+
 
 @Component({
   selector: 'app-grilla',
@@ -19,7 +22,9 @@ export class GrillaComponent {
   arraySuperiorIzquierdo: number[] = [];
   arrayLateralIzquierdo: number[] = [];
   idLente: number;
-  grilla: number[][];
+  grilla: number[][] = [[0],[0]];
+  stock: StockLente[];
+  lente = <Lente>{}; 
 
   constructor(
     private limitesGrillaService: LimitesGrillaService,
@@ -36,24 +41,26 @@ export class GrillaComponent {
       this.lenteService.getById(this.idLente),
       this.stockLenteService.getStockLenteList(this.idLente)
     ).subscribe(r => {
-      let combinacion = r[0].Combinacion.split("  / ");
+      this.lente = r[0]
+      this.stock = r[1];
+      let combinacion = this.lente.Combinacion.split("  / ");
       let idLimiteDerecha;
       let idLimiteIzquierda;
-      if (combinacion[0] == '+ +') idLimiteDerecha = 1;
-      else idLimiteDerecha = 3;
-      if (combinacion[1] == '- +') idLimiteIzquierda = 2;
-      else idLimiteIzquierda = 4;
+      if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
+      else idLimiteIzquierda = 3;
+      if (combinacion[1] == '- +') idLimiteDerecha = 2;
+      else idLimiteDerecha = 4;
       combineLatest(
-        this.limitesGrillaService.getById(idLimiteDerecha),
-        this.limitesGrillaService.getById(idLimiteIzquierda)
+        this.limitesGrillaService.getById(idLimiteIzquierda),
+        this.limitesGrillaService.getById(idLimiteDerecha)
       ).subscribe(result => {
-        this.limiteGrillaDerecha = result[0];
-        this.limiteGrillaIzquierda = result[1];
+        this.limiteGrillaDerecha = result[1];
+        this.limiteGrillaIzquierda = result[0];
 
         for (let index = this.limiteGrillaDerecha.LimiteInferiorEsferico; index <= this.limiteGrillaDerecha.LimiteSuperiorEsferico; index = index + 0.25) {
           this.arrayLateralDerecho.push(index)
         }
-        if (result[0].Combinacion == '+ +') {
+        if (this.limiteGrillaDerecha.Combinacion == '- +') {
           for (let index = this.limiteGrillaDerecha.LimiteInferiorCilindrico; index <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico; index = index + 0.25) {
             this.arraySuperiorDerecho.push(index)
           }
@@ -67,7 +74,7 @@ export class GrillaComponent {
           this.arrayLateralIzquierdo.push(index)
         }
 
-        if (result[1].Combinacion == '- +') {
+        if (this.limiteGrillaIzquierda.Combinacion == '+ +') {
           for (let index = this.limiteGrillaIzquierda.LimiteInferiorCilindrico; index <= this.limiteGrillaIzquierda.LimiteSuperiorCilindrico; index = index + 0.25) {
             this.arraySuperiorIzquierdo.push(index)
           }
@@ -77,17 +84,27 @@ export class GrillaComponent {
           }
         }
 
-        // console.log(r[1])
-        this.grilla = [this.arraySuperiorDerecho];
-        for (let i = 0; i <= this.arrayLateralDerecho.length; i++) {
-          this.grilla[i][0] = this.arrayLateralDerecho[i - 1];
+        this.grilla = [this.arraySuperiorIzquierdo];
+        for (let i = 0; i <= this.arrayLateralIzquierdo.length; i++) {
+          this.grilla[i][0] = this.arrayLateralIzquierdo[i - 1];
           this.grilla.push([]);
         }
+        // console.log(r[1])
+
+        this.stock.forEach(s => {
+          let columna = this.grilla[0].indexOf(s.MedidaCilindrico);
+          let fila = 0;
+          this.grilla.forEach(f => {
+            if(f[0] == s.MedidaEsferico) {
+              f[columna] = s.Stock;
+              // console.log(fila, columna, s.Stock)
+            }
+          })
+          // this.grilla[fila, columna].push(s.stock);
+        })
         console.table(this.grilla)
+
       });
-
-
-
     })
   }
 }
