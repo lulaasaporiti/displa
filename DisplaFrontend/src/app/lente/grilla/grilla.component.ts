@@ -26,6 +26,8 @@ export class GrillaComponent {
   stock: StockLente[];
   lente = <Lente>{}; 
 
+  columns;
+
   constructor(
     private limitesGrillaService: LimitesGrillaService,
     private stockLenteService: StockLenteService,
@@ -70,7 +72,7 @@ export class GrillaComponent {
           }
         }
 
-        for (let index = this.limiteGrillaIzquierda.LimiteSuperiorEsferico; index >= this.limiteGrillaIzquierda.LimiteInferiorEsferico; index = index - 0.25) {
+        for (let index = this.limiteGrillaIzquierda.LimiteInferiorEsferico; index <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico; index = index + 0.25) {
           this.arrayLateralIzquierdo.push(index)
         }
 

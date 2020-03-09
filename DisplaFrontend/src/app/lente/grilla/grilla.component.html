@@ -1,23 +1,28 @@
 <form #modalForm="ngForm">
-    <div class="content">
-        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-          <h4 fxLayout="column" class="titulo" fxFlex>Stock de {{lente.Nombre}}</h4>
-          <!-- <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
+  <div class="content">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <h4 fxLayout="column" class="titulo" fxFlex>Stock de {{lente.Nombre}}</h4>
+      <!-- <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
             <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
           </mat-form-field> -->
-        </div>
-        <!-- <mat-divider fxFlexOffset="2"></mat-divider>
+    </div>
+    <!-- <mat-divider fxFlexOffset="2"></mat-divider>
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
           <button mat-mini-fab class="buttonFixed" color="primary" (click)="agregarLente()">
             <mat-icon>add</mat-icon>
           </button>
           <p>Agregar</p>
         </div> -->
-        <mat-divider></mat-divider>
-      
-        <!-- <table mat-table fxFill [dataSource]="grilla" matSort fxFlexOffset="3" class="tabla"> -->
-      
-          <!-- <ng-container matColumnDef="Id">
+    <mat-divider></mat-divider>
+
+    <table mat-table fxFill [dataSource]="grilla" matSort fxFlexOffset="3" class="tabla">
+
+      <ng-container *ngFor="let column of grilla[0]; let in = index" [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let row">{{ row[column] }}</td>
+      </ng-container> 
+
+      <!-- <ng-container matColumnDef="Id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> CÓDIGO </th>
             <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Id}} </td>
           </ng-container>
@@ -45,9 +50,9 @@
               </button>
             </td>
           </ng-container> -->
-      
-          <!-- <tr mat-header-row *matHeaderRowDef="arraySuperiorIzquierdo" fxFill sticky></tr>
-          <tr mat-row *matRowDef="let row; columns: arraySuperiorIzquierdo;" fxFill></tr>
-        </table> -->
-      </div>
+
+      <tr mat-header-row *matHeaderRowDef="grilla[0]" fxFill sticky></tr>
+      <tr mat-row *matRowDef="let row; columns: grilla[0];" fxFill></tr>
+    </table>
+  </div>
 </form>
