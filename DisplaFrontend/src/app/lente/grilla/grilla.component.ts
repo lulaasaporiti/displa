@@ -7,6 +7,8 @@ import { StockLenteService } from 'src/services/stock.lente.service';
 import { LenteService } from 'src/services/lente.service';
 import { StockLente } from 'src/app/model/stockLente';
 import { Lente } from 'src/app/model/lente';
+import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/typings/overlay-directives';
+import { MatTableDataSource } from '@angular/material';
 
 
 @Component({
@@ -19,14 +21,15 @@ export class GrillaComponent {
   limiteGrillaIzquierda = <LimiteGrilla>{};
   arraySuperiorDerecho: number[] = [];
   arrayLateralDerecho: number[] = [];
-  arraySuperiorIzquierdo: number[] = [];
+  arraySuperiorIzquierdo: string[] = [];
   arrayLateralIzquierdo: number[] = [];
   idLente: number;
-  grilla: number[][] = [[0],[0]];
+  grilla: any[][] = [[0], [0]];
   stock: StockLente[];
-  lente = <Lente>{}; 
+  lente = <Lente>{};
+  dataSource:MatTableDataSource<number[]>;
 
-  columns;
+  columns = [];
 
   constructor(
     private limitesGrillaService: LimitesGrillaService,
@@ -78,11 +81,11 @@ export class GrillaComponent {
 
         if (this.limiteGrillaIzquierda.Combinacion == '+ +') {
           for (let index = this.limiteGrillaIzquierda.LimiteInferiorCilindrico; index <= this.limiteGrillaIzquierda.LimiteSuperiorCilindrico; index = index + 0.25) {
-            this.arraySuperiorIzquierdo.push(index)
+            this.arraySuperiorIzquierdo.push(index.toString())
           }
         } else {
           for (let index = this.limiteGrillaIzquierda.LimiteSuperiorCilindrico; index >= this.limiteGrillaIzquierda.LimiteInferiorCilindrico; index = index - 0.25) {
-            this.arraySuperiorIzquierdo.push(index)
+            this.arraySuperiorIzquierdo.push(index.toString())
           }
         }
 
@@ -91,20 +94,32 @@ export class GrillaComponent {
           this.grilla[i][0] = this.arrayLateralIzquierdo[i - 1];
           this.grilla.push([]);
         }
-        // console.log(r[1])
 
         this.stock.forEach(s => {
-          let columna = this.grilla[0].indexOf(s.MedidaCilindrico);
-          let fila = 0;
+          let columna = this.grilla[0].indexOf(s.MedidaCilindrico.toString());
           this.grilla.forEach(f => {
-            if(f[0] == s.MedidaEsferico) {
+            if (f[0] == s.MedidaEsferico) {
               f[columna] = s.Stock;
-              // console.log(fila, columna, s.Stock)
             }
           })
-          // this.grilla[fila, columna].push(s.stock);
         })
+        this.grilla[0][0] = "0";
         console.table(this.grilla)
+        console.log(this.arraySuperiorIzquierdo)
+          for (let j = 0; j <= this.grilla[0].length - 1; j++) {
+            
+            if (j == 0) {
+              this.columns.push({ columnDef: '0', header: '0', cell: (fila: any, columna: any) => `Esférico positivo` })
+            } else {
+              this.columns.push( { columnDef: this.grilla[0][j].toString(), header: this.grilla[0][j].toString(), cell: (fila: any, columna: any) => this.grilla[+fila][+columna] });
+            }
+
+
+        }
+
+        this.dataSource = new MatTableDataSource([]);
+        this.dataSource.data = this.grilla;
+        console.log(this.columns)
 
       });
     })
