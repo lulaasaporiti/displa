@@ -1,6 +1,6 @@
 <form #modalForm="ngForm">
   <div class="content">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
       <h4 fxLayout="column" class="titulo" fxFlex>Stock de {{lente.Nombre}}</h4>
       <!-- <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
             <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
@@ -15,20 +15,34 @@
         </div> -->
     <mat-divider></mat-divider>
 
-    <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
-
-      <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
-        <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
+    <table mat-table fxFill [dataSource]="dataSourceIzquierda" fxFlexOffset="3" class="tabla" >
+      <ng-container *ngFor="let column of columnsIzquierda; let i = index" [matColumnDef]="column.columnDef">
+        <th mat-header-cell *matHeaderCellDef>{{ (column.header != '0') ? column.header : 'Esférico Positivo'}}</th>
         <td mat-cell *matCellDef="let row">
-          <mat-form-field fxFlex="70">
-            <input matInput [(ngModel)]="row[i]" #row[i]="ngModel" name="row{{i}}">
-        </mat-form-field>
-          {{ row[i] }}
+          <div *ngIf="i == 0">{{row[i]}}</div>
+          <mat-form-field style="width: 50px;" *ngIf="i != 0">
+            <input matInput value="{{row[i]}}" name="row{{i}}">
+          </mat-form-field>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="arraySuperiorIzquierdo" fxFill sticky></tr>
       <tr mat-row *matRowDef="let row; columns: arraySuperiorIzquierdo;" fxFill></tr>
     </table>
+
+    <table mat-table fxFill [dataSource]="dataSourceDerecha" fxFlexOffset="3" class="tabla" >
+      <ng-container *ngFor="let column of columnsDerecha; let i = index" [matColumnDef]="column.columnDef">
+        <th mat-header-cell *matHeaderCellDef>{{ (column.header != '0') ? column.header : 'Esférico Negativo'}}</th>
+        <td mat-cell *matCellDef="let row">
+          <div *ngIf="i == 0">{{row[i]}}</div>
+          <mat-form-field style="width: 50px;" *ngIf="i != 0">
+            <input matInput value="{{row[i]}}" name="row{{i}}">
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="arraySuperiorDerecho" fxFill sticky></tr>
+      <tr mat-row *matRowDef="let row; columns: arraySuperiorDerecho;" fxFill></tr>
+    </table> 
   </div>
 </form>

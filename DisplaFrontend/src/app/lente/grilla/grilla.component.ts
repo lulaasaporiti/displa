@@ -24,12 +24,15 @@ export class GrillaComponent {
   arraySuperiorIzquierdo: string[] = [];
   arrayLateralIzquierdo: number[] = [];
   idLente: number;
-  grilla: any[][] = [[0], [0]];
+  grillaIzquierda: any[][] = [[0], [0]];
+  grillaDerecha: any[][] = [[0], [0]];
   stock: StockLente[];
   lente = <Lente>{};
-  dataSource:MatTableDataSource<number[]>;
+  dataSourceIzquierda:MatTableDataSource<number[]>;
+  dataSourceDerecha:MatTableDataSource<number[]>;
+  columnsIzquierda = [];
+  columnsDerecha = [];
 
-  columns = [];
 
   constructor(
     private limitesGrillaService: LimitesGrillaService,
@@ -89,29 +92,55 @@ export class GrillaComponent {
           }
         }
 
-        this.grilla = [this.arraySuperiorIzquierdo];
+        this.grillaIzquierda = [this.arraySuperiorIzquierdo];
         for (let i = 0; i <= this.arrayLateralIzquierdo.length; i++) {
-          this.grilla[i][0] = this.arrayLateralIzquierdo[i - 1];
-          this.grilla.push([]);
+          this.grillaIzquierda[i][0] = this.arrayLateralIzquierdo[i - 1];
+          this.grillaIzquierda.push([]);
         }
 
         this.stock.forEach(s => {
-          let columna = this.grilla[0].indexOf(s.MedidaCilindrico.toString());
-          this.grilla.forEach(f => {
+          let columna = this.grillaIzquierda[0].indexOf(s.MedidaCilindrico.toString());
+          this.grillaIzquierda.forEach(f => {
             if (f[0] == s.MedidaEsferico) {
               f[columna] = s.Stock;
             }
           })
         })
 
-        this.grilla[0][0] = "0";
-        console.table(this.grilla)
-          for (let j = 0; j <= this.grilla[0].length - 1; j++) {           
-            this.columns.push( { columnDef: this.grilla[0][j], header: this.grilla[0][j], cell: (fila: any, columna: any) => `${fila}`});
+        this.grillaIzquierda[0][0] = "0";
+        // console.table(this.grillaIzquierda)
+          for (let j = 0; j <= this.grillaIzquierda[0].length - 1; j++) {           
+            this.columnsIzquierda.push( { columnDef: this.grillaIzquierda[0][j], header: this.grillaIzquierda[0][j], cell: (fila: any, columna: any) => `${fila}`});
         }
-        this.grilla.splice(0,1)
-        this.dataSource = new MatTableDataSource([]);
-        this.dataSource.data = this.grilla;
+        this.grillaIzquierda.splice(0,1)
+        this.dataSourceIzquierda = new MatTableDataSource([]);
+        this.dataSourceIzquierda.data = this.grillaIzquierda;
+
+
+        this.grillaDerecha = [this.arraySuperiorDerecho];
+        for (let i = 0; i <= this.arrayLateralDerecho.length; i++) {
+          this.grillaDerecha[i][0] = this.arrayLateralDerecho[i - 1];
+          this.grillaDerecha.push([]);
+        }
+
+        this.stock.forEach(s => {
+          let columna = this.grillaDerecha[0].indexOf(s.MedidaCilindrico.toString());
+          this.grillaDerecha.forEach(f => {
+            if (f[0] == s.MedidaEsferico) {
+              f[columna] = s.Stock;
+            }
+          })
+        })
+
+        this.grillaDerecha[0][0] = "0";
+        // console.table(this.grillaDerecha)
+          for (let j = 0; j <= this.grillaDerecha[0].length - 1; j++) {           
+            this.columnsDerecha.push( { columnDef: this.grillaDerecha[0][j], header: this.grillaDerecha[0][j], cell: (fila: any, columna: any) => `${fila}`});
+        }
+        this.grillaDerecha.splice(0,1)
+        this.dataSourceDerecha = new MatTableDataSource([]);
+        this.dataSourceDerecha.data = this.grillaDerecha;
+
 
       });
     })

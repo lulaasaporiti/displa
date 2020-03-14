@@ -1,16 +1,49 @@
-.dialog-content {
-    padding: 15px 25px 30px 25px;
-}
-
-.dialog-title {
-    font-family: "Chalet London" !important;
-    font-size: 18px;
-}
-
-.dialog-botones {
-    margin-top: 20px !important;
-}
-
-.mat-dialog-content {
-    height: 65px;
-}
+mat-paginator{
+    background: transparent;
+    font-size: 11px;
+  }
+  
+  /* /////////////////// */
+  
+  .buscador{
+    font-size: 14px;
+  }
+  
+  .menu-agregar{
+    padding: 8px 0;
+  }
+  
+  .buttonFixed{
+    transform: scale(0.7);
+  }
+  
+  
+  /* /////////////////// */
+  
+  table {
+    width: 100%;
+    width: 100%;
+    padding: 0px !important;
+  }
+  
+  .mat-table{
+    background-color: transparent;
+  }
+  
+  th.mat-header-cell:first-of-type{
+    padding-left: 0px;
+  }
+  
+  th.mat-header-cell:last-of-type{
+    padding-right: 0px;
+  }
+  
+  td.mat-cell:first-of-type{
+    padding-left: 0px;
+  }
+  
+  td.mat-cell:last-of-type{
+    padding-right: 0px;
+  }
+  
+  
