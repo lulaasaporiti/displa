@@ -103,23 +103,15 @@ export class GrillaComponent {
             }
           })
         })
+
         this.grilla[0][0] = "0";
         console.table(this.grilla)
-        console.log(this.arraySuperiorIzquierdo)
-          for (let j = 0; j <= this.grilla[0].length - 1; j++) {
-            
-            if (j == 0) {
-              this.columns.push({ columnDef: '0', header: '0', cell: (fila: any, columna: any) => `Esférico positivo` })
-            } else {
-              this.columns.push( { columnDef: this.grilla[0][j].toString(), header: this.grilla[0][j].toString(), cell: (fila: any, columna: any) => this.grilla[+fila][+columna] });
-            }
-
-
+          for (let j = 0; j <= this.grilla[0].length - 1; j++) {           
+            this.columns.push( { columnDef: this.grilla[0][j], header: this.grilla[0][j], cell: (fila: any, columna: any) => `${fila}`});
         }
-
+        this.grilla.splice(0,1)
         this.dataSource = new MatTableDataSource([]);
         this.dataSource.data = this.grilla;
-        console.log(this.columns)
 
       });
     })
