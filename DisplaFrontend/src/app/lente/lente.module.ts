@@ -9,11 +9,12 @@ import { LenteBajaComponent } from './lente-baja/lente-baja.component';
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { LenteDetalleComponent } from './lente-detalle/lente-detalle.component';
+import { LenteSeleccionComponent } from './lente-seleccion/lente-seleccion.component';
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
-    entryComponents: [LenteBajaComponent],
-    declarations: [LenteListadoComponent, LenteAltaComponent, LenteBajaComponent, LenteModificacionComponent, LenteDetalleComponent],
+    entryComponents: [LenteBajaComponent, LenteSeleccionComponent],
+    declarations: [LenteListadoComponent, LenteAltaComponent, LenteBajaComponent, LenteModificacionComponent, LenteDetalleComponent, LenteSeleccionComponent],
     imports: [
         CommonModule,
         MaterialModule,

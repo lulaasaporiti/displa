@@ -68,6 +68,13 @@ export class LenteListadoComponent implements OnInit {
     this.router.navigateByUrl('Lente/Modificacion?id=' + id);
   }
 
+  detalleLente(id: number) {
+    this.router.navigateByUrl('Lente/Detalle?id=' + id);
+  }
+
+  verStockLente(id: number) {
+    this.router.navigateByUrl('Lente/Stock?id=' + id);
+  }
 
   eliminarLente(lente: Lente): void {
     const dialogRef = this.dialog.open(LenteBajaComponent, {

@@ -28,5 +28,37 @@ export class AppComponent {
       'movimiento',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/swap_horiz-24px.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'delete_outline',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/delete_outline-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'detail_outline',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/visibility-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'stock_uso',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/grid_on-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'stock_deposito',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/store_mall_directory-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'add_circle_outline',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/add_circle_outline-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'edit',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/edit-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'delete',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/delete-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'selection',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/near_me-24px.svg')
+    );
   }
 }

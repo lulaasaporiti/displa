@@ -1,23 +1,23 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Localidad } from 'src/app/model/localidad';
 import { LocalidadService } from 'src/services/localidad.service';
+import { Localidad } from 'src/app/model/localidad';
+import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-cliente-modificacion',
-  templateUrl: './cliente-modificacion.component.html',
-  styleUrls: ['./cliente-modificacion.component.css']
+  selector: 'app-lente-seleccion',
+  templateUrl: './lente-seleccion.component.html',
+  styleUrls: ['./lente-seleccion.component.css']
 })
-export class ClienteModificacionComponent implements OnInit {
+export class LenteSeleccionComponent implements OnInit {
   localidades: Localidad[];
   localidadesControl = new FormControl();
   filteredLocalidades: Observable<Localidad[]>;
 
   constructor(
-    public dialogRef: MatDialogRef<ClienteModificacionComponent>,
+    public dialogRef: MatDialogRef<LenteSeleccionComponent>,
     private localidadService: LocalidadService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
@@ -75,4 +75,5 @@ filterLocalidad(nombre: any): Localidad[] {
       return [];
   }
 }
+
 }

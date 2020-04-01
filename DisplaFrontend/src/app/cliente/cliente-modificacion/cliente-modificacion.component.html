@@ -47,13 +47,13 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <mat-select placeholder="Localidad" [(ngModel)]="data.modelCliente.idLocalidad" name="localidad"
-                    #localidad="ngModel" required>
-                    <mat-option *ngFor="let l of localidades" [value]="l.Id">
-                        {{ l.Nombre }}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="localidad.invalid">Este campo es obligatorio.</mat-error>
+                <input type="text" placeholder="Localidad" aria-label="Localidad" matInput [formControl]="localidadesControl" [matAutocomplete]="auto" [(ngModel)]="data.modelCliente.IdLocalidad" name="localidad" (blur)="setIdLocalidad(this.localidadesControl,
+                this.data)" [(ngModel)]="data.modelCliente.IdLocalidadNavigation">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLocalidad">
+                <mat-option *ngFor="let l of filteredLocalidades | async" [value]="l">
+                    {{ l.Nombre }} - {{l.Cp}}
+                </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </div>
 

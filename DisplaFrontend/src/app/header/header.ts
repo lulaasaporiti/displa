@@ -5,6 +5,7 @@ import { SessionService } from 'src/services/session.service';
 import { AccountService } from 'src/services/account.service';
 import { MainService } from 'src/services/main.service';
 import { AccountUsernameComponent } from '../account/account-username/account-username.component';
+import { LenteSeleccionComponent } from '../lente/lente-seleccion/lente-seleccion.component';
 
 @Component({
     selector: 'app-header',
@@ -34,6 +35,19 @@ export class HeaderComponent {
         );
     }
 
+    openDialogLentes(): void {
+      let idLente;
+      const dialogRef = this.dialog.open(LenteSeleccionComponent, {
+        data: { idLente: idLente }
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result != undefined && result != false) {
+          console.log(result)
+          
+        }
+      })
+    }
+
     forgotPassword() {
         let dialogRef = this.dialog.open(AccountUsernameComponent, {
           //height: '400px',
@@ -55,6 +69,8 @@ export class HeaderComponent {
           }
         });
       }
+
+
 }
 
 

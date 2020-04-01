@@ -9,6 +9,7 @@ import { StockLente } from 'src/app/model/stockLente';
 import { Lente } from 'src/app/model/lente';
 import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/typings/overlay-directives';
 import { MatTableDataSource } from '@angular/material';
+import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { MatTableDataSource } from '@angular/material';
 export class GrillaComponent {
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
-  arraySuperiorDerecho: number[] = [];
+  arraySuperiorDerecho: string[] = [];
   arrayLateralDerecho: number[] = [];
   arraySuperiorIzquierdo: string[] = [];
   arrayLateralIzquierdo: number[] = [];
@@ -39,11 +40,13 @@ export class GrillaComponent {
     private stockLenteService: StockLenteService,
     private lenteService: LenteService,
     private router: Router,
-    private segment: ActivatedRoute
-
+    private segment: ActivatedRoute,
+    private loadingSpinnerService: LoadingSpinnerService
   ) {
+    this.loadingSpinnerService.show();
     this.segment.queryParams.subscribe((params: Params) => {
-      this.idLente = +params['id']; // (+) converts string 'id' to a number;
+      console.log(params['id'])
+      this.idLente = +params['id']; 
     });
     combineLatest(
       this.lenteService.getById(this.idLente),
@@ -62,21 +65,8 @@ export class GrillaComponent {
         this.limitesGrillaService.getById(idLimiteIzquierda),
         this.limitesGrillaService.getById(idLimiteDerecha)
       ).subscribe(result => {
-        this.limiteGrillaDerecha = result[1];
         this.limiteGrillaIzquierda = result[0];
-
-        for (let index = this.limiteGrillaDerecha.LimiteInferiorEsferico; index <= this.limiteGrillaDerecha.LimiteSuperiorEsferico; index = index + 0.25) {
-          this.arrayLateralDerecho.push(index)
-        }
-        if (this.limiteGrillaDerecha.Combinacion == '- +') {
-          for (let index = this.limiteGrillaDerecha.LimiteInferiorCilindrico; index <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico; index = index + 0.25) {
-            this.arraySuperiorDerecho.push(index)
-          }
-        } else {
-          for (let index = this.limiteGrillaDerecha.LimiteSuperiorCilindrico; index >= this.limiteGrillaDerecha.LimiteInferiorCilindrico; index = index - 0.25) {
-            this.arraySuperiorDerecho.push(index)
-          }
-        }
+        this.limiteGrillaDerecha = result[1];
 
         for (let index = this.limiteGrillaIzquierda.LimiteInferiorEsferico; index <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico; index = index + 0.25) {
           this.arrayLateralIzquierdo.push(index)
@@ -89,6 +79,20 @@ export class GrillaComponent {
         } else {
           for (let index = this.limiteGrillaIzquierda.LimiteSuperiorCilindrico; index >= this.limiteGrillaIzquierda.LimiteInferiorCilindrico; index = index - 0.25) {
             this.arraySuperiorIzquierdo.push(index.toString())
+          }
+        }
+
+        
+        for (let index = this.limiteGrillaDerecha.LimiteSuperiorEsferico; index >= this.limiteGrillaDerecha.LimiteInferiorEsferico; index = index - 0.25) {
+          this.arrayLateralDerecho.push(index)
+        }
+        if (this.limiteGrillaDerecha.Combinacion == '- +') {
+          for (let index = this.limiteGrillaDerecha.LimiteInferiorCilindrico; index <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico; index = index + 0.25) {
+            this.arraySuperiorDerecho.push(index.toString())
+          }
+        } else {
+          for (let index = this.limiteGrillaDerecha.LimiteSuperiorCilindrico; index >= this.limiteGrillaDerecha.LimiteInferiorCilindrico; index = index - 0.25) {
+            this.arraySuperiorDerecho.push(index.toString())
           }
         }
 
@@ -113,9 +117,9 @@ export class GrillaComponent {
             this.columnsIzquierda.push( { columnDef: this.grillaIzquierda[0][j], header: this.grillaIzquierda[0][j], cell: (fila: any, columna: any) => `${fila}`});
         }
         this.grillaIzquierda.splice(0,1)
+        this.grillaIzquierda.splice(this.grillaIzquierda.length-1,1)
         this.dataSourceIzquierda = new MatTableDataSource([]);
         this.dataSourceIzquierda.data = this.grillaIzquierda;
-
 
         this.grillaDerecha = [this.arraySuperiorDerecho];
         for (let i = 0; i <= this.arrayLateralDerecho.length; i++) {
@@ -133,16 +137,21 @@ export class GrillaComponent {
         })
 
         this.grillaDerecha[0][0] = "0";
-        // console.table(this.grillaDerecha)
           for (let j = 0; j <= this.grillaDerecha[0].length - 1; j++) {           
             this.columnsDerecha.push( { columnDef: this.grillaDerecha[0][j], header: this.grillaDerecha[0][j], cell: (fila: any, columna: any) => `${fila}`});
         }
         this.grillaDerecha.splice(0,1)
+        this.grillaDerecha.splice(this.grillaDerecha.length-1,1)
         this.dataSourceDerecha = new MatTableDataSource([]);
         this.dataSourceDerecha.data = this.grillaDerecha;
 
-
+        this.loadingSpinnerService.hide();
       });
     })
+  }
+
+  getTotal(i){
+    console.log(i)
+    if (i == 0) return "Total"
   }
 }

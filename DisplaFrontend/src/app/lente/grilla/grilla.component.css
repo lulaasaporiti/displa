@@ -22,7 +22,6 @@ mat-paginator{
   
   table {
     width: 100%;
-    width: 100%;
     padding: 0px !important;
   }
   
@@ -46,4 +45,8 @@ mat-paginator{
     padding-right: 0px;
   }
   
+  mat-form-field{
+    font-size: 11px !important;
+    line-height: 1.425 !important;
+  }
   
