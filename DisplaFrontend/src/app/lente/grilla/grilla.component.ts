@@ -28,9 +28,10 @@ export class GrillaComponent {
   grillaIzquierda: any[][] = [[0], [0]];
   grillaDerecha: any[][] = [[0], [0]];
   stock: StockLente[];
+  cargarStock: StockLente[];
   lente = <Lente>{};
-  dataSourceIzquierda:MatTableDataSource<number[]>;
-  dataSourceDerecha:MatTableDataSource<number[]>;
+  dataSourceIzquierda: MatTableDataSource<number[]>;
+  dataSourceDerecha: MatTableDataSource<number[]>;
   columnsIzquierda = [];
   columnsDerecha = [];
 
@@ -45,8 +46,8 @@ export class GrillaComponent {
   ) {
     this.loadingSpinnerService.show();
     this.segment.queryParams.subscribe((params: Params) => {
-      console.log(params['id'])
-      this.idLente = +params['id']; 
+      // console.log(params['id'])
+      this.idLente = +params['id'];
     });
     combineLatest(
       this.lenteService.getById(this.idLente),
@@ -82,7 +83,7 @@ export class GrillaComponent {
           }
         }
 
-        
+
         for (let index = this.limiteGrillaDerecha.LimiteSuperiorEsferico; index >= this.limiteGrillaDerecha.LimiteInferiorEsferico; index = index - 0.25) {
           this.arrayLateralDerecho.push(index)
         }
@@ -113,11 +114,11 @@ export class GrillaComponent {
 
         this.grillaIzquierda[0][0] = "0";
         // console.table(this.grillaIzquierda)
-          for (let j = 0; j <= this.grillaIzquierda[0].length - 1; j++) {           
-            this.columnsIzquierda.push( { columnDef: this.grillaIzquierda[0][j], header: this.grillaIzquierda[0][j], cell: (fila: any, columna: any) => `${fila}`});
+        for (let j = 0; j <= this.grillaIzquierda[0].length - 1; j++) {
+          this.columnsIzquierda.push({ columnDef: this.grillaIzquierda[0][j], header: this.grillaIzquierda[0][j], cell: (fila: any, columna: any) => `${fila}` });
         }
-        this.grillaIzquierda.splice(0,1)
-        this.grillaIzquierda.splice(this.grillaIzquierda.length-1,1)
+        this.grillaIzquierda.splice(0, 1)
+        this.grillaIzquierda.splice(this.grillaIzquierda.length - 1, 1)
         this.dataSourceIzquierda = new MatTableDataSource([]);
         this.dataSourceIzquierda.data = this.grillaIzquierda;
 
@@ -137,11 +138,11 @@ export class GrillaComponent {
         })
 
         this.grillaDerecha[0][0] = "0";
-          for (let j = 0; j <= this.grillaDerecha[0].length - 1; j++) {           
-            this.columnsDerecha.push( { columnDef: this.grillaDerecha[0][j], header: this.grillaDerecha[0][j], cell: (fila: any, columna: any) => `${fila}`});
+        for (let j = 0; j <= this.grillaDerecha[0].length - 1; j++) {
+          this.columnsDerecha.push({ columnDef: this.grillaDerecha[0][j], header: this.grillaDerecha[0][j], cell: (fila: any, columna: any) => `${fila}` });
         }
-        this.grillaDerecha.splice(0,1)
-        this.grillaDerecha.splice(this.grillaDerecha.length-1,1)
+        this.grillaDerecha.splice(0, 1)
+        this.grillaDerecha.splice(this.grillaDerecha.length - 1, 1)
         this.dataSourceDerecha = new MatTableDataSource([]);
         this.dataSourceDerecha.data = this.grillaDerecha;
 
@@ -150,8 +151,58 @@ export class GrillaComponent {
     })
   }
 
-  getTotal(i){
-    console.log(i)
+  getTotalIzquierda(i) {
     if (i == 0) return "Total"
+    else {
+      var sum = 0
+      for (let j = 0; j < this.arrayLateralIzquierdo.length; j++) {
+        sum = sum + ((this.grillaIzquierda[j][i] != null) ? this.grillaIzquierda[j][i] : 0);
+      }
+      return sum;
+    }
+  }
+
+  getTotalDerecha(i) {
+    if (i == 0) return "Total"
+    else {
+      var sum = 0
+      for (let j = 0; j < this.arrayLateralDerecho.length; j++) {
+        sum = sum + ((this.grillaDerecha[j][i] != null) ? this.grillaDerecha[j][i] : 0);
+      }
+      return sum;
+    }
+  }
+
+  sumarStockIzquierda(event, i, columna) {
+    let fila = this.arrayLateralIzquierdo.indexOf(i);
+    if (this.grillaIzquierda[fila][columna] != event) {
+      let stockLente = <StockLente>{};
+      stockLente.Stock = +event;
+      stockLente.IdLente = this.idLente;
+      stockLente.MedidaEsferico = i;
+      stockLente.MedidaCilindrico = +this.arraySuperiorIzquierdo[columna];
+      this.cargarStock.push(stockLente)
+    }
+  }
+
+  sumarStockDerecha(event, i, columna) {
+    let fila = this.arrayLateralDerecho.indexOf(i);
+    if (this.grillaDerecha[fila][columna] != event) {
+      let stockLente = <StockLente>{};
+      stockLente.Stock = +event;
+      stockLente.IdLente = this.idLente;
+      stockLente.MedidaEsferico = i;
+      stockLente.MedidaCilindrico = +this.arraySuperiorDerecho[columna];
+      this.cargarStock.push(stockLente)
+    }
+  }
+
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
   }
 }

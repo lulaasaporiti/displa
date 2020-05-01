@@ -1,10 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { LocalidadService } from 'src/services/localidad.service';
 import { Localidad } from 'src/app/model/localidad';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
+import { ClienteService } from 'src/services/cliente.service';
+import { Cliente } from 'src/app/model/Cliente';
+import { CondicionVenta } from 'src/app/model/condicionVenta';
+import { CategoriaIVA } from 'src/app/model/categoriaIva';
+import { CategoriaIVAService } from 'src/services/categoria.iva.service';
+import { CondicionVentaService } from 'src/services/condicion.venta.service';
 
 @Component({
   selector: 'app-cliente-alta',
@@ -12,29 +18,45 @@ import { startWith, map } from 'rxjs/operators';
   styleUrls: ['./cliente-alta.component.css']
 })
 export class ClienteAltaComponent implements OnInit {
+  modelCliente = <Cliente>{};
   localidades: Localidad[];
   localidadesControl = new FormControl();
   filteredLocalidades: Observable<Localidad[]>;
+  condicionesVenta: CondicionVenta[];
+  categoriasIva: CategoriaIVA[];
 
   constructor(
-    public dialogRef: MatDialogRef<ClienteAltaComponent>,
+    private clienteService: ClienteService,
     private localidadService: LocalidadService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    private categoriaIvaService: CategoriaIVAService,
+    private condicionVentaService: CondicionVentaService,
+    private loadingSpinnerService: LoadingSpinnerService,
+  ) {
+
   }
 
 
   ngOnInit() {
-    this.localidadService.getLocalidadesVigentesList().subscribe(r => {
-      this.localidades = r;
+    this.loadingSpinnerService.show();
+    combineLatest(
+      this.localidadService.getLocalidadesVigentesList(),
+      this.categoriaIvaService.getCategoriaIVAVigentesList(),
+      this.condicionVentaService.getCondicionVentaVigentesList()
+    ).subscribe(result => {
+      this.localidades = result[0];
       this.filteredLocalidades = this.localidadesControl.valueChanges
-      .pipe(
-        startWith(''),
-        // map(value => typeof value === 'string' ? value : value.Nombre),
-        map(val => this.filterLocalidad(val))
+        .pipe(
+          startWith(''),
+          // map(value => typeof value === 'string' ? value : value.Nombre),
+          map(val => this.filterLocalidad(val))
 
-        // map(Nombre => Nombre ? this._filter(Nombre) : this.localidades.slice())
-      );
+          // map(Nombre => Nombre ? this._filter(Nombre) : this.localidades.slice())
+        );
+      this.categoriasIva = result[1];
+      this.condicionesVenta = result[2];
+      this.loadingSpinnerService.hide();
     });
+
   }
 
   displayLocalidad(l?: Localidad): string | undefined {
@@ -47,33 +69,27 @@ export class ClienteAltaComponent implements OnInit {
     return this.localidades.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  onNoClick(): void {
-    this.dialogRef.close(false);
+  setIdLocalidad(control) {
+    if (control.value != null) this.modelCliente.IdLocalidad = control.value;
   }
 
-  onEnter(): void {
-    if (this.data.modelCliente.Nombre != "" && this.data.modelCliente.Nombre != undefined)
-      this.dialogRef.close(this.data);
-  }
-
-  setIdLocalidad(control, data) {
-    if (control.value != null) data.modelCliente.IdLocalidad = control.value;
-}
-
-filterLocalidad(nombre: any): Localidad[] {
-  if (nombre.length >= 0) {
+  filterLocalidad(nombre: any): Localidad[] {
+    if (nombre.length >= 0) {
       var s: string;
       try {
-          s = nombre.toLowerCase();
+        s = nombre.toLowerCase();
       }
       catch (ex) {
-          s = nombre.nombre.toLowerCase();
+        s = nombre.nombre.toLowerCase();
       }
       return this.localidades.filter(localidad =>
-          localidad.Nombre.toLowerCase().indexOf(s) !== -1);
-  } else {
+        localidad.Nombre.toLowerCase().indexOf(s) !== -1);
+    } else {
       return [];
+    }
   }
-}
 
+  altaCliente(){
+    
+  }
 }

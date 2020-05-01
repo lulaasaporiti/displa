@@ -20,6 +20,10 @@ export class LenteService {
         return this.http.get(`${this.baseUrl}/GetLentesVigentes`);
     }
 
+    getCombinaciones(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetCombinaciones`);
+    }
+
     getCodigoLente(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetLastCode`);
     }

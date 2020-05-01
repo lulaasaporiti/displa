@@ -15,7 +15,11 @@ namespace DisplaBackend.DAOs
         bool Delete(Cliente cliente);
         Cliente GetById(int idCliente);
         List<Cliente> GetClientesActivos();
-
+        bool SavePreciosArticulos(List<PrecioArticuloCliente> preciosArticulos);
+        bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos);
+        List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente);
+        List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
+        List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -30,31 +34,73 @@ namespace DisplaBackend.DAOs
 
         public List<Cliente> GetClientesVigentes()
         {
-            return _context.Cliente
+            List<Cliente> clientes = _context.Cliente
                 .Where(c => c.Borrado == false)
-                //.OrderByDescending(b => b.Borrado)
+                .Select(c => new Cliente
+                {
+                    Id = c.Id,
+                    Cuit = c.Cuit,
+                    Optica = c.Optica,
+                    Responsable = c.Responsable,
+                    Direccion = c.Direccion,
+                    Telefonos = c.Telefonos,
+                    UtilizaSobre = c.UtilizaSobre,
+                    Mail = c.Mail,
+                    Bloqueado = c.Bloqueado,
+                    Borrado = c.Borrado,
+                })
                 .ToList();
+            return clientes;
         }
 
         public List<Cliente> GetClientesActivos()
         {
-            return _context.Cliente
-                .Include(c => c.IdCategoriaIvaNavigation)
-                .Include(c => c.IdCondicionVentaNavigation)
-                .Include(c => c.IdLocalidadNavigation)
+            List<Cliente> clientes = _context.Cliente
                 .Where(c => c.Bloqueado == false && c.Borrado == false)
-                //.OrderByDescending(b => b.Borrado)
+                .Select(c => new Cliente
+                {
+                    Id = c.Id,
+                    Cuit = c.Cuit,
+                    Optica = c.Optica,
+                    Responsable = c.Responsable,
+                    Direccion = c.Direccion,
+                    Telefonos = c.Telefonos,
+                    UtilizaSobre = c.UtilizaSobre,
+                    Mail = c.Mail,
+                    Bloqueado = c.Bloqueado,
+                    Borrado = c.Borrado,
+                })
                 .ToList();
+            return clientes;
         }
 
         public List<Cliente> GetClientes()
         {
-            return _context.Cliente
-                .Include(c => c.IdCategoriaIvaNavigation)
-                .Include(c => c.IdCondicionVentaNavigation)
-                .Include(c => c.IdLocalidadNavigation)
-                .OrderByDescending(c => c.Borrado)
+            //var clientes = _context.Cliente
+            //    .Include(c => c.IdCategoriaIvaNavigation)
+            //    .Include(c => c.IdCondicionVentaNavigation)
+            //    .Include(c => c.IdLocalidadNavigation.Id)
+            //    .Include(c => c.IdLocalidadNavigation.Nombre)
+            //    .Include(c => c.IdLocalidadNavigation.Cp)
+            //    .OrderByDescending(c => c.Borrado)
+            //    .ToList();
+
+            List<Cliente> clientes = _context.Cliente
+                .Select(c => new Cliente
+                {
+                    Id = c.Id,
+                    Cuit = c.Cuit,
+                    Optica = c.Optica,
+                    Responsable = c.Responsable,
+                    Direccion = c.Direccion,
+                    Telefonos = c.Telefonos,
+                    UtilizaSobre = c.UtilizaSobre,
+                    Mail = c.Mail,
+                    Bloqueado = c.Bloqueado,
+                    Borrado = c.Borrado,
+                })
                 .ToList();
+            return clientes;
         }
 
         public bool SaveOrUpdate(Cliente cliente)
@@ -81,7 +127,28 @@ namespace DisplaBackend.DAOs
 
         public Cliente GetById(int idCliente)
         {
-            return _context.Cliente.FirstOrDefault(tb => tb.Id == idCliente);
+            return _context.Cliente.FirstOrDefault(c => c.Id == idCliente);
+        }
+
+        public List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente)
+        {
+            return _context.PrecioArticuloCliente
+                .Include(p => p.IdPrecioArticuloNavigation)
+                .Where(p => p.IdCliente == idCliente).ToList();
+        }
+
+        public List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente)
+        {
+            return _context.PrecioServicioCliente
+                .Include(p => p.IdPrecioServicioNavigation)
+                .Where(p => p.IdCliente == idCliente).ToList();
+        }
+
+        public List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente)
+        {
+            return _context.PrecioLenteCliente
+                .Include(p => p.IdPrecioLenteNavigation)
+                .Where(p => p.IdCliente == idCliente).ToList();
         }
 
         public bool Delete(Cliente cliente)
@@ -97,6 +164,64 @@ namespace DisplaBackend.DAOs
             {
                 throw e;
             }
+        }
+
+        public bool SavePreciosArticulos(List<PrecioArticuloCliente> preciosArticulos)
+        {
+            //var cliente = _context.Cliente.FirstOrDefault(c => c.Id == preciosArticulos.First().IdCliente);
+            try
+            {
+                foreach (var p in preciosArticulos)
+                {
+
+                    if (p.Id == 0)
+                    {
+                        _context.PrecioArticuloCliente.Add(p);
+                    }
+                    else
+                    {
+                        _context.PrecioArticuloCliente.Update(p);
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return _context.SaveChanges() >= 1;
+        }
+
+
+        public bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos)
+        {
+            try
+            {
+                foreach (var p in preciosArticulos)
+                {
+                    if (p.Id == 0)
+                    {
+                        var precio = new PrecioArticulo();
+                        var precioEspecial = new PrecioEspecialArticuloCliente();
+                        precio.IdArticulo = p.IdPrecioArticuloNavigation.IdArticulo;
+                        precio = _context.PrecioArticulo.Add(precio).Entity;
+                        _context.SaveChanges();
+                        precioEspecial.IdPrecioArticulo = precio.Id;
+                        precioEspecial.IdCliente = p.IdCliente;
+                        //_context.PrecioEspecialArticuloCliente.Add(precioEspecial);
+                    }
+                    else
+                    {
+                        //_context.PrecioEspecialArticuloCliente.Update(p);
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return _context.SaveChanges() >= 1;
         }
     }
 }

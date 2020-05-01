@@ -36,6 +36,10 @@ export class AccountService {
         return this.mainService.get(this.apiUrl + "GetUsuarios", new HttpParams());
     }
 
+    getUsersActivosList(): Observable<any> {
+        return this.mainService.get(this.apiUrl + "GetUsuariosActivos", new HttpParams());
+    }
+    
     forgotPassword(model: string): Observable<any> {
         //console.log(model);
         return this.mainService.get(this.apiUrl + "ForgotPassword", new HttpParams().set('model', model));

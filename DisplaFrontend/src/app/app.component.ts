@@ -49,6 +49,10 @@ export class AppComponent {
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/add_circle_outline-24px.svg')
     );
     this.matIconRegistry.addSvgIcon(
+      'add',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/add-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
       'edit',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/edit-24px.svg')
     );
@@ -59,6 +63,10 @@ export class AppComponent {
     this.matIconRegistry.addSvgIcon(
       'selection',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/near_me-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'close',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/clear-24px.svg')
     );
   }
 }

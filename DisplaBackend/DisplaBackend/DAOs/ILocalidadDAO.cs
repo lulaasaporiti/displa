@@ -30,6 +30,7 @@ namespace DisplaBackend.DAOs
         public List<Localidad> GetLocalidades()
         {
             return _context.Localidad
+                .Include(l => l.IdProvinciaNavigation)
                 .OrderByDescending(l => l.Borrado)
                 .ToList();
         }
@@ -37,6 +38,7 @@ namespace DisplaBackend.DAOs
         public List<Localidad> GetLocalidadesVigentes()
         {
             return _context.Localidad
+                //.Include(l => l.IdProvinciaNavigation)
                 .Where(l => l.Borrado == false)
                 .ToList();
         }

@@ -17,14 +17,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./condicion-venta-listado.component.css']
 })
 export class CondicionVentaListadoComponent implements OnInit {
-  
+
   displayedColumns: string[] = ['Descripcion', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<CondicionVenta>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
-  
+
   constructor(
     public dialog: MatDialog,
     // private router: Router,
@@ -47,13 +48,26 @@ export class CondicionVentaListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadCondicionVentaPage();
+  }
+
   loadCondicionVentaPage() {
-    this.loadingSpinnerService.show()
-    this.condicionVentaService.getCondicionVentaList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.condicionVentaService.getCondicionVentaVigentesList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    } else {
+      this.condicionVentaService.getCondicionVentaList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    }
   }
 
   agregarCondicionVenta(): void {

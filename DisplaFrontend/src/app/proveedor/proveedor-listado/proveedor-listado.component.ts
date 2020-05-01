@@ -16,11 +16,12 @@ import { SessionService } from 'src/services/session.service';
   styleUrls: ['./proveedor-listado.component.css']
 })
 export class ProveedorListadoComponent implements OnInit {
-  
+
   displayedColumns: string[] = ['Nombre', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Proveedor>();
+  traerVigentes: boolean = true;
 
-   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
 
@@ -46,13 +47,26 @@ export class ProveedorListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadProveedorPage();
+  }
+
   loadProveedorPage() {
     this.loadingSpinnerService.show()
-    this.proveedorService.getProveedoresList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+    if (this.traerVigentes == true) {
+      this.proveedorService.getProveedoresVigentesList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    } else {
+      this.proveedorService.getProveedoresList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    }
   }
 
   agregarProveedor(): void {

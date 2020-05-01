@@ -1,0 +1,51 @@
+<div class="content" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+    <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
+    </mat-form-field>
+  </div>
+  <mat-divider fxFlexOffset="2"></mat-divider>
+
+
+  <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+
+    <ng-container matColumnDef="Nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="11"> RESPONSABLE </th>
+      <td mat-cell *matCellDef="let row" fxFlex="11" fxLayoutAlign="start center"> {{row.Responsable}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Optica">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> OPTICA </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Optica}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Domicilio">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="11"> DOMICILIO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="11" fxLayoutAlign="start center"> {{row.Direccion}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Telefonos">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="12"> TELEFONOS </th>
+      <td mat-cell *matCellDef="let row" fxFlex="12" fxLayoutAlign="start center"> {{row.Telefonos}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Mail">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> MAIL </th>
+      <td mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{row.Mail}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="UtilizaIibb">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="8"> UTILIZA IIBB</th>
+      <td mat-cell *matCellDef="let row" fxFlex="8" fxLayoutAlign="start center"> {{row.UtilizaIibb == true ? 'Si' : 'No'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Borrado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="6"> BORRADO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="6" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
+  </table>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+</div>

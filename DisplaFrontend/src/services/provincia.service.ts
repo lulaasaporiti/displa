@@ -20,8 +20,8 @@ export class ProvinciaService {
         return this.http.get(`${this.baseUrl}/GetProvinciasVigentes`);
     }
     
-    saveOrUpdateProvincia(ubicacion: Object): Observable<object> {
-        return this.http.post(`${this.baseUrl}/`, ubicacion);
+    saveOrUpdateProvincia(provincia: Object): Observable<object> {
+        return this.http.post(`${this.baseUrl}/`, provincia);
     }
 
     updateProvincia(id: number, value: any): Observable<object> {

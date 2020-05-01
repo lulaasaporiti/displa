@@ -14,6 +14,7 @@ namespace DisplaBackend.Models
         public string Nombre { get; set; }
         public string Cuit { get; set; }
         public string Direccion { get; set; }
+        public bool? Borrado { get; set; }
 
         public virtual ICollection<TarjetaCredito> TarjetaCredito { get; set; }
     }

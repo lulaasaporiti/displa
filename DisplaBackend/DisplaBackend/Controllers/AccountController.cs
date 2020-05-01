@@ -67,6 +67,13 @@ namespace DisplaBackend.Controllers
             return Json(result);
         }
 
+        [HttpGet]
+        public IActionResult GetUsuariosActivos()
+        {
+            var result = _accountService.GetUsuariosActivos();
+            return Json(result);
+        }
+
         // GET: api/Account/GetResponsable/6
         [HttpGet("{id}")]
         public IActionResult GetUser([FromRoute] int id)

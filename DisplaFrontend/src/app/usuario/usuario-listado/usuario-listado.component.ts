@@ -21,14 +21,14 @@ import { ChangePasswordComponent } from 'src/app/account/change-password/change-
 
 export class UsuarioListadoComponent implements OnInit {
 
+  idUser: number;
+  displayedColumns: string[] = ['Activo', 'Username', 'Nombre', 'Apellido', 'Roles', 'Opciones'];
+  dataSource = new MatTableDataSource<Usuario>();
+  traerVigentes: boolean = true;
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
-
-  idUser: number;
-
-  displayedColumns: string[] = ['Activo', 'Username', 'Nombre', 'Apellido', 'Roles', 'Opciones'];
-  dataSource = new MatTableDataSource<Usuario>();
 
 
   constructor(
@@ -52,15 +52,29 @@ export class UsuarioListadoComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadUsuarioPage();
+  }
 
   loadUsuarioPage() {
     // console.log("entro")
-    this.loadingSpinnerService.show()
-    this.accountService.getUsersList()
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.accountService.getUsersActivosList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    } else {
+      this.accountService.getUsersList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.loadingSpinnerService.hide();
+      })
+    }
+    
   }
 
   openDialogEditUserPass() {

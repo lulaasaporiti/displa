@@ -19,7 +19,7 @@ export class UbicacionAltaComponent {
   }
 
   onEnter(): void {
-    if (this.data.modelUbicacion.nombre != "" && this.data.modelUbicacion.nombre != undefined) 
+    if (this.data.modelUbicacion.Nombre != "" && this.data.modelUbicacion.Nombre != undefined) 
       this.dialogRef.close(this.data);
   }
 

@@ -13,6 +13,7 @@ namespace DisplaBackend.DAOs
     {
         List<AspNetRoles> GetRoles();
         List<UsuarioDTO> GetUsuarios();
+        List<UsuarioDTO> GetUsuariosActivos();
         List<AspNetUsers> GetByRoleName(string roleName);
         AspNetUsers GetCurrentUser(string userName);
         int GetLastId();
@@ -80,6 +81,29 @@ namespace DisplaBackend.DAOs
             var result = new List<UsuarioDTO>();
             var usuarios = _context.AspNetUsers
                 .Include(e => e.AspNetUserRoles).ThenInclude(r => r.Role)
+                .OrderByDescending(u => u.Activo)
+                .ToList();
+            foreach (var usuario in usuarios)
+            {
+                var item = new UsuarioDTO();
+                item.Id = usuario.Id;
+                item.Activo = usuario.Activo;
+                item.Nombre = usuario.Nombre;
+                item.Apellido = usuario.Apellido;
+                item.NormalizedUserName = usuario.NormalizedUserName;
+                item.UserName = usuario.UserName;
+                item.Roles = usuario.AspNetUserRoles.Select(r => new RolesDTO { Id = r.Role.Id, Name = r.Role.Name, NormalizedName = r.Role.NormalizedName }).OrderBy(o => o.NormalizedName).FirstOrDefault();
+                result.Add(item);
+            }
+            return result;
+        }
+
+        public List<UsuarioDTO> GetUsuariosActivos()
+        {
+            var result = new List<UsuarioDTO>();
+            var usuarios = _context.AspNetUsers
+                .Include(e => e.AspNetUserRoles).ThenInclude(r => r.Role)
+                .Where(u => u.Activo == true)
                 .OrderByDescending(u => u.Activo)
                 .ToList();
             foreach (var usuario in usuarios)

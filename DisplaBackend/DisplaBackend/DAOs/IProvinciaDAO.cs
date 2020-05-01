@@ -11,8 +11,8 @@ namespace DisplaBackend.DAOs
     {
         List<Provincia> GetProvincias();
         List<Provincia> GetProvinciasVigentes();
-        bool SaveOrUpdate(Provincia ubicacion);
-        bool Delete(Provincia ubicacion);
+        bool SaveOrUpdate(Provincia provincia);
+        bool Delete(Provincia provincia);
         Provincia GetById(int idProvincia);
 
     }
@@ -41,17 +41,17 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public bool SaveOrUpdate(Provincia ubicacion)
+        public bool SaveOrUpdate(Provincia provincia)
         {
             try
             {
-                if (ubicacion.Id == 0)
+                if (provincia.Id == 0)
                 {
-                    ubicacion = _context.Add(ubicacion).Entity;
+                    provincia = _context.Add(provincia).Entity;
                 }
                 else
                 {
-                    ubicacion = _context.Provincia.Update(ubicacion).Entity;
+                    provincia = _context.Provincia.Update(provincia).Entity;
 
                 }
                 return _context.SaveChanges() >= 1;
@@ -68,12 +68,12 @@ namespace DisplaBackend.DAOs
             return _context.Provincia.FirstOrDefault(tb => tb.Id == idProvincia);
         }
 
-        public bool Delete(Provincia ubicacion)
+        public bool Delete(Provincia provincia)
         {
             try
             {
-                ubicacion.Borrado = !ubicacion.Borrado;
-                ubicacion = _context.Provincia.Update(ubicacion).Entity;
+                provincia.Borrado = !provincia.Borrado;
+                provincia = _context.Provincia.Update(provincia).Entity;
                 return _context.SaveChanges() >= 1;
 
             }

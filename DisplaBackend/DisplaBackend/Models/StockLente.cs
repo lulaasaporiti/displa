@@ -8,7 +8,7 @@ namespace DisplaBackend.Models
         public double MedidaEsferico { get; set; }
         public double MedidaCilindrico { get; set; }
         public int IdLente { get; set; }
-        public double Stock { get; set; }
+        public int Stock { get; set; }
 
         public virtual Lente IdLenteNavigation { get; set; }
     }

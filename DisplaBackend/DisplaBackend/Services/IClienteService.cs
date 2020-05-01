@@ -13,6 +13,11 @@ namespace DisplaBackend.Services
         bool Delete(Cliente cliente);
         Cliente GetById(int idCliente);
         List<Cliente> GetClientesActivos();
+        bool SavePreciosArticulos(List<PrecioArticuloCliente> preciosArticulos);
+        bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos);
+        List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente);
+        List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
+        List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
     }
 
     public class ClienteService : IClienteService
@@ -55,6 +60,28 @@ namespace DisplaBackend.Services
             return _clienteDAO.GetById(idCliente);
         }
 
-    }
+        public bool SavePreciosArticulos(List<PrecioArticuloCliente> preciosArticulos)
+        {
+            return _clienteDAO.SavePreciosArticulos(preciosArticulos);
+        }
 
+        public bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos)
+        {
+            return _clienteDAO.SavePreciosEspecialesArticulos(preciosArticulos);
+        }
+
+        public List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente) {
+            return _clienteDAO.GetPreciosArticulosCliente(idCliente);
+        }
+
+        public List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente)
+        {
+            return _clienteDAO.GetPreciosServiciosCliente(idCliente);
+        }
+
+        public List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente)
+        {
+            return _clienteDAO.GetPreciosLentesCliente(idCliente);
+        }
+    }
 }

@@ -19,6 +19,7 @@ export class UbicacionListadoComponent implements OnInit {
   
   displayedColumns: string[] = ['Nombre', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Ubicacion>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -46,14 +47,26 @@ export class UbicacionListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadUbicacionPage();
+  }
+
   loadUbicacionPage() {
-    this.loadingSpinnerService.show()
-    this.ubicacionService.getUbicacionesList()
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.ubicacionService.getUbicacionesVigentesList()
       .subscribe(r => {
-        console.log(r)
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    } else {
+      this.ubicacionService.getUbicacionesList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.loadingSpinnerService.hide();
+      })
+    }
   }
 
   agregarUbicacion(): void {

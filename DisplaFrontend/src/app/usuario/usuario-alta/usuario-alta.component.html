@@ -1,7 +1,7 @@
 <form #modalForm="ngForm">
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-            <mat-icon color="primary" style="font-size:30px">add_circle_outline</mat-icon>
+            <mat-icon color="primary" svgIcon="add_circle_outline" style="width: 30px; height: 30px;"></mat-icon>
             <p class="dialog-title">Agregar usuario</p>
         </div>
 
@@ -30,7 +30,7 @@
         </div>
 
         <div mat-dialog-content fxLayout="row">
-            <mat-form-field>
+            <mat-form-field fxFill>
                 <input matInput placeholder="Contraseña" [(ngModel)]="data.modelUsuario.Password"
                     [ngModelOptions]="{standalone: true}" id="password" #password="ngModel"
                     [type]="hidePassword ? 'password' : 'text'"
@@ -44,7 +44,7 @@
         </div>
 
         <div mat-dialog-content fxLayout="row">
-            <mat-form-field>
+            <mat-form-field fxFill>
                 <input matInput placeholder="Confirme contraseña" [(ngModel)]="data.modelUsuario.ConfirmPassword"
                     id="confirmpassword" name="confirmpassword" #confirmpassword="ngModel"
                     [type]="hideConfirmPassword ? 'password' : 'text'"

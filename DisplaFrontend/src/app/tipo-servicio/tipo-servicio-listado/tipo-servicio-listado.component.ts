@@ -19,6 +19,7 @@ export class TipoServicioListadoComponent implements OnInit {
   
   displayedColumns: string[] = ['Nombre', 'IngresosBrutos', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<TipoServicio>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -46,13 +47,26 @@ export class TipoServicioListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadTipoServicioPage();
+  }
+
   loadTipoServicioPage() {
     this.loadingSpinnerService.show()
-    this.tipoServicioService.getTiposServiciosList()
+    if (this.traerVigentes == true) {
+      this.tipoServicioService.getTiposServiciosVigentesList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    } else {
+      this.tipoServicioService.getTiposServiciosList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.loadingSpinnerService.hide();
+      })
+    }
   }
 
   agregarTipoServicio(): void {

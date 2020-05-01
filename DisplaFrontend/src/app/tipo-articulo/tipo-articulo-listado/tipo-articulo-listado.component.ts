@@ -19,6 +19,7 @@ export class TipoArticuloListadoComponent implements OnInit {
   
   displayedColumns: string[] = ['Nombre', 'IngresosBrutos', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<TipoArticulo>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -46,13 +47,26 @@ export class TipoArticuloListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadTipoArticuloPage();
+  }
+
   loadTipoArticuloPage() {
-    this.loadingSpinnerService.show()
-    this.tipoArticuloService.getTiposArticulosList()
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.tipoArticuloService.getTiposArticulosVigentesList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    } else {
+      this.tipoArticuloService.getTiposArticulosList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.loadingSpinnerService.hide();
+      })
+    }
   }
 
   agregarTipoArticulo(): void {
