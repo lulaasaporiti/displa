@@ -20,6 +20,7 @@ export class BlockListadoComponent implements OnInit {
   
   displayedColumns: string[] = ['Nombre', 'TipoBlock', 'StockMinimo', 'StockActual', 'Precio', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Block>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -47,13 +48,26 @@ export class BlockListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadBlockPage();
+  }
+
   loadBlockPage() {
     this.loadingSpinnerService.show()
-    this.blockService.getBlocksList()
+    if (this.traerVigentes == true) {
+    this.blockService.getBlocksVigentesList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    } else {
+      this.blockService.getBlocksList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.loadingSpinnerService.hide();
+      })
+    }
   }
 
   getMovimientosBlock(idBlock){

@@ -8,6 +8,7 @@ import { ClienteModificacionComponent } from '../cliente-modificacion/cliente-mo
 import { ClienteService } from 'src/services/cliente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,17 +17,19 @@ import { SessionService } from 'src/services/session.service';
   styleUrls: ['./cliente-listado.component.css']
 })
 export class ClienteListadoComponent implements OnInit {
-  
-  displayedColumns: string[] = ['Nombre', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
-  dataSource = new MatTableDataSource<Cliente>();
 
-   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  displayedColumns: string[] = ['Nombre', 'Optica', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
+  dataSource = new MatTableDataSource<Cliente>();
+  traerActivos: boolean = true;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
 
 
   constructor(
     public dialog: MatDialog,
+    private router: Router,
     private clienteService: ClienteService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) { }
@@ -46,42 +49,27 @@ export class ClienteListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerActivos = !this.traerActivos;
+    this.loadClientePage();
+  }
+
   loadClientePage() {
     this.loadingSpinnerService.show()
-    this.clienteService.getClientesList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+    if (this.traerActivos == true) {
+      this.clienteService.getClientesActivosList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    } else {
+      this.clienteService.getClientesList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    }
   }
-
-  agregarCliente(): void {
-    let Cliente = <Cliente>{};
-    const dialogRef = this.dialog.open(ClienteAltaComponent, {
-      width: '550px',
-      data: { modelCliente: Cliente }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined && result != false) {
-        console.log(result)
-        Cliente.IdLocalidad = Cliente.IdLocalidadNavigation.Id;
-        Cliente.IdLocalidadNavigation = null;
-        console.log(Cliente)
-
-        this.clienteService.saveOrUpdateCliente(Cliente).subscribe(
-          data => {
-            this.sessionService.showSuccess("El cliente se ha agregado correctamente.");
-            this.loadClientePage();
-          },
-          error => {
-            // console.log(error)
-            this.sessionService.showError("El cliente no se agregó.");
-          }
-        );
-      }
-    });
-  }
-
 
   eliminarCliente(Cliente: Cliente): void {
     const dialogRef = this.dialog.open(ClienteBajaComponent, {
@@ -104,27 +92,16 @@ export class ClienteListadoComponent implements OnInit {
     })
   }
 
-  modificarCliente(event: any) {
-    let ClienteViejo = JSON.parse(JSON.stringify(event));
-    event = JSON.parse(JSON.stringify(event));
-    const dialogRef = this.dialog.open(ClienteModificacionComponent, {
-      width: '550px',
-      data: { modelCliente: event }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined && result != false) {
-        this.clienteService.saveOrUpdateCliente(event).subscribe(
-          data => {
-            this.sessionService.showSuccess("El cliente se ha modificado correctamente");
-            this.loadClientePage();
 
-          },
-          error => {
-            // console.log(error)
-            this.sessionService.showError("El cliente no se modificó.");
-          }
-        );
-      }
-    });
+  agregarCliente(): void {
+    this.router.navigateByUrl('/Cliente/Alta')
+  }
+
+  modificarCliente(id: number) {
+    this.router.navigateByUrl('Cliente/Modificacion?id=' + id);
+  }
+
+  detalleCliente(id: number) {
+    this.router.navigateByUrl('Cliente/Detalle?id=' + id);
   }
 }

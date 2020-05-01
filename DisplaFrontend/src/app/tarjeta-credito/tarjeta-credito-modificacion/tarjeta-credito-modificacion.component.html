@@ -1,0 +1,35 @@
+<form #modalForm="ngForm">
+
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="edit"></mat-icon>
+            <p class="dialog-title">Editar tarjeta de crédito</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelTarjetaCredito.Nombre" name="nombre"
+                    #nombre="ngModel" required>
+                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <mat-select placeholder="Banco" [(ngModel)]="data.modelTarjetaCredito.IdBanco" name="banco"
+                    #banco="ngModel" required>
+                    <mat-option *ngFor="let b of bancos" [value]="b.Id">
+                        {{ b.Nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="banco.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>
+        </div>
+    </div>
+</form>

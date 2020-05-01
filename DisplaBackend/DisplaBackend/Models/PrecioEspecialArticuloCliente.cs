@@ -9,7 +9,7 @@ namespace DisplaBackend.Models
         public int IdPrecioArticulo { get; set; }
         public int IdCliente { get; set; }
 
-        public virtual Cliente IdNavigation { get; set; }
+        public virtual Cliente IdClienteNavigation { get; set; }
         public virtual PrecioArticulo IdPrecioArticuloNavigation { get; set; }
     }
 }

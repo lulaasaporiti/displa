@@ -9,10 +9,10 @@
             <mat-form-field fxFill>
                 <input type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
                     [matAutocomplete]="auto" name="lente" (blur)="setIdLente(this.lentesControl,
-                this.data)">
+                this.data)" (keyup.enter)="setIdLente(this.lentesControl, this.data);onEnter();">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
                     <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
-                        {{ l.Codigo }} - {{l.Nombre}}
+                        {{ l.Id }} - {{l.Nombre}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
@@ -21,7 +21,7 @@
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
-                [mat-dialog-close]="data">Agregar</button>
+                [mat-dialog-close]="data">Seleccionar</button>
         </div>
     </div>
 </form>

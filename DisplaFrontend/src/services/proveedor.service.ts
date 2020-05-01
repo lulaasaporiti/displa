@@ -20,8 +20,8 @@ export class ProveedorService {
         return this.http.get(`${this.baseUrl}/GetProveedoresVigentes`);
     }
     
-    saveOrUpdateProveedor(ubicacion: Object): Observable<object> {
-        return this.http.post(`${this.baseUrl}/`, ubicacion);
+    saveOrUpdateProveedor(proveedor: Object): Observable<object> {
+        return this.http.post(`${this.baseUrl}/`, proveedor);
     }
 
     updateProveedor(id: number, value: any): Observable<object> {

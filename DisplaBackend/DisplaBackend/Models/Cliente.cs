@@ -7,8 +7,9 @@ namespace DisplaBackend.Models
     {
         public Cliente()
         {
-            PrecioEspecialLenteCliente = new HashSet<PrecioEspecialLenteCliente>();
-            PrecioEspecialServicioCliente = new HashSet<PrecioEspecialServicioCliente>();
+            PrecioArticuloCliente = new HashSet<PrecioArticuloCliente>();
+            PrecioLenteCliente = new HashSet<PrecioLenteCliente>();
+            PrecioServicioCliente = new HashSet<PrecioServicioCliente>();
         }
 
         public int Id { get; set; }
@@ -22,9 +23,9 @@ namespace DisplaBackend.Models
         public int? PlazoCredito { get; set; }
         public double? PorcentajeDescuentoGeneral { get; set; }
         public string Mail { get; set; }
-        public int? IdCondicionVenta { get; set; }
+        public int IdCondicionVenta { get; set; }
         public int? IdLocalidad { get; set; }
-        public int? IdCategoriaIva { get; set; }
+        public int IdCategoriaIva { get; set; }
         public string UsuarioWeb { get; set; }
         public string PasswordWeb { get; set; }
         public bool? Bloqueado { get; set; }
@@ -33,8 +34,8 @@ namespace DisplaBackend.Models
         public virtual CategoriaIva IdCategoriaIvaNavigation { get; set; }
         public virtual CondicionVenta IdCondicionVentaNavigation { get; set; }
         public virtual Localidad IdLocalidadNavigation { get; set; }
-        public virtual PrecioEspecialArticuloCliente PrecioEspecialArticuloCliente { get; set; }
-        public virtual ICollection<PrecioEspecialLenteCliente> PrecioEspecialLenteCliente { get; set; }
-        public virtual ICollection<PrecioEspecialServicioCliente> PrecioEspecialServicioCliente { get; set; }
+        public virtual ICollection<PrecioArticuloCliente> PrecioArticuloCliente { get; set; }
+        public virtual ICollection<PrecioLenteCliente> PrecioLenteCliente { get; set; }
+        public virtual ICollection<PrecioServicioCliente> PrecioServicioCliente { get; set; }
     }
 }

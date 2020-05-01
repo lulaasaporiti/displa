@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { LocalidadService } from 'src/services/localidad.service';
-import { Localidad } from 'src/app/model/localidad';
+import { LenteService } from 'src/services/lente.service';
+import { Lente } from 'src/app/model/lente';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -12,39 +12,39 @@ import { startWith, map } from 'rxjs/operators';
   styleUrls: ['./lente-seleccion.component.css']
 })
 export class LenteSeleccionComponent implements OnInit {
-  localidades: Localidad[];
-  localidadesControl = new FormControl();
-  filteredLocalidades: Observable<Localidad[]>;
+  lentes: Lente[];
+  lentesControl = new FormControl();
+  filteredLentes: Observable<Lente[]>;
 
   constructor(
     public dialogRef: MatDialogRef<LenteSeleccionComponent>,
-    private localidadService: LocalidadService,
+    private lenteService: LenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
 
   ngOnInit() {
-    this.localidadService.getLocalidadesVigentesList().subscribe(r => {
-      this.localidades = r;
-      this.filteredLocalidades = this.localidadesControl.valueChanges
+    this.lenteService.getLentesVigentesList().subscribe(r => {
+      this.lentes = r;
+      console.log(this.lentes)
+      this.filteredLentes = this.lentesControl.valueChanges
       .pipe(
         startWith(''),
         // map(value => typeof value === 'string' ? value : value.Nombre),
-        map(val => this.filterLocalidad(val))
+        map(val => this.filterLente(val))
 
-        // map(Nombre => Nombre ? this._filter(Nombre) : this.localidades.slice())
+        // map(Nombre => Nombre ? this._filter(Nombre) : this.lentes.slice())
       );
     });
   }
 
-  displayLocalidad(l?: Localidad): string | undefined {
-    return l ? l.Nombre + ' - ' + l.Cp : undefined;
+  displayLente(l?: Lente): string | undefined {
+    return l ? l.Id + ' - ' + l.Nombre : undefined;
   }
 
-  private _filter(Nombre: string): Localidad[] {
+  private _filter(Nombre: string): Lente[] {
     const filterValue = Nombre.toLowerCase();
-
-    return this.localidades.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
+    return this.lentes.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
 
   onNoClick(): void {
@@ -52,15 +52,15 @@ export class LenteSeleccionComponent implements OnInit {
   }
 
   onEnter(): void {
-    if (this.data.modelCliente.Nombre != "" && this.data.modelCliente.Nombre != undefined)
+    if (this.data.idLente != "" && this.data.idLente != undefined)
       this.dialogRef.close(this.data);
   }
 
-  setIdLocalidad(control, data) {
-    if (control.value != null) data.modelCliente.IdLocalidad = control.value;
-}
+  setIdLente(control, data) {
+    if (control.value != null) data.idLente = control.value.Id;
+  }
 
-filterLocalidad(nombre: any): Localidad[] {
+  filterLente(nombre: any): Lente[] {
   if (nombre.length >= 0) {
       var s: string;
       try {
@@ -69,8 +69,8 @@ filterLocalidad(nombre: any): Localidad[] {
       catch (ex) {
           s = nombre.nombre.toLowerCase();
       }
-      return this.localidades.filter(localidad =>
-          localidad.Nombre.toLowerCase().indexOf(s) !== -1);
+      return this.lentes.filter(lente =>
+          lente.Nombre.toLowerCase().indexOf(s) !== -1);
   } else {
       return [];
   }

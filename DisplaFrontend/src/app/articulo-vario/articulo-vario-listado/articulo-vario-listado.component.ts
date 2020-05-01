@@ -17,14 +17,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./articulo-vario-listado.component.css']
 })
 export class ArticuloVarioListadoComponent implements OnInit {
-  
+
   displayedColumns: string[] = ['Nombre', 'TipoArticulo', 'StockMinimo', 'StockActual', 'PrecioCosto', 'PorcentajeUtilidad', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<ArticuloVario>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
-  
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -47,17 +48,30 @@ export class ArticuloVarioListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  loadArticuloVarioPage() {
-    this.loadingSpinnerService.show()
-    this.articuloService.getArticulosVariosList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadArticuloVarioPage();
   }
 
-  getMovimientosArticuloVario(idArticuloVario){
-    this.router.navigateByUrl('/MovimientoArticuloVario/Listado?idArticuloVario='+idArticuloVario);
+  loadArticuloVarioPage() {
+    this.loadingSpinnerService.show()
+    if (this.traerVigentes == true) {
+      this.articuloService.getArticulosVariosVigentesList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    } else {
+      this.articuloService.getArticulosVariosList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    }
+  }
+
+  getMovimientosArticuloVario(idArticuloVario) {
+    this.router.navigateByUrl('/MovimientoArticuloVario/Listado?idArticuloVario=' + idArticuloVario);
   }
 
   agregarArticuloVario(): void {

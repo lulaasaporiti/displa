@@ -17,14 +17,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./insumo-listado.component.css']
 })
 export class InsumoListadoComponent implements OnInit {
-  
+
   displayedColumns: string[] = ['Nombre', 'TipoInsumo', 'StockMinimo', 'StockActual', 'Precio', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Insumo>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
-  
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -47,17 +48,31 @@ export class InsumoListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  loadInsumoPage() {
-    this.loadingSpinnerService.show()
-    this.insumoService.getInsumosList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadInsumoPage();
   }
 
-  getMovimientosInsumo(idInsumo){
-    this.router.navigateByUrl('/MovimientoInsumo/Listado?idInsumo='+idInsumo);
+  loadInsumoPage() {
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.insumoService.getInsumosVigentesList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+
+    } else {
+      this.insumoService.getInsumosList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    }
+  }
+
+  getMovimientosInsumo(idInsumo) {
+    this.router.navigateByUrl('/MovimientoInsumo/Listado?idInsumo=' + idInsumo);
   }
 
   agregarInsumo(): void {

@@ -184,6 +184,8 @@ namespace DisplaBackend
             services.AddScoped<IAccountDAO, AccountDAO>();
             services.AddScoped<IArticuloVarioService, ArticuloVarioService>();
             services.AddScoped<IArticuloVarioDAO, ArticuloVarioDAO>();
+            services.AddScoped<IBancoService, BancoService>();
+            services.AddScoped<IBancoDAO, BancoDAO>();
             services.AddScoped<IBlockService, BlockService>();
             services.AddScoped<IBlockDAO, BlockDAO>();
             services.AddScoped<ICajaService, CajaService>();
@@ -213,6 +215,8 @@ namespace DisplaBackend
             services.AddScoped<IServicioService, ServicioService>();
             services.AddScoped<IServicioDAO, ServicioDAO>();
             services.AddScoped<IStockLenteService, StockLenteService>();
+            services.AddScoped<ITarjetaCreditoService, TarjetaCreditoService>();
+            services.AddScoped<ITarjetaCreditoDAO, TarjetaCreditoDAO>();
             services.AddScoped<IStockLenteDAO, StockLenteDAO>();
             services.AddScoped<ITipoArticuloService, TipoArticuloService>();
             services.AddScoped<ITipoArticuloDAO, TipoArticuloDAO>();

@@ -15,6 +15,7 @@ namespace DisplaBackend.DAOs
         bool Delete(Lente lente);
         Lente GetById(int idLente);
         int GetLastCode();
+        List<string> GetCombinaciones();
     }
 
     public class LenteDAO : ILenteDAO
@@ -38,9 +39,20 @@ namespace DisplaBackend.DAOs
         public List<Lente> GetLentesVigentes()
         {
             return _context.Lente
+                .Include(l => l.PrecioLente.OrderBy(p => p.Precio))
                 .Where(l => l.Borrado == false)
                 .ToList();
         }
+
+
+        public List<string> GetCombinaciones()
+        {
+            return _context.Lente.Where(l => l.Borrado == false)
+                .GroupBy(l => l.Combinacion)
+                .Select(l => l.Key)
+                .ToList<string>();
+        }
+
 
         public int GetLastCode() {
             return _context.Lente.Last().Id + 1;

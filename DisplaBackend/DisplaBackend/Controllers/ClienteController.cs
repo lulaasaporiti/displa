@@ -74,6 +74,52 @@ namespace DisplaBackend.Controllers
             return Ok(_clienteService.Delete(cliente));
         }
 
+        [HttpGet("{id}")]
+        public object GetById([FromRoute]int id)
+        {
+            return _clienteService.GetById(id);
+        }
+
+        [HttpPost, Route("SavePreciosArticulos")]
+        public IActionResult SavePreciosArticulos([FromBody]List<PrecioArticuloCliente> preciosArticulos)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_clienteService.SavePreciosArticulos(preciosArticulos));
+        }
+
+        [HttpPost, Route("SavePreciosEspecialesArticulos")]
+        public IActionResult SavePreciosEspecialesArticulos([FromBody]List<PrecioEspecialArticuloCliente> preciosArticulos)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_clienteService.SavePreciosEspecialesArticulos(preciosArticulos));
+        }
+
+        [HttpGet("{idCliente}"), Route("GetPreciosArticulosCliente")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetPreciosArticulosCliente(int idCliente)
+        {
+            return _clienteService.GetPreciosArticulosCliente(idCliente);
+        }
+
+        [HttpGet("{idCliente}"), Route("GetPreciosServiciosCliente")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetPreciosServiciosCliente(int idCliente)
+        {
+            return _clienteService.GetPreciosServiciosCliente(idCliente);
+        }
+
+        [HttpGet("{idCliente}"), Route("GetPreciosLentesCliente")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetPreciosLentesCliente(int idCliente)
+        {
+            return _clienteService.GetPreciosLentesCliente(idCliente);
+        }
     }
 
 

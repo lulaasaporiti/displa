@@ -19,7 +19,6 @@ import { BlockModule } from './block/block.module';
 import { HeaderComponent } from './header/header';
 import { HomeComponent } from './home/home';
 import { UbicacionModule } from './ubicacion/ubicacion.module';
-import { FooterComponent } from './footer/footer';
 import { MovimientoBlockModule } from './movimiento-block/movimiento-block.module';
 import { MAT_DATE_LOCALE, MatPaginatorIntl } from '@angular/material';
 import { MatPaginatorIntLabelProvider } from '../providers/MatPaginatorIntLabel-provider';
@@ -34,6 +33,13 @@ import { TipoArticuloModule } from './tipo-articulo/tipo-articulo.module';
 import { ServicioModule } from './servicio/servicio.module';
 import { LenteModule } from './lente/lente.module';
 import { GrillaComponent } from './lente/grilla/grilla.component';
+// import { FooterComponent } from './footer/footer';
+import { ClienteModule } from './cliente/cliente.module';
+import { ProvinciaModule } from './provincia/provincia.module';
+import { LocalidadModule } from './localidad/localidad.module';
+import { BancoModule } from './banco/banco.module';
+import { TarjetaCreditoModule } from './tarjeta-credito/tarjeta-credito.module';
+import { LimiteGrillaModule } from './limite-grilla/limite-grilla.module';
 
 @NgModule({
   declarations: [
@@ -41,7 +47,7 @@ import { GrillaComponent } from './lente/grilla/grilla.component';
     HeaderComponent,
     GrillaComponent,
     HomeComponent,
-    FooterComponent
+    // FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -59,15 +65,21 @@ import { GrillaComponent } from './lente/grilla/grilla.component';
       positionClass: 'toast-bottom-left',
       progressBar: true,
     }), // ToastrModule added
+    BancoModule,
     BlockModule,
     CategoriaIVAModule,
+    ClienteModule,
     CondicionVentaModule,
     InsumoModule,
     LenteModule,
+    LimiteGrillaModule,
+    LocalidadModule,
     MovimientoBlockModule,
     MovimientoInsumoModule,
     ProveedorModule,
+    ProvinciaModule,
     ServicioModule,
+    TarjetaCreditoModule,
     TipoArticuloModule,
     TipoBlockModule,
     TipoInsumoModule,

@@ -17,14 +17,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./categoria-iva-listado.component.css']
 })
 export class CategoriaIVAListadoComponent implements OnInit {
-  
+
   displayedColumns: string[] = ['Descripcion', 'Tasa', 'SobreTasa', 'Discrimina', 'Recateg', 'CodigoRece', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<CategoriaIVA>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
-  
+
   constructor(
     public dialog: MatDialog,
     // private router: Router,
@@ -47,14 +48,26 @@ export class CategoriaIVAListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadCategoriaIVAPage();
+  }
+
   loadCategoriaIVAPage() {
     this.loadingSpinnerService.show()
-    this.categoriaIVAService.getCategoriaIVAList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        console.log(this.dataSource.data)
-        this.loadingSpinnerService.hide();
-      })
+    if (this.traerVigentes == true) {
+      this.categoriaIVAService.getCategoriaIVAVigentesList()
+        .subscribe(r => {
+          console.log(this.dataSource.data)
+          this.loadingSpinnerService.hide();
+        })
+    } else {
+      this.categoriaIVAService.getCategoriaIVAList()
+        .subscribe(r => {
+          console.log(this.dataSource.data)
+          this.loadingSpinnerService.hide();
+        })
+    }
   }
 
   agregarCategoriaIVA(): void {

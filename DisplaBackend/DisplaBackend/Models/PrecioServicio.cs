@@ -7,7 +7,7 @@ namespace DisplaBackend.Models
     {
         public PrecioServicio()
         {
-            PrecioEspecialServicioCliente = new HashSet<PrecioEspecialServicioCliente>();
+            PrecioServicioCliente = new HashSet<PrecioServicioCliente>();
         }
 
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace DisplaBackend.Models
         public double Precio { get; set; }
 
         public virtual Servicio IdServicioNavigation { get; set; }
-        public virtual ICollection<PrecioEspecialServicioCliente> PrecioEspecialServicioCliente { get; set; }
+        public virtual ICollection<PrecioServicioCliente> PrecioServicioCliente { get; set; }
     }
 }

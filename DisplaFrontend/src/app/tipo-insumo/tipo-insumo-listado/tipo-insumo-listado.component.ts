@@ -19,6 +19,7 @@ export class TipoInsumoListadoComponent implements OnInit {
   
   displayedColumns: string[] = ['Nombre', 'NotificaStockMinimo', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<TipoInsumo>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -46,13 +47,26 @@ export class TipoInsumoListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadTipoInsumoPage();
+  }
+
   loadTipoInsumoPage() {
-    this.loadingSpinnerService.show()
-    this.tipoInsumoService.getTiposInsumosList()
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.tipoInsumoService.getTiposInsumosVigentesList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    } else {
+      this.tipoInsumoService.getTiposInsumosList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.loadingSpinnerService.hide();
+      })
+    }
   }
 
   agregarTipoInsumo(): void {

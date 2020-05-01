@@ -11,5 +11,6 @@ namespace DisplaBackend.Models
         public double LimiteSuperiorEsferico { get; set; }
         public double LimiteInferiorCilindrico { get; set; }
         public double LimiteSuperiorCilindrico { get; set; }
+        public bool Borrado { get; set; }
     }
 }

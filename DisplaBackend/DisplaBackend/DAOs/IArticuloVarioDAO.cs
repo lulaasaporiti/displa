@@ -38,10 +38,26 @@ namespace DisplaBackend.DAOs
 
         public List<ArticuloVario> GetArticulosVariosVigentes()
         {
-            return _context.ArticuloVario
-                .Include(i => i.IdTipoArticuloNavigation)
-                .Where(i => i.Borrado == false)
+            List<ArticuloVario> articulos = _context.ArticuloVario
+                .Where(a => a.Borrado == false)
+                .Select(a => new ArticuloVario
+                {
+                    Id = a.Id,
+                    Nombre = a.Nombre,
+                    IdTipoArticulo = a.IdTipoArticulo,
+                    IdTipoArticuloNavigation = a.IdTipoArticuloNavigation,
+                    Borrado = a.Borrado,
+                    StockActual = a.StockActual,
+                    StockMinimo = a.StockMinimo,
+                    PorcentajeUtilidad = a.PorcentajeUtilidad,
+                    PrecioCosto = a.PrecioCosto,
+                    PrecioArticulo = a.PrecioArticulo
+                        .Where(p => p.PrecioArticuloCliente.Where(pc => pc.Especial == true).Count() == 0)
+                        .Select(p => new PrecioArticulo { Id = p.Id, Precio = p.Precio, IdArticulo = p.IdArticulo, PrecioArticuloCliente = p.PrecioArticuloCliente })
+                        .OrderBy(p => p.Precio).ToList()
+                })
                 .ToList();
+            return articulos;
         }
 
         public bool SaveOrUpdate(ArticuloVario articuloVario)

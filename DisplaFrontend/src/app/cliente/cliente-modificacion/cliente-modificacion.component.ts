@@ -5,6 +5,10 @@ import { LocalidadService } from 'src/services/localidad.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { Cliente } from 'src/app/model/Cliente';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
+import { ClienteService } from 'src/services/cliente.service';
 
 @Component({
   selector: 'app-cliente-modificacion',
@@ -12,14 +16,30 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./cliente-modificacion.component.css']
 })
 export class ClienteModificacionComponent implements OnInit {
+  id: number;
+  modelCliente = <Cliente>{};
   localidades: Localidad[];
   localidadesControl = new FormControl();
   filteredLocalidades: Observable<Localidad[]>;
 
   constructor(
-    public dialogRef: MatDialogRef<ClienteModificacionComponent>,
-    private localidadService: LocalidadService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    private router: Router,
+    private segment: ActivatedRoute,
+    private clienteService: ClienteService,
+    private loadingSpinnerService: LoadingSpinnerService,
+    private localidadService: LocalidadService) {
+      this.segment.queryParams.subscribe((params: Params) => {
+        this.id = +params['id']; // (+) converts string 'id' to a number;
+      });
+      if (this.id) {
+        this.loadingSpinnerService.show()
+        this.clienteService.getById(this.id)
+          .subscribe(c => {
+            this.modelCliente = c;
+            this.loadingSpinnerService.hide();
+          });
+      }
+
   }
 
 
@@ -47,17 +67,8 @@ export class ClienteModificacionComponent implements OnInit {
     return this.localidades.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  onNoClick(): void {
-    this.dialogRef.close(false);
-  }
-
-  onEnter(): void {
-    if (this.data.modelCliente.Nombre != "" && this.data.modelCliente.Nombre != undefined)
-      this.dialogRef.close(this.data);
-  }
-
-  setIdLocalidad(control, data) {
-    if (control.value != null) data.modelCliente.IdLocalidad = control.value;
+  setIdLocalidad(control) {
+    if (control.value != null) this.modelCliente.IdLocalidad = control.value;
 }
 
 filterLocalidad(nombre: any): Localidad[] {

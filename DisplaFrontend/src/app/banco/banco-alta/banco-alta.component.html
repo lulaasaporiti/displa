@@ -1,0 +1,36 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
+            <p class="dialog-title">Agregar banco</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelBanco.Nombre" name="nombre"
+                    #nombre="ngModel" (keyup.enter)="onEnter();" required>
+                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="CUIT" [(ngModel)]="data.modelBanco.Cuit" name="cuit"
+                    #cuit="ngModel" (keyup.enter)="onEnter();">
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Dirección" [(ngModel)]="data.modelBanco.Direccion" name="direccion"
+                    #direccion="ngModel" (keyup.enter)="onEnter();">
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Agregar</button>
+        </div>
+    </div>
+
+</form>

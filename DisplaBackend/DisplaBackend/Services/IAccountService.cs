@@ -12,6 +12,7 @@ namespace DisplaBackend.Services
     {
         List<AspNetRoles> GetRoles();
         List<UsuarioDTO> GetUsuarios();
+        List<UsuarioDTO> GetUsuariosActivos();
         List<AspNetUsers> GetByRoleName(string roleName);
         AspNetUsers GetCurrentUser(string userName);
         int GetLastId();
@@ -58,6 +59,11 @@ namespace DisplaBackend.Services
         public List<UsuarioDTO> GetUsuarios()
         {
             return _accountDAO.GetUsuarios();
+        }
+
+        public List<UsuarioDTO> GetUsuariosActivos()
+        {
+            return _accountDAO.GetUsuariosActivos();
         }
 
         public void Edit(AspNetUsers user)

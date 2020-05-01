@@ -1,0 +1,58 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="edit"></mat-icon>
+            <p class="dialog-title">Editar localidad</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Límite inferior esférico" [(ngModel)]="data.modelLimiteGrilla.LimiteInferiorEsferico" name="inferiorEsferico"
+                    #inferiorEsferico="ngModel" required>
+                <mat-error *ngIf="inferiorEsferico.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Límite superior esférico" [(ngModel)]="data.modelLimiteGrilla.LimiteSuperiorEsferico" name="superiorEsferico"
+                    #superiorEsferico="ngModel" required>
+                <mat-error *ngIf="superiorEsferico.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Límite inferior cilíndrico" [(ngModel)]="data.modelLimiteGrilla.LimiteInferiorCilindrico" name="inferiorCilindrico"
+                    #inferiorCilindrico="ngModel" required>
+                <mat-error *ngIf="inferiorCilindrico.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Límite superior cilíndrico" [(ngModel)]="data.modelLimiteGrilla.LimiteSuperiorCilindrico" name="superiorCilindrico"
+                    #superiorCilindrico="ngModel" required>
+                <mat-error *ngIf="superiorCilindrico.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <mat-select placeholder="Combinación" [(ngModel)]="data.modelLimiteGrilla.Combinacion" name="combinacion"
+                    #combinacion="ngModel" required>
+                    <mat-option *ngFor="let c of combinaciones" [value]="c">
+                        {{ c }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="combinacion.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>
+        </div>
+    </div>
+</form>

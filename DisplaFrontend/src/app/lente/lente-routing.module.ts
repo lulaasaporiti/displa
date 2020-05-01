@@ -13,7 +13,6 @@ const routes: Routes = [
     children: [
       {path: 'Lente/Listado', component: LenteListadoComponent},
       {path: 'Lente/Alta', component: LenteAltaComponent},
-      {path: 'Lente/Alta', component: LenteAltaComponent},
       {path: 'Lente/Modificacion', component: LenteModificacionComponent},
       {path: 'Lente/Detalle', component: LenteDetalleComponent},
       {path: 'Lente/Stock', component: GrillaComponent},

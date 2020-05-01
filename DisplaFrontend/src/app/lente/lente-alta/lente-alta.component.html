@@ -2,13 +2,9 @@
     <app-loading-spinner></app-loading-spinner>
     <form name="lenteForm" #lenteForm="ngForm" fxLayout="column" fxFlexFill>
 
-        <!-- // HEADER // -->
-
         <div fxLayout="row" fxLayoutAlign="start center">
             <h4 class="titulo" fxFlex>Agregar lente</h4>
         </div>
-
-        <!-- /////////// -->
 
         <div fxLayout="row" fxLayoutGap="2vw">
             <mat-form-field fxFlex='30' fxLayout="column">
@@ -76,7 +72,7 @@
             <div fxLayout="column">
                 <p>Precios
                     <button mat-icon-button color="primary" matTooltip="Agregar rango y precio" (click)="agregarRangoPrecio()">
-                        <mat-icon>add</mat-icon>
+                        <mat-icon svgIcon="add"></mat-icon>
                     </button>
                 </p>
                 <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center" *ngFor="let p of modelPrecio; let i = index">
@@ -99,11 +95,11 @@
                     </mat-form-field>
 
                     <button mat-icon-button matSuffix matTooltip="Agregar precio al rango" (click)="agregarPrecio(i)">
-                        <mat-icon>add</mat-icon>
+                        <mat-icon svgIcon="add"></mat-icon>
                     </button>
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarPrecio(i)"
                         [disabled]="modelPrecio.length < 1">
-                        <mat-icon>close</mat-icon>
+                        <mat-icon svgIcon="close"></mat-icon>
                     </button>
                 </div>
             </div>
@@ -115,7 +111,7 @@
             <div fxLayout="column">
                 <p>Recargos
                     <button mat-icon-button color="primary" matTooltip="Agregar recargo" (click)="agregarRecargo()">
-                        <mat-icon>add</mat-icon>
+                        <mat-icon svgIcon="add"></mat-icon>
                     </button>
                 </p>
                 <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center" *ngFor="let r of modelRecargo; let i = index">
@@ -133,7 +129,7 @@
                     
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarPorcentaje(i)"
                         [disabled]="modelRecargo.length < 1">
-                        <mat-icon>close</mat-icon>
+                        <mat-icon svgIcon="close"></mat-icon>
                     </button>
                 </div>
             </div>

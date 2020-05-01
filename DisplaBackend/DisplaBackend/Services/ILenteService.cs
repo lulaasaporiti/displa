@@ -13,6 +13,7 @@ namespace DisplaBackend.Services
         bool Delete(Lente lente);
         Lente GetById(int idLente);
         int GetLastCode();
+        List<string> GetCombinaciones();
     }
 
     public class LenteService : ILenteService
@@ -32,6 +33,11 @@ namespace DisplaBackend.Services
         public List<Lente> GetLentesVigentes()
         {
             return _lenteDAO.GetLentesVigentes();
+        }
+
+        public List<string> GetCombinaciones()
+        {
+            return _lenteDAO.GetCombinaciones();
         }
 
         public int GetLastCode()

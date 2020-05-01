@@ -39,8 +39,16 @@ namespace DisplaBackend.DAOs
         public List<Servicio> GetServiciosVigentes()
         {
             return _context.Servicio
-                .Include(i => i.IdTipoServicioNavigation)
-                .Where(i => i.Borrado == false)
+                .Where(s => s.Borrado == false)
+                .Select(s => new Servicio
+                {
+                    Id = s.Id,
+                    Nombre = s.Nombre,
+                    IdTipoServicio = s.IdTipoServicio,
+                    IdTipoServicioNavigation = s.IdTipoServicioNavigation,
+                    Borrado = s.Borrado,
+                    PrecioServicio = s.PrecioServicio.Select(p => new PrecioServicio { Id = p.Id, Precio = p.Precio, IdServicio = p.IdServicio }).OrderBy(p => p.Precio).ToList()
+                })
                 .ToList();
         }
 

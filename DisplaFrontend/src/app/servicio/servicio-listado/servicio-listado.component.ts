@@ -20,6 +20,7 @@ export class ServicioListadoComponent implements OnInit {
   
   displayedColumns: string[] = ['Nombre', 'TipoServicio', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Servicio>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -47,13 +48,26 @@ export class ServicioListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadServicioPage();
+  }
+
   loadServicioPage() {
-    this.loadingSpinnerService.show()
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.servicioService.getServiciosVigentesList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.loadingSpinnerService.hide();
+      })
+    } else {
     this.servicioService.getServiciosList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    }
   }
 
   getMovimientosServicio(idServicio){

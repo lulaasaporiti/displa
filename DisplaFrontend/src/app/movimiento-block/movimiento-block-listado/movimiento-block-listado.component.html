@@ -1,4 +1,5 @@
 <div class="content">
+  <app-loading-spinner></app-loading-spinner>
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
     <h4 fxLayout="column" class="titulo" fxFlex>Movimientos de Block</h4>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
@@ -8,7 +9,7 @@
   <mat-divider fxFlexOffset="2"></mat-divider>
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
     <button mat-mini-fab class="buttonFixed" color="primary" (click)="agregarMovimientoBlock()">
-      <mat-icon>add</mat-icon>
+      <mat-icon svgIcon="add"></mat-icon>
     </button>
     <p>Agregar</p>
   </div>

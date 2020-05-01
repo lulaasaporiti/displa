@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { Lente } from 'src/app/model/lente';
-import { LenteAltaComponent } from '../lente-alta/lente-alta.component';
 import { LenteBajaComponent } from '../lente-baja/lente-baja.component';
-import { LenteModificacionComponent } from '../lente-modificacion/lente-modificacion.component';
 import { LenteService } from 'src/services/lente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
@@ -20,6 +18,7 @@ export class LenteListadoComponent implements OnInit {
   
   displayedColumns: string[] = ['Id', 'Nombre', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Lente>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -47,13 +46,26 @@ export class LenteListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadLentePage();
+  }
+
   loadLentePage() {
-    this.loadingSpinnerService.show()
-    this.lenteService.getLentesList()
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.lenteService.getLentesVigentesList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    } else {
+      this.lenteService.getLentesList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    }
   }
 
   getMovimientosLente(idLente){

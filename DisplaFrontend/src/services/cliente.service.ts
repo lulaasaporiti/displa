@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { MainService } from './main.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ export class ClienteService {
 
     private baseUrl = environment.BASE_USER_ENDPOINT + 'Cliente';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private mainService: MainService) { }
 
     getClientesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetClientes`);
@@ -19,9 +20,13 @@ export class ClienteService {
     getClientesVigentesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetClientesVigentes`);
     }
+
+    getClientesActivosList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetClientesActivos`);
+    }
     
-    saveOrUpdateCliente(ubicacion: Object): Observable<object> {
-        return this.http.post(`${this.baseUrl}/`, ubicacion);
+    saveOrUpdateCliente(cliente: Object): Observable<object> {
+        return this.http.post(`${this.baseUrl}/`, cliente);
     }
 
     updateCliente(id: number, value: any): Observable<object> {
@@ -33,15 +38,36 @@ export class ClienteService {
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
-    //   getCustomersList(): Observable<any> {
-    //     return this.http.get(`${this.baseUrl}/`);
-    //   }
+    getById(id: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
 
-    //   getCustomersByAge(age: number): Observable<any> {
-    //     return this.http.get(`${this.baseUrl}/age/${age}/`);
-    //   }
+    getPreciosArticulosCliente(idCliente): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetPreciosArticulosCliente?idCliente=${idCliente}`);
+    }
+    
+    getPreciosServiciosCliente(idCliente): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetPreciosServiciosCliente?idCliente=${idCliente}`);
+    }
+    
+    getPreciosLentesCliente(idCliente): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetPreciosLentesCliente?idCliente=${idCliente}`);
+    }
 
-    //   deleteAll(): Observable<any> {
-    //     return this.http.delete(`${this.baseUrl}/`);
-    //   }
+    savePreciosArticulos(precios): Observable<object> {
+        // console.log(precios)
+        // if (precios.lenght > 0)
+            return this.http.post(`${this.baseUrl}/SavePreciosArticulos`, precios);
+        // else 
+        //     return new Observable(null);
+    }
+
+    // savePreciosEspecialesArticulos(precios): Observable<object> {
+    //     // console.log(precios)
+    //     // if (precios.lenght > 0)
+    //         return this.http.post(`${this.baseUrl}/SavePreciosEspecialesArticulos`, precios);
+    //     // else 
+    //     //     return new Observable(null);
+
+    // }
 }

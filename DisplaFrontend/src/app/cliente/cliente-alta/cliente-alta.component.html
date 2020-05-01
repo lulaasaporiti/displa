@@ -1,69 +1,144 @@
-<form #modalForm="ngForm">
-    <div class="dialog-content">
-        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-            <mat-icon color="primary" style="font-size:30px">add_circle_outline</mat-icon>
-            <p class="dialog-title">Agregar cliente</p>
-        </div>
+<div class="content">
+    <app-loading-spinner></app-loading-spinner>
+    <form name="clienteForm" #clienteForm="ngForm" fxLayout="column" fxFlexFill>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Nombre" [(ngModel)]="data.modelCliente.Nombre" name="nombre"
-                    #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <h4 class="titulo" fxFlex>Agregar cliente</h4>
         </div>
+        <mat-tab-group>
+            <mat-tab label="Información">
+                <div fxLayout="column" style="margin: 12px auto;">
+                    <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
+                        <mat-form-field fxFlex='40' fxLayout="column">
+                            <input matInput placeholder="Óptica" [(ngModel)]="modelCliente.Optica" name="optica"
+                                #optica="ngModel" required>
+                            <mat-error *ngIf="optica.invalid">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="CUIT" [(ngModel)]="data.modelCliente.Cuit" name="cuit"
-                    #cuit="ngModel" required>
-                <mat-error *ngIf="cuit.invalid">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
-        </div>
+                        <mat-form-field fxFlex='35' fxLayout="column">
+                            <input matInput placeholder="Responsable" [(ngModel)]="modelCliente.Responsable"
+                                name="responsable" #responsable="ngModel">
+                        </mat-form-field>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Domicilio" [(ngModel)]="data.modelCliente.Domicilio" name="domicilio"
-                    #domicilio="ngModel">
-            </mat-form-field>
-        </div>
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="CUIT" [(ngModel)]="modelCliente.Cuit" name="cuit"
+                                #cuit="ngModel" required>
+                            <mat-error *ngIf="cuit.invalid">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
+                    </div>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Teléfonos" [(ngModel)]="data.modelCliente.Telefonos" name="telefonos"
-                    #telefonos="ngModel">
-            </mat-form-field>
-        </div>
+                    <div fxLayout="row" fxLayoutGap="2vw">
+                        <mat-form-field fxFlex='40' fxLayout="column">
+                            <input matInput placeholder="Domicilio" [(ngModel)]="modelCliente.Direccion"
+                                name="direccion" #direccion="ngModel">
+                        </mat-form-field>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Email" [(ngModel)]="data.modelCliente.Mail" id="email" name="email"
-                    #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                <mat-error *ngIf="email.errors?.pattern">El formato es inválido.</mat-error>
-            </mat-form-field>
-        </div>
+                        <mat-form-field fxFlex='35' fxLayout="column">
+                            <input type="text" placeholder="Localidad" aria-label="Localidad" matInput
+                                [formControl]="localidadesControl" [matAutocomplete]="auto"
+                                [(ngModel)]="modelCliente.IdLocalidad" name="localidad"
+                                (blur)="setIdLocalidad(this.localidadesControl)"
+                                [(ngModel)]="modelCliente.IdLocalidadNavigation">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLocalidad">
+                                <mat-option *ngFor="let l of filteredLocalidades | async" [value]="l">
+                                    {{ l.Nombre }} - {{l.Cp}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-checkbox class="radio-group" [(ngModel)]="data.modelCliente.UtilizaIIBB"
-                name="utilizaIIBB" #utilizaIIBB="ngModel">Utiliza IIBB
-            </mat-checkbox>
-        </div>
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="Teléfonos" [(ngModel)]="modelCliente.Telefonos"
+                                name="telefonos" #telefonos="ngModel">
+                        </mat-form-field>
+                    </div>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input type="text" placeholder="Localidad" aria-label="Localidad" matInput [formControl]="localidadesControl" [matAutocomplete]="auto" [(ngModel)]="data.modelCliente.IdLocalidad" name="localidad" (blur)="setIdLocalidad(this.localidadesControl,
-                this.data)" [(ngModel)]="data.modelCliente.IdLocalidadNavigation">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLocalidad">
-                <mat-option *ngFor="let l of filteredLocalidades | async" [value]="l">
-                    {{ l.Nombre }} - {{l.Cp}}
-                </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </div>
 
-        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Agregar</button>
-        </div>
-    </div>
-</form>
+                    <div fxLayout="row" fxLayoutGap="2vw">
+                        <mat-form-field fxFlex='40' fxLayout="column">
+                            <input matInput placeholder="Email" [(ngModel)]="modelCliente.Mail" id="email" name="email"
+                                #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                            <mat-error *ngIf="email.errors?.pattern">El formato es inválido.</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='30' fxLayout="column">
+                            <mat-select placeholder="Categoría IVA" [(ngModel)]="modelCliente.IdCategoriaIva"
+                                name="categoria" #categoria="ngModel" required>
+                                <mat-option *ngFor="let ca of categoriasIva" [value]="ca.Id">
+                                    {{ ca.Descripcion }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="categoria.invalid">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='30' fxLayout="column">
+                            <mat-select placeholder="Condición de venta" [(ngModel)]="modelCliente.IdCondicionVenta"
+                                name="condicion" #condicion="ngModel" required>
+                                <mat-option *ngFor="let co of condicionesVenta" [value]="co.Id">
+                                    {{ co.Descripcion }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="condicion.invalid">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="2vw">
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="Monto crédito" [(ngModel)]="modelCliente.MontoCredito"
+                                name="monto" #monto="ngModel" required>
+                            <mat-error *ngIf="monto.invalid">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="Plazo crédito (días)" [(ngModel)]="modelCliente.PlazoCredito"
+                                name="plazo" #plazo="ngModel">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="Porcentaje descuento"
+                                [(ngModel)]="modelCliente.PorcentajeDescuentoGeneral" name="porcentaje"
+                                #porcentaje="ngModel">
+                        </mat-form-field>
+
+                        <mat-checkbox class="radio-group" [(ngModel)]="modelCliente.UtilizaSobre" name="utilizaSobre"
+                            #utilizaSobre="ngModel">Utiliza sobre
+                        </mat-checkbox>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="2vw">
+                        <mat-form-field fxFlex='35' fxLayout="column">
+                            <input matInput placeholder="Usuario web" [(ngModel)]="modelCliente.UsuarioWeb"
+                                name="userweb" #userweb="ngModel">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='35' fxLayout="column">
+                            <input matInput placeholder="Contraseña web" [(ngModel)]="modelCliente.PasswordWeb"
+                                name="passweb" #passweb="ngModel">
+                        </mat-form-field>
+                    </div>
+                    <!-- <mat-form-field fxFlex='25' fxLayout="column">
+                        <input matInput placeholder="CUIT" [(ngModel)]="modelCliente.Cuit" name="cuit" #cuit="ngModel"
+                            required>
+                        <mat-error *ngIf="cuit.invalid">Este campo es obligatorio.</mat-error>
+                    </mat-form-field> -->
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
+                    <button mat-raised-button (click)="cancelar()">Cancelar</button>
+                    <button mat-raised-button color="primary" [disabled]="!clienteForm.form.valid"
+                        (click)="altaCliente()">Agregar</button>
+                </div>
+            </mat-tab>
+            <mat-tab label="Ficha"> Content 2 </mat-tab>
+            <mat-tab label="Precios Cristales">
+                <app-precio-lente-cliente-listado></app-precio-lente-cliente-listado>
+            </mat-tab>
+            <mat-tab label="Precios Artículos">
+                <app-precio-articulo-cliente-listado></app-precio-articulo-cliente-listado>
+            </mat-tab>
+            <mat-tab label="Precios Servicios"> Content 3 </mat-tab>
+        </mat-tab-group>
+        <!-- <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8">
+            <button mat-raised-button (click)="cancelar()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!clienteForm.form.valid"
+                (click)="altaCliente()">Agregar</button>
+        </div> -->
+    </form>
+</div>

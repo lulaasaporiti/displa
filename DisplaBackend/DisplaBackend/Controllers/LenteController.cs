@@ -37,6 +37,13 @@ namespace DisplaBackend.Controllers
             return _lenteService.GetLentes();
         }
 
+        [HttpGet, Route("GetCombinaciones")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetCombinaciones()
+        {
+            return _lenteService.GetCombinaciones();
+        }
+
         [HttpGet, Route("GetLentesVigentes")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetLentesVigentes()

@@ -19,6 +19,7 @@ export class TipoBlockListadoComponent implements OnInit {
   
   displayedColumns: string[] = ['Nombre', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<TipoBlock>();
+  traerVigentes: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -46,13 +47,26 @@ export class TipoBlockListadoComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadTipoBlockPage();
+  }
+
   loadTipoBlockPage() {
-    this.loadingSpinnerService.show()
-    this.tipoBlockService.getTiposBlocksList()
+    this.loadingSpinnerService.show();
+    if (this.traerVigentes == true) {
+      this.tipoBlockService.getTiposBlocksVigentesList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
+    } else {
+      this.tipoBlockService.getTiposBlocksList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.loadingSpinnerService.hide();
+      })
+    }
   }
 
   agregarTipoBlock(): void {
