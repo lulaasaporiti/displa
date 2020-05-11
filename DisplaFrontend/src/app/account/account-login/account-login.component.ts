@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { AccountUsernameComponent } from '../account-username/account-username.component';
 import { SessionService } from 'src/services/session.service';
@@ -25,6 +25,7 @@ export class AccountLoginComponent implements OnInit {
     private router: Router) { }
 
     ngOnInit() {
+      console.log(this.sessionService.isAuthenticated())
       if (this.sessionService.isAuthenticated()) {
         this.router.navigateByUrl('/Home');
       }

@@ -101,10 +101,10 @@ mat-nav-list {
     text-decoration: underline;
 }
 
-.imagen {
+/* .imagen {
     position: absolute;
     bottom: 0;
-}
+} */
 
 .toolbar-content{
     /* padding: 5px 16px 0 16px; */
@@ -116,17 +116,20 @@ mat-nav-list {
 }
 
 footer {
-    position: fixed;
+    overflow: hidden;
+    z-index: 9999;
+    position: sticky;
     width: 100%;
     max-height: 35px;
     right: 0;
-    bottom: 0;
+    /* bottom: 0; */
+    bottom : 0;
     left: 0;
     margin: 0;
     text-align: center;
     /* background: dimgray; */
     background-color: #1b1b1b;
-    box-shadow: 0px -3px 15px rgba(228, 228, 228, 0.3);
+    /* box-shadow: 0px -3px 15px rgba(228, 228, 228, 0.3); */
 }
 
 .footer-content {
@@ -134,7 +137,9 @@ footer {
     /* padding: 5px 16px; */
     /* max-width: 1000px;  */
     color: #607d8b;
+    bottom : 0px;
   }
+
 
   
 .title-list {

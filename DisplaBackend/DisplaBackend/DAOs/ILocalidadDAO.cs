@@ -38,7 +38,7 @@ namespace DisplaBackend.DAOs
         public List<Localidad> GetLocalidadesVigentes()
         {
             return _context.Localidad
-                //.Include(l => l.IdProvinciaNavigation)
+                .Include(l => l.IdProvinciaNavigation)
                 .Where(l => l.Borrado == false)
                 .ToList();
         }
@@ -67,7 +67,7 @@ namespace DisplaBackend.DAOs
 
         public Localidad GetById(int idLocalidad)
         {
-            return _context.Localidad.FirstOrDefault(tb => tb.Id == idLocalidad);
+            return _context.Localidad.FirstOrDefault(l => l.Id == idLocalidad);
         }
 
         public bool Delete(Localidad localidad)

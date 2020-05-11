@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatPaginator } from '@angular/material/paginator';
 import { PrecioArticuloCliente } from 'src/app/model/precioArticuloCliente';
 import { PrecioArticuloClienteService } from 'src/services/precio.articulo.cliente.service';
@@ -12,26 +13,41 @@ import { PrecioArticulo } from 'src/app/model/precioArticulo';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ClienteService } from 'src/services/cliente.service';
 import { Observable, combineLatest } from 'rxjs';
+import { TipoArticulo } from 'src/app/model/tipoArticulo';
+import { TipoArticuloService } from 'src/services/tipo.articulo.service';
 
 
 @Component({
   selector: 'app-precio-articulo-cliente-listado',
   templateUrl: './precio-articulo-listado.component.html',
-  styleUrls: ['./precio-articulo-listado.component.css']
+  styleUrls: ['./precio-articulo-listado.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class PrecioArticuloListadoComponent implements OnInit {
 
   // displayedColumns: string[] = ['Nombre', 'Optica', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado'];
   displayedColumns = ['Nombre'];
+  displayedColumnsArticulo = ['NombreArticulo'];
   columns = [];
-  idCliente: number = 1;
+  idCliente: number = 0;
   dataSource = new MatTableDataSource<ArticuloVario>();
-  traerActivos: boolean = true;
+  dataSourceArticulo = new MatTableDataSource<ArticuloVario>();
+  dataSourceTipo = new MatTableDataSource<TipoArticulo>();
   checkboxChecked: boolean[] = [];
-  // checkboxIndeterminate: boolean = false;
+  checkboxCheckedTipo: boolean[] = [];
+
   checkboxIndeterminate: boolean[] = [];
-  // preciosSeleccionados: PrecioArticulo[] = [];
+  checkboxIndeterminateTipo: boolean[] = [];
+
   preciosSeleccionados: PrecioArticuloCliente[] = [];
+  expandedElement: ArticuloVario | null;
+  
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
@@ -41,23 +57,24 @@ export class PrecioArticuloListadoComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private articuloService: ArticuloVarioService,
+    private tipoArticuloService: TipoArticuloService,
     private sessionService: SessionService,
     private clienteService: ClienteService,
     private segment: ActivatedRoute,
     private loadingSpinnerService: LoadingSpinnerService) {
-    // this.segment.queryParams.subscribe((params: Params) => {
-    // this.idCliente = +params['idCliente']; // (+) converts string 'id' to a number;
-    // });
+    this.segment.queryParams.subscribe((params: Params) => {
+    this.idCliente = +params['idCliente']; // (+) converts string 'id' to a number;
+    });
     this.clienteService.getPreciosArticulosCliente(this.idCliente).subscribe(r => {
-      console.log(r)
       this.preciosSeleccionados = r;
+      // console.log(this.preciosSeleccionados)
     })
   }
 
   ngOnInit() {
     this.searchElement.nativeElement.focus();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSourceTipo.paginator = this.paginator;
+    this.dataSourceTipo.sort = this.sort;
     this.loadPrecioArticuloPage()
   }
 
@@ -66,34 +83,46 @@ export class PrecioArticuloListadoComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSourceTipo.filter = filterValue.trim().toLowerCase();
   }
 
   loadPrecioArticuloPage() {
     this.loadingSpinnerService.show()
-    if (this.traerActivos == true) {
-      this.articuloService.getArticulosVariosVigentesList()
-        .subscribe(r => {
-          this.dataSource.data = r;
-          console.log(this.dataSource.data)
-          var maxCantPrecio = 0;
-          this.dataSource.data.forEach(a => {
-            if (a.PrecioArticulo.length > maxCantPrecio && a.PrecioArticulo)
-              maxCantPrecio = a.PrecioArticulo.length
-          });
-          for (let i = 1; i <= maxCantPrecio; i++) {
-            this.checkboxChecked.push(false)
-            this.checkboxIndeterminate.push(false);
-            this.displayedColumns.push('Precio' + i);
-            this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
-            if (i == maxCantPrecio) {
-              this.displayedColumns.push('PrecioEspecial');
-              this.displayedColumns.push('Descuento');
-            }
-          }
+    combineLatest(
+      this.articuloService.getArticulosVariosClientes(),
+      this.tipoArticuloService.getTiposArticulosVigentesList()
+    )
+      .subscribe(r => {
+        this.dataSource.data = r[0];
+        this.dataSourceTipo.data = r[1];
+        // console.log(this.dataSource.data)
+        // console.log(this.dataSourceTipo.data)
+        var maxCantPrecio = 0;
+        this.dataSource.data.forEach(a => {
+          if (a.PrecioArticulo.length > maxCantPrecio && a.PrecioArticulo)
+            maxCantPrecio = a.PrecioArticulo.length
         });
-      this.loadingSpinnerService.hide();
-    }
+        for (let i = 1; i <= maxCantPrecio; i++) {
+          this.checkboxChecked.push(false)
+          this.checkboxCheckedTipo.push(false)
+          this.checkboxIndeterminate.push(false);
+          this.checkboxIndeterminateTipo.push(false);
+
+          this.displayedColumns.push('Precio' + i);
+          this.displayedColumnsArticulo.push('Precio' + i);
+          this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
+          if (i == maxCantPrecio) {
+            this.displayedColumnsArticulo.push('PrecioEspecial');
+            this.displayedColumns.push('Descuento');
+            this.displayedColumnsArticulo.push('DescuentoArticulo');
+          }
+        }
+      });
+    this.loadingSpinnerService.hide();
+  }
+
+  tablaArticulos(idTipoArticulo) {
+    this.dataSourceArticulo.data = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo)
   }
 
   _keyPress(event: any) {
@@ -112,14 +141,17 @@ export class PrecioArticuloListadoComponent implements OnInit {
     for (let i = 0; i < this.checkboxChecked.length; i++) {
       if (i == checkbox && event.checked) {
         this.checkboxChecked[i] = true;
+        this.checkboxCheckedTipo[i] = true;
         this.checkboxIndeterminate[i] = false;
+        this.checkboxIndeterminateTipo[i] = false;
       }
       else {
         this.checkboxChecked[i] = false;
+        this.checkboxCheckedTipo[i] = false;
         this.checkboxIndeterminate[i] = false;
+        this.checkboxIndeterminateTipo[i] = false;
       }
     }
-
 
     this.dataSource.data.forEach(e => {
       // console.log(e)
@@ -132,10 +164,13 @@ export class PrecioArticuloListadoComponent implements OnInit {
           if (!incluye) {
             precioArticuloCliente.IdPrecioArticulo = e.PrecioArticulo[checkbox].Id;
             this.preciosSeleccionados.push(precioArticuloCliente);
+          } else {
+
           }
         }
         else {
           this.checkboxIndeterminate[checkbox] = true;
+          this.checkboxIndeterminateTipo[checkbox] = true;
           let incluye = this.preciosSeleccionados.find(p => p.IdPrecioArticulo == e.PrecioArticulo[0].Id);
           if (!incluye) {
             precioArticuloCliente.IdPrecioArticulo = e.PrecioArticulo[0].Id;
@@ -146,6 +181,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
     });
     if (this.checkboxIndeterminate.includes(true) && event.checked) {
       this.checkboxIndeterminate[0] = true;
+      this.checkboxIndeterminateTipo[0] = true;
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
     console.log(this.preciosSeleccionados)
@@ -175,7 +211,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
     console.log(this.preciosSeleccionados)
   }
 
-  valorPrecioEspecial(idArticulo){
+  valorPrecioEspecial(idArticulo) {
     let precio = <PrecioArticuloCliente>{};
     precio = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == idArticulo && p.Especial == true)[0]
     if (precio != null)
@@ -184,7 +220,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
       return "";
   }
 
-  valorDescuento(idArticulo){
+  valorDescuento(idArticulo) {
     let precio = <PrecioArticuloCliente>{};
     precio = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == idArticulo && p.Descuento != null)[0]
     if (precio != null)

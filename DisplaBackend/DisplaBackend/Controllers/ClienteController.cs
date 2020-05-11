@@ -46,13 +46,14 @@ namespace DisplaBackend.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveOrUpdate([FromBody]Cliente cliente)
+        public int SaveOrUpdate([FromBody]Cliente cliente)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return -1;
+                //return BadRequest(ModelState);
             }
-            return Ok(_clienteService.SaveOrUpdate(cliente));
+            return _clienteService.SaveOrUpdate(cliente);
             
         }
 

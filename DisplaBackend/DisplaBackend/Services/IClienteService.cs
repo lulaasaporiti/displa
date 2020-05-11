@@ -9,7 +9,7 @@ namespace DisplaBackend.Services
     {
         List<Cliente> GetClientes();
         List<Cliente> GetClientesVigentes();
-        bool SaveOrUpdate(Cliente cliente);
+        int SaveOrUpdate(Cliente cliente);
         bool Delete(Cliente cliente);
         Cliente GetById(int idCliente);
         List<Cliente> GetClientesActivos();
@@ -44,7 +44,7 @@ namespace DisplaBackend.Services
             return _clienteDAO.GetClientesActivos();
         }
 
-        public bool SaveOrUpdate(Cliente cliente)
+        public int SaveOrUpdate(Cliente cliente)
         {
             return _clienteDAO.SaveOrUpdate(cliente);
 

@@ -37,7 +37,7 @@ namespace DisplaBackend.DAOs
         public List<CategoriaIva> GetCategoriasIVAVigentes()
         {
             return _context.CategoriaIva
-                .Where(u => u.Borrado == false)
+                .Where(c => c.Borrado == false)
                 .ToList();
         }
 

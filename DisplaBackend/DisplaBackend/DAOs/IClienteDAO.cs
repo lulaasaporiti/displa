@@ -11,7 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<Cliente> GetClientes();
         List<Cliente> GetClientesVigentes();
-        bool SaveOrUpdate(Cliente cliente);
+        int SaveOrUpdate(Cliente cliente);
         bool Delete(Cliente cliente);
         Cliente GetById(int idCliente);
         List<Cliente> GetClientesActivos();
@@ -103,7 +103,7 @@ namespace DisplaBackend.DAOs
             return clientes;
         }
 
-        public bool SaveOrUpdate(Cliente cliente)
+        public int SaveOrUpdate(Cliente cliente)
         {
             try
             {
@@ -116,12 +116,13 @@ namespace DisplaBackend.DAOs
                     cliente = _context.Cliente.Update(cliente).Entity;
 
                 }
-                return _context.SaveChanges() >= 1;
+                _context.SaveChanges();
+                return cliente.Id;
 
             }
             catch (Exception e)
             {
-                return false;
+                return -1;
             }
         }
 

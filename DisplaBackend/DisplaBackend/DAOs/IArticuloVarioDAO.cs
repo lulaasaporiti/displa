@@ -11,6 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<ArticuloVario> GetArticulosVarios();
         List<ArticuloVario> GetArticulosVariosVigentes();
+        List<ArticuloVario> GetArticulosVariosClientes();
         bool SaveOrUpdate(ArticuloVario articuloVario);
         bool Delete(ArticuloVario articuloVario);
         ArticuloVario GetById(int idArticuloVario);
@@ -38,6 +39,15 @@ namespace DisplaBackend.DAOs
 
         public List<ArticuloVario> GetArticulosVariosVigentes()
         {
+            return _context.ArticuloVario
+                .Include(b => b.IdTipoArticuloNavigation)
+                .Include(b => b.PrecioArticulo)
+                .Where(a => a.Borrado == false)
+                .ToList();
+        }
+
+        public List<ArticuloVario> GetArticulosVariosClientes()
+        {
             List<ArticuloVario> articulos = _context.ArticuloVario
                 .Where(a => a.Borrado == false)
                 .Select(a => new ArticuloVario
@@ -45,7 +55,7 @@ namespace DisplaBackend.DAOs
                     Id = a.Id,
                     Nombre = a.Nombre,
                     IdTipoArticulo = a.IdTipoArticulo,
-                    IdTipoArticuloNavigation = a.IdTipoArticuloNavigation,
+                    //IdTipoArticuloNavigation = a.IdTipoArticuloNavigation,
                     Borrado = a.Borrado,
                     StockActual = a.StockActual,
                     StockMinimo = a.StockMinimo,
@@ -57,6 +67,8 @@ namespace DisplaBackend.DAOs
                         .OrderBy(p => p.Precio).ToList()
                 })
                 .ToList();
+
+            articulos.GroupBy(a => a.IdTipoArticulo);
             return articulos;
         }
 

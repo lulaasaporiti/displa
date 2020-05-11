@@ -37,7 +37,7 @@ namespace DisplaBackend.DAOs
         public List<Banco> GetBancosVigentes()
         {
             return _context.Banco
-                .Where(p => p.Borrado == false)
+                .Where(p => p.Borrado == false || p.Borrado == null)
                 .ToList();
         }
 

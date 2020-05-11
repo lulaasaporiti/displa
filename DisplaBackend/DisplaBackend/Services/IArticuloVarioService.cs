@@ -9,6 +9,7 @@ namespace DisplaBackend.Services
     {
         List<ArticuloVario> GetArticulosVarios();
         List<ArticuloVario> GetArticulosVariosVigentes();
+        List<ArticuloVario> GetArticulosVariosClientes();
         bool SaveOrUpdate(ArticuloVario articuloVario);
         bool Delete(ArticuloVario articuloVario);
         ArticuloVario GetById(int idArticuloVario);
@@ -31,6 +32,11 @@ namespace DisplaBackend.Services
         public List<ArticuloVario> GetArticulosVariosVigentes()
         {
             return _articuloVarioDAO.GetArticulosVariosVigentes();
+        }
+
+        public List<ArticuloVario> GetArticulosVariosClientes()
+        {
+            return _articuloVarioDAO.GetArticulosVariosClientes();
         }
 
         public bool SaveOrUpdate(ArticuloVario articuloVario)

@@ -11,13 +11,14 @@ import { MainService } from 'src/services/main.service';
     styleUrls: ['./home.css']
 })
 export class HomeComponent {
-    hide;
+    hide = false;
     
     constructor(
         public dialog: MatDialog,
         private router: Router,
         private mainService: MainService,
         private sessionService: SessionService) {
+            // this.hide = !this.router.url.includes("Home");
     }
 
     

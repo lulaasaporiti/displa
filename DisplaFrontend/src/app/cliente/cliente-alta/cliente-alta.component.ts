@@ -11,6 +11,8 @@ import { CondicionVenta } from 'src/app/model/condicionVenta';
 import { CategoriaIVA } from 'src/app/model/categoriaIva';
 import { CategoriaIVAService } from 'src/services/categoria.iva.service';
 import { CondicionVentaService } from 'src/services/condicion.venta.service';
+import { Router } from '@angular/router';
+import { SessionService } from 'src/services/session.service';
 
 @Component({
   selector: 'app-cliente-alta',
@@ -26,6 +28,8 @@ export class ClienteAltaComponent implements OnInit {
   categoriasIva: CategoriaIVA[];
 
   constructor(
+    private router: Router,
+    private sessionService: SessionService,
     private clienteService: ClienteService,
     private localidadService: LocalidadService,
     private categoriaIvaService: CategoriaIVAService,
@@ -90,6 +94,15 @@ export class ClienteAltaComponent implements OnInit {
   }
 
   altaCliente(){
-    
+    this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
+      data => {
+        console.log(data)
+        this.router.navigateByUrl('Cliente/Modificacion?id='+data)
+        this.sessionService.showSuccess("El cliente se agregó correctamente.");
+      },
+      error => {
+        this.sessionService.showError("El cliente no se agregó.");
+      }
+    );
   }
 }
