@@ -38,10 +38,21 @@ namespace DisplaBackend.DAOs
 
         public List<Lente> GetLentesVigentes()
         {
-            return _context.Lente
-                .Include(l => l.PrecioLente.OrderBy(p => p.Precio))
+            List<Lente> lentes = _context.Lente
                 .Where(l => l.Borrado == false)
+                .Select(l => new Lente
+                {
+                    Id = l.Id,
+                    Nombre = l.Nombre,
+                    DescripcionFactura = l.DescripcionFactura,
+                    Borrado = l.Borrado,
+                    PrecioLente = l.PrecioLente
+                        .Where(p => p.PrecioLenteCliente.Where(pc => pc.Especial == true).Count() == 0)
+                        .Select(p => new PrecioLente { Id = p.Id, Precio = p.Precio, IdLente = p.IdLente, PrecioLenteCliente = p.PrecioLenteCliente, Cilindrico = p.Cilindrico, Esferico = p.Esferico })
+                        .OrderBy(p => p.Precio).ToList()
+                })
                 .ToList();
+            return lentes;
         }
 
 

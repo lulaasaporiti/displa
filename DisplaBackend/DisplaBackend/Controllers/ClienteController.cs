@@ -46,13 +46,14 @@ namespace DisplaBackend.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveOrUpdate([FromBody]Cliente cliente)
+        public int SaveOrUpdate([FromBody]Cliente cliente)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return -1;
+                //return BadRequest(ModelState);
             }
-            return Ok(_clienteService.SaveOrUpdate(cliente));
+            return _clienteService.SaveOrUpdate(cliente);
             
         }
 
@@ -119,6 +120,13 @@ namespace DisplaBackend.Controllers
         public object GetPreciosLentesCliente(int idCliente)
         {
             return _clienteService.GetPreciosLentesCliente(idCliente);
+        }
+
+        [HttpGet("{idCliente}"), Route("GetFichaCliente")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetFichaCliente(int idCliente)
+        {
+            return _clienteService.GetFichaCliente(idCliente);
         }
     }
 

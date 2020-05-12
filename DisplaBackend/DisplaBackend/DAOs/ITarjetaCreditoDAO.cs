@@ -30,16 +30,16 @@ namespace DisplaBackend.DAOs
         public List<TarjetaCredito> GetTarjetasCredito()
         {
             return _context.TarjetaCredito
-                .Include(l => l.IdBancoNavigation)
-                .OrderByDescending(l => l.Borrado)
+                .Include(tc => tc.IdBancoNavigation)
+                .OrderByDescending(tc => tc.Borrado)
                 .ToList();
         }
 
         public List<TarjetaCredito> GetTarjetasCreditoVigentes()
         {
             return _context.TarjetaCredito
-                //.Include(l => l.IdProvinciaNavigation)
-                .Where(l => l.Borrado == false)
+                .Include(tc => tc.IdBancoNavigation)
+                .Where(tc => tc.Borrado == false || tc.Borrado == null)
                 .ToList();
         }
 

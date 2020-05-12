@@ -9,7 +9,7 @@ namespace DisplaBackend.Services
     {
         List<Cliente> GetClientes();
         List<Cliente> GetClientesVigentes();
-        bool SaveOrUpdate(Cliente cliente);
+        int SaveOrUpdate(Cliente cliente);
         bool Delete(Cliente cliente);
         Cliente GetById(int idCliente);
         List<Cliente> GetClientesActivos();
@@ -18,6 +18,8 @@ namespace DisplaBackend.Services
         List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente);
         List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
+        List<Ficha> GetFichaCliente(int idCliente);
+
     }
 
     public class ClienteService : IClienteService
@@ -44,7 +46,7 @@ namespace DisplaBackend.Services
             return _clienteDAO.GetClientesActivos();
         }
 
-        public bool SaveOrUpdate(Cliente cliente)
+        public int SaveOrUpdate(Cliente cliente)
         {
             return _clienteDAO.SaveOrUpdate(cliente);
 
@@ -82,6 +84,11 @@ namespace DisplaBackend.Services
         public List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente)
         {
             return _clienteDAO.GetPreciosLentesCliente(idCliente);
+        }
+
+        public List<Ficha> GetFichaCliente(int idCliente)
+        {
+            return _clienteDAO.GetFichaCliente(idCliente);
         }
     }
 }

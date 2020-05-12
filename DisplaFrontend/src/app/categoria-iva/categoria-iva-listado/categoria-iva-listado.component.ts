@@ -58,12 +58,13 @@ export class CategoriaIVAListadoComponent implements OnInit {
     if (this.traerVigentes == true) {
       this.categoriaIVAService.getCategoriaIVAVigentesList()
         .subscribe(r => {
-          console.log(this.dataSource.data)
+          this.dataSource.data = r;
           this.loadingSpinnerService.hide();
         })
     } else {
       this.categoriaIVAService.getCategoriaIVAList()
         .subscribe(r => {
+          this.dataSource.data = r;
           console.log(this.dataSource.data)
           this.loadingSpinnerService.hide();
         })

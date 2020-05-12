@@ -8,8 +8,8 @@ export interface ArticuloVario {
     StockActual: number,
     PrecioCosto: number,
     PorcentajeUtilidad: number,
-    IdTipoArticuloVario: number,
-    IdTipoArticuloVarioNavigation: TipoArticulo,
+    IdTipoArticulo: number,
+    IdTipoArticuloNavigation: TipoArticulo,
     Borrado: boolean,
     PrecioArticulo: PrecioArticulo[]
 }

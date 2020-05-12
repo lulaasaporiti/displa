@@ -10,11 +10,12 @@ import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { PrecioLenteListadoComponent } from './precio-lente-listado/precio-lente-listado.component';
 import { PrecioArticuloListadoComponent } from './precio-articulo-listado/precio-articulo-listado.component';
-// import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { FichaComponent } from './ficha/ficha.component';
 
 @NgModule({
     entryComponents: [ClienteBajaComponent],
-    declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, ClienteModificacionComponent, PrecioLenteListadoComponent, PrecioArticuloListadoComponent],
+    declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, ClienteModificacionComponent, 
+        PrecioLenteListadoComponent, PrecioArticuloListadoComponent, FichaComponent],
     imports: [
         CommonModule,
         MaterialModule,

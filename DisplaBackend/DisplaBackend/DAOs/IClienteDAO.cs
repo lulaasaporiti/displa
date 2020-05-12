@@ -11,7 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<Cliente> GetClientes();
         List<Cliente> GetClientesVigentes();
-        bool SaveOrUpdate(Cliente cliente);
+        int SaveOrUpdate(Cliente cliente);
         bool Delete(Cliente cliente);
         Cliente GetById(int idCliente);
         List<Cliente> GetClientesActivos();
@@ -20,6 +20,7 @@ namespace DisplaBackend.DAOs
         List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente);
         List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
+        List<Ficha> GetFichaCliente(int idCliente);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -103,7 +104,7 @@ namespace DisplaBackend.DAOs
             return clientes;
         }
 
-        public bool SaveOrUpdate(Cliente cliente)
+        public int SaveOrUpdate(Cliente cliente)
         {
             try
             {
@@ -116,12 +117,13 @@ namespace DisplaBackend.DAOs
                     cliente = _context.Cliente.Update(cliente).Entity;
 
                 }
-                return _context.SaveChanges() >= 1;
+                _context.SaveChanges();
+                return cliente.Id;
 
             }
             catch (Exception e)
             {
-                return false;
+                return -1;
             }
         }
 
@@ -149,6 +151,12 @@ namespace DisplaBackend.DAOs
             return _context.PrecioLenteCliente
                 .Include(p => p.IdPrecioLenteNavigation)
                 .Where(p => p.IdCliente == idCliente).ToList();
+        }
+
+        public List<Ficha> GetFichaCliente(int idCliente)
+        {
+            return _context.Ficha
+                .Where(f => f.IdCliente == idCliente).ToList();
         }
 
         public bool Delete(Cliente cliente)

@@ -38,6 +38,14 @@ namespace DisplaBackend.Controllers
             return _articuloVarioService.GetArticulosVariosVigentes();
         }
 
+        [HttpGet, Route("GetArticulosVariosClientes")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetArticulosVariosClientes()
+        {
+            return _articuloVarioService.GetArticulosVariosClientes();
+        }
+
+
         [HttpPost]
         public IActionResult SaveOrUpdate([FromBody]ArticuloVario articuloVario)
         {
