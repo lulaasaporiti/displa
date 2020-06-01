@@ -1,0 +1,36 @@
+<div fxLayout="column">
+  <app-loading-spinner></app-loading-spinner>
+  <div fxLayout="row" fxFlex *ngFor="let i of ficha" fxLayoutAlig="start center" fxLayoutGap="1px" fxFlexOffset="2">
+    <p *ngIf="i.Fecha != undefined">{{i.Fecha | date:"dd/MM/yyyy"}} - </p>
+    <p>{{i.Descripcion}} </p>
+  </div>
+
+  <form name="clienteForm" #clienteForm="ngForm" fxLayout="column" fxFlexFill fxFlexOffset="2">
+    Agregar contenido:
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+
+      <mat-form-field fxFlex="20">
+        <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="modelFicha.Fecha" name="fecha"
+          #fecha="ngModel" readonly>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <div fxLayout="column" fxFlexOffset="2" fxFlex="75">
+        <p>Descripción *</p>
+        <mat-form-field>
+          <textarea matInput rows="4" cols="50" [(ngModel)]="modelFicha.Descripcion" name="descripcion"
+            #descripcion="ngModel" required>
+      </textarea>
+          <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio.</mat-error>
+        </mat-form-field>
+
+      </div>
+    </div>
+  </form>
+
+  <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
+    <button mat-raised-button (click)="cancelar()">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="!clienteForm.form.valid" (click)="guardarFicha()">Guardar
+      ficha</button>
+  </div>
+</div>

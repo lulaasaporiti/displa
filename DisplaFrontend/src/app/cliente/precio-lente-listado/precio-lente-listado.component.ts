@@ -62,6 +62,11 @@ export class PrecioLenteListadoComponent implements OnInit {
     this.searchElement.nativeElement.focus();
   }
 
+  cancelar(){
+    this.router.navigateByUrl('Cliente/Listado')
+  }
+
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

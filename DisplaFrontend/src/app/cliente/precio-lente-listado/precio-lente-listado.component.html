@@ -1,4 +1,5 @@
 <div fxLayout="column">
+  <app-loading-spinner></app-loading-spinner>
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
       <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">

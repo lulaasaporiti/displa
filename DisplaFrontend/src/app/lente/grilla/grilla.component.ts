@@ -72,7 +72,7 @@ export class GrillaComponent {
         for (let index = this.limiteGrillaIzquierda.LimiteInferiorEsferico; index <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico; index = index + 0.25) {
           this.arrayLateralIzquierdo.push(index)
         }
-
+        console.log(this.arrayLateralIzquierdo);
         if (this.limiteGrillaIzquierda.Combinacion == '+ +') {
           for (let index = this.limiteGrillaIzquierda.LimiteInferiorCilindrico; index <= this.limiteGrillaIzquierda.LimiteSuperiorCilindrico; index = index + 0.25) {
             this.arraySuperiorIzquierdo.push(index.toString())
@@ -87,6 +87,7 @@ export class GrillaComponent {
         for (let index = this.limiteGrillaDerecha.LimiteSuperiorEsferico; index >= this.limiteGrillaDerecha.LimiteInferiorEsferico; index = index - 0.25) {
           this.arrayLateralDerecho.push(index)
         }
+        console.log(this.arrayLateralDerecho);
         if (this.limiteGrillaDerecha.Combinacion == '- +') {
           for (let index = this.limiteGrillaDerecha.LimiteInferiorCilindrico; index <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico; index = index + 0.25) {
             this.arraySuperiorDerecho.push(index.toString())

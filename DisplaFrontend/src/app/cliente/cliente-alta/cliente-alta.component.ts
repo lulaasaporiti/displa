@@ -93,6 +93,11 @@ export class ClienteAltaComponent implements OnInit {
     }
   }
 
+  cancelar(){
+    this.router.navigateByUrl('Cliente/Listado')
+  }
+
+
   altaCliente(){
     this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
       data => {

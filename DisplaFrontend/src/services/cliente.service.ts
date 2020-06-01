@@ -54,10 +54,23 @@ export class ClienteService {
         return this.http.get(`${this.baseUrl}/GetPreciosLentesCliente?idCliente=${idCliente}`);
     }
 
+    getFicha(idCliente): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetFichaCliente?idCliente=${idCliente}`);
+    }
+    
+
     savePreciosArticulos(precios): Observable<object> {
         // console.log(precios)
         // if (precios.lenght > 0)
             return this.http.post(`${this.baseUrl}/SavePreciosArticulos`, precios);
+        // else 
+        //     return new Observable(null);
+    }
+
+    saveFicha(ficha): Observable<object> {
+        // console.log(precios)
+        // if (precios.lenght > 0)
+            return this.http.post(`${this.baseUrl}/SaveFicha`, ficha);
         // else 
         //     return new Observable(null);
     }

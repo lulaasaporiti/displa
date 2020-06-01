@@ -101,6 +101,16 @@ namespace DisplaBackend.Controllers
             return Ok(_clienteService.SavePreciosEspecialesArticulos(preciosArticulos));
         }
 
+        [HttpPost, Route("SaveFicha")]
+        public IActionResult SaveFicha([FromBody]Ficha ficha)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_clienteService.SaveFicha(ficha));
+        }
+
         [HttpGet("{idCliente}"), Route("GetPreciosArticulosCliente")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetPreciosArticulosCliente(int idCliente)
@@ -120,6 +130,13 @@ namespace DisplaBackend.Controllers
         public object GetPreciosLentesCliente(int idCliente)
         {
             return _clienteService.GetPreciosLentesCliente(idCliente);
+        }
+
+        [HttpGet("{idCliente}"), Route("GetFichaCliente")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetFichaCliente(int idCliente)
+        {
+            return _clienteService.GetFichaCliente(idCliente);
         }
     }
 

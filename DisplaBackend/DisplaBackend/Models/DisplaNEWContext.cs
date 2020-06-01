@@ -29,6 +29,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<CategoriaIva> CategoriaIva { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<CondicionVenta> CondicionVenta { get; set; }
+        public virtual DbSet<Ficha> Ficha { get; set; }
         public virtual DbSet<Insumo> Insumo { get; set; }
         public virtual DbSet<InsumoProveedor> InsumoProveedor { get; set; }
         public virtual DbSet<Lente> Lente { get; set; }
@@ -53,15 +54,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=DisplaNEW;user id=sa;password=1234;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -348,6 +340,28 @@ namespace DisplaBackend.Models
                     .IsRequired()
                     .HasColumnName("descripcion")
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Ficha>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.Ficha)
+                    .HasForeignKey(d => d.IdCliente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Ficha_Cliente");
             });
 
             modelBuilder.Entity<Insumo>(entity =>

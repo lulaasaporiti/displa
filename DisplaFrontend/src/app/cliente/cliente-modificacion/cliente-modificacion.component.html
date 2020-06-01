@@ -35,8 +35,7 @@
 
                         <mat-form-field fxFlex='35' fxLayout="column">
                             <input type="text" placeholder="Localidad" aria-label="Localidad" matInput
-                                [formControl]="localidadesControl" [matAutocomplete]="auto"
-                                [(ngModel)]="modelCliente.IdLocalidad" name="localidad"
+                                [formControl]="localidadesControl" [matAutocomplete]="auto" name="localidad"
                                 (blur)="setIdLocalidad(this.localidadesControl)"
                                 [(ngModel)]="modelCliente.IdLocalidadNavigation">
                             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLocalidad">
@@ -126,7 +125,9 @@
                         (click)="editarCliente()">Guardar</button>
                 </div>
             </mat-tab>
-            <mat-tab label="Ficha"> Content 2 </mat-tab>
+            <mat-tab label="Ficha"> 
+                <app-ficha></app-ficha>
+            </mat-tab>
             <mat-tab label="Precios Cristales">
                 <app-precio-lente-cliente-listado></app-precio-lente-cliente-listado>
             </mat-tab>
