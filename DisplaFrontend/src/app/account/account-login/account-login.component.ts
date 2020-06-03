@@ -18,25 +18,32 @@ export class AccountLoginComponent implements OnInit {
   hidePassword = true;
 
 
-  constructor(public dialog: MatDialog, 
+  constructor(public dialog: MatDialog,
     private accountService: AccountService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService,
     private router: Router) { }
 
-    ngOnInit() {
-      console.log(this.sessionService.isAuthenticated())
-      if (this.sessionService.isAuthenticated()) {
-        this.router.navigateByUrl('/Home');
-      }
+  ngOnInit() {
+    // console.log(this.sessionService.isAuthenticated())
+    if (this.sessionService.isAuthenticated()) {
+      this.router.navigateByUrl('/Home');
+    } else {
+      // this.router.navigateByUrl('Account/Login').then(
+      //   () => {
+      //     // this.router.navigateByUrl('CuadroPagina/Listado');
+      //     window.scrollTo(0, 0);
+      //   });
+      // window.location.reload();
     }
+  }
 
   login() {
     this.accountService.login(this.usuario).subscribe(
       result => {
         this.sessionService.setTokenJWT(result);
         this.sessionService.setUsername();
-     },
+      },
       error => this.sessionService.showError("Usuario y/o contraseña incorrecta."),
       () => {
         if (this.sessionService.getPayload()["activo"] == "False") {
@@ -48,7 +55,7 @@ export class AccountLoginComponent implements OnInit {
           this.router.navigateByUrl('/Home');
           this.loadingSpinnerService.hide();
         }
-       }
+      }
     );
   }
 

@@ -12,6 +12,7 @@ namespace DisplaBackend.Services
         bool SaveOrUpdate(TipoArticulo tipoArticulo);
         bool Delete(TipoArticulo tipoArticulo);
         TipoArticulo GetById(int idTipoArticulo);
+        List<TipoArticulo> GetTiposArticuloConArticulos();
     }
 
     public class TipoArticuloService : ITipoArticuloService
@@ -31,6 +32,11 @@ namespace DisplaBackend.Services
         public List<TipoArticulo> GetTiposArticuloVigentes()
         {
             return _tipoArticuloDAO.GetTiposArticuloVigentes();
+        }
+
+        public List<TipoArticulo> GetTiposArticuloConArticulos()
+        {
+            return _tipoArticuloDAO.GetTiposArticuloConArticulos();
         }
 
         public bool SaveOrUpdate(TipoArticulo tipoArticulo)

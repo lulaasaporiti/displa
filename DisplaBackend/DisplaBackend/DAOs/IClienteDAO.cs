@@ -21,6 +21,7 @@ namespace DisplaBackend.DAOs
         List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
         List<Ficha> GetFichaCliente(int idCliente);
+        bool SaveFicha(Ficha ficha);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -127,15 +128,39 @@ namespace DisplaBackend.DAOs
             }
         }
 
+        public bool SaveFicha(Ficha ficha)
+        {
+            try
+            {
+                if (ficha.Id == 0)
+                {
+                    ficha = _context.Add(ficha).Entity;
+                }
+                else
+                {
+                    ficha = _context.Ficha.Update(ficha).Entity;
+
+                }
+                return _context.SaveChanges() >= 1;
+
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
         public Cliente GetById(int idCliente)
         {
-            return _context.Cliente.FirstOrDefault(c => c.Id == idCliente);
+            return _context.Cliente.Include(c => c.IdLocalidadNavigation).FirstOrDefault(c => c.Id == idCliente);
         }
 
         public List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente)
         {
             return _context.PrecioArticuloCliente
                 .Include(p => p.IdPrecioArticuloNavigation)
+                    .ThenInclude(pa => pa.IdArticuloNavigation)
                 .Where(p => p.IdCliente == idCliente).ToList();
         }
 
@@ -143,6 +168,7 @@ namespace DisplaBackend.DAOs
         {
             return _context.PrecioServicioCliente
                 .Include(p => p.IdPrecioServicioNavigation)
+                    .ThenInclude(ps => ps.IdServicioNavigation)
                 .Where(p => p.IdCliente == idCliente).ToList();
         }
 

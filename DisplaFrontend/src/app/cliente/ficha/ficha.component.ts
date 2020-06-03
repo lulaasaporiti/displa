@@ -27,15 +27,21 @@ export class FichaComponent implements OnInit {
     this.idCliente = +params['id']; // (+) converts string 'id' to a number;
     });
     this.loadingSpinnerService.show();
-    this.clienteService.getFicha(this.idCliente).subscribe(r => {
-      console.log(r)
-      this.ficha = r;
-      this.loadingSpinnerService.hide();
-    })
+    this.traerFicha();
   }
 
   ngOnInit() {
     
+  }
+
+  traerFicha(){
+    this.clienteService.getFicha(this.idCliente).subscribe(r => {
+      this.ficha = r;
+      this.modelFicha.Fecha = null;
+      this.modelFicha.Descripcion = "";
+      this.modelFicha.IdCliente = this.idCliente;
+      this.loadingSpinnerService.hide();
+    })
   }
 
 
@@ -45,6 +51,16 @@ export class FichaComponent implements OnInit {
 
 
   guardarFicha() {
-    
+    this.clienteService.saveFicha(this.modelFicha).subscribe(
+      data => {
+        console.log(data)
+        // this.router.navigateByUrl('Cliente/Modificacion?id='+data)
+        this.traerFicha();
+        this.sessionService.showSuccess("La ficha se editó correctamente.");
+      },
+      error => {
+        this.sessionService.showError("La ficha no se editó.");
+      }
+    );
   }
 }

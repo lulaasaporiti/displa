@@ -37,6 +37,13 @@ namespace DisplaBackend.Controllers
             return _tipoArticuloService.GetTiposArticuloVigentes();
         }
 
+        [HttpGet, Route("GetTiposArticuloConArticulos")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetTiposArticuloConArticulos()
+        {
+            return _tipoArticuloService.GetTiposArticuloConArticulos();
+        }
+
         [HttpPost]
         public IActionResult SaveOrUpdate([FromBody]TipoArticulo tipoArticulo)
         {

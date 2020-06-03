@@ -67,6 +67,14 @@ export class ClienteService {
         //     return new Observable(null);
     }
 
+    saveFicha(ficha): Observable<object> {
+        // console.log(precios)
+        // if (precios.lenght > 0)
+            return this.http.post(`${this.baseUrl}/SaveFicha`, ficha);
+        // else 
+        //     return new Observable(null);
+    }
+
     // savePreciosEspecialesArticulos(precios): Observable<object> {
     //     // console.log(precios)
     //     // if (precios.lenght > 0)

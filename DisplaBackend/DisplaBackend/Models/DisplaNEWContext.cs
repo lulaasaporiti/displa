@@ -254,9 +254,7 @@ namespace DisplaBackend.Models
 
             modelBuilder.Entity<Cliente>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Bloqueado)
                     .HasColumnName("bloqueado")

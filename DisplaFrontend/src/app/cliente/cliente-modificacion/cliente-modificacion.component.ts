@@ -49,7 +49,6 @@ export class ClienteModificacionComponent implements OnInit {
           this.loadingSpinnerService.hide();
         });
     }
-    console.log(this.modelCliente)
   }
 
 
@@ -109,8 +108,8 @@ export class ClienteModificacionComponent implements OnInit {
   editarCliente(){
     this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
       data => {
-        console.log(data)
-        this.router.navigateByUrl('Cliente/Modificacion?id='+data)
+        // console.log(data)
+        // this.router.navigateByUrl('Cliente/Modificacion?id='+data)
         this.sessionService.showSuccess("El cliente se agregó correctamente.");
       },
       error => {

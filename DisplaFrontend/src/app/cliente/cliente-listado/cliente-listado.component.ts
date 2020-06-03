@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class ClienteListadoComponent implements OnInit {
 
-  displayedColumns: string[] = ['Nombre', 'Optica', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
+  displayedColumns: string[] = ['Optica', 'Nombre', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Cliente>();
   traerActivos: boolean = true;
 

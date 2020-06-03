@@ -63,7 +63,8 @@ namespace DisplaBackend.DAOs
                     PrecioCosto = a.PrecioCosto,
                     PrecioArticulo = a.PrecioArticulo
                         .Where(p => p.PrecioArticuloCliente.Where(pc => pc.Especial == true).Count() == 0)
-                        .Select(p => new PrecioArticulo { Id = p.Id, Precio = p.Precio, IdArticulo = p.IdArticulo, PrecioArticuloCliente = p.PrecioArticuloCliente })
+                        .Select(p => new PrecioArticulo { Id = p.Id, Precio = p.Precio, IdArticulo = p.IdArticulo, IdArticuloNavigation = p.IdArticuloNavigation })
+                        //.Select(p => new PrecioArticulo { Id = p.Id, Precio = p.Precio, IdArticulo = p.IdArticulo, PrecioArticuloCliente = p.PrecioArticuloCliente })
                         .OrderBy(p => p.Precio).ToList()
                 })
                 .ToList();

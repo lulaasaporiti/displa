@@ -14,7 +14,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(TipoArticulo tipoArticulo);
         bool Delete(TipoArticulo tipoArticulo);
         TipoArticulo GetById(int idTipoArticulo);
-
+        List<TipoArticulo> GetTiposArticuloConArticulos();
     }
 
     public class TipoArticuloDAO : ITipoArticuloDAO
@@ -38,6 +38,13 @@ namespace DisplaBackend.DAOs
         {
             return _context.TipoArticulo
                 .Where(ti => ti.Borrado == false)
+                .ToList();
+        }
+
+        public List<TipoArticulo> GetTiposArticuloConArticulos()
+        {
+            return _context.TipoArticulo
+                .Where(ti => ti.Borrado == false && ti.ArticuloVario.Count > 0)
                 .ToList();
         }
 

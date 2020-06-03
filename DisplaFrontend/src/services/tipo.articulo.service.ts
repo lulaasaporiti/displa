@@ -20,6 +20,10 @@ export class TipoArticuloService {
         return this.http.get(`${this.baseUrl}/GetTiposArticuloVigentes`);
     }
 
+    getTiposArticuloConArticulosList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetTiposArticuloConArticulos`);
+    }
+
     saveOrUpdateTipoArticulo(tipoArticulo: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, tipoArticulo);
     }

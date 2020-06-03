@@ -19,7 +19,7 @@ namespace DisplaBackend.Services
         List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
         List<Ficha> GetFichaCliente(int idCliente);
-
+        bool SaveFicha(Ficha ficha);
     }
 
     public class ClienteService : IClienteService
@@ -70,6 +70,11 @@ namespace DisplaBackend.Services
         public bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos)
         {
             return _clienteDAO.SavePreciosEspecialesArticulos(preciosArticulos);
+        }
+
+        public bool SaveFicha(Ficha ficha)
+        {
+            return _clienteDAO.SaveFicha(ficha);
         }
 
         public List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente) {
