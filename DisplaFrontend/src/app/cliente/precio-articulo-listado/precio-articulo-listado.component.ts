@@ -61,10 +61,10 @@ export class PrecioArticuloListadoComponent implements OnInit {
     this.segment.queryParams.subscribe((params: Params) => {
       this.idCliente = +params['id']; // (+) converts string 'id' to a number;
     });
-    this.clienteService.getPreciosArticulosCliente(this.idCliente).subscribe(r => {
-      this.preciosSeleccionados = r;
-      console.log(this.preciosSeleccionados)
-    })
+    // this.clienteService.getPreciosArticulosCliente(this.idCliente).subscribe(r => {
+    //   this.preciosSeleccionados = r;
+    //   console.log(this.preciosSeleccionados)
+    // })
   }
 
   ngOnInit() {
