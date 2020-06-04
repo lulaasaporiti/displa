@@ -161,6 +161,7 @@ namespace DisplaBackend.DAOs
             return _context.PrecioArticuloCliente
                 .Include(p => p.IdPrecioArticuloNavigation)
                     .ThenInclude(pa => pa.IdArticuloNavigation)
+                    .ThenInclude(ti => ti.IdTipoArticuloNavigation)
                 .Where(p => p.IdCliente == idCliente).ToList();
         }
 

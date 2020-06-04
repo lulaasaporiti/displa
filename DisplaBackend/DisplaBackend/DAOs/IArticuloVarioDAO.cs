@@ -125,7 +125,7 @@ namespace DisplaBackend.DAOs
 
         public ArticuloVario GetById(int idArticuloVario)
         {
-            return _context.ArticuloVario.FirstOrDefault(tb => tb.Id == idArticuloVario);
+            return _context.ArticuloVario.Include(av => av.PrecioArticulo).FirstOrDefault(tb => tb.Id == idArticuloVario);
         }
 
         public bool Delete(ArticuloVario articuloVario)

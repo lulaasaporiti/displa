@@ -23,7 +23,7 @@
                 <a mat-menu-item class="button-list" routerLink="Ubicacion/Listado">Ubicaciones</a>
             </mat-menu>
 
-            <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Clientes</button>
+            <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
             <mat-menu fxLayoutAlign="start center" #menuClientes="matMenu">
                 <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Listado</a>
                 <a mat-menu-item class="button-list" routerLink="Cliente/Deuda">Deudas</a>
@@ -53,10 +53,10 @@
             <a mat-button routerLink="Usuario/Listado" class="button-list" fxLayout="row">
                 Usuarios
             </a>
-            <button mat-button class="button-list" fxLayout="row" fxLayoutAlign="start end" (click)="logout();">
+            <a mat-button class="button-list" fxLayout="row" (click)="logout();">
                 <!-- <mat-icon matPrefix style="margin-right: 20px" svgIcon="cerrar_sesion"></mat-icon> -->
                 Cerrar sesión
-            </button>
+            </a>
         </div>
     </mat-nav-list>
 </mat-toolbar>

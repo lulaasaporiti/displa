@@ -74,27 +74,31 @@ export class ArticuloVarioListadoComponent implements OnInit {
     this.router.navigateByUrl('/MovimientoArticuloVario/Listado?idArticuloVario=' + idArticuloVario);
   }
 
-  agregarArticuloVario(): void {
-    let articulo = <ArticuloVario>{};
-    articulo.PrecioArticulo = [];
-    const dialogRef = this.dialog.open(ArticuloVarioAltaComponent, {
-      width: '550px',
-      data: { modelArticuloVario: articulo }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined && result != false) {
-        this.articuloService.saveOrUpdateArticuloVario(articulo).subscribe(
-          data => {
-            this.sessionService.showSuccess("El articulo se ha agregado correctamente.");
-            this.loadArticuloVarioPage();
-          },
-          error => {
-            // console.log(error)
-            this.sessionService.showError("El articulo no se agregó.");
-          }
-        );
-      }
-    });
+  // agregarArticuloVario(): void {
+  //   let articulo = <ArticuloVario>{};
+  //   articulo.PrecioArticulo = [];
+  //   const dialogRef = this.dialog.open(ArticuloVarioAltaComponent, {
+  //     width: '550px',
+  //     data: { modelArticuloVario: articulo }
+  //   });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result != undefined && result != false) {
+  //       this.articuloService.saveOrUpdateArticuloVario(articulo).subscribe(
+  //         data => {
+  //           this.sessionService.showSuccess("El articulo se ha agregado correctamente.");
+  //           this.loadArticuloVarioPage();
+  //         },
+  //         error => {
+  //           // console.log(error)
+  //           this.sessionService.showError("El articulo no se agregó.");
+  //         }
+  //       );
+  //     }
+  //   });
+  // }
+
+  agregarArticuloVario(){
+    this.router.navigateByUrl('ArticuloVario/Alta')
   }
 
 
@@ -118,26 +122,31 @@ export class ArticuloVarioListadoComponent implements OnInit {
     })
   }
 
-  modificarArticuloVario(event: any) {
-    let articuloViejo = JSON.parse(JSON.stringify(event));
-    event = JSON.parse(JSON.stringify(event));
-    const dialogRef = this.dialog.open(ArticuloVarioModificacionComponent, {
-      width: '550px',
-      data: { modelArticuloVario: event }
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined && result != false) {
-        this.articuloService.saveOrUpdateArticuloVario(event).subscribe(
-          data => {
-            this.sessionService.showSuccess("El articulo se ha modificado correctamente");
-            this.loadArticuloVarioPage();
-          },
-          error => {
-            // console.log(error)
-            this.sessionService.showError("El articulo no se modificó.");
-          }
-        );
-      }
-    });
+  // modificarArticuloVario(event: any) {
+  //   let articuloViejo = JSON.parse(JSON.stringify(event));
+  //   event = JSON.parse(JSON.stringify(event));
+  //   const dialogRef = this.dialog.open(ArticuloVarioModificacionComponent, {
+  //     width: '550px',
+  //     data: { modelArticuloVario: event }
+  //   })
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result != undefined && result != false) {
+  //       this.articuloService.saveOrUpdateArticuloVario(event).subscribe(
+  //         data => {
+  //           this.sessionService.showSuccess("El articulo se ha modificado correctamente");
+  //           this.loadArticuloVarioPage();
+  //         },
+  //         error => {
+  //           // console.log(error)
+  //           this.sessionService.showError("El articulo no se modificó.");
+  //         }
+  //       );
+  //     }
+  //   });
+  // }
+
+  modificarArticuloVario(id: any){
+    console.log(id)
+    this.router.navigateByUrl('ArticuloVario/Modificacion?id=' + id);
   }
 }

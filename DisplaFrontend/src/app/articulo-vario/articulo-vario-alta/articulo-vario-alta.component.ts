@@ -1,8 +1,11 @@
 import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TipoArticuloService } from 'src/services/tipo.articulo.service';
 import { TipoArticulo } from 'src/app/model/tipoArticulo';
 import { PrecioArticulo } from 'src/app/model/precioArticulo';
+import { ArticuloVario } from 'src/app/model/articuloVario';
+import { ArticuloVarioService } from 'src/services/articulo.vario.service';
+import { SessionService } from 'src/services/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-articulo-vario-alta',
@@ -11,34 +14,34 @@ import { PrecioArticulo } from 'src/app/model/precioArticulo';
 })
 export class ArticuloVarioAltaComponent implements OnInit {
   tiposArticuloVario: TipoArticulo[];
+  modelArticuloVario = <ArticuloVario>{};
   // modelPrecio: PrecioArticuloVario[] = [];
   selectedPrecio = new EventEmitter<PrecioArticulo[]>();
 
 
   constructor(
-    public dialogRef: MatDialogRef<ArticuloVarioAltaComponent>,
     private tipoArticuloVarioService: TipoArticuloService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-      // console.log(data)
+    private articuloService: ArticuloVarioService,
+    private sessionService: SessionService,
+    private router: Router) {
   }
 
   ngOnInit() {
+    this.modelArticuloVario.PrecioArticulo = [];
     this.tipoArticuloVarioService.getTiposArticulosVigentesList().subscribe(r => {
       this.tiposArticuloVario = r;
     });
   }
 
-  onNoClick(): void {
-    this.dialogRef.close(false);
-  }
+ 
 
   agregarPrecio() {
       let item = <PrecioArticulo>{};
-      this.data.modelArticuloVario.PrecioArticulo.push(item);
+      this.modelArticuloVario.PrecioArticulo.push(item);
   }
 
   eliminarUltimoPrecio() {
-    this.data.modelArticuloVario.PrecioArticulo.pop();
+    this.modelArticuloVario.PrecioArticulo.pop();
     this.updateStatePrecio();
   }
 
@@ -49,8 +52,28 @@ export class ArticuloVarioAltaComponent implements OnInit {
   updateStatePrecio() {
     //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
     //y el ngOnChanges() lo detecte
-    let modelPrecio = JSON.parse(JSON.stringify(this.data.modelArticuloVario.PrecioArticulo));
+    let modelPrecio = JSON.parse(JSON.stringify(this.modelArticuloVario.PrecioArticulo));
     this.selectedPrecio.emit(modelPrecio);
+  }
+
+
+  altaArticuloVario(){
+    this.articuloService.saveOrUpdateArticuloVario(this.modelArticuloVario)
+    .subscribe( 
+      data => {
+        this.router.navigateByUrl('ArticuloVario/Listado')
+        this.sessionService.showSuccess("El articulo se ha agregado correctamente.");
+      },
+      error => {
+         // console.log(error)
+        this.router.navigateByUrl('ArticuloVario/Listado')
+        this.sessionService.showError("El articulo no se agregó.");
+      }
+    )
+  }
+
+  cancelar(){
+    this.router.navigateByUrl('ArticuloVario/Listado')
   }
 
 

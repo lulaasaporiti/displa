@@ -46,6 +46,7 @@ export class ClienteModificacionComponent implements OnInit {
       this.clienteService.getById(this.id)
         .subscribe(l => {
           this.modelCliente = l;
+          console.log(this.modelCliente)
           this.loadingSpinnerService.hide();
         });
     }

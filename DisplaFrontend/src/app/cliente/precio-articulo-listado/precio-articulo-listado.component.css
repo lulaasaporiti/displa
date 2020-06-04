@@ -90,3 +90,8 @@ td.mat-cell.informacion{
   font-size: 13px;
   padding: 5px 0 0 4px;
 }
+
+
+.example-expanded-row {
+  background:#eeeeee;
+}

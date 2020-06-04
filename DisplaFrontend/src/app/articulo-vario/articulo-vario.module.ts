@@ -10,7 +10,7 @@ import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
-    entryComponents: [ArticuloVarioAltaComponent, ArticuloVarioBajaComponent, ArticuloVarioModificacionComponent],
+    entryComponents: [ArticuloVarioBajaComponent],
     declarations: [ArticuloVarioListadoComponent, ArticuloVarioAltaComponent, ArticuloVarioBajaComponent, ArticuloVarioModificacionComponent],
     imports: [
         CommonModule,

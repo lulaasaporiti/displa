@@ -26,7 +26,8 @@
         </div>
 
 
-        <div mat-dialog-content xLayout="row" (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
+        <!-- <div fxLayout="row">
+        <div mat-dialog-content fxLayout="row" (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
             <mat-form-field fxFill>
                 <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
                 <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
@@ -45,6 +46,31 @@
                 </button>
             </div>
         </div>
+    </div> -->
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <p>Precios</p>
+        <button mat-icon-button color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div fxLayout="row" fxFill>
+        <div style="display: block">
+            <div fxFlex fxLayoutGap="3vw">
+                <mat-form-field (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index" 
+                    floatLabel="never">
+                    <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
+                    <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+
+                    <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                    (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1"
+                        color="accent">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
 
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">

@@ -127,9 +127,10 @@ export class PrecioArticuloListadoComponent implements OnInit {
   }
 
   tablaArticulos(idTipoArticulo) {
-    this.dataSourceArticulo.data = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo)
-  }
+    this.dataSourceArticulo.data = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
 
+  }
+  
   _keyPress(event: any) {
     const pattern = /[0-9,.]/;
     let inputChar = String.fromCharCode(event.charCode);

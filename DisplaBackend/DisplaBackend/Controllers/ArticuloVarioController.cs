@@ -80,6 +80,13 @@ namespace DisplaBackend.Controllers
             return Ok(_articuloVarioService.Delete(articuloVario));
         }
 
+        [HttpGet("{id}")]
+        public object GetById([FromRoute]int id)
+        {
+            return _articuloVarioService.GetById(id);
+        }
+
+
     }
 
 
