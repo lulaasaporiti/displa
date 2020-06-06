@@ -25,10 +25,9 @@
 
             <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
             <mat-menu fxLayoutAlign="start center" #menuClientes="matMenu">
-                <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Listado</a>
-                <a mat-menu-item class="button-list" routerLink="Cliente/Deuda">Deudas</a>
-                <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatosClientes">Datos de
-                    referencia</button>
+                <a mat-menu-item class="button-list" routerLink="Cliente/Deuda">Listado</a>
+                <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Clientes</a>
+                <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatosClientes">Datos de referencia</button>
             </mat-menu>
 
             <mat-menu fxLayoutAlign="start center" #menuDatosClientes="matMenu">

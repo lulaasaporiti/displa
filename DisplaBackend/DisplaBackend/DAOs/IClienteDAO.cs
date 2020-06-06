@@ -208,7 +208,7 @@ namespace DisplaBackend.DAOs
             {
                 foreach (var p in preciosArticulos)
                 {
-
+                    p.IdPrecioArticuloNavigation = null;
                     if (p.Id == 0)
                     {
                         _context.PrecioArticuloCliente.Add(p);

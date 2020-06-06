@@ -206,4 +206,13 @@ export class GrillaComponent {
       event.preventDefault();
     }
   }
+
+  agregarStock(){
+
+  }
+
+  guardarStock(){
+
+  }
+  
 }

@@ -31,7 +31,6 @@ import { TipoArticuloService } from 'src/services/tipo.articulo.service';
 })
 export class PrecioArticuloListadoComponent implements OnInit {
 
-  // displayedColumns: string[] = ['Nombre', 'Optica', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado'];
   displayedColumns = ['Nombre'];
   displayedColumnsArticulo = ['NombreArticulo'];
   columns = [];
@@ -61,10 +60,6 @@ export class PrecioArticuloListadoComponent implements OnInit {
     this.segment.queryParams.subscribe((params: Params) => {
       this.idCliente = +params['id']; // (+) converts string 'id' to a number;
     });
-    // this.clienteService.getPreciosArticulosCliente(this.idCliente).subscribe(r => {
-    //   this.preciosSeleccionados = r;
-    //   console.log(this.preciosSeleccionados)
-    // })
   }
 
   ngOnInit() {
@@ -98,28 +93,41 @@ export class PrecioArticuloListadoComponent implements OnInit {
         this.dataSource.data = r[0];
         this.dataSourceTipo.data = r[1];
         this.preciosSeleccionados = r[2];
-        console.log(this.dataSource.data)
+        // console.log(this.dataSource.data)
         // console.log(this.dataSourceTipo.data)
+        // console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
+        var index = [];
         this.dataSource.data.forEach(a => {
           if (a.PrecioArticulo.length > maxCantPrecio && a.PrecioArticulo)
             maxCantPrecio = a.PrecioArticulo.length
-          var index = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id);
-          // var index = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation;
-          console.log(index)
-          this.checkboxChecked[index] = true;
+          if (this.preciosSeleccionados.length > 0) {
+            var i = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id)
+            if (!index.includes(i))
+              index.push(i);
+          }
         });
+
         for (let i = 1; i <= maxCantPrecio; i++) {
           this.checkboxChecked.push(false)
           this.checkboxIndeterminate.push(false);
 
-          this.displayedColumns.push('Precio' + i);
-          this.displayedColumnsArticulo.push('Precio' + i);
-          this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
-          if (i == maxCantPrecio) {
-            this.displayedColumnsArticulo.push('PrecioEspecial');
-            this.displayedColumns.push('Descuento');
-            this.displayedColumnsArticulo.push('DescuentoArticulo');
+          if (index.length == 1)
+            this.checkboxChecked[index[0]] = true;
+          else {
+            for (let j = 0; j < index.length; j++) {
+              this.checkboxIndeterminate[j] = true;
+            }
+          }
+          if (this.preciosSeleccionados.length == 0) {
+            this.displayedColumns.push('Precio' + i);
+            this.displayedColumnsArticulo.push('Precio' + i);
+            this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
+            if (i == maxCantPrecio) {
+              this.displayedColumnsArticulo.push('PrecioEspecial');
+              this.displayedColumns.push('Descuento');
+              this.displayedColumnsArticulo.push('DescuentoArticulo');
+            }
           }
         }
       });
@@ -128,9 +136,8 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
   tablaArticulos(idTipoArticulo) {
     this.dataSourceArticulo.data = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
-
   }
-  
+
   _keyPress(event: any) {
     const pattern = /[0-9,.]/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -266,7 +273,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
     // let checkbox = +event.source.name.split("checkbox")[1];
     let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
     let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
-    return arrayArticulos.length == arrayPreciosArticulos.length && (this.checkboxChecked[+event] == true);
+    return arrayArticulos.length == arrayPreciosArticulos.length && (this.checkboxChecked[+event] == true || this.checkboxIndeterminate[+event] == true);
     // return this.checkboxChecked[+event] == true;
 
   }
@@ -283,19 +290,26 @@ export class PrecioArticuloListadoComponent implements OnInit {
   }
 
   onClicked(articulo: ArticuloVario, checkbox) {
-    let index = +checkbox.source.name.split("checkbox")[1];
+    let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
+    console.log(articulo)
     // if (checkbox.checked) {
     let incluye = this.preciosSeleccionados.findIndex(p => p.IdPrecioArticulo == articulo.PrecioArticulo[index].Id);
-    if (incluye == -1) {
+    if (incluye == -1) { //si no incluye el precio en los seleccionados, lo agrega
+      if (this.preciosSeleccionados.length > 0 &&
+        this.preciosSeleccionados.findIndex(p => p.IdPrecioArticuloNavigation.IdArticulo == articulo.Id && p.IdPrecioArticulo != articulo.PrecioArticulo[index].Id) != -1) {
+        //borra el precio que ya estaba seleccionado en la fila (mismo articulo distinto precio)
+        this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdPrecioArticuloNavigation.IdArticulo == articulo.Id && p.IdPrecioArticulo != articulo.PrecioArticulo[index].Id), 1);;
+      }
       let precioArticuloCliente = <PrecioArticuloCliente>{};
       precioArticuloCliente.IdCliente = this.idCliente;
       precioArticuloCliente.IdPrecioArticulo = articulo.PrecioArticulo[index].Id;
+      precioArticuloCliente.IdPrecioArticuloNavigation = articulo.PrecioArticulo[index];
+      // precioArticuloCliente.IdPrecioArticuloNavigation.
       this.preciosSeleccionados.push(precioArticuloCliente);
       // }
     } else {
       this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioArticulo != articulo.PrecioArticulo[index].Id);
     }
-    // console.log(this.preciosSeleccionados)
   }
 
   valorPrecioEspecial(idArticulo) {
@@ -320,14 +334,14 @@ export class PrecioArticuloListadoComponent implements OnInit {
     if (precio != "") {
       let precioEspecial = <PrecioArticuloCliente>{};
       let i = this.preciosSeleccionados.findIndex(p => p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == idArticulo && p.Especial == true);
-      console.log(i)
+      // console.log(i)
       if (i == 0) {
         precioEspecial.Especial = true;
         precioEspecial.IdPrecioArticuloNavigation = <PrecioArticulo>{};
         precioEspecial.IdPrecioArticuloNavigation.Precio = precio;
         precioEspecial.IdPrecioArticuloNavigation.IdArticulo = idArticulo;
         precioEspecial.IdCliente = this.idCliente;
-        console.log(precioEspecial)
+        // console.log(precioEspecial)
         this.preciosSeleccionados.push(precioEspecial);
       } else {
         precioEspecial = this.preciosSeleccionados[i];
@@ -337,7 +351,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
     } else {
       this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo != idArticulo);
     }
-    console.log(this.preciosSeleccionados)
+    // console.log(this.preciosSeleccionados)
   }
 
 
@@ -354,15 +368,16 @@ export class PrecioArticuloListadoComponent implements OnInit {
       i = this.preciosSeleccionados.findIndex(p => p.IdPrecioArticulo == articulo.PrecioArticulo[0].Id);
       precioArticulo = this.preciosSeleccionados.filter(p => p.IdPrecioArticulo == articulo.PrecioArticulo[0].Id)[0];
     }
-    console.log(precioArticulo)
+    // console.log(precioArticulo)
     this.preciosSeleccionados[i] = precioArticulo;
-    console.log(this.preciosSeleccionados)
+    // console.log(this.preciosSeleccionados)
   }
 
   guardarCliente() {
+    // this.preciosSeleccionados.forEach(p => p.IdPrecioArticuloNavigation = null);
     this.clienteService.savePreciosArticulos(this.preciosSeleccionados).subscribe(
       data => {
-        console.log(data)
+        // console.log(data)
         this.loadPrecioArticuloPage();
         this.sessionService.showSuccess("Los precios se cargaron correctamente.");
       },
