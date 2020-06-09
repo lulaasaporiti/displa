@@ -9,6 +9,7 @@ import { ClienteService } from 'src/services/cliente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
+import { Observable, merge } from 'rxjs';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { Router } from '@angular/router';
 })
 export class ClienteListadoComponent implements OnInit {
 
-  displayedColumns: string[] = ['Optica', 'Nombre', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
+  displayedColumns = ['Optica' , 'Nombre', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Cliente>();
   traerActivos: boolean = true;
 
@@ -41,9 +42,23 @@ export class ClienteListadoComponent implements OnInit {
     this.loadClientePage()
   }
 
+  sacarAgregarColumnas(cd) {
+    // console.log(cd)
+    // console.log(event)
+  }
+
   ngAfterViewInit() {
     this.searchElement.nativeElement.focus();
+    // let columnas:Observable<boolean> = this.dataSource.data;
+    // let o2:Observable<boolean> = this.description.valueChanges;
+ 
+    // merge(columnas).subscribe( v=>{
+    // this.displayedColumns[0].hide;
+    // this.displayedColumns[1].hide = this.description.value;  
+       console.log(this.displayedColumns);
+    //  });
   }
+
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
