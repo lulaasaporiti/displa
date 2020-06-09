@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
-import { PrecioLente } from 'src/app/model/precioLente';
 import { PrecioLenteClienteService } from 'src/services/precio.lente.cliente.service';
 import { LenteService } from 'src/services/lente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
@@ -10,6 +9,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Lente } from 'src/app/model/lente';
 import { ClienteService } from 'src/services/cliente.service';
 import { PrecioLenteCliente } from 'src/app/model/precioLenteCliente';
+import { combineLatest } from 'rxjs';
 
 
 @Component({
@@ -45,10 +45,6 @@ export class PrecioLenteListadoComponent implements OnInit {
       this.segment.queryParams.subscribe((params: Params) => {
         this.idCliente = +params['idCliente']; // (+) converts string 'id' to a number;
         });
-      this.clienteService.getPreciosLentesCliente(this.idCliente).subscribe(r => {
-        this.preciosSeleccionados = r;
-        console.log(this.preciosSeleccionados)
-      })
     }
 
   ngOnInit() {
@@ -73,10 +69,14 @@ export class PrecioLenteListadoComponent implements OnInit {
 
   loadPrecioLentePage() {
     this.loadingSpinnerService.show()
-      this.lenteService.getLentesVigentesList()
+    combineLatest(
+      this.lenteService.getLentesVigentesList(),
+      this.clienteService.getPreciosLentesCliente(this.idCliente)
+    )
         .subscribe(r => {
-          this.dataSource.data = r;
-          console.log(this.dataSource.data)
+          this.dataSource.data = r[0];
+        this.preciosSeleccionados = r[1];
+          // console.log(this.dataSource.data)
           var maxCantPrecio = 0;
         this.dataSource.data.forEach(a => {
           if (a.PrecioLente.length > maxCantPrecio && a.PrecioLente)
