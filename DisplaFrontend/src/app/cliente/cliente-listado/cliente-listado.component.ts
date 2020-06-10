@@ -42,7 +42,14 @@ export class ClienteListadoComponent implements OnInit {
     this.loadClientePage()
   }
 
-  sacarAgregarColumnas(cd) {
+  columnaSeleccionada(event){
+    console.log(event)
+  }
+  
+ 
+  getDisplayedColumns() {
+    return this.displayedColumns.filter(cd=>!cd)
+    
     // console.log(cd)
     // console.log(event)
   }
