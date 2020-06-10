@@ -164,24 +164,16 @@ export class PrecioArticuloListadoComponent implements OnInit {
         precioArticuloCliente.IdPrecioArticuloNavigation = <PrecioArticulo>{};
         precioArticuloCliente.IdCliente = this.idCliente;
         if (e.PrecioArticulo[checkbox] != null) {
-          let incluye = this.preciosSeleccionados.some(p => p.IdPrecioArticulo == e.PrecioArticulo[checkbox].Id);
-          if (!incluye) {
-            if (this.checkboxChecked[checkbox] != true) {
-              this.preciosSeleccionados.forEach(p => {
-                p.IdPrecioArticulo = null;
-                p.IdPrecioArticuloNavigation = null;
-              })
+          let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioArticulo != e.PrecioArticulo[checkbox].Id && p.IdPrecioArticuloNavigation.IdArticulo == e.Id && p.Especial != true);
+          if (tieneOtro) {
+              this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
             }
-            else {
-              precioArticuloCliente.IdPrecioArticulo = e.PrecioArticulo[checkbox].Id;
-              precioArticuloCliente.IdPrecioArticuloNavigation = e.PrecioArticulo[checkbox];
-              this.preciosSeleccionados.push(precioArticuloCliente);
-            }
-          }
+          precioArticuloCliente.IdPrecioArticulo = e.PrecioArticulo[checkbox].Id;
+          precioArticuloCliente.IdPrecioArticuloNavigation = e.PrecioArticulo[checkbox];
+          this.preciosSeleccionados.push(precioArticuloCliente);
         }
         else {
           this.checkboxIndeterminate[checkbox] = true;
-          // this.checkboxChecked[checkbox] = false;
           let incluye = this.preciosSeleccionados.find(p => p.IdPrecioArticulo == e.PrecioArticulo[0].Id);
           if (!incluye) {
             precioArticuloCliente.IdPrecioArticulo = e.PrecioArticulo[0].Id;
@@ -190,19 +182,13 @@ export class PrecioArticuloListadoComponent implements OnInit {
           }
         }
       });
-
     } else {
-      this.preciosSeleccionados.forEach(p => {
-        p.IdPrecioArticulo = null;
-        p.IdPrecioArticuloNavigation = null;
-      })
-
+      this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
     }
     if (this.checkboxIndeterminate.includes(true) && event.checked) {
       this.checkboxIndeterminate[0] = true;
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
-    // console.log(this.preciosSeleccionados)
   }
 
   onClickedTodosTipo(event, idTipoArticulo) {
@@ -213,54 +199,38 @@ export class PrecioArticuloListadoComponent implements OnInit {
         this.checkboxIndeterminate[checkbox] = true;
       else
         this.checkboxChecked[checkbox] = true;
-      this.dataSource.data.forEach(e => {
-        // console.log(e)
-        if (e.IdTipoArticulo == idTipoArticulo) {
-          let precioArticuloCliente = <PrecioArticuloCliente>{};
-          precioArticuloCliente.IdPrecioArticuloNavigation = <PrecioArticulo>{};
-          precioArticuloCliente.IdCliente = this.idCliente;
-          if (e.PrecioArticulo[checkbox] != null) {
-            let incluye = this.preciosSeleccionados.some(p => p.IdPrecioArticulo == e.PrecioArticulo[checkbox].Id && e.IdTipoArticulo == idTipoArticulo);
-            // console.log(incluye)
-            if (!incluye) {
-              if (this.checkboxChecked[checkbox] != false || this.checkboxIndeterminate[checkbox] != true) {
-                // console.log("tiene que destildar")
-                this.preciosSeleccionados.forEach(p => {
-                  p.IdPrecioArticulo = null;
-                  p.IdPrecioArticuloNavigation = null;
-                })
-              }
-              else {
-                precioArticuloCliente.IdPrecioArticulo = e.PrecioArticulo[checkbox].Id;
-                precioArticuloCliente.IdPrecioArticuloNavigation = e.PrecioArticulo[checkbox];
-                this.preciosSeleccionados.push(precioArticuloCliente);
-              }
-            }
+
+      let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
+
+      arrayArticulos.forEach(a => {
+        let precioArticuloCliente = <PrecioArticuloCliente>{};
+        precioArticuloCliente.IdPrecioArticuloNavigation = <PrecioArticulo>{};
+        precioArticuloCliente.IdCliente = this.idCliente;
+        if (a.PrecioArticulo[checkbox] != null) {
+          let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioArticulo != a.PrecioArticulo[checkbox].Id && p.IdPrecioArticuloNavigation.IdArticulo == a.Id && p.Especial != true);
+          if (tieneOtro) {
+            this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo && p.IdPrecioArticulo != a.PrecioArticulo[checkbox].Id && p.Especial != true)
           }
-          else {
-            this.checkboxIndeterminate[checkbox] = true;
-            this.checkboxIndeterminate[0] = true;
-            let incluye = this.preciosSeleccionados.find(p => p.IdPrecioArticulo == e.PrecioArticulo[0].Id);
-            if (!incluye) {
-              precioArticuloCliente.IdPrecioArticulo = e.PrecioArticulo[0].Id;
-              precioArticuloCliente.IdPrecioArticuloNavigation = e.PrecioArticulo[0];
-              this.preciosSeleccionados.push(precioArticuloCliente);
-            }
+          precioArticuloCliente.IdPrecioArticulo = a.PrecioArticulo[checkbox].Id;
+          precioArticuloCliente.IdPrecioArticuloNavigation = a.PrecioArticulo[checkbox];
+          this.preciosSeleccionados.push(precioArticuloCliente);
+        } else {
+          this.checkboxIndeterminate[checkbox] = true;
+          this.checkboxIndeterminate[0] = true;
+          let incluye = this.preciosSeleccionados.find(p => p.IdPrecioArticulo == a.PrecioArticulo[0].Id);
+          if (!incluye) {
+            precioArticuloCliente.IdPrecioArticulo = a.PrecioArticulo[0].Id;
+            precioArticuloCliente.IdPrecioArticuloNavigation = a.PrecioArticulo[0];
+            this.preciosSeleccionados.push(precioArticuloCliente);
           }
         }
       });
     } else {
-      this.preciosSeleccionados.forEach(p => {
-        if (p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo) {
-          p.IdPrecioArticulo = null;
-          p.IdPrecioArticuloNavigation = null;
-        }
-      })
+      this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo && p.Especial != true)
     }
     if (this.checkboxIndeterminate[0] == true && event.checked) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
-    // console.log(this.preciosSeleccionados)
   }
 
   chequear(idPrecio: any) {
@@ -308,7 +278,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
       let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
 
       let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
-      
+
     // }
     return arrayPreciosArticulos.length >= arrayArticulos.length;
   }
@@ -406,7 +376,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
       this.preciosSeleccionados[i].Descuento = descuento;
       // console.log(i);
     });
-  } 
+  }
 
 
   descuentoArticulo(descuento, idArticulo: number) {
