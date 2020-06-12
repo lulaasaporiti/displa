@@ -91,15 +91,35 @@ namespace DisplaBackend.Controllers
             return Ok(_clienteService.SavePreciosArticulos(preciosArticulos));
         }
 
-        [HttpPost, Route("SavePreciosEspecialesArticulos")]
-        public IActionResult SavePreciosEspecialesArticulos([FromBody]List<PrecioEspecialArticuloCliente> preciosArticulos)
+        [HttpPost, Route("SavePreciosServicios")]
+        public IActionResult SavePreciosServicios([FromBody]List<PrecioServicioCliente> preciosServicios)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(_clienteService.SavePreciosEspecialesArticulos(preciosArticulos));
+            return Ok(_clienteService.SavePreciosServicios(preciosServicios));
         }
+
+        [HttpPost, Route("SavePreciosLentes")]
+        public IActionResult SavePreciosLentes([FromBody]List<PrecioLenteCliente> preciosLentes)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_clienteService.SavePreciosLentes(preciosLentes));
+        }
+
+        //[HttpPost, Route("SavePreciosEspecialesArticulos")]
+        //public IActionResult SavePreciosEspecialesArticulos([FromBody]List<PrecioEspecialArticuloCliente> preciosArticulos)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    return Ok(_clienteService.SavePreciosEspecialesArticulos(preciosArticulos));
+        //}
 
         [HttpPost, Route("SaveFicha")]
         public IActionResult SaveFicha([FromBody]Ficha ficha)

@@ -14,7 +14,9 @@ namespace DisplaBackend.Services
         Cliente GetById(int idCliente);
         List<Cliente> GetClientesActivos();
         bool SavePreciosArticulos(List<PrecioArticuloCliente> preciosArticulos);
-        bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos);
+        bool SavePreciosServicios(List<PrecioServicioCliente> preciosServicios);
+        bool SavePreciosLentes(List<PrecioLenteCliente> preciosLentes);
+        //bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos);
         List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente);
         List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
@@ -67,10 +69,20 @@ namespace DisplaBackend.Services
             return _clienteDAO.SavePreciosArticulos(preciosArticulos);
         }
 
-        public bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos)
+        public bool SavePreciosServicios(List<PrecioServicioCliente> preciosServicios)
         {
-            return _clienteDAO.SavePreciosEspecialesArticulos(preciosArticulos);
+            return _clienteDAO.SavePreciosServicios(preciosServicios);
         }
+
+        public bool SavePreciosLentes(List<PrecioLenteCliente> preciosLentes)
+        {
+            return _clienteDAO.SavePreciosLentes(preciosLentes);
+        }
+
+        //public bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos)
+        //{
+        //    return _clienteDAO.SavePreciosEspecialesArticulos(preciosArticulos);
+        //}
 
         public bool SaveFicha(Ficha ficha)
         {

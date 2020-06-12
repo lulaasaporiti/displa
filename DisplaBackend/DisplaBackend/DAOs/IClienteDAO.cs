@@ -16,7 +16,9 @@ namespace DisplaBackend.DAOs
         Cliente GetById(int idCliente);
         List<Cliente> GetClientesActivos();
         bool SavePreciosArticulos(List<PrecioArticuloCliente> preciosArticulos);
-        bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos);
+        bool SavePreciosServicios(List<PrecioServicioCliente> preciosServicios);
+        bool SavePreciosLentes(List<PrecioLenteCliente> preciosLentes);
+        //bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos);
         List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente);
         List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
@@ -227,27 +229,20 @@ namespace DisplaBackend.DAOs
             return _context.SaveChanges() >= 1;
         }
 
-
-        public bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos)
+        public bool SavePreciosServicios(List<PrecioServicioCliente> preciosServicios)
         {
             try
             {
-                foreach (var p in preciosArticulos)
+                foreach (var p in preciosServicios)
                 {
+                    p.IdPrecioServicioNavigation = null;
                     if (p.Id == 0)
                     {
-                        var precio = new PrecioArticulo();
-                        var precioEspecial = new PrecioEspecialArticuloCliente();
-                        precio.IdArticulo = p.IdPrecioArticuloNavigation.IdArticulo;
-                        precio = _context.PrecioArticulo.Add(precio).Entity;
-                        _context.SaveChanges();
-                        precioEspecial.IdPrecioArticulo = precio.Id;
-                        precioEspecial.IdCliente = p.IdCliente;
-                        //_context.PrecioEspecialArticuloCliente.Add(precioEspecial);
+                        _context.PrecioServicioCliente.Add(p);
                     }
                     else
                     {
-                        //_context.PrecioEspecialArticuloCliente.Update(p);
+                        _context.PrecioServicioCliente.Update(p);
                     }
 
                 }
@@ -258,5 +253,62 @@ namespace DisplaBackend.DAOs
             }
             return _context.SaveChanges() >= 1;
         }
+
+        public bool SavePreciosLentes(List<PrecioLenteCliente> preciosLentes)
+        {
+            try
+            {
+                foreach (var p in preciosLentes)
+                {
+                    p.IdPrecioLenteNavigation = null;
+                    if (p.Id == 0)
+                    {
+                        _context.PrecioLenteCliente.Add(p);
+                    }
+                    else
+                    {
+                        _context.PrecioLenteCliente.Update(p);
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return _context.SaveChanges() >= 1;
+        }
+
+
+        //public bool SavePreciosEspecialesArticulos(List<PrecioEspecialArticuloCliente> preciosArticulos)
+        //{
+        //    try
+        //    {
+        //        foreach (var p in preciosArticulos)
+        //        {
+        //            if (p.Id == 0)
+        //            {
+        //                var precio = new PrecioArticulo();
+        //                var precioEspecial = new PrecioEspecialArticuloCliente();
+        //                precio.IdArticulo = p.IdPrecioArticuloNavigation.IdArticulo;
+        //                precio = _context.PrecioArticulo.Add(precio).Entity;
+        //                _context.SaveChanges();
+        //                precioEspecial.IdPrecioArticulo = precio.Id;
+        //                precioEspecial.IdCliente = p.IdCliente;
+        //                //_context.PrecioEspecialArticuloCliente.Add(precioEspecial);
+        //            }
+        //            else
+        //            {
+        //                //_context.PrecioEspecialArticuloCliente.Update(p);
+        //            }
+
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return false;
+        //    }
+        //    return _context.SaveChanges() >= 1;
+        //}
     }
 }

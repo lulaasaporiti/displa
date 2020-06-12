@@ -34,7 +34,6 @@ export class ClienteService {
     }
 
     deleteCliente(id: number): Observable<any> {
-        console.log(id)
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
@@ -60,19 +59,19 @@ export class ClienteService {
     
 
     savePreciosArticulos(precios): Observable<object> {
-        // console.log(precios)
-        // if (precios.lenght > 0)
-            return this.http.post(`${this.baseUrl}/SavePreciosArticulos`, precios);
-        // else 
-        //     return new Observable(null);
+        return this.http.post(`${this.baseUrl}/SavePreciosArticulos`, precios);
+    }
+
+    savePreciosServicios(precios): Observable<object> {
+        return this.http.post(`${this.baseUrl}/SavePreciosServicios`, precios);
+    }
+
+    savePreciosLentes(precios): Observable<object> {
+        return this.http.post(`${this.baseUrl}/SavePreciosLentes`, precios);
     }
 
     saveFicha(ficha): Observable<object> {
-        // console.log(precios)
-        // if (precios.lenght > 0)
-            return this.http.post(`${this.baseUrl}/SaveFicha`, ficha);
-        // else 
-        //     return new Observable(null);
+        return this.http.post(`${this.baseUrl}/SaveFicha`, ficha);
     }
 
     // savePreciosEspecialesArticulos(precios): Observable<object> {
@@ -81,6 +80,5 @@ export class ClienteService {
     //         return this.http.post(`${this.baseUrl}/SavePreciosEspecialesArticulos`, precios);
     //     // else 
     //     //     return new Observable(null);
-
     // }
 }
