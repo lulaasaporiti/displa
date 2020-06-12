@@ -56,7 +56,6 @@ export class ClienteService {
     getFicha(idCliente): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetFichaCliente?idCliente=${idCliente}`);
     }
-    
 
     savePreciosArticulos(precios): Observable<object> {
         return this.http.post(`${this.baseUrl}/SavePreciosArticulos`, precios);
