@@ -205,7 +205,14 @@ namespace DisplaBackend.DAOs
 
         public bool SavePreciosArticulos(List<PrecioArticuloCliente> preciosArticulos)
         {
-            //var cliente = _context.Cliente.FirstOrDefault(c => c.Id == preciosArticulos.First().IdCliente);
+            var cliente = _context.Cliente
+                .Include(c => c.PrecioArticuloCliente)
+                .FirstOrDefault(c => c.Id == preciosArticulos.First().IdCliente);
+            foreach (var p in cliente.PrecioArticuloCliente)
+            {
+                _context.PrecioArticuloCliente.Remove(p);
+            }
+            _context.SaveChanges();
             try
             {
                 foreach (var p in preciosArticulos)

@@ -209,7 +209,16 @@ export class PrecioArticuloListadoComponent implements OnInit {
         if (a.PrecioArticulo[checkbox] != null) {
           let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioArticulo != a.PrecioArticulo[checkbox].Id && p.IdPrecioArticuloNavigation.IdArticulo == a.Id && p.Especial != true);
           if (tieneOtro) {
+            let index = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id);
+            console.log(index)
             this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo && p.IdPrecioArticulo != a.PrecioArticulo[checkbox].Id && p.Especial != true)
+
+            // console.log(this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == 33))
+            // if (this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticuloNavigation.PrecioArticulo[index] != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation.PrecioArticulo[index].Id == p.Id  && p.Especial != true)){
+            //   console.log("no hay que sacar indeterminate");
+            // } else { 
+            //   console.log(" hay que sacar indeterminate")
+            // }
           }
           precioArticuloCliente.IdPrecioArticulo = a.PrecioArticulo[checkbox].Id;
           precioArticuloCliente.IdPrecioArticuloNavigation = a.PrecioArticulo[checkbox];
