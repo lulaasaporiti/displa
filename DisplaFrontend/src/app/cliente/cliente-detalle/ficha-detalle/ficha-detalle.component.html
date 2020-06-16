@@ -1,0 +1,6 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxFlex *ngFor="let f of ficha" fxLayoutAlign="start center" fxLayoutGap="1px" fxFlexOffset="2">
+    <p *ngIf="f.Fecha != undefined">{{f.Fecha | date:"dd/MM/yyyy"}} - </p> 
+    <p>{{f.Descripcion}}</p>
+  </div>
+</div>
