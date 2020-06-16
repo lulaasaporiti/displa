@@ -10,6 +10,8 @@ import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.s
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
 import { Observable, merge } from 'rxjs';
+import { FormGroup, FormControl } from '@angular/forms';
+import { CdkAccordion } from '@angular/cdk/accordion';
 
 
 @Component({
@@ -19,7 +21,42 @@ import { Observable, merge } from 'rxjs';
 })
 export class ClienteListadoComponent implements OnInit {
 
-  displayedColumns = ['Optica' , 'Nombre', 'Domicilio', 'Telefonos', 'Mail', 'UtilizaIibb', 'Borrado', 'Opciones'];
+
+  form:FormGroup = new FormGroup({
+    Optica: new FormControl(false),
+    Nombre: new FormControl(false),
+    Domicilio: new FormControl(false),
+    Telefonos: new FormControl(false),
+    Mail: new FormControl(false),
+    UtilizaIibb: new FormControl(false),
+    Borrado: new FormControl(false),
+    Opciones: new FormControl(false),
+  });
+
+  Optica = this.form.get('Optica');
+  Nombre = this.form.get('Nombre');
+  Domicilio = this.form.get('Domicilio');
+  Telefonos = this.form.get('Telefonos');
+  Mail = this.form.get('Mail');
+  UtilizaIibb = this.form.get('UtilizaIibb');
+  Borrado = this.form.get('Borrado');
+  Opciones = this.form.get('Opciones');
+
+
+  cbValues;
+  displayedColumns = 
+  [
+    {def: 'Optica', hide: this.Optica.value},
+    {def: 'Nombre', hide: this.Nombre.value},
+    {def: 'Domicilio',  hide: this.Domicilio.value},
+    {def: 'Telefonos',  hide: this.Telefonos.value},
+    {def: 'Mail',  hide: this.Mail.value},
+    {def: 'UtilizaIibb',  hide: this.UtilizaIibb.value},
+    {def: 'Borrado',  hide: this.Borrado.value},
+    {def: 'Opciones',  hide: this.Opciones.value},
+  ]
+  // displayedColumnsNoCheck= ['Opciones']
+
   dataSource = new MatTableDataSource<Cliente>();
   traerActivos: boolean = true;
 
@@ -42,28 +79,32 @@ export class ClienteListadoComponent implements OnInit {
     this.loadClientePage()
   }
 
-  columnaSeleccionada(event){
-    console.log(event)
-  }
-  
- 
+
   getDisplayedColumns() {
-    return this.displayedColumns.filter(cd=>!cd)
-    
-    // console.log(cd)
-    // console.log(event)
+    return this.displayedColumns.filter(cd=>!cd.hide).map(cd=>cd.def);
   }
 
   ngAfterViewInit() {
     this.searchElement.nativeElement.focus();
-    // let columnas:Observable<boolean> = this.dataSource.data;
-    // let o2:Observable<boolean> = this.description.valueChanges;
- 
-    // merge(columnas).subscribe( v=>{
-    // this.displayedColumns[0].hide;
-    // this.displayedColumns[1].hide = this.description.value;  
-       console.log(this.displayedColumns);
-    //  });
+    let o1:Observable<boolean> = this.Optica.valueChanges;
+    let o2:Observable<boolean> = this.Nombre.valueChanges;
+    let o3:Observable<boolean> = this.Domicilio.valueChanges;
+    let o4:Observable<boolean> = this.Telefonos.valueChanges;
+    let o5:Observable<boolean> = this.Mail.valueChanges;
+    let o6:Observable<boolean> = this.UtilizaIibb.valueChanges;
+    let o7:Observable<boolean> = this.Borrado.valueChanges;
+    let o8:Observable<boolean> = this.Opciones.valueChanges;
+
+    merge(o1, o2, o3,o4,o5,o6,o7).subscribe(v=>{
+    this.displayedColumns[0].hide = this.Optica.value;
+    this.displayedColumns[1].hide = this.Nombre.value;  
+    this.displayedColumns[2].hide = this.Domicilio.value;  
+    this.displayedColumns[3].hide = this.Telefonos.value;
+    this.displayedColumns[4].hide = this.Mail.value; 
+    this.displayedColumns[5].hide = this.UtilizaIibb.value;  
+    this.displayedColumns[6].hide = this.Borrado.value;
+    this.displayedColumns[7].hide = this.Opciones.value;  
+    });
   }
 
 
@@ -75,6 +116,7 @@ export class ClienteListadoComponent implements OnInit {
     this.traerActivos = !this.traerActivos;
     this.loadClientePage();
   }
+  
 
   loadClientePage() {
     this.loadingSpinnerService.show()
