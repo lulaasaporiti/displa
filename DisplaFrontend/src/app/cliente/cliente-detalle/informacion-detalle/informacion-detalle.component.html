@@ -1,0 +1,109 @@
+<div class="content">
+    <app-loading-spinner></app-loading-spinner>
+    <form name="clienteForm" #clienteForm="ngForm" fxLayout="column" fxFlexFill>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <h4 class="titulo" fxFlex>Detalle cliente {{modelCliente.Optica}}</h4>
+        </div>
+        <mat-tab-group>
+            <mat-tab label="Información">
+                <div fxLayout="column" style="margin: 12px auto;">
+                    <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
+                        <mat-form-field fxFlex='40' fxLayout="column">
+                            <input matInput placeholder="Óptica" [ngModel]="modelCliente.Optica" name="optica"
+                                #optica="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='35' fxLayout="column">
+                            <input matInput placeholder="Responsable" [ngModel]="modelCliente.Responsable"
+                                name="responsable" #responsable="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="CUIT" [ngModel]="modelCliente.Cuit" name="cuit"
+                                #cuit="ngModel" disabled>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="2vw">
+                        <mat-form-field fxFlex='40' fxLayout="column">
+                            <input matInput placeholder="Domicilio" [ngModel]="modelCliente.Direccion"
+                                name="direccion" #direccion="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='35' fxLayout="column">
+                            <input matInput placeholder="Localidad" [ngModel]="modelCliente.IdLocalidadNavigation?.Nombre"
+                            name="localidad" #localidad="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="Teléfonos" [ngModel]="modelCliente.Telefonos"
+                                name="telefonos" #telefonos="ngModel" disabled>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div fxLayout="row" fxLayoutGap="2vw">
+                        <mat-form-field fxFlex='40' fxLayout="column">
+                            <input matInput placeholder="Email" [ngModel]="modelCliente.Mail" id="email" name="email"
+                                #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='30' fxLayout="column">
+                            <input matInput placeholder="Categoría IVA" [ngModel]="modelCliente.IdCategoriaIvaNavigation?.Descripcion"
+                                name="categoria" #categoria="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='30' fxLayout="column">
+                            <input matInput placeholder="Condición de venta" [ngModel]="modelCliente.IdCondicionVentaNavigation?.Descripcion"
+                                name="condicion" #condicion="ngModel" disabled>
+                         </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="2vw">
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="Monto crédito" [ngModel]="modelCliente.MontoCredito"
+                                name="monto" #monto="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="Plazo crédito (días)" [ngModel]="modelCliente.PlazoCredito"
+                                name="plazo" #plazo="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='25' fxLayout="column">
+                            <input matInput placeholder="Porcentaje descuento"
+                                [ngModel]="modelCliente.PorcentajeDescuentoGeneral" name="porcentaje"
+                                #porcentaje="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-checkbox class="radio-group" [ngModel]="modelCliente.UtilizaSobre" name="utilizaSobre"
+                            #utilizaSobre="ngModel"  [disabled]="disabledCheck">Utiliza sobre
+                        </mat-checkbox>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="2vw">
+                        <mat-form-field fxFlex='35' fxLayout="column">
+                            <input matInput placeholder="Usuario web" [ngModel]="modelCliente.UsuarioWeb"
+                                name="userweb" #userweb="ngModel" disabled>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='35' fxLayout="column">
+                            <input matInput placeholder="Contraseña web" [ngModel]="modelCliente.PasswordWeb"
+                                name="passweb" #passweb="ngModel" disabled>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Ficha"> 
+                <app-ficha-detalle></app-ficha-detalle>
+            </mat-tab>
+            <mat-tab label="Precios Cristales">
+                <app-precio-lente-cliente-listado-detalle></app-precio-lente-cliente-listado-detalle>
+            </mat-tab>
+            <mat-tab label="Precios Artículos">
+                <app-precio-articulo-cliente-listado-detalle></app-precio-articulo-cliente-listado-detalle>
+            </mat-tab>
+            <mat-tab label="Precios Servicios"> Content 3 </mat-tab>
+        </mat-tab-group>
+    </form>
+</div>

@@ -1,0 +1,118 @@
+<div fxLayout="column">
+  <app-loading-spinner></app-loading-spinner>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+    <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
+    </mat-form-field>
+  </div>
+  <mat-divider fxFlexOffset="2"></mat-divider>
+
+  <table mat-table [dataSource]="dataSourceTipo" matSort fxFlexOffset="3" class="tabla" multiTemplateDataRows>
+    <ng-container matColumnDef="Nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> NOMBRE </th>
+      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Nombre}} </td>
+    </ng-container>
+
+    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
+      <th mat-header-cell *matHeaderCellDef fxFlex="19">
+        <mat-checkbox name="checkbox{{i}}" [(ngModel)]="checkboxChecked[i]" [(indeterminate)]="checkboxIndeterminate[i]"
+          (change)="onClickedTodos($event)"></mat-checkbox> {{ column.header }}
+      </th>
+      <td mat-cell *matCellDef="let row" fxFlex="19" fxLayoutAlign="start center">
+        <mat-checkbox name="checkbox{{i}}" [checked]="chequearTipo(i, row.Id)" [indeterminate]="indeterminateTipo(i, row.Id)"
+        (change)="onClickedTodosTipo($event, row.Id)"> </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center">
+      <mat-checkbox *ngIf="row.PrecioArticulo[i] != null" name="checkbox{{i}}" [checked]="chequear(row.PrecioArticulo[i].Id)" (change)="onClicked(row, $event)"> {{row.PrecioArticulo[i].Precio}} </mat-checkbox>
+    </td> -->
+
+    <!-- <ng-container matColumnDef="PrecioEspecial">
+      <th mat-header-cell *matHeaderCellDef fxFlex="12"> PRECIO ESPECIAL </th>
+      <td mat-cell *matCellDef="let row" fxFlex="12" fxLayoutAlign="start center"> 
+        <mat-form-field style="width: 50px;">
+          <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorPrecioEspecial(row.Id)" (blur)="precioEspecial($event.target.value, row.Id)">
+        </mat-form-field>
+      </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="Descuento">
+      <th mat-header-cell *matHeaderCellDef fxFlex="10"> DESCUENTO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center">
+        <mat-form-field style="width: 50px;">
+          <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorDescuentoTipo(row.Id)" (blur)="descuentoTipoArticulo($event.target.value, row.Id)" [disabled]="!habilitarDescuentoTipo(row.Id)">
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+
+
+
+    <!-- ////////////////////////////////////// SEGUNDA TABLA ////////////////////////////////////// -->
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="informacion">
+        <div class="example-element-detail" [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'">
+          <table mat-table [dataSource]="dataSourceArticulo" matSort fxFlexOffset="3" class="tabla" *ngIf="row == expandedElement">
+            <ng-container matColumnDef="NombreArticulo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> NOMBRE ARTICULO </th>
+              <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Nombre}} </td>
+            </ng-container>
+
+            <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
+              <th mat-header-cell *matHeaderCellDef fxFlex="15">
+              </th>
+              <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center">
+                <mat-checkbox *ngIf="row.PrecioArticulo[i] != null" name="checkbox{{i}}"
+                  [checked]="chequear(row.PrecioArticulo[i].Id)" (change)="onClicked(row, $event)">
+                  {{row.PrecioArticulo[i].Precio}} </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PrecioEspecial">
+              <th mat-header-cell *matHeaderCellDef fxFlex="12"> PRECIO ESPECIAL </th>
+              <td mat-cell *matCellDef="let row" fxFlex="12" fxLayoutAlign="start center">
+                <mat-form-field style="width: 50px;">
+                  <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorPrecioEspecial(row.Id)"
+                    (blur)="precioEspecial($event.target.value, row.Id)">
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DescuentoArticulo">
+              <th mat-header-cell *matHeaderCellDef fxFlex="10"> DESCUENTO </th>
+              <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center">
+                <mat-form-field style="width: 50px;">
+                  <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorDescuento(row.Id)"
+                    (blur)="descuentoArticulo($event.target.value, row.Id)" [disabled]="!habilitarDescuento(row)">
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsArticulo" sticky></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsArticulo;"></tr>
+          </table>
+        </div>
+      </td>
+    </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" sticky></tr>
+    <!-- (click)="expandedElement = expandedElement === row ? null : row" -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+      (click)="tablaArticulos(row.Id); expandedElement = expandedElement === row ? null : row"
+      [class.example-expanded-row]="expandedElement === row">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" ></tr>
+
+  </table>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+  <div fxLayout="row" fxLayoutAlign="space-between end" style="margin-bottom: 2px;">
+    <button mat-raised-button (click)="cancelar()">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="preciosSeleccionados.length == 0"
+      (click)="guardarCliente()">Guardar precios</button>
+  </div>
+</div>
