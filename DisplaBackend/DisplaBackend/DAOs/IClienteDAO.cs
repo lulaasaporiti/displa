@@ -155,7 +155,8 @@ namespace DisplaBackend.DAOs
 
         public Cliente GetById(int idCliente)
         {
-            return _context.Cliente.Include(c => c.IdLocalidadNavigation).FirstOrDefault(c => c.Id == idCliente);
+            return _context.Cliente.Include(c => c.IdLocalidadNavigation).Include(c => c.IdCategoriaIvaNavigation)
+                .Include(c => c.IdCondicionVentaNavigation).FirstOrDefault(c => c.Id == idCliente);
         }
 
         public List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente)
