@@ -173,6 +173,7 @@ namespace DisplaBackend.DAOs
             return _context.PrecioServicioCliente
                 .Include(p => p.IdPrecioServicioNavigation)
                     .ThenInclude(ps => ps.IdServicioNavigation)
+                    .ThenInclude(ti => ti.IdTipoServicioNavigation)
                 .Where(p => p.IdCliente == idCliente).ToList();
         }
 
@@ -180,7 +181,9 @@ namespace DisplaBackend.DAOs
         {
             return _context.PrecioLenteCliente
                 .Include(p => p.IdPrecioLenteNavigation)
-                .Where(p => p.IdCliente == idCliente).ToList();
+                    .ThenInclude(pl => pl.IdLenteNavigation)
+                .Where(p => p.IdCliente == idCliente)
+                .ToList();
         }
 
         public List<Ficha> GetFichaCliente(int idCliente)
@@ -209,11 +212,14 @@ namespace DisplaBackend.DAOs
             var cliente = _context.Cliente
                 .Include(c => c.PrecioArticuloCliente)
                 .FirstOrDefault(c => c.Id == preciosArticulos.First().IdCliente);
-            foreach (var p in cliente.PrecioArticuloCliente)
-            {
-                _context.PrecioArticuloCliente.Remove(p);
-            }
-            _context.SaveChanges();
+            List<PrecioArticuloCliente> preciosABorrar = new List<PrecioArticuloCliente>();
+
+            //foreach (var p in cliente.PrecioArticuloCliente)
+            //{
+            //    _context.PrecioArticuloCliente.Remove(p);
+            //}
+            //_context.SaveChanges();
+            var idArticulo = 0;
             try
             {
                 foreach (var p in preciosArticulos)

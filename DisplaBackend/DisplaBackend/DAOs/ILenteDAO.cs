@@ -16,6 +16,7 @@ namespace DisplaBackend.DAOs
         Lente GetById(int idLente);
         int GetLastCode();
         List<string> GetCombinaciones();
+        List<dynamic> GetLentesVigentesAgrupados();
     }
 
     public class LenteDAO : ILenteDAO
@@ -55,6 +56,37 @@ namespace DisplaBackend.DAOs
             return lentes;
         }
 
+
+        public List<dynamic> GetLentesVigentesAgrupados()
+        {
+            List<dynamic> lentes = _context.Lente
+                .Where(l => l.Borrado == false)
+                .Select(l => new
+                {
+                    Id = l.Id,
+                    Nombre = l.Nombre,
+                    DescripcionFactura = l.DescripcionFactura,
+                    Borrado = l.Borrado,
+                    PrecioLente = l.PrecioLente
+                        .Where(p => p.PrecioLenteCliente.Where(pc => pc.Especial == true).Count() == 0)
+                        .GroupBy(p => new {
+                            IdLente = p.IdLente,
+                            Esferico = p.Esferico,
+                            Cilindrico = p.Cilindrico
+                        })
+                        .Select(p => new {
+                            Precio = _context.PrecioLente.Where(pl => pl.IdLente == p.Key.IdLente && pl.Esferico == p.Key.Esferico && pl.Cilindrico == p.Key.Cilindrico)
+                                .OrderBy(pl => pl.Precio)
+                                .Select(pl => new { pl.Id, pl.Precio }),
+                            IdLente = p.Key.IdLente,
+                            Cilindrico = p.Key.Cilindrico,
+                            Esferico = p.Key.Esferico
+                        })
+                        .ToList<dynamic>()
+                })
+                .ToList<dynamic>();
+            return lentes;
+        }
 
         public List<string> GetCombinaciones()
         {

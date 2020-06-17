@@ -51,6 +51,13 @@ namespace DisplaBackend.Controllers
             return _lenteService.GetLentesVigentes();
         }
 
+        [HttpGet, Route("GetLentesVigentesAgrupados")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetLentesVigentesAgrupados()
+        {
+            return _lenteService.GetLentesVigentesAgrupados();
+        }
+
         [HttpGet, Route("GetLastCode")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetLastCode()
