@@ -209,31 +209,36 @@ namespace DisplaBackend.DAOs
 
         public bool SavePreciosArticulos(List<PrecioArticuloCliente> preciosArticulos)
         {
-            var cliente = _context.Cliente
+            List<PrecioArticuloCliente> preciosClientes = _context.Cliente
                 .Include(c => c.PrecioArticuloCliente)
-                .FirstOrDefault(c => c.Id == preciosArticulos.First().IdCliente);
+                    .ThenInclude(p => p.IdPrecioArticuloNavigation)
+                .FirstOrDefault(c => c.Id == preciosArticulos.First().IdCliente).PrecioArticuloCliente.ToList();
             List<PrecioArticuloCliente> preciosABorrar = new List<PrecioArticuloCliente>();
 
-            //foreach (var p in cliente.PrecioArticuloCliente)
-            //{
-            //    _context.PrecioArticuloCliente.Remove(p);
-            //}
-            //_context.SaveChanges();
-            var idArticulo = 0;
             try
             {
                 foreach (var p in preciosArticulos)
                 {
+                    foreach (var pc in preciosClientes) { 
+                        if (pc.IdPrecioArticulo != p.IdPrecioArticulo && pc.IdPrecioArticuloNavigation.IdArticulo == p.IdPrecioArticuloNavigation.IdArticulo && pc.Especial != true)
+                            preciosABorrar.Add(pc);
+                    }
                     p.IdPrecioArticuloNavigation = null;
                     if (p.Id == 0)
                     {
                         _context.PrecioArticuloCliente.Add(p);
                     }
-                    else
-                    {
-                        _context.PrecioArticuloCliente.Update(p);
-                    }
+                    //else
+                    //{
+                        //_context.PrecioArticuloCliente.Update(p);
+                    //}
+                }
+                //_context.SaveChanges();
+                //return _context.SaveChanges() >= 1;
 
+                foreach (var p in preciosABorrar)
+                {
+                    _context.PrecioArticuloCliente.Remove(p);
                 }
             }
             catch (Exception e)
@@ -245,20 +250,37 @@ namespace DisplaBackend.DAOs
 
         public bool SavePreciosServicios(List<PrecioServicioCliente> preciosServicios)
         {
+            List<PrecioServicioCliente> preciosClientes = _context.Cliente
+                .Include(c => c.PrecioServicioCliente)
+                    .ThenInclude(p => p.IdPrecioServicioNavigation)
+                .FirstOrDefault(c => c.Id == preciosServicios.First().IdCliente).PrecioServicioCliente.ToList();
+            List<PrecioServicioCliente> preciosABorrar = new List<PrecioServicioCliente>();
+
             try
             {
                 foreach (var p in preciosServicios)
                 {
+                    foreach (var pc in preciosClientes)
+                    {
+                        if (pc.IdPrecioServicio != p.IdPrecioServicio && pc.IdPrecioServicioNavigation.IdServicio == p.IdPrecioServicioNavigation.IdServicio && pc.Especial != true)
+                            preciosABorrar.Add(pc);
+                    }
                     p.IdPrecioServicioNavigation = null;
                     if (p.Id == 0)
                     {
                         _context.PrecioServicioCliente.Add(p);
                     }
-                    else
-                    {
-                        _context.PrecioServicioCliente.Update(p);
-                    }
+                    //else
+                    //{
+                    //_context.PrecioServicioCliente.Update(p);
+                    //}
+                }
+                //_context.SaveChanges();
+                //return _context.SaveChanges() >= 1;
 
+                foreach (var p in preciosABorrar)
+                {
+                    _context.PrecioServicioCliente.Remove(p);
                 }
             }
             catch (Exception e)
@@ -270,20 +292,37 @@ namespace DisplaBackend.DAOs
 
         public bool SavePreciosLentes(List<PrecioLenteCliente> preciosLentes)
         {
+            List<PrecioLenteCliente> preciosClientes = _context.Cliente
+                 .Include(c => c.PrecioLenteCliente)
+                     .ThenInclude(p => p.IdPrecioLenteNavigation)
+                 .FirstOrDefault(c => c.Id == preciosLentes.First().IdCliente).PrecioLenteCliente.ToList();
+            List<PrecioLenteCliente> preciosABorrar = new List<PrecioLenteCliente>();
+
             try
             {
                 foreach (var p in preciosLentes)
                 {
+                    foreach (var pc in preciosClientes)
+                    {
+                        if (pc.IdPrecioLente != p.IdPrecioLente && pc.IdPrecioLenteNavigation.IdLente == p.IdPrecioLenteNavigation.IdLente && pc.Especial != true)
+                            preciosABorrar.Add(pc);
+                    }
                     p.IdPrecioLenteNavigation = null;
                     if (p.Id == 0)
                     {
                         _context.PrecioLenteCliente.Add(p);
                     }
-                    else
-                    {
-                        _context.PrecioLenteCliente.Update(p);
-                    }
+                    //else
+                    //{
+                    //_context.PrecioLenteCliente.Update(p);
+                    //}
+                }
+                //_context.SaveChanges();
+                //return _context.SaveChanges() >= 1;
 
+                foreach (var p in preciosABorrar)
+                {
+                    _context.PrecioLenteCliente.Remove(p);
                 }
             }
             catch (Exception e)

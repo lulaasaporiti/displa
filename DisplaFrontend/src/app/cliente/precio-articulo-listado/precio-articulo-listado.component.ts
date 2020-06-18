@@ -166,8 +166,8 @@ export class PrecioArticuloListadoComponent implements OnInit {
         if (e.PrecioArticulo[checkbox] != null) {
           let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioArticulo != e.PrecioArticulo[checkbox].Id && p.IdPrecioArticuloNavigation.IdArticulo == e.Id && p.Especial != true);
           if (tieneOtro) {
-              this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
-            }
+            this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
+          }
           precioArticuloCliente.IdPrecioArticulo = e.PrecioArticulo[checkbox].Id;
           precioArticuloCliente.IdPrecioArticuloNavigation = e.PrecioArticulo[checkbox];
           this.preciosSeleccionados.push(precioArticuloCliente);
@@ -195,10 +195,11 @@ export class PrecioArticuloListadoComponent implements OnInit {
     let checkbox = +event.source.name.split("checkbox")[1];
 
     if (event.checked) {
-      if (this.preciosSeleccionados.length <= this.dataSource.data.length)
-        this.checkboxIndeterminate[checkbox] = true;
-      else
-        this.checkboxChecked[checkbox] = true;
+      // if (this.preciosSeleccionados.length <= this.dataSource.data.length)
+      //   this.checkboxIndeterminate[checkbox] = true;
+      // else
+      //   this.checkboxChecked[checkbox] = true;
+
 
       let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
 
@@ -240,6 +241,27 @@ export class PrecioArticuloListadoComponent implements OnInit {
     if (this.checkboxIndeterminate[0] == true && event.checked) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
+    var index = [];
+    this.checkboxChecked
+    this.checkboxIndeterminate 
+    this.dataSource.data.forEach(a => {
+      if (this.preciosSeleccionados.length > 0) {
+        var i = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id)
+        if (!index.includes(i))
+          index.push(i);
+      }
+    });
+    if (index.length == 1)
+      this.checkboxChecked[index[0]] = true;
+    else {
+      for (let j = 0; j < this.checkboxIndeterminate.length; j++) {
+        if (index.includes(j))
+          this.checkboxIndeterminate[j] = true;
+        else
+          this.checkboxIndeterminate[j] = false;
+      }
+    }
+    console.log(index)
   }
 
   chequear(idPrecio: any) {
@@ -284,9 +306,9 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
   habilitarDescuentoTipo(idTipoArticulo: number) {
     // if (this.preciosSeleccionados.length > 0) {
-      let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
+    let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
 
-      let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
+    let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
 
     // }
     return arrayPreciosArticulos.length >= arrayArticulos.length;
@@ -374,7 +396,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
     // console.log(this.preciosSeleccionados)
   }
 
-  descuentoTipoArticulo(descuento, idTipoArticulo: number){
+  descuentoTipoArticulo(descuento, idTipoArticulo: number) {
     let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo && p.Especial != true);
     let arrayIndex = [];
     let precioArticulo: PrecioArticuloCliente;
@@ -408,15 +430,15 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
   guardarCliente() {
     this.recargaPagina = true;
-    this.clienteService.savePreciosArticulos(this.preciosSeleccionados).subscribe(
-      data => {
-        // console.log(data)
+    console.log(this.preciosSeleccionados)
+    this.clienteService.savePreciosArticulos(this.preciosSeleccionados).subscribe(result => {
+      console.log(result)
+      if (result) {
         this.loadPrecioArticuloPage();
         this.sessionService.showSuccess("Los precios se cargaron correctamente.");
-      },
-      error => {
+      } else
         this.sessionService.showError("Los precios no se cargaron.");
-      }
+    }
     );
   }
 }
