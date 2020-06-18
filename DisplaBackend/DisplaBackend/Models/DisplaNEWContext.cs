@@ -37,6 +37,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Localidad> Localidad { get; set; }
         public virtual DbSet<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual DbSet<MovimientoInsumo> MovimientoInsumo { get; set; }
+        public virtual DbSet<MovimientoInterno> MovimientoInterno { get; set; }
         public virtual DbSet<PrecioArticulo> PrecioArticulo { get; set; }
         public virtual DbSet<PrecioArticuloCliente> PrecioArticuloCliente { get; set; }
         public virtual DbSet<PrecioLente> PrecioLente { get; set; }
@@ -51,10 +52,12 @@ namespace DisplaBackend.Models
         public virtual DbSet<TarjetaCredito> TarjetaCredito { get; set; }
         public virtual DbSet<TipoArticulo> TipoArticulo { get; set; }
         public virtual DbSet<TipoBlock> TipoBlock { get; set; }
+        public virtual DbSet<TipoComprobante> TipoComprobante { get; set; }
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
-        
+
+     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -574,6 +577,35 @@ namespace DisplaBackend.Models
                     .HasConstraintName("FK_MovimientoInsumo_AspNetUsers");
             });
 
+            modelBuilder.Entity<MovimientoInterno>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.FechaAnulacion)
+                    .HasColumnName("fechaAnulacion")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.IdProveedor).HasColumnName("idProveedor");
+
+                entity.Property(e => e.IdTipoComprobante).HasColumnName("idTipoComprobante");
+
+                entity.Property(e => e.Monto).HasColumnName("monto");
+
+                entity.Property(e => e.MotivoAnulado)
+                    .HasColumnName("motivoAnulado")
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.Observaciones)
+                    .HasColumnName("observaciones")
+                    .HasMaxLength(500);
+            });
+
             modelBuilder.Entity<PrecioArticulo>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -861,6 +893,21 @@ namespace DisplaBackend.Models
                     .IsRequired()
                     .HasColumnName("nombre")
                     .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<TipoComprobante>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Codigo)
+                    .IsRequired()
+                    .HasColumnName("codigo")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(150);
             });
 
             modelBuilder.Entity<TipoInsumo>(entity =>

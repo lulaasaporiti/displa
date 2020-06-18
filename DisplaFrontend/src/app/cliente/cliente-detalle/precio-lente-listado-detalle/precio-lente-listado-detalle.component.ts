@@ -9,6 +9,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Lente } from 'src/app/model/lente';
 import { ClienteService } from 'src/services/cliente.service';
 import { PrecioLenteCliente } from 'src/app/model/precioLenteCliente';
+import { combineLatest } from 'rxjs';
+
 
 
 @Component({
@@ -42,12 +44,8 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) { 
       this.segment.queryParams.subscribe((params: Params) => {
-        this.idCliente = +params['idCliente']; // (+) converts string 'id' to a number;
+        this.idCliente = +params['id']; // (+) converts string 'id' to a number;
         });
-      this.clienteService.getPreciosLentesCliente(this.idCliente).subscribe(r => {
-        this.preciosSeleccionados = r;
-        console.log(this.preciosSeleccionados)
-      })
     }
 
   ngOnInit() {
@@ -72,12 +70,16 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
 
   loadPrecioLentePage() {
     this.loadingSpinnerService.show()
-      this.lenteService.getLentesVigentesList()
+    combineLatest(
+      this.lenteService.getLentesVigentesAgrupadosList(),
+      this.clienteService.getPreciosLentesCliente(this.idCliente)
+    )
         .subscribe(r => {
-          this.dataSource.data = r;
+          this.dataSource.data = r[0];
+          this.preciosSeleccionados = r[1];
           console.log(this.dataSource.data)
           var maxCantPrecio = 0;
-        this.dataSource.data.forEach(a => {
+          this.dataSource.data.forEach(a => {
           if (a.PrecioLente.length > maxCantPrecio && a.PrecioLente)
             maxCantPrecio = a.PrecioLente.length
         });
