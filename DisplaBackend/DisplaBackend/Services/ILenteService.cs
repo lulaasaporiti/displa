@@ -9,6 +9,7 @@ namespace DisplaBackend.Services
     {
         List<Lente> GetLentes();
         List<Lente> GetLentesVigentes();
+        List<dynamic> GetLentesVigentesAgrupados();
         bool SaveOrUpdate(Lente lente);
         bool Delete(Lente lente);
         Lente GetById(int idLente);
@@ -33,6 +34,11 @@ namespace DisplaBackend.Services
         public List<Lente> GetLentesVigentes()
         {
             return _lenteDAO.GetLentesVigentes();
+        }
+
+        public List<dynamic> GetLentesVigentesAgrupados()
+        {
+            return _lenteDAO.GetLentesVigentesAgrupados();
         }
 
         public List<string> GetCombinaciones()
