@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ClienteListadoComponent } from './cliente-listado/cliente-listado.component';
 import { LoggedInGuard } from 'src/guards/loggedIn-guard';
 import { ClienteAltaComponent } from './cliente-alta/cliente-alta.component';
-import { ClienteModificacionComponent } from './cliente-modificacion/cliente-modificacion.component';
+import { InformacionModificacionComponent } from './cliente-modificacion/informacion-modificacion/informacion-modificacion.component';
 import { InformacionDetalleComponent } from './cliente-detalle/informacion-detalle/informacion-detalle.component';
 
 const routes: Routes = [
@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       {path: 'Cliente/Listado', component: ClienteListadoComponent},
       {path: 'Cliente/Alta', component: ClienteAltaComponent},
-      {path: 'Cliente/Modificacion', component: ClienteModificacionComponent},
+      {path: 'Cliente/Modificacion', component: InformacionModificacionComponent},
       {path: 'Cliente/Detalle', component: InformacionDetalleComponent},
     ]
   }

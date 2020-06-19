@@ -15,11 +15,11 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 
 @Component({
-  selector: 'app-cliente-modificacion',
-  templateUrl: './cliente-modificacion.component.html',
-  styleUrls: ['./cliente-modificacion.component.css']
+  selector: 'app-informacion-modificacion',
+  templateUrl: './informacion-modificacion.component.html',
+  styleUrls: ['./informacion-modificacion.component.css']
 })
-export class ClienteModificacionComponent implements OnInit {
+export class InformacionModificacionComponent implements OnInit {
   private id: number = 0;
   modelCliente = <Cliente>{};
   localidades: Localidad[];
