@@ -37,6 +37,13 @@ namespace DisplaBackend.Controllers
             return _tipoServicioService.GetTiposServicioVigentes();
         }
 
+        [HttpGet, Route("GetTiposServicioConServicios")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetTiposServicioConServicios()
+        {
+            return _tipoServicioService.GetTiposServicioConServicios();
+        }
+
         [HttpPost]
         public IActionResult SaveOrUpdate([FromBody]TipoServicio tipoServicio)
         {
