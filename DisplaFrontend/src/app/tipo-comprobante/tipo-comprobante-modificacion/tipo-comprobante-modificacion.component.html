@@ -1,0 +1,31 @@
+<form #modalForm="ngForm">
+
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="edit"></mat-icon>
+            <p class="dialog-title">Editar tipo de comprobante</p>
+        </div>
+
+     
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Código" [(ngModel)]="data.modelTipoComprobante.Codigo" name="codigo"
+                    #codigo="ngModel" (keyup.enter)="onEnter();" required>
+                <mat-error *ngIf="codigo.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Descripcion" [(ngModel)]="data.modelTipoComprobante.Descripcion" name="descripcion"
+                    #descripcion="ngModel" (keyup.enter)="onEnter();" required>
+                <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>
+        </div>
+    </div>
+</form>

@@ -23,7 +23,7 @@ namespace DisplaBackend.Controllers
             _tipoComprobanteService = tipoComprobanteService;
         }
 
-        [HttpGet, Route("GetTiposConsumos")]
+        [HttpGet, Route("GetTiposComprobante")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetTiposComprobante()
         {

@@ -1,0 +1,12 @@
+<div class="dialog-content">
+    <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+        <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="delete"></mat-icon>
+        <p class="dialog-title">¿Está seguro que quiere eliminar el tipo de comprobante {{data.modelTipoComprobante.Descripcion}}?</p>
+    </div>
+
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+        <button mat-raised-button (click)="onNoClick()" [mat-dialog-close]="false">Cancelar</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data.modelTipoComprobante.Id">Confirmar</button>
+    </div>
+</div>
