@@ -71,7 +71,7 @@ namespace DisplaBackend.DAOs
         {
             try
             {
-                tipoComprobante = _context.TipoComprobante.Update(tipoComprobante).Entity;
+                _context.TipoComprobante.Remove(tipoComprobante);
                 return _context.SaveChanges() >= 1;
 
             }
