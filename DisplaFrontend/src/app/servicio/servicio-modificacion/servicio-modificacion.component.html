@@ -33,7 +33,7 @@
         </div>
         <div fxLayout="row" fxFill>
             <div style="display: block">
-                <div fxFlex fxLayoutGap="3vw">
+                <div fxFlex fxLayoutGap="1vw">
                     <mat-form-field (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index" 
                         floatLabel="never">
                         <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>

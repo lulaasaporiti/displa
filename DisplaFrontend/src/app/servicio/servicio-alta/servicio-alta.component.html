@@ -26,28 +26,6 @@
         </div>
 
 
-        <!-- <div fxLayout="row">
-        <div mat-dialog-content fxLayout="row" (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
-                <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
-            </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="end end">
-            <div fxFlex='10' fxFlexOffset='80'>
-                <button mat-mini-fab color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
-                    <mat-icon class="md-icon-black-18">add</mat-icon>
-                </button>
-            </div>
-
-            <div fxFlex>
-                <button mat-mini-fab color="warn" (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1">
-                    <mat-icon class="md-icon-black-18">delete</mat-icon>
-                </button>
-            </div>
-        </div>
-    </div> -->
-
     <div fxLayout="row" fxLayoutAlign="start center">
         <p>Precios</p>
         <button mat-icon-button color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
@@ -55,10 +33,9 @@
         </button>
     </div>
     <div fxLayout="row" fxFill>
-        <div style="display: block">
-            <div fxFlex fxLayoutGap="3vw">
-                <mat-form-field (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index" 
-                    floatLabel="never">
+        <div>
+            <div fxLayoutGap="1vw">
+                <mat-form-field (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
                     <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
                     <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
 
