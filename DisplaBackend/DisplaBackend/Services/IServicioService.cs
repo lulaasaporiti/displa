@@ -9,6 +9,7 @@ namespace DisplaBackend.Services
     {
         List<Servicio> GetServicios();
         List<Servicio> GetServiciosVigentes();
+        List<Servicio> GetServiciosClientes();
         bool SaveOrUpdate(Servicio servicio);
         bool Delete(Servicio servicio);
         Servicio GetById(int idServicio);
@@ -31,6 +32,10 @@ namespace DisplaBackend.Services
         public List<Servicio> GetServiciosVigentes()
         {
             return _servicioDAO.GetServiciosVigentes();
+        }
+
+        public List<Servicio> GetServiciosClientes() {
+            return _servicioDAO.GetServiciosClientes();
         }
 
         public bool SaveOrUpdate(Servicio servicio)

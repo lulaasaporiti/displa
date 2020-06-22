@@ -12,6 +12,7 @@ namespace DisplaBackend.Services
         bool SaveOrUpdate(TipoServicio tipoServicio);
         bool Delete(TipoServicio tipoServicio);
         TipoServicio GetById(int idTipoServicio);
+        List<TipoServicio> GetTiposServicioConServicios();
     }
 
     public class TipoServicioService : ITipoServicioService
@@ -31,6 +32,11 @@ namespace DisplaBackend.Services
         public List<TipoServicio> GetTiposServicioVigentes()
         {
             return _tipoServicioDAO.GetTiposServicioVigentes();
+        }
+
+        public List<TipoServicio> GetTiposServicioConServicios()
+        {
+            return _tipoServicioDAO.GetTiposServicioConServicios();
         }
 
         public bool SaveOrUpdate(TipoServicio tipoServicio)

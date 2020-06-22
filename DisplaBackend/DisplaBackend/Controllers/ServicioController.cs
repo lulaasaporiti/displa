@@ -38,6 +38,13 @@ namespace DisplaBackend.Controllers
             return _servicioService.GetServiciosVigentes();
         }
 
+        [HttpGet, Route("GetServiciosClientes")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetServiciosClientes()
+        {
+            return _servicioService.GetServiciosClientes();
+        }
+
         [HttpPost]
         public IActionResult SaveOrUpdate([FromBody]Servicio servicio)
         {

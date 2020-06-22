@@ -20,6 +20,10 @@ export class ServicioService {
         return this.http.get(`${this.baseUrl}/GetServiciosVigentes`);
     }
 
+    getServiciosClientes(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetServiciosClientes`);
+    }
+
     saveOrUpdateServicio(servicio: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, servicio);
     }

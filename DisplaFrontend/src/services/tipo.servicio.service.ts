@@ -20,6 +20,10 @@ export class TipoServicioService {
         return this.http.get(`${this.baseUrl}/GetTiposServicioVigentes`);
     }
 
+    getTiposServicioConServiciosList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetTiposServicioConServicios`);
+    }
+
     saveOrUpdateTipoServicio(tipoServicio: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, tipoServicio);
     }

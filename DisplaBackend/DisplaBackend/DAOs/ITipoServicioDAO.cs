@@ -14,6 +14,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(TipoServicio tipoServicio);
         bool Delete(TipoServicio tipoServicio);
         TipoServicio GetById(int idTipoServicio);
+        List<TipoServicio> GetTiposServicioConServicios();
 
     }
 
@@ -81,6 +82,13 @@ namespace DisplaBackend.DAOs
             {
                 throw e;
             }
+        }
+
+        public List<TipoServicio> GetTiposServicioConServicios()
+        {
+            return _context.TipoServicio
+                .Where(ti => ti.Borrado == false && ti.Servicio.Count > 0)
+                .ToList();
         }
     }
 }

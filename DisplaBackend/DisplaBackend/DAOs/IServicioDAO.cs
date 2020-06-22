@@ -11,6 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<Servicio> GetServicios();
         List<Servicio> GetServiciosVigentes();
+        List<Servicio> GetServiciosClientes();
         bool SaveOrUpdate(Servicio servicio);
         bool Delete(Servicio servicio);
         Servicio GetById(int idServicio);
@@ -50,6 +51,29 @@ namespace DisplaBackend.DAOs
                     PrecioServicio = s.PrecioServicio.Select(p => new PrecioServicio { Id = p.Id, Precio = p.Precio, IdServicio = p.IdServicio }).OrderBy(p => p.Precio).ToList()
                 })
                 .ToList();
+        }
+
+        public List<Servicio> GetServiciosClientes()
+        {
+            List<Servicio> servicios = _context.Servicio
+                .Where(s => s.Borrado == false)
+                .Select(s => new Servicio
+                {
+                    Id = s.Id,
+                    Nombre = s.Nombre,
+                    IdTipoServicio = s.IdTipoServicio,
+                    //IdTipoArticuloNavigation = a.IdTipoArticuloNavigation,
+                    Borrado = s.Borrado,
+                    PrecioServicio = s.PrecioServicio
+                        .Where(p => p.PrecioServicioCliente.Where(pc => pc.Especial == true).Count() == 0)
+                        .Select(p => new PrecioServicio { Id = p.Id, Precio = p.Precio, IdServicio = p.IdServicio, IdServicioNavigation = p.IdServicioNavigation })
+                        //.Select(p => new PrecioArticulo { Id = p.Id, Precio = p.Precio, IdArticulo = p.IdArticulo, PrecioArticuloCliente = p.PrecioArticuloCliente })
+                        .OrderBy(p => p.Precio).ToList()
+                })
+                .ToList();
+
+            servicios.GroupBy(a => a.IdTipoServicio);
+            return servicios;
         }
 
         public bool SaveOrUpdate(Servicio servicio)
