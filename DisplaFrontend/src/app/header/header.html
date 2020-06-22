@@ -11,31 +11,19 @@
                 <a mat-menu-item class="button-list" routerLink="Servicio/Listado">Servicios</a>
                 <a mat-menu-item class="button-list" routerLink="Insumo/Listado">Insumos</a>
                 <a mat-menu-item class="button-list" routerLink="Block/Listado">Blocks</a>
-                <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatos">Datos de referencia</button>
             </mat-menu>
 
-            <mat-menu fxLayoutAlign="start center" #menuDatos="matMenu">
-                <a mat-menu-item class="button-list" routerLink="LimiteGrilla/Listado">Límites de la grilla</a>
-                <a mat-menu-item class="button-list" routerLink="TipoArticulo/Listado">Tipos de artículo</a>
-                <a mat-menu-item class="button-list" routerLink="TipoBlock/Listado">Tipos de block</a>
-                <a mat-menu-item class="button-list" routerLink="TipoInsumo/Listado">Tipos de insumo</a>
-                <a mat-menu-item class="button-list" routerLink="TipoServicio/Listado">Tipos de servicio</a>
-                <a mat-menu-item class="button-list" routerLink="Ubicacion/Listado">Ubicaciones</a>
-            </mat-menu>
+            <!-- <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Ventas</button>
+            <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Contabilidad</button> -->
+
 
             <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
             <mat-menu fxLayoutAlign="start center" #menuClientes="matMenu">
                 <a mat-menu-item class="button-list" routerLink="Cliente/Deuda">Listado</a>
                 <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Clientes</a>
-                <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatosClientes">Datos de referencia</button>
             </mat-menu>
 
-            <mat-menu fxLayoutAlign="start center" #menuDatosClientes="matMenu">
-                <a mat-menu-item class="button-list" routerLink="CategoriaIVA/Listado">Categoría IVA</a>
-                <a mat-menu-item class="button-list" routerLink="CondicionVenta/Listado">Condición de venta</a>
-                <a mat-menu-item class="button-list" routerLink="Localidad/Listado">Localidades</a>
-                <a mat-menu-item class="button-list" routerLink="Provincia/Listado">Provincias</a>
-            </mat-menu>
+            <!-- <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Estadísticas ventas</button> -->
 
             <a mat-button routerLink="Proveedor/Listado" class="button-list" fxLayout="row">
                 Proveedores
@@ -46,6 +34,25 @@
             <a mat-button routerLink="Usuario/Listado" class="button-list" fxLayout="row">
                 Caja
             </a>
+            <button mat-button class="button-list" [matMenuTriggerFor]="menuDatos">Datos de referencia</button>
+            <mat-menu fxLayoutAlign="start center" #menuDatos="matMenu">
+                <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatosProductos">Productos</button>
+                <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatosClientes">Clientes y proveedores</button>
+            </mat-menu>
+            <mat-menu fxLayoutAlign="start center" #menuDatosProductos="matMenu">
+                <a mat-menu-item class="button-list" routerLink="Lente/Listado">Lentes</a>
+                <a mat-menu-item class="button-list" routerLink="ArticuloVario/Listado">Artículos varios</a>
+                <a mat-menu-item class="button-list" routerLink="Servicio/Listado">Servicios</a>
+                <a mat-menu-item class="button-list" routerLink="Insumo/Listado">Insumos</a>
+                <a mat-menu-item class="button-list" routerLink="Block/Listado">Blocks</a>
+            </mat-menu>
+            <mat-menu fxLayoutAlign="start center" #menuDatosClientes="matMenu">
+                <a mat-menu-item class="button-list" routerLink="CategoriaIVA/Listado">Categoría IVA</a>
+                <a mat-menu-item class="button-list" routerLink="CondicionVenta/Listado">Condición de venta</a>
+                <a mat-menu-item class="button-list" routerLink="Localidad/Listado">Localidades</a>
+                <a mat-menu-item class="button-list" routerLink="Provincia/Listado">Provincias</a>
+                <a mat-menu-item class="button-list" routerLink="TipoComprobante/Listado">Comprobantes</a>
+            </mat-menu>
             <a mat-button routerLink="Banco/Listado" class="button-list" fxLayout="row">
                 Banco
             </a>
