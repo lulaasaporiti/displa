@@ -29,8 +29,9 @@ namespace DisplaBackend.Models
         public int IdCategoriaIva { get; set; }
         public string UsuarioWeb { get; set; }
         public string PasswordWeb { get; set; }
-        public bool? Bloqueado { get; set; }
-        public bool? Borrado { get; set; }
+        public bool Bloqueado { get; set; }
+        public bool Borrado { get; set; }
+        public double? SaldoActual { get; set; }
 
         public virtual CategoriaIva IdCategoriaIvaNavigation { get; set; }
         public virtual CondicionVenta IdCondicionVentaNavigation { get; set; }

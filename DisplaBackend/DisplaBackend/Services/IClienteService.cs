@@ -22,6 +22,7 @@ namespace DisplaBackend.Services
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
         List<Ficha> GetFichaCliente(int idCliente);
         bool SaveFicha(Ficha ficha);
+        bool BloquearClientes();
     }
 
     public class ClienteService : IClienteService
@@ -106,6 +107,10 @@ namespace DisplaBackend.Services
         public List<Ficha> GetFichaCliente(int idCliente)
         {
             return _clienteDAO.GetFichaCliente(idCliente);
+        }
+
+        public bool BloquearClientes() {
+            return _clienteDAO.BloquearClientes();
         }
     }
 }

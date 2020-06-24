@@ -158,6 +158,12 @@ namespace DisplaBackend.Controllers
         {
             return _clienteService.GetFichaCliente(idCliente);
         }
+
+        [HttpGet, Route("BloquearClientes")]
+        public IActionResult BloquearClientes()
+        {
+            return Ok(_clienteService.BloquearClientes());
+        }
     }
 
 

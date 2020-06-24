@@ -56,8 +56,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
-
-     
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -262,13 +261,9 @@ namespace DisplaBackend.Models
                     .HasColumnName("id")
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.Bloqueado)
-                    .HasColumnName("bloqueado")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Bloqueado).HasColumnName("bloqueado");
 
-                entity.Property(e => e.Borrado)
-                    .HasColumnName("borrado")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Borrado).HasColumnName("borrado");
 
                 entity.Property(e => e.Cuit)
                     .IsRequired()
@@ -307,6 +302,10 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.Responsable)
                     .HasColumnName("responsable")
                     .HasMaxLength(100);
+
+                entity.Property(e => e.SaldoActual)
+                    .HasColumnName("saldoActual")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Telefonos)
                     .HasColumnName("telefonos")
@@ -707,9 +706,7 @@ namespace DisplaBackend.Models
 
             modelBuilder.Entity<PrecioServicioCliente>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Descuento).HasColumnName("descuento");
 

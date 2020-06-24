@@ -24,6 +24,7 @@ namespace DisplaBackend.DAOs
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
         List<Ficha> GetFichaCliente(int idCliente);
         bool SaveFicha(Ficha ficha);
+        bool BloquearClientes();
     }
 
     public class ClienteDAO : IClienteDAO
@@ -363,5 +364,25 @@ namespace DisplaBackend.DAOs
         //    }
         //    return _context.SaveChanges() >= 1;
         //}
-    }
+
+        public bool BloquearClientes()
+        {
+            List<Cliente> clientes = _context.Cliente.Where(c => c.Borrado != true && c.Bloqueado != true).ToList();
+            try
+            {
+                foreach (var c in clientes)
+                {
+                    if (c.MontoCredito < c.SaldoActual) {
+                        c.Bloqueado = true;
+                        _context.Cliente.Update(c);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return _context.SaveChanges() >= 1;
+        }
+        }
 }

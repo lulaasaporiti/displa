@@ -187,7 +187,7 @@ export class PrecioServicioListadoComponent implements OnInit {
     }
     if (this.checkboxIndeterminate.includes(true) && event.checked) {
       this.checkboxIndeterminate[0] = true;
-      this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
+      this.sessionService.showInfo("Existen servicios que no tienen este número de precio, se seleccionará el primero");
     }
   }
 
