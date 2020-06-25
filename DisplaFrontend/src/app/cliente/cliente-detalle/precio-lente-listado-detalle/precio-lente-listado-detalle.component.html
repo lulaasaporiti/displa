@@ -15,13 +15,17 @@
 
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
       <th mat-header-cell *matHeaderCellDef fxFlex="19">
-        <mat-checkbox name="checkbox{{i}}" [(ngModel)]="checkboxChecked[i]" [(indeterminate)]="checkboxIndeterminate[i]"
-          (change)="onClickedTodos($event)"></mat-checkbox> {{ column.header }}
+        <mat-checkbox name="checkbox{{i}}" [(ngModel)]="checkboxChecked[i]" [(indeterminate)]="checkboxIndeterminate[i]" disabledCheck>
+        </mat-checkbox> {{ column.header }}
       </th>
       <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center">
-        <mat-checkbox *ngIf="row.PrecioLente[i] != null" name="checkbox{{i}}"
-          [checked]="chequear(row.PrecioLente[i].Id)" (change)="onClicked(row, $event)">
-          {{row.PrecioLente[i].Precio}} </mat-checkbox>
+        <div *ngIf="row.PrecioLente[i] != null">
+        <div *ngFor="let precio of row.PrecioLente[i].Precio; let j = index">
+          <!-- <mat-checkbox *ngIf="row.PrecioLente[i] != null" name="checkbox{{i}}" [checked]="chequear(row.PrecioLente[i].Id)" (change)="onClicked(row, $event)"> -->
+          <mat-checkbox *ngIf="row.PrecioLente[i] != null" disabledCheck>
+            {{row.PrecioLente[j].Precio[i].Precio}} </mat-checkbox>
+          </div>
+        </div>
       </td>
     </ng-container>
 
@@ -29,8 +33,8 @@
       <th mat-header-cell *matHeaderCellDef fxFlex="12"> PRECIO ESPECIAL </th>
       <td mat-cell *matCellDef="let row" fxFlex="12" fxLayoutAlign="start center">
         <mat-form-field style="width: 50px;">
-          <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorPrecioEspecial(row.Id)"
-            (blur)="precioEspecial($event.target.value, row.Id)">
+          <input matInput name="row{{i}}" [value]="valorPrecioEspecial(row.Id)"
+            disabled>
         </mat-form-field>
       </td>
     </ng-container>
@@ -39,8 +43,7 @@
       <th mat-header-cell *matHeaderCellDef fxFlex="10"> DESCUENTO </th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center">
         <mat-form-field style="width: 50px;">
-          <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorDescuento(row.Id)"
-            (blur)="descuentoArticulo($event.target.value, row.Id)">
+          <input matInput name="row{{i}}" [value]="valorDescuento(row.Id)" disabled>
         </mat-form-field>
       </td>
     </ng-container>
@@ -49,9 +52,4 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
-  <div fxLayout="row" fxLayoutAlign="space-between end" style="margin-bottom: 2px;">
-    <button mat-raised-button (click)="cancelar()">Cancelar</button>
-    <button mat-raised-button color="primary" [disabled]="preciosSeleccionados.length == 0"
-      (click)="guardarCliente()">Guardar precios</button>
-  </div>
 </div>

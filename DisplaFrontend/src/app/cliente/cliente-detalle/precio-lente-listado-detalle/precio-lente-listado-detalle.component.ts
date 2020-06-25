@@ -23,6 +23,9 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
   displayedColumns: string[] = ['Nombre'];
   columns = [];
   idCliente: number = 0;
+  disabledCheck = true;
+  recargaPagina = false;
+
 
   dataSource = new MatTableDataSource<Lente>();
   preciosSeleccionados: PrecioLenteCliente[] = [];
@@ -36,12 +39,9 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
-    private precioLenteClienteService: PrecioLenteClienteService,
     private lenteService: LenteService,
     private segment: ActivatedRoute,
     private clienteService: ClienteService,
-    private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) { 
       this.segment.queryParams.subscribe((params: Params) => {
         this.idCliente = +params['id']; // (+) converts string 'id' to a number;
@@ -59,10 +59,6 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
     this.searchElement.nativeElement.focus();
   }
 
-  cancelar(){
-    this.router.navigateByUrl('Cliente/Listado')
-  }
-
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -74,44 +70,35 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
       this.lenteService.getLentesVigentesAgrupadosList(),
       this.clienteService.getPreciosLentesCliente(this.idCliente)
     )
-        .subscribe(r => {
-          this.dataSource.data = r[0];
-          this.preciosSeleccionados = r[1];
-          console.log(this.dataSource.data)
-          var maxCantPrecio = 0;
-          this.dataSource.data.forEach(a => {
+      .subscribe(r => {
+        this.dataSource.data = r[0];
+        this.preciosSeleccionados = r[1];
+        console.log(this.dataSource.data)
+        var maxCantPrecio = 0;
+        this.dataSource.data.forEach(a => {
           if (a.PrecioLente.length > maxCantPrecio && a.PrecioLente)
             maxCantPrecio = a.PrecioLente.length
         });
         for (let i = 1; i <= maxCantPrecio; i++) {
           this.checkboxChecked.push(false)
           this.checkboxIndeterminate.push(false);
-          this.displayedColumns.push('Precio' + i);
-          this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
-          if (i == maxCantPrecio) {
-            this.displayedColumns.push('PrecioEspecial');
-            this.displayedColumns.push('Descuento');
+          if (this.recargaPagina == false) {
+
+            this.displayedColumns.push('Precio' + i);
+            this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
+            if (i == maxCantPrecio) {
+              this.displayedColumns.push('PrecioEspecial');
+              this.displayedColumns.push('Descuento');
+            }
           }
         }
+
       });
     this.loadingSpinnerService.hide();
   }
 
-  _keyPress(event: any) {
-    const pattern = /[0-9,.]/;
-    let inputChar = String.fromCharCode(event.charCode);
-
-    if (!pattern.test(inputChar)) {
-      event.preventDefault();
-    }
-  }
-
   chequear(idPrecio: any) {
     return this.preciosSeleccionados.find(element => element.IdPrecioLente == idPrecio);
-  }
-
-  habilitarDescuento(lente: Lente) {
-    return this.preciosSeleccionados.some(p => lente.PrecioLente.some(plente => plente.Id == p.IdPrecioLente));
   }
 
   valorPrecioEspecial(idLente) {

@@ -7,6 +7,7 @@ namespace DisplaBackend.Models
     {
         public ArticuloVario()
         {
+            ComprobanteItem = new HashSet<ComprobanteItem>();
             PrecioArticulo = new HashSet<PrecioArticulo>();
         }
 
@@ -20,6 +21,7 @@ namespace DisplaBackend.Models
         public bool Borrado { get; set; }
 
         public virtual TipoArticulo IdTipoArticuloNavigation { get; set; }
+        public virtual ICollection<ComprobanteItem> ComprobanteItem { get; set; }
         public virtual ICollection<PrecioArticulo> PrecioArticulo { get; set; }
     }
 }

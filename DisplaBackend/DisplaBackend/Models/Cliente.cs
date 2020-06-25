@@ -7,6 +7,7 @@ namespace DisplaBackend.Models
     {
         public Cliente()
         {
+            ComprobanteCliente = new HashSet<ComprobanteCliente>();
             Ficha = new HashSet<Ficha>();
             PrecioArticuloCliente = new HashSet<PrecioArticuloCliente>();
             PrecioLenteCliente = new HashSet<PrecioLenteCliente>();
@@ -31,11 +32,12 @@ namespace DisplaBackend.Models
         public string PasswordWeb { get; set; }
         public bool Bloqueado { get; set; }
         public bool Borrado { get; set; }
-        public double? SaldoActual { get; set; }
+        public double SaldoActual { get; set; }
 
         public virtual CategoriaIva IdCategoriaIvaNavigation { get; set; }
         public virtual CondicionVenta IdCondicionVentaNavigation { get; set; }
         public virtual Localidad IdLocalidadNavigation { get; set; }
+        public virtual ICollection<ComprobanteCliente> ComprobanteCliente { get; set; }
         public virtual ICollection<Ficha> Ficha { get; set; }
         public virtual ICollection<PrecioArticuloCliente> PrecioArticuloCliente { get; set; }
         public virtual ICollection<PrecioLenteCliente> PrecioLenteCliente { get; set; }
