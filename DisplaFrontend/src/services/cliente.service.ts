@@ -16,6 +16,11 @@ export class ClienteService {
     getClientesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetClientes`);
     }
+
+    
+    getClientesBloqueados(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetClientesBloqueados`);
+    }
     
     getClientesVigentesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetClientesVigentes`);

@@ -25,6 +25,7 @@ namespace DisplaBackend.DAOs
         List<Ficha> GetFichaCliente(int idCliente);
         bool SaveFicha(Ficha ficha);
         bool BloquearClientes();
+        List<Cliente> GetClientesBloqueados();
     }
 
     public class ClienteDAO : IClienteDAO
@@ -384,5 +385,26 @@ namespace DisplaBackend.DAOs
             }
             return _context.SaveChanges() >= 1;
         }
+
+        public List<Cliente> GetClientesBloqueados()
+        {
+            List<Cliente> clientes = _context.Cliente
+                .Where(c => c.Bloqueado)
+                .Select(c => new Cliente
+                {
+                    Id = c.Id,
+                    Cuit = c.Cuit,
+                    Optica = c.Optica,
+                    Responsable = c.Responsable,
+                    Direccion = c.Direccion,
+                    Telefonos = c.Telefonos,
+                    UtilizaSobre = c.UtilizaSobre,
+                    Mail = c.Mail,
+                    Bloqueado = c.Bloqueado,
+                    Borrado = c.Borrado,
+                })
+                .ToList();
+            return clientes;
         }
+    }
 }

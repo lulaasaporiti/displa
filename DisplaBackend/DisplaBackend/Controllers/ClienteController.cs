@@ -164,6 +164,13 @@ namespace DisplaBackend.Controllers
         {
             return Ok(_clienteService.BloquearClientes());
         }
+
+        [HttpGet, Route("GetClientesBloqueados")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetClientesBloqueados()
+        {
+            return _clienteService.GetClientesBloqueados();
+        }
     }
 
 
