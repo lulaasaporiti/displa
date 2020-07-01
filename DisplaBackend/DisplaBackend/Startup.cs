@@ -251,7 +251,7 @@ namespace DisplaBackend
             //adding customs roles : Question 1
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            string[] roleNames = { "Admin", "Empleado" };
+            string[] roleNames = { "Admin", "Empleado", "Administrativo" };
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)

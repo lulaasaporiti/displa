@@ -30,7 +30,6 @@
 
         <mat-form-field fxLayout="column">
             <mat-select placeholder="Roles" [(ngModel)]="data.modelUsuario.Roles.Name" name="roles" #rols required>
-
                 <mat-option *ngFor="let rol of rolesList" [value]="rol.Name">{{rol.Name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="rols.invalid">Este campo es obligatorio.</mat-error>
