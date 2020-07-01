@@ -28,6 +28,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Caja> Caja { get; set; }
         public virtual DbSet<CategoriaIva> CategoriaIva { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
+        public virtual DbSet<ClienteBloqueo> ClienteBloqueo { get; set; }
         public virtual DbSet<ComprobanteCliente> ComprobanteCliente { get; set; }
         public virtual DbSet<ComprobanteItem> ComprobanteItem { get; set; }
         public virtual DbSet<ComprobanteItemLente> ComprobanteItemLente { get; set; }
@@ -333,6 +334,28 @@ namespace DisplaBackend.Models
                     .WithMany(p => p.Cliente)
                     .HasForeignKey(d => d.IdLocalidad)
                     .HasConstraintName("FK_Cliente_Localidad");
+            });
+
+            modelBuilder.Entity<ClienteBloqueo>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.Motivo)
+                    .IsRequired()
+                    .HasColumnName("motivo")
+                    .HasMaxLength(500);
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.ClienteBloqueo)
+                    .HasForeignKey(d => d.IdCliente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ClienteBloqueo_Cliente");
             });
 
             modelBuilder.Entity<ComprobanteCliente>(entity =>
