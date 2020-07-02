@@ -24,6 +24,7 @@ namespace DisplaBackend.Models
         public double SubTotalFactura { get; set; }
         public int? PorcentajeDtoGral { get; set; }
         public double? MontoIvari { get; set; }
+        public DateTime? FechaAnulado { get; set; }
 
         public virtual Cliente IdClienteNavigation { get; set; }
         public virtual TipoComprobante IdTipoComprobanteNavigation { get; set; }

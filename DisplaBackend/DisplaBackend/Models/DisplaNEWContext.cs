@@ -28,6 +28,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Caja> Caja { get; set; }
         public virtual DbSet<CategoriaIva> CategoriaIva { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
+        public virtual DbSet<ClienteBloqueo> ClienteBloqueo { get; set; }
         public virtual DbSet<ComprobanteCliente> ComprobanteCliente { get; set; }
         public virtual DbSet<ComprobanteItem> ComprobanteItem { get; set; }
         public virtual DbSet<ComprobanteItemLente> ComprobanteItemLente { get; set; }
@@ -59,6 +60,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -335,12 +337,38 @@ namespace DisplaBackend.Models
                     .HasConstraintName("FK_Cliente_Localidad");
             });
 
+            modelBuilder.Entity<ClienteBloqueo>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.Motivo)
+                    .IsRequired()
+                    .HasColumnName("motivo")
+                    .HasMaxLength(500);
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.ClienteBloqueo)
+                    .HasForeignKey(d => d.IdCliente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ClienteBloqueo_Cliente");
+            });
+
             modelBuilder.Entity<ComprobanteCliente>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.FechaAnulado)
+                    .HasColumnName("fechaAnulado")
                     .HasColumnType("date");
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
@@ -945,13 +973,13 @@ namespace DisplaBackend.Models
 
             modelBuilder.Entity<StockLente>(entity =>
             {
-                entity.HasKey(e => new { e.MedidaEsferico, e.MedidaCilindrico, e.IdLente });
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.MedidaEsferico).HasColumnName("medidaEsferico");
+                entity.Property(e => e.IdLente).HasColumnName("idLente");
 
                 entity.Property(e => e.MedidaCilindrico).HasColumnName("medidaCilindrico");
 
-                entity.Property(e => e.IdLente).HasColumnName("idLente");
+                entity.Property(e => e.MedidaEsferico).HasColumnName("medidaEsferico");
 
                 entity.Property(e => e.Stock).HasColumnName("stock");
 

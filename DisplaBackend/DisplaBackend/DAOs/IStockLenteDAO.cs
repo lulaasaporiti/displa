@@ -10,7 +10,7 @@ namespace DisplaBackend.DAOs
     public interface IStockLenteDAO
     {
         List<StockLente> GetStockLente(int idLente);
-        bool SaveOrUpdate(StockLente stockLente);
+        bool SaveOrUpdate(List<StockLente> stocksLente);
         bool Delete(StockLente stockLente);
         StockLente GetStockLente(float medidaCilindrico, float medidaEsferico, int idLente);
     }
@@ -30,24 +30,22 @@ namespace DisplaBackend.DAOs
             return _context.StockLente.Where(sl => sl.IdLente == idLente).ToList();
         }
 
-        public bool SaveOrUpdate(StockLente stockLente)
+        public bool SaveOrUpdate(List<StockLente> stocksLente)
         {
-            StockLente stockDDBB = _context.StockLente.FirstOrDefault(sl => sl.MedidaCilindrico == stockLente.MedidaCilindrico
-                                                                            && sl.MedidaEsferico == stockLente.MedidaEsferico
-                                                                            && sl.IdLente == stockLente.IdLente);
             try
             {
-                if (stockDDBB == null)
+                foreach (var stock in stocksLente)
                 {
-                    stockLente = _context.Add(stockLente).Entity;
-                }
-                else
-                {
-                    stockLente = _context.StockLente.Update(stockLente).Entity;
-
+                    if(stock.Id == 0)
+                    {
+                        _context.Add(stock);
+                    }
+                    else
+                    {
+                        _context.Update(stock);
+                    }
                 }
                 return _context.SaveChanges() >= 1;
-
             }
             catch (Exception e)
             {

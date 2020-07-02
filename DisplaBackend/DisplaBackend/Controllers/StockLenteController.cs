@@ -34,13 +34,13 @@ namespace DisplaBackend.Controllers
        
 
         [HttpPost]
-        public IActionResult SaveOrUpdate([FromBody]StockLente stockLente)
+        public IActionResult SaveOrUpdate([FromBody]List<StockLente> stocksLente)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(_stockLenteService.SaveOrUpdate(stockLente));
+            return Ok(_stockLenteService.SaveOrUpdate(stocksLente));
             
         }
 

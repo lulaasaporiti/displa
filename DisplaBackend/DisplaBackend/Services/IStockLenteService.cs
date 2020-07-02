@@ -8,7 +8,7 @@ namespace DisplaBackend.Services
     public interface IStockLenteService
     {
         List<StockLente> GetStockLente(int idLente);
-        bool SaveOrUpdate(StockLente stockLente);
+        bool SaveOrUpdate(List<StockLente> stocksLente);
         bool Delete(StockLente stockLente);
         StockLente GetStockLente(float medidaCilindrico, float medidaEsferico, int idLente);
     }
@@ -27,9 +27,9 @@ namespace DisplaBackend.Services
             return _stockLenteDAO.GetStockLente(idLente);
         }
 
-        public bool SaveOrUpdate(StockLente stockLente)
+        public bool SaveOrUpdate(List<StockLente> stocksLente)
         {
-            return _stockLenteDAO.SaveOrUpdate(stockLente);
+            return _stockLenteDAO.SaveOrUpdate(stocksLente);
 
         }
 

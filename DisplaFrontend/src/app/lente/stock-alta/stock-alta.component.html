@@ -1,0 +1,65 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
+            <p class="dialog-title">Agregar stock {{data.descripcion}}</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="1vw">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Medida esférico" [(ngModel)]="data.modelStock.MedidaEsferico" name="esferico"
+                    #esferico="ngModel" required>
+                <mat-error *ngIf="esferico.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Medida cilindríco" [(ngModel)]="data.modelStock.MedidaCilindrico" name="cilindrico"
+                    #cilindrico="ngModel" required>
+                <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+<!-- 
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <mat-select placeholder="Tipo de servicio" [(ngModel)]="data.modelServicio.IdTipoServicio" name="tipo"
+                    #tipo="ngModel" required>
+                    <mat-option *ngFor="let ts of tiposServicio" [value]="ts.Id">
+                        {{ ts.Nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="tipo.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div> -->
+
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <p>Precios</p>
+        <button mat-icon-button color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div fxLayout="row" fxFill>
+        <div>
+            <!-- <div fxLayoutGap="1vw">
+                <mat-form-field (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
+                    <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
+                    <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+
+                    <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                    (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1"
+                        color="accent">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div> -->
+        </div>
+    </div>
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Agregar</button>
+        </div>
+    </div>
+
+</form>
