@@ -17,7 +17,6 @@ export class UsuarioModificacionComponent implements OnInit {
     public dialogRef: MatDialogRef<UsuarioModificacionComponent>,
     private accountService: AccountService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
     }
 
     ngOnInit() {

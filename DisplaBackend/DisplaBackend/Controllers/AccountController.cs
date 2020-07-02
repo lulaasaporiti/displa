@@ -141,13 +141,13 @@ namespace DisplaBackend.Controllers
                 var lastId = _accountService.GetLastId();
 
                 //Alejo no quiere mails, por eso hay que crearlos con un mail random.
-                var email = RandomString(5, true);
+                //var email = RandomString(5, true);
 
                 var user = new ApplicationUser
                 {
                     //Id = lastId,
                     UserName = model.UserName,
-                    Email = email + "@hotmail.com"
+                    Email = model.UserName + "@hotmail.com"
 
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
