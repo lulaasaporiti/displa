@@ -40,6 +40,9 @@ import { LocalidadModule } from './localidad/localidad.module';
 import { BancoModule } from './banco/banco.module';
 import { TarjetaCreditoModule } from './tarjeta-credito/tarjeta-credito.module';
 import { LimiteGrillaModule } from './limite-grilla/limite-grilla.module';
+import { TipoComprobanteModule } from './tipo-comprobante/tipo-comprobante.module';
+
+
 
 @NgModule({
   declarations: [
@@ -83,6 +86,7 @@ import { LimiteGrillaModule } from './limite-grilla/limite-grilla.module';
     TipoArticuloModule,
     TipoBlockModule,
     TipoInsumoModule,
+    TipoComprobanteModule,
     TipoServicioModule,
     UbicacionModule,
     UsuarioModule

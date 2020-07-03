@@ -8,8 +8,9 @@ import { LenteService } from 'src/services/lente.service';
 import { StockLente } from 'src/app/model/stockLente';
 import { Lente } from 'src/app/model/lente';
 import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/typings/overlay-directives';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
+import { StockAltaComponent } from '../stock-alta/stock-alta.component';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class GrillaComponent {
   grillaIzquierda: any[][] = [[0], [0]];
   grillaDerecha: any[][] = [[0], [0]];
   stock: StockLente[];
-  cargarStock: StockLente[];
+  cargarStock: StockLente[] = [];
   lente = <Lente>{};
   dataSourceIzquierda: MatTableDataSource<number[]>;
   dataSourceDerecha: MatTableDataSource<number[]>;
@@ -39,6 +40,7 @@ export class GrillaComponent {
   constructor(
     private limitesGrillaService: LimitesGrillaService,
     private stockLenteService: StockLenteService,
+    public  dialog: MatDialog,
     private lenteService: LenteService,
     private router: Router,
     private segment: ActivatedRoute,
@@ -54,6 +56,7 @@ export class GrillaComponent {
       this.stockLenteService.getStockLenteList(this.idLente)
     ).subscribe(r => {
       this.lente = r[0]
+      console.log(this.lente)
       this.stock = r[1];
       let combinacion = this.lente.Combinacion.split("  / ");
       let idLimiteDerecha;
@@ -178,11 +181,19 @@ export class GrillaComponent {
     let fila = this.arrayLateralIzquierdo.indexOf(i);
     if (this.grillaIzquierda[fila][columna] != event) {
       let stockLente = <StockLente>{};
-      stockLente.Stock = +event;
-      stockLente.IdLente = this.idLente;
-      stockLente.MedidaEsferico = i;
-      stockLente.MedidaCilindrico = +this.arraySuperiorIzquierdo[columna];
-      this.cargarStock.push(stockLente)
+      if (this.grillaIzquierda[fila][columna] != undefined) {
+        stockLente = this.stock.find(s => s.IdLente == this.idLente && s.MedidaEsferico == i
+          && s.MedidaCilindrico == +this.arraySuperiorIzquierdo[columna]);
+        stockLente.Stock = event;
+        this.cargarStock.push(stockLente);
+      }
+      else {
+        stockLente.Stock = +event;
+        stockLente.IdLente = this.idLente;
+        stockLente.MedidaEsferico = i;
+        stockLente.MedidaCilindrico = +this.arraySuperiorIzquierdo[columna];
+        this.cargarStock.push(stockLente);
+      }
     }
   }
 
@@ -190,11 +201,20 @@ export class GrillaComponent {
     let fila = this.arrayLateralDerecho.indexOf(i);
     if (this.grillaDerecha[fila][columna] != event) {
       let stockLente = <StockLente>{};
-      stockLente.Stock = +event;
-      stockLente.IdLente = this.idLente;
-      stockLente.MedidaEsferico = i;
-      stockLente.MedidaCilindrico = +this.arraySuperiorDerecho[columna];
-      this.cargarStock.push(stockLente)
+      if (this.grillaDerecha[fila][columna] != undefined) {
+        stockLente = this.stock.find(s => s.IdLente == this.idLente && s.MedidaEsferico == i
+          && s.MedidaCilindrico == +this.arraySuperiorDerecho[columna]);
+        stockLente.Stock = event;
+        this.cargarStock.push(stockLente);
+      }
+      else {
+        let stockLente = <StockLente>{};
+        stockLente.Stock = +event;
+        stockLente.IdLente = this.idLente;
+        stockLente.MedidaEsferico = i;
+        stockLente.MedidaCilindrico = +this.arraySuperiorDerecho[columna];
+        this.cargarStock.push(stockLente)
+      }
     }
   }
 
@@ -208,11 +228,34 @@ export class GrillaComponent {
   }
 
   agregarStock(){
-
+    const dialogRef = this.dialog.open(StockAltaComponent, {
+      width: '700px',
+      height: '650px',
+      data: { modelStock: this.stock, descripcion: this.lente.Nombre, graduacionCilindrica: this.lente.GraduacionesCilindricas }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadingSpinnerService.show();
+      this.router.navigateByUrl('Account/Login').then(
+        () => {
+          this.router.navigateByUrl('Lente/Stock');
+          this.loadingSpinnerService.hide();
+          window.scrollTo(0, 0);
+        });
+      window.location.reload();
+    });
   }
 
-  guardarStock(){
-
+  guardarStock() {
+    this.stockLenteService.saveOrUpdateStockLente(this.cargarStock)
+      .subscribe(r => {
+        this.loadingSpinnerService.show();
+        this.router.navigateByUrl('Account/Login').then(
+          () => {
+            this.router.navigateByUrl('Lente/Stock');
+            this.loadingSpinnerService.hide();
+            window.scrollTo(0, 0);
+          });
+        window.location.reload();
+      });
   }
-  
 }

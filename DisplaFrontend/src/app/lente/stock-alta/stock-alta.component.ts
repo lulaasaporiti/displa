@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { TipoServicioService } from 'src/services/tipo.servicio.service';
-import { TipoServicio } from 'src/app/model/tipoServicio';
-import { PrecioServicio } from 'src/app/model/precioServicio';
+import { StockLente } from 'src/app/model/stockLente';
+import { StockLenteService } from 'src/services/stock.lente.service';
 
 @Component({
   selector: 'app-stock-alta',
@@ -10,15 +9,15 @@ import { PrecioServicio } from 'src/app/model/precioServicio';
   styleUrls: ['./stock-alta.component.css']
 })
 export class StockAltaComponent implements OnInit {
-  tiposServicio: TipoServicio[];
-  // modelPrecio: PrecioServicio[] = [];
-  selectedPrecio = new EventEmitter<PrecioServicio[]>();
+  cargarStock: StockLente[] = [];
+  selectedStock = new EventEmitter<StockLente[]>();
+  msjCilindrico: boolean = false;
 
 
   constructor(
     public dialogRef: MatDialogRef<StockAltaComponent>,
+    private stockLenteService: StockLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
   }
 
   ngOnInit() {
@@ -29,26 +28,43 @@ export class StockAltaComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  agregarPrecio() {
-      let item = <PrecioServicio>{};
-      this.data.modelServicio.PrecioServicio.push(item);
+  agregarStock() {
+      let item = <StockLente>{};
+      item.IdLente = this.data.modelStock[0].IdLente;
+      this.cargarStock.push(item);
   }
 
-  eliminarUltimoPrecio() {
-    this.data.modelServicio.PrecioServicio.pop();
-    this.updateStatePrecio();
+  eliminarUltimoStock() {
+    this.cargarStock.pop();
+    this.updateStateStock();
   }
 
-  precioSelected() {
-    this.updateStatePrecio();
+  stockSelected() {
+    this.updateStateStock();
   }
 
-  updateStatePrecio() {
+  updateStateStock() {
     //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
     //y el ngOnChanges() lo detecte
-    let modelPrecio = JSON.parse(JSON.stringify(this.data.modelServicio.PrecioServicio));
-    this.selectedPrecio.emit(modelPrecio);
+    let nuevoStock = JSON.parse(JSON.stringify(this.cargarStock));
+    this.selectedStock.emit(nuevoStock);
   }
+
+  agregarNuevoStock(){
+    this.cargarStock.forEach(cs => {
+      let machearStock = this.data.modelStock.find(s=> s.MedidaCilindrico == +cs.MedidaCilindrico && s.MedidaEsferico == +cs.MedidaEsferico )     
+      if(machearStock != null){
+        cs.Id = machearStock.Id;
+      }
+    });
+    this.stockLenteService.saveOrUpdateStockLente(this.cargarStock)
+    .subscribe(re =>{
+      console.log(re)
+      if(re != null)
+      this.dialogRef.close(true);
+    });
+  }
+
 
 
 }
