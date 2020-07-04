@@ -18,10 +18,11 @@ export class StockAltaComponent implements OnInit {
     public dialogRef: MatDialogRef<StockAltaComponent>,
     private stockLenteService: StockLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log(data)
   }
 
   ngOnInit() {
- 
+
   }
 
   onNoClick(): void {
@@ -29,9 +30,9 @@ export class StockAltaComponent implements OnInit {
   }
 
   agregarStock() {
-      let item = <StockLente>{};
-      item.IdLente = this.data.modelStock[0].IdLente;
-      this.cargarStock.push(item);
+    let item = <StockLente>{};
+    item.IdLente = this.data.modelStock[0].IdLente;
+    this.cargarStock.push(item);
   }
 
   eliminarUltimoStock() {
@@ -50,19 +51,30 @@ export class StockAltaComponent implements OnInit {
     this.selectedStock.emit(nuevoStock);
   }
 
-  agregarNuevoStock(){
+  agregarNuevoStock() {
     this.cargarStock.forEach(cs => {
-      let machearStock = this.data.modelStock.find(s=> s.MedidaCilindrico == +cs.MedidaCilindrico && s.MedidaEsferico == +cs.MedidaEsferico )     
-      if(machearStock != null){
+      let machearStock = this.data.modelStock.find(s => s.MedidaCilindrico == +cs.MedidaCilindrico && s.MedidaEsferico == +cs.MedidaEsferico)
+      if (machearStock != null) {
         cs.Id = machearStock.Id;
       }
     });
     this.stockLenteService.saveOrUpdateStockLente(this.cargarStock)
-    .subscribe(re =>{
-      console.log(re)
-      if(re != null)
-      this.dialogRef.close(true);
-    });
+      .subscribe(re => {
+        if (re != null)
+          this.dialogRef.close(true);
+      });
+  }
+
+  compararGraduacion(event) {
+    if (this.cargarStock[event].MedidaCilindrico > 0 && this.data.graduacionCilindrica == '-') {
+      this.msjCilindrico = true;
+    }
+    else {
+      if (0 > this.cargarStock[event].MedidaCilindrico && this.data.graduacionCilindrica == '+') {
+        this.msjCilindrico = true;
+      }
+      this.msjCilindrico = false;
+    }
   }
 
 

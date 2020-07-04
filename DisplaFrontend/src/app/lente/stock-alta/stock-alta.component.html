@@ -21,9 +21,9 @@
     
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Medida cilindríco" type="number" [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}" name="cilindrico{{index}}"
-                        #cilindrico="ngModel" required>
+                        #cilindrico="ngModel" (blur)="compararGraduacion(index)" required>
                     <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
-                    <p *ngIf="msjCilindrico">Este campo es obligatorio.</p>
+                    <p  class="msjCilindrico" *ngIf="msjCilindrico">Este campo es obligatorio.</p>
                 </mat-form-field>
 
                 <mat-form-field>
