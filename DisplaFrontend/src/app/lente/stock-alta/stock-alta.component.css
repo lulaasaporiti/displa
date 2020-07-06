@@ -14,3 +14,9 @@
 .mat-dialog-content {
     height: 65px;
 }
+
+.msjError {
+    color: #ff5722;
+    font-size: 68%;
+    margin-top: 8px;
+}

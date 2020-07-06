@@ -41,6 +41,7 @@ import { BancoModule } from './banco/banco.module';
 import { TarjetaCreditoModule } from './tarjeta-credito/tarjeta-credito.module';
 import { LimiteGrillaModule } from './limite-grilla/limite-grilla.module';
 import { TipoComprobanteModule } from './tipo-comprobante/tipo-comprobante.module';
+import { ManejoStockModule } from './manejo-stock/manejo-stock.module';
 
 
 
@@ -77,6 +78,7 @@ import { TipoComprobanteModule } from './tipo-comprobante/tipo-comprobante.modul
     LenteModule,
     LimiteGrillaModule,
     LocalidadModule,
+    ManejoStockModule,
     MovimientoBlockModule,
     MovimientoInsumoModule,
     ProveedorModule,

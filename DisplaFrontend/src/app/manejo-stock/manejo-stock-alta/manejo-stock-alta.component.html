@@ -1,14 +1,26 @@
 <form #modalForm="ngForm">
-    <div class="dialog-content">
-        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
-            <p class="dialog-title">Agregar stock {{data.descripcion}}</p>
+    <div class="content">
+        <!-- <app-loading-spinner></app-loading-spinner> -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <h4 fxLayout="column" class="titulo" fxFlex>Agregar stock</h4>
         </div>
+        <mat-divider fxFlexOffset="2"></mat-divider>
         
         <div fxLayout="row" fxFill>
             <div>
                 <div fxLayout="row" fxLayoutGap="1vw" (change)="updateStateStock()" *ngFor="let s of cargarStock; let index = index">
                     <div fxLayout="column">
+                        <mat-form-field>
+                            <input type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
+                                [matAutocomplete]="auto" name="lente" (blur)="setIdLente(this.lentesControl,
+                            this.data)" (keyup.enter)="setIdLente(this.lentesControl, this.data);onEnter();">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
+                                <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
+                                    {{ l.Id }} - {{l.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
                         <mat-form-field fxFlex="50">
                             <input matInput placeholder="Medida esférico" type="number"
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
@@ -51,7 +63,7 @@
                 <mat-icon>add</mat-icon>
             </button>
         </div>
-        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+        <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || cargarStock.length == 0"
                 (click)="agregarNuevoStock()">Agregar</button>
