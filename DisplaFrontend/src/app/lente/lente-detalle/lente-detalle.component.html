@@ -1,111 +1,105 @@
 <div class="content">
     <app-loading-spinner></app-loading-spinner>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <h4 class="titulo" fxFlex>Detalle lente</h4>
-        </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <h4 class="titulo" fxFlex>Detalle lente</h4>
+    </div>
 
-        <div fxLayout="row" fxLayoutGap="2vw">
-            <mat-form-field fxFlex='30' fxLayout="column">
-                <input matInput placeholder="Código" [ngModel]="modelLente.Id" name="codigo" #codigo="ngModel" disabled>
-            </mat-form-field>
-
-            <mat-form-field fxFlex='40' fxLayout="column">
-                <input placeholder="Descripción" matInput [ngModel]="modelLente.Nombre" name="descripcion"
-                    #descripcion="ngModel" disabled>
-            </mat-form-field>
-
-            <mat-form-field fxFlex='30' fxLayout="column">
-                <input placeholder="Descripción factura" matInput [ngModel]="modelLente.DescripcionFactura"
-                    name="descripcionFactura" #descripcionFactura="ngModel" disabled>
-            </mat-form-field>
-        </div>
-
-
-        <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
-            <div fxLayout="row" fxFlex='40'>
-                <label>Graduaciones cilíndricas</label>
-                <mat-radio-group class="radio-group" [(ngModel)]="modelLente.GraduacionesCilindricas"
-                    name="graduacionesCilindricas" #graduacionesCilindricas="ngModel" fxLayout="row" disabled>
-                    <mat-radio-button style="margin-left: 10px;" value="+">Positivas</mat-radio-button>
-                    <mat-radio-button style="margin-left: 10px;" value="-">Negativas</mat-radio-button>
-                </mat-radio-group>
-            </div>
-
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.EsBifocal" name="esBifocal"
-                #esBifocal="ngModel" disabled>Es bifocal
-            </mat-checkbox>
-
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.ControlaStock" name="controlaStock"
-                #controlaStock="ngModel" disabled>Controla stock
-           </mat-checkbox>
-
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
-                #mediosPares="ngModel" disabled>Medios pares
-            </mat-checkbox>
-            
-        </div>
-
-        <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
-            <mat-form-field fxFlex='30'>
-                <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion'
-                    name="combinacion" #combinacion="ngModel" disabled>
-                    <mat-option value="+ +  / - +">+ +  / - +</mat-option>
-                    <mat-option value="+ -  / - -">+ -  / - -</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-           <mat-form-field fxFlex='35'>
-            <input matInput placeholder="Ingresos brutos" [(ngModel)]="modelLente.IngresosBrutos"
-                name="ingresosBrutos" #ingresosBrutos="ngModel" disabled>
+    <div fxLayout="row" fxLayoutGap="2vw">
+        <mat-form-field fxFlex='30' fxLayout="column">
+            <input matInput placeholder="Código" [ngModel]="modelLente.Id" name="codigo" #codigo="ngModel" disabled>
         </mat-form-field>
+
+        <mat-form-field fxFlex='40' fxLayout="column">
+            <input placeholder="Descripción" matInput [ngModel]="modelLente.Nombre" name="descripcion"
+                #descripcion="ngModel" disabled>
+        </mat-form-field>
+
+        <mat-form-field fxFlex='30' fxLayout="column">
+            <input placeholder="Descripción factura" matInput [ngModel]="modelLente.DescripcionFactura"
+                name="descripcionFactura" #descripcionFactura="ngModel" disabled>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
+        <mat-form-field fxFlex='30'>
+            <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion'
+                name="combinacion" #combinacion="ngModel" disabled>
+                <mat-option value="+ +  / - +">+ + / - +</mat-option>
+                <mat-option value="+ -  / - -">+ - / - -</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex='35'>
+            <input matInput placeholder="Ingresos brutos" [(ngModel)]="modelLente.IngresosBrutos" name="ingresosBrutos"
+                #ingresosBrutos="ngModel" disabled>
+        </mat-form-field>
+
+        <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
+            #mediosPares="ngModel" disabled>Medios pares
+        </mat-checkbox>
+    </div>
+
+    <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
+        <div fxLayout="column" fxFlex='40'>
+            <label>Graduaciones cilíndricas</label>
+            <mat-radio-group class="radio-group" [(ngModel)]="modelLente.GraduacionesCilindricas"
+                name="graduacionesCilindricas" #graduacionesCilindricas="ngModel" fxLayout="row" disabled>
+                <mat-radio-button style="margin-left: 10px;" value="+">Positivas</mat-radio-button>
+                <mat-radio-button style="margin-left: 10px;" value="-">Negativas</mat-radio-button>
+            </mat-radio-group>
         </div>
+    </div>
+
+    
 
 
-        <!-- //////////////// -->
+    <!-- //////////////// -->
 
-        <div fxLayout="row" fxFlexOffset="4" fxFill>
-            <div fxLayout="column">
-                <p>Precios</p>
-                <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center" *ngFor="let p of modelPrecio; let i = index">
-                    <mat-form-field>
-                        <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" disabled>
-                    </mat-form-field>
+    <div fxLayout="row" fxFlexOffset="4" fxFill>
+        <div fxLayout="column">
+            <p>Precios</p>
+            <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center"
+                *ngFor="let p of modelPrecio; let i = index">
+                <mat-form-field>
+                    <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" pattern="[0-9]*"
+                        [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" disabled>
+                </mat-form-field>
 
-                    <mat-form-field>
-                        <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" disabled>
-                    </mat-form-field>
+                <mat-form-field>
+                    <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" pattern="[0-9]*"
+                        [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" disabled>
+                </mat-form-field>
 
-                    <mat-form-field>
-                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" disabled>
-                    </mat-form-field>
-                </div>
+                <mat-form-field>
+                    <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]*"
+                        [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" disabled>
+                </mat-form-field>
             </div>
         </div>
+    </div>
 
-        <mat-divider fxFlexOffset="4"></mat-divider>
+    <mat-divider fxFlexOffset="4"></mat-divider>
 
-        <div fxLayout="row" fxFlexOffset="4" fxFill>
-            <div fxLayout="column">
-                <p>Recargos</p>
-                <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center" *ngFor="let r of modelRecargo; let i = index">
-                    <mat-form-field>
-                        <input type="text" placeholder="Descripción" matInput #inputDescripcion="ngModel"
-                            [(ngModel)]="r.Descripcion" id="descripcion{{i}}" name="descripcion{{i}}" disabled>
-                    </mat-form-field>
+    <div fxLayout="row" fxFlexOffset="4" fxFill>
+        <div fxLayout="column">
+            <p>Recargos</p>
+            <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center"
+                *ngFor="let r of modelRecargo; let i = index">
+                <mat-form-field>
+                    <input type="text" placeholder="Descripción" matInput #inputDescripcion="ngModel"
+                        [(ngModel)]="r.Descripcion" id="descripcion{{i}}" name="descripcion{{i}}" disabled>
+                </mat-form-field>
 
-                    <mat-form-field>
-                        <input type="text" placeholder="Porcentaje" matInput #inputPorcentaje="ngModel"
-                            [(ngModel)]="r.Porcentaje" id="porcentaje{{i}}" name="porcentaje{{i}}" disabled>
-                    </mat-form-field>
-                </div>
+                <mat-form-field>
+                    <input type="text" placeholder="Porcentaje" matInput #inputPorcentaje="ngModel"
+                        [(ngModel)]="r.Porcentaje" id="porcentaje{{i}}" name="porcentaje{{i}}" disabled>
+                </mat-form-field>
             </div>
         </div>
+    </div>
 
 
-        <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8">
-            <button mat-raised-button (click)="cancelar()">Cancelar</button>
-        </div>
+    <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8">
+        <button mat-raised-button (click)="cancelar()">Cancelar</button>
+    </div>
 </div>

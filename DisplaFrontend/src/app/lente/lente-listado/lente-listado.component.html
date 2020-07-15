@@ -3,7 +3,7 @@
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
     <h4 fxLayout="column" class="titulo" fxFlex>Lentes</h4>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
-      <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search autofocus="autofocus" placeholder="Buscar">
     </mat-form-field>
   </div>
   <mat-divider fxFlexOffset="2"></mat-divider>

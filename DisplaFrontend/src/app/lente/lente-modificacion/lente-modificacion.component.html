@@ -28,31 +28,6 @@
             </mat-form-field>
         </div>
 
-
-        <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
-            <div fxLayout="row" fxFlex='40'>
-                <label>Graduaciones cilíndricas</label>
-                <mat-radio-group class="radio-group" [(ngModel)]="modelLente.GraduacionesCilindricas"
-                    name="graduacionesCilindricas" #graduacionesCilindricas="ngModel" fxLayout="row">
-                    <mat-radio-button style="margin-left: 10px;" value="+">Positivas</mat-radio-button>
-                    <mat-radio-button style="margin-left: 10px;" value="-">Negativas</mat-radio-button>
-                </mat-radio-group>
-            </div>
-
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.EsBifocal" name="esBifocal"
-                #esBifocal="ngModel">Es bifocal
-            </mat-checkbox>
-
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.ControlaStock" name="controlaStock"
-                #controlaStock="ngModel">Controla stock
-           </mat-checkbox>
-
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
-                #mediosPares="ngModel">Medios pares
-            </mat-checkbox>
-            
-        </div>
-
         <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
             <mat-form-field fxFlex='30'>
                 <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion'
@@ -66,9 +41,26 @@
            <mat-form-field fxFlex='35'>
             <input matInput placeholder="Ingresos brutos" [(ngModel)]="modelLente.IngresosBrutos"
                 name="ingresosBrutos" #ingresosBrutos="ngModel" >
-        </mat-form-field>
+            </mat-form-field>
+
+            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
+                #mediosPares="ngModel">Medios pares
+            </mat-checkbox>
         </div>
 
+
+        <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
+            <div fxLayout="column" fxFlex='40'>
+                <label>Graduaciones cilíndricas</label>
+                <mat-radio-group class="radio-group" [(ngModel)]="modelLente.GraduacionesCilindricas"
+                    name="graduacionesCilindricas" #graduacionesCilindricas="ngModel" fxLayout="row">
+                    <mat-radio-button style="margin-left: 10px;" value="+">Positivas</mat-radio-button>
+                    <mat-radio-button style="margin-left: 10px;" value="-">Negativas</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+
+       
 
         <!-- //////////////// -->
 

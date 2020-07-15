@@ -61,6 +61,14 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=localhost;Database=DisplaNEW;user id=sa;password=1234;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -458,9 +466,13 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
 
-                entity.Property(e => e.Cilindrico).HasColumnName("cilindrico");
+                entity.Property(e => e.Cilindrico)
+                    .HasColumnName("cilindrico")
+                    .HasColumnType("decimal(3, 2)");
 
-                entity.Property(e => e.Esferico).HasColumnName("esferico");
+                entity.Property(e => e.Esferico)
+                    .HasColumnName("esferico")
+                    .HasColumnType("decimal(3, 2)");
 
                 entity.Property(e => e.IdComprobanteItem).HasColumnName("idComprobanteItem");
 
@@ -569,13 +581,9 @@ namespace DisplaBackend.Models
                     .HasColumnName("combinacion")
                     .HasMaxLength(10);
 
-                entity.Property(e => e.ControlaStock).HasColumnName("controlaStock");
-
                 entity.Property(e => e.DescripcionFactura)
                     .HasColumnName("descripcionFactura")
                     .HasMaxLength(50);
-
-                entity.Property(e => e.EsBifocal).HasColumnName("esBifocal");
 
                 entity.Property(e => e.FechaCreacion)
                     .HasColumnName("fechaCreacion")
@@ -795,9 +803,13 @@ namespace DisplaBackend.Models
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Cilindrico).HasColumnName("cilindrico");
+                entity.Property(e => e.Cilindrico)
+                    .HasColumnName("cilindrico")
+                    .HasColumnType("decimal(3, 2)");
 
-                entity.Property(e => e.Esferico).HasColumnName("esferico");
+                entity.Property(e => e.Esferico)
+                    .HasColumnName("esferico")
+                    .HasColumnType("decimal(3, 2)");
 
                 entity.Property(e => e.IdLente).HasColumnName("idLente");
 
@@ -982,12 +994,6 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.MedidaEsferico).HasColumnName("medidaEsferico");
 
                 entity.Property(e => e.Stock).HasColumnName("stock");
-
-                entity.HasOne(d => d.IdLenteNavigation)
-                    .WithMany(p => p.StockLente)
-                    .HasForeignKey(d => d.IdLente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_StockLente_Lente");
             });
 
             modelBuilder.Entity<TarjetaCredito>(entity =>

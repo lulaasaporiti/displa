@@ -24,9 +24,28 @@
             </mat-form-field>
         </div>
 
+        <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
+            <mat-form-field fxFlex='30'>
+                <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion'
+                    name="combinacion" #combinacion="ngModel" required>
+                    <mat-option value="+ +  / - +">+ + / - +</mat-option>
+                    <mat-option value="+ -  / - -">+ - / - -</mat-option>
+                </mat-select>
+                <mat-error *ngIf="combinacion.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex='35'>
+                <input matInput placeholder="Ingresos brutos" [(ngModel)]="modelLente.IngresosBrutos"
+                    name="ingresosBrutos" #ingresosBrutos="ngModel">
+            </mat-form-field>
+
+            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
+                #mediosPares="ngModel">Medios pares
+            </mat-checkbox>
+        </div>
 
         <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
-            <div fxLayout="row" fxFlex='40'>
+            <div fxLayout="column" fxFlex='40'>
                 <label>Graduaciones cilíndricas</label>
                 <mat-radio-group class="radio-group" [(ngModel)]="modelLente.GraduacionesCilindricas"
                     name="graduacionesCilindricas" #graduacionesCilindricas="ngModel" fxLayout="row">
@@ -35,34 +54,15 @@
                 </mat-radio-group>
             </div>
 
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.EsBifocal" name="esBifocal"
+            <!-- <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.EsBifocal" name="esBifocal"
                 #esBifocal="ngModel">Es bifocal
             </mat-checkbox>
 
             <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.ControlaStock" name="controlaStock"
                 #controlaStock="ngModel">Controla stock
-           </mat-checkbox>
+           </mat-checkbox> -->
 
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
-                #mediosPares="ngModel">Medios pares
-            </mat-checkbox>
-            
-        </div>
 
-        <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
-            <mat-form-field fxFlex='30'>
-                <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion'
-                    name="combinacion" #combinacion="ngModel" required>
-                    <mat-option value="+ +  / - +">+ +  / - +</mat-option>
-                    <mat-option value="+ -  / - -">+ -  / - -</mat-option>
-                </mat-select>
-                <mat-error *ngIf="combinacion.invalid">Este campo es obligatorio</mat-error>
-            </mat-form-field>
-
-           <mat-form-field fxFlex='35'>
-            <input matInput placeholder="Ingresos brutos" [(ngModel)]="modelLente.IngresosBrutos"
-                name="ingresosBrutos" #ingresosBrutos="ngModel" >
-        </mat-form-field>
         </div>
 
 
@@ -71,11 +71,13 @@
         <div fxLayout="row" fxFlexOffset="4" fxFill>
             <div fxLayout="column">
                 <p>Precios
-                    <button mat-icon-button color="primary" matTooltip="Agregar rango y precio" (click)="agregarRangoPrecio()">
+                    <button mat-icon-button color="primary" matTooltip="Agregar rango y precio"
+                        (click)="agregarRangoPrecio()">
                         <mat-icon svgIcon="add"></mat-icon>
                     </button>
                 </p>
-                <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center" *ngFor="let p of modelPrecio; let i = index">
+                <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center"
+                    *ngFor="let p of modelPrecio; let i = index">
                     <mat-form-field>
                         <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" pattern="[0-9]*"
                             [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" required>
@@ -114,11 +116,12 @@
                         <mat-icon svgIcon="add"></mat-icon>
                     </button>
                 </p>
-                <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center" *ngFor="let r of modelRecargo; let i = index">
+                <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center"
+                    *ngFor="let r of modelRecargo; let i = index">
                     <mat-form-field>
                         <input type="text" placeholder="Descripción" matInput #inputDescripcion="ngModel"
                             [(ngModel)]="r.Descripcion" id="descripcion{{i}}" name="descripcion{{i}}" required>
-                            <mat-error *ngIf="inputDescripcion.invalid">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="inputDescripcion.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
@@ -126,7 +129,7 @@
                             [(ngModel)]="r.Porcentaje" id="porcentaje{{i}}" name="porcentaje{{i}}" required>
                         <mat-error *ngIf="inputPorcentaje.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
-                    
+
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarRecargo(i)"
                         [disabled]="modelRecargo.length < 1">
                         <mat-icon svgIcon="close"></mat-icon>

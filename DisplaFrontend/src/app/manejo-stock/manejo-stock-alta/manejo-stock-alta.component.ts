@@ -4,9 +4,11 @@ import { StockLenteService } from 'src/services/stock.lente.service';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
 import { Lente } from 'src/app/model/lente';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { LenteService } from 'src/services/lente.service';
 import { startWith, map } from 'rxjs/operators';
+import { LimitesGrillaService } from 'src/services/limites.grilla.service';
+import { parse } from 'querystring';
 
 
 @Component({
@@ -20,16 +22,17 @@ export class ManejoStockAltaComponent implements OnInit {
   msjCilindrico: boolean[] = [];
   msjLimiteEsferico: boolean[] = [];
   msjLimiteCilindrico: boolean[] = [];
-  lentes: Lente[];
+  lentes: Lente[] = [];
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
 
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
-  
-  constructor( 
+
+  constructor(
     private lenteService: LenteService,
-    private stockLenteService: StockLenteService
+    private stockLenteService: StockLenteService,
+    private limitesGrillaService: LimitesGrillaService,
   ) {
     this.agregarStock();
   }
@@ -39,13 +42,13 @@ export class ManejoStockAltaComponent implements OnInit {
       this.lentes = r;
       console.log(this.lentes)
       this.filteredLentes = this.lentesControl.valueChanges
-      .pipe(
-        startWith(''),
-        // map(value => typeof value === 'string' ? value : value.Nombre),
-        map(val => this.filterLente(val))
+        .pipe(
+          startWith(''),
+          // map(value => typeof value === 'string' ? value : value.Nombre),
+          map(val => this.filterLente(val))
 
-        // map(Nombre => Nombre ? this._filter(Nombre) : this.lentes.slice())
-      );
+          // map(Nombre => Nombre ? this._filter(Nombre) : this.lentes.slice())
+        );
     });
   }
 
@@ -58,25 +61,51 @@ export class ManejoStockAltaComponent implements OnInit {
     return this.lentes.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  etIdLente(control, data) {
-    if (control.value != null) data.idLente = control.value.Id;
+  setIdLente(event, index) {
+    console.log(event)
+    if (event != undefined) {
+      let idLimiteIzquierda;
+      let idLimiteDerecha;
+      this.cargarStock[index].IdLente = event.Id;
+      // this.cargarStock[index].IdLenteNavigation = control.value;
+      let combinacion = event.Combinacion.split("  / ");
+      if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
+      else idLimiteIzquierda = 3;
+      if (combinacion[1] == '- +') idLimiteDerecha = 2;
+      else idLimiteDerecha = 4;
+      combineLatest(
+        this.limitesGrillaService.getById(idLimiteIzquierda),
+        this.limitesGrillaService.getById(idLimiteDerecha)
+      ).subscribe(result => {
+        this.limiteGrillaIzquierda = result[0];
+        this.limiteGrillaDerecha = result[1];
+      });
+    }
   }
 
   filterLente(nombre: any): Lente[] {
-  if (nombre.length >= 0) {
+    console.log(nombre)
+    if (nombre.length >= 0) {
       var s: string;
       try {
-          s = nombre.toLowerCase();
+        s = nombre.toLowerCase();
       }
       catch (ex) {
-          s = nombre.nombre.toLowerCase();
+        s = nombre.nombre.toLowerCase();
       }
       return this.lentes.filter(lente =>
-          lente.Nombre.toLowerCase().indexOf(s) !== -1);
-  } else {
+        lente.Id.toString().indexOf(s) !== -1);
+    } else {
       return [];
+    }
   }
-}
+
+  filterLenteOnUp(nombre: any) {
+    this.filteredLentes = this.lentesControl.valueChanges.pipe(
+      startWith(''),
+      map(val => this.filterLente(nombre)));
+  }
+
 
   agregarStock() {
     let item = <StockLente>{};
@@ -85,7 +114,13 @@ export class ManejoStockAltaComponent implements OnInit {
     this.msjCilindrico.push(false);
     this.msjLimiteEsferico.push(false);
     this.msjLimiteCilindrico.push(false);
+    this.filterLenteOnUp('');
+    let id = 'lente'+(this.cargarStock.length-1).toString();
+    // console.log(id)
+    // console.log(document.getElementsByName(id))
+    // document.getElementById(id).focus();
   }
+
 
   eliminarUltimoStock() {
     this.cargarStock.pop();
@@ -116,28 +151,33 @@ export class ManejoStockAltaComponent implements OnInit {
     this.stockLenteService.saveOrUpdateStockLente(this.cargarStock)
       .subscribe(re => {
         // if (re != null)
-          // this.dialogRef.close(true);
+        // this.dialogRef.close(true);
       });
+  }
+//0.25 o 10.00
+//0.5
+//1
+  divisionMedida(event, tipoGraduacion){
+    if (tipoGraduacion == 'esferico') {
+      console.log((+((this.cargarStock[event].MedidaEsferico/100).toFixed(3))))
+      this.cargarStock[event].MedidaEsferico = Math.floor(this.cargarStock[event].MedidaEsferico * 100) / 100;
+    } else {
+      this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico/100;
+    }
   }
 
   compararLimiteGrilla(event, tipoGraduacion) {
     if (tipoGraduacion == 'esferico') {
-      if (this.cargarStock[event].MedidaEsferico <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico && this.cargarStock[event].MedidaEsferico >= this.limiteGrillaDerecha.LimiteInferiorEsferico) {
-        if (+event % 0.25 != 0)
-          this.msjLimiteEsferico[event] = true;
-        else
-          this.msjLimiteEsferico[event] = false;
+      if (this.cargarStock[event].MedidaEsferico / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico && this.cargarStock[event].MedidaEsferico / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico) {
+          this.msjLimiteEsferico[event] = ((this.cargarStock[event].MedidaEsferico / 100 ) % 0.25) > 0; 
       }
       else {
         this.msjLimiteEsferico[event] = true;
       }
     }
     else {
-      if (this.cargarStock[event].MedidaCilindrico <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico && this.cargarStock[event].MedidaCilindrico >= this.limiteGrillaDerecha.LimiteInferiorCilindrico) {
-        if (+event % 0.25 != 0)
-          this.msjLimiteCilindrico[event] = true;
-        else
-          this.msjLimiteCilindrico[event] = false;
+      if (this.cargarStock[event].MedidaCilindrico / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico && this.cargarStock[event].MedidaCilindrico / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico) {
+        this.msjLimiteCilindrico[event] = ((this.cargarStock[event].MedidaCilindrico / 100 ) % 0.25) > 0;
       }
       else {
         this.msjLimiteCilindrico[event] = true;
@@ -146,15 +186,16 @@ export class ManejoStockAltaComponent implements OnInit {
   }
 
   compararGraduacion(event) {
-    // if (this.cargarStock[event].MedidaCilindrico > 0 && this.graduacionCilindrica == '-') {
-    //   this.msjCilindrico[event] = true;
-    // }
-    // else {
-    //   if (0 > this.cargarStock[event].MedidaCilindrico && this.graduacionCilindrica == '+') {
-    //     this.msjCilindrico[event] = true;
-    //   }
-    //   this.msjCilindrico[event] = false;
-    // }
+    console.log(this.cargarStock)
+    if (this.cargarStock[event].MedidaCilindrico > 0 && this.cargarStock[event].IdLenteNavigation.GraduacionesCilindricas == '-') {
+      this.msjCilindrico[event] = true;
+    }
+    else {
+      if (0 > this.cargarStock[event].MedidaCilindrico && this.cargarStock[event].IdLenteNavigation.GraduacionesCilindricas == '+') {
+        this.msjCilindrico[event] = true;
+      }
+      this.msjCilindrico[event] = false;
+    }
   }
 
 }

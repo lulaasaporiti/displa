@@ -8,8 +8,6 @@ export interface Lente {
     DescripcionFactura: string,
     Combinacion: string,
     GraduacionesCilindricas: string,
-    ControlaStock: boolean,
-    EsBifocal: boolean,
     MediosPares: boolean,
     IdUsuario: number,
     IdUsuarioNavigation: Usuario,

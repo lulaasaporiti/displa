@@ -119,8 +119,11 @@ export class GrillaComponent {
         this.grillaIzquierda[0][0] = "0";
         // console.table(this.grillaIzquierda)
         for (let j = 0; j <= this.grillaIzquierda[0].length - 1; j++) {
+          // this.columnsIzquierda.push({ columnDef: 'Esférico Positivo', header: 'Esférico Positivo', cell: (fila: any, columna: any) => `${fila}` });
+
           this.columnsIzquierda.push({ columnDef: this.grillaIzquierda[0][j], header: this.grillaIzquierda[0][j], cell: (fila: any, columna: any) => `${fila}` });
         }
+        console.log(this.columnsIzquierda)
         this.grillaIzquierda.splice(0, 1)
         this.grillaIzquierda.splice(this.grillaIzquierda.length - 1, 1)
         this.dataSourceIzquierda = new MatTableDataSource([]);
@@ -238,11 +241,11 @@ export class GrillaComponent {
       this.loadingSpinnerService.show();
       this.router.navigateByUrl('Account/Login').then(
         () => {
-          this.router.navigateByUrl('Lente/Stock');
+          this.router.navigateByUrl('Lente/Stock?id='+this.idLente);
           this.loadingSpinnerService.hide();
           window.scrollTo(0, 0);
         });
-      window.location.reload();
+      // window.location.reload();
     });
   }
 
@@ -252,11 +255,11 @@ export class GrillaComponent {
         this.loadingSpinnerService.show();
         this.router.navigateByUrl('Account/Login').then(
           () => {
-            this.router.navigateByUrl('Lente/Stock');
+            this.router.navigateByUrl('Lente/Stock?id='+this.idLente);
             this.loadingSpinnerService.hide();
             window.scrollTo(0, 0);
           });
-        window.location.reload();
+        // window.location.reload();
       });
   }
 }

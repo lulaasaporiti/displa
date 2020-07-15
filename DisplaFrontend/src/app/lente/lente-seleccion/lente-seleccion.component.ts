@@ -70,7 +70,7 @@ export class LenteSeleccionComponent implements OnInit {
           s = nombre.nombre.toLowerCase();
       }
       return this.lentes.filter(lente =>
-          lente.Nombre.toLowerCase().indexOf(s) !== -1);
+          lente.Id.toString().indexOf(s) !== -1);
   } else {
       return [];
   }

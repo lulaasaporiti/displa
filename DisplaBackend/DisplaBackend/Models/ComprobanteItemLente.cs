@@ -9,8 +9,8 @@ namespace DisplaBackend.Models
         public int IdLente { get; set; }
         public int IdComprobanteItem { get; set; }
         public double Cantidad { get; set; }
-        public double Esferico { get; set; }
-        public double Cilindrico { get; set; }
+        public decimal? Esferico { get; set; }
+        public decimal? Cilindrico { get; set; }
         public double Precio { get; set; }
 
         public virtual ComprobanteItem IdComprobanteItemNavigation { get; set; }
