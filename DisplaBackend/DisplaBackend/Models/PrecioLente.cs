@@ -12,7 +12,7 @@ namespace DisplaBackend.Models
 
         public int Id { get; set; }
         public int IdLente { get; set; }
-        public double Precio { get; set; }
+        public decimal Precio { get; set; }
         public decimal Esferico { get; set; }
         public decimal Cilindrico { get; set; }
 

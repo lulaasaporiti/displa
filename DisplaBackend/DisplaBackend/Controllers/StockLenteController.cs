@@ -45,7 +45,7 @@ namespace DisplaBackend.Controllers
         }
 
         [HttpDelete("{idStockLente}")]
-        public IActionResult Delete([FromRoute] float medidaCilindrico, float medidaEsferico, int idLente)
+        public IActionResult Delete([FromRoute] decimal medidaCilindrico, decimal medidaEsferico, int idLente)
         {
             if (!ModelState.IsValid)
             {

@@ -12,7 +12,7 @@ namespace DisplaBackend.DAOs
         List<StockLente> GetStockLente(int idLente);
         bool SaveOrUpdate(List<StockLente> stocksLente);
         bool Delete(StockLente stockLente);
-        StockLente GetStockLente(float medidaCilindrico, float medidaEsferico, int idLente);
+        StockLente GetStockLente(decimal medidaCilindrico, decimal medidaEsferico, int idLente);
     }
 
     public class StockLenteDAO : IStockLenteDAO
@@ -68,7 +68,7 @@ namespace DisplaBackend.DAOs
             }
         }
 
-        public StockLente GetStockLente(float medidaCilindrico, float medidaEsferico, int idLente)
+        public StockLente GetStockLente(decimal medidaCilindrico, decimal medidaEsferico, int idLente)
         {
             return _context.StockLente.FirstOrDefault(sl => sl.MedidaCilindrico == medidaCilindrico
                                                             && sl.MedidaEsferico == medidaEsferico

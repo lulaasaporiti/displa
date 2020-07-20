@@ -24,7 +24,7 @@ export class PrecioLenteListadoComponent implements OnInit {
   columns = [];
   idCliente: number = 0;
 
-  dataSource = new MatTableDataSource<Lente>();
+  dataSource = new MatTableDataSource<any>();
   preciosSeleccionados: PrecioLenteCliente[] = [];
   checkboxChecked: boolean[] = [];
   checkboxIndeterminate: boolean[] = [];
@@ -79,11 +79,13 @@ export class PrecioLenteListadoComponent implements OnInit {
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.preciosSeleccionados = r[1];
-        console.log(this.dataSource.data)
+        console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
         this.dataSource.data.forEach(a => {
-          if (a.PrecioLente.length > maxCantPrecio && a.PrecioLente)
-            maxCantPrecio = a.PrecioLente.length
+          a.PrecioLente.forEach(pl => {
+          if (pl.Precio && pl.Precio.length > maxCantPrecio)
+            maxCantPrecio = pl.Precio.length
+          });
         });
         for (let i = 1; i <= maxCantPrecio; i++) {
           this.checkboxChecked.push(false)
@@ -118,20 +120,22 @@ export class PrecioLenteListadoComponent implements OnInit {
 
     if (event.checked) {
       this.dataSource.data.forEach(e => {
+        console.log(this.dataSource.data)
         let precioLenteCliente = <PrecioLenteCliente>{};
         precioLenteCliente.IdPrecioLenteNavigation = <PrecioLente>{};
         precioLenteCliente.IdCliente = this.idCliente;
         if (e.PrecioLente[checkbox] != null) {
-          let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioLente != e.PrecioLente[checkbox].Id && p.IdPrecioLenteNavigation.IdLente == e.Id && p.Especial != true);
+          let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioLente != e.PrecioLente[checkbox].Id  && p.IdPrecioLenteNavigation.IdLente == e.Id && p.Especial != true);
           if (tieneOtro) {
             this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
           }
-          precioLenteCliente.IdPrecioLente = e.PrecioLente[checkbox].Id;
-          precioLenteCliente.IdPrecioLenteNavigation = e.PrecioLente[checkbox];
+          precioLenteCliente.IdPrecioLente = e.PrecioLente[checkbox].Precio.Id;
+          precioLenteCliente.IdPrecioLenteNavigation = e.PrecioLente[checkbox].IdPrecioLenteNavigation;
           this.preciosSeleccionados.push(precioLenteCliente);
         }
         else {
           this.checkboxIndeterminate[checkbox] = true;
+          console.log(this.preciosSeleccionados)
           let incluye = this.preciosSeleccionados.find(p => p.IdPrecioLente == e.PrecioLente[0].Id);
           if (!incluye) {
             precioLenteCliente.IdPrecioLente = e.PrecioLente[0].Id;
