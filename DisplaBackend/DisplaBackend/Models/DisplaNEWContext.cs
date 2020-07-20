@@ -61,14 +61,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=DisplaNEW;user id=sa;password=1234;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -805,15 +797,17 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Cilindrico)
                     .HasColumnName("cilindrico")
-                    .HasColumnType("decimal(3, 2)");
+                    .HasColumnType("decimal(6, 2)");
 
                 entity.Property(e => e.Esferico)
                     .HasColumnName("esferico")
-                    .HasColumnType("decimal(3, 2)");
+                    .HasColumnType("decimal(6, 2)");
 
                 entity.Property(e => e.IdLente).HasColumnName("idLente");
 
-                entity.Property(e => e.Precio).HasColumnName("precio");
+                entity.Property(e => e.Precio)
+                    .HasColumnName("precio")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.HasOne(d => d.IdLenteNavigation)
                     .WithMany(p => p.PrecioLente)
@@ -989,9 +983,13 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdLente).HasColumnName("idLente");
 
-                entity.Property(e => e.MedidaCilindrico).HasColumnName("medidaCilindrico");
+                entity.Property(e => e.MedidaCilindrico)
+                    .HasColumnName("medidaCilindrico")
+                    .HasColumnType("decimal(6, 2)");
 
-                entity.Property(e => e.MedidaEsferico).HasColumnName("medidaEsferico");
+                entity.Property(e => e.MedidaEsferico)
+                    .HasColumnName("medidaEsferico")
+                    .HasColumnType("decimal(6, 2)");
 
                 entity.Property(e => e.Stock).HasColumnName("stock");
             });

@@ -10,7 +10,7 @@ namespace DisplaBackend.Services
         List<StockLente> GetStockLente(int idLente);
         bool SaveOrUpdate(List<StockLente> stocksLente);
         bool Delete(StockLente stockLente);
-        StockLente GetStockLente(float medidaCilindrico, float medidaEsferico, int idLente);
+        StockLente GetStockLente(decimal medidaCilindrico, decimal medidaEsferico, int idLente);
     }
 
     public class StockLenteService : IStockLenteService
@@ -38,7 +38,7 @@ namespace DisplaBackend.Services
             return _stockLenteDAO.Delete(stockLente);
         }
 
-        public StockLente GetStockLente(float medidaCilindrico, float medidaEsferico, int idLente)
+        public StockLente GetStockLente(decimal medidaCilindrico, decimal medidaEsferico, int idLente)
         {
             return _stockLenteDAO.GetStockLente(medidaCilindrico, medidaEsferico, idLente);
         }
