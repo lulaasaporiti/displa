@@ -81,17 +81,35 @@ export class PrecioLenteListadoComponent implements OnInit {
         this.preciosSeleccionados = r[1];
         console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
+        var index = [];
         this.dataSource.data.forEach(a => {
           a.PrecioLente.forEach(pl => {
-          if (pl.Precio && pl.Precio.length > maxCantPrecio)
-            maxCantPrecio = pl.Precio.length
+            if (pl.Precio && pl.Precio.length > maxCantPrecio)
+              maxCantPrecio = pl.Precio.length
+
+            if (this.preciosSeleccionados.length > 0) {
+              var arrayAux = this.preciosSeleccionados.filter(p => p.IdPrecioLenteNavigation.IdLente == a.Id);
+              if (arrayAux.length > 0) {
+                var i = a.PrecioLente.findIndex(pa => pa.Id == arrayAux[0].IdPrecioLenteNavigation.Id)
+                if (!index.includes(i))
+                  index.push(i);
+              }
+            }
           });
         });
         for (let i = 1; i <= maxCantPrecio; i++) {
           this.checkboxChecked.push(false)
           this.checkboxIndeterminate.push(false);
-          if (this.recargaPagina == false) {
 
+          if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
+            this.checkboxChecked[index[0]] = true;
+          else {
+            for (let j = 0; j < index.length; j++) {
+              this.checkboxIndeterminate[j] = true;
+            }
+          }
+
+          if (this.recargaPagina == false) {
             this.displayedColumns.push('Precio' + i);
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
             if (i == maxCantPrecio) {
@@ -106,7 +124,9 @@ export class PrecioLenteListadoComponent implements OnInit {
   }
 
   onClickedTodos(event) {
+    console.log(this.dataSource.data)
     let checkbox = +event.source.name.split("checkbox")[1];
+    console.log(checkbox)
     for (let i = 0; i < this.checkboxChecked.length; i++) {
       if (i == checkbox && event.checked) {
         this.checkboxChecked[i] = true;
@@ -119,29 +139,38 @@ export class PrecioLenteListadoComponent implements OnInit {
     }
 
     if (event.checked) {
-      this.dataSource.data.forEach(e => {
-        console.log(this.dataSource.data)
-        let precioLenteCliente = <PrecioLenteCliente>{};
-        precioLenteCliente.IdPrecioLenteNavigation = <PrecioLente>{};
-        precioLenteCliente.IdCliente = this.idCliente;
-        if (e.PrecioLente[checkbox] != null) {
-          let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioLente != e.PrecioLente[checkbox].Id  && p.IdPrecioLenteNavigation.IdLente == e.Id && p.Especial != true);
-          if (tieneOtro) {
-            this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
-          }
-          precioLenteCliente.IdPrecioLente = e.PrecioLente[checkbox].Precio.Id;
-          precioLenteCliente.IdPrecioLenteNavigation = e.PrecioLente[checkbox].IdPrecioLenteNavigation;
-          this.preciosSeleccionados.push(precioLenteCliente);
-        }
-        else {
-          this.checkboxIndeterminate[checkbox] = true;
-          console.log(this.preciosSeleccionados)
-          let incluye = this.preciosSeleccionados.find(p => p.IdPrecioLente == e.PrecioLente[0].Id);
-          if (!incluye) {
-            precioLenteCliente.IdPrecioLente = e.PrecioLente[0].Id;
-            precioLenteCliente.IdPrecioLenteNavigation = e.PrecioLente[0];
-            this.preciosSeleccionados.push(precioLenteCliente);
-          }
+      this.dataSource.data.forEach(lente => {
+        // console.log(this.dataSource.data)
+        if (lente.PrecioLente != null) {
+          lente.PrecioLente.forEach(precio => {
+            console.log(precio.Precio[checkbox])
+            let precioLenteCliente = <PrecioLenteCliente>{};
+            precioLenteCliente.IdPrecioLenteNavigation = <PrecioLente>{};
+            precioLenteCliente.IdCliente = this.idCliente;
+            if (precio.Precio[checkbox] != null) {
+              let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioLente != precio.Precio[checkbox].Id && p.IdPrecioLenteNavigation.IdLente == precio.IdLente && p.IdPrecioLenteNavigation.Esferico == precio.Esferico && p.IdPrecioLenteNavigation.Cilindrico == precio.Cilindrico && p.Especial != true);
+              if (tieneOtro) {
+                this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
+              }
+              precioLenteCliente.IdPrecioLente = precio.Precio[checkbox].Id;
+              precioLenteCliente.IdPrecioLenteNavigation.IdLente = precio.IdLente;
+              precioLenteCliente.IdPrecioLenteNavigation.Esferico = precio.Esferico;
+              precioLenteCliente.IdPrecioLenteNavigation.Cilindrico = precio.Cilindrico;
+              this.preciosSeleccionados.push(precioLenteCliente);
+            }
+            else {
+              this.checkboxIndeterminate[checkbox] = true;
+              let incluye = this.preciosSeleccionados.find(p => p.IdPrecioLente == precio.Precio[0].Id);
+              if (!incluye) {
+                precioLenteCliente.IdPrecioLente = precio.Precio[0].Id;
+                precioLenteCliente.IdPrecioLenteNavigation.IdLente = precio.IdLente;
+                precioLenteCliente.IdPrecioLenteNavigation.Esferico = precio.Esferico;
+                precioLenteCliente.IdPrecioLenteNavigation.Cilindrico = precio.Cilindrico;
+                // precioLenteCliente.IdPrecioLenteNavigation = e.PrecioLente[0];
+                this.preciosSeleccionados.push(precioLenteCliente);
+              }
+            }
+          });
         }
       });
     } else {
@@ -151,6 +180,7 @@ export class PrecioLenteListadoComponent implements OnInit {
       this.checkboxIndeterminate[0] = true;
       this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
     }
+    console.log(this.preciosSeleccionados)
   }
 
   onClicked(lente: Lente, checkbox) {
@@ -187,8 +217,8 @@ export class PrecioLenteListadoComponent implements OnInit {
     return this.preciosSeleccionados.find(element => element.IdPrecioLente == idPrecio);
   }
 
-  habilitarDescuento(lente: Lente) {
-    return this.preciosSeleccionados.some(p => lente.PrecioLente.some(plente => plente.Id == p.IdPrecioLente));
+  habilitarDescuento(lente: any) {
+    return this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.IdPrecioLente)));
   }
 
   valorPrecioEspecial(idLente) {
@@ -215,15 +245,20 @@ export class PrecioLenteListadoComponent implements OnInit {
     let lente = this.dataSource.data.filter(a => a.Id == idLente)[0]
     let precioLente: PrecioLenteCliente;
     let i;
-    if (lente.PrecioLente[index] != null) {
-      i = this.preciosSeleccionados.findIndex(p => p.IdPrecioLente == lente.PrecioLente[index].Id);
-      precioLente = this.preciosSeleccionados.filter(p => p.IdPrecioLente == lente.PrecioLente[index].Id)[0];
-    } else {
-      i = this.preciosSeleccionados.findIndex(p => p.IdPrecioLente == lente.PrecioLente[0].Id);
-      precioLente = this.preciosSeleccionados.filter(p => p.IdPrecioLente == lente.PrecioLente[0].Id)[0];
-    }
-    precioLente.Descuento = descuento;
+    console.log(lente);
+    lente.PrecioLente.forEach(plente => {
+      if (lente.PrecioLente[index] != null) {
+        i = this.preciosSeleccionados.findIndex(p => p.IdPrecioLente == plente.Precio[index].Id);
+        precioLente = this.preciosSeleccionados.filter(p => p.IdPrecioLente == plente.Precio[index].Id)[0];
+
+      } else {
+        i = this.preciosSeleccionados.findIndex(p => p.IdPrecioLente == lente.PrecioLente[0].Id);
+        precioLente = this.preciosSeleccionados.filter(p => p.IdPrecioLente == lente.PrecioLente[0].Id)[0];
+      }
+    });
+    precioLente.Descuento = +descuento;
     this.preciosSeleccionados[i] = precioLente;
+    console.log(this.preciosSeleccionados)
   }
 
   precioEspecial(precio, idLente: number) {
@@ -234,14 +269,14 @@ export class PrecioLenteListadoComponent implements OnInit {
       if (i == 0) {
         precioEspecial.Especial = true;
         precioEspecial.IdPrecioLenteNavigation = <PrecioLente>{};
-        precioEspecial.IdPrecioLenteNavigation.Precio = precio;
+        precioEspecial.IdPrecioLenteNavigation.Precio = +precio;
         precioEspecial.IdPrecioLenteNavigation.IdLente = idLente;
         precioEspecial.IdCliente = this.idCliente;
         // console.log(precioEspecial)
         this.preciosSeleccionados.push(precioEspecial);
       } else {
         precioEspecial = this.preciosSeleccionados[i];
-        precioEspecial.IdPrecioLenteNavigation.Precio = precio;
+        precioEspecial.IdPrecioLenteNavigation.Precio = +precio;
         this.preciosSeleccionados[i] = precioEspecial;
       }
     } else {

@@ -100,9 +100,12 @@ export class PrecioServicioListadoComponent implements OnInit {
           if (a.PrecioServicio.length > maxCantPrecio && a.PrecioServicio)
             maxCantPrecio = a.PrecioServicio.length
           if (this.preciosSeleccionados.length > 0) {
-            var i = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation.IdServicio == a.Id)[0].IdPrecioServicioNavigation.Id)
-            if (!index.includes(i))
-              index.push(i);
+            var arrayAux = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation.IdServicio == a.Id);
+            if (arrayAux.length > 0) {
+              var i = a.PrecioServicio.findIndex(pa => pa.Id == arrayAux[0].IdPrecioServicioNavigation.Id)
+              if (!index.includes(i))
+                index.push(i);
+            }
           }
         });
 
@@ -110,7 +113,7 @@ export class PrecioServicioListadoComponent implements OnInit {
           this.checkboxChecked.push(false)
           this.checkboxIndeterminate.push(false);
 
-          if (index.length == 1)
+          if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
             this.checkboxChecked[index[0]] = true;
           else {
             for (let j = 0; j < index.length; j++) {
@@ -199,10 +202,7 @@ export class PrecioServicioListadoComponent implements OnInit {
       //   this.checkboxIndeterminate[checkbox] = true;
       // else
       //   this.checkboxChecked[checkbox] = true;
-
-
       let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
-
       arrayServicios.forEach(a => {
         let precioServicioCliente = <PrecioServicioCliente>{};
         precioServicioCliente.IdPrecioServicioNavigation = <PrecioServicio>{};
@@ -210,7 +210,7 @@ export class PrecioServicioListadoComponent implements OnInit {
         if (a.PrecioServicio[checkbox] != null) {
           let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioServicio != a.PrecioServicio[checkbox].Id && p.IdPrecioServicioNavigation.IdServicio == a.Id && p.Especial != true);
           if (tieneOtro) {
-            let index = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == a.Id)[0].IdPrecioServicioNavigation.Id);
+            // let index = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == a.Id)[0].IdPrecioServicioNavigation.Id);
             // console.log(index)
             this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio != idTipoServicio && p.IdPrecioServicio != a.PrecioServicio[checkbox].Id && p.Especial != true)
 
@@ -277,7 +277,7 @@ export class PrecioServicioListadoComponent implements OnInit {
   chequearTipo(event, idTipoServicio: any) {
     let arrayIndex = [];
     if (this.preciosSeleccionados.length > 0) {
-      let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdPrecioServicioNavigation != null && element.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio);
+      let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdPrecioServicioNavigation != null && element.IdPrecioServicioNavigation.IdServicioNavigation != undefined && element.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio);
       let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
       if (arrayPreciosServicios.length >= arrayServicios.length) {
         arrayServicios.forEach(a => {
@@ -292,7 +292,7 @@ export class PrecioServicioListadoComponent implements OnInit {
 
   indeterminateTipo(event, idTipoServicio: any) {
     let arrayIndex = [];
-    let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdPrecioServicioNavigation != null && element.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio);
+    let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdPrecioServicioNavigation != null && element.IdPrecioServicioNavigation.IdServicioNavigation != undefined && element.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio);
     let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
     if (this.preciosSeleccionados.length > 0) {
       if (arrayPreciosServicios.length == arrayServicios.length) {
@@ -312,7 +312,7 @@ export class PrecioServicioListadoComponent implements OnInit {
 
   habilitarDescuentoTipo(idTipoServicio: number) {
     // if (this.preciosSeleccionados.length > 0) {
-    let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdPrecioServicioNavigation != null && element.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio);
+    let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdPrecioServicioNavigation != null  && element.IdPrecioServicioNavigation.IdServicioNavigation != undefined && element.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio);
 
     let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
 
@@ -360,19 +360,24 @@ export class PrecioServicioListadoComponent implements OnInit {
   }
 
   valorDescuentoTipo(idTipoServicio) {
-    let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
-    let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio && p.Descuento != null)
-    if (arrayServicios.length == arrayDescuento.length) {
+    let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
+    let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio && p.Descuento != null)
+    if (arrayArticulos.length == arrayDescuento.length) {
       let descuento = arrayDescuento[0].Descuento;
-      for (let i = 1; i <= arrayDescuento.length; i++) {
-        if (i == arrayDescuento.length) {
-          return descuento;
-        }
-        else {
-          if (descuento != arrayDescuento[i++].Descuento)
-            return "";
-        }
-      }
+      if (arrayDescuento.some(p => p.Descuento != descuento))
+        return "";
+      else 
+        return descuento;
+      // for (let i = 0; i <= arrayDescuento.length-1; i++) {
+      //   if (descuento != arrayDescuento[i++].Descuento)
+      //       return "";
+      //   else {
+      //     if (i == arrayDescuento.length) {
+      //       console.log(descuento)
+      //       return descuento;
+      //     }  
+      //   }
+      // }
     }
     else
       return "";
@@ -381,7 +386,7 @@ export class PrecioServicioListadoComponent implements OnInit {
   precioEspecial(precio, idServicio: number) {
     if (precio != "") {
       let precioEspecial = <PrecioServicioCliente>{};
-      let i = this.preciosSeleccionados.findIndex(p => p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == idServicio && p.Especial == true);
+      let i = this.preciosSeleccionados.findIndex(p => p => p.IdPrecioServicioNavigation != undefined  && p.IdPrecioServicioNavigation.IdServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == idServicio && p.Especial == true);
       // console.log(i)
       if (i == 0) {
         precioEspecial.Especial = true;
@@ -403,33 +408,35 @@ export class PrecioServicioListadoComponent implements OnInit {
   }
 
   descuentoTipoServicio(descuento, idTipoServicio: number) {
-    let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio && p.Especial != true);
-    let arrayIndex = [];
-    let precioServicio: PrecioServicioCliente;
-    arrayDescuento.forEach(i => {
-      arrayIndex.push(this.preciosSeleccionados.indexOf(i));
-    });
-    arrayIndex.forEach(i => {
-      this.preciosSeleccionados[i].Descuento = descuento;
-      // console.log(i);
-    });
+    if (descuento != "") {
+      let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined  && p.IdPrecioServicioNavigation.IdServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio && p.Especial != true);
+      let arrayIndex = [];
+      let precioServicio: PrecioServicioCliente;
+      arrayDescuento.forEach(i => {
+        arrayIndex.push(this.preciosSeleccionados.indexOf(i));
+      });
+      arrayIndex.forEach(i => {
+        this.preciosSeleccionados[i].Descuento = +descuento;
+        // console.log(i);
+      });
+    }
   }
 
-
   descuentoServicio(descuento, idServicio: number) {
-    let index = this.checkboxChecked.indexOf(true);
-    let servicio = this.dataSource.data.filter(a => a.Id == idServicio)[0]
-    let precioServicio: PrecioServicioCliente;
-    let i;
-    if (servicio.PrecioServicio[index] != null) {
-      i = this.preciosSeleccionados.findIndex(p => p.IdPrecioServicio == servicio.PrecioServicio[index].Id);
-      precioServicio = this.preciosSeleccionados.filter(p => p.IdPrecioServicio == servicio.PrecioServicio[index].Id)[0];
-    } else {
-      i = this.preciosSeleccionados.findIndex(p => p.IdPrecioServicio == servicio.PrecioServicio[0].Id);
-      precioServicio = this.preciosSeleccionados.filter(p => p.IdPrecioServicio == servicio.PrecioServicio[0].Id)[0];
-    }
-    precioServicio.Descuento = descuento;
-    // console.log(precioServicio)
+    // let index = this.checkboxChecked.indexOf(true);
+    // let servicio = this.dataSource.data.filter(a => a.Id == idServicio)[0]
+    // let precioServicio: PrecioServicioCliente;
+    let precioServicio = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == idServicio)[0]
+    // let i;
+    // if (servicio.PrecioServicio[index] != null) {
+    let i = this.preciosSeleccionados.findIndex(p => p.Id == precioServicio.Id);
+      // precioServicio = this.preciosSeleccionados.filter(p => p.IdPrecioServicio == servicio.PrecioServicio[index].Id)[0];
+    // } else {
+      // i = this.preciosSeleccionados.findIndex(p => p.IdPrecioServicio == servicio.PrecioServicio[0].Id);
+      // precioServicio = this.preciosSeleccionados.filter(p => p.IdPrecioServicio == servicio.PrecioServicio[0].Id)[0];
+    // }
+    console.log(precioServicio)
+    precioServicio.Descuento = +descuento;
     this.preciosSeleccionados[i] = precioServicio;
     // console.log(this.preciosSeleccionados)
   }

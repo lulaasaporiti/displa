@@ -93,16 +93,19 @@ export class PrecioArticuloListadoComponent implements OnInit {
         this.preciosSeleccionados = r[2];
         // console.log(this.dataSource.data)
         // console.log(this.dataSourceTipo.data)
-        // console.log(this.preciosSeleccionados)
+        console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
         var index = [];
         this.dataSource.data.forEach(a => {
           if (a.PrecioArticulo.length > maxCantPrecio && a.PrecioArticulo)
             maxCantPrecio = a.PrecioArticulo.length
           if (this.preciosSeleccionados.length > 0) {
-            var i = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id)
-            if (!index.includes(i))
-              index.push(i);
+            var arrayAux = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == a.Id);
+            if (arrayAux.length > 0) {
+              var i = a.PrecioArticulo.findIndex(pa => pa.Id == arrayAux[0].IdPrecioArticuloNavigation.Id)
+              if (!index.includes(i))
+                index.push(i);
+            }
           }
         });
 
@@ -110,7 +113,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
           this.checkboxChecked.push(false)
           this.checkboxIndeterminate.push(false);
 
-          if (index.length == 1)
+          if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
             this.checkboxChecked[index[0]] = true;
           else {
             for (let j = 0; j < index.length; j++) {
@@ -210,7 +213,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
         if (a.PrecioArticulo[checkbox] != null) {
           let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioArticulo != a.PrecioArticulo[checkbox].Id && p.IdPrecioArticuloNavigation.IdArticulo == a.Id && p.Especial != true);
           if (tieneOtro) {
-            let index = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id);
+            // let index = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id);
             // console.log(index)
             this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo && p.IdPrecioArticulo != a.PrecioArticulo[checkbox].Id && p.Especial != true)
 
@@ -257,7 +260,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
     });
     if (index.length == 1) {
       this.checkboxChecked[index[0]] = true;
-      for (let j = 0; j < this.checkboxIndeterminate.length; j++) { 
+      for (let j = 0; j < this.checkboxIndeterminate.length; j++) {
         this.checkboxIndeterminate[j] = false;
       }
     } else {
@@ -277,12 +280,14 @@ export class PrecioArticuloListadoComponent implements OnInit {
   chequearTipo(event, idTipoArticulo: any) {
     let arrayIndex = [];
     if (this.preciosSeleccionados.length > 0) {
-      let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
+      let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation != undefined && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
       let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
       if (arrayPreciosArticulos.length >= arrayArticulos.length) {
         arrayArticulos.forEach(a => {
-          var i = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id)
-          if (!arrayIndex.includes(i))
+          var i = a.PrecioArticulo.findIndex(pa => pa.Id == arrayPreciosArticulos.filter(p => p.IdPrecioArticuloNavigation != undefined 
+                                                                                              && p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0]
+                                                                                              .IdPrecioArticuloNavigation.Id)
+          if (!arrayIndex.includes(i) && i != -1)
             arrayIndex.push(i);
         })
       }
@@ -292,7 +297,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
   indeterminateTipo(event, idTipoArticulo: any) {
     let arrayIndex = [];
-    let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
+    let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation != undefined && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
     let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
     if (this.preciosSeleccionados.length > 0) {
       if (arrayPreciosArticulos.length == arrayArticulos.length) {
@@ -312,7 +317,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
   habilitarDescuentoTipo(idTipoArticulo: number) {
     // if (this.preciosSeleccionados.length > 0) {
-    let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
+    let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdPrecioArticuloNavigation != null && element.IdPrecioArticuloNavigation.IdArticuloNavigation != undefined && element.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
 
     let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
 
@@ -353,7 +358,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
   valorDescuento(idArticulo) {
     let precio = <PrecioArticuloCliente>{};
     precio = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == idArticulo && p.Descuento != null)[0]
-    if (precio != null)
+    if (precio != undefined)
       return precio.Descuento;
     else
       return "";
@@ -361,18 +366,23 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
   valorDescuentoTipo(idTipoArticulo) {
     let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
-    let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo && p.Descuento != null)
+    let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo && p.Descuento != null)
     if (arrayArticulos.length == arrayDescuento.length) {
       let descuento = arrayDescuento[0].Descuento;
-      for (let i = 1; i <= arrayDescuento.length; i++) {
-        if (i == arrayDescuento.length) {
-          return descuento;
-        }
-        else {
-          if (descuento != arrayDescuento[i++].Descuento)
-            return "";
-        }
-      }
+      if (arrayDescuento.some(p => p.Descuento != descuento))
+        return "";
+      else
+        return descuento;
+      // for (let i = 0; i <= arrayDescuento.length-1; i++) {
+      //   if (descuento != arrayDescuento[i++].Descuento)
+      //       return "";
+      //   else {
+      //     if (i == arrayDescuento.length) {
+      //       console.log(descuento)
+      //       return descuento;
+      //     }  
+      //   }
+      // }
     }
     else
       return "";
@@ -386,14 +396,14 @@ export class PrecioArticuloListadoComponent implements OnInit {
       if (i == 0) {
         precioEspecial.Especial = true;
         precioEspecial.IdPrecioArticuloNavigation = <PrecioArticulo>{};
-        precioEspecial.IdPrecioArticuloNavigation.Precio = precio;
+        precioEspecial.IdPrecioArticuloNavigation.Precio = +precio;
         precioEspecial.IdPrecioArticuloNavigation.IdArticulo = idArticulo;
         precioEspecial.IdCliente = this.idCliente;
         // console.log(precioEspecial)
         this.preciosSeleccionados.push(precioEspecial);
       } else {
         precioEspecial = this.preciosSeleccionados[i];
-        precioEspecial.IdPrecioArticuloNavigation.Precio = precio;
+        precioEspecial.IdPrecioArticuloNavigation.Precio = +precio;
         this.preciosSeleccionados[i] = precioEspecial;
       }
     } else {
@@ -403,16 +413,18 @@ export class PrecioArticuloListadoComponent implements OnInit {
   }
 
   descuentoTipoArticulo(descuento, idTipoArticulo: number) {
-    let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo && p.Especial != true);
-    let arrayIndex = [];
-    let precioArticulo: PrecioArticuloCliente;
-    arrayDescuento.forEach(i => {
-      arrayIndex.push(this.preciosSeleccionados.indexOf(i));
-    });
-    arrayIndex.forEach(i => {
-      this.preciosSeleccionados[i].Descuento = descuento;
-      // console.log(i);
-    });
+    if (descuento != "") {
+      let arrayDescuento = this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo && p.Especial != true);
+      let arrayIndex = [];
+      let precioArticulo: PrecioArticuloCliente;
+      arrayDescuento.forEach(i => {
+        arrayIndex.push(this.preciosSeleccionados.indexOf(i));
+      });
+      arrayIndex.forEach(i => {
+        this.preciosSeleccionados[i].Descuento = +descuento;
+        // console.log(i);
+      });
+    }
   }
 
 
@@ -428,7 +440,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
       i = this.preciosSeleccionados.findIndex(p => p.IdPrecioArticulo == articulo.PrecioArticulo[0].Id);
       precioArticulo = this.preciosSeleccionados.filter(p => p.IdPrecioArticulo == articulo.PrecioArticulo[0].Id)[0];
     }
-    precioArticulo.Descuento = descuento;
+    precioArticulo.Descuento = +descuento;
     // console.log(precioArticulo)
     this.preciosSeleccionados[i] = precioArticulo;
     // console.log(this.preciosSeleccionados)
