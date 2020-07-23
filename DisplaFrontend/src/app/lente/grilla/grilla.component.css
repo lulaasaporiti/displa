@@ -39,6 +39,7 @@ mat-paginator{
   
   td.mat-cell:first-of-type{
     padding-left: 0px;
+    padding-right: 15px;
   }
   
   td.mat-cell:last-of-type{
