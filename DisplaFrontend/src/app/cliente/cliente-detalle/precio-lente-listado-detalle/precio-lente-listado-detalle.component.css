@@ -46,3 +46,6 @@ td.mat-cell:last-of-type{
   padding-right: 0px;
 }
 
+.tamano-celda{
+  height: 100%;
+}

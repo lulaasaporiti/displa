@@ -23,14 +23,13 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
   displayedColumns: string[] = ['Nombre'];
   columns = [];
   idCliente: number = 0;
-  disabledCheck = true;
-  recargaPagina = false;
 
-
-  dataSource = new MatTableDataSource<Lente>();
+  dataSource = new MatTableDataSource<any>();
   preciosSeleccionados: PrecioLenteCliente[] = [];
   checkboxChecked: boolean[] = [];
   checkboxIndeterminate: boolean[] = [];
+  recargaPagina = false;
+  disabledCheck = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -73,17 +72,37 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.preciosSeleccionados = r[1];
-        console.log(this.dataSource.data)
+        // console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
+        var index = [];
         this.dataSource.data.forEach(a => {
-          if (a.PrecioLente.length > maxCantPrecio && a.PrecioLente)
-            maxCantPrecio = a.PrecioLente.length
+          a.PrecioLente.forEach(pl => {
+            if (pl.Precio && pl.Precio.length > maxCantPrecio)
+              maxCantPrecio = pl.Precio.length
+
+            if (this.preciosSeleccionados.length > 0) {
+              var arrayAux = this.preciosSeleccionados.filter(p => p.IdPrecioLenteNavigation.IdLente == a.Id);
+              if (arrayAux.length > 0) {
+                var i = a.PrecioLente.findIndex(pa => pa.Id == arrayAux[0].IdPrecioLenteNavigation.Id)
+                if (!index.includes(i))
+                  index.push(i);
+              }
+            }
+          });
         });
         for (let i = 1; i <= maxCantPrecio; i++) {
           this.checkboxChecked.push(false)
           this.checkboxIndeterminate.push(false);
-          if (this.recargaPagina == false) {
 
+          if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
+            this.checkboxChecked[index[0]] = true;
+          else {
+            for (let j = 0; j < index.length; j++) {
+              this.checkboxIndeterminate[j] = true;
+            }
+          }
+
+          if (this.recargaPagina == false) {
             this.displayedColumns.push('Precio' + i);
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
             if (i == maxCantPrecio) {
@@ -109,6 +128,7 @@ export class PrecioLenteListadoDetalleComponent implements OnInit {
     else
       return "";
   }
+
 
   valorDescuento(idLente) {
     let precio = <PrecioLenteCliente>{};

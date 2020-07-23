@@ -81,6 +81,7 @@ export class PrecioServicioListadoDetalleComponent implements OnInit {
     this.dataSourceTipo.filter = filterValue.trim().toLowerCase();
   }
 
+  
   loadPrecioServicioPage() {
     this.loadingSpinnerService.show()
     combineLatest(
@@ -101,9 +102,12 @@ export class PrecioServicioListadoDetalleComponent implements OnInit {
           if (a.PrecioServicio.length > maxCantPrecio && a.PrecioServicio)
             maxCantPrecio = a.PrecioServicio.length
           if (this.preciosSeleccionados.length > 0) {
-            var i = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation.IdServicio == a.Id)[0].IdPrecioServicioNavigation.Id)
-            if (!index.includes(i))
-              index.push(i);
+            var arrayAux = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation.IdServicio == a.Id);
+            if (arrayAux.length > 0) {
+              var i = a.PrecioServicio.findIndex(pa => pa.Id == arrayAux[0].IdPrecioServicioNavigation.Id)
+              if (!index.includes(i))
+                index.push(i);
+            }
           }
         });
 
@@ -111,7 +115,7 @@ export class PrecioServicioListadoDetalleComponent implements OnInit {
           this.checkboxChecked.push(false)
           this.checkboxIndeterminate.push(false);
 
-          if (index.length == 1)
+          if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
             this.checkboxChecked[index[0]] = true;
           else {
             for (let j = 0; j < index.length; j++) {
@@ -133,55 +137,11 @@ export class PrecioServicioListadoDetalleComponent implements OnInit {
     this.loadingSpinnerService.hide();
   }
 
+
   tablaServicios(idTipoServicio) {
     this.dataSourceServicio.data = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
   }
 
-  // onClickedTodos(event) {
-  //   let checkbox = +event.source.name.split("checkbox")[1];
-  //   for (let i = 0; i < this.checkboxChecked.length; i++) {
-  //     if (i == checkbox && event.checked) {
-  //       this.checkboxChecked[i] = true;
-  //       this.checkboxIndeterminate[i] = false;
-  //     }
-  //     else {
-  //       this.checkboxChecked[i] = false;
-  //       this.checkboxIndeterminate[i] = false;
-  //     }
-  //   }
-
-  //   if (event.checked) {
-  //     this.dataSource.data.forEach(e => {
-  //       let precioServicioCliente = <PrecioServicioCliente>{};
-  //       precioServicioCliente.IdPrecioServicioNavigation = <PrecioServicio>{};
-  //       precioServicioCliente.IdCliente = this.idCliente;
-  //       if (e.PrecioServicio[checkbox] != null) {
-  //         let tieneOtro = this.preciosSeleccionados.some(p => p.IdPrecioServicio != e.PrecioServicio[checkbox].Id && p.IdPrecioServicioNavigation.IdServicio == e.Id && p.Especial != true);
-  //         if (tieneOtro) {
-  //           this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
-  //         }
-  //         precioServicioCliente.IdPrecioServicio = e.PrecioServicio[checkbox].Id;
-  //         precioServicioCliente.IdPrecioServicioNavigation = e.PrecioServicio[checkbox];
-  //         this.preciosSeleccionados.push(precioServicioCliente);
-  //       }
-  //       else {
-  //         this.checkboxIndeterminate[checkbox] = true;
-  //         let incluye = this.preciosSeleccionados.find(p => p.IdPrecioServicio == e.PrecioServicio[0].Id);
-  //         if (!incluye) {
-  //           precioServicioCliente.IdPrecioServicio = e.PrecioServicio[0].Id;
-  //           precioServicioCliente.IdPrecioServicioNavigation = e.PrecioServicio[0];
-  //           this.preciosSeleccionados.push(precioServicioCliente);
-  //         }
-  //       }
-  //     });
-  //   } else {
-  //     this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
-  //   }
-  //   if (this.checkboxIndeterminate.includes(true) && event.checked) {
-  //     this.checkboxIndeterminate[0] = true;
-  //     this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
-  //   }
-  // }
 
 
   chequear(idPrecio: any) {
@@ -219,28 +179,6 @@ export class PrecioServicioListadoDetalleComponent implements OnInit {
     }
     return arrayIndex.length > 1 && arrayIndex.includes(+event);
   }
-
-
-  // onClicked(servicio: Servicio, checkbox) {
-  //   let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
-  //   // if (checkbox.checked) {
-  //   let incluye = this.preciosSeleccionados.findIndex(p => p.IdPrecioServicio == servicio.PrecioServicio[index].Id);
-  //   if (incluye == -1) { //si no incluye el precio en los seleccionados, lo agrega
-  //     if (this.preciosSeleccionados.length > 0 &&
-  //       this.preciosSeleccionados.findIndex(p => p.IdPrecioServicioNavigation.IdServicio == servicio.Id && p.IdPrecioServicio != servicio.PrecioServicio[index].Id && p.Especial != true) != -1) {
-  //       //borra el precio que ya estaba seleccionado en la fila (mismo servicio distinto precio)
-  //       this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdPrecioServicioNavigation.IdServicio == servicio.Id && p.IdPrecioServicio != servicio.PrecioServicio[index].Id), 1);;
-  //     }
-  //     let precioServicioCliente = <PrecioServicioCliente>{};
-  //     precioServicioCliente.IdCliente = this.idCliente;
-  //     precioServicioCliente.IdPrecioServicio = servicio.PrecioServicio[index].Id;
-  //     precioServicioCliente.IdPrecioServicioNavigation = servicio.PrecioServicio[index];
-  //     this.preciosSeleccionados.push(precioServicioCliente);
-  //     // }
-  //   } else {
-  //     this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioServicio != servicio.PrecioServicio[index].Id);
-  //   }
-  // }
 
   valorPrecioEspecial(idServicio) {
     let precio = <PrecioServicioCliente>{};

@@ -15,10 +15,10 @@
 
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
       <th mat-header-cell *matHeaderCellDef fxFlex="19">
-        <mat-checkbox name="checkbox{{i}}" [(ngModel)]="checkboxChecked[i]" [(indeterminate)]="checkboxIndeterminate[i]"></mat-checkbox> {{ column.header }}
+        <mat-checkbox name="checkbox{{i}}" [(ngModel)]="checkboxChecked[i]" [(indeterminate)]="checkboxIndeterminate[i]" disabled></mat-checkbox> {{ column.header }}
       </th>
       <td mat-cell *matCellDef="let row" fxFlex="19" fxLayoutAlign="start center">
-        <mat-checkbox name="checkbox{{i}}" [checked]="chequearTipo(i, row.Id)" [indeterminate]="indeterminateTipo(i, row.Id)"> </mat-checkbox>
+        <mat-checkbox name="checkbox{{i}}" [checked]="chequearTipo(i, row.Id)" [indeterminate]="indeterminateTipo(i, row.Id)" disabled> </mat-checkbox>
       </td>
     </ng-container>
 
@@ -63,7 +63,7 @@
               </th>
               <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center">
                 <mat-checkbox *ngIf="row.PrecioServicio[i] != null" name="checkbox{{i}}"
-                  [checked]="chequear(row.PrecioServicio[i].Id)">
+                  [checked]="chequear(row.PrecioServicio[i].Id)" disabled>
                   {{row.PrecioServicio[i].Precio}} </mat-checkbox>
               </td>
             </ng-container>

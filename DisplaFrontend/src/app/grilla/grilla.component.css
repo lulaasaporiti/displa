@@ -1,0 +1,53 @@
+mat-paginator{
+    background: transparent;
+    font-size: 11px;
+  }
+  
+  /* /////////////////// */
+  
+  .buscador{
+    font-size: 14px;
+  }
+  
+  .menu-agregar{
+    padding: 8px 0;
+  }
+  
+  .buttonFixed{
+    transform: scale(0.7);
+  }
+  
+  
+  /* /////////////////// */
+  
+  table {
+    width: 100%;
+    padding: 0px !important;
+  }
+  
+  .mat-table{
+    background-color: transparent;
+  }
+  
+  th.mat-header-cell:first-of-type{
+    padding-left: 0px;
+  }
+  
+  th.mat-header-cell:last-of-type{
+    padding-right: 0px;
+  }
+  
+  td.mat-cell:first-of-type{
+    padding-left: 0px;
+    padding-right: 15px;
+  }
+  
+  td.mat-cell:last-of-type{
+    padding-right: 0px;
+  }
+  
+  mat-form-field{
+    font-size: 11px !important;
+    line-height: 1.425 !important;
+  }
+  

@@ -65,7 +65,7 @@
               </th>
               <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center">
                 <mat-checkbox *ngIf="row.PrecioArticulo[i] != null" name="checkbox{{i}}"
-                  [checked]="chequear(row.PrecioArticulo[i].Id)" [disabled]="disabledCheck">
+                  [checked]="chequear(row.PrecioArticulo[i].Id)" disabled>
                   {{row.PrecioArticulo[i].Precio}} </mat-checkbox>
               </td>
             </ng-container>
