@@ -223,7 +223,8 @@ namespace DisplaBackend.DAOs
                 foreach (var p in preciosArticulos)
                 {
                     foreach (var pc in preciosClientes) { 
-                        if (pc.IdPrecioArticulo != p.IdPrecioArticulo && pc.IdPrecioArticuloNavigation.IdArticulo == p.IdPrecioArticuloNavigation.IdArticulo && pc.Especial != true)
+                        if (pc.IdPrecioArticulo != p.IdPrecioArticulo && pc.IdPrecioArticuloNavigation.IdArticulo == p.IdPrecioArticuloNavigation.IdArticulo 
+                            && pc.Especial != true && p.Especial != true)
                             preciosABorrar.Add(pc);
                     }
                     if (p.IdPrecioArticulo == 0 && p.Especial == true)
@@ -273,10 +274,10 @@ namespace DisplaBackend.DAOs
                 {
                     foreach (var pc in preciosClientes)
                     {
-                        if (pc.IdPrecioServicio != p.IdPrecioServicio && pc.IdPrecioServicioNavigation.IdServicio == p.IdPrecioServicioNavigation.IdServicio && pc.Especial != true)
+                        if (pc.IdPrecioServicio != p.IdPrecioServicio && pc.IdPrecioServicioNavigation.IdServicio == p.IdPrecioServicioNavigation.IdServicio 
+                            && pc.Especial != true && p.Especial != true)
                             preciosABorrar.Add(pc);
                     }
-
                     if (p.IdPrecioServicio == 0 && p.Especial == true)
                     {
                         p.IdPrecioServicioNavigation = _context.PrecioServicio.Add(p.IdPrecioServicioNavigation).Entity;
@@ -324,18 +325,26 @@ namespace DisplaBackend.DAOs
                 {
                     foreach (var pc in preciosClientes)
                     {
-                        if (pc.IdPrecioLente != p.IdPrecioLente && pc.IdPrecioLenteNavigation.IdLente == p.IdPrecioLenteNavigation.IdLente && pc.Especial != true)
+                        if (pc.IdPrecioLente != p.IdPrecioLente && pc.IdPrecioLenteNavigation.IdLente == p.IdPrecioLenteNavigation.IdLente && pc.Especial != true && p.Especial != true
+                            && pc.IdPrecioLenteNavigation.Esferico == p.IdPrecioLenteNavigation.Esferico && pc.IdPrecioLenteNavigation.Cilindrico == p.IdPrecioLenteNavigation.Cilindrico)
                             preciosABorrar.Add(pc);
+                    }
+                    if (p.IdPrecioLente == 0 && p.Especial == true)
+                    {
+                        p.IdPrecioLenteNavigation = _context.PrecioLente.Add(p.IdPrecioLenteNavigation).Entity;
+                        _context.SaveChanges();
+                        p.IdPrecioLente = p.IdPrecioLenteNavigation.Id;
+                        //_context.PrecioArticuloCliente.Add(p);
                     }
                     p.IdPrecioLenteNavigation = null;
                     if (p.Id == 0)
                     {
                         _context.PrecioLenteCliente.Add(p);
                     }
-                    //else
-                    //{
-                    //_context.PrecioLenteCliente.Update(p);
-                    //}
+                    else
+                    {
+                        _context.PrecioLenteCliente.Update(p);
+                    }
                 }
                 //_context.SaveChanges();
                 //return _context.SaveChanges() >= 1;

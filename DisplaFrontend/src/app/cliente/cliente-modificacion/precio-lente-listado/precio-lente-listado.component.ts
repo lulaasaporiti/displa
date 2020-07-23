@@ -79,7 +79,7 @@ export class PrecioLenteListadoComponent implements OnInit {
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.preciosSeleccionados = r[1];
-        console.log(this.preciosSeleccionados)
+        // console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
         var index = [];
         this.dataSource.data.forEach(a => {
@@ -124,9 +124,9 @@ export class PrecioLenteListadoComponent implements OnInit {
   }
 
   onClickedTodos(event) {
-    console.log(this.dataSource.data)
+    // console.log(this.dataSource.data)
     let checkbox = +event.source.name.split("checkbox")[1];
-    console.log(checkbox)
+    // console.log(checkbox)
     for (let i = 0; i < this.checkboxChecked.length; i++) {
       if (i == checkbox && event.checked) {
         this.checkboxChecked[i] = true;
@@ -143,7 +143,7 @@ export class PrecioLenteListadoComponent implements OnInit {
         // console.log(this.dataSource.data)
         if (lente.PrecioLente != null) {
           lente.PrecioLente.forEach(precio => {
-            console.log(precio.Precio[checkbox])
+            // console.log(precio.Precio[checkbox])
             let precioLenteCliente = <PrecioLenteCliente>{};
             precioLenteCliente.IdPrecioLenteNavigation = <PrecioLente>{};
             precioLenteCliente.IdCliente = this.idCliente;
@@ -180,7 +180,7 @@ export class PrecioLenteListadoComponent implements OnInit {
       this.checkboxIndeterminate[0] = true;
       this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
     }
-    console.log(this.preciosSeleccionados)
+    // console.log(this.preciosSeleccionados)
   }
 
   onClicked(lente: Lente, checkbox) {
@@ -245,7 +245,7 @@ export class PrecioLenteListadoComponent implements OnInit {
     let lente = this.dataSource.data.filter(a => a.Id == idLente)[0]
     let precioLente: PrecioLenteCliente;
     let i;
-    console.log(lente);
+    // console.log(lente);
     lente.PrecioLente.forEach(plente => {
       if (lente.PrecioLente[index] != null) {
         i = this.preciosSeleccionados.findIndex(p => p.IdPrecioLente == plente.Precio[index].Id);
@@ -258,15 +258,15 @@ export class PrecioLenteListadoComponent implements OnInit {
     });
     precioLente.Descuento = +descuento;
     this.preciosSeleccionados[i] = precioLente;
-    console.log(this.preciosSeleccionados)
+    // console.log(this.preciosSeleccionados)
   }
 
   precioEspecial(precio, idLente: number) {
     if (precio != "") {
       let precioEspecial = <PrecioLenteCliente>{};
       let i = this.preciosSeleccionados.findIndex(p => p => p.IdPrecioLenteNavigation != undefined && p.IdPrecioLenteNavigation.IdLente == idLente && p.Especial == true);
-      // console.log(i)
-      if (i == 0) {
+      console.log(i)
+      if (i == 0 || i == -1) {
         precioEspecial.Especial = true;
         precioEspecial.IdPrecioLenteNavigation = <PrecioLente>{};
         precioEspecial.IdPrecioLenteNavigation.Precio = +precio;
@@ -286,9 +286,9 @@ export class PrecioLenteListadoComponent implements OnInit {
 
   guardarCliente() {
     this.recargaPagina = true;
-    console.log(this.preciosSeleccionados)
+    // console.log(this.preciosSeleccionados)
     this.clienteService.savePreciosLentes(this.preciosSeleccionados).subscribe(result => {
-      console.log(result)
+      // console.log(result)
       if (result) {
         this.loadPrecioLentePage();
         this.sessionService.showSuccess("Los precios se cargaron correctamente.");

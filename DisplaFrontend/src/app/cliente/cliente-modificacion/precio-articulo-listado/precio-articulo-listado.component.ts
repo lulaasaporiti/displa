@@ -93,7 +93,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
         this.preciosSeleccionados = r[2];
         // console.log(this.dataSource.data)
         // console.log(this.dataSourceTipo.data)
-        console.log(this.preciosSeleccionados)
+        // console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
         var index = [];
         this.dataSource.data.forEach(a => {
@@ -303,7 +303,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
       if (arrayPreciosArticulos.length == arrayArticulos.length) {
         arrayArticulos.forEach(a => {
           var i = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0].IdPrecioArticuloNavigation.Id)
-          if (!arrayIndex.includes(i))
+          if (!arrayIndex.includes(i) && i != -1)
             arrayIndex.push(i);
         })
       }
@@ -393,7 +393,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
       let precioEspecial = <PrecioArticuloCliente>{};
       let i = this.preciosSeleccionados.findIndex(p => p => p.IdPrecioArticuloNavigation != undefined && p.IdPrecioArticuloNavigation.IdArticulo == idArticulo && p.Especial == true);
       // console.log(i)
-      if (i == 0) {
+      if (i == 0 || i == -1) {
         precioEspecial.Especial = true;
         precioEspecial.IdPrecioArticuloNavigation = <PrecioArticulo>{};
         precioEspecial.IdPrecioArticuloNavigation.Precio = +precio;
@@ -448,9 +448,9 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
   guardarCliente() {
     this.recargaPagina = true;
-    console.log(this.preciosSeleccionados)
+    // console.log(this.preciosSeleccionados)
     this.clienteService.savePreciosArticulos(this.preciosSeleccionados).subscribe(result => {
-      console.log(result)
+      // console.log(result)
       if (result) {
         this.loadPrecioArticuloPage();
         this.sessionService.showSuccess("Los precios se cargaron correctamente.");

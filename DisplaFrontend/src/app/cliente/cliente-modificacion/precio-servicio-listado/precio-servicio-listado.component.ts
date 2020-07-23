@@ -282,7 +282,7 @@ export class PrecioServicioListadoComponent implements OnInit {
       if (arrayPreciosServicios.length >= arrayServicios.length) {
         arrayServicios.forEach(a => {
           var i = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == a.Id)[0].IdPrecioServicioNavigation.Id)
-          if (!arrayIndex.includes(i))
+          if (!arrayIndex.includes(i) && i != -1)
             arrayIndex.push(i);
         })
       }
@@ -298,7 +298,7 @@ export class PrecioServicioListadoComponent implements OnInit {
       if (arrayPreciosServicios.length == arrayServicios.length) {
         arrayServicios.forEach(a => {
           var i = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == a.Id)[0].IdPrecioServicioNavigation.Id)
-          if (!arrayIndex.includes(i))
+          if (!arrayIndex.includes(i) && i != -1)
             arrayIndex.push(i);
         })
       }
@@ -388,7 +388,7 @@ export class PrecioServicioListadoComponent implements OnInit {
       let precioEspecial = <PrecioServicioCliente>{};
       let i = this.preciosSeleccionados.findIndex(p => p => p.IdPrecioServicioNavigation != undefined  && p.IdPrecioServicioNavigation.IdServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == idServicio && p.Especial == true);
       // console.log(i)
-      if (i == 0) {
+      if (i == 0 || i == -1) {
         precioEspecial.Especial = true;
         precioEspecial.IdPrecioServicioNavigation = <PrecioServicio>{};
         precioEspecial.IdPrecioServicioNavigation.Precio = precio;
@@ -435,7 +435,7 @@ export class PrecioServicioListadoComponent implements OnInit {
       // i = this.preciosSeleccionados.findIndex(p => p.IdPrecioServicio == servicio.PrecioServicio[0].Id);
       // precioServicio = this.preciosSeleccionados.filter(p => p.IdPrecioServicio == servicio.PrecioServicio[0].Id)[0];
     // }
-    console.log(precioServicio)
+    // console.log(precioServicio)
     precioServicio.Descuento = +descuento;
     this.preciosSeleccionados[i] = precioServicio;
     // console.log(this.preciosSeleccionados)
@@ -443,9 +443,8 @@ export class PrecioServicioListadoComponent implements OnInit {
 
   guardarCliente() {
     this.recargaPagina = true;
-    console.log(this.preciosSeleccionados)
+    // console.log(this.preciosSeleccionados)
     this.clienteService.savePreciosServicios(this.preciosSeleccionados).subscribe(result => {
-      console.log(result)
       if (result) {
         this.loadPrecioServicioPage();
         this.sessionService.showSuccess("Los precios se cargaron correctamente.");
