@@ -5,11 +5,11 @@
 }
 
 ::ng-deep .mat-form-field.login-input .mat-form-field-underline {
-    background-color: #fdd306;
+    background-color: #ffa4a2;
 }
 
 ::ng-deep .mat-form-field.login-input.mat-focused .mat-form-field-ripple {
-    background-color: #fdd306;
+    background-color: #ffa4a2;
 }
 
 /* /////////////////////////// */
@@ -43,7 +43,7 @@
 
 .iniciar_sesion{
     color: #f5f5f5;
-    background-color: firebrick;
+    background-color: #af4448;
     border-radius: 20px;
     font-size: 12px;
 }

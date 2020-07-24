@@ -7,9 +7,33 @@ $custom-typography: mat-typography-config(
 
 @include mat-core($custom-typography);
 
-$my-app-primary: mat-palette($mat-light-blue);
+// $my-app-primary: mat-palette($mat-light-blue);
 
-$my-app-accent:  mat-palette($mat-blue-gray);
+// $my-app-accent:  mat-palette($mat-blue-gray);
+
+// $my-app-warn:    mat-palette($mat-deep-orange);
+
+// $my-app-theme:   mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+
+// @include angular-material-theme($my-app-theme);
+
+
+$custom: (
+    50: #af4448,
+    55: #af4448,
+    100: #dde6f3,//no sabemos por qué no se puede borrar
+    500: #5282c1,//idem anterior
+    contrast: (
+        50: $white-87-opacity,
+        55: $white-87-opacity,
+    ));
+
+
+
+/*$my-app-primary: mat-palette($mat-blue-grey);*/
+$my-app-primary: mat-palette($custom,50);
+
+$my-app-accent:  mat-palette($custom,55);
 
 $my-app-warn:    mat-palette($mat-deep-orange);
 
