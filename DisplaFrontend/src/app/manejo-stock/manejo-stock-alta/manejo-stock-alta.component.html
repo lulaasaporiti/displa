@@ -27,10 +27,10 @@
 
                     <div fxLayout="column">
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Medida esférico" type="number"
+                            <input matInput placeholder="Medida esférico"
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel"
-                                (blur)="divisionMedida(index, 'esferico')" pattern="([0-9][0-9]?(\.[0-9][0-9]))"
+                                (blur)="divisionMedida(index, 'esferico')"
                                 (input)="compararLimiteGrilla(index, 'esferico')" required>
                             <mat-error *ngIf="esferico.invalid">Este campo es obligatorio.</mat-error>
                         </mat-form-field>

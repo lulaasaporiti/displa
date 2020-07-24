@@ -1,9 +1,9 @@
 <div class="content">
   <app-loading-spinner></app-loading-spinner>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-    <h4 fxLayout="column" class="titulo" fxFlex>Stock de {{lente.Nombre}}</h4>
+  <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+    <h4 fxLayout="row" class="titulo" fxFill>Stock de {{lente.Nombre}}</h4>
+    <h5 fxLayout="row" class="titulo" fxFill>Combinación {{lente.Combinacion}}</h5>
   </div>
-  <h5 fxLayout="column" class="titulo" fxFlex>Combinación {{lente.Combinacion}}</h5>
   <mat-divider fxFlexOffset="2"></mat-divider>
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="6px" class="menu-agregar">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
@@ -18,12 +18,13 @@
   <mat-divider></mat-divider>
   <table mat-table fxFill [dataSource]="dataSourceIzquierda" fxFlexOffset="3" class="tabla">
     <ng-container *ngFor="let column of columnsIzquierda; let i = index" [matColumnDef]="column.columnDef">
-      <th mat-header-cell *matHeaderCellDef>{{ (column.header == '0') ?  'Esférico Positivo' : (column.header | number:'1.2-2')}}</th>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ (column.header == '0') ?  'Esférico Positivo' : ((agregarMas == true) ? '+' +(column.header | number:'1.2-2') : (column.header | number:'1.2-2'))}}</th>
       <td mat-cell *matCellDef="let row">
         <div *ngIf="i == 0" style="font-size: 11px !important;" fxLayoutAlign="space-around center">
           +{{ row[i] | number:'1.2-2'}}
-          <mat-form-field style="width: 50px;"> 
-            <input matInput value="{{row[i]}}" name="row{{i}}" (keypress)="_keyPress($event)">
+          <mat-form-field style="width: 50px;">
+            <input matInput value="{{getTotalFila(row)}}" name="fila" (keypress)="_keyPress($event)">
           </mat-form-field>
         </div>
         <mat-form-field style="width: 50px;" *ngIf="i != 0">
@@ -43,9 +44,14 @@
 
   <table mat-table fxFill [dataSource]="dataSourceDerecha" fxFlexOffset="3" class="tabla">
     <ng-container *ngFor="let column of columnsDerecha; let i = index" [matColumnDef]="column.columnDef">
-      <th mat-header-cell *matHeaderCellDef>{{ (column.header != '0') ? column.header : 'Esférico Negativo'}}</th>
+      <th mat-header-cell *matHeaderCellDef> {{ (column.header == '0') ?  'Esférico Negativo' : (column.header | number:'1.2-2')}}</th>
       <td mat-cell *matCellDef="let row">
-        <div *ngIf="i == 0" style="font-size: 11px !important;">{{row[i]}}</div>
+        <div *ngIf="i == 0" style="font-size: 11px !important;" fxLayoutAlign="space-around center">
+          {{ row[i] | number:'1.2-2'}}
+        <mat-form-field style="width: 50px;">
+          <input matInput value="{{getTotalFila(row)}}" name="fila" (keypress)="_keyPress($event)">
+        </mat-form-field>
+      </div>
         <mat-form-field style="width: 50px;" *ngIf="i != 0">
           <input matInput value="{{row[i]}}" name="row{{i}}" (blur)="sumarStockDerecha($event.target.value, row[0], i);"
             (keypress)="_keyPress($event)">

@@ -7,7 +7,6 @@ import { StockLenteService } from 'src/services/stock.lente.service';
 import { LenteService } from 'src/services/lente.service';
 import { StockLente } from 'src/app/model/stockLente';
 import { Lente } from 'src/app/model/lente';
-import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/typings/overlay-directives';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { StockAltaComponent } from '../stock-alta/stock-alta.component';
@@ -26,6 +25,7 @@ export class GrillaComponent {
   arraySuperiorIzquierdo: string[] = [];
   arrayLateralIzquierdo: number[] = [];
   idLente: number;
+  agregarMas: boolean = false;
   grillaIzquierda: any[][] = [[0], [0]];
   grillaDerecha: any[][] = [[0], [0]];
   stock: StockLente[];
@@ -56,7 +56,7 @@ export class GrillaComponent {
       this.stockLenteService.getStockLenteList(this.idLente)
     ).subscribe(r => {
       this.lente = r[0]
-      console.log(this.lente)
+      // console.log(this.lente)
       this.stock = r[1];
       let combinacion = this.lente.Combinacion.split("  / ");
       let idLimiteDerecha;
@@ -75,7 +75,7 @@ export class GrillaComponent {
         for (let index = this.limiteGrillaIzquierda.LimiteInferiorEsferico; index <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico; index = index + 0.25) {
           this.arrayLateralIzquierdo.push(index)
         }
-        console.log(this.arrayLateralIzquierdo);
+        // console.log(this.arrayLateralIzquierdo);
         if (this.limiteGrillaIzquierda.Combinacion == '+ +') {
           for (let index = this.limiteGrillaIzquierda.LimiteInferiorCilindrico; index <= this.limiteGrillaIzquierda.LimiteSuperiorCilindrico; index = index + 0.25) {
             this.arraySuperiorIzquierdo.push(index.toString())
@@ -90,7 +90,7 @@ export class GrillaComponent {
         for (let index = this.limiteGrillaDerecha.LimiteSuperiorEsferico; index >= this.limiteGrillaDerecha.LimiteInferiorEsferico; index = index - 0.25) {
           this.arrayLateralDerecho.push(index)
         }
-        console.log(this.arrayLateralDerecho);
+        // console.log(this.arrayLateralDerecho);
         if (this.limiteGrillaDerecha.Combinacion == '- +') {
           for (let index = this.limiteGrillaDerecha.LimiteInferiorCilindrico; index <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico; index = index + 0.25) {
             this.arraySuperiorDerecho.push(index.toString())
@@ -123,7 +123,7 @@ export class GrillaComponent {
 
           this.columnsIzquierda.push({ columnDef: this.grillaIzquierda[0][j], header: this.grillaIzquierda[0][j], cell: (fila: any, columna: any) => `${fila}` });
         }
-        console.log(this.columnsIzquierda)
+        // console.log(this.columnsIzquierda)
         this.grillaIzquierda.splice(0, 1)
         this.grillaIzquierda.splice(this.grillaIzquierda.length - 1, 1)
         this.dataSourceIzquierda = new MatTableDataSource([]);
@@ -152,7 +152,7 @@ export class GrillaComponent {
         this.grillaDerecha.splice(this.grillaDerecha.length - 1, 1)
         this.dataSourceDerecha = new MatTableDataSource([]);
         this.dataSourceDerecha.data = this.grillaDerecha;
-
+        this.combinacionGraduacion();
         this.loadingSpinnerService.hide();
       });
     })
@@ -177,6 +177,27 @@ export class GrillaComponent {
         sum = sum + ((this.grillaDerecha[j][i] != null) ? this.grillaDerecha[j][i] : 0);
       }
       return sum;
+    }
+  }
+
+  getTotalFila(row) {
+    if (row.length > 1) {
+      var sum = 0
+      for (let j = 1; j < row.length; j++) {
+        sum = sum + ((row[j] != null) ? row[j] : 0);
+      }
+      return sum;
+    }
+    else {
+      return ' ';
+    }
+  }
+
+  combinacionGraduacion() {
+    if (this.lente.Combinacion.startsWith('+ +'))
+      this.agregarMas = true;
+    else {
+      this.agregarMas = false;
     }
   }
 

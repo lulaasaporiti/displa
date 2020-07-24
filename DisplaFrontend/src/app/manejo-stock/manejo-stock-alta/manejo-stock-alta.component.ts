@@ -40,7 +40,7 @@ export class ManejoStockAltaComponent implements OnInit {
   ngOnInit() {
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
-      console.log(this.lentes)
+      // console.log(this.lentes)
       this.filteredLentes = this.lentesControl.valueChanges
         .pipe(
           startWith(''),
@@ -62,7 +62,6 @@ export class ManejoStockAltaComponent implements OnInit {
   }
 
   setIdLente(event, index) {
-    console.log(event)
     if (event != undefined) {
       let idLimiteIzquierda;
       let idLimiteDerecha;
@@ -84,7 +83,6 @@ export class ManejoStockAltaComponent implements OnInit {
   }
 
   filterLente(nombre: any): Lente[] {
-    console.log(nombre)
     if (nombre.length >= 0) {
       var s: string;
       try {
@@ -109,16 +107,12 @@ export class ManejoStockAltaComponent implements OnInit {
 
   agregarStock() {
     let item = <StockLente>{};
-    // item.IdLente = this.modelStock[0].IdLente;
     this.cargarStock.push(item);
     this.msjCilindrico.push(false);
     this.msjLimiteEsferico.push(false);
     this.msjLimiteCilindrico.push(false);
     this.filterLenteOnUp('');
     let id = 'lente'+(this.cargarStock.length-1).toString();
-    // console.log(id)
-    // console.log(document.getElementsByName(id))
-    // document.getElementById(id).focus();
   }
 
 
@@ -158,15 +152,17 @@ export class ManejoStockAltaComponent implements OnInit {
 //0.5
 //1
   divisionMedida(event, tipoGraduacion){
-    if (tipoGraduacion == 'esferico') {
-      console.log((+((this.cargarStock[event].MedidaEsferico/100).toFixed(3))))
-      this.cargarStock[event].MedidaEsferico = Math.floor(this.cargarStock[event].MedidaEsferico * 100) / 100;
-    } else {
-      this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico/100;
-    }
-  }
+  //   if (tipoGraduacion == 'esferico') {
+  //     var lala = +this.cargarStock[event].MedidaEsferico;
+  //     this.cargarStock[event].MedidaEsferico = +((lala * 100 /100).toFixed(3));
+  //     console.log(this.cargarStock[event].MedidaEsferico)
+  //   } else {
+  //     this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico/100;
+  //   }
+   }
 
   compararLimiteGrilla(event, tipoGraduacion) {
+    console.log(this.cargarStock[event].MedidaEsferico / 100 )
     if (tipoGraduacion == 'esferico') {
       if (this.cargarStock[event].MedidaEsferico / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico && this.cargarStock[event].MedidaEsferico / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico) {
           this.msjLimiteEsferico[event] = ((this.cargarStock[event].MedidaEsferico / 100 ) % 0.25) > 0; 
