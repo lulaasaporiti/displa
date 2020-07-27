@@ -29,6 +29,7 @@ import {
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [],
@@ -66,6 +67,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   exports: [
     BrowserAnimationsModule,
     FormsModule,
+    DragDropModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatMenuModule,

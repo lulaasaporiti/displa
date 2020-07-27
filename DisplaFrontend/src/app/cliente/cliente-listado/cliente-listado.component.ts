@@ -9,7 +9,8 @@ import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
 import { Observable, merge } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CdkAccordion } from '@angular/cdk/accordion';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DataSource } from '@angular/cdk/table';
 
 
 @Component({
@@ -21,16 +22,18 @@ export class ClienteListadoComponent implements OnInit {
 
 
   form:FormGroup = new FormGroup({
+    Codigo: new FormControl(false),
     Optica: new FormControl(false),
-    Nombre: new FormControl(false),
+    Nombre: new FormControl(true),
     Domicilio: new FormControl(false),
     Telefonos: new FormControl(false),
-    Mail: new FormControl(false),
-    UtilizaIibb: new FormControl(false),
-    Borrado: new FormControl(false),
-    Opciones: new FormControl(false),
+    Mail: new FormControl(true),
+    UtilizaIibb: new FormControl(true),
+    Borrado: new FormControl(true),
+    Opciones: new FormControl,
   });
 
+  Codigo = this.form.get('Codigo')
   Optica = this.form.get('Optica');
   Nombre = this.form.get('Nombre');
   Domicilio = this.form.get('Domicilio');
@@ -38,12 +41,13 @@ export class ClienteListadoComponent implements OnInit {
   Mail = this.form.get('Mail');
   UtilizaIibb = this.form.get('UtilizaIibb');
   Borrado = this.form.get('Borrado');
-  Opciones = this.form.get('Opciones');
+  // Opciones = this.form.get('Opciones');
 
 
   cbValues;
   displayedColumns = 
   [
+    {def: 'Codigo', hide: this.Codigo.value},
     {def: 'Optica', hide: this.Optica.value},
     {def: 'Nombre', hide: this.Nombre.value},
     {def: 'Domicilio',  hide: this.Domicilio.value},
@@ -51,12 +55,15 @@ export class ClienteListadoComponent implements OnInit {
     {def: 'Mail',  hide: this.Mail.value},
     {def: 'UtilizaIibb',  hide: this.UtilizaIibb.value},
     {def: 'Borrado',  hide: this.Borrado.value},
-    {def: 'Opciones',  hide: this.Opciones.value},
+    {def: 'Opciones', noMostrar: true},
   ]
-  // displayedColumnsNoCheck= ['Opciones']
 
   dataSource = new MatTableDataSource<Cliente>();
   traerActivos: boolean = true;
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
+  }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -84,24 +91,26 @@ export class ClienteListadoComponent implements OnInit {
 
   ngAfterViewInit() {
     this.searchElement.nativeElement.focus();
-    let o1:Observable<boolean> = this.Optica.valueChanges;
-    let o2:Observable<boolean> = this.Nombre.valueChanges;
-    let o3:Observable<boolean> = this.Domicilio.valueChanges;
-    let o4:Observable<boolean> = this.Telefonos.valueChanges;
-    let o5:Observable<boolean> = this.Mail.valueChanges;
-    let o6:Observable<boolean> = this.UtilizaIibb.valueChanges;
-    let o7:Observable<boolean> = this.Borrado.valueChanges;
-    let o8:Observable<boolean> = this.Opciones.valueChanges;
+    let o1:Observable<boolean> = this.Codigo.valueChanges;
+    let o2:Observable<boolean> = this.Optica.valueChanges;
+    let o3:Observable<boolean> = this.Nombre.valueChanges;
+    let o4:Observable<boolean> = this.Domicilio.valueChanges;
+    let o5:Observable<boolean> = this.Telefonos.valueChanges;
+    let o6:Observable<boolean> = this.Mail.valueChanges;
+    let o7:Observable<boolean> = this.UtilizaIibb.valueChanges;
+    let o8:Observable<boolean> = this.Borrado.valueChanges;
+    // let o9:Observable<boolean> = this.Opciones.valueChanges;
 
-    merge(o1, o2, o3,o4,o5,o6,o7).subscribe(v=>{
-    this.displayedColumns[0].hide = this.Optica.value;
-    this.displayedColumns[1].hide = this.Nombre.value;  
-    this.displayedColumns[2].hide = this.Domicilio.value;  
-    this.displayedColumns[3].hide = this.Telefonos.value;
-    this.displayedColumns[4].hide = this.Mail.value; 
-    this.displayedColumns[5].hide = this.UtilizaIibb.value;  
-    this.displayedColumns[6].hide = this.Borrado.value;
-    this.displayedColumns[7].hide = this.Opciones.value;  
+    merge(o1, o2, o3,o4,o5,o6,o7, o8).subscribe(v=>{
+    this.displayedColumns[0].hide = this.Codigo.value;
+    this.displayedColumns[1].hide = this.Optica.value;
+    this.displayedColumns[2].hide = this.Nombre.value;  
+    this.displayedColumns[3].hide = this.Domicilio.value;  
+    this.displayedColumns[4].hide = this.Telefonos.value;
+    this.displayedColumns[5].hide = this.Mail.value; 
+    this.displayedColumns[6].hide = this.UtilizaIibb.value;  
+    this.displayedColumns[7].hide = this.Borrado.value;
+    this.displayedColumns[8];  
     });
   }
 

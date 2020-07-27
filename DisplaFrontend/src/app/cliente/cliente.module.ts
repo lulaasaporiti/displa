@@ -18,7 +18,7 @@ import { PrecioLenteListadoDetalleComponent } from './cliente-detalle/precio-len
 import { PrecioServicioListadoComponent } from './cliente-modificacion/precio-servicio-listado/precio-servicio-listado.component';
 import { PrecioServicioListadoDetalleComponent } from './cliente-detalle/precio-servicio-listado-detalle/precio-servicio-listado-detalle.component';
 import { ClienteBloqueadoListadoComponent } from './cliente-bloqueado-listado/cliente-bloqueado-listado.component';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
     entryComponents: [ClienteBajaComponent],
@@ -28,6 +28,7 @@ import { ClienteBloqueadoListadoComponent } from './cliente-bloqueado-listado/cl
     imports: [
         CommonModule,
         MaterialModule,
+        DragDropModule,
         ClienteRoutingModule,
         LoadingSpinnerModule
     ]
