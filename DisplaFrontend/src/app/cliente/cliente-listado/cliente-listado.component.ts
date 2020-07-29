@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { Observable, merge } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { DataSource } from '@angular/cdk/table';
 
 
 @Component({
@@ -22,15 +21,15 @@ export class ClienteListadoComponent implements OnInit {
 
 
   form:FormGroup = new FormGroup({
-    Codigo: new FormControl(false),
-    Optica: new FormControl(false),
-    Nombre: new FormControl(true),
-    Domicilio: new FormControl(false),
-    Telefonos: new FormControl(false),
-    Mail: new FormControl(true),
-    UtilizaIibb: new FormControl(true),
-    Borrado: new FormControl(true),
-    Opciones: new FormControl,
+    Codigo: new FormControl(true),
+    Optica: new FormControl(true),
+    Nombre: new FormControl(false),
+    Domicilio: new FormControl(true),
+    Telefonos: new FormControl(true),
+    Mail: new FormControl(false),
+    UtilizaIibb: new FormControl(false),
+    Borrado: new FormControl(false),
+    Opciones: new FormControl(true),
   });
 
   Codigo = this.form.get('Codigo')
@@ -41,7 +40,7 @@ export class ClienteListadoComponent implements OnInit {
   Mail = this.form.get('Mail');
   UtilizaIibb = this.form.get('UtilizaIibb');
   Borrado = this.form.get('Borrado');
-  // Opciones = this.form.get('Opciones');
+  Opciones = this.form.get('Opciones');
 
 
   cbValues;
@@ -55,7 +54,7 @@ export class ClienteListadoComponent implements OnInit {
     {def: 'Mail',  hide: this.Mail.value},
     {def: 'UtilizaIibb',  hide: this.UtilizaIibb.value},
     {def: 'Borrado',  hide: this.Borrado.value},
-    {def: 'Opciones', noMostrar: true},
+    {def: 'Opciones', hide: this.Opciones.value},
   ]
 
   dataSource = new MatTableDataSource<Cliente>();
@@ -86,7 +85,7 @@ export class ClienteListadoComponent implements OnInit {
 
 
   getDisplayedColumns() {
-    return this.displayedColumns.filter(cd=>!cd.hide).map(cd=>cd.def);
+    return this.displayedColumns.filter(cd=>cd.hide).map(cd=>cd.def);
   }
 
   ngAfterViewInit() {
@@ -99,7 +98,7 @@ export class ClienteListadoComponent implements OnInit {
     let o6:Observable<boolean> = this.Mail.valueChanges;
     let o7:Observable<boolean> = this.UtilizaIibb.valueChanges;
     let o8:Observable<boolean> = this.Borrado.valueChanges;
-    // let o9:Observable<boolean> = this.Opciones.valueChanges;
+    let o9:Observable<boolean> = this.Opciones.valueChanges;
 
     merge(o1, o2, o3,o4,o5,o6,o7, o8).subscribe(v=>{
     this.displayedColumns[0].hide = this.Codigo.value;
