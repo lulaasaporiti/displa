@@ -6,6 +6,7 @@ import { AccountService } from 'src/services/account.service';
 import { MainService } from 'src/services/main.service';
 import { AccountUsernameComponent } from '../account/account-username/account-username.component';
 import { LenteSeleccionComponent } from '../lente/lente-seleccion/lente-seleccion.component';
+import { PrecioListaUnoComponent } from './gestion-precio/precio-lista-uno/precio-lista-uno.component';
 
 @Component({
   selector: 'app-header',
@@ -67,6 +68,20 @@ export class HeaderComponent {
         });
       }
     });
+  }
+
+  openModalPreciosLista(event): void {
+    var porcentaje;
+    var lista;
+    const dialogRef = this.dialog.open(PrecioListaUnoComponent, {
+      data: {producto: event, Porcentaje: porcentaje , Lista: lista },
+      width: '500px'
+    })
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result != undefined && result != false) {
+  //       this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
+  //     }
+  //   })
   }
 }
 

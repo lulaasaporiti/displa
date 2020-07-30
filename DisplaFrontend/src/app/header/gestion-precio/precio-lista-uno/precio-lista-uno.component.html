@@ -1,0 +1,29 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="6px">
+            <mat-icon color="primary" style="width: 28px; height: 28px;" svgIcon="attach_money"></mat-icon>
+            <p class="dialog-title">Generar precios desde lista 1</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Porcentaje" (ngModel)="data.Porcentaje" (keypress)="_keyPress($event)" name="porcentaje"
+                    #porcentaje="ngModel" required>
+                <mat-error *ngIf="porcentaje.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Lista" (ngModel)="data.Lista" (keypress)="_keyPress($event)" name="lista" #lista="ngModel" required>
+                <mat-error *ngIf="porcentaje.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="data">Agregar</button>
+        </div>
+    </div>
+</form>
