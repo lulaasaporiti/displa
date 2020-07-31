@@ -78,6 +78,9 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSourceTipo.filter = filterValue.trim().toLowerCase();
+    console.log(this.dataSource.data)
+    console.log(filterValue)
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   loadPrecioArticuloPage() {

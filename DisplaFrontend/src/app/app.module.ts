@@ -44,6 +44,7 @@ import { TipoComprobanteModule } from './tipo-comprobante/tipo-comprobante.modul
 import { ManejoStockModule } from './manejo-stock/manejo-stock.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GastoModule } from './gasto/gasto.module';
+import { GestionPrecioModule } from './header/gestion-precio/gestion-precio.module';
 
 
 
@@ -78,6 +79,7 @@ import { GastoModule } from './gasto/gasto.module';
     ClienteModule,
     CondicionVentaModule,
     GastoModule,
+    GestionPrecioModule,
     InsumoModule,
     LenteModule,
     LimiteGrillaModule,

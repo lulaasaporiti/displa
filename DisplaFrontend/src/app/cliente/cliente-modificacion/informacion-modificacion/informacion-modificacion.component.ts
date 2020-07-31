@@ -118,4 +118,8 @@ export class InformacionModificacionComponent implements OnInit {
       }
     );
   }
+
+  cancelar(){
+    this.router.navigateByUrl('Cliente/Listado')
+  }
 }

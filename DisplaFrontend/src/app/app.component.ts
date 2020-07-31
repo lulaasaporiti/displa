@@ -68,5 +68,9 @@ export class AppComponent {
       'close',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/clear-24px.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'attach_money',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/attach_money-24px.svg')
+    );
   }
 }
