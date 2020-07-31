@@ -1,0 +1,15 @@
+Procedure Invertir(CilindricoPositivo:boolean; var medEsferico, medCilindrico: real);
+{
+ if CilindricoPositivo then {
+    if medCilindrico < 0 then {
+      medEsferico:= medEsferico+medCilindrico;
+      medCilindrico:=abs(medCilindrico);
+    }
+ }
+ else {
+    if medCilindrico > 0 then {
+      medEsferico:=medEsferico+medCilindrico;
+      medCilindrico:= -1 * medCilindrico;
+    }
+ }
+}
