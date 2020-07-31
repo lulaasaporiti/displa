@@ -28,7 +28,7 @@ export class AccountLoginComponent implements OnInit {
     // console.log(this.sessionService.isAuthenticated())
     if (this.sessionService.isAuthenticated()) {
       this.router.navigateByUrl('/Home');
-    } else {
+    // } else {
       // this.router.navigateByUrl('Account/Login').then(
       //   () => {
       //     // this.router.navigateByUrl('CuadroPagina/Listado');

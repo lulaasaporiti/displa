@@ -112,7 +112,7 @@ export class ManejoStockAltaComponent implements OnInit {
     this.msjLimiteEsferico.push(false);
     this.msjLimiteCilindrico.push(false);
     this.filterLenteOnUp('');
-    let id = 'lente'+(this.cargarStock.length-1).toString();
+    let id = 'lente' + (this.cargarStock.length - 1).toString();
   }
 
 
@@ -136,36 +136,36 @@ export class ManejoStockAltaComponent implements OnInit {
   }
 
   agregarNuevoStock() {
-    // this.cargarStock.forEach(cs => {
-    //   let machearStock = this.modelStock.find(s => s.MedidaCilindrico == +cs.MedidaCilindrico && s.MedidaEsferico == +cs.MedidaEsferico)
-    //   if (machearStock != null) {
-    //     cs.Id = machearStock.Id;
-    //   }
-    // });
     this.stockLenteService.saveOrUpdateStockLente(this.cargarStock)
       .subscribe(re => {
         // if (re != null)
         // this.dialogRef.close(true);
       });
   }
-//0.25 o 10.00
-//0.5
-//1
-  divisionMedida(event, tipoGraduacion){
-  //   if (tipoGraduacion == 'esferico') {
-  //     var lala = +this.cargarStock[event].MedidaEsferico;
-  //     this.cargarStock[event].MedidaEsferico = +((lala * 100 /100).toFixed(3));
-  //     console.log(this.cargarStock[event].MedidaEsferico)
-  //   } else {
-  //     this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico/100;
-  //   }
-   }
+  //0.25 o 10.00
+  //0.5
+  //1
+  divisionMedida(event, tipoGraduacion) {
+    console.log(event)
+    console.log(this.cargarStock[event]);
+    if (tipoGraduacion == 'esferico') {
+      if (this.cargarStock[event].MedidaEsferico != undefined) {
+        var lala = +this.cargarStock[event].MedidaEsferico;
+        this.cargarStock[event].MedidaEsferico = +((lala * 100 / 100).toFixed(3));
+        console.log(this.cargarStock[event].MedidaEsferico)
+      } 
+    } else {
+      if (this.cargarStock[event].MedidaCilindrico != undefined) {
+        this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico / 100;
+      }
+    }
+  }
 
   compararLimiteGrilla(event, tipoGraduacion) {
-    console.log(this.cargarStock[event].MedidaEsferico / 100 )
+    console.log(this.cargarStock[event].MedidaEsferico / 100)
     if (tipoGraduacion == 'esferico') {
       if (this.cargarStock[event].MedidaEsferico / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico && this.cargarStock[event].MedidaEsferico / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico) {
-          this.msjLimiteEsferico[event] = ((this.cargarStock[event].MedidaEsferico / 100 ) % 0.25) > 0; 
+        this.msjLimiteEsferico[event] = ((this.cargarStock[event].MedidaEsferico / 100) % 0.25) > 0;
       }
       else {
         this.msjLimiteEsferico[event] = true;
@@ -173,11 +173,20 @@ export class ManejoStockAltaComponent implements OnInit {
     }
     else {
       if (this.cargarStock[event].MedidaCilindrico / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico && this.cargarStock[event].MedidaCilindrico / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico) {
-        this.msjLimiteCilindrico[event] = ((this.cargarStock[event].MedidaCilindrico / 100 ) % 0.25) > 0;
+        this.msjLimiteCilindrico[event] = ((this.cargarStock[event].MedidaCilindrico / 100) % 0.25) > 0;
       }
       else {
         this.msjLimiteCilindrico[event] = true;
       }
+    }
+  }
+
+  _keyPress(event: any) {
+    const pattern = /[0-9-]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
     }
   }
 
@@ -193,5 +202,4 @@ export class ManejoStockAltaComponent implements OnInit {
       this.msjCilindrico[event] = false;
     }
   }
-
 }

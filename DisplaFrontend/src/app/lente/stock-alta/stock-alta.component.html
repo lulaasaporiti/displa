@@ -10,7 +10,7 @@
                 <div fxLayout="row" fxLayoutGap="1vw" (change)="updateStateStock()" *ngFor="let s of cargarStock; let index = index">
                     <div fxLayout="column">
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Medida esférico" type="number"
+                            <input matInput placeholder="Medida esférico" (keypress)="_keyPress($event)"
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel"
                                 (blur)="divisionMedida(index, 'esferico')"
@@ -22,10 +22,10 @@
 
                     <div fxLayout="column">
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Medida cilindríco" type="number"
+                            <input matInput placeholder="Medida cilindríco"
                                 [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
                                 name="cilindrico{{index}}" #cilindrico="ngModel"
-                                (blur)="divisionMedida(index, 'cilindrico')"
+                                (blur)="divisionMedida(index, 'cilindrico')" (keypress)="_keyPress($event)"
                                 (input)="compararGraduacion(index); compararLimiteGrilla(index, 'cilindrico')"
                                 required>
                             <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>

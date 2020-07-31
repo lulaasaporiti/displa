@@ -75,9 +75,24 @@ export class StockAltaComponent implements OnInit {
 
   divisionMedida(event, tipoGraduacion){
     if (tipoGraduacion == 'esferico') {
-      this.cargarStock[event].MedidaEsferico = this.cargarStock[event].MedidaEsferico/100;
+      if (this.cargarStock[event].MedidaEsferico != undefined) {
+        var lala = +this.cargarStock[event].MedidaEsferico;
+        this.cargarStock[event].MedidaEsferico = +((lala * 100 / 100).toFixed(3));
+        console.log(this.cargarStock[event].MedidaEsferico)
+      } 
     } else {
-      this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico/100;
+      if (this.cargarStock[event].MedidaCilindrico != undefined) {
+        this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico / 100;
+      }
+    }
+  }
+
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
     }
   }
 

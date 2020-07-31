@@ -1,0 +1,22 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="edit"></mat-icon>
+            <p class="dialog-title">Editar gasto</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Nombre" [(ngModel)]="data.modelGasto.Nombre" name="nombre"
+                    #nombre="ngModel" (keyup.enter)="onEnter();" required>
+                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
+                cdkFocusInitial>Guardar</button>
+        </div>
+    </div>
+</form>

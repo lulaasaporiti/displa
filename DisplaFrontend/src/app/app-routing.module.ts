@@ -5,15 +5,15 @@ import { HomeComponent } from './home/home';
 
 const routes: Routes = [{
   path: '', // <--  represents the default path for the application, the place to go when the path in the URL is empty, as it typically is at the start.
-  canActivate: [LoggedInGuard],
-  redirectTo: '/Account/Login',
+  // redirectTo: '/Home',
+  redirectTo: 'Account/Login',
   pathMatch: 'full',
+  canActivate: [LoggedInGuard],
 },
 { path: 'Home', component: HomeComponent },
-
 // { 
 //   path: '**' ,
-//   redirectTo: 'Liquidacion/Operativos',
+//   redirectTo: '/Account/Login',
 // }
 ];
 
