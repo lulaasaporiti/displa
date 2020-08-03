@@ -64,7 +64,18 @@ export class PrecioArticuloListadoComponent implements OnInit {
     this.searchElement.nativeElement.focus();
     this.dataSourceTipo.paginator = this.paginator;
     this.dataSourceTipo.sort = this.sort;
-    this.loadPrecioArticuloPage()
+    this.loadPrecioArticuloPage();
+
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      // console.log(filterView)
+      return (
+        (
+          data.Nombre.toLowerCase().indexOf(filter) != -1 ||
+          data.IdTipoArticuloNavigation.Nombre.toLowerCase().indexOf(filter) != -1
+
+        )
+      )
+    }
   }
 
   ngAfterViewInit() {
@@ -77,10 +88,13 @@ export class PrecioArticuloListadoComponent implements OnInit {
 
 
   applyFilter(filterValue: string) {
-    this.dataSourceTipo.filter = filterValue.trim().toLowerCase();
-    console.log(this.dataSource.data)
-    console.log(filterValue)
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSourceTipo.filter = filterValue;
+    var nombreFilter = this.dataSource.data.filter(i  => i.Nombre.toLowerCase().includes(filterValue));
+    if(nombreFilter != undefined)
+      this.dataSourceTipo.filter = nombreFilter[0].IdTipoArticuloNavigation.Nombre;
+      this.tablaArticulos(nombreFilter[0].IdTipoArticulo, filterValue)
   }
 
   loadPrecioArticuloPage() {
@@ -94,9 +108,6 @@ export class PrecioArticuloListadoComponent implements OnInit {
         this.dataSource.data = r[0];
         this.dataSourceTipo.data = r[1];
         this.preciosSeleccionados = r[2];
-        // console.log(this.dataSource.data)
-        // console.log(this.dataSourceTipo.data)
-        // console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
         var index = [];
         this.dataSource.data.forEach(a => {
@@ -138,7 +149,12 @@ export class PrecioArticuloListadoComponent implements OnInit {
     this.loadingSpinnerService.hide();
   }
 
-  tablaArticulos(idTipoArticulo) {
+  tablaArticulos(idTipoArticulo, nombreArticulo) {
+    if(nombreArticulo != '') { 
+      this.dataSourceArticulo.data = this.dataSource.data.filter(na => na.IdTipoArticulo == idTipoArticulo && na.Nombre.toLowerCase().includes(nombreArticulo));
+      console.log(this.dataSourceArticulo.data)
+    }
+    else 
     this.dataSourceArticulo.data = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
   }
 
@@ -223,7 +239,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
             // console.log(this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticulo == 33))
             // if (this.preciosSeleccionados.filter(p => p.IdPrecioArticuloNavigation.IdArticuloNavigation.PrecioArticulo[index] != undefined && p.IdPrecioArticuloNavigation.IdArticuloNavigation.PrecioArticulo[index].Id == p.Id  && p.Especial != true)){
             //   console.log("no hay que sacar indeterminate");
-            // } else { 
+            // } else {
             //   console.log(" hay que sacar indeterminate")
             // }
           }
@@ -287,7 +303,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
       let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
       if (arrayPreciosArticulos.length >= arrayArticulos.length) {
         arrayArticulos.forEach(a => {
-          var i = a.PrecioArticulo.findIndex(pa => pa.Id == arrayPreciosArticulos.filter(p => p.IdPrecioArticuloNavigation != undefined 
+          var i = a.PrecioArticulo.findIndex(pa => pa.Id == arrayPreciosArticulos.filter(p => p.IdPrecioArticuloNavigation != undefined
                                                                                               && p.IdPrecioArticuloNavigation.IdArticulo == a.Id)[0]
                                                                                               .IdPrecioArticuloNavigation.Id)
           if (!arrayIndex.includes(i) && i != -1)
@@ -383,7 +399,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
       //     if (i == arrayDescuento.length) {
       //       console.log(descuento)
       //       return descuento;
-      //     }  
+      //     }
       //   }
       // }
     }
