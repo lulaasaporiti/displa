@@ -38,11 +38,11 @@ namespace DisplaBackend.Controllers
             return _servicioService.GetServiciosVigentes();
         }
 
-        [HttpGet, Route("GetServiciosClientes")]
+        [HttpGet, Route("GetServiciosPrecios")]
         [EnableCors("DisplaAPIPolicy")]
-        public object GetServiciosClientes()
+        public object GetServiciosPrecios()
         {
-            return _servicioService.GetServiciosClientes();
+            return _servicioService.GetServiciosPrecios();
         }
 
         [HttpPost]

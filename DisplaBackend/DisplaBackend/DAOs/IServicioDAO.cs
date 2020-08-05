@@ -11,7 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<Servicio> GetServicios();
         List<Servicio> GetServiciosVigentes();
-        List<Servicio> GetServiciosClientes();
+        List<Servicio> GetServiciosPrecios();
         bool SaveOrUpdate(Servicio servicio);
         bool Delete(Servicio servicio);
         Servicio GetById(int idServicio);
@@ -53,7 +53,7 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public List<Servicio> GetServiciosClientes()
+        public List<Servicio> GetServiciosPrecios()
         {
             List<Servicio> servicios = _context.Servicio
                 .Where(s => s.Borrado == false)
@@ -62,7 +62,7 @@ namespace DisplaBackend.DAOs
                     Id = s.Id,
                     Nombre = s.Nombre,
                     IdTipoServicio = s.IdTipoServicio,
-                    //IdTipoArticuloNavigation = a.IdTipoArticuloNavigation,
+                    IdTipoServicioNavigation = s.IdTipoServicioNavigation,
                     Borrado = s.Borrado,
                     PrecioServicio = s.PrecioServicio
                         .Where(p => p.PrecioServicioCliente.Where(pc => pc.Especial == true).Count() == 0)
