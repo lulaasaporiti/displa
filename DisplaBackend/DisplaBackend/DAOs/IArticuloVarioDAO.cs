@@ -11,7 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<ArticuloVario> GetArticulosVarios();
         List<ArticuloVario> GetArticulosVariosVigentes();
-        List<ArticuloVario> GetArticulosVariosClientes();
+        List<ArticuloVario> GetArticulosVariosPrecios();
         bool SaveOrUpdate(ArticuloVario articuloVario);
         bool Delete(ArticuloVario articuloVario);
         ArticuloVario GetById(int idArticuloVario);
@@ -46,7 +46,7 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public List<ArticuloVario> GetArticulosVariosClientes()
+        public List<ArticuloVario> GetArticulosVariosPrecios()
         {
             List<ArticuloVario> articulos = _context.ArticuloVario
                 .Where(a => a.Borrado == false)

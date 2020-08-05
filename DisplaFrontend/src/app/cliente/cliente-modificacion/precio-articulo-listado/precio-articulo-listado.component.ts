@@ -100,7 +100,7 @@ export class PrecioArticuloListadoComponent implements OnInit {
   loadPrecioArticuloPage() {
     this.loadingSpinnerService.show()
     combineLatest(
-      this.articuloService.getArticulosVariosClientes(),
+      this.articuloService.getArticulosVariosPrecios(),
       this.tipoArticuloService.getTiposArticuloConArticulosList(),
       this.clienteService.getPreciosArticulosCliente(this.idCliente)
     )

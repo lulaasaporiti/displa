@@ -20,8 +20,8 @@ export class ArticuloVarioService {
         return this.http.get(`${this.baseUrl}/GetArticulosVariosVigentes`);
     }
     
-    getArticulosVariosClientes(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetArticulosVariosClientes`);
+    getArticulosVariosPrecios(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetArticulosVariosPrecios`);
     }
 
     saveOrUpdateArticuloVario(articuloVario: Object): Observable<object> {
