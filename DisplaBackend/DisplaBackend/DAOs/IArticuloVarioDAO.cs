@@ -55,7 +55,7 @@ namespace DisplaBackend.DAOs
                     Id = a.Id,
                     Nombre = a.Nombre,
                     IdTipoArticulo = a.IdTipoArticulo,
-                    //IdTipoArticuloNavigation = a.IdTipoArticuloNavigation,
+                    IdTipoArticuloNavigation = a.IdTipoArticuloNavigation,
                     Borrado = a.Borrado,
                     StockActual = a.StockActual,
                     StockMinimo = a.StockMinimo,

@@ -8,10 +8,11 @@ import { ArticuloVarioAltaComponent } from './articulo-vario-alta/articulo-vario
 import { ArticuloVarioBajaComponent } from './articulo-vario-baja/articulo-vario-baja.component';
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { ActualizacionPrecioArticuloComponent } from './actualizacion-precio-articulo/actualizacion-precio-articulo.component';
 
 @NgModule({
     entryComponents: [ArticuloVarioBajaComponent],
-    declarations: [ArticuloVarioListadoComponent, ArticuloVarioAltaComponent, ArticuloVarioBajaComponent, ArticuloVarioModificacionComponent],
+    declarations: [ArticuloVarioListadoComponent, ArticuloVarioAltaComponent, ArticuloVarioBajaComponent, ArticuloVarioModificacionComponent, ActualizacionPrecioArticuloComponent],
     imports: [
         CommonModule,
         MaterialModule,

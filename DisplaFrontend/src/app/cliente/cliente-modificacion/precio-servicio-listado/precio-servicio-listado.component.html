@@ -103,7 +103,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns" sticky></tr>
     <!-- (click)="expandedElement = expandedElement === row ? null : row" -->
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
-      (click)="tablaServicios(row.Id); expandedElement = expandedElement === row ? null : row"
+      (click)="tablaServicios(row.Id, (!search.invalid && search.value != undefined) ? search.value : ''); expandedElement = expandedElement === row ? null : row"
       [class.example-expanded-row]="expandedElement === row">
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" ></tr>

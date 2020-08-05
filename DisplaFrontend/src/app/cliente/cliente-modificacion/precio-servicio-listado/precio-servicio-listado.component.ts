@@ -36,11 +36,12 @@ export class PrecioServicioListadoComponent implements OnInit {
   dataSource = new MatTableDataSource<Servicio>();
   dataSourceServicio = new MatTableDataSource<Servicio>();
   dataSourceTipo = new MatTableDataSource<TipoServicio>();
+  originalTipo: TipoServicio[] = [];
   checkboxChecked: boolean[] = [];
   checkboxIndeterminate: boolean[] = [];
   recargaPagina = false;
   preciosSeleccionados: PrecioServicioCliente[] = [];
-  expandedElement: Servicio | null;
+  expandedElement: TipoServicio | null;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -77,7 +78,21 @@ export class PrecioServicioListadoComponent implements OnInit {
 
 
   applyFilter(filterValue: string) {
-    this.dataSourceTipo.filter = filterValue.trim().toLowerCase();
+    if (filterValue != "") {
+      let tiposServicios: TipoServicio[] = [];
+      filterValue = filterValue.trim();
+      filterValue = filterValue.toLowerCase();
+      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue));
+      if (nombreFilter != undefined) {
+        nombreFilter.forEach(a => {
+          if (tiposServicios.findIndex(t => t.Id == a.IdTipoServicio) == -1)
+            tiposServicios.push(a.IdTipoServicioNavigation)
+        });
+        this.dataSourceTipo.data = tiposServicios;
+      }
+    } else {
+      this.dataSourceTipo.data = this.originalTipo;
+    }
   }
 
   loadPrecioServicioPage() {
@@ -91,9 +106,7 @@ export class PrecioServicioListadoComponent implements OnInit {
         this.dataSource.data = r[0];
         this.dataSourceTipo.data = r[1];
         this.preciosSeleccionados = r[2];
-        // console.log(this.dataSource.data)
-        // console.log(this.dataSourceTipo.data)
-        // console.log(this.preciosSeleccionados)
+        this.originalTipo = JSON.parse(JSON.stringify(r[1]))
         var maxCantPrecio = 0;
         var index = [];
         this.dataSource.data.forEach(a => {
@@ -135,8 +148,13 @@ export class PrecioServicioListadoComponent implements OnInit {
     this.loadingSpinnerService.hide();
   }
 
-  tablaServicios(idTipoServicio) {
-    this.dataSourceServicio.data = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
+  tablaServicios(idTipoServicio, nombreServicio) {
+    if(nombreServicio != '') { 
+      this.dataSourceServicio.data = this.dataSource.data.filter(ns => ns.IdTipoServicio == idTipoServicio && ns.Nombre.toLowerCase().includes(nombreServicio));
+      console.log(this.dataSourceServicio.data)
+    }
+    else 
+      this.dataSourceServicio.data = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
   }
 
   _keyPress(event: any) {

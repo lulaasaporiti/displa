@@ -16,9 +16,9 @@ import { TipoArticuloService } from 'src/services/tipo.articulo.service';
 
 
 @Component({
-  selector: 'app-precio-articulo-cliente-listado',
-  templateUrl: './precio-articulo-listado.component.html',
-  styleUrls: ['./precio-articulo-listado.component.css'],
+  selector: 'app-actualizacion-precio-articulo',
+  templateUrl: './actualizacion-precio-articulo.component.html',
+  styleUrls: ['./actualizacion-precio-articulo.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -27,7 +27,7 @@ import { TipoArticuloService } from 'src/services/tipo.articulo.service';
     ]),
   ],
 })
-export class PrecioArticuloListadoComponent implements OnInit {
+export class ActualizacionPrecioArticuloComponent implements OnInit {
 
   displayedColumns = ['Nombre'];
   displayedColumnsArticulo = ['NombreArticulo'];
@@ -140,9 +140,8 @@ export class PrecioArticuloListadoComponent implements OnInit {
             this.displayedColumnsArticulo.push('Precio' + i);
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
             if (i == maxCantPrecio) {
-              this.displayedColumnsArticulo.push('PrecioEspecial');
-              this.displayedColumns.push('Descuento');
-              this.displayedColumnsArticulo.push('DescuentoArticulo');
+              this.displayedColumns.push('Porcentaje');
+              this.displayedColumnsArticulo.push('PorcentajeArticulo');
             }
           }
         }

@@ -151,7 +151,8 @@ export class ManejoStockAltaComponent implements OnInit {
     if (tipoGraduacion == 'esferico') {
       if (this.cargarStock[event].MedidaEsferico != undefined) {
         var lala = +this.cargarStock[event].MedidaEsferico;
-        this.cargarStock[event].MedidaEsferico = +((lala * 100 / 100).toFixed(3));
+        console.log(parseFloat((lala/100).toFixed(2)))
+        this.cargarStock[event].MedidaEsferico = parseFloat((lala/100).toFixed(2));
         console.log(this.cargarStock[event].MedidaEsferico)
       } 
     } else {
