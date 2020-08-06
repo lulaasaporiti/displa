@@ -39,6 +39,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   checkboxIndeterminate: boolean[] = [];
   recargaPagina = false;
   expandedElement: TipoArticulo | null;
+  porcentajesArticulos = [];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -152,7 +153,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       this.dataSource.data.forEach(e => {
         let precioArticulo = <PrecioArticulo>{};
         if (e.PrecioArticulo[checkbox] != null) {
-          let tieneOtro = this.preciosSeleccionados.some(p => p.Id != e.PrecioArticulo[checkbox].Id && p.IdArticulo == e.Id);
+          // let tieneOtro = this.preciosSeleccionados.some(p => p.Id != e.PrecioArticulo[checkbox].Id && p.IdArticulo == e.Id);
           // if (tieneOtro) {
           //   this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
           // }
@@ -190,10 +191,10 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       arrayArticulos.forEach(a => {
         let precioArticulo = <PrecioArticulo>{};
         if (a.PrecioArticulo[checkbox] != null) {
-          let tieneOtro = this.preciosSeleccionados.some(p => p.Id != a.PrecioArticulo[checkbox].Id && p.IdArticulo == a.Id);
-          if (tieneOtro) {
-            this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo && p.Id != a.PrecioArticulo[checkbox].Id)
-          }
+          // let tieneOtro = this.preciosSeleccionados.some(p => p.Id != a.PrecioArticulo[checkbox].Id && p.IdArticulo == a.Id);
+          // if (tieneOtro) {
+          //   this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo && p.Id != a.PrecioArticulo[checkbox].Id)
+          // }
           precioArticulo.Id = a.PrecioArticulo[checkbox].Id;
           precioArticulo.IdArticulo = a.PrecioArticulo[checkbox].IdArticulo;
           precioArticulo.IdArticuloNavigation = a.PrecioArticulo[checkbox].IdArticuloNavigation;
@@ -211,9 +212,10 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           }
         }
       });
-    } else {
-      this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo)
-    }
+    } 
+    // else {
+    //   this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo)
+    // }
     if (this.checkboxIndeterminate[0] == true && event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
@@ -253,16 +255,18 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     let arrayIndex = [];
     if (this.preciosSeleccionados.length > 0) {
       let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdArticuloNavigation != undefined && element.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
-      let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
-      if (arrayPreciosArticulos.length >= arrayArticulos.length) {
-        arrayArticulos.forEach(a => {
-          var i = a.PrecioArticulo.findIndex(pa => pa.Id == arrayPreciosArticulos.filter(p => p.IdArticulo == a.Id)[0].Id)
+      let arrayTodosArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
+      if (arrayPreciosArticulos.length >= arrayTodosArticulos.length) {
+        arrayTodosArticulos.forEach(a => {
+          arrayPreciosArticulos.forEach(p => {
+          var i = a.PrecioArticulo.findIndex(pa => pa.Id == p.Id);
           if (!arrayIndex.includes(i) && i != -1)
             arrayIndex.push(i);
+          })
         })
       }
     }
-    return arrayIndex.length == 1 && +event == arrayIndex[0];
+    return arrayIndex.includes(+event);
   }
 
   indeterminateTipo(event, idTipoArticulo: any) {
@@ -313,50 +317,34 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     }
   }
 
-  // porcentajeTipoArticulo(porcentaje, idTipoArticulo: number) {
-  //   if (porcentaje != "") {
-  //     let arrayPorcentaje = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation != undefined && p.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
-  //     let arrayIndex = [];
-  //     arrayPorcentaje.forEach(i => {
-  //       arrayIndex.push(this.preciosSeleccionados.indexOf(i));
-  //     });
-  //     arrayIndex.forEach(i => {
-  //       this.preciosSeleccionados[i].Descuento = +porcentaje;
-  //       // console.log(i);
-  //     });
-  //   }
-  // }
+  porcentajeTipoArticulo(porcentaje, idTipoArticulo: number) {
+    let preciosArticulos = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
+    preciosArticulos.forEach(p => {
+      this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
+    });
+    console.log(this.porcentajesArticulos);
+  }
 
 
-  // porcentajeArticulo(porcentaje, idArticulo: number) {
-  //   let index = this.checkboxChecked.indexOf(true);
-  //   let articulo = this.dataSource.data.filter(a => a.Id == idArticulo)[0]
-  //   let precioArticulo: PrecioArticuloCliente;
-  //   let i;
-  //   if (articulo.PrecioArticulo[index] != null) {
-  //     i = this.preciosSeleccionados.findIndex(p => p.IdPrecioArticulo == articulo.PrecioArticulo[index].Id);
-  //     precioArticulo = this.preciosSeleccionados.filter(p => p.IdPrecioArticulo == articulo.PrecioArticulo[index].Id)[0];
-  //   } else {
-  //     i = this.preciosSeleccionados.findIndex(p => p.IdPrecioArticulo == articulo.PrecioArticulo[0].Id);
-  //     precioArticulo = this.preciosSeleccionados.filter(p => p.IdPrecioArticulo == articulo.PrecioArticulo[0].Id)[0];
-  //   }
-  //   precioArticulo.Descuento = +porcentaje;
-  //   // console.log(precioArticulo)
-  //   this.preciosSeleccionados[i] = precioArticulo;
-  //   // console.log(this.preciosSeleccionados)
-  // }
+  porcentajeArticulo(porcentaje, idArticulo: number) {
+    let preciosArticulos = this.preciosSeleccionados.filter(p => p.IdArticulo == idArticulo);
+    preciosArticulos.forEach(p => {
+      this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
+    });
+    // console.log(this.porcentajesArticulos)
+  }
 
   guardarPrecios() {
-    this.recargaPagina = true;
-    // console.log(this.preciosSeleccionados)
-    this.articuloService.savePreciosArticulos(this.preciosSeleccionados).subscribe(result => {
-      // console.log(result)
-      if (result) {
-        this.loadPrecioArticuloPage();
-        this.sessionService.showSuccess("Los precios se cargaron correctamente.");
-      } else
-        this.sessionService.showError("Los precios no se cargaron.");
-    }
-    );
+    // this.recargaPagina = true;
+    // // console.log(this.preciosSeleccionados)
+    // this.articuloService.savePreciosArticulos(this.preciosSeleccionados).subscribe(result => {
+    //   // console.log(result)
+    //   if (result) {
+    //     this.loadPrecioArticuloPage();
+    //     this.sessionService.showSuccess("Los precios se cargaron correctamente.");
+    //   } else
+    //     this.sessionService.showError("Los precios no se cargaron.");
+    // }
+    // );
   }
 }
