@@ -349,7 +349,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   guardarPrecios() {
     this.recargaPagina = true;
     // console.log(this.preciosSeleccionados)
-    this.clienteService.savePreciosArticulos(this.preciosSeleccionados).subscribe(result => {
+    this.articuloService.savePreciosArticulos(this.preciosSeleccionados).subscribe(result => {
       // console.log(result)
       if (result) {
         this.loadPrecioArticuloPage();
