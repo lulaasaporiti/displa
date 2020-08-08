@@ -92,7 +92,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.dataSourceTipo.data = r[1];
-        this.originalTipo = JSON.parse(JSON.stringify(r[1]))
+        this.originalTipo = JSON.parse(JSON.stringify(r[1]));
+        this.preciosSeleccionados = []
+
         var maxCantPrecio = 0;
         var index = [];
         this.dataSource.data.forEach(a => {
@@ -128,7 +130,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   }
 
   _keyPress(event: any) {
-    const pattern = /[0-9,.]/;
+    const pattern = /[0-9-,.]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
@@ -161,6 +163,10 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           precioArticulo.IdArticulo = e.PrecioArticulo[checkbox].IdArticulo;
           precioArticulo.IdArticuloNavigation = e.PrecioArticulo[checkbox].IdArticuloNavigation;
           this.preciosSeleccionados.push(precioArticulo);
+          var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+          if(tienePorcentaje){
+           this.porcentajeArticulo(precioArticulo.IdArticulo, +tienePorcentaje)
+          }
         }
         else {
           this.checkboxIndeterminate[checkbox] = true;
@@ -170,6 +176,10 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
             precioArticulo.IdArticulo = e.PrecioArticulo[0].IdArticulo;
             precioArticulo.IdArticuloNavigation = e.PrecioArticulo[0].IdArticuloNavigation;
             this.preciosSeleccionados.push(precioArticulo);
+            var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+            if(tienePorcentaje){
+             this.porcentajeArticulo(precioArticulo.IdArticulo, +tienePorcentaje)
+            }
           }
         }
       });
@@ -322,7 +332,6 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     preciosArticulos.forEach(p => {
       this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
     });
-    console.log(this.porcentajesArticulos);
   }
 
 
@@ -331,20 +340,20 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     preciosArticulos.forEach(p => {
       this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
     });
-    // console.log(this.porcentajesArticulos)
+    console.log(preciosArticulos)
   }
 
   guardarPrecios() {
-    // this.recargaPagina = true;
-    // // console.log(this.preciosSeleccionados)
-    // this.articuloService.savePreciosArticulos(this.preciosSeleccionados).subscribe(result => {
-    //   // console.log(result)
-    //   if (result) {
-    //     this.loadPrecioArticuloPage();
-    //     this.sessionService.showSuccess("Los precios se cargaron correctamente.");
-    //   } else
-    //     this.sessionService.showError("Los precios no se cargaron.");
-    // }
-    // );
+    this.recargaPagina = true;
+    this.articuloService.saveActualizacionPrecio(this.porcentajesArticulos)
+    .subscribe(result => {
+      // console.log(result)
+      if (result) {
+        this.loadPrecioArticuloPage();
+        this.sessionService.showSuccess("Los precios se cargaron correctamente.");
+      } else
+        this.sessionService.showError("Los precios no se cargaron.");
+    }
+    );
   }
 }

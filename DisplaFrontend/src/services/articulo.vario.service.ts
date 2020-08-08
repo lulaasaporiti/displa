@@ -28,6 +28,10 @@ export class ArticuloVarioService {
         return this.http.post(`${this.baseUrl}/`, articuloVario);
     }
 
+    saveActualizacionPrecio(porcentajesArticulo: Object[]):  Observable<object> {
+        return this.http.put(`${this.baseUrl}/`, porcentajesArticulo);
+    }
+
     updateArticuloVario(id: number, value: any): Observable<object> {
         return this.http.put(`${this.baseUrl}/${id}`, value);
     }

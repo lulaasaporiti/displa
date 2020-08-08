@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace DisplaBackend.Services
         bool SaveOrUpdate(ArticuloVario articuloVario);
         bool Delete(ArticuloVario articuloVario);
         ArticuloVario GetById(int idArticuloVario);
+        bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
     }
 
     public class ArticuloVarioService : IArticuloVarioService
@@ -42,6 +44,12 @@ namespace DisplaBackend.Services
         public bool SaveOrUpdate(ArticuloVario articuloVario)
         {
             return _articuloVarioDAO.SaveOrUpdate(articuloVario);
+
+        }
+
+        public bool SaveActualizacionPrecio(JObject[] porcentajePrecios)
+        {
+            return _articuloVarioDAO.SaveActualizacionPrecio(porcentajePrecios);
 
         }
 

@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(ArticuloVario articuloVario);
         bool Delete(ArticuloVario articuloVario);
         ArticuloVario GetById(int idArticuloVario);
+        bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
 
     }
 
@@ -113,6 +115,33 @@ namespace DisplaBackend.DAOs
                             p.IdArticuloNavigation = null;
                             _context.PrecioArticulo.Add(p);
                         });
+                    }
+                }
+                return _context.SaveChanges() >= 1;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool SaveActualizacionPrecio(JObject[] porcentajePrecios)
+        {
+            try
+            {
+                if (porcentajePrecios != null)
+                {
+                    int precio = 0;
+                    int porcentaje = 0;
+                    var precioArticulo = new PrecioArticulo();
+
+                    foreach (var p in porcentajePrecios)
+                    {
+                        precio = Convert.ToInt32(p.GetValue("IdPrecio"));
+                        porcentaje = Convert.ToInt32(p.GetValue("Porcentaje"));
+                        precioArticulo = _context.PrecioArticulo.Find(precio);
+                        precioArticulo.Precio = Math.Round(precioArticulo.Precio + ((precioArticulo.Precio * porcentaje) / 100),2);
+                        _context.PrecioArticulo.Update(precioArticulo);
                     }
                 }
                 return _context.SaveChanges() >= 1;
