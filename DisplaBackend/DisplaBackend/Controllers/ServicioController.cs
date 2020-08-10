@@ -61,6 +61,19 @@ namespace DisplaBackend.Controllers
             
         }
 
+        [HttpPut]
+        public IActionResult SaveActualizacionPrecio([FromBody] JObject[] porcentajePrecios)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            return Ok(_servicioService.SaveActualizacionPrecio(porcentajePrecios));
+
+        }
+
         [HttpDelete("{idServicio}")]
         public IActionResult Delete([FromRoute]int idServicio)
         {

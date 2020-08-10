@@ -11,7 +11,7 @@
       <input matInput placeholder="Porcentaje" id="porcentaje" (keypress)="_keyPress($event)">
     </mat-form-field>
     <div fxLayout="column">
-      <mat-checkbox fxFlex='17' class="radio-group" name="precios">Aplicar porcentaje a todos los precios</mat-checkbox>
+      <mat-checkbox fxFlex='17' class="radio-group" name="precios" id="precios" [checked]="checkedPorcentajeTodos" (change)="onClickedPorcentajeTodos($event)">Aplicar porcentaje a todos los precios</mat-checkbox>
     </div>
   </div>
   <mat-divider fxFlexOffset="2"></mat-divider>

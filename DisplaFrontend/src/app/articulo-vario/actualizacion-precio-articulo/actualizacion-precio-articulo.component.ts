@@ -37,6 +37,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   originalTipo: TipoArticulo[] = [];
   checkboxChecked: boolean[] = [];
   checkboxIndeterminate: boolean[] = [];
+  checkedPorcentajeTodos: boolean;
   recargaPagina = false;
   expandedElement: TipoArticulo | null;
   porcentajesArticulos = [];
@@ -93,10 +94,10 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
         this.dataSource.data = r[0];
         this.dataSourceTipo.data = r[1];
         this.originalTipo = JSON.parse(JSON.stringify(r[1]));
-        this.preciosSeleccionados = []
+        this.preciosSeleccionados = [];
+        (<HTMLInputElement>document.getElementById("porcentaje")).value = '';
 
         var maxCantPrecio = 0;
-        var index = [];
         this.dataSource.data.forEach(a => {
           if (a.PrecioArticulo.length > maxCantPrecio && a.PrecioArticulo)
             maxCantPrecio = a.PrecioArticulo.length
@@ -123,7 +124,6 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   tablaArticulos(idTipoArticulo, nombreArticulo) {
     if(nombreArticulo != '') { 
       this.dataSourceArticulo.data = this.dataSource.data.filter(na => na.IdTipoArticulo == idTipoArticulo && na.Nombre.toLowerCase().includes(nombreArticulo));
-      console.log(this.dataSourceArticulo.data)
     }
     else 
       this.dataSourceArticulo.data = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
@@ -165,7 +165,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           this.preciosSeleccionados.push(precioArticulo);
           var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
           if(tienePorcentaje){
-           this.porcentajeArticulo(precioArticulo.IdArticulo, +tienePorcentaje)
+           this.porcentajeArticulo(+tienePorcentaje, precioArticulo.IdArticulo)
           }
         }
         else {
@@ -178,18 +178,39 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
             this.preciosSeleccionados.push(precioArticulo);
             var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
             if(tienePorcentaje){
-             this.porcentajeArticulo(precioArticulo.IdArticulo, +tienePorcentaje)
+             this.porcentajeArticulo(+tienePorcentaje, precioArticulo.IdArticulo)
             }
           }
         }
       });
     } 
-    // else {
-      // this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
-    // }
+    else {
+      this.preciosSeleccionados = [];
+    }
     if (this.checkboxIndeterminate.includes(true) && event.checked) {
       this.checkboxIndeterminate[0] = true;
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
+    }
+  }
+
+  onClickedPorcentajeTodos(event) {
+    var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+    if (event.checked == true) {
+      this.dataSource.data.forEach(ar => {
+        ar.PrecioArticulo.forEach(pa => {
+        let precioArticulo = <PrecioArticulo>{};
+          precioArticulo.Id = pa.Id;
+          precioArticulo.IdArticulo = pa.IdArticulo;
+          precioArticulo.IdArticuloNavigation = pa.IdArticuloNavigation;
+          this.preciosSeleccionados.push(precioArticulo);
+        }); 
+        if(tienePorcentaje) {
+          this.porcentajeArticulo(+tienePorcentaje, ar.Id)
+        }   
+      })
+    }
+    else {
+      this.preciosSeleccionados = [];
     }
   }
 
@@ -340,14 +361,12 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     preciosArticulos.forEach(p => {
       this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
     });
-    console.log(preciosArticulos)
   }
 
   guardarPrecios() {
     this.recargaPagina = true;
     this.articuloService.saveActualizacionPrecio(this.porcentajesArticulos)
     .subscribe(result => {
-      // console.log(result)
       if (result) {
         this.loadPrecioArticuloPage();
         this.sessionService.showSuccess("Los precios se cargaron correctamente.");
