@@ -37,7 +37,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   originalTipo: TipoArticulo[] = [];
   checkboxChecked: boolean[] = [];
   checkboxIndeterminate: boolean[] = [];
-  checkedPorcentajeTodos: boolean;
+  checkedPorcentajeTodos: boolean = false;
   recargaPagina = false;
   expandedElement: TipoArticulo | null;
   porcentajesArticulos = [];
@@ -140,28 +140,14 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
 
   onClickedTodos(event) {
     let checkbox = +event.source.name.split("checkbox")[1];
-    for (let i = 0; i < this.checkboxChecked.length; i++) {
-      if (i == checkbox && event.checked) {
-        this.checkboxChecked[i] = true;
-        this.checkboxIndeterminate[i] = false;
-      }
-      else {
-        this.checkboxChecked[i] = false;
-        this.checkboxIndeterminate[i] = false;
-      }
-    }
 
     if (event.checked) {
-      this.dataSource.data.forEach(e => {
+      this.dataSource.data.forEach(ar => {
         let precioArticulo = <PrecioArticulo>{};
-        if (e.PrecioArticulo[checkbox] != null) {
-          // let tieneOtro = this.preciosSeleccionados.some(p => p.Id != e.PrecioArticulo[checkbox].Id && p.IdArticulo == e.Id);
-          // if (tieneOtro) {
-          //   this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
-          // }
-          precioArticulo.Id = e.PrecioArticulo[checkbox].Id;
-          precioArticulo.IdArticulo = e.PrecioArticulo[checkbox].IdArticulo;
-          precioArticulo.IdArticuloNavigation = e.PrecioArticulo[checkbox].IdArticuloNavigation;
+        if (ar.PrecioArticulo[checkbox] != null) {
+          precioArticulo.Id = ar.PrecioArticulo[checkbox].Id;
+          precioArticulo.IdArticulo = ar.PrecioArticulo[checkbox].IdArticulo;
+          precioArticulo.IdArticuloNavigation = ar.PrecioArticulo[checkbox].IdArticuloNavigation;
           this.preciosSeleccionados.push(precioArticulo);
           var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
           if(tienePorcentaje){
@@ -169,26 +155,31 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           }
         }
         else {
-          this.checkboxIndeterminate[checkbox] = true;
-          let incluye = this.preciosSeleccionados.find(p => p.Id == e.PrecioArticulo[0].Id);
+          if (this.checkboxChecked[0] == false)
+            this.checkboxIndeterminate[0] = true;
+          let incluye = this.preciosSeleccionados.find(p => p.Id == ar.PrecioArticulo[0].Id);
           if (!incluye) {
-            precioArticulo.Id = e.PrecioArticulo[0].Id;
-            precioArticulo.IdArticulo = e.PrecioArticulo[0].IdArticulo;
-            precioArticulo.IdArticuloNavigation = e.PrecioArticulo[0].IdArticuloNavigation;
+            precioArticulo.Id = ar.PrecioArticulo[0].Id;
+            precioArticulo.IdArticulo = ar.PrecioArticulo[0].IdArticulo;
+            precioArticulo.IdArticuloNavigation = ar.PrecioArticulo[0].IdArticuloNavigation;
             this.preciosSeleccionados.push(precioArticulo);
             var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
-            if(tienePorcentaje){
-             this.porcentajeArticulo(+tienePorcentaje, precioArticulo.IdArticulo)
+            if (tienePorcentaje) {
+              this.porcentajeArticulo(+tienePorcentaje, precioArticulo.IdArticulo);
             }
           }
         }
       });
-    } 
-    else {
-      this.preciosSeleccionados = [];
+    } else {
+      if (this.preciosSeleccionados.length == this.dataSource.data.length) {
+        this.preciosSeleccionados = [];
+      } else {
+        this.dataSource.data.forEach(ar => {
+          this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ar.PrecioArticulo[checkbox] != undefined && ar.PrecioArticulo[checkbox].Id == p.Id && ar.Id == p.IdArticulo), 1);
+        });
+      }
     }
-    if (this.checkboxIndeterminate.includes(true) && event.checked) {
-      this.checkboxIndeterminate[0] = true;
+    if (this.checkboxIndeterminate[0] == true && event.checked) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
   }
@@ -204,6 +195,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           precioArticulo.IdArticuloNavigation = pa.IdArticuloNavigation;
           this.preciosSeleccionados.push(precioArticulo);
         }); 
+        for (let i = 0; i < this.checkboxChecked.length; i++) {
+          this.checkboxChecked[i] = true;
+        }
         if(tienePorcentaje) {
           this.porcentajeArticulo(+tienePorcentaje, ar.Id)
         }   
@@ -211,6 +205,19 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     }
     else {
       this.preciosSeleccionados = [];
+      this.porcentajesArticulos = [];
+    }
+  }
+
+  recorrerPrecios() {
+    var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+    if (this.preciosSeleccionados.length > 0 && tienePorcentaje) {
+      console.log("entra")
+      this.preciosSeleccionados.forEach(pa => {
+        if (!this.porcentajesArticulos.some(p => p.IdPrecio == pa.Id))
+          this.porcentajesArticulos.push({IdPrecio: pa.Id, Porcentaje: +tienePorcentaje});
+      })
+      console.log(this.porcentajesArticulos)
     }
   }
 
@@ -222,10 +229,6 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       arrayArticulos.forEach(a => {
         let precioArticulo = <PrecioArticulo>{};
         if (a.PrecioArticulo[checkbox] != null) {
-          // let tieneOtro = this.preciosSeleccionados.some(p => p.Id != a.PrecioArticulo[checkbox].Id && p.IdArticulo == a.Id);
-          // if (tieneOtro) {
-          //   this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo && p.Id != a.PrecioArticulo[checkbox].Id)
-          // }
           precioArticulo.Id = a.PrecioArticulo[checkbox].Id;
           precioArticulo.IdArticulo = a.PrecioArticulo[checkbox].IdArticulo;
           precioArticulo.IdArticuloNavigation = a.PrecioArticulo[checkbox].IdArticuloNavigation;
@@ -359,12 +362,14 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   porcentajeArticulo(porcentaje, idArticulo: number) {
     let preciosArticulos = this.preciosSeleccionados.filter(p => p.IdArticulo == idArticulo);
     preciosArticulos.forEach(p => {
-      this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
+      if (!this.porcentajesArticulos.some(pa => pa.IdPrecio == p.Id))
+        this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
     });
   }
 
   guardarPrecios() {
     this.recargaPagina = true;
+    this.checkedPorcentajeTodos = false;
     this.articuloService.saveActualizacionPrecio(this.porcentajesArticulos)
     .subscribe(result => {
       if (result) {
