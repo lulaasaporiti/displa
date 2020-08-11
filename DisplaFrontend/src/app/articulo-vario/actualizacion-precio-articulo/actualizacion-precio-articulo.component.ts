@@ -140,6 +140,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
 
   onClickedTodos(event) {
     let checkbox = +event.source.name.split("checkbox")[1];
+    let mostrarMensaje = false;
 
     if (event.checked) {
       this.dataSource.data.forEach(ar => {
@@ -159,6 +160,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
             this.checkboxIndeterminate[0] = true;
           let incluye = this.preciosSeleccionados.find(p => p.Id == ar.PrecioArticulo[0].Id);
           if (!incluye) {
+            mostrarMensaje = true;
             precioArticulo.Id = ar.PrecioArticulo[0].Id;
             precioArticulo.IdArticulo = ar.PrecioArticulo[0].IdArticulo;
             precioArticulo.IdArticuloNavigation = ar.PrecioArticulo[0].IdArticuloNavigation;
@@ -179,7 +181,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
         });
       }
     }
-    if (this.checkboxIndeterminate[0] == true && event.checked) {
+    if (this.checkboxIndeterminate[0] == true && event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
   }
@@ -246,10 +248,15 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           }
         }
       });
-    } 
-    // else {
-    //   this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo)
-    // }
+    } else {
+    if (this.preciosSeleccionados.length == this.dataSource.data.length) {
+      this.preciosSeleccionados = [];
+    } else {
+      this.dataSource.data.forEach(ar => {
+        this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ar.PrecioArticulo[checkbox] != undefined && ar.PrecioArticulo[checkbox].Id == p.Id && ar.Id == p.IdArticulo), 1);
+      });
+    }
+    }
     if (this.checkboxIndeterminate[0] == true && event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
