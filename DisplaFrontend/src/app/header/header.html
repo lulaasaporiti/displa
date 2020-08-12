@@ -8,7 +8,7 @@
             <mat-menu fxLayoutAlign="start center" #menuProductos="matMenu">
                 <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuLentes">Lentes</a>
                 <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuArticulos">Artículos varios</a>
-                <a mat-menu-item class="button-list" routerLink="Servicio/Listado">Servicios</a>
+                <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuServicios">Servicios</a>
                 <a mat-menu-item class="button-list" routerLink="Insumo/Listado">Insumos</a>
                 <a mat-menu-item class="button-list" routerLink="Block/Listado">Blocks</a>
             </mat-menu>
@@ -24,6 +24,11 @@
             <mat-menu fxLayoutAlign="start center" #menuArticulos="matMenu">
                 <a mat-menu-item class="button-list" routerLink="ArticuloVario/Listado">Listado de artículos</a>
                 <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuGestionPreciosArticulo">Gestión de precios</a>
+            </mat-menu>
+
+            <mat-menu fxLayoutAlign="start center" #menuServicios="matMenu">
+                <a mat-menu-item class="button-list" routerLink="Servicio/Listado">Listado de servicios</a>
+                <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuGestionPreciosServicio">Gestión de precios</a>
             </mat-menu>
 
             <mat-menu fxLayoutAlign="start center" #menuGestionPreciosLente="matMenu">
@@ -42,7 +47,7 @@
             
             <mat-menu fxLayoutAlign="start center" #menuGestionPreciosServicio="matMenu">
                 <a mat-menu-item class="button-list" (click)="openModalPreciosLista('servicio')">Generar precios desde lista 1</a>
-                <a mat-menu-item class="button-list">Actualización de precios lista por lista</a>
+                <a mat-menu-item class="button-list" routerLink="Servicio/ActualizacionPrecio">Actualización de precios lista por lista</a>
                 <a mat-menu-item class="button-list">Modificación dinámica de precios</a>
             </mat-menu>
 

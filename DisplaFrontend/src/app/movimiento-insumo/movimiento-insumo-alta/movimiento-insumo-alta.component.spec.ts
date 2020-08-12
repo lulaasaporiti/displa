@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MovimientoInsumoAltaComponent } from ./movimiento-insumo-alta.componentnt';
+import { MovimientoInsumoAltaComponent } from './movimiento-insumo-alta.component';
 
 describe('MovimientoInsumoAltaComponent', () => {
   let component: MovimientoInsumoAltaComponent;

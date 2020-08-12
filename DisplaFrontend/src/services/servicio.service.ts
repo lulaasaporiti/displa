@@ -20,8 +20,12 @@ export class ServicioService {
         return this.http.get(`${this.baseUrl}/GetServiciosVigentes`);
     }
 
-    getServiciosClientes(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetServiciosClientes`);
+    getServiciosPrecios(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetServiciosPrecios`);
+    }
+
+    saveActualizacionPrecio(porcentajesServicio: Object[]):  Observable<object> {
+        return this.http.put(`${this.baseUrl}/`, porcentajesServicio);
     }
 
     saveOrUpdateServicio(servicio: Object): Observable<object> {

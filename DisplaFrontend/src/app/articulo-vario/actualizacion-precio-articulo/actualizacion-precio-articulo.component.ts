@@ -104,8 +104,8 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
         });
 
         for (let i = 1; i <= maxCantPrecio; i++) {
-          this.checkboxChecked.push(false)
-          this.checkboxIndeterminate.push(false);
+          this.checkboxChecked[i-1] = false;
+          this.checkboxIndeterminate[i-1] = false;
 
           if (this.recargaPagina == false) {
             this.displayedColumns.push('Precio' + i);

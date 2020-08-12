@@ -8,11 +8,12 @@ import { ServicioAltaComponent } from './servicio-alta/servicio-alta.component';
 import { ServicioBajaComponent } from './servicio-baja/servicio-baja.component';
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { ActualizacionPrecioServicioComponent } from './actualizacion-precio-servicio/actualizacion-precio-servicio.component';
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     entryComponents: [ServicioAltaComponent, ServicioBajaComponent, ServicioModificacionComponent],
-    declarations: [ServicioListadoComponent, ServicioAltaComponent, ServicioBajaComponent, ServicioModificacionComponent],
+    declarations: [ServicioListadoComponent, ServicioAltaComponent, ServicioBajaComponent, ServicioModificacionComponent, ActualizacionPrecioServicioComponent],
     imports: [
         CommonModule,
         MaterialModule,
