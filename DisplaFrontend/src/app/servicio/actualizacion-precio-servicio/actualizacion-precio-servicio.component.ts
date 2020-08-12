@@ -173,6 +173,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
     } else {
       if (this.preciosSeleccionados.length == this.dataSource.data.length) {
         this.preciosSeleccionados = [];
+        this.porcentajesServicios = [];
       } else {
         this.dataSource.data.forEach(ar => {
           this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ar.PrecioServicio[checkbox] != undefined && ar.PrecioServicio[checkbox].Id == p.Id && ar.Id == p.IdServicio), 1);
@@ -195,13 +196,14 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
           precioServicio.IdServicioNavigation = pa.IdServicioNavigation;
           this.preciosSeleccionados.push(precioServicio);
         }); 
-        for (let i = 0; i < this.checkboxChecked.length; i++) {
-          this.checkboxChecked[i] = true;
-        }
+        
         if(tienePorcentaje) {
           this.porcentajeServicio(+tienePorcentaje, ar.Id)
         }   
       })
+      for (let i = 0; i < this.checkboxChecked.length; i++) {
+        this.checkboxChecked[i] = true;
+      }
     }
     else {
       this.preciosSeleccionados = [];

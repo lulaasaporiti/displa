@@ -69,8 +69,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.lenteService.getLentesVigentesAgrupadosList(),
     )
       .subscribe(r => {
+        console.log(r)
         this.dataSource.data = r[0];
-        // console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
         var index = [];
         this.preciosSeleccionados = [];
@@ -93,8 +93,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
         });
 
         for (let i = 1; i <= maxCantPrecio; i++) {
-          this.checkboxChecked[i-1] = false;
-          this.checkboxIndeterminate[i-1] = false;
+          this.checkboxChecked[i - 1] = false;
+          this.checkboxIndeterminate[i - 1] = false;
 
           if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
             this.checkboxChecked[index[0]] = true;
@@ -119,16 +119,6 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
 
   onClickedTodos(event) {
     let checkbox = +event.source.name.split("checkbox")[1];
-    // for (let i = 0; i < this.checkboxChecked.length; i++) {
-    //   if (i == checkbox && event.checked) {
-    //     this.checkboxChecked[i] = true;
-    //     this.checkboxIndeterminate[i] = false;
-    //   }
-    //   else {
-    //     this.checkboxChecked[i] = false;
-    //     this.checkboxIndeterminate[i] = false;
-    //   }
-    // }
     if (event.checked) {
       this.dataSource.data.forEach(lente => {
         if (lente.PrecioLente != null) {
@@ -141,9 +131,9 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
               precioLente.Cilindrico = precio.Cilindrico;
               this.preciosSeleccionados.push(precioLente);
               var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
-            if(tienePorcentaje){
-            this.porcentajeLente(+tienePorcentaje, precioLente.IdLente)
-               }
+              if (tienePorcentaje) {
+                this.porcentajeLente(+tienePorcentaje, precioLente.IdLente)
+              }
             }
             else {
               this.checkboxIndeterminate[checkbox] = true;
@@ -153,7 +143,6 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
                 precioLente.IdLente = precio.IdLente;
                 precioLente.Esferico = precio.Esferico;
                 precioLente.Cilindrico = precio.Cilindrico;
-                // precioLenteCliente.IdPrecioLenteNavigation = e.PrecioLente[0];
                 this.preciosSeleccionados.push(precioLente);
               }
             }
@@ -165,7 +154,9 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
         this.preciosSeleccionados = [];
       } else {
         this.dataSource.data.forEach(l => {
-          this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => l.PrecioLente[checkbox] != undefined && l.PrecioLente[checkbox].Id == p.Id && l.Id == l.IdLente), 1);
+          l.PrecioLente.forEach(pl => {
+            this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => pl.Precio[checkbox] != undefined && pl.Precio[checkbox].Id == p.Id && l.Id == p.IdLente), 1);
+          });
         });
       }
     }
@@ -175,45 +166,62 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     }
   }
 
-  // onClicked(lente: Lente, checkbox) {
-  //   let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
-  //   // if (checkbox.checked) {
-  //   let incluye = this.preciosSeleccionados.findIndex(p => p.Id == lente[index].Id);
-  //   if (incluye == -1) { //si no incluye el precio en los seleccionados, lo agrega
-  //     if (this.preciosSeleccionados.length > 0 &&
-  //       this.preciosSeleccionados.findIndex(p => p.IdLente == lente.Id && p.Id != lente[index].Id && p.Especial != true) != -1) {
-  //       //borra el precio que ya estaba seleccionado en la fila (mismo lente distinto precio)
-  //       this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdPrecioLenteNavigation.IdLente == lente.Id && p.IdPrecioLente != lente.PrecioLente[index].Id), 1);;
-  //     }
-  //     let precioLenteCliente = <PrecioLenteCliente>{};
-  //     precioLenteCliente.IdCliente = this.idCliente;
-  //     precioLenteCliente.IdPrecioLente = lente.PrecioLente[index].Id;
-  //     precioLenteCliente.IdPrecioLenteNavigation = lente.PrecioLente[index];
-  //     this.preciosSeleccionados.push(precioLenteCliente);
-  //     // }
-  //   } else {
-  //     this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioLente != lente.PrecioLente[index].Id);
-  //   }
-  // }
+  onClicked(lente, checkbox) {
+    let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
+    console.log(index)
+    console.log(lente);
+    if (checkbox.checked) {
+      // let incluye = this.preciosSeleccionados.findIndex(p => p.Id == lente[index].Id);
+      // if (incluye == -1) { //si no incluye el precio en los seleccionados, lo agrega
+      lente.PrecioLente.forEach(pl => {
+        console.log(pl)
+        console.log(pl.Precio[index])
+        let precioLente = <PrecioLente>{};
+        precioLente.Id = pl.Precio[index].Id;
+        precioLente.IdLente = lente.Id;
+        precioLente.Cilindrico = pl.Cilindrico;
+        precioLente.Esferico = pl.Esferico;
+        this.preciosSeleccionados.push(precioLente);
+        var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+        if (tienePorcentaje) {
+          this.porcentajeLente(+tienePorcentaje, precioLente.IdLente)
+        }
+      })
+    } else {
+      if (this.preciosSeleccionados.length > 0) {
+        //  && this.preciosSeleccionados.findIndex(p => p.IdLente == lente.Id && p.Id != lente[index].Id && p.Especial != true) != -1) {
+        lente.PrecioLente.forEach(pl => {
+          this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdLente == lente.Id && p.Id == pl.Precio[index].Id), 1);
+          this.porcentajesLentes.splice(this.porcentajesLentes.findIndex(p => p.IdPrecio == pl.Precio[index].Id), 1);
+        })
+      }
+    }
+    console.log(this.preciosSeleccionados)
+    console.log(this.porcentajesLentes)
+  }
 
   onClickedPorcentajeTodos(event) {
     var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (event.checked == true) {
       this.dataSource.data.forEach(l => {
         l.PrecioLente.forEach(pl => {
-        let precioLente = <PrecioLente>{};
-        precioLente.Id = pl.Id;
-        precioLente.IdLente = pl.IdLente;
-        precioLente.IdLenteNavigation = pl.IdLenteNavigation;
-          this.preciosSeleccionados.push(precioLente);
-        }); 
-        for (let i = 0; i < this.checkboxChecked.length; i++) {
-          this.checkboxChecked[i] = true;
-        }
-        if(tienePorcentaje) {
+          pl.Precio.forEach(p => {
+            let precioLente = <PrecioLente>{};
+            precioLente.Id = p.Id;
+            precioLente.IdLente = pl.IdLente;
+            precioLente.IdLenteNavigation = pl.IdLenteNavigation;
+            precioLente.Esferico = pl.Esferico;
+            precioLente.Cilindrico = pl.Cilindrico
+            this.preciosSeleccionados.push(precioLente);
+          })
+        });
+        if (tienePorcentaje) {
           this.porcentajeLente(+tienePorcentaje, l.Id)
-        }   
+        }
       })
+      for (let i = 0; i < this.checkboxChecked.length; i++) {
+        this.checkboxChecked[i] = true;
+      }
     }
     else {
       this.preciosSeleccionados = [];
@@ -226,11 +234,11 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     if (this.preciosSeleccionados.length > 0 && tienePorcentaje) {
       this.preciosSeleccionados.forEach(pl => {
         if (!this.porcentajesLentes.some(p => p.IdPrecio == pl.Id))
-          this.porcentajesLentes.push({IdPrecio: pl.Id, Porcentaje: +tienePorcentaje});
+          this.porcentajesLentes.push({ IdPrecio: pl.Id, Porcentaje: +tienePorcentaje });
       })
     }
   }
-  
+
   _keyPress(event: any) {
     const pattern = /[0-9-,.]/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -252,7 +260,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     let preciosLentes = this.preciosSeleccionados.filter(p => p.IdLente == idLente);
     preciosLentes.forEach(p => {
       if (!this.porcentajesLentes.some(pa => pa.IdPrecio == p.Id))
-        this.porcentajesLentes.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
+        this.porcentajesLentes.push({ IdPrecio: p.Id, Porcentaje: +porcentaje });
     });
   }
 
@@ -260,13 +268,13 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     this.recargaPagina = true;
     this.checkedPorcentajeTodos = false;
     this.lenteService.saveActualizacionPrecio(this.porcentajesLentes)
-    .subscribe(result => {
-      if (result) {
-        this.loadPrecioLentePage();
-        this.sessionService.showSuccess("Los precios se cargaron correctamente.");
-      } else
-        this.sessionService.showError("Los precios no se cargaron.");
-    }
-    );
+      .subscribe(result => {
+        if (result) {
+          this.loadPrecioLentePage();
+          this.sessionService.showSuccess("Los precios se cargaron correctamente.");
+        } else
+          this.sessionService.showError("Los precios no se cargaron.");
+      }
+      );
   }
 }

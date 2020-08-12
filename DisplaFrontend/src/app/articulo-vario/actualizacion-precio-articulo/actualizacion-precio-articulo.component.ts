@@ -197,13 +197,14 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           precioArticulo.IdArticuloNavigation = pa.IdArticuloNavigation;
           this.preciosSeleccionados.push(precioArticulo);
         }); 
-        for (let i = 0; i < this.checkboxChecked.length; i++) {
-          this.checkboxChecked[i] = true;
-        }
+        
         if(tienePorcentaje) {
           this.porcentajeArticulo(+tienePorcentaje, ar.Id)
         }   
       })
+      for (let i = 0; i < this.checkboxChecked.length; i++) {
+        this.checkboxChecked[i] = true;
+      }
     }
     else {
       this.preciosSeleccionados = [];
