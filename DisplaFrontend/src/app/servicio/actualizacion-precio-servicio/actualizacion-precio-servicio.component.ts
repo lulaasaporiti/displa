@@ -69,7 +69,6 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
       let tiposServicios: TipoServicio[] = [];
       filterValue = filterValue.trim();
       filterValue = filterValue.toLowerCase();
-      // this.dataSourceTipo.filter = filterValue;
       var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue));
       if (nombreFilter != undefined) {
         nombreFilter.forEach(a => {
@@ -213,12 +212,10 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   recorrerPrecios() {
     var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (this.preciosSeleccionados.length > 0 && tienePorcentaje) {
-      console.log("entra")
       this.preciosSeleccionados.forEach(pa => {
         if (!this.porcentajesServicios.some(p => p.IdPrecio == pa.Id))
           this.porcentajesServicios.push({IdPrecio: pa.Id, Porcentaje: +tienePorcentaje});
       })
-      console.log(this.porcentajesServicios)
     }
   }
 
@@ -317,11 +314,12 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
       let arrayTodosServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
       // if (arrayPreciosServicios.length == arrayTodosServicios.length) {
         arrayTodosServicios.forEach(a => {
-          var i = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdServicio == a.Id)[0].Id)
+          arrayPreciosServicios.forEach(p => {
+          var i = a.PrecioServicio.findIndex(ps => ps.Id == p.Id);
           if (!arrayIndex.includes(i) && i != -1)
             arrayIndex.push(i);
         })
-      // }
+      })
     }
     return arrayIndex.length > 1 && arrayIndex.includes(+event);
   }

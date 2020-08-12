@@ -81,6 +81,20 @@ namespace DisplaBackend.Controllers
             
         }
 
+        [HttpPut]
+        public IActionResult SaveActualizacionPrecio([FromBody] JObject[] porcentajePrecios)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //int[] aux = JsonConvert.DeserializeObject<JObject>(porcentajePrecios);
+
+            return Ok(_lenteService.SaveActualizacionPrecio(porcentajePrecios));
+
+        }
+
         [HttpDelete("{idLente}")]
         public IActionResult Delete([FromRoute]int idLente)
         {

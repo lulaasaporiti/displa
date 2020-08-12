@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace DisplaBackend.Services
         Lente GetById(int idLente);
         int GetLastCode();
         List<string> GetCombinaciones();
+        bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
     }
 
     public class LenteService : ILenteService
@@ -56,6 +58,13 @@ namespace DisplaBackend.Services
             return _lenteDAO.SaveOrUpdate(lente);
 
         }
+
+        public bool SaveActualizacionPrecio(JObject[] porcentajePrecios)
+        {
+            return _lenteDAO.SaveActualizacionPrecio(porcentajePrecios);
+
+        }
+
 
         public bool Delete(Lente lente)
         {

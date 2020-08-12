@@ -6,6 +6,7 @@ import { LenteAltaComponent } from './lente-alta/lente-alta.component';
 import { LenteModificacionComponent } from './lente-modificacion/lente-modificacion.component';
 import { LenteDetalleComponent } from './lente-detalle/lente-detalle.component';
 import { GrillaComponent } from './grilla/grilla.component';
+import { ActualizacionPrecioLenteComponent } from './actualizacion-precio-lente/actualizacion-precio-lente.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
       {path: 'Lente/Modificacion', component: LenteModificacionComponent},
       {path: 'Lente/Detalle', component: LenteDetalleComponent},
       {path: 'Lente/Stock', component: GrillaComponent},
+      {path: 'Lente/ActualizacionPrecio', component: ActualizacionPrecioLenteComponent},
     ]
   }
 ];

@@ -36,6 +36,11 @@ export class LenteService {
         return this.http.post(`${this.baseUrl}/`, lente);
     }
 
+    saveActualizacionPrecio(porcentajesLentes: Object[]):  Observable<object> {
+        return this.http.put(`${this.baseUrl}/`, porcentajesLentes);
+    }
+
+
     updateLente(id: number, value: any): Observable<object> {
         return this.http.put(`${this.baseUrl}/${id}`, value);
     }

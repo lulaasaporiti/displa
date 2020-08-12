@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace DisplaBackend.DAOs
         int GetLastCode();
         List<string> GetCombinaciones();
         List<dynamic> GetLentesVigentesAgrupados();
+        bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
     }
 
     public class LenteDAO : ILenteDAO
@@ -160,6 +162,33 @@ namespace DisplaBackend.DAOs
                         {
                             _context.RecargoLente.Add(r);
                         });
+                    }
+                }
+                return _context.SaveChanges() >= 1;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool SaveActualizacionPrecio(JObject[] porcentajePrecios)
+        {
+            try
+            {
+                if (porcentajePrecios != null)
+                {
+                    int precio = 0;
+                    int porcentaje = 0;
+                    var precioLente = new PrecioLente();
+
+                    foreach (var p in porcentajePrecios)
+                    {
+                        precio = Convert.ToInt32(p.GetValue("IdPrecio"));
+                        porcentaje = Convert.ToInt32(p.GetValue("Porcentaje"));
+                        precioLente = _context.PrecioLente.Find(precio);
+                        precioLente.Precio = Math.Round(precioLente.Precio + ((precioLente.Precio * porcentaje) / 100), 2);
+                        _context.PrecioLente.Update(precioLente);
                     }
                 }
                 return _context.SaveChanges() >= 1;
