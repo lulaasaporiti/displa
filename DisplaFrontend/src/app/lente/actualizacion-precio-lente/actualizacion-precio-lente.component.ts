@@ -31,7 +31,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   porcentajesLentes = [];
   checkedPorcentajeTodos: boolean = false;
   recargaPagina = false;
-
+  habilitarPorcentajeTodos = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -123,16 +123,20 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.dataSource.data.forEach(lente => {
         if (lente.PrecioLente != null) {
           lente.PrecioLente.forEach(precio => {
+
             let precioLente = <PrecioLente>{};
             if (precio.Precio[checkbox] != null) {
-              precioLente.Id = precio.Precio[checkbox].Id;
-              precioLente.IdLente = precio.IdLente;
-              precioLente.Esferico = precio.Esferico;
-              precioLente.Cilindrico = precio.Cilindrico;
-              this.preciosSeleccionados.push(precioLente);
-              var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
-              if (tienePorcentaje) {
-                this.porcentajeLente(+tienePorcentaje, precioLente.IdLente)
+              if (this.preciosSeleccionados.findIndex(ps => ps.Id == precio.Precio[checkbox].Id) == -1) {
+
+                precioLente.Id = precio.Precio[checkbox].Id;
+                precioLente.IdLente = precio.IdLente;
+                precioLente.Esferico = precio.Esferico;
+                precioLente.Cilindrico = precio.Cilindrico;
+                this.preciosSeleccionados.push(precioLente);
+                var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+                if (tienePorcentaje) {
+                  this.porcentajeLente(+tienePorcentaje, precioLente.IdLente)
+                }
               }
             }
             else {
@@ -156,6 +160,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
         this.dataSource.data.forEach(l => {
           l.PrecioLente.forEach(pl => {
             this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => pl.Precio[checkbox] != undefined && pl.Precio[checkbox].Id == p.Id && l.Id == p.IdLente), 1);
+            if (this.porcentajesLentes.length > 0)
+              this.porcentajesLentes.splice(this.porcentajesLentes.findIndex(p => p.IdPrecio == pl.Precio[checkbox].Id), 1);
           });
         });
       }
@@ -164,6 +170,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.checkboxIndeterminate[0] = true;
       this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
     }
+    console.log(this.porcentajesLentes)
+    console.log(this.preciosSeleccionados)
   }
 
   onClicked(lente, checkbox) {
@@ -171,11 +179,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     console.log(index)
     console.log(lente);
     if (checkbox.checked) {
-      // let incluye = this.preciosSeleccionados.findIndex(p => p.Id == lente[index].Id);
-      // if (incluye == -1) { //si no incluye el precio en los seleccionados, lo agrega
       lente.PrecioLente.forEach(pl => {
-        console.log(pl)
-        console.log(pl.Precio[index])
         let precioLente = <PrecioLente>{};
         precioLente.Id = pl.Precio[index].Id;
         precioLente.IdLente = lente.Id;
@@ -189,10 +193,10 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       })
     } else {
       if (this.preciosSeleccionados.length > 0) {
-        //  && this.preciosSeleccionados.findIndex(p => p.IdLente == lente.Id && p.Id != lente[index].Id && p.Especial != true) != -1) {
         lente.PrecioLente.forEach(pl => {
           this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdLente == lente.Id && p.Id == pl.Precio[index].Id), 1);
-          this.porcentajesLentes.splice(this.porcentajesLentes.findIndex(p => p.IdPrecio == pl.Precio[index].Id), 1);
+          if (this.porcentajesLentes.length > 0)
+            this.porcentajesLentes.splice(this.porcentajesLentes.findIndex(p => p.IdPrecio == pl.Precio[index].Id), 1);
         })
       }
     }
@@ -206,13 +210,15 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.dataSource.data.forEach(l => {
         l.PrecioLente.forEach(pl => {
           pl.Precio.forEach(p => {
-            let precioLente = <PrecioLente>{};
-            precioLente.Id = p.Id;
-            precioLente.IdLente = pl.IdLente;
-            precioLente.IdLenteNavigation = pl.IdLenteNavigation;
-            precioLente.Esferico = pl.Esferico;
-            precioLente.Cilindrico = pl.Cilindrico
-            this.preciosSeleccionados.push(precioLente);
+            if (this.preciosSeleccionados.findIndex(ps => ps.Id == p.Id) == -1) {
+              let precioLente = <PrecioLente>{};
+              precioLente.Id = p.Id;
+              precioLente.IdLente = pl.IdLente;
+              precioLente.IdLenteNavigation = pl.IdLenteNavigation;
+              precioLente.Esferico = pl.Esferico;
+              precioLente.Cilindrico = pl.Cilindrico
+              this.preciosSeleccionados.push(precioLente);
+            }
           })
         });
         if (tienePorcentaje) {
@@ -226,6 +232,9 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     else {
       this.preciosSeleccionados = [];
       this.porcentajesLentes = [];
+      for (let i = 0; i < this.checkboxChecked.length; i++) {
+        this.checkboxChecked[i] = false;
+      }
     }
   }
 
@@ -252,8 +261,13 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     return this.preciosSeleccionados.find(element => element.Id == idPrecio);
   }
 
-  habilitarPorcentaje(lente: Lente) {
-    return this.preciosSeleccionados.some(p => lente.PrecioLente.some(part => part.Id == p.Id));
+  habilitarPorcentaje(lente: any) {
+    var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+    var porcentaje = (tienePorcentaje == "" && this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.Id)))) ? false : true;
+    if (porcentaje == false) {
+      this.habilitarPorcentajeTodos = true;
+    }
+    return porcentaje;
   }
 
   porcentajeLente(porcentaje, idLente: number) {

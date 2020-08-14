@@ -183,24 +183,23 @@ export class PrecioLenteListadoComponent implements OnInit {
     // console.log(this.preciosSeleccionados)
   }
 
-  onClicked(lente: Lente, checkbox) {
+  onClicked(precioLente: any, checkbox) {
     let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
-    // if (checkbox.checked) {
-    let incluye = this.preciosSeleccionados.findIndex(p => p.IdPrecioLente == lente.PrecioLente[index].Id);
-    if (incluye == -1) { //si no incluye el precio en los seleccionados, lo agrega
-      if (this.preciosSeleccionados.length > 0 &&
-        this.preciosSeleccionados.findIndex(p => p.IdPrecioLenteNavigation.IdLente == lente.Id && p.IdPrecioLente != lente.PrecioLente[index].Id && p.Especial != true) != -1) {
-        //borra el precio que ya estaba seleccionado en la fila (mismo lente distinto precio)
-        this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdPrecioLenteNavigation.IdLente == lente.Id && p.IdPrecioLente != lente.PrecioLente[index].Id), 1);;
-      }
+    if (checkbox.checked) {
+      let tieneOtro = this.preciosSeleccionados.findIndex(ps => ps.IdPrecioLente != precioLente.Precio[index].Id && ps.IdPrecioLenteNavigation.IdLente == precioLente.IdLente 
+        && ps.IdPrecioLenteNavigation.Esferico == precioLente.Esferico && ps.IdPrecioLenteNavigation.Cilindrico == precioLente.Cilindrico);
+      if (tieneOtro != -1)
+        this.preciosSeleccionados.splice(tieneOtro, 1);
       let precioLenteCliente = <PrecioLenteCliente>{};
+      precioLenteCliente.IdPrecioLenteNavigation = <PrecioLente>{};
       precioLenteCliente.IdCliente = this.idCliente;
-      precioLenteCliente.IdPrecioLente = lente.PrecioLente[index].Id;
-      precioLenteCliente.IdPrecioLenteNavigation = lente.PrecioLente[index];
+      precioLenteCliente.IdPrecioLente = precioLente.Precio[index].Id;
+      precioLenteCliente.IdPrecioLenteNavigation.IdLente = precioLente.IdLente;
+      precioLenteCliente.IdPrecioLenteNavigation.Esferico = precioLente.Esferico;
+      precioLenteCliente.IdPrecioLenteNavigation.Cilindrico = precioLente.Cilindrico;
       this.preciosSeleccionados.push(precioLenteCliente);
-      // }
     } else {
-      this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioLente != lente.PrecioLente[index].Id);
+      this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdPrecioLente == precioLente.Precio[index].Id), 1);
     }
   }
 
