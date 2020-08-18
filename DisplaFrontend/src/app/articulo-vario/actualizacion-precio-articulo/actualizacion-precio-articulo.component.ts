@@ -71,7 +71,8 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       filterValue = filterValue.trim();
       filterValue = filterValue.toLowerCase();
       // this.dataSourceTipo.filter = filterValue;
-      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue));
+      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue) || i.IdTipoArticulo.toString().toLowerCase().includes(filterValue) 
+      || i.Id.toString().toLowerCase().includes(filterValue));
       if (nombreFilter != undefined) {
         nombreFilter.forEach(a => {
           if (tiposArticulos.findIndex(t => t.Id == a.IdTipoArticulo) == -1)

@@ -13,6 +13,7 @@ import { ClienteService } from 'src/services/cliente.service';
 import { combineLatest } from 'rxjs';
 import { TipoServicio } from 'src/app/model/tipoServicio';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -82,7 +83,8 @@ export class PrecioServicioListadoComponent implements OnInit {
       let tiposServicios: TipoServicio[] = [];
       filterValue = filterValue.trim();
       filterValue = filterValue.toLowerCase();
-      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue));
+      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue) 
+      || i.IdTipoServicio.toString().toLowerCase().includes(filterValue) || i.Id.toString().toLowerCase().includes(filterValue));
       if (nombreFilter != undefined) {
         nombreFilter.forEach(a => {
           if (tiposServicios.findIndex(t => t.Id == a.IdTipoServicio) == -1)

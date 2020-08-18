@@ -1,14 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
-import { PrecioLenteClienteService } from 'src/services/precio.lente.cliente.service';
 import { LenteService } from 'src/services/lente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Lente } from 'src/app/model/lente';
-import { ClienteService } from 'src/services/cliente.service';
-import { PrecioLenteCliente } from 'src/app/model/precioLenteCliente';
 import { combineLatest } from 'rxjs';
 import { PrecioLente } from 'src/app/model/precioLente';
 
@@ -32,6 +28,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   checkedPorcentajeTodos: boolean = false;
   recargaPagina = false;
   habilitarPorcentajeTodos = false;
+  hablitarPorcentajeFila = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -69,7 +66,6 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.lenteService.getLentesVigentesAgrupadosList(),
     )
       .subscribe(r => {
-        console.log(r)
         this.dataSource.data = r[0];
         var maxCantPrecio = 0;
         var index = [];
@@ -123,11 +119,9 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.dataSource.data.forEach(lente => {
         if (lente.PrecioLente != null) {
           lente.PrecioLente.forEach(precio => {
-
             let precioLente = <PrecioLente>{};
             if (precio.Precio[checkbox] != null) {
               if (this.preciosSeleccionados.findIndex(ps => ps.Id == precio.Precio[checkbox].Id) == -1) {
-
                 precioLente.Id = precio.Precio[checkbox].Id;
                 precioLente.IdLente = precio.IdLente;
                 precioLente.Esferico = precio.Esferico;
@@ -170,14 +164,14 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.checkboxIndeterminate[0] = true;
       this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
     }
-    console.log(this.porcentajesLentes)
-    console.log(this.preciosSeleccionados)
+    // console.log(this.porcentajesLentes)
+    // console.log(this.preciosSeleccionados)
   }
 
   onClicked(lente, checkbox) {
     let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
-    console.log(index)
-    console.log(lente);
+    // console.log(index)
+    // console.log(lente);
     if (checkbox.checked) {
       lente.PrecioLente.forEach(pl => {
         let precioLente = <PrecioLente>{};
@@ -200,13 +194,15 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
         })
       }
     }
-    console.log(this.preciosSeleccionados)
-    console.log(this.porcentajesLentes)
+    // console.log(this.preciosSeleccionados)
+    // console.log(this.porcentajesLentes)
   }
 
   onClickedPorcentajeTodos(event) {
     var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (event.checked == true) {
+    this.habilitarPorcentajeTodos = true;
+    this.hablitarPorcentajeFila = false;
       this.dataSource.data.forEach(l => {
         l.PrecioLente.forEach(pl => {
           pl.Precio.forEach(p => {
@@ -230,6 +226,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       }
     }
     else {
+      this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesLentes = [];
       for (let i = 0; i < this.checkboxChecked.length; i++) {
@@ -262,12 +259,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   }
 
   habilitarPorcentaje(lente: any) {
-    var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
-    var porcentaje = (tienePorcentaje == "" && this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.Id)))) ? false : true;
-    if (porcentaje == false) {
-      this.habilitarPorcentajeTodos = true;
-    }
-    return porcentaje;
+    return this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.Id)));
   }
 
   porcentajeLente(porcentaje, idLente: number) {

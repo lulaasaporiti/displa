@@ -69,7 +69,8 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
       let tiposServicios: TipoServicio[] = [];
       filterValue = filterValue.trim();
       filterValue = filterValue.toLowerCase();
-      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue));
+      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue)|| i.IdTipoServicio.toString().toLowerCase().includes(filterValue) 
+      || i.Id.toString().toLowerCase().includes(filterValue));
       if (nombreFilter != undefined) {
         nombreFilter.forEach(a => {
           if (tiposServicios.findIndex(t => t.Id == a.IdTipoServicio) == -1)
