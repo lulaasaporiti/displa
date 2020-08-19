@@ -12,12 +12,13 @@ import { LenteDetalleComponent } from './lente-detalle/lente-detalle.component';
 import { LenteSeleccionComponent } from './lente-seleccion/lente-seleccion.component';
 import { StockAltaComponent } from './stock-alta/stock-alta.component';
 import { ActualizacionPrecioLenteComponent } from './actualizacion-precio-lente/actualizacion-precio-lente.component';
+import { ModificacionPrecioLenteComponent } from './modificacion-precio-lente/modificacion-precio-lente.component';
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
-    entryComponents: [LenteBajaComponent, LenteSeleccionComponent, StockAltaComponent],
+    entryComponents: [LenteBajaComponent, LenteSeleccionComponent, StockAltaComponent, ModificacionPrecioLenteComponent],
     declarations: [LenteListadoComponent, LenteAltaComponent, LenteBajaComponent, LenteModificacionComponent, LenteDetalleComponent, LenteSeleccionComponent
-        , StockAltaComponent, ActualizacionPrecioLenteComponent],
+        , StockAltaComponent, ActualizacionPrecioLenteComponent, ModificacionPrecioLenteComponent],
     imports: [
         CommonModule,
         MaterialModule,

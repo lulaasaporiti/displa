@@ -7,6 +7,7 @@ import { SessionService } from 'src/services/session.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { PrecioLente } from 'src/app/model/precioLente';
+import { ModificacionPrecioLenteComponent } from '../modificacion-precio-lente/modificacion-precio-lente.component';
 
 
 @Component({
@@ -117,6 +118,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     let checkbox = +event.source.name.split("checkbox")[1];
     if (event.checked) {
       this.dataSource.data.forEach(lente => {
+      this.habilitarPorcentajeTodos = true;
+      this.hablitarPorcentajeFila = false;
         if (lente.PrecioLente != null) {
           lente.PrecioLente.forEach(precio => {
             let precioLente = <PrecioLente>{};
@@ -149,6 +152,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       });
     } else {
       if (this.preciosSeleccionados.length == this.dataSource.data.length) {
+        this.habilitarPorcentajeTodos = false;
         this.preciosSeleccionados = [];
       } else {
         this.dataSource.data.forEach(l => {
@@ -174,6 +178,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     // console.log(lente);
     if (checkbox.checked) {
       lente.PrecioLente.forEach(pl => {
+       this.hablitarPorcentajeFila = true;
         let precioLente = <PrecioLente>{};
         precioLente.Id = pl.Precio[index].Id;
         precioLente.IdLente = lente.Id;
@@ -226,6 +231,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       }
     }
     else {
+      this.hablitarPorcentajeFila = true;
       this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesLentes = [];
@@ -259,7 +265,12 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   }
 
   habilitarPorcentaje(lente: any) {
-    return this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.Id)));
+    if(this.hablitarPorcentajeFila == false) {
+      return false
+    }
+    else{ 
+      return this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.Id)));
+    }
   }
 
   porcentajeLente(porcentaje, idLente: number) {
@@ -283,4 +294,12 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       }
       );
   }
+
+  modificacionPrecioLente(event): void {
+    const dialogRef = this.dialog.open(ModificacionPrecioLenteComponent, {
+      data: {lente: event, },
+      width: '800px',
+      height: '500px'
+    })
+   }
 }

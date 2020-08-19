@@ -41,6 +41,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   recargaPagina = false;
   expandedElement: TipoArticulo | null;
   porcentajesArticulos = [];
+  habilitarPorcentajeTodos = false;
+  hablitarPorcentajeFila = false;
+  habilitarPorcentajeTipoA = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -146,6 +149,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
 
     if (event.checked) {
       this.dataSource.data.forEach(ar => {
+        this.habilitarPorcentajeTodos = true;
+        this.hablitarPorcentajeFila = false;
+        this.habilitarPorcentajeTipoA = false;
         let precioArticulo = <PrecioArticulo>{};
         if (ar.PrecioArticulo[checkbox] != null) {
           precioArticulo.Id = ar.PrecioArticulo[checkbox].Id;
@@ -171,6 +177,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       });
     } else {
       if (this.preciosSeleccionados.length == this.dataSource.data.length) {
+        this.habilitarPorcentajeTodos = false;
         this.preciosSeleccionados = [];
         this.porcentajesArticulos = [];
       } else {
@@ -189,6 +196,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   onClickedPorcentajeTodos(event) {
     let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (event.checked == true) {
+      this.habilitarPorcentajeTodos = true;
+      this.hablitarPorcentajeFila = false;
+      this.habilitarPorcentajeTipoA = false;
       this.dataSource.data.forEach(ar => {
         ar.PrecioArticulo.forEach(pa => {
         let precioArticulo = <PrecioArticulo>{};
@@ -207,6 +217,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       }
     }
     else {
+      this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesArticulos = [];
       for (let i = 0; i < this.checkboxChecked.length; i++) {
@@ -218,12 +229,11 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   recorrerPrecios() {
     let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (this.preciosSeleccionados.length > 0 && tienePorcentaje) {
-      console.log("entra")
       this.preciosSeleccionados.forEach(pa => {
         if (!this.porcentajesArticulos.some(p => p.IdPrecio == pa.Id))
           this.porcentajesArticulos.push({IdPrecio: pa.Id, Porcentaje: +tienePorcentaje});
       })
-      console.log(this.porcentajesArticulos)
+      // console.log(this.porcentajesArticulos)
     }
   }
 
@@ -232,11 +242,12 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     let mostrarMensaje = false;
     let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
-
     if (event.checked) {
       arrayArticulos.forEach(a => {
         let precioArticulo = <PrecioArticulo>{};
         if (a.PrecioArticulo[checkbox] != null) {
+          this.habilitarPorcentajeTipoA = true;
+          this.hablitarPorcentajeFila = true;
           precioArticulo.Id = a.PrecioArticulo[checkbox].Id;
           precioArticulo.IdArticulo = a.PrecioArticulo[checkbox].IdArticulo;
           precioArticulo.IdArticuloNavigation = a.PrecioArticulo[checkbox].IdArticuloNavigation;
@@ -260,6 +271,8 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     } else {
     if (this.preciosSeleccionados.length == this.dataSource.data.length) {
       this.preciosSeleccionados = [];
+      this.habilitarPorcentajeTipoA = false;
+      this.hablitarPorcentajeFila = false;
     } else {
       arrayArticulos.forEach(ar => {
         this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ar.PrecioArticulo[checkbox] != undefined && ar.PrecioArticulo[checkbox].Id == p.Id), 1);
@@ -272,8 +285,6 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
     let index = [];
-    this.checkboxChecked
-    this.checkboxIndeterminate
     this.dataSource.data.forEach(a => {
       if (this.preciosSeleccionados.length > 0) {
         let precio = this.preciosSeleccionados.filter(p => p.IdArticulo == a.Id);
@@ -338,20 +349,30 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   }
 
   habilitarPorcentaje(articulo: ArticuloVario) {
-    return this.preciosSeleccionados.some(p => articulo.PrecioArticulo.some(part => part.Id == p.Id));
+    if(this.hablitarPorcentajeFila == false) {
+      return false
+    }
+    else {
+      return this.preciosSeleccionados.some(p => articulo.PrecioArticulo.some(part => part.Id == p.Id));
+    }
   }
 
   habilitarPorcentajeTipo(idTipoArticulo: number) {
+    if(this.habilitarPorcentajeTipoA == false) {
+      return false
+    }
+    else {
     let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdArticuloNavigation != undefined && element.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
     let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
     return arrayPreciosArticulos.length >= arrayArticulos.length;
+   }
   }
 
   onClicked(articulo: ArticuloVario, checkbox) {
     let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
     let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
-
     if (checkbox.checked) {
+      this.hablitarPorcentajeFila = true;
       let precioServicio = <PrecioArticulo>{};
       precioServicio.Id = articulo.PrecioArticulo[index].Id;
       precioServicio.IdArticulo = articulo.PrecioArticulo[index].IdArticulo;
