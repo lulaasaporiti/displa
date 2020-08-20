@@ -1,7 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { EventEmitter } from 'protractor';
 import { PrecioLente } from 'src/app/model/precioLente';
+import { LenteService } from 'src/services/lente.service';
+import { Lente } from 'src/app/model/lente';
 
 @Component({
   selector: 'app-modificacion-precio-lente',
@@ -10,29 +11,33 @@ import { PrecioLente } from 'src/app/model/precioLente';
 })
 export class ModificacionPrecioLenteComponent implements OnInit {
   modelPrecio: PrecioLente[] = [];
-  // selectedPrecio = new EventEmitter<PrecioLente[]>();
+  selectedPrecio = new EventEmitter<PrecioLente[]>();
+  modelLente = <Lente>{};
   
   constructor(
     public dialogRef: MatDialogRef<ModificacionPrecioLenteComponent>,
+    private lenteService: LenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
-      this.modelPrecio = this.data.lente.PrecioLente;
-      console.log(this.modelPrecio)
-
   }
 
   ngOnInit() {
-   
+      this.lenteService.getById(this.data.idLente)
+        .subscribe(l => {
+          this.modelLente = l;
+          this.modelPrecio = this.modelLente.PrecioLente;
+        });
+    
   }
+
   agregarRangoPrecio() {
     let item = <PrecioLente>{};
-    item.IdLente = this.data.lente.Id;
+    item.IdLente = this.modelLente.Id;
     this.modelPrecio.push(item);
   }
 
   agregarPrecio(i) {
     let item = <PrecioLente>{};
-    item.IdLente = this.data.lente.Id;
+    item.IdLente = this.modelLente.Id;
     item.Esferico = this.modelPrecio[i].Esferico;
     item.Cilindrico = this.modelPrecio[i].Cilindrico;
     this.modelPrecio.push(item);
@@ -51,7 +56,7 @@ export class ModificacionPrecioLenteComponent implements OnInit {
     //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
     //y el ngOnChanges() lo detecte
     let modelPrecio = JSON.parse(JSON.stringify(this.modelPrecio));
-    // this.selectedPrecio.emit(modelPrecio);
+    this.selectedPrecio.emit(modelPrecio);
   }
 
 

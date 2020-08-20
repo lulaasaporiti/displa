@@ -49,23 +49,25 @@ td.mat-cell:last-of-type{
 
 .link:link {
   color: black;
+  font-weight: bold;
   background-color: transparent;
-  text-decoration: none;
+  text-decoration:none;
 }
 
 .link:visited {
   color: black;
+  font-weight: bold;
   background-color: transparent;
   text-decoration: none;
 }
 
 .link:hover {
   color: black;
-  background-color: transparent;
-  text-decoration: underline;
+  font-weight: bold;
+  text-decoration: black;
 }
 .link:active {
   color: black;
-  background-color: transparent;
-  text-decoration: underline;
+  font-weight: bold;
+  text-decoration: black;
 }

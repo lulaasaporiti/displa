@@ -297,9 +297,25 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
 
   modificacionPrecioLente(event): void {
     const dialogRef = this.dialog.open(ModificacionPrecioLenteComponent, {
-      data: {lente: event, },
+      data: {idLente: event, },
       width: '800px',
-      height: '500px'
+      height: '600px'
     })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.lenteService.saveOrUpdateLente(result).subscribe(
+          data => {
+            this.recargaPagina = true;
+            this.loadPrecioLentePage();
+            this.sessionService.showSuccess("Los precios se han modificado correctamente");
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("Los precios no se modificaron.");
+          }
+        );
+      }
+    }
+    );
    }
 }

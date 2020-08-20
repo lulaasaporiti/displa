@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatPaginator } from '@angular/material/paginator';
 import { PrecioArticuloCliente } from 'src/app/model/precioArticuloCliente';
@@ -11,6 +11,7 @@ import { combineLatest } from 'rxjs';
 import { TipoArticulo } from 'src/app/model/tipoArticulo';
 import { TipoArticuloService } from 'src/services/tipo.articulo.service';
 import { PrecioArticulo } from 'src/app/model/precioArticulo';
+import { ModificacionPrecioArticuloVarioComponent } from '../modificacion-precio-articulo-vario/modificacion-precio-articulo-vario.component';
 
 
 @Component({
@@ -53,6 +54,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   constructor(
     private articuloService: ArticuloVarioService,
     private tipoArticuloService: TipoArticuloService,
+    private dialog: MatDialog,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) {
   }
@@ -418,4 +420,28 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     }
     );
   }
+
+  modificacionPrecioArticuloVario(event): void {
+    const dialogRef = this.dialog.open(ModificacionPrecioArticuloVarioComponent, {
+      data: {idArticulo: event, },
+      width: '800px',
+      height: '600px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.articuloService.saveOrUpdateArticuloVario(result).subscribe(
+          data => {
+            this.recargaPagina = true;
+            this.loadPrecioArticuloPage();
+            this.sessionService.showSuccess("Los precios se han modificado correctamente");
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("Los precios no se modificaron.");
+          }
+        );
+      }
+    }
+    );
+   }
 }

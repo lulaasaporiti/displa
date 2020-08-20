@@ -129,30 +129,29 @@ namespace DisplaBackend.DAOs
                 }
                 else
                 {
-                    var precioLente = _context.PrecioLente.Where(s => s.IdLente == lente.Id).ToList();
-                    if (precioLente.Count() > 0)
-                    {
-                        foreach (var p in precioLente)
-                        {
-                            _context.PrecioLente.Remove(p);
-                        }
-                        _context.SaveChanges();
-                    }
-
                     List<PrecioLente> precioLenteNuevos = lente.PrecioLente.ToList();
                     List<RecargoLente> recargoLenteNuevos = lente.RecargoLente.ToList();
                     lente.PrecioLente = null;
                     lente.RecargoLente = null;
 
-                    lente = _context.Lente.Add(lente).Entity;
+                    lente = _context.Lente.Update(lente).Entity;
 
                     if (precioLenteNuevos.Count > 0)
                     {
                         precioLenteNuevos.ForEach(p =>
                         {
-                            //p.Id = 0;
-                            //p.IdLente = lente.Id;
-                            _context.PrecioLente.Add(p);
+                            if(p.Id == 0)
+                            {
+                                _context.PrecioLente.Add(p);
+                            }
+                            else
+                            {
+                                var precioBBDD = _context.PrecioLente.FirstOrDefault(pl => pl.Id == p.Id && pl.Esferico == p.Esferico && pl.Cilindrico == p.Cilindrico);
+                                if (precioBBDD == null)
+                                {
+                                    _context.PrecioLente.Update(p);
+                                }
+                            }
                         });
                     }
 

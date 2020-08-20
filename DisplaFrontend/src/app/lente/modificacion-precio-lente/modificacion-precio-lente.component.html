@@ -2,35 +2,35 @@
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
             <mat-icon color="primary" svgIcon="add_circle_outline" style="width: 30px; height: 30px;"></mat-icon>
-            <p class="dialog-title">Modificar precios lente {{data.lente.Nombre}}</p>
+            <p class="dialog-title">Modificar precios de {{this.modelLente.Nombre}}</p>
         </div>
 
-        <!-- <div mat-dialog-content fxLayout="row" fxFlexOffset="4"> -->
-            <div mat-dialog-content fxLayout="column">
-                <div mat-dialog-content fxLayout="row" fxFill>
+        <div fxLayout="column">
+            <div fxLayout="row" fxFill>
                 <p>Precios
-                    <button mat-icon-button color="primary" matTooltip="Agregar rango y precio" (click)="agregarRangoPrecio()">
+                    <button mat-icon-button color="primary" matTooltip="Agregar rango y precio"
+                        (click)="agregarRangoPrecio()">
                         <mat-icon svgIcon="add"></mat-icon>
                     </button>
                 </p>
-                </div>
-                <div mat-dialog-content fxLayout="row" 
-                 *ngFor="let p of modelPrecio; let i = index">
+            </div>
+            <div fxLayout="column" *ngFor="let p of modelPrecio; let i = index">
+                <div fxLayout="row" fxLayoutGap="15px">
                     <mat-form-field>
                         <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" required>
+                            [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" required type="number">
                         <mat-error *ngIf="inputEsferico.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
                         <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" required>
+                            [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" required type="number">
                         <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
-                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" required>
+                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]+(\.[0-9][0-9]?)?"
+                            [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" required type="number">
                         <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
@@ -43,13 +43,13 @@
                     </button>
                 </div>
             </div>
-        <!-- </div> -->
+        </div>
 
 
-        <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
-                [mat-dialog-close]="data">Agregar</button>
-        </div> -->
+                [mat-dialog-close]="this.modelLente">Guardar</button>
+        </div> 
     </div>
 </form>

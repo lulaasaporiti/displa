@@ -85,7 +85,7 @@
                     </mat-form-field>
 
                     <mat-form-field>
-                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]*"
+                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]+(\.[0-9][0-9]?)?"
                             [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" required>
                         <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
