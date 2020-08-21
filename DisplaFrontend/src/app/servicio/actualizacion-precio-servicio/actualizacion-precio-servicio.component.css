@@ -95,3 +95,28 @@ td.mat-cell.informacion{
 .example-expanded-row {
   background:#eeeeee;
 }
+
+.link:link {
+  color: black;
+  font-weight: bold;
+  background-color: transparent;
+  text-decoration:none;
+}
+
+.link:visited {
+  color: black;
+  font-weight: bold;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: black;
+  font-weight: bold;
+  text-decoration: black;
+}
+.link:active {
+  color: black;
+  font-weight: bold;
+  text-decoration: black;
+}

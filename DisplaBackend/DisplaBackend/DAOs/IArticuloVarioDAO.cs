@@ -91,32 +91,42 @@ namespace DisplaBackend.DAOs
                 }
                 else
                 {
-                    var precioArticuloVario = _context.PrecioArticulo.Where(s => s.IdArticulo == articuloVario.Id).ToList();
-                    if (precioArticuloVario.Count() > 0)
-                    {
-                        foreach (var p in precioArticuloVario)
-                        {
-                            _context.PrecioArticulo.Remove(p);
-                        }
-                        _context.SaveChanges();
-                    }
-
                     List<PrecioArticulo> precioArticuloVarioNuevos = articuloVario.PrecioArticulo.ToList();
                     articuloVario.PrecioArticulo = null;
 
                     articuloVario = _context.ArticuloVario.Update(articuloVario).Entity;
 
-                    if (precioArticuloVarioNuevos != null)
+                    if (precioArticuloVarioNuevos.Count > 0)
                     {
                         precioArticuloVarioNuevos.ForEach(p =>
                         {
-                            p.Id = 0;
-                            p.IdArticulo = articuloVario.Id;
-                            p.IdArticuloNavigation = null;
-                            _context.PrecioArticulo.Add(p);
+                            if (p.Id == 0)
+                            {
+                                _context.PrecioArticulo.Add(p);
+                            }
+                            else
+                            {
+                                var precioBBDD = _context.PrecioArticulo.FirstOrDefault(pa => pa.Id == p.Id && pa.IdArticulo == p.IdArticulo && pa.Precio == p.Precio);
+                                if (precioBBDD == null)
+                                {
+                                    _context.PrecioArticulo.Update(p);
+                                }
+                            }
                         });
                     }
-                }
+
+                    List<PrecioArticulo> precioArticuloBBDD = _context.PrecioArticulo.Where(pa => pa.IdArticulo == articuloVario.Id).ToList();
+
+                    precioArticuloBBDD.ForEach(p =>
+                    {
+                        if (precioArticuloVarioNuevos.Find(pa => pa.Id == p.Id) == null)
+                        {
+                            _context.PrecioArticulo.Remove(p);
+                        }
+
+                    });
+
+            }
                 return _context.SaveChanges() >= 1;
             }
             catch (Exception e)
@@ -154,7 +164,9 @@ namespace DisplaBackend.DAOs
 
         public ArticuloVario GetById(int idArticuloVario)
         {
-            return _context.ArticuloVario.Include(av => av.PrecioArticulo).FirstOrDefault(tb => tb.Id == idArticuloVario);
+            return _context.ArticuloVario.Include(av => av.PrecioArticulo)
+                //.ThenInclude(pa => pa.Precio)
+                .FirstOrDefault(tb => tb.Id == idArticuloVario);
         }
 
         public bool Delete(ArticuloVario articuloVario)

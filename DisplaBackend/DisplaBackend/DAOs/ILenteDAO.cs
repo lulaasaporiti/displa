@@ -140,7 +140,7 @@ namespace DisplaBackend.DAOs
                     {
                         precioLenteNuevos.ForEach(p =>
                         {
-                            if(p.Id == 0)
+                            if (p.Id == 0)
                             {
                                 _context.PrecioLente.Add(p);
                             }
@@ -159,9 +159,40 @@ namespace DisplaBackend.DAOs
                     {
                         recargoLenteNuevos.ForEach(r =>
                         {
-                            _context.RecargoLente.Add(r);
+                            if(r.Id == 0)
+                            {
+                                _context.RecargoLente.Add(r);
+                            }
+                            else
+                            {
+                                var recargoBBDD = _context.RecargoLente.FirstOrDefault(rl => rl.Id == r.Id && r.IdLente == r.IdLente && rl.Descripcion == r.Descripcion && rl.Porcentaje == r.Porcentaje);
+                                if (recargoBBDD == null)
+                                {
+                                    _context.RecargoLente.Update(r);
+                                }
+                            }
                         });
                     }
+
+                    List<PrecioLente> precioLenteDDBB = _context.PrecioLente.Where(pl => pl.IdLente == lente.Id).ToList();
+                    List<RecargoLente> recargoLenteDDBB = _context.RecargoLente.Where(pl => pl.IdLente == lente.Id).ToList();
+
+                    precioLenteDDBB.ForEach(p =>
+                    {
+                        if (precioLenteNuevos.Find(pl => pl.Id == p.Id) == null)
+                        {
+                            _context.PrecioLente.Remove(p);
+                        }
+                    });
+
+                    recargoLenteDDBB.ForEach(r =>
+                    {
+                        if (recargoLenteNuevos.Find(rl => rl.Id == r.Id) == null)
+                        {
+                            _context.RecargoLente.Remove(r);
+                        }
+                    });
+
                 }
                 return _context.SaveChanges() >= 1;
             }

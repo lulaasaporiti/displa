@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatPaginator } from '@angular/material/paginator';
 import { combineLatest } from 'rxjs';
@@ -10,6 +10,7 @@ import { ServicioService } from 'src/services/servicio.service';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
 import { SessionService } from 'src/services/session.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
+import { ModificacionPrecioServicioComponent } from '../modificacion-precio-servicio/modificacion-precio-servicio.component';
 
 
 @Component({
@@ -52,6 +53,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   constructor(
     private servicioService: ServicioService,
     private tipoServicioService: TipoServicioService,
+    private dialog: MatDialog,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) {
   }
@@ -416,4 +418,28 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
     }
     );
   }
+
+  modificacionPrecioServicio(event): void {
+    const dialogRef = this.dialog.open(ModificacionPrecioServicioComponent, {
+      data: {idServicio: event, },
+      width: '800px',
+      height: '600px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.recargaPagina = true;
+        this.servicioService.saveOrUpdateServicio(result).subscribe(
+          data => {
+            this.loadPrecioServicioPage();
+            this.sessionService.showSuccess("Los precios se han modificado correctamente");
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("Los precios no se modificaron.");
+          }
+        );
+      }
+    }
+    );
+   }
 }

@@ -45,23 +45,27 @@
             </mat-form-field>
         </div>
 
-        <div  fxLayout="row" (change)="precioSelected()" *ngFor="let p of modelArticuloVario.PrecioArticulo; let index = index">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Precio" [(ngModel)]="modelArticuloVario.PrecioArticulo[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
-                <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
-            </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="end end">
-            <div fxFlex='10' fxFlexOffset='80'>
-                <button mat-mini-fab color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
-                    <mat-icon class="md-icon-black-18">add</mat-icon>
-                </button>
+        <div fxLayout="column">
+            <div fxLayout="row" fxFill>
+                <p>Precios
+                    <button mat-icon-button color="primary" matTooltip="Agregar precio"
+                        (click)="agregarPrecio()">
+                        <mat-icon svgIcon="add"></mat-icon>
+                    </button>
+                </p>
             </div>
-
-            <div fxFlex>
-                <button mat-mini-fab color="warn" (click)="eliminarUltimoPrecio()" [disabled]="modelArticuloVario.PrecioArticulo.length < 1">
-                    <mat-icon class="md-icon-black-18">delete</mat-icon>
-                </button>
+            <div fxLayout="column" *ngFor="let p of modelPrecio; let i = index">
+                <div fxLayout="row">
+                    <mat-form-field fxFill>
+                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]+(\.[0-9][0-9]?)?"
+                            [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" required type="number">
+                        <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
+                        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarPrecio(i)"
+                        [disabled]="modelPrecio.length < 1">
+                        <mat-icon svgIcon="close"></mat-icon>
+                    </button>
+                    </mat-form-field> 
+                </div>
             </div>
         </div>
 

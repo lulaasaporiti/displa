@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class ArticuloVarioAltaComponent implements OnInit {
   tiposArticuloVario: TipoArticulo[];
   modelArticuloVario = <ArticuloVario>{};
-  // modelPrecio: PrecioArticuloVario[] = [];
+  modelPrecio: PrecioArticulo[] = [];
   selectedPrecio = new EventEmitter<PrecioArticulo[]>();
 
 
@@ -33,17 +33,17 @@ export class ArticuloVarioAltaComponent implements OnInit {
     });
   }
 
- 
-
   agregarPrecio() {
-      let item = <PrecioArticulo>{};
-      this.modelArticuloVario.PrecioArticulo.push(item);
+    let item = <PrecioArticulo>{};
+    item.IdArticulo = this.modelArticuloVario.Id;
+    this.modelPrecio.push(item);
   }
 
-  eliminarUltimoPrecio() {
-    this.modelArticuloVario.PrecioArticulo.pop();
+  eliminarPrecio(index) {
+    this.modelPrecio.splice(index, 1);
     this.updateStatePrecio();
   }
+
 
   precioSelected() {
     this.updateStatePrecio();

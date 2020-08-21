@@ -92,31 +92,39 @@ namespace DisplaBackend.DAOs
                 }
                 else
                 {
-                    var precioServicio = _context.PrecioServicio.Where(s => s.IdServicio == servicio.Id).ToList();
-                    if (precioServicio.Count() > 0)
-                    {
-                        foreach (var p in precioServicio)
-                        {
-                            _context.PrecioServicio.Remove(p);
-                        }
-                        _context.SaveChanges();
-                    }
-
                     List<PrecioServicio> precioServicioNuevos = servicio.PrecioServicio.ToList();
                     servicio.PrecioServicio = null;
 
                     servicio = _context.Servicio.Update(servicio).Entity;
 
-                    if (precioServicioNuevos != null)
+                    if (precioServicioNuevos.Count > 0)
                     {
                         precioServicioNuevos.ForEach(p =>
                         {
-                            p.Id = 0;
-                            p.IdServicio = servicio.Id;
-                            p.IdServicioNavigation = null;
-                            _context.PrecioServicio.Add(p);
+                            if (p.Id == 0)
+                            {
+                                _context.PrecioServicio.Add(p);
+                            }
+                            else
+                            {
+                                var precioBBDD = _context.PrecioServicio.FirstOrDefault(ps => ps.Id == p.Id && ps.IdServicio == p.IdServicio && ps.Precio == p.Precio);
+                                if (precioBBDD == null)
+                                {
+                                    _context.PrecioServicio.Update(p);
+                                }
+                            }
                         });
                     }
+
+                    List<PrecioServicio> precioServicioDDBB = _context.PrecioServicio.Where(pl => pl.IdServicio == servicio.Id).ToList();
+                    precioServicioDDBB.ForEach(p =>
+                    {
+                        if (precioServicioNuevos.Find(ps => ps.Id == p.Id) == null)
+                        {
+                            _context.PrecioServicio.Remove(p);
+                        }
+                    });
+
                 }
                 return _context.SaveChanges() >= 1;
             }
@@ -155,7 +163,7 @@ namespace DisplaBackend.DAOs
 
         public Servicio GetById(int idServicio)
         {
-            return _context.Servicio.FirstOrDefault(tb => tb.Id == idServicio);
+            return _context.Servicio.Include(s => s.PrecioServicio).FirstOrDefault(tb => tb.Id == idServicio);
         }
 
         public bool Delete(Servicio servicio)

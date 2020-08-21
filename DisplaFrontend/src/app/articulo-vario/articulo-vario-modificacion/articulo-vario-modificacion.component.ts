@@ -16,8 +16,9 @@ import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 export class ArticuloVarioModificacionComponent implements OnInit {
   private id: number = 0;
   tiposArticuloVario: TipoArticulo[];
-  selectedPrecio = new EventEmitter<PrecioArticulo[]>();
   modelArticuloVario = <ArticuloVario>{};
+  modelPrecio: PrecioArticulo[] = [];
+  selectedPrecio = new EventEmitter<PrecioArticulo[]>();
 
 
   constructor(
@@ -36,6 +37,7 @@ export class ArticuloVarioModificacionComponent implements OnInit {
       this.articuloService.getById(this.id)
         .subscribe(av => {
           this.modelArticuloVario = av;
+          this.modelPrecio = this.modelArticuloVario.PrecioArticulo;
           this.loadingSpinnerService.hide();
         });
     }
@@ -51,11 +53,12 @@ export class ArticuloVarioModificacionComponent implements OnInit {
 
   agregarPrecio() {
     let item = <PrecioArticulo>{};
-    this.modelArticuloVario.PrecioArticulo.push(item);
+    item.IdArticulo = this.modelArticuloVario.Id;
+    this.modelPrecio.push(item);
   }
 
-  eliminarUltimoPrecio() {
-    this.modelArticuloVario.PrecioArticulo.pop();
+  eliminarPrecio(index) {
+    this.modelPrecio.splice(index, 1);
     this.updateStatePrecio();
   }
 

@@ -34,11 +34,12 @@ export class ModificacionPrecioArticuloVarioComponent implements OnInit {
 
   agregarPrecio() {
     let item = <PrecioArticulo>{};
+    item.IdArticulo = this.modelArticuloVario.Id;
     this.modelArticuloVario.PrecioArticulo.push(item);
   }
 
-  eliminarUltimoPrecio() {
-    this.modelArticuloVario.PrecioArticulo.pop();
+  eliminarPrecio(index) {
+    this.modelPrecio.splice(index, 1);
     this.updateStatePrecio();
   }
 

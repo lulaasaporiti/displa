@@ -429,9 +429,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
+        this.recargaPagina = true;
         this.articuloService.saveOrUpdateArticuloVario(result).subscribe(
           data => {
-            this.recargaPagina = true;
             this.loadPrecioArticuloPage();
             this.sessionService.showSuccess("Los precios se han modificado correctamente");
           },

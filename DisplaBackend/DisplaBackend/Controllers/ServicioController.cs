@@ -23,6 +23,12 @@ namespace DisplaBackend.Controllers
             _servicioService = servicioService;
         }
 
+        [HttpGet("{id}")]
+        //[EnableCors("DisplaAPIPolicy")]
+        public object GetById([FromRoute] int id)
+        {
+            return _servicioService.GetById(id);
+        }
 
         [HttpGet, Route("GetServicios")]
         [EnableCors("DisplaAPIPolicy")]
