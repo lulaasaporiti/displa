@@ -46,11 +46,14 @@ export class LenteService {
     }
 
     deleteLente(id: number): Observable<any> {
-        console.log(id)
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
     getById(id: number): Observable<any> {
         return this.http.get(`${this.baseUrl}/${id}`);
+    }
+
+    generarPrecioLista(generarPrecio: Object): Observable<object> {
+        return this.http.post(`${this.baseUrl}/GenerarPrecioLista`, generarPrecio);
     }
 }

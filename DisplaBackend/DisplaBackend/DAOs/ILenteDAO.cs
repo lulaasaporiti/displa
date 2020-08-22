@@ -19,6 +19,7 @@ namespace DisplaBackend.DAOs
         List<string> GetCombinaciones();
         List<dynamic> GetLentesVigentesAgrupados();
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
+        bool GenerarPrecioLista(int porcentaje, int lista);
     }
 
     public class LenteDAO : ILenteDAO
@@ -102,6 +103,39 @@ namespace DisplaBackend.DAOs
 
         public int GetLastCode() {
             return _context.Lente.Last().Id + 1;
+        }
+
+        public bool GenerarPrecioLista(int porcentaje, int lista)
+        {
+            try
+            { 
+            List<Lente> lentes = _context.Lente
+                .GroupBy(l => l.Id)
+                .Select(le => new Lente
+                {
+                    Id = le.Key,
+                    PrecioLente = _context.PrecioLente.Where(pl => pl.IdLente == le.Key).OrderBy(plente => plente.Precio).ToList()
+                }).ToList();
+
+            List<PrecioLente> precios = new List<PrecioLente>();
+
+            foreach (var l in lentes)
+            {
+                var precio = new PrecioLente();
+
+                if (l.PrecioLente.ElementAt(lista - 1) != null)
+                {
+                    precio = l.PrecioLente.ElementAt(lista - 1);
+                }
+                precio.Precio = Math.Round(l.PrecioLente.ElementAt(0).Precio + ((l.PrecioLente.ElementAt(0).Precio * porcentaje) / 100), 2);
+                precios.Add(precio);
+            }
+                return _context.SaveChanges() >= 1;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool SaveOrUpdate(Lente lente)

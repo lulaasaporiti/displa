@@ -17,6 +17,7 @@ namespace DisplaBackend.Services
         int GetLastCode();
         List<string> GetCombinaciones();
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
+        bool GenerarPrecioLista(int porcentaje, int lista);
     }
 
     public class LenteService : ILenteService
@@ -56,6 +57,12 @@ namespace DisplaBackend.Services
         public bool SaveOrUpdate(Lente lente)
         {
             return _lenteDAO.SaveOrUpdate(lente);
+
+        }
+
+        public bool GenerarPrecioLista(int porcentaje, int lista)
+        {
+            return _lenteDAO.GenerarPrecioLista(porcentaje, lista);
 
         }
 
