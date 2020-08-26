@@ -94,6 +94,21 @@ namespace DisplaBackend.Controllers
             return Ok(_articuloVarioService.Delete(articuloVario));
         }
 
+        [HttpPost, Route("GenerarPrecioLista")]
+        [EnableCors("DisplaAPIPolicy")]
+        public IActionResult GenerarPrecioLista([FromBody]  JObject generarPrecios)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            int porcentaje = Convert.ToInt32(generarPrecios.GetValue("Porcentaje").Value<string>());
+            int lista = Convert.ToInt32(generarPrecios.GetValue("Lista").Value<string>());
+
+            return Ok(_articuloVarioService.GenerarPrecioLista(porcentaje, lista));
+
+        }
+
         [HttpGet("{id}")]
         public object GetById([FromRoute]int id)
         {

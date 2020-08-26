@@ -73,12 +73,14 @@ namespace DisplaBackend.DAOs
                     Borrado = l.Borrado,
                     PrecioLente = l.PrecioLente
                         .Where(p => p.PrecioLenteCliente.Where(pc => pc.Especial == true).Count() == 0)
-                        .GroupBy(p => new {
+                        .GroupBy(p => new
+                        {
                             IdLente = p.IdLente,
                             Esferico = p.Esferico,
                             Cilindrico = p.Cilindrico
                         })
-                        .Select(p => new {
+                        .Select(p => new
+                        {
                             Precio = _context.PrecioLente.Where(pl => pl.IdLente == p.Key.IdLente && pl.Esferico == p.Key.Esferico && pl.Cilindrico == p.Key.Cilindrico)
                                 .OrderBy(pl => pl.Precio)
                                 .Select(pl => new { pl.Id, pl.Precio }),
@@ -101,35 +103,36 @@ namespace DisplaBackend.DAOs
         }
 
 
-        public int GetLastCode() {
+        public int GetLastCode()
+        {
             return _context.Lente.Last().Id + 1;
         }
 
         public bool GenerarPrecioLista(int porcentaje, int lista)
         {
             try
-            { 
-            List<Lente> lentes = _context.Lente
-                .GroupBy(l => l.Id)
-                .Select(le => new Lente
-                {
-                    Id = le.Key,
-                    PrecioLente = _context.PrecioLente.Where(pl => pl.IdLente == le.Key).OrderBy(plente => plente.Precio).ToList()
-                }).ToList();
-
-            List<PrecioLente> precios = new List<PrecioLente>();
-
-            foreach (var l in lentes)
             {
-                var precio = new PrecioLente();
+                List<dynamic> lentes = this.GetLentesVigentesAgrupados();
 
-                if (l.PrecioLente.ElementAt(lista - 1) != null)
+                List<PrecioLente> precios = new List<PrecioLente>();
+
+                foreach (var l in lentes)
                 {
-                    precio = l.PrecioLente.ElementAt(lista - 1);
+                    foreach(var p in l.PrecioLente)
+                    { 
+                    var precio = new PrecioLente();
+
+                    if (p.Precio.ElementAt(lista - 1) != null)
+                    {
+                            precio.Esferico = l.PrecioLente.Esferico;
+                            precio.Cilindrico = l.PrecioLente.Cilindrico;
+                            precio.IdLente = l.PrecioLente.IdLente;
+                            precio = (PrecioLente)p.Precio[lista - 1];
+                    }
+                    precio.Precio = Math.Round(p.Precio[0].Precio + ((p.Precio[0].Precio * porcentaje) / 100), 2);
+                    precios.Add(precio);
+                    }
                 }
-                precio.Precio = Math.Round(l.PrecioLente.ElementAt(0).Precio + ((l.PrecioLente.ElementAt(0).Precio * porcentaje) / 100), 2);
-                precios.Add(precio);
-            }
                 return _context.SaveChanges() >= 1;
             }
             catch (Exception e)
@@ -154,7 +157,8 @@ namespace DisplaBackend.DAOs
                         _context.PrecioLente.Add(p);
                     });
 
-                    if (lente.RecargoLente.Count > 0) {
+                    if (lente.RecargoLente.Count > 0)
+                    {
                         lente.RecargoLente.ToList().ForEach(r =>
                         {
                             _context.RecargoLente.Add(r);
@@ -193,7 +197,7 @@ namespace DisplaBackend.DAOs
                     {
                         recargoLenteNuevos.ForEach(r =>
                         {
-                            if(r.Id == 0)
+                            if (r.Id == 0)
                             {
                                 _context.RecargoLente.Add(r);
                             }

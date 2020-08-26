@@ -45,8 +45,8 @@ export class ArticuloVarioService {
         return this.http.get(`${this.baseUrl}/${id}`);
     }
     
-    generarPrecioLista(porcentaje, lista): Observable<object> {
-        return this.http.post(`${this.baseUrl}/`, porcentaje, lista);
+    generarPrecioLista(generarPrecio: Object): Observable<object> {
+        return this.http.post(`${this.baseUrl}/GenerarPrecioLista`, generarPrecio);
     }
 
 }

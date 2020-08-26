@@ -15,6 +15,7 @@ namespace DisplaBackend.Services
         bool Delete(ArticuloVario articuloVario);
         ArticuloVario GetById(int idArticuloVario);
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
+        bool GenerarPrecioLista(int porcentaje, int lista);
     }
 
     public class ArticuloVarioService : IArticuloVarioService
@@ -58,6 +59,11 @@ namespace DisplaBackend.Services
             return _articuloVarioDAO.Delete(articuloVario);
         }
 
+        public bool GenerarPrecioLista(int porcentaje, int lista)
+        {
+            return _articuloVarioDAO.GenerarPrecioLista(porcentaje, lista);
+
+        }
         public ArticuloVario GetById(int idArticuloVario)
         {
             return _articuloVarioDAO.GetById(idArticuloVario);

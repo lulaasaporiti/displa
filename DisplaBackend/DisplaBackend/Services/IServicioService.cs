@@ -15,6 +15,7 @@ namespace DisplaBackend.Services
         bool Delete(Servicio servicio);
         Servicio GetById(int idServicio);
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
+        bool GenerarPrecioLista(int porcentaje, int lista);
     }
 
     public class ServicioService : IServicioService
@@ -59,6 +60,12 @@ namespace DisplaBackend.Services
         public Servicio GetById(int idServicio)
         {
             return _servicioDAO.GetById(idServicio);
+        }
+
+        public bool GenerarPrecioLista(int porcentaje, int lista)
+        {
+            return _servicioDAO.GenerarPrecioLista(porcentaje, lista);
+
         }
 
     }

@@ -17,6 +17,7 @@ namespace DisplaBackend.DAOs
         bool Delete(Servicio servicio);
         Servicio GetById(int idServicio);
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
+        bool GenerarPrecioLista(int porcentaje, int lista);
     }
 
     public class ServicioDAO : IServicioDAO
@@ -164,6 +165,39 @@ namespace DisplaBackend.DAOs
         public Servicio GetById(int idServicio)
         {
             return _context.Servicio.Include(s => s.PrecioServicio).FirstOrDefault(tb => tb.Id == idServicio);
+        }
+
+        public bool GenerarPrecioLista(int porcentaje, int lista)
+        {
+            try
+            {
+                List<Servicio> servicios = _context.Servicio
+                    .GroupBy(s => s.Id)
+                    .Select(s => new Servicio
+                    {
+                        Id = s.Key,
+                        PrecioServicio = _context.PrecioServicio.Where(se => se.IdServicio == s.Key).OrderBy(pservicio => pservicio.Precio).ToList()
+                    }).ToList();
+
+                List<PrecioServicio> precios = new List<PrecioServicio>();
+
+                foreach (var s in servicios)
+                {
+                    var precio = new PrecioServicio();
+
+                    if (s.PrecioServicio.ElementAt(lista - 1) != null)
+                    {
+                        precio = s.PrecioServicio.ElementAt(lista - 1);
+                    }
+                    precio.Precio = Math.Round(s.PrecioServicio.ElementAt(0).Precio + ((s.PrecioServicio.ElementAt(0).Precio * porcentaje) / 100), 2);
+                    precios.Add(precio);
+                }
+                return _context.SaveChanges() >= 1;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool Delete(Servicio servicio)

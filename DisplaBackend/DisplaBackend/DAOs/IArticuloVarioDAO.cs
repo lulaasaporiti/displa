@@ -17,6 +17,7 @@ namespace DisplaBackend.DAOs
         bool Delete(ArticuloVario articuloVario);
         ArticuloVario GetById(int idArticuloVario);
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
+        bool GenerarPrecioLista(int porcentaje, int lista);
 
     }
 
@@ -167,6 +168,40 @@ namespace DisplaBackend.DAOs
             return _context.ArticuloVario.Include(av => av.PrecioArticulo)
                 //.ThenInclude(pa => pa.Precio)
                 .FirstOrDefault(tb => tb.Id == idArticuloVario);
+        }
+
+        public bool GenerarPrecioLista(int porcentaje, int lista)
+        {
+            try
+            {
+                List<ArticuloVario> articulos = _context.ArticuloVario
+                    .Include(av => av.PrecioArticulo)
+                    .GroupBy(av => av.Id)
+                    .Select(av => new ArticuloVario
+                    {
+                        Id = av.Key,
+                        PrecioArticulo = _context.PrecioArticulo.Where(pa => pa.IdArticulo == av.Key).ToList()
+                    }).ToList();
+
+                List<PrecioArticulo> precios = new List<PrecioArticulo>();
+
+                foreach (var a in articulos)
+                {
+                    var precio = new PrecioArticulo();
+
+                    if (a.PrecioArticulo.ElementAt(lista - 1) != null)
+                    {
+                        precio = a.PrecioArticulo.ElementAt(lista - 1);
+                    }
+                    precio.Precio = Math.Round(a.PrecioArticulo.ElementAt(0).Precio + ((a.PrecioArticulo.ElementAt(0).Precio * porcentaje) / 100), 2);
+                    precios.Add(precio);
+                }
+                return _context.SaveChanges() >= 1;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool Delete(ArticuloVario articuloVario)

@@ -101,7 +101,7 @@ export class HeaderComponent {
             break;
           }
           case 'articulo': {
-            this.articuloService.generarPrecioLista(result.Porcentaje, result.Lista)
+            this.articuloService.generarPrecioLista(result)
             .subscribe(
                 data => {
                   this.sessionService.showSuccess("La lista se ha generado correctamente");
@@ -114,7 +114,7 @@ export class HeaderComponent {
             break;
           }
           case 'servicio': {
-            this.servicioService.generarPrecioLista(result.Porcentaje, result.Lista)
+            this.servicioService.generarPrecioLista(result)
             .subscribe(
               data => {
                 this.sessionService.showSuccess("La lista se ha generado correctamente");
