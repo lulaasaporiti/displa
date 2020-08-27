@@ -15,6 +15,7 @@ namespace DisplaBackend.Models
         public decimal Precio { get; set; }
         public decimal Esferico { get; set; }
         public decimal Cilindrico { get; set; }
+        public decimal? CostoPar { get; set; }
 
         public virtual Lente IdLenteNavigation { get; set; }
         public virtual ICollection<PrecioLenteCliente> PrecioLenteCliente { get; set; }

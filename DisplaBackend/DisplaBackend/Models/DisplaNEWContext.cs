@@ -808,6 +808,10 @@ namespace DisplaBackend.Models
                     .HasColumnName("cilindrico")
                     .HasColumnType("decimal(6, 2)");
 
+                entity.Property(e => e.CostoPar)
+                    .HasColumnName("costoPar")
+                    .HasColumnType("decimal(10, 2)");
+
                 entity.Property(e => e.Esferico)
                     .HasColumnName("esferico")
                     .HasColumnType("decimal(6, 2)");

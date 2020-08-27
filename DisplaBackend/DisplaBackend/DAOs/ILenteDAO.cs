@@ -83,7 +83,7 @@ namespace DisplaBackend.DAOs
                         {
                             Precio = _context.PrecioLente.Where(pl => pl.IdLente == p.Key.IdLente && pl.Esferico == p.Key.Esferico && pl.Cilindrico == p.Key.Cilindrico)
                                 .OrderBy(pl => pl.Precio)
-                                .Select(pl => new { pl.Id, pl.Precio }).ToArray <dynamic>(),
+                                .Select(pl => new { pl.Id, pl.Precio }).ToArray<dynamic>(),
                             IdLente = p.Key.IdLente,
                             Cilindrico = p.Key.Cilindrico,
                             Esferico = p.Key.Esferico
@@ -121,10 +121,14 @@ namespace DisplaBackend.DAOs
                     foreach (var p in l.PrecioLente)
                     {
                         var precio = new PrecioLente();
-                        
-                        if (p.Precio[lista - 1] != null)
+                        var aux = p.Precio;
+
+                        if (p.Precio.Length >= lista)
                         {
-                            precio.Id = p.Precio[lista - 1].Id;
+                            if (p.Precio[lista - 1] != null)
+                            {
+                                precio.Id = p.Precio[lista - 1].Id;
+                            }
                         }
                         precio.Precio = Math.Round(p.Precio[0].Precio + ((p.Precio[0].Precio * porcentaje) / 100), 2);
                         precio.Esferico = p.Esferico;
@@ -133,6 +137,19 @@ namespace DisplaBackend.DAOs
 
                         precios.Add(precio);
                     }
+                }
+
+                foreach (var p in precios)
+                {
+                    if (p.Id == 0)
+                    {
+                        _context.PrecioLente.Add(p);
+                    }
+                    else
+                    {
+                        _context.PrecioLente.Update(p);
+                    }
+
                 }
                 return _context.SaveChanges() >= 1;
             }
@@ -146,8 +163,9 @@ namespace DisplaBackend.DAOs
         {
             try
             {
-                if (lente.Id == 0)
+                if (lente.FechaCreacion == null)
                 {
+                    lente.FechaCreacion = DateTime.Now;
                     lente = _context.Add(lente).Entity;
                     lente.PrecioLente.ToList().ForEach(p =>
                     {
@@ -185,12 +203,13 @@ namespace DisplaBackend.DAOs
                             }
                             else
                             {
-                                var precioBBDD = _context.PrecioLente.FirstOrDefault(pl => pl.Id == p.Id && pl.Esferico == p.Esferico && pl.Cilindrico == p.Cilindrico);
-                                if (precioBBDD == null)
+                                var precioBBDD = _context.PrecioLente.AsNoTracking().FirstOrDefault(pl => pl.Id == p.Id && pl.Esferico == p.Esferico && pl.Cilindrico == p.Cilindrico);
+                                if (precioBBDD != null)
                                 {
                                     _context.PrecioLente.Update(p);
                                 }
                             }
+                            _context.SaveChanges();
                         });
                     }
 
@@ -204,8 +223,8 @@ namespace DisplaBackend.DAOs
                             }
                             else
                             {
-                                var recargoBBDD = _context.RecargoLente.FirstOrDefault(rl => rl.Id == r.Id && r.IdLente == r.IdLente && rl.Descripcion == r.Descripcion && rl.Porcentaje == r.Porcentaje);
-                                if (recargoBBDD == null)
+                                var recargoBBDD = _context.RecargoLente.AsNoTracking().FirstOrDefault(rl => rl.Id == r.Id && r.IdLente == r.IdLente && rl.Descripcion == r.Descripcion && rl.Porcentaje == r.Porcentaje);
+                                if (recargoBBDD != null)
                                 {
                                     _context.RecargoLente.Update(r);
                                 }

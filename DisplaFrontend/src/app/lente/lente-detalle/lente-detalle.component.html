@@ -61,18 +61,23 @@
             <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center"
                 *ngFor="let p of modelPrecio; let i = index">
                 <mat-form-field>
-                    <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" pattern="[0-9]*"
+                    <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" 
                         [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" disabled>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" pattern="[0-9]*"
+                    <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" 
                         [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" disabled>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]*"
+                    <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel"
                         [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" disabled>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input type="text" placeholder="Precio costo par" matInput #inputPrecioPar="ngModel"
+                        [(ngModel)]="p.CostoPar" id="precioPar{{i}}" name="precioPar{{i}}" disabled>
                 </mat-form-field>
             </div>
         </div>

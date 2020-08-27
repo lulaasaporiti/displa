@@ -90,6 +90,12 @@
                         <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
+                    <mat-form-field>
+                        <input type="text" placeholder="Precio costo par" matInput #inputPrecioPar="ngModel" pattern="[0-9]+(\.[0-9][0-9]?)?"
+                            [(ngModel)]="p.CostoPar" id="precioPar{{i}}" name="precioPar{{i}}" required>
+                        <mat-error *ngIf="inputPrecioPar.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
                     <button mat-icon-button matSuffix matTooltip="Agregar precio al rango" (click)="agregarPrecio(i)">
                         <mat-icon svgIcon="add"></mat-icon>
                     </button>

@@ -179,13 +179,30 @@ namespace DisplaBackend.DAOs
                 {
                     var precio = new PrecioServicio();
 
-                    if (s.PrecioServicio.ElementAt(lista - 1) != null)
+                    if (s.PrecioServicio.Count >= lista)
                     {
-                        precio = s.PrecioServicio.ElementAt(lista - 1);
+                        if (s.PrecioServicio.ElementAt(lista - 1) != null)
+                        {
+                            precio.Id = s.PrecioServicio.ElementAt(lista - 1).Id;
+                        }
                     }
+                    precio.IdServicio = s.Id;
                     precio.Precio = Math.Round(s.PrecioServicio.ElementAt(0).Precio + ((s.PrecioServicio.ElementAt(0).Precio * porcentaje) / 100), 2);
                     precios.Add(precio);
                 }
+
+                foreach (var p in precios)
+                {
+                    if (p.Id == 0)
+                    {
+                        _context.PrecioServicio.Add(p);
+                    }
+                    else
+                    {
+                        _context.PrecioServicio.Update(p);
+                    }
+                }
+
                 return _context.SaveChanges() >= 1;
             }
             catch (Exception e)
