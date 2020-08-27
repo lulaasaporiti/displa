@@ -83,7 +83,7 @@ namespace DisplaBackend.DAOs
                         {
                             Precio = _context.PrecioLente.Where(pl => pl.IdLente == p.Key.IdLente && pl.Esferico == p.Key.Esferico && pl.Cilindrico == p.Key.Cilindrico)
                                 .OrderBy(pl => pl.Precio)
-                                .Select(pl => new { pl.Id, pl.Precio }),
+                                .Select(pl => new { pl.Id, pl.Precio }).ToArray <dynamic>(),
                             IdLente = p.Key.IdLente,
                             Cilindrico = p.Key.Cilindrico,
                             Esferico = p.Key.Esferico
@@ -118,19 +118,20 @@ namespace DisplaBackend.DAOs
 
                 foreach (var l in lentes)
                 {
-                    foreach(var p in l.PrecioLente)
-                    { 
-                    var precio = new PrecioLente();
-
-                    if (p.Precio.ElementAt(lista - 1) != null)
+                    foreach (var p in l.PrecioLente)
                     {
-                            precio.Esferico = l.PrecioLente.Esferico;
-                            precio.Cilindrico = l.PrecioLente.Cilindrico;
-                            precio.IdLente = l.PrecioLente.IdLente;
-                            precio = (PrecioLente)p.Precio[lista - 1];
-                    }
-                    precio.Precio = Math.Round(p.Precio[0].Precio + ((p.Precio[0].Precio * porcentaje) / 100), 2);
-                    precios.Add(precio);
+                        var precio = new PrecioLente();
+                        
+                        if (p.Precio[lista - 1] != null)
+                        {
+                            precio.Id = p.Precio[lista - 1].Id;
+                        }
+                        precio.Precio = Math.Round(p.Precio[0].Precio + ((p.Precio[0].Precio * porcentaje) / 100), 2);
+                        precio.Esferico = p.Esferico;
+                        precio.Cilindrico = p.Cilindrico;
+                        precio.IdLente = p.IdLente;
+
+                        precios.Add(precio);
                     }
                 }
                 return _context.SaveChanges() >= 1;

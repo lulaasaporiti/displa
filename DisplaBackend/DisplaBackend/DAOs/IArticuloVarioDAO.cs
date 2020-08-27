@@ -174,14 +174,7 @@ namespace DisplaBackend.DAOs
         {
             try
             {
-                List<ArticuloVario> articulos = _context.ArticuloVario
-                    .Include(av => av.PrecioArticulo)
-                    .GroupBy(av => av.Id)
-                    .Select(av => new ArticuloVario
-                    {
-                        Id = av.Key,
-                        PrecioArticulo = _context.PrecioArticulo.Where(pa => pa.IdArticulo == av.Key).ToList()
-                    }).ToList();
+                List<ArticuloVario> articulos = GetArticulosVariosPrecios();
 
                 List<PrecioArticulo> precios = new List<PrecioArticulo>();
 

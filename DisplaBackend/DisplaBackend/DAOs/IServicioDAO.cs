@@ -171,13 +171,7 @@ namespace DisplaBackend.DAOs
         {
             try
             {
-                List<Servicio> servicios = _context.Servicio
-                    .GroupBy(s => s.Id)
-                    .Select(s => new Servicio
-                    {
-                        Id = s.Key,
-                        PrecioServicio = _context.PrecioServicio.Where(se => se.IdServicio == s.Key).OrderBy(pservicio => pservicio.Precio).ToList()
-                    }).ToList();
+                List<Servicio> servicios = GetServiciosPrecios();
 
                 List<PrecioServicio> precios = new List<PrecioServicio>();
 
