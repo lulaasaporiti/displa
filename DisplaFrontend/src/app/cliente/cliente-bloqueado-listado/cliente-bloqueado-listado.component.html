@@ -1,78 +1,93 @@
 <div class="content">
   <app-loading-spinner></app-loading-spinner>
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-    <h4 fxLayout="column" class="titulo" fxFlex>Listado de cuentas bloqueadas</h4>
+    <h4 fxLayout="column" class="titulo" fxFlex>Listado de cuentas de clientes</h4>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
-      <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search autofocus="autofocus" placeholder="Buscar">
     </mat-form-field>
   </div>
   <mat-divider fxFlexOffset="2"></mat-divider>
 
-  <!-- <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="6px" class="menu-agregar">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
-      <button mat-mini-fab class="buttonFixed" color="primary" (click)="agregarCliente()">
-        <mat-icon svgIcon="add"></mat-icon>
-      </button>
-      <p>Agregar</p>
-    </div>
-  </div> -->
-  <mat-divider></mat-divider>
-
-
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
 
-
-    <ng-container matColumnDef="Cliente">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> Optica </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Optica}} </td>
+    <ng-container matColumnDef="Optica">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="12"> ÓPTICA </th>
+      <td mat-cell *matCellDef="let row" fxFlex="12" fxLayoutAlign="start center"> {{row.Optica}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="Descripcion">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="11"> DESCRIPCIÓN DE BLOQUEO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="11" fxLayoutAlign="start center">  </td>
-    </ng-container>
-<!-- 
-    <ng-container matColumnDef="Telefonos">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="12"> TELEFONOS </th>
-      <td mat-cell *matCellDef="let row" fxFlex="12" fxLayoutAlign="start center"> {{row.Telefonos}} </td>
+    <ng-container matColumnDef="Saldo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> SALDO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Saldo}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="Mail">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> MAIL </th>
-      <td mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{row.Mail}} </td>
-    </ng-container> 
-
-    <ng-container matColumnDef="UtilizaIibb">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="8"> UTILIZA IIBB</th>
-      <td mat-cell *matCellDef="let row" fxFlex="8" fxLayoutAlign="start center">
-        {{row.UtilizaIibb == true ? 'Si' : 'No'}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Borrado">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="6"> BORRADO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="6" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}}
+    <ng-container matColumnDef="MontoExcedido">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> MONTO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.MontoExcedido}}
       </td>
-    </ng-container> -->
+    </ng-container>
+
+    <ng-container matColumnDef="Credito">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> CRÉDITO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Credito}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="DiasExcedido">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> DÍAS </th>
+      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.DiasExcedido}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Plazo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> PLAZO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Plazo}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Fecha">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> FECHA </th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> 
+        <!-- {{row.Fecha}} -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Motivo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15"> MOTIVO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center"> 
+        <!-- {{row.Motivo}} -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Estado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="13"> ESTADO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="13" fxLayoutAlign="start center"> 
+        <!-- {{row.Estado}} -->
+      </td>
+    </ng-container>
 
     <ng-container matColumnDef="Opciones">
-      <th mat-header-cell *matHeaderCellDef fxFlex="12"></th>
-      <td mat-cell *matCellDef="let row" fxFlex="12" fxLayoutAlign="end">
-        <!-- <button mat-icon-button matTooltip="Ver detalle" [matTooltipPosition]="'above'" aria-label="Ver detalle"
-          (click)="detalleCliente(row.Id)">
+      <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="end">
+        <!-- <button mat-icon-button matTooltip="Consulta" [matTooltipPosition]="'above'" aria-label="Consulta"
+          (click)="detalleLente(row.Id)">
           <mat-icon svgIcon="detail_outline" class="tabla_icono"></mat-icon>
         </button>
         <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
-          (click)="modificarCliente(row.Id)">
+          (click)="modificarLente(row.Id)">
           <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
         </button>
+        <button mat-icon-button matTooltip="Stock" [matTooltipPosition]="'above'" aria-label="Stock"
+          (click)="verStockLente(row.Id)">
+          <mat-icon svgIcon="stock_uso" class="tabla_icono"></mat-icon>
+        </button>
         <button mat-icon-button matTooltip="Eliminar" [matTooltipPosition]="'above'" aria-label="Eliminar"
-          (click)="eliminarCliente(row)">
+          (click)="eliminarLente(row)">
           <mat-icon svgIcon="delete_outline" class="tabla_icono"></mat-icon>
         </button> -->
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>

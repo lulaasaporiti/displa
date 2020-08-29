@@ -772,7 +772,6 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdArticuloNavigation)
                     .WithMany(p => p.PrecioArticulo)
                     .HasForeignKey(d => d.IdArticulo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PrecioArticulo_ArticuloVario");
             });
 
@@ -791,7 +790,6 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.PrecioArticuloCliente)
                     .HasForeignKey(d => d.IdCliente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PrecioArticuloCliente_Cliente");
 
                 entity.HasOne(d => d.IdPrecioArticuloNavigation)
@@ -825,7 +823,6 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdLenteNavigation)
                     .WithMany(p => p.PrecioLente)
                     .HasForeignKey(d => d.IdLente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PrecioLente_Lente");
             });
 
@@ -844,7 +841,6 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.PrecioLenteCliente)
                     .HasForeignKey(d => d.IdCliente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PrecioLenteCliente_Cliente");
 
                 entity.HasOne(d => d.IdPrecioLenteNavigation)
@@ -864,7 +860,6 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdServicioNavigation)
                     .WithMany(p => p.PrecioServicio)
                     .HasForeignKey(d => d.IdServicio)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PrecioServicio_Servicio");
             });
 
@@ -883,7 +878,6 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.PrecioServicioCliente)
                     .HasForeignKey(d => d.IdCliente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PrecioServicioCliente_Cliente");
 
                 entity.HasOne(d => d.IdPrecioServicioNavigation)
@@ -964,7 +958,6 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdLenteNavigation)
                     .WithMany(p => p.RecargoLente)
                     .HasForeignKey(d => d.IdLente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RecargoLente_Lente");
             });
 

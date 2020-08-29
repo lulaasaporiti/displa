@@ -23,7 +23,7 @@ namespace DisplaBackend.Services
         List<Ficha> GetFichaCliente(int idCliente);
         bool SaveFicha(Ficha ficha);
         bool BloquearClientes();
-        List<Cliente> GetClientesBloqueados();
+        List<dynamic> GetClientesBloqueados();
     }
 
     public class ClienteService : IClienteService
@@ -114,7 +114,7 @@ namespace DisplaBackend.Services
             return _clienteDAO.BloquearClientes();
         }
 
-        public List<Cliente> GetClientesBloqueados()
+        public List<dynamic> GetClientesBloqueados()
         {
             return _clienteDAO.GetClientesBloqueados();
         }

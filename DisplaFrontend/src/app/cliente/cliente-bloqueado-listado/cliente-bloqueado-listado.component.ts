@@ -19,17 +19,16 @@ import { CdkAccordion } from '@angular/cdk/accordion';
 })
 export class ClienteBloqueadoListadoComponent implements OnInit {
   idUser: number;
-  displayedColumns: string[] = ['Cliente', 'Descripcion', 'Opciones'];
+  displayedColumns: string[] = ['Optica', 'Saldo', 'MontoExcedido', 'Credito', 'DiasExcedido', 'Plazo',  'Fecha', 'Motivo', 'Estado', 'Opciones'];
   traerVigentes: boolean = true;
 
 
-  dataSource = new MatTableDataSource<Cliente>();
+  dataSource = new MatTableDataSource<any>();
   traerActivos: boolean = true;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
-
 
   constructor(
     public dialog: MatDialog,
@@ -67,6 +66,7 @@ export class ClienteBloqueadoListadoComponent implements OnInit {
       this.clienteService.getClientesBloqueados()
         .subscribe(r => {
           this.dataSource.data = r;
+          console.log(this.dataSource.data)
           this.loadingSpinnerService.hide();
         })
   }
