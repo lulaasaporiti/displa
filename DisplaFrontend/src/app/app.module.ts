@@ -45,6 +45,7 @@ import { ManejoStockModule } from './manejo-stock/manejo-stock.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GastoModule } from './gasto/gasto.module';
 import { GestionPrecioModule } from './header/gestion-precio/gestion-precio.module';
+import { AsignacionPrecioClienteModule } from './asignacion-precio/asignacion-precio.module';
 
 
 
@@ -63,8 +64,6 @@ import { GestionPrecioModule } from './header/gestion-precio/gestion-precio.modu
     MaterialModule,
     DragDropModule,
     LoadingSpinnerModule,
-    AccountModule,
-    ArticuloVarioModule,
     HttpClientModule,
     ToastrModule.forRoot({
       closeButton: true,
@@ -73,6 +72,9 @@ import { GestionPrecioModule } from './header/gestion-precio/gestion-precio.modu
       positionClass: 'toast-bottom-left',
       progressBar: true,
     }), // ToastrModule added
+    AccountModule,
+    ArticuloVarioModule,
+    AsignacionPrecioClienteModule,
     BancoModule,
     BlockModule,
     CategoriaIVAModule,
