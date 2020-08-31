@@ -171,6 +171,16 @@ namespace DisplaBackend.Controllers
         {
             return _clienteService.GetClientesBloqueados();
         }
+
+        [HttpPost, Route("AsignarPreciosLentes")]
+        public IActionResult AsignarPreciosLentes([FromBody]JObject[] preciosLentes)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_clienteService.AsignarPreciosLentes(preciosLentes));
+        }
     }
 
 

@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,15 +25,20 @@ namespace DisplaBackend.Services
         bool SaveFicha(Ficha ficha);
         bool BloquearClientes();
         List<dynamic> GetClientesBloqueados();
+        bool AsignarPreciosLentes(JObject[] preciosLentes);
+
     }
 
     public class ClienteService : IClienteService
     {
         private IClienteDAO _clienteDAO;
+        private readonly ILenteDAO _lenteDAO;
 
-        public ClienteService(IClienteDAO clienteDAO)
+
+        public ClienteService(IClienteDAO clienteDAO, ILenteDAO lenteDAO)
         {
             _clienteDAO = clienteDAO;
+            _lenteDAO = lenteDAO;
         }
 
         public List<Cliente> GetClientes()
@@ -117,6 +123,13 @@ namespace DisplaBackend.Services
         public List<dynamic> GetClientesBloqueados()
         {
             return _clienteDAO.GetClientesBloqueados();
+        }
+
+        public bool AsignarPreciosLentes(JObject[] preciosLentes)
+        {
+            var listaPrecios = _lenteDAO.GetLentesVigentesAgrupados();
+            return _clienteDAO.AsignarPreciosLentes(preciosLentes, listaPrecios);
+
         }
     }
 }

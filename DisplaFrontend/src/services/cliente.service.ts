@@ -77,6 +77,10 @@ export class ClienteService {
         return this.http.post(`${this.baseUrl}/SaveFicha`, ficha);
     }
 
+    asignarPreciosLentes(preciosLentes): Observable<object> {
+        return this.http.post(`${this.baseUrl}/AsignarPreciosLentes`, preciosLentes);
+    }
+
     // savePreciosEspecialesArticulos(precios): Observable<object> {
     //     // console.log(precios)
     //     // if (precios.lenght > 0)

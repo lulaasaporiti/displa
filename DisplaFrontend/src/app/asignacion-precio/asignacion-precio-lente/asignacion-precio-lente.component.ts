@@ -105,7 +105,7 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
             this.displayedColumns.push('Precio' + i);
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
             // if (i == maxCantPrecio) {
-              // this.displayedColumns.push('Porcentaje');
+            // this.displayedColumns.push('Porcentaje');
             // }
           }
         }
@@ -116,56 +116,62 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
 
   onClickedTodos(checkbox) {
     let index = +checkbox.source.name.split("checkbox")[1];
-    if (checkbox.checked) {
-      this.dataSource.data.forEach(cliente => {
-        this.preciosSeleccionados.push({IdCliente: cliente.Id, lista: index})
-      });
-    } else {
-      if (this.preciosSeleccionados.length == this.dataSource.data.length) {
-        this.preciosSeleccionados = [];
-      } else {
-        this.dataSource.data.forEach(cliente => {
-            // this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => pl.Precio[checkbox] != undefined && pl.Precio[checkbox].Id == p.Id && l.Id == p.IdLente), 1);
-        });
+    this.preciosSeleccionados = [];
+    for (let i = 0; i < this.checkboxChecked.length; i++) {
+      if (i == index && checkbox.checked) {
+        this.checkboxChecked[i] = true;
+        this.checkboxIndeterminate[i] = false;
+      }
+      else {
+        this.checkboxChecked[i] = false;
+        this.checkboxIndeterminate[i] = false;
       }
     }
-    if (this.checkboxIndeterminate.includes(true) && checkbox.checked) {
-      this.checkboxIndeterminate[0] = true;
-      this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
-    }
-    console.log(this.preciosSeleccionados)
+
+    if (checkbox.checked) {
+      this.dataSource.data.forEach(cliente => {
+        if (this.preciosSeleccionados.find(p => p.IdCliente == cliente.Id && p.lista != index))
+          this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == cliente.Id && p.lista != index), 1);
+        this.preciosSeleccionados.push({ IdCliente: cliente.Id, lista: index })
+      });
+    } 
   }
 
   onClicked(idCliente, checkbox) {
     let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
     if (checkbox.checked) {
-      this.preciosSeleccionados.push({IdCliente: idCliente, lista: index})
+      if (this.preciosSeleccionados.find(p => p.IdCliente == idCliente && p.lista != index))
+        this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == idCliente && p.lista != index), 1);
+      this.preciosSeleccionados.push({ IdCliente: idCliente, lista: index })
+      if (this.preciosSeleccionados.length == this.dataSource.data.length && !this.checkboxIndeterminate.includes(true))
+        this.checkboxChecked[index] = true;
+      else {
+        if (this.checkboxChecked[index] != true || this.checkboxIndeterminate[index] != true)
+          this.checkboxIndeterminate[index] = true;
+      }
     } else {
-      // if (this.preciosSeleccionados.length > 0) {
-      //   lente.PrecioLente.forEach(pl => {
-      //     this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdLente == lente.Id && p.Id == pl.Precio[index].Id), 1);
-      //   })
-      // }
+      if (this.preciosSeleccionados.length > 0) {
+        this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == idCliente && p.lista == index), 1);
+      }
     }
-    console.log(this.preciosSeleccionados)
   }
 
-  
+
   chequear(idCliente: any, index) {
-    return this.preciosSeleccionados.find(element => element.Id == idCliente);
+    return this.preciosSeleccionados.find(p => p.IdCliente == idCliente && p.lista == index);
   }
 
 
   guardarPrecios() {
     this.recargaPagina = true;
-    // this.lenteService.saveActualizacionPrecio(this.porcentajesLentes)
-    //   .subscribe(result => {
-    //     if (result) {
-    //       this.loadPrecioLentePage();
-    //       this.sessionService.showSuccess("Los precios se cargaron correctamente.");
-    //     } else
-    //       this.sessionService.showError("Los precios no se cargaron.");
-    //   }
-    //   );
+    this.clienteService.asignarPreciosLentes(this.preciosSeleccionados)
+      .subscribe(result => {
+        if (result) {
+          // this.loadPrecioLentePage();
+          this.sessionService.showSuccess("Los precios se cargaron correctamente.");
+        } else
+          this.sessionService.showError("Los precios no se cargaron.");
+      }
+      );
   }
 }

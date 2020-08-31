@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,13 @@ namespace DisplaBackend.DAOs
         bool SaveFicha(Ficha ficha);
         bool BloquearClientes();
         List<dynamic> GetClientesBloqueados();
+        bool AsignarPreciosLentes(JObject[] preciosLentes, List<dynamic> listaPrecios);
     }
 
     public class ClienteDAO : IClienteDAO
     {
         private readonly DisplaNEWContext _context;
+
 
         public ClienteDAO(DisplaNEWContext context)
         {
@@ -436,5 +439,62 @@ namespace DisplaBackend.DAOs
             return clientes;
         }
 
-    }
+        public bool AsignarPreciosLentes(JObject[] preciosLentes, List<dynamic> listaPrecios) //IdCLiente, lista
+        {
+            try
+            {
+                if (preciosLentes != null)
+                {
+                    List<PrecioLenteCliente> precios = new List<PrecioLenteCliente>();
+
+                    foreach (var p in preciosLentes)
+                    {
+                        var IdCliente = Convert.ToInt32(p.GetValue("IdCliente"));
+                        List<PrecioLenteCliente> preciosClienteBBDD = _context.PrecioLenteCliente.Where(pc => pc.IdCliente == IdCliente).ToList();
+                        var index = Convert.ToInt32(p.GetValue("lista"));
+
+                        foreach (var l in listaPrecios) {
+                            foreach (var pl in l.PrecioLente) {
+                                var precioLente = new PrecioLenteCliente();
+
+                                //var precioLenteCliente = _context.PrecioLenteCliente.Where(pc => pc.IdCliente == IdCliente && pc.IdPrecioLenteNavigation.IdLente == l.Id)
+
+                                precioLente.IdCliente = IdCliente;
+                                if (pl.Precio.Length >= index)
+                                {
+                                    if (pl.Precio[index] != null)
+                                    {
+                                        precioLente.IdPrecioLente = pl.Precio[index].Id;
+                                    }
+                                    else {
+                                        precioLente.IdPrecioLente = pl.Precio[0].Id;
+                                    }
+                                }
+
+                                if (preciosClienteBBDD.Count == 0)
+                                    _context.PrecioLenteCliente.Add(precioLente);
+                                else
+                                {
+                                    var precioBBDD = preciosClienteBBDD.Find(pc => pc.IdCliente == IdCliente && pc.IdPrecioLente != precioLente.IdPrecioLente);
+                                    if (precioBBDD != null) {
+                                        precioLente.Id = precioBBDD.Id;
+                                        _context.PrecioLenteCliente.Update(precioLente);
+                                    }
+
+                                }
+
+                                precios.Add(precioLente);
+                            }
+                        }
+                    }
+                }
+                return _context.SaveChanges() >= 1;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        }
 }
