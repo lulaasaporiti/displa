@@ -42,7 +42,7 @@
     </ng-container>
 
     <tr mat-header-row class="tamano-celda" *matHeaderRowDef="displayedColumns" sticky></tr>
-    <tr mat-row class="tamano-celda" *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row  *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
   <div fxLayout="row" fxLayoutAlign="space-between end" style="margin-bottom: 2px;">

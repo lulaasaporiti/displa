@@ -27,7 +27,7 @@ namespace DisplaBackend.DAOs
         bool SaveFicha(Ficha ficha);
         bool BloquearClientes();
         List<dynamic> GetClientesBloqueados();
-        bool AsignarPreciosLentes(JObject[] preciosLentes, List<dynamic> listaPrecios);
+        int AsignarPreciosLentes(JObject[] preciosLentes, List<dynamic> listaPrecios);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -439,62 +439,61 @@ namespace DisplaBackend.DAOs
             return clientes;
         }
 
-        public bool AsignarPreciosLentes(JObject[] preciosLentes, List<dynamic> listaPrecios) //IdCLiente, lista
+        public int AsignarPreciosLentes(JObject[] preciosLentes, List<dynamic> listaPrecios) //IdCLiente, lista
         {
             try
             {
                 if (preciosLentes != null)
                 {
                     List<PrecioLenteCliente> precios = new List<PrecioLenteCliente>();
-
                     foreach (var p in preciosLentes)
                     {
                         var IdCliente = Convert.ToInt32(p.GetValue("IdCliente"));
-                        List<PrecioLenteCliente> preciosClienteBBDD = _context.PrecioLenteCliente.Where(pc => pc.IdCliente == IdCliente).ToList();
                         var index = Convert.ToInt32(p.GetValue("lista"));
+                        List<PrecioLenteCliente> preciosClienteBBDD = _context.PrecioLenteCliente.Where(pc => pc.IdCliente == IdCliente).Include(pc => pc.IdPrecioLenteNavigation).AsNoTracking().ToList();
 
-                        foreach (var l in listaPrecios) {
-                            foreach (var pl in l.PrecioLente) {
+                        foreach (var l in listaPrecios)
+                        {
+                            foreach (var pl in l.PrecioLente)
+                            {
                                 var precioLente = new PrecioLenteCliente();
-
-                                //var precioLenteCliente = _context.PrecioLenteCliente.Where(pc => pc.IdCliente == IdCliente && pc.IdPrecioLenteNavigation.IdLente == l.Id)
-
                                 precioLente.IdCliente = IdCliente;
-                                if (pl.Precio.Length >= index)
+                                int idLente = pl.IdLente;
+                                decimal Esferico = pl.Esferico;
+                                decimal Cilindrico = pl.Cilindrico;
+
+                                if (pl.Precio.Length > index)
                                 {
-                                    if (pl.Precio[index] != null)
-                                    {
-                                        precioLente.IdPrecioLente = pl.Precio[index].Id;
-                                    }
-                                    else {
-                                        precioLente.IdPrecioLente = pl.Precio[0].Id;
-                                    }
+                                    precioLente.IdPrecioLente = pl.Precio[index].Id;
+                                }
+                                else
+                                {
+                                    precioLente.IdPrecioLente = pl.Precio[0].Id;
                                 }
 
                                 if (preciosClienteBBDD.Count == 0)
                                     _context.PrecioLenteCliente.Add(precioLente);
                                 else
                                 {
-                                    var precioBBDD = preciosClienteBBDD.Find(pc => pc.IdCliente == IdCliente && pc.IdPrecioLente != precioLente.IdPrecioLente);
-                                    if (precioBBDD != null) {
+                                    var precioBBDD = preciosClienteBBDD.Find(plc => plc.IdPrecioLente != precioLente.IdPrecioLente &&
+                                     (plc.IdPrecioLenteNavigation.IdLente == idLente && plc.IdPrecioLenteNavigation.Esferico == Esferico && plc.IdPrecioLenteNavigation.Cilindrico == Cilindrico));
+                                    if (precioBBDD != null)
+                                    {
                                         precioLente.Id = precioBBDD.Id;
                                         _context.PrecioLenteCliente.Update(precioLente);
                                     }
-
                                 }
-
-                                precios.Add(precioLente);
                             }
                         }
                     }
                 }
-                return _context.SaveChanges() >= 1;
+                return _context.SaveChanges();
             }
             catch (Exception e)
             {
-                return false;
+                return -1;
             }
         }
 
-        }
+    }
 }

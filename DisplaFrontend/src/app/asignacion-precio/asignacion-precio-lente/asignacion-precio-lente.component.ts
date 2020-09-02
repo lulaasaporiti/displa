@@ -62,7 +62,7 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
   }
 
   loadPrecioLentePage() {
-    this.loadingSpinnerService.show()
+    this.loadingSpinnerService.show();
     combineLatest(
       this.lenteService.getLentesVigentesAgrupadosList(),
       (this.traerActivos == true) ? this.clienteService.getClientesActivosList() : this.clienteService.getClientesList(),
@@ -163,15 +163,26 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
 
 
   guardarPrecios() {
+    this.loadingSpinnerService.show();
     this.recargaPagina = true;
     this.clienteService.asignarPreciosLentes(this.preciosSeleccionados)
       .subscribe(result => {
-        if (result) {
-          // this.loadPrecioLentePage();
+        this.loadingSpinnerService.hide();
+        if (result > 0) {
+          this.loadPrecioLentePage();
           this.sessionService.showSuccess("Los precios se cargaron correctamente.");
-        } else
-          this.sessionService.showError("Los precios no se cargaron.");
+        }
+        else {
+          if (result == 0) {
+            this.loadPrecioLentePage();
+            this.sessionService.showWarning("El cliente ya tiene esa lista asignada.");
+          }
+          else {
+            this.loadPrecioLentePage();
+            this.sessionService.showError("Los precios no se cargaron.");
+          }
+        }
       }
-      );
+    );
   }
 }

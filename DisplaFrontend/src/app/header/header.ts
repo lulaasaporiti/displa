@@ -87,7 +87,6 @@ export class HeaderComponent {
       if (result.Porcentaje != undefined && result.Lista != undefined && result != false) {
         switch (result.producto) {
           case 'lente': {
-            console.log(result.producto)
             this.lenteService.generarPrecioLista(result)
             .subscribe(
               data => {

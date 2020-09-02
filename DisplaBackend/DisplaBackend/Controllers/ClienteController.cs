@@ -173,13 +173,13 @@ namespace DisplaBackend.Controllers
         }
 
         [HttpPost, Route("AsignarPreciosLentes")]
-        public IActionResult AsignarPreciosLentes([FromBody]JObject[] preciosLentes)
+        public int AsignarPreciosLentes([FromBody]JObject[] preciosLentes)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return Ok(_clienteService.AsignarPreciosLentes(preciosLentes));
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+            return _clienteService.AsignarPreciosLentes(preciosLentes);
         }
     }
 
