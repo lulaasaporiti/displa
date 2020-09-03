@@ -1,15 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
-import { Cliente } from 'src/app/model/Cliente';
-import { ClienteBajaComponent } from '../cliente-baja/cliente-baja.component';
 import { ClienteService } from 'src/services/cliente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
-import { Observable, merge } from 'rxjs';
-import { FormGroup, FormControl } from '@angular/forms';
-import { CdkAccordion } from '@angular/cdk/accordion';
 
 
 @Component({
@@ -18,7 +13,6 @@ import { CdkAccordion } from '@angular/cdk/accordion';
   styleUrls: ['./cliente-bloqueado-listado.component.css']
 })
 export class ClienteBloqueadoListadoComponent implements OnInit {
-  idUser: number;
   displayedColumns: string[] = ['Optica', 'Saldo', 'MontoExcedido', 'Credito', 'DiasExcedido', 'Plazo',  'Fecha', 'Motivo', 'Estado', 'Opciones'];
   traerVigentes: boolean = true;
 
@@ -66,7 +60,6 @@ export class ClienteBloqueadoListadoComponent implements OnInit {
       this.clienteService.getClientesBloqueados()
         .subscribe(r => {
           this.dataSource.data = r;
-          console.log(this.dataSource.data)
           this.loadingSpinnerService.hide();
         })
   }
