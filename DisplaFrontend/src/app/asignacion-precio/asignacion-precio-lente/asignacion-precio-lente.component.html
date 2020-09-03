@@ -6,19 +6,14 @@
       <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
     </mat-form-field>
   </div>
-  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px">
-    <!-- <mat-form-field fxLayout="column" fxFlex='10'>
-      <input matInput placeholder="Porcentaje" id="porcentaje" (keypress)="_keyPress($event)" (blur)="recorrerPrecios()" [disabled]="!habilitarPorcentajeTodos">
-    </mat-form-field>
-    <div fxLayout="column">
-      <mat-checkbox fxFlex='17' class="radio-group" name="precios" id="precios" [(ngModel)]="checkedPorcentajeTodos" (change)="onClickedPorcentajeTodos($event)">Aplicar porcentaje a todos los precios</mat-checkbox>
-    </div> -->
+  <mat-divider fxFlexOffset="2"></mat-divider>
 
+  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="6px" class="menu-agregar">
     <a mat-button *ngIf="traerActivos" class="footer-list" routerLink="." (click)="cambiarListado()">Mostrar todos</a>
     <a mat-button *ngIf="!traerActivos" class="footer-list" routerLink="." (click)="cambiarListado()">Mostrar
       activos</a>
   </div>
-  <mat-divider fxFlexOffset="2"></mat-divider>
+  <mat-divider></mat-divider>
 
   <table mat-table [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla" FxFill>
     <ng-container matColumnDef="Optica">
@@ -42,7 +37,7 @@
     </ng-container>
 
     <tr mat-header-row class="tamano-celda" *matHeaderRowDef="displayedColumns" sticky></tr>
-    <tr mat-row class="tamano-celda" *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
   <div fxLayout="row" fxLayoutAlign="space-between end" style="margin-bottom: 2px;">
