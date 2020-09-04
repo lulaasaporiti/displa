@@ -181,6 +181,23 @@ namespace DisplaBackend.Controllers
             //}
             return _clienteService.AsignarPreciosLentes(preciosLentes);
         }
+
+        [HttpPost, Route("AsignarPreciosServicios")]
+        public int AsignarPreciosServicios([FromBody]JObject[] preciosServicios)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+            return _clienteService.AsignarPreciosServicios(preciosServicios);
+        }
+
+        [HttpGet, Route("GetListaAsignacionLente")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetListaAsignacionLente()
+        {
+            return _clienteService.GetListaAsignacionLente();
+        }
     }
 
 

@@ -81,11 +81,15 @@ export class ClienteService {
         return this.http.post(`${this.baseUrl}/AsignarPreciosLentes`, preciosLentes);
     }
 
-    // savePreciosEspecialesArticulos(precios): Observable<object> {
-    //     // console.log(precios)
-    //     // if (precios.lenght > 0)
-    //         return this.http.post(`${this.baseUrl}/SavePreciosEspecialesArticulos`, precios);
-    //     // else 
-    //     //     return new Observable(null);
-    // }
+    asignarPreciosServicios(preciosServicios): Observable<any> {
+        return this.http.post(`${this.baseUrl}/AsignarPreciosServicios`, preciosServicios);
+    }
+
+    asignarPreciosArticulos(preciosArticulos): Observable<any> {
+        return this.http.post(`${this.baseUrl}/AsignarPreciosArticulos`, preciosArticulos);
+    }
+
+    getListaAsignacionLente(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetListaAsignacionLente`);
+    }
 }

@@ -26,6 +26,8 @@ namespace DisplaBackend.Services
         bool BloquearClientes();
         List<dynamic> GetClientesBloqueados();
         int AsignarPreciosLentes(JObject[] preciosLentes);
+        int AsignarPreciosServicios(JObject[] preciosServicios);
+        List<dynamic> GetListaAsignacionLente();
 
     }
 
@@ -33,12 +35,16 @@ namespace DisplaBackend.Services
     {
         private IClienteDAO _clienteDAO;
         private readonly ILenteDAO _lenteDAO;
+        private readonly IServicioDAO _servicioDAO;
+        private readonly IArticuloVarioDAO _articuloDAO;
 
 
-        public ClienteService(IClienteDAO clienteDAO, ILenteDAO lenteDAO)
+        public ClienteService(IClienteDAO clienteDAO, ILenteDAO lenteDAO, IServicioDAO servicioDAO, IArticuloVarioDAO articuloDAO)
         {
             _clienteDAO = clienteDAO;
             _lenteDAO = lenteDAO;
+            _articuloDAO = articuloDAO;
+            _servicioDAO = servicioDAO;
         }
 
         public List<Cliente> GetClientes()
@@ -129,7 +135,19 @@ namespace DisplaBackend.Services
         {
             var listaPrecios = _lenteDAO.GetLentesVigentesAgrupados();
             return _clienteDAO.AsignarPreciosLentes(preciosLentes, listaPrecios);
+        }
 
+
+        public int AsignarPreciosServicios(JObject[] preciosServicios)
+        {
+            var listaPrecios = _servicioDAO.GetServiciosPrecios();
+            return _clienteDAO.AsignarPreciosServicios(preciosServicios, listaPrecios);
+        }
+
+
+        public List<dynamic> GetListaAsignacionLente() {
+            var listaPrecios = _lenteDAO.GetLentesVigentesAgrupados();
+            return _clienteDAO.GetListaAsignacionLente(listaPrecios);
         }
     }
 }

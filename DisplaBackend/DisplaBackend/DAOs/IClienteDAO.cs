@@ -28,6 +28,8 @@ namespace DisplaBackend.DAOs
         bool BloquearClientes();
         List<dynamic> GetClientesBloqueados();
         int AsignarPreciosLentes(JObject[] preciosLentes, List<dynamic> listaPrecios);
+        int AsignarPreciosServicios(JObject[] preciosServicios, List<Servicio> listaPrecios);
+        List<dynamic> GetListaAsignacionLente(List<dynamic> listaPrecios);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -225,8 +227,9 @@ namespace DisplaBackend.DAOs
             {
                 foreach (var p in preciosArticulos)
                 {
-                    foreach (var pc in preciosClientes) { 
-                        if (pc.IdPrecioArticulo != p.IdPrecioArticulo && pc.IdPrecioArticuloNavigation.IdArticulo == p.IdPrecioArticuloNavigation.IdArticulo 
+                    foreach (var pc in preciosClientes)
+                    {
+                        if (pc.IdPrecioArticulo != p.IdPrecioArticulo && pc.IdPrecioArticuloNavigation.IdArticulo == p.IdPrecioArticuloNavigation.IdArticulo
                             && pc.Especial != true && p.Especial != true)
                             preciosABorrar.Add(pc);
                     }
@@ -277,7 +280,7 @@ namespace DisplaBackend.DAOs
                 {
                     foreach (var pc in preciosClientes)
                     {
-                        if (pc.IdPrecioServicio != p.IdPrecioServicio && pc.IdPrecioServicioNavigation.IdServicio == p.IdPrecioServicioNavigation.IdServicio 
+                        if (pc.IdPrecioServicio != p.IdPrecioServicio && pc.IdPrecioServicioNavigation.IdServicio == p.IdPrecioServicioNavigation.IdServicio
                             && pc.Especial != true && p.Especial != true)
                             preciosABorrar.Add(pc);
                     }
@@ -403,7 +406,8 @@ namespace DisplaBackend.DAOs
             {
                 foreach (var c in clientes)
                 {
-                    if (c.MontoCredito < c.SaldoActual) {
+                    if (c.MontoCredito < c.SaldoActual)
+                    {
                         c.Bloqueado = true;
                         _context.Cliente.Update(c);
                     }
@@ -420,7 +424,7 @@ namespace DisplaBackend.DAOs
         {
             List<dynamic> clientes = _context.Cliente
                 .Where(c => c.Bloqueado)
-                .Select(c => new 
+                .Select(c => new
                 {
                     Id = c.Id,
                     Optica = c.Optica,
@@ -433,7 +437,7 @@ namespace DisplaBackend.DAOs
                     Plazo = c.PlazoCredito,
                     //Motivo = _context.ClienteBloqueo.FirstOrDefault(cb => cb.IdCliente == c.Id).Motivo,
                     //Fecha = _context.ClienteBloqueo.FirstOrDefault(cb => cb.IdCliente == c.Id).Fecha
-                    
+
                 })
                 .ToList<dynamic>();
             return clientes;
@@ -492,6 +496,91 @@ namespace DisplaBackend.DAOs
             catch (Exception e)
             {
                 return -1;
+            }
+        }
+
+        public int AsignarPreciosServicios(JObject[] preciosServicios, List<Servicio> listaPrecios) //IdCLiente, lista
+        {
+            try
+            {
+                if (preciosServicios != null)
+                {
+                    List<PrecioServicioCliente> precios = new List<PrecioServicioCliente>();
+                    foreach (var p in preciosServicios)
+                    {
+                        var IdCliente = Convert.ToInt32(p.GetValue("IdCliente"));
+                        var index = Convert.ToInt32(p.GetValue("lista"));
+                        List<PrecioServicioCliente> preciosClienteBBDD = _context.PrecioServicioCliente.Where(pc => pc.IdCliente == IdCliente).Include(pc => pc.IdPrecioServicioNavigation).AsNoTracking().ToList();
+
+                        foreach (var s in listaPrecios)
+                        {
+                            var precioServicio = new PrecioServicioCliente();
+                            precioServicio.IdCliente = IdCliente;
+
+                            if (s.PrecioServicio.Count > index)
+                            {
+                                precioServicio.IdPrecioServicio = s.PrecioServicio.ElementAt(index).Id;
+                            }
+                            else
+                            {
+                                precioServicio.IdPrecioServicio = s.PrecioServicio.ElementAt(0).Id;
+                            }
+
+                            if (preciosClienteBBDD.Count == 0)
+                                _context.PrecioServicioCliente.Add(precioServicio);
+                            else
+                            {
+                                var precioBBDD = preciosClienteBBDD.Find(psc => psc.IdPrecioServicio != precioServicio.IdPrecioServicio);
+                                if (precioBBDD != null)
+                                {
+                                    precioServicio.Id = precioBBDD.Id;
+                                    _context.PrecioServicioCliente.Update(precioServicio);
+                                }
+                            }
+                        }
+                    }
+                }
+                return _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
+        public List<dynamic> GetListaAsignacionLente(List<dynamic> listaPrecios)
+        {
+            try
+            {
+                List<PrecioLenteCliente> precioClientesBBDD = _context.PrecioLenteCliente.ToList();
+                List<dynamic> clientes = new List<dynamic>();
+
+                foreach (var pc in precioClientesBBDD)
+                {
+                    dynamic cliente = new JObject();
+                    cliente.IdCliente = pc.IdCliente;
+                    foreach (var l in listaPrecios)
+                    {
+                        foreach (var pl in l.PrecioLente)
+                        {
+                            for (int i = 0; i < pl.Precio.Length; i++)
+                            {
+                                if (pl.Precio[i].Id == pc.Id)
+                                {
+                                    cliente.lista = i;
+                                    clientes.Add(cliente);
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                return clientes;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
 
