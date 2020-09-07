@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
-import { LenteService } from 'src/services/lente.service';
+import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { PrecioLente } from 'src/app/model/precioLente';
+import { PrecioArticulo } from 'src/app/model/precioArticulo';
 import { ClienteService } from 'src/services/cliente.service';
 
 
 @Component({
-  selector: 'app-asignacion-precio-lente',
-  templateUrl: './asignacion-precio-lente.component.html',
-  styleUrls: ['./asignacion-precio-lente.component.css']
+  selector: 'app-asignacion-precio-articulo',
+  templateUrl: './asignacion-precio-articulo.component.html',
+  styleUrls: ['./asignacion-precio-articulo.component.css']
 })
-export class AsignacionPrecioClienteLenteComponent implements OnInit {
+export class AsignacionPrecioClienteArticuloComponent implements OnInit {
 
   displayedColumns: string[] = ['Optica'];
   columns = [];
@@ -35,7 +35,7 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private lenteService: LenteService,
+    private articuloService: ArticuloVarioService,
     private clienteService: ClienteService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) {
@@ -45,7 +45,7 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.loadPrecioLentePage()
+    this.loadPrecioArticuloPage()
   }
 
   ngAfterViewInit() {
@@ -54,42 +54,38 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
 
   cambiarListado() {
     this.traerActivos = !this.traerActivos;
-    this.loadPrecioLentePage();
+    this.loadPrecioArticuloPage();
   }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  loadPrecioLentePage() {
+  loadPrecioArticuloPage() {
     this.loadingSpinnerService.show();
     combineLatest(
-      this.lenteService.getLentesVigentesAgrupadosList(),
+      this.articuloService.getArticulosVariosPrecios(),
       (this.traerActivos == true) ? this.clienteService.getClientesActivosList() : this.clienteService.getClientesList(),
-      this.clienteService.getListaAsignacionLente()
+      // this.clienteService.getListaAsignacionArticulo()
     )
       .subscribe(result => {
         this.dataSource.data = result[1];
         var maxCantPrecio = 0;
         var index = [];
         this.preciosSeleccionados = [];
-
-        result[0].forEach(a => {
-          a.PrecioLente.forEach(pl => {
-            if (pl.Precio && pl.Precio.length > maxCantPrecio)
-              maxCantPrecio = pl.Precio.length
+        result[0].forEach(s => {
+            if (s.PrecioArticulo.length > maxCantPrecio)
+              maxCantPrecio = s.PrecioArticulo.length
 
             if (this.preciosSeleccionados.length > 0) {
-              var arrayAux = this.preciosSeleccionados.filter(p => p.IdLente == a.Id);
+              var arrayAux = this.preciosSeleccionados.filter(p => p.IdArticulo == s.Id);
               if (arrayAux.length > 0) {
-                var i = a.PrecioLente.findIndex(pa => pa.Id == arrayAux[0].Id)
+                var i = s.PrecioArticulo.findIndex(pa => pa.Id == arrayAux[0].Id)
                 if (!index.includes(i))
                   index.push(i);
               }
             }
-          });
         });
-
         for (let i = 1; i <= maxCantPrecio; i++) {
           this.checkboxChecked[i - 1] = false;
           this.checkboxIndeterminate[i - 1] = false;
@@ -105,9 +101,6 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
           if (this.recargaPagina == false) {
             this.displayedColumns.push('Precio' + i);
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
-            // if (i == maxCantPrecio) {
-            // this.displayedColumns.push('Porcentaje');
-            // }
           }
         }
 
@@ -166,20 +159,20 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
   guardarPrecios() {
     this.loadingSpinnerService.show();
     this.recargaPagina = true;
-    this.clienteService.asignarPreciosLentes(this.preciosSeleccionados)
+    this.clienteService.asignarPreciosArticulos(this.preciosSeleccionados)
       .subscribe(result => {
         this.loadingSpinnerService.hide();
         if (result > 0) {
-          this.loadPrecioLentePage();
+          this.loadPrecioArticuloPage();
           this.sessionService.showSuccess("Los precios se cargaron correctamente.");
         }
         else {
           if (result == 0) {
-            this.loadPrecioLentePage();
+            this.loadPrecioArticuloPage();
             this.sessionService.showWarning("El cliente ya tiene esa lista asignada.");
           }
           else {
-            this.loadPrecioLentePage();
+            this.loadPrecioArticuloPage();
             this.sessionService.showError("Los precios no se cargaron.");
           }
         }

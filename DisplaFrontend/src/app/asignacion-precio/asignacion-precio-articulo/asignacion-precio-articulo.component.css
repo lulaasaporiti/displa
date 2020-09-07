@@ -1,0 +1,83 @@
+mat-paginator{
+  background: transparent;
+  font-size: 11px;
+}
+
+/* /////////////////// */
+
+.buscador{
+  font-size: 14px;
+}
+
+.menu-agregar{
+  padding: 8px 0;
+}
+
+.buttonFixed{
+  transform: scale(0.7);
+}
+
+
+/* /////////////////// */
+
+table {
+  width: 100%;
+  padding: 0px !important;
+}
+
+.mat-table{
+  background-color: transparent;
+}
+
+th.mat-header-cell:first-of-type{
+  padding-left: 0px;
+}
+
+th.mat-header-cell:last-of-type{
+  padding-right: 0px;
+}
+
+td.mat-cell:first-of-type{
+  padding-left: 0px;
+}
+
+td.mat-cell:last-of-type{
+  padding-right: 0px;
+}
+
+/* td.mat-cell{
+  font-size: 10px !important;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 14px;
+  height: 60px;
+} */
+
+.tamano-celda{
+  height: 100%;
+}
+
+.link:link {
+  color: black;
+  font-weight: bold;
+  background-color: transparent;
+  text-decoration:none;
+}
+
+.link:visited {
+  color: black;
+  font-weight: bold;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: black;
+  font-weight: bold;
+  text-decoration: black;
+}
+.link:active {
+  color: black;
+  font-weight: bold;
+  text-decoration: black;
+}

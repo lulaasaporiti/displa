@@ -192,6 +192,16 @@ namespace DisplaBackend.Controllers
             return _clienteService.AsignarPreciosServicios(preciosServicios);
         }
 
+        [HttpPost, Route("AsignarPreciosArticulos")]
+        public int AsignarPreciosArticulos([FromBody]JObject[] preciosArticulos)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+            return _clienteService.AsignarPreciosArticulos(preciosArticulos);
+        }
+
         [HttpGet, Route("GetListaAsignacionLente")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetListaAsignacionLente()
