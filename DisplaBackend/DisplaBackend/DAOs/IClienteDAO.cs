@@ -31,6 +31,8 @@ namespace DisplaBackend.DAOs
         int AsignarPreciosServicios(JObject[] preciosServicios, List<Servicio> listaPrecios);
         int AsignarPreciosArticulos(JObject[] preciosArticulos, List<ArticuloVario> listaPrecios);
         List<dynamic> GetListaAsignacionLente(List<dynamic> listaPrecios);
+        List<dynamic> GetListaAsignacionServicio(List<Servicio> listaPrecios);
+        List<dynamic> GetListaAsignacionArticulo(List<ArticuloVario> listaPrecios);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -604,8 +606,7 @@ namespace DisplaBackend.DAOs
             {
                 //List<dynamic> precioClientesBBDD = _context.PrecioLenteCliente.GroupBy(pc => pc.IdCliente).ToList<dynamic>();
                 Dictionary<int, List<PrecioLenteCliente>> precioClientesBBDD = _context.PrecioLenteCliente.GroupBy(pc => pc.IdCliente)
-                    .ToDictionary(p => p.Key, value => value.Select(i => i.Value).ToList());
-
+                    .ToDictionary(group => group.Key, group => group.ToList());
 
                 List<dynamic> clientes = new List<dynamic>();
 
@@ -614,15 +615,13 @@ namespace DisplaBackend.DAOs
                     //var precios = precioClientesBBDD.Where(p => p.IdCliente )
                     dynamic cliente = new JObject();
                     cliente.IdCliente = pc.Key;
-                    var aux = pc(pc.Key);
                     foreach (var l in listaPrecios)
                     {
                         foreach (var pl in l.PrecioLente)
                         {
                             for (int i = 0; i < pl.Precio.Length; i++)
                             {
-                                //if (pl.Precio[i].Id == pc.Id)
-                                if (pc.Value.Contains(pl.Precio[i].Id))
+                                if (pc.Value.Find(p => p.IdPrecioLente == pl.Precio[i].Id) != null && clientes.Find(c => c.IdCliente == cliente.IdCliente && c.lista == i) == null)
                                 {
                                     cliente.lista = i;
                                     clientes.Add(cliente);
@@ -639,5 +638,70 @@ namespace DisplaBackend.DAOs
             }
         }
 
+        public List<dynamic> GetListaAsignacionServicio(List<Servicio> listaPrecios)
+        {
+            try
+            {
+                Dictionary<int, List<PrecioServicioCliente>> precioClientesBBDD = _context.PrecioServicioCliente.GroupBy(pc => pc.IdCliente)
+                    .ToDictionary(group => group.Key, group => group.ToList());
+
+                List<dynamic> clientes = new List<dynamic>();
+
+                foreach (var pc in precioClientesBBDD)
+                {
+                    dynamic cliente = new JObject();
+                    cliente.IdCliente = pc.Key;
+                    foreach (var s in listaPrecios)
+                    {
+                        for (int i = 0; i < s.PrecioServicio.Count(); i++)
+                        {
+                            if (pc.Value.Find(p => p.IdPrecioServicio == s.PrecioServicio.ElementAt(i).Id) != null && clientes.Find(c => c.IdCliente == cliente.IdCliente && c.lista == i) == null)
+                            {
+                                cliente.lista = i;
+                                clientes.Add(cliente);
+                            }
+                        }
+                    }
+                }
+                return clientes;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public List<dynamic> GetListaAsignacionArticulo(List<ArticuloVario> listaPrecios)
+        {
+            try
+            {
+                Dictionary<int, List<PrecioArticuloCliente>> precioClientesBBDD = _context.PrecioArticuloCliente.GroupBy(pc => pc.IdCliente)
+                    .ToDictionary(group => group.Key, group => group.ToList());
+
+                List<dynamic> clientes = new List<dynamic>();
+
+                foreach (var pc in precioClientesBBDD)
+                {
+                    dynamic cliente = new JObject();
+                    cliente.IdCliente = pc.Key;
+                    foreach (var a in listaPrecios)
+                    {
+                        for (int i = 0; i < a.PrecioArticulo.Count(); i++)
+                        {
+                            if (pc.Value.Find(p => p.IdPrecioArticulo == a.PrecioArticulo.ElementAt(i).Id) != null && clientes.Find(c => c.IdCliente == cliente.IdCliente && c.lista == i) == null)
+                            {
+                                cliente.lista = i;
+                                clientes.Add(cliente);
+                            }
+                        }
+                    }
+                }
+                return clientes;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
     }
 }

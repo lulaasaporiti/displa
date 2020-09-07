@@ -92,4 +92,12 @@ export class ClienteService {
     getListaAsignacionLente(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetListaAsignacionLente`);
     }
+
+    getListaAsignacionServicio(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetListaAsignacionServicio`);
+    }
+
+    getListaAsignacionArticulo(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetListaAsignacionArticulo`);
+    }
 }

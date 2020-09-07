@@ -208,6 +208,20 @@ namespace DisplaBackend.Controllers
         {
             return _clienteService.GetListaAsignacionLente();
         }
+
+        [HttpGet, Route("GetListaAsignacionServicio")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetListaAsignacionServicio()
+        {
+            return _clienteService.GetListaAsignacionServicio();
+        }
+
+        [HttpGet, Route("GetListaAsignacionArticulo")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetListaAsignacionArticulo()
+        {
+            return _clienteService.GetListaAsignacionArticulo();
+        }
     }
 
 

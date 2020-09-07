@@ -29,7 +29,8 @@ namespace DisplaBackend.Services
         int AsignarPreciosServicios(JObject[] preciosServicios);
         int AsignarPreciosArticulos(JObject[] preciosArticulos);
         List<dynamic> GetListaAsignacionLente();
-
+        List<dynamic> GetListaAsignacionServicio();
+        List<dynamic> GetListaAsignacionArticulo();
     }
 
     public class ClienteService : IClienteService
@@ -154,6 +155,18 @@ namespace DisplaBackend.Services
         public List<dynamic> GetListaAsignacionLente() {
             var listaPrecios = _lenteDAO.GetLentesVigentesAgrupados();
             return _clienteDAO.GetListaAsignacionLente(listaPrecios);
+        }
+
+        public List<dynamic> GetListaAsignacionServicio()
+        {
+            List<Servicio> listaPrecios = _servicioDAO.GetServiciosPrecios();
+            return _clienteDAO.GetListaAsignacionServicio(listaPrecios);
+        }
+
+        public List<dynamic> GetListaAsignacionArticulo()
+        {
+            List<ArticuloVario> listaPrecios = _articuloDAO.GetArticulosVariosPrecios();
+            return _clienteDAO.GetListaAsignacionArticulo(listaPrecios);
         }
     }
 }

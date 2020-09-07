@@ -69,10 +69,11 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
       this.clienteService.getListaAsignacionLente()
     )
       .subscribe(result => {
+        console.log(result[2])
         this.dataSource.data = result[1];
         var maxCantPrecio = 0;
         var index = [];
-        this.preciosSeleccionados = [];
+        this.preciosSeleccionados = result[2];
 
         result[0].forEach(a => {
           a.PrecioLente.forEach(pl => {

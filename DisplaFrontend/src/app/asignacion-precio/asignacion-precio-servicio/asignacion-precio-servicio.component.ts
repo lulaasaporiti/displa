@@ -66,13 +66,15 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
     combineLatest(
       this.servicioService.getServiciosPrecios(),
       (this.traerActivos == true) ? this.clienteService.getClientesActivosList() : this.clienteService.getClientesList(),
-      // this.clienteService.getListaAsignacionServicio()
+      this.clienteService.getListaAsignacionServicio()
     )
       .subscribe(result => {
         this.dataSource.data = result[1];
         var maxCantPrecio = 0;
         var index = [];
-        this.preciosSeleccionados = [];
+        this.preciosSeleccionados = result[2];
+        console.log(this.preciosSeleccionados)
+
         result[0].forEach(s => {
             if (s.PrecioServicio.length > maxCantPrecio)
               maxCantPrecio = s.PrecioServicio.length
