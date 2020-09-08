@@ -73,25 +73,24 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
         var maxCantPrecio = 0;
         var index = [];
         this.preciosSeleccionados = result[2];
-        console.log(this.preciosSeleccionados)
 
         result[0].forEach(s => {
-            if (s.PrecioServicio.length > maxCantPrecio)
-              maxCantPrecio = s.PrecioServicio.length
-
-            if (this.preciosSeleccionados.length > 0) {
-              var arrayAux = this.preciosSeleccionados.filter(p => p.IdServicio == s.Id);
-              if (arrayAux.length > 0) {
-                var i = s.PrecioServicio.findIndex(pa => pa.Id == arrayAux[0].Id)
-                if (!index.includes(i))
-                  index.push(i);
-              }
-            }
+          if (s.PrecioServicio.length > maxCantPrecio)
+            maxCantPrecio = s.PrecioServicio.length
         });
-        for (let i = 1; i <= maxCantPrecio; i++) {
-          this.checkboxChecked[i - 1] = false;
-          this.checkboxIndeterminate[i - 1] = false;
 
+        
+        if (this.preciosSeleccionados.length > 0) {
+          this.preciosSeleccionados.forEach(a => {
+            var i = a.lista;
+            if (!index.includes(i))
+              index.push(i);
+          });
+        }
+        
+        for (let i = 1; i <= maxCantPrecio; i++) {
+          this.checkboxChecked[i -1] = false;
+          this.checkboxIndeterminate[i -1] = false;
           if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
             this.checkboxChecked[index[0]] = true;
           else {
@@ -105,9 +104,8 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
           }
         }
-
+        this.loadingSpinnerService.hide();
       });
-    this.loadingSpinnerService.hide();
   }
 
   onClickedTodos(checkbox) {
@@ -130,7 +128,7 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
           this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == cliente.Id && p.lista != index), 1);
         this.preciosSeleccionados.push({ IdCliente: cliente.Id, lista: index })
       });
-    } 
+    }
   }
 
   onClicked(idCliente, checkbox) {
@@ -138,12 +136,19 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
     if (checkbox.checked) {
       if (this.preciosSeleccionados.find(p => p.IdCliente == idCliente && p.lista != index))
         this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == idCliente && p.lista != index), 1);
-      this.preciosSeleccionados.push({ IdCliente: idCliente, lista: index })
-      if (this.preciosSeleccionados.length == this.dataSource.data.length && !this.checkboxIndeterminate.includes(true))
+        this.preciosSeleccionados.push({ IdCliente: idCliente, lista: index })
+      if (this.preciosSeleccionados.length == this.dataSource.data.length && (!this.checkboxChecked.includes(true) && !this.checkboxIndeterminate.includes(true)))
         this.checkboxChecked[index] = true;
       else {
-        if (this.checkboxChecked[index] != true || this.checkboxIndeterminate[index] != true)
-          this.checkboxIndeterminate[index] = true;
+        if (this.checkboxChecked[index] != true || this.checkboxIndeterminate[index] != true){
+        this.checkboxIndeterminate[index] = true;
+        let cambiarValor = this.checkboxChecked.findIndex(p => p.valueOf());    
+        if (cambiarValor > 0)
+        this.checkboxChecked[cambiarValor] = false;
+        this.checkboxIndeterminate[cambiarValor] = true;
+        console.log(cambiarValor)
+        console.log(this.checkboxIndeterminate[cambiarValor])
+        }
       }
     } else {
       if (this.preciosSeleccionados.length > 0) {
@@ -179,6 +184,6 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
           }
         }
       }
-    );
+      );
   }
 }

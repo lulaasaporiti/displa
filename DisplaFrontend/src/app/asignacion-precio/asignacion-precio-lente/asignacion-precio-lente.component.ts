@@ -45,7 +45,7 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.loadPrecioLentePage()
+    this.loadPrecioLentePage();
   }
 
   ngAfterViewInit() {
@@ -69,32 +69,28 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
       this.clienteService.getListaAsignacionLente()
     )
       .subscribe(result => {
-        console.log(result[2])
         this.dataSource.data = result[1];
         var maxCantPrecio = 0;
         var index = [];
         this.preciosSeleccionados = result[2];
-
         result[0].forEach(a => {
           a.PrecioLente.forEach(pl => {
             if (pl.Precio && pl.Precio.length > maxCantPrecio)
               maxCantPrecio = pl.Precio.length
-
-            if (this.preciosSeleccionados.length > 0) {
-              var arrayAux = this.preciosSeleccionados.filter(p => p.IdLente == a.Id);
-              if (arrayAux.length > 0) {
-                var i = a.PrecioLente.findIndex(pa => pa.Id == arrayAux[0].Id)
-                if (!index.includes(i))
-                  index.push(i);
-              }
-            }
           });
         });
 
-        for (let i = 1; i <= maxCantPrecio; i++) {
-          this.checkboxChecked[i - 1] = false;
-          this.checkboxIndeterminate[i - 1] = false;
+        if (this.preciosSeleccionados.length > 0) {
+          this.preciosSeleccionados.forEach(a => {
+            var i = a.lista;
+            if (!index.includes(i))
+              index.push(i);
+          });
+        }
 
+        for (let i = 1; i <= maxCantPrecio; i++) {
+          this.checkboxChecked[i-1] = false;
+          this.checkboxIndeterminate[i-1] = false;
           if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
             this.checkboxChecked[index[0]] = true;
           else {
@@ -106,14 +102,10 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
           if (this.recargaPagina == false) {
             this.displayedColumns.push('Precio' + i);
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
-            // if (i == maxCantPrecio) {
-            // this.displayedColumns.push('Porcentaje');
-            // }
           }
         }
-
+        this.loadingSpinnerService.hide();
       });
-    this.loadingSpinnerService.hide();
   }
 
   onClickedTodos(checkbox) {
@@ -136,7 +128,7 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
           this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == cliente.Id && p.lista != index), 1);
         this.preciosSeleccionados.push({ IdCliente: cliente.Id, lista: index })
       });
-    } 
+    }
   }
 
   onClicked(idCliente, checkbox) {
@@ -144,12 +136,16 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
     if (checkbox.checked) {
       if (this.preciosSeleccionados.find(p => p.IdCliente == idCliente && p.lista != index))
         this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == idCliente && p.lista != index), 1);
-      this.preciosSeleccionados.push({ IdCliente: idCliente, lista: index })
-      if (this.preciosSeleccionados.length == this.dataSource.data.length && !this.checkboxIndeterminate.includes(true))
+        this.preciosSeleccionados.push({ IdCliente: idCliente, lista: index })
+      if (this.preciosSeleccionados.length == this.dataSource.data.length && !this.checkboxChecked.includes(true))
         this.checkboxChecked[index] = true;
       else {
-        if (this.checkboxChecked[index] != true || this.checkboxIndeterminate[index] != true)
+        if (this.checkboxChecked[index] != true || this.checkboxIndeterminate[index] != true){
+          let cambiarValor = this.checkboxChecked.findIndex(p => p.valueOf());
+          this.checkboxChecked[cambiarValor] = false;
+          this.checkboxIndeterminate[cambiarValor] = true;
           this.checkboxIndeterminate[index] = true;
+        }
       }
     } else {
       if (this.preciosSeleccionados.length > 0) {
@@ -185,6 +181,6 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
           }
         }
       }
-    );
+      );
   }
 }

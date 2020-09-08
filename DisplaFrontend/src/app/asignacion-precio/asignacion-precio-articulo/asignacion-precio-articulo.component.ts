@@ -103,9 +103,8 @@ export class AsignacionPrecioClienteArticuloComponent implements OnInit {
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
           }
         }
-
+        this.loadingSpinnerService.hide();
       });
-    this.loadingSpinnerService.hide();
   }
 
   onClickedTodos(checkbox) {
