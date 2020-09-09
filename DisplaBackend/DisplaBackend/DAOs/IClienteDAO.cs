@@ -675,7 +675,7 @@ namespace DisplaBackend.DAOs
         {
             try
             {
-                Dictionary<int, List<PrecioArticuloCliente>> precioClientesBBDD = _context.PrecioArticuloCliente.GroupBy(pc => pc.IdCliente)
+                Dictionary<int, List<PrecioArticuloCliente>> precioClientesBBDD = _context.PrecioArticuloCliente.Where(pac => pac.Especial == null || pac.Especial == false).GroupBy(pc => pc.IdCliente)
                     .ToDictionary(group => group.Key, group => group.ToList());
 
                 List<dynamic> clientes = new List<dynamic>();

@@ -270,7 +270,6 @@ export class PrecioLenteListadoComponent implements OnInit {
         precioEspecial.IdPrecioLenteNavigation.Precio = +precio;
         precioEspecial.IdPrecioLenteNavigation.IdLente = idLente;
         precioEspecial.IdCliente = this.idCliente;
-        // console.log(precioEspecial)
         this.preciosSeleccionados.push(precioEspecial);
       } else {
         precioEspecial = this.preciosSeleccionados[i];
@@ -284,9 +283,7 @@ export class PrecioLenteListadoComponent implements OnInit {
 
   guardarCliente() {
     this.recargaPagina = true;
-    // console.log(this.preciosSeleccionados)
     this.clienteService.savePreciosLentes(this.preciosSeleccionados).subscribe(result => {
-      // console.log(result)
       if (result) {
         this.loadPrecioLentePage();
         this.sessionService.showSuccess("Los precios se cargaron correctamente.");
