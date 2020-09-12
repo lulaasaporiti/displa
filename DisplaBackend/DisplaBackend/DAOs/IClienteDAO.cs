@@ -224,7 +224,6 @@ namespace DisplaBackend.DAOs
                 .AsNoTracking()
                 .FirstOrDefault(c => c.Id == preciosArticulos.First().IdCliente).PrecioArticuloCliente.ToList();
             List<PrecioArticuloCliente> preciosABorrar = new List<PrecioArticuloCliente>();
-            //List<PrecioArticulo> precioEspecial = new List<PrecioArticulo>();
 
             try
             {
@@ -241,7 +240,6 @@ namespace DisplaBackend.DAOs
                         p.IdPrecioArticuloNavigation = _context.PrecioArticulo.Add(p.IdPrecioArticuloNavigation).Entity;
                         _context.SaveChanges();
                         p.IdPrecioArticulo = p.IdPrecioArticuloNavigation.Id;
-                        //_context.PrecioArticuloCliente.Add(p);
                     }
                     p.IdPrecioArticuloNavigation = null;
                     if (p.Id == 0)
@@ -253,19 +251,18 @@ namespace DisplaBackend.DAOs
                         _context.PrecioArticuloCliente.Update(p);
                     }
                 }
-                //_context.SaveChanges();
-                //return _context.SaveChanges() >= 1;
-
                 foreach (var p in preciosABorrar)
                 {
+                    p.IdClienteNavigation = null;
+                    p.IdPrecioArticuloNavigation = null;
                     _context.PrecioArticuloCliente.Remove(p);
                 }
+                return _context.SaveChanges() >= 1;
             }
             catch (Exception e)
             {
                 return false;
             }
-            return _context.SaveChanges() >= 1;
         }
 
         public bool SavePreciosServicios(List<PrecioServicioCliente> preciosServicios)
@@ -304,19 +301,19 @@ namespace DisplaBackend.DAOs
                         _context.PrecioServicioCliente.Update(p);
                     }
                 }
-                //_context.SaveChanges();
-                //return _context.SaveChanges() >= 1;
 
                 foreach (var p in preciosABorrar)
                 {
+                    p.IdPrecioServicioNavigation = null;
+                    p.IdClienteNavigation = null;
                     _context.PrecioServicioCliente.Remove(p);
                 }
+                return _context.SaveChanges() >= 1;
             }
             catch (Exception e)
             {
                 return false;
             }
-            return _context.SaveChanges() >= 1;
         }
 
         public bool SavePreciosLentes(List<PrecioLenteCliente> preciosLentes)
@@ -343,7 +340,6 @@ namespace DisplaBackend.DAOs
                         p.IdPrecioLenteNavigation = _context.PrecioLente.Add(p.IdPrecioLenteNavigation).Entity;
                         _context.SaveChanges();
                         p.IdPrecioLente = p.IdPrecioLenteNavigation.Id;
-                        //_context.PrecioArticuloCliente.Add(p);
                     }
                     p.IdPrecioLenteNavigation = null;
                     if (p.Id == 0)
@@ -355,19 +351,20 @@ namespace DisplaBackend.DAOs
                         _context.PrecioLenteCliente.Update(p);
                     }
                 }
-                //_context.SaveChanges();
-                //return _context.SaveChanges() >= 1;
 
                 foreach (var p in preciosABorrar)
                 {
+                    p.IdPrecioLenteNavigation = null;
+                    p.IdClienteNavigation = null;
                     _context.PrecioLenteCliente.Remove(p);
                 }
+                return _context.SaveChanges() >= 0;
             }
             catch (Exception e)
             {
                 return false;
             }
-            return _context.SaveChanges() >= 1;
+            //return _context.SaveChanges() >= 1;
         }
 
 
@@ -688,7 +685,8 @@ namespace DisplaBackend.DAOs
                     {
                         for (int i = 0; i < a.PrecioArticulo.Count(); i++)
                         {
-                            if (pc.Value.Find(p => p.IdPrecioArticulo == a.PrecioArticulo.ElementAt(i).Id) != null && clientes.Find(c => c.IdCliente == cliente.IdCliente && c.lista == i) == null)
+                            var aux = pc.Value.Find(p => p.IdPrecioArticulo == a.PrecioArticulo.ElementAt(i).Id) != null && clientes.Find(c => c.IdCliente == cliente.IdCliente && c.lista == i);
+                            if (aux == null)
                             {
                                 cliente.lista = i;
                                 clientes.Add(cliente);

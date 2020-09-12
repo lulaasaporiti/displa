@@ -72,7 +72,7 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
         var maxCantPrecio = 0;
         var index = [];
         this.preciosSeleccionados = result[2];
-
+        console.log(this.preciosSeleccionados)
         result[0].forEach(s => {
           if (s.PrecioServicio.length > maxCantPrecio)
             maxCantPrecio = s.PrecioServicio.length
