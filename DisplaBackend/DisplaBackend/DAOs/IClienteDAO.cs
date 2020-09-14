@@ -609,19 +609,21 @@ namespace DisplaBackend.DAOs
 
                 foreach (var pc in precioClientesBBDD)
                 {
-                    //var precios = precioClientesBBDD.Where(p => p.IdCliente )
-                    dynamic cliente = new JObject();
-                    cliente.IdCliente = pc.Key;
                     foreach (var l in listaPrecios)
                     {
                         foreach (var pl in l.PrecioLente)
                         {
                             for (int i = 0; i < pl.Precio.Length; i++)
                             {
-                                if (pc.Value.Find(p => p.IdPrecioLente == pl.Precio[i].Id) != null && clientes.Find(c => c.IdCliente == cliente.IdCliente && c.lista == i) == null)
+                                if (pc.Value.Find(p => p.IdPrecioLente == pl.Precio[i].Id) != null)
                                 {
-                                    cliente.lista = i;
-                                    clientes.Add(cliente);
+                                    if (clientes.Find(c => c.IdCliente == pc.Key && c.lista == i) == null)
+                                    {
+                                        dynamic cliente = new JObject();
+                                        cliente.IdCliente = pc.Key;
+                                        cliente.lista = i;
+                                        clientes.Add(cliente);
+                                    }
                                 }
                             }
                         }
@@ -646,16 +648,19 @@ namespace DisplaBackend.DAOs
 
                 foreach (var pc in precioClientesBBDD)
                 {
-                    dynamic cliente = new JObject();
-                    cliente.IdCliente = pc.Key;
                     foreach (var s in listaPrecios)
                     {
                         for (int i = 0; i < s.PrecioServicio.Count(); i++)
                         {
-                            if (pc.Value.Find(p => p.IdPrecioServicio == s.PrecioServicio.ElementAt(i).Id) != null && clientes.Find(c => c.IdCliente == cliente.IdCliente && c.lista == i) == null)
+                            if (pc.Value.Find(p => p.IdPrecioServicio == s.PrecioServicio.ElementAt(i).Id) != null)
                             {
-                                cliente.lista = i;
-                                clientes.Add(cliente);
+                                if (clientes.Find(c => c.IdCliente == pc.Key && c.lista == i) == null)
+                                {
+                                    dynamic cliente = new JObject();
+                                    cliente.IdCliente = pc.Key;
+                                    cliente.lista = i;
+                                    clientes.Add(cliente);
+                                }
                             }
                         }
                     }
@@ -679,17 +684,19 @@ namespace DisplaBackend.DAOs
 
                 foreach (var pc in precioClientesBBDD)
                 {
-                    dynamic cliente = new JObject();
-                    cliente.IdCliente = pc.Key;
                     foreach (var a in listaPrecios)
                     {
                         for (int i = 0; i < a.PrecioArticulo.Count(); i++)
                         {
-                            var aux = pc.Value.Find(p => p.IdPrecioArticulo == a.PrecioArticulo.ElementAt(i).Id) != null && clientes.Find(c => c.IdCliente == cliente.IdCliente && c.lista == i);
-                            if (aux == null)
+                            if (pc.Value.Find(p => p.IdPrecioArticulo == a.PrecioArticulo.ElementAt(i).Id) != null)
                             {
-                                cliente.lista = i;
-                                clientes.Add(cliente);
+                                if (clientes.Find(c => c.IdCliente == pc.Key && c.lista == i) == null)
+                                {
+                                    dynamic cliente = new JObject();
+                                    cliente.IdCliente = pc.Key;
+                                    cliente.lista = i;
+                                    clientes.Add(cliente);
+                                }
                             }
                         }
                     }

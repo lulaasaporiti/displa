@@ -219,7 +219,7 @@ namespace DisplaBackend.Controllers
         [HttpGet, Route("GetListaAsignacionArticulo")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetListaAsignacionArticulo()
-        {
+      {
             return _clienteService.GetListaAsignacionArticulo();
         }
     }

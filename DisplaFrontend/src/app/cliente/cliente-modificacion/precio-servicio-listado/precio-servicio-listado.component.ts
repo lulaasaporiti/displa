@@ -312,12 +312,14 @@ export class PrecioServicioListadoComponent implements OnInit {
 
   indeterminateTipo(event, idTipoServicio: any) {
     let arrayIndex = [];
-    let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdPrecioServicioNavigation != null && element.IdPrecioServicioNavigation.IdServicioNavigation != undefined && element.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio);
+    let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdPrecioServicioNavigation != null 
+      && element.IdPrecioServicioNavigation.IdServicioNavigation != undefined && element.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio == idTipoServicio);
     let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
     if (this.preciosSeleccionados.length > 0) {
       if (arrayPreciosServicios.length == arrayServicios.length) {
         arrayServicios.forEach(a => {
-          var i = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicio == a.Id)[0].IdPrecioServicioNavigation.Id)
+          var i = a.PrecioServicio.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined 
+            && p.IdPrecioServicioNavigation.IdServicio == a.Id)[0].IdPrecioServicioNavigation.Id)
           if (!arrayIndex.includes(i) && i != -1)
             arrayIndex.push(i);
         })
@@ -325,6 +327,7 @@ export class PrecioServicioListadoComponent implements OnInit {
     }
     return arrayIndex.length > 1 && arrayIndex.includes(+event);
   }
+
 
   habilitarDescuento(servicio: Servicio) {
     return this.preciosSeleccionados.some(p => servicio.PrecioServicio.some(part => part.Id == p.IdPrecioServicio));

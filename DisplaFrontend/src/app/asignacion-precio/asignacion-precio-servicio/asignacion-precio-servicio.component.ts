@@ -22,7 +22,7 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
 
   dataSource = new MatTableDataSource<any>();
   preciosSeleccionados = []; // [ idCliente: x, indexPrecio: 0 ]
-  checkboxChecked: boolean[] = [];
+  // checkboxChecked: boolean[] = [];
   recargaPagina = false;
   traerActivos: boolean = true;
 
@@ -69,16 +69,17 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
     )
       .subscribe(result => {
         this.dataSource.data = result[1];
+        console.log(this.dataSource.data)
         var maxCantPrecio = 0;
         var index = [];
         this.preciosSeleccionados = result[2];
-        console.log(this.preciosSeleccionados)
+        // console.log(this.preciosSeleccionados)
         result[0].forEach(s => {
           if (s.PrecioServicio.length > maxCantPrecio)
             maxCantPrecio = s.PrecioServicio.length
         });
 
-        
+
         if (this.preciosSeleccionados.length > 0) {
           this.preciosSeleccionados.forEach(a => {
             var i = a.lista;
@@ -86,11 +87,11 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
               index.push(i);
           });
         }
-        
+
         for (let i = 1; i <= maxCantPrecio; i++) {
-          this.checkboxChecked[i -1] = false;
-          if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
-            this.checkboxChecked[index[0]] = true;
+          // this.checkboxChecked[i -1] = false;
+          // if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
+          //   this.checkboxChecked[index[0]] = true;
 
 
           if (this.recargaPagina == false) {
@@ -105,14 +106,14 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
   onClickedTodos(checkbox) {
     let index = +checkbox.source.name.split("checkbox")[1];
     this.preciosSeleccionados = [];
-    for (let i = 0; i < this.checkboxChecked.length; i++) {
-      if (i == index && checkbox.checked) {
-        this.checkboxChecked[i] = true;
-      }
-      else {
-        this.checkboxChecked[i] = false;
-      }
-    }
+    // for (let i = 0; i < this.checkboxChecked.length; i++) {
+    //   if (i == index && checkbox.checked) {
+    //     this.checkboxChecked[i] = true;
+    //   }
+    //   else {
+    //     this.checkboxChecked[i] = false;
+    //   }
+    // }
 
     if (checkbox.checked) {
       this.dataSource.data.forEach(cliente => {
@@ -127,17 +128,18 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
     let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
     if (checkbox.checked) {
       if (this.preciosSeleccionados.find(p => p.IdCliente == idCliente && p.lista != index))
-        this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == idCliente && p.lista != index), 1);
-        this.preciosSeleccionados.push({ IdCliente: idCliente, lista: index })
-      if (this.preciosSeleccionados.length == this.dataSource.data.length && (!this.checkboxChecked.includes(true)))
-        this.checkboxChecked[index] = true;
-      else {
-        if (this.checkboxChecked[index] != true) {
-        let cambiarValor = this.checkboxChecked.findIndex(p => p.valueOf());    
-        if (cambiarValor > 0)
-        this.checkboxChecked[cambiarValor] = false;
-        }
-      }
+        // this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == idCliente && p.lista != index), 1);
+        this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdCliente != idCliente);
+      this.preciosSeleccionados.push({ IdCliente: idCliente, lista: index })
+      // if (this.preciosSeleccionados.length == this.dataSource.data.length && (!this.checkboxChecked.includes(true)))
+      //   this.checkboxChecked[index] = true;
+      // else {
+      //   if (this.checkboxChecked[index] != true) {
+      //   let cambiarValor = this.checkboxChecked.findIndex(p => p.valueOf());    
+      //   if (cambiarValor > 0)
+      //   this.checkboxChecked[cambiarValor] = false;
+      //   }
+      // }
     } else {
       if (this.preciosSeleccionados.length > 0) {
         this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdCliente == idCliente && p.lista == index), 1);
@@ -145,15 +147,31 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
     }
   }
 
-  indeterminateCheckbox(i){
-    let cantidadIndice =  0;
+  indeterminateCheckbox(i) {
+    let cantidadIndice = 0;
     cantidadIndice = this.preciosSeleccionados.filter(p => p.lista == i).length;
     return cantidadIndice < this.dataSource.data.length && cantidadIndice > 0;
   }
 
+  checkedCheckbox(i) {
+    let cantidadIndice = 0;
+    cantidadIndice = this.preciosSeleccionados.filter(p => p.lista == i).length;
+    return cantidadIndice == this.dataSource.data.length && cantidadIndice > 0;
+  }
 
   chequear(idCliente: any, index) {
     return this.preciosSeleccionados.find(p => p.IdCliente == idCliente && p.lista == index);
+  }
+
+  habilitarGuardar(){
+    for (let index = 0; index <= this.dataSource.data.length; index++) {
+      if (this.dataSource.data[index] != undefined && this.preciosSeleccionados.filter(p => p.IdCliente == this.dataSource.data[index].Id).length > 1)
+        return false;
+      else {
+        if (index == this.dataSource.data.length)
+          return true;
+      } 
+    }
   }
 
 
@@ -177,7 +195,6 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
             this.sessionService.showError("Los precios no se cargaron.");
           }
         }
-      }
-      );
+      });
   }
 }
