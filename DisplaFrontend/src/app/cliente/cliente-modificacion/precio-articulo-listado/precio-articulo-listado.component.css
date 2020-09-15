@@ -32,6 +32,10 @@ th.mat-header-cell:last-of-type{
   padding-right: 0px;
 }
 
+/* .tamano-celda{
+  height: 100%;
+} */
+
 td {
   margin-top: 10px;
   margin-bottom: 10px;

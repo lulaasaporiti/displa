@@ -38,8 +38,8 @@ export class PrecioServicioListadoComponent implements OnInit {
   dataSourceServicio = new MatTableDataSource<Servicio>();
   dataSourceTipo = new MatTableDataSource<TipoServicio>();
   originalTipo: TipoServicio[] = [];
-  checkboxChecked: boolean[] = [];
-  checkboxIndeterminate: boolean[] = [];
+  // checkboxChecked: boolean[] = [];
+  // checkboxIndeterminate: boolean[] = [];
   recargaPagina = false;
   preciosSeleccionados: PrecioServicioCliente[] = [];
   expandedElement: TipoServicio | null;
@@ -125,16 +125,16 @@ export class PrecioServicioListadoComponent implements OnInit {
         });
 
         for (let i = 1; i <= maxCantPrecio; i++) {
-          this.checkboxChecked.push(false)
-          this.checkboxIndeterminate.push(false);
+          // this.checkboxChecked.push(false)
+          // this.checkboxIndeterminate.push(false);
 
-          if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
-            this.checkboxChecked[index[0]] = true;
-          else {
-            for (let j = 0; j < index.length; j++) {
-              this.checkboxIndeterminate[j] = true;
-            }
-          }
+          // if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
+          //   this.checkboxChecked[index[0]] = true;
+          // else {
+          //   for (let j = 0; j < index.length; j++) {
+          //     this.checkboxIndeterminate[j] = true;
+          //   }
+          // }
           if (this.recargaPagina == false) {
             this.displayedColumns.push('Precio' + i);
             this.displayedColumnsServicio.push('Precio' + i);
@@ -146,14 +146,13 @@ export class PrecioServicioListadoComponent implements OnInit {
             }
           }
         }
+        this.loadingSpinnerService.hide();      
       });
-    this.loadingSpinnerService.hide();
   }
 
   tablaServicios(idTipoServicio, nombreServicio) {
     if(nombreServicio != '') { 
       this.dataSourceServicio.data = this.dataSource.data.filter(ns => ns.IdTipoServicio == idTipoServicio && ns.Nombre.toLowerCase().includes(nombreServicio));
-      console.log(this.dataSourceServicio.data)
     }
     else 
       this.dataSourceServicio.data = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
@@ -170,16 +169,16 @@ export class PrecioServicioListadoComponent implements OnInit {
 
   onClickedTodos(event) {
     let checkbox = +event.source.name.split("checkbox")[1];
-    for (let i = 0; i < this.checkboxChecked.length; i++) {
-      if (i == checkbox && event.checked) {
-        this.checkboxChecked[i] = true;
-        this.checkboxIndeterminate[i] = false;
-      }
-      else {
-        this.checkboxChecked[i] = false;
-        this.checkboxIndeterminate[i] = false;
-      }
-    }
+    // for (let i = 0; i < this.checkboxChecked.length; i++) {
+    //   if (i == checkbox && event.checked) {
+    //     this.checkboxChecked[i] = true;
+    //     this.checkboxIndeterminate[i] = false;
+    //   }
+    //   else {
+    //     this.checkboxChecked[i] = false;
+    //     this.checkboxIndeterminate[i] = false;
+    //   }
+    // }
 
     if (event.checked) {
       this.dataSource.data.forEach(e => {
@@ -196,7 +195,7 @@ export class PrecioServicioListadoComponent implements OnInit {
           this.preciosSeleccionados.push(precioServicioCliente);
         }
         else {
-          this.checkboxIndeterminate[checkbox] = true;
+          // this.checkboxIndeterminate[checkbox] = true;
           let incluye = this.preciosSeleccionados.find(p => p.IdPrecioServicio == e.PrecioServicio[0].Id);
           if (!incluye) {
             precioServicioCliente.IdPrecioServicio = e.PrecioServicio[0].Id;
@@ -208,10 +207,10 @@ export class PrecioServicioListadoComponent implements OnInit {
     } else {
       this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
     }
-    if (this.checkboxIndeterminate.includes(true) && event.checked) {
-      this.checkboxIndeterminate[0] = true;
-      this.sessionService.showInfo("Existen servicios que no tienen este número de precio, se seleccionará el primero");
-    }
+    // if (this.checkboxIndeterminate.includes(true) && event.checked) {
+    //   this.checkboxIndeterminate[0] = true;
+    //   this.sessionService.showInfo("Existen servicios que no tienen este número de precio, se seleccionará el primero");
+    // }
   }
 
   onClickedTodosTipo(event, idTipoServicio) {
@@ -245,8 +244,8 @@ export class PrecioServicioListadoComponent implements OnInit {
           precioServicioCliente.IdPrecioServicioNavigation = a.PrecioServicio[checkbox];
           this.preciosSeleccionados.push(precioServicioCliente);
         } else {
-          this.checkboxIndeterminate[checkbox] = true;
-          this.checkboxIndeterminate[0] = true;
+          // this.checkboxIndeterminate[checkbox] = true;
+          // this.checkboxIndeterminate[0] = true;
           let incluye = this.preciosSeleccionados.find(p => p.IdPrecioServicio == a.PrecioServicio[0].Id);
           if (!incluye) {
             mostrarMensaje = true;
@@ -259,12 +258,10 @@ export class PrecioServicioListadoComponent implements OnInit {
     } else {
       this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != undefined && p.IdPrecioServicioNavigation.IdServicioNavigation.IdTipoServicio != idTipoServicio && p.Especial != true)
     }
-    if (this.checkboxIndeterminate[0] == true && event.checked && mostrarMensaje) {
-      this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
-    }
+    // if (this.checkboxIndeterminate[0] == true && event.checked && mostrarMensaje) {
+    //   this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
+    // }
     var index = [];
-    this.checkboxChecked
-    this.checkboxIndeterminate
     this.dataSource.data.forEach(a => {
       if (this.preciosSeleccionados.length > 0) {
         var precio = this.preciosSeleccionados.filter(p => p.IdPrecioServicioNavigation != null && p.IdPrecioServicioNavigation.IdServicio == a.Id);
@@ -275,19 +272,19 @@ export class PrecioServicioListadoComponent implements OnInit {
         }
       }
     });
-    if (index.length == 1) {
-      this.checkboxChecked[index[0]] = true;
-      for (let j = 0; j < this.checkboxIndeterminate.length; j++) { 
-        this.checkboxIndeterminate[j] = false;
-      }
-    } else {
-      for (let j = 0; j < this.checkboxIndeterminate.length; j++) {
-        if (index.includes(j))
-          this.checkboxIndeterminate[j] = true;
-        else
-          this.checkboxIndeterminate[j] = false;
-      }
-    }
+    // if (index.length == 1) {
+    //   this.checkboxChecked[index[0]] = true;
+    //   for (let j = 0; j < this.checkboxIndeterminate.length; j++) { 
+    //     this.checkboxIndeterminate[j] = false;
+    //   }
+    // } else {
+    //   for (let j = 0; j < this.checkboxIndeterminate.length; j++) {
+    //     if (index.includes(j))
+    //       this.checkboxIndeterminate[j] = true;
+    //     else
+    //       this.checkboxIndeterminate[j] = false;
+    //   }
+    // }
   }
 
   chequear(idPrecio: any) {
@@ -462,6 +459,38 @@ export class PrecioServicioListadoComponent implements OnInit {
     precioServicio.Descuento = +descuento;
     this.preciosSeleccionados[i] = precioServicio;
     // console.log(this.preciosSeleccionados)
+  }
+
+  indeterminateCheckbox(i) {
+    let cantidadPreciosTotales = 0;
+    let cantidadSeleccionados = 0;
+    this.dataSource.data.forEach(s => {
+      if (s.PrecioServicio != null) {      
+            cantidadPreciosTotales = cantidadPreciosTotales + 1;
+            if (s.PrecioServicio[i] != undefined) { 
+            if (this.preciosSeleccionados.some(p => p.IdPrecioServicio == s.PrecioServicio[i].Id && p.IdPrecioServicioNavigation.IdServicio == s.Id && p.Especial != true)) {
+              cantidadSeleccionados = cantidadSeleccionados + 1;
+            }
+          }
+      }
+    });
+    return cantidadSeleccionados < cantidadPreciosTotales && cantidadSeleccionados > 0;
+  }
+
+  checkedCheckbox(i) {
+    let cantidadPreciosTotales = 0;
+    let cantidadSeleccionados = 0;
+    this.dataSource.data.forEach(s => {
+      if (s.PrecioServicio != null) {    
+            cantidadPreciosTotales = cantidadPreciosTotales + 1;
+            if (s.PrecioServicio[i] != undefined) {  
+            if (this.preciosSeleccionados.some(p => p.IdPrecioServicio == s.PrecioServicio[i].Id && p.IdPrecioServicioNavigation.IdServicio == s.Id && p.Especial != true)) {
+              cantidadSeleccionados = cantidadSeleccionados + 1;
+            }
+          }
+      }
+    });
+    return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
   }
 
   guardarCliente() {
