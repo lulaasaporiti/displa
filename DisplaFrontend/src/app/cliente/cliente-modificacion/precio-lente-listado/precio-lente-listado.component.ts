@@ -78,7 +78,6 @@ export class PrecioLenteListadoComponent implements OnInit {
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.preciosSeleccionados = r[1];
-        // console.log(this.preciosSeleccionados)
         var maxCantPrecio = 0;
         var index = [];
         this.dataSource.data.forEach(a => {
@@ -97,17 +96,6 @@ export class PrecioLenteListadoComponent implements OnInit {
           });
         });
         for (let i = 1; i <= maxCantPrecio; i++) {
-          // this.checkboxChecked.push(false)
-          // this.checkboxIndeterminate.push(false);
-
-          // if (index.length == 1 && this.preciosSeleccionados.length >= this.dataSource.data.length)
-          //   this.checkboxChecked[index[0]] = true;
-          // else {
-          //   for (let j = 0; j < index.length; j++) {
-          //     this.checkboxIndeterminate[j] = true;
-          //   }
-          // }
-
           if (this.recargaPagina == false) {
             this.displayedColumns.push('Precio' + i);
             this.columns.push({ columnDef: 'Precio' + i, header: 'PRECIO ' + i, cell: (precio: any) => `${precio}` });
@@ -122,26 +110,12 @@ export class PrecioLenteListadoComponent implements OnInit {
   }
 
   onClickedTodos(event) {
-    // console.log(this.dataSource.data)
     let checkbox = +event.source.name.split("checkbox")[1];
-    // console.log(checkbox)
-    // for (let i = 0; i < this.checkboxChecked.length; i++) {
-    //   if (i == checkbox && event.checked) {
-    //     this.checkboxChecked[i] = true;
-    //     this.checkboxIndeterminate[i] = false;
-    //   }
-    //   else {
-    //     this.checkboxChecked[i] = false;
-    //     this.checkboxIndeterminate[i] = false;
-    //   }
-    // }
-
+    let mostrarMensaje = false;
     if (event.checked) {
       this.dataSource.data.forEach(lente => {
-        // console.log(this.dataSource.data)
         if (lente.PrecioLente != null) {
           lente.PrecioLente.forEach(precio => {
-            // console.log(precio.Precio[checkbox])
             let precioLenteCliente = <PrecioLenteCliente>{};
             precioLenteCliente.IdPrecioLenteNavigation = <PrecioLente>{};
             precioLenteCliente.IdCliente = this.idCliente;
@@ -157,14 +131,12 @@ export class PrecioLenteListadoComponent implements OnInit {
               this.preciosSeleccionados.push(precioLenteCliente);
             }
             else {
-              // this.checkboxIndeterminate[checkbox] = true;
               let incluye = this.preciosSeleccionados.find(p => p.IdPrecioLente == precio.Precio[0].Id);
               if (!incluye) {
                 precioLenteCliente.IdPrecioLente = precio.Precio[0].Id;
                 precioLenteCliente.IdPrecioLenteNavigation.IdLente = precio.IdLente;
                 precioLenteCliente.IdPrecioLenteNavigation.Esferico = precio.Esferico;
                 precioLenteCliente.IdPrecioLenteNavigation.Cilindrico = precio.Cilindrico;
-                // precioLenteCliente.IdPrecioLenteNavigation = e.PrecioLente[0];
                 this.preciosSeleccionados.push(precioLenteCliente);
               }
             }
@@ -174,11 +146,9 @@ export class PrecioLenteListadoComponent implements OnInit {
     } else {
       this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.Especial == true)
     }
-    // if (this.checkboxIndeterminate.includes(true) && event.checked) {
-    //   this.checkboxIndeterminate[0] = true;
-    //   this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
-    // }
-    // console.log(this.preciosSeleccionados)
+    if (event.checked && mostrarMensaje) {
+      this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
+    }
   }
 
   onClicked(precioLente: any, checkbox) {
