@@ -28,6 +28,7 @@ export class PrecioLenteListadoComponent implements OnInit {
   // checkboxChecked: boolean[] = [];
   // checkboxIndeterminate: boolean[] = [];
   recargaPagina = false;
+  habilitarGuardar = true;
 
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -92,7 +93,8 @@ export class PrecioLenteListadoComponent implements OnInit {
                 if (!index.includes(i))
                   index.push(i);
               }
-            }
+            } else 
+              this.habilitarGuardar = false;
           });
         });
         for (let i = 1; i <= maxCantPrecio; i++) {
@@ -133,6 +135,7 @@ export class PrecioLenteListadoComponent implements OnInit {
             else {
               let incluye = this.preciosSeleccionados.find(p => p.IdPrecioLente == precio.Precio[0].Id);
               if (!incluye) {
+                mostrarMensaje = true;
                 precioLenteCliente.IdPrecioLente = precio.Precio[0].Id;
                 precioLenteCliente.IdPrecioLenteNavigation.IdLente = precio.IdLente;
                 precioLenteCliente.IdPrecioLenteNavigation.Esferico = precio.Esferico;
@@ -149,6 +152,7 @@ export class PrecioLenteListadoComponent implements OnInit {
     if (event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
     }
+    this.habilitarBotonGuardar();
   }
 
   onClicked(precioLente: any, checkbox) {
@@ -169,6 +173,7 @@ export class PrecioLenteListadoComponent implements OnInit {
     } else {
       this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdPrecioLente == precioLente.Precio[index].Id), 1);
     }
+    this.habilitarBotonGuardar();
   }
 
   _keyPress(event: any) {
@@ -273,6 +278,21 @@ export class PrecioLenteListadoComponent implements OnInit {
       }
     });
     return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
+  }
+
+  habilitarBotonGuardar(){
+    let cantidadPreciosTotales = 0;
+    let seleccionadosFiltrados = this.preciosSeleccionados.filter(p => p.Especial != true).length;
+    this.dataSource.data.forEach(l => {
+      if (l.PrecioLente != null) {
+        l.PrecioLente.forEach(pl => {
+          if (pl.Precio[0] != undefined) {
+          cantidadPreciosTotales = cantidadPreciosTotales + 1;
+          }
+        });
+      }
+    });
+    this.habilitarGuardar = seleccionadosFiltrados == cantidadPreciosTotales && seleccionadosFiltrados > 0;
   }
 
   guardarCliente() {

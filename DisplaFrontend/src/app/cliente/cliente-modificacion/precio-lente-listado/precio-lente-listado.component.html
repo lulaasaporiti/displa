@@ -56,7 +56,7 @@
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
   <div fxLayout="row" fxLayoutAlign="space-between end" style="margin-bottom: 2px;">
     <button mat-raised-button (click)="cancelar()">Cancelar</button>
-    <button mat-raised-button color="primary" [disabled]="preciosSeleccionados.length == 0"
+    <button mat-raised-button color="primary" [disabled]="!habilitarGuardar"
       (click)="guardarCliente()">Guardar precios</button>
   </div>
 </div>
