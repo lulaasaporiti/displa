@@ -25,7 +25,7 @@
 
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
       <th mat-header-cell *matHeaderCellDef fxFlex="15">
-        <mat-checkbox name="checkbox{{i}}" [checked]="checkedCheckbox(i)" [indeterminate]="indeterminateCheckbox(i)"
+        <mat-checkbox name="checkbox{{i}}" [(ngModel)]="checkboxChecked[i]" [(indeterminate)]="checkboxIndeterminate[i]"
           (change)="onClickedTodos($event)"></mat-checkbox> {{ column.header }}
       </th>
       <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center">

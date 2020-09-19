@@ -104,10 +104,4 @@ export class LenteAltaComponent {
       }
     );
   }
-
-  cargarGraduacion(){
-    let combinacion = this.modelLente.Combinacion.split("  / ");
-    if (combinacion[0] == '+ +') this.modelLente.GraduacionesCilindricas = '+';
-    if (combinacion[0] == '+ -') this.modelLente.GraduacionesCilindricas = '-';
-  }
 }

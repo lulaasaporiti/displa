@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SessionService } from 'src/services/session.service';
@@ -27,8 +27,9 @@ export class HeaderComponent {
     private lenteService: LenteService,
     private articuloService: ArticuloVarioService,
     private servicioService: ServicioService,
-    private sessionService: SessionService) {
+    private sessionService: SessionService){
   }
+
 
   logout() {
     this.mainService.post("Account/Logout", null).subscribe(
@@ -40,6 +41,20 @@ export class HeaderComponent {
       }
     );
   }
+
+
+  
+  isAuthenticated() {
+    let isLogged = this.sessionService.isAuthenticated();
+    let url = this.router.url.split('?')[0].toString();
+    if (url != '/Account/Login' && url != '/') {
+        if (isLogged == false) {
+          this.router.navigateByUrl('/Account/Login');
+        }
+    }
+    return isLogged;
+}
+
 
   openDialogLentes(): void {
     let idLente;

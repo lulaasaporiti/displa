@@ -59,7 +59,7 @@ export class TarjetaCreditoListadoComponent implements OnInit {
       this.tarjetaCreditoService.getTarjetasCreditoVigentesList()
         .subscribe(r => {
           this.dataSource.data = r;
-          console.log(this.dataSource.data)
+          // console.log(this.dataSource.data)
           this.loadingSpinnerService.hide();
         })
     } else {

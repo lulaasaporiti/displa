@@ -36,6 +36,8 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   dataSourceTipo = new MatTableDataSource<TipoArticulo>();
   preciosSeleccionados: PrecioArticulo[] = [];
   originalTipo: TipoArticulo[] = [];
+  checkboxChecked: boolean[] = [];
+  checkboxIndeterminate: boolean[] = [];
   checkedPorcentajeTodos: boolean = false;
   recargaPagina = false;
   expandedElement: TipoArticulo | null;
@@ -108,6 +110,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
         });
 
         for (let i = 1; i <= maxCantPrecio; i++) {
+          this.checkboxChecked[i-1] = false;
+          this.checkboxIndeterminate[i-1] = false;
+
           if (this.recargaPagina == false) {
             this.displayedColumns.push('Precio' + i);
             this.displayedColumnsArticulo.push('Precio' + i);
@@ -157,6 +162,8 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           this.preciosSeleccionados.push(precioArticulo);
         }
         else {
+          if (this.checkboxChecked[0] == false)
+            this.checkboxIndeterminate[0] = true;
           let incluye = this.preciosSeleccionados.find(p => p.Id == ar.PrecioArticulo[0].Id);
           if (!incluye) {
             mostrarMensaje = true;
@@ -183,7 +190,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
         });
       }
     }
-    if (event.checked && mostrarMensaje) {
+    if (this.checkboxIndeterminate[0] == true && event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
   }
@@ -207,11 +214,17 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           this.porcentajeArticulo(+tienePorcentaje, ar.Id)
         }   
       })
+      for (let i = 0; i < this.checkboxChecked.length; i++) {
+        this.checkboxChecked[i] = true;
+      }
     }
     else {
       this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesArticulos = [];
+      for (let i = 0; i < this.checkboxChecked.length; i++) {
+        this.checkboxChecked[i] = false;
+      }
     }
   }
 
@@ -242,6 +255,8 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
           precioArticulo.IdArticuloNavigation = a.PrecioArticulo[checkbox].IdArticuloNavigation;
           this.preciosSeleccionados.push(precioArticulo);
         } else {
+          this.checkboxIndeterminate[checkbox] = true;
+          this.checkboxIndeterminate[0] = true;
           let incluye = this.preciosSeleccionados.find(p => p.Id == a.PrecioArticulo[0].Id);
           if (!incluye) {
             mostrarMensaje = true;
@@ -268,20 +283,33 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       });
     }
     }
-    if (event.checked && mostrarMensaje) {
+    if (this.checkboxIndeterminate[0] == true && event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
-    // let index = [];
-    // this.dataSource.data.forEach(a => {
-    //   if (this.preciosSeleccionados.length > 0) {
-    //     let precio = this.preciosSeleccionados.filter(p => p.IdArticulo == a.Id);
-    //     if (precio.length > 0) {
-    //       var i = a.PrecioArticulo.findIndex(pa => pa.Id == precio[0].Id)
-    //       if (!index.includes(i))
-    //         index.push(i);
-    //     }
-    //   }
-    // });
+    let index = [];
+    this.dataSource.data.forEach(a => {
+      if (this.preciosSeleccionados.length > 0) {
+        let precio = this.preciosSeleccionados.filter(p => p.IdArticulo == a.Id);
+        if (precio.length > 0) {
+          var i = a.PrecioArticulo.findIndex(pa => pa.Id == precio[0].Id)
+          if (!index.includes(i))
+            index.push(i);
+        }
+      }
+    });
+    if (index.length == 1) {
+      this.checkboxChecked[index[0]] = true;
+      for (let j = 0; j < this.checkboxIndeterminate.length; j++) {
+        this.checkboxIndeterminate[j] = false;
+      }
+    } else {
+      for (let j = 0; j < this.checkboxIndeterminate.length; j++) {
+        if (index.includes(j))
+          this.checkboxIndeterminate[j] = true;
+        else
+          this.checkboxIndeterminate[j] = false;
+      }
+    }
   }
 
   chequear(idPrecio: any) {
@@ -289,37 +317,37 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   }
 
   chequearTipo(event, idTipoArticulo: any) {
-    let cantidadPreciosTotales = 0;
-    let cantidadSeleccionados = 0;
-    let arrayTipoArticulo = this.dataSource.data.filter(ar => ar.IdTipoArticulo == idTipoArticulo)
-    arrayTipoArticulo.forEach(a => {
-      if (a.PrecioArticulo != null) {      
-            if (a.PrecioArticulo[event] != undefined) { 
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[event].Id && p.IdArticulo == a.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
-          }
+    let arrayIndex = [];
+    if (this.preciosSeleccionados.length > 0) {
+      let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdArticuloNavigation != undefined && element.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
+      let arrayTodosArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
+      if (arrayPreciosArticulos.length >= arrayTodosArticulos.length) {
+        arrayTodosArticulos.forEach(a => {
+          arrayPreciosArticulos.forEach(p => {
+          var i = a.PrecioArticulo.findIndex(pa => pa.Id == p.Id);
+          if (!arrayIndex.includes(i) && i != -1)
+            arrayIndex.push(i);
+          })
+        })
       }
-    });
-    return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
+    }
+    return arrayIndex.includes(+event);
   }
 
   indeterminateTipo(event, idTipoArticulo: any) {
-    let cantidadPreciosTotales = 0;
-    let cantidadSeleccionados = 0;
-    let arrayTipoArticulo = this.dataSource.data.filter(ar => ar.IdTipoArticulo == idTipoArticulo)
-    arrayTipoArticulo.forEach(a => {
-      if (a.PrecioArticulo != null) {      
-            if (a.PrecioArticulo[event] != undefined) { 
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[event].Id && p.IdArticulo == a.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
-          }
+    let arrayIndex = [];
+    let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdArticuloNavigation != undefined && element.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
+    let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
+    if (this.preciosSeleccionados.length > 0) {
+      if (arrayPreciosArticulos.length == arrayArticulos.length) {
+        arrayArticulos.forEach(a => {
+          var i = a.PrecioArticulo.findIndex(pa => pa.Id == this.preciosSeleccionados.filter(p => p.IdArticulo == a.Id)[0].Id)
+          if (!arrayIndex.includes(i) && i != -1)
+            arrayIndex.push(i);
+        })
       }
-    });
-    return cantidadSeleccionados < cantidadPreciosTotales && cantidadSeleccionados > 0;
+    }
+    return arrayIndex.length > 1 && arrayIndex.includes(+event);
   }
 
   habilitarPorcentaje(articulo: ArticuloVario) {
@@ -357,7 +385,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       }
 
     } else {
-      // this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => articulo.PrecioArticulo[index] != undefined && p.IdArticulo == articulo.Id && p.Id != articulo.PrecioArticulo[index].Id), 1);
+      this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => articulo.PrecioArticulo[index] != undefined && p.IdArticulo == articulo.Id && p.Id != articulo.PrecioArticulo[index].Id), 1);
       if (this.porcentajesArticulos.length > 0)
         this.porcentajesArticulos.splice(this.porcentajesArticulos.findIndex(p => articulo.PrecioArticulo[index] != undefined && p.IdPrecio == articulo.PrecioArticulo[index].Id), 1);
     }
@@ -377,38 +405,6 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       if (!this.porcentajesArticulos.some(pa => pa.IdPrecio == p.Id))
         this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
     });
-  }
-
-  indeterminateCheckbox(i) {
-    let cantidadPreciosTotales = 0;
-    let cantidadSeleccionados = 0;
-    this.dataSource.data.forEach(a => {
-      if (a.PrecioArticulo != null) {      
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (a.PrecioArticulo[i] != undefined) { 
-            if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[i].Id && p.IdArticulo == a.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
-          }
-      }
-    });
-    return cantidadSeleccionados < cantidadPreciosTotales && cantidadSeleccionados > 0;
-  }
-
-  checkedCheckbox(i) {
-    let cantidadPreciosTotales = 0;
-    let cantidadSeleccionados = 0;
-    this.dataSource.data.forEach(a => {
-      if (a.PrecioArticulo != null) {    
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (a.PrecioArticulo[i] != undefined) {  
-            if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[i].Id && p.IdArticulo == a.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
-          }
-      }
-    });
-    return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
   }
 
   guardarPrecios() {

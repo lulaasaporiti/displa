@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class AppComponent {
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router
   ) {
     this.matIconRegistry.addSvgIcon(
       'edit_outline',
@@ -72,5 +74,13 @@ export class AppComponent {
       'attach_money',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/attach_money-24px.svg')
     );
+    // this.matIconRegistry.addSvgIcon(
+    //   'check_outline',
+    //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/check_outline.svg')
+    // );
+    // this.matIconRegistry.addSvgIcon(
+    //   'error_outline',
+    //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/error_outline.svg')
+    // );
   }
 }

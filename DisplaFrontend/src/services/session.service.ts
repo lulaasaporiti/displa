@@ -100,6 +100,7 @@ export class SessionService {
       return (payload["exp"] * 1000 > Date.now())
     }
   }
+  
 
   getUsername() {
     return this.user;
