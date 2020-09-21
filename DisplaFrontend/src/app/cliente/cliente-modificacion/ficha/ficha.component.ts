@@ -14,7 +14,7 @@ import { Ficha } from 'src/app/model/ficha';
 export class FichaComponent implements OnInit {
 
   idCliente: number;
-  ficha: Ficha[] = [];
+  ficha: any[] = [];
   modelFicha = <Ficha>{};
 
   constructor(
@@ -36,6 +36,7 @@ export class FichaComponent implements OnInit {
 
   traerFicha(){
     this.clienteService.getFicha(this.idCliente).subscribe(r => {
+      console.log(r)
       this.ficha = r;
       this.modelFicha.Fecha = null;
       this.modelFicha.Descripcion = "";

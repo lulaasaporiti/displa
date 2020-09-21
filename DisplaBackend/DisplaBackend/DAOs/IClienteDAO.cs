@@ -23,7 +23,7 @@ namespace DisplaBackend.DAOs
         List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente);
         List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
-        List<Ficha> GetFichaCliente(int idCliente);
+        dynamic GetFichaCliente(int idCliente);
         bool SaveFicha(Ficha ficha);
         bool BloquearClientes();
         List<dynamic> GetClientesBloqueados();
@@ -196,10 +196,27 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public List<Ficha> GetFichaCliente(int idCliente)
+        public dynamic GetFichaCliente(int idCliente)
         {
-            return _context.Ficha
-                .Where(f => f.IdCliente == idCliente).ToList();
+            var fichas = _context.Ficha
+                .Where(f => f.IdCliente == idCliente)
+                .Select(f => new {
+                    Fecha = f.Fecha.Value,
+                    Descripcion = f.Descripcion
+                })
+                .ToList();
+
+            var ventaVirtuales = _context.VentaVirtual
+                .Where(v => v.IdComprobanteNavigation.IdCliente == idCliente)
+                .Select(v =>  new {
+                    Fecha = v.IdComprobanteNavigation.Fecha,
+                    Descripcion = "Se compraron " + v.CantidadVendida + " de " + ((v.IdArticulo == null) ? v.IdComprobanteNavigation.ComprobanteItem.Select(c => c.ComprobanteItemLente.Select(cl => cl.IdLenteNavigation.Nombre)).ToString() : v.IdArticuloNavigation.Nombre)
+                })
+                .ToList();
+
+            //IDictionary<string, dynamic> res = new Dictionary<string, dynamic>();
+            //res["payload"] = (fichas.Concat(ventaVirtuales)).OrderBy(f => f.Fecha);
+            return (fichas.Concat(ventaVirtuales)).OrderBy(f => f.Fecha);
         }
 
         public bool Delete(Cliente cliente)

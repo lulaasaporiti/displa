@@ -2,7 +2,7 @@
   <app-loading-spinner></app-loading-spinner>
   <div fxLayout="row" fxFlex *ngFor="let i of ficha" fxLayoutAlig="start center" fxLayoutGap="1px" fxFlexOffset="2">
     <p *ngIf="i.Fecha != undefined">{{i.Fecha | date:"dd/MM/yyyy"}} - </p>
-    <p>{{i.Descripcion}} </p>
+    <p> {{i.Descripcion}} </p>
   </div>
 
   <form name="clienteForm" #clienteForm="ngForm" fxLayout="column" fxFlexFill fxFlexOffset="2">

@@ -21,7 +21,7 @@ namespace DisplaBackend.Services
         List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente);
         List<PrecioServicioCliente> GetPreciosServiciosCliente(int idCliente);
         List<PrecioLenteCliente> GetPreciosLentesCliente(int idCliente);
-        List<Ficha> GetFichaCliente(int idCliente);
+        dynamic GetFichaCliente(int idCliente);
         bool SaveFicha(Ficha ficha);
         bool BloquearClientes();
         List<dynamic> GetClientesBloqueados();
@@ -119,7 +119,7 @@ namespace DisplaBackend.Services
             return _clienteDAO.GetPreciosLentesCliente(idCliente);
         }
 
-        public List<Ficha> GetFichaCliente(int idCliente)
+        public dynamic GetFichaCliente(int idCliente)
         {
             return _clienteDAO.GetFichaCliente(idCliente);
         }

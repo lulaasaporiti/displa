@@ -61,7 +61,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
-
+        public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1100,6 +1100,41 @@ namespace DisplaBackend.Models
                     .IsRequired()
                     .HasColumnName("nombre")
                     .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VentaVirtual>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CantidadEntregada)
+                    .HasColumnName("cantidadEntregada")
+                    .HasColumnType("decimal(6, 2)");
+
+                entity.Property(e => e.CantidadVendida)
+                    .HasColumnName("cantidadVendida")
+                    .HasColumnType("decimal(6, 2)");
+
+                entity.Property(e => e.IdArticulo).HasColumnName("idArticulo");
+
+                entity.Property(e => e.IdComprobante).HasColumnName("idComprobante");
+
+                entity.Property(e => e.IdLente).HasColumnName("idLente");
+
+                entity.HasOne(d => d.IdArticuloNavigation)
+                    .WithMany(p => p.VentaVirtual)
+                    .HasForeignKey(d => d.IdArticulo)
+                    .HasConstraintName("FK_VentaVirtual_ArticuloVario");
+
+                entity.HasOne(d => d.IdComprobanteNavigation)
+                    .WithMany(p => p.VentaVirtual)
+                    .HasForeignKey(d => d.IdComprobante)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_VentaVirtual_ComprobanteCliente");
+
+                entity.HasOne(d => d.IdLenteNavigation)
+                    .WithMany(p => p.VentaVirtual)
+                    .HasForeignKey(d => d.IdLente)
+                    .HasConstraintName("FK_VentaVirtual_Lente");
             });
         }
     }
