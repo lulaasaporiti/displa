@@ -1,0 +1,27 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="selection"></mat-icon>
+            <p class="dialog-title">Seleccionar cliente</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
+                    [matAutocomplete]="auto" name="cliente" (blur)="setIdCliente(this.clientesControl,
+                this.data)" (keyup.enter)="setIdCliente(this.clientesControl, this.data);onEnter();">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
+                    <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
+                        {{ c.Id }} - {{c.Optica}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="data">Seleccionar</button>
+        </div>
+    </div>
+</form>

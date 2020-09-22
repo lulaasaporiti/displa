@@ -26,7 +26,6 @@ export class LenteSeleccionComponent implements OnInit {
   ngOnInit() {
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
-      console.log(this.lentes)
       this.filteredLentes = this.lentesControl.valueChanges
       .pipe(
         startWith(''),
@@ -70,7 +69,7 @@ export class LenteSeleccionComponent implements OnInit {
           s = nombre.nombre.toLowerCase();
       }
       return this.lentes.filter(lente =>
-          lente.Id.toString().indexOf(s) !== -1);
+          lente.Id.toString().indexOf(s) !== -1 || lente.Nombre.toLowerCase().indexOf(s.toLowerCase()) !== -1);
   } else {
       return [];
   }

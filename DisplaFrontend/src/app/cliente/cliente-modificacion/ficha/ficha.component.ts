@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { ClienteService } from 'src/services/cliente.service';
 import { Ficha } from 'src/app/model/ficha';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { FichaAltaComponent } from './ficha-alta/ficha-alta.component';
 
 
 @Component({
@@ -14,10 +16,16 @@ import { Ficha } from 'src/app/model/ficha';
 export class FichaComponent implements OnInit {
 
   idCliente: number;
-  ficha: any[] = [];
-  modelFicha = <Ficha>{};
+  
+  displayedColumns: string[] = ['Fecha', 'Descripcion'];
+  dataSource = new MatTableDataSource<any>();
+  traerVigentes: boolean = true;
 
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  
   constructor(
+    public dialog: MatDialog,
     private router: Router,
     private sessionService: SessionService,
     private clienteService: ClienteService,
@@ -37,10 +45,9 @@ export class FichaComponent implements OnInit {
   traerFicha(){
     this.clienteService.getFicha(this.idCliente).subscribe(r => {
       console.log(r)
-      this.ficha = r;
-      this.modelFicha.Fecha = null;
-      this.modelFicha.Descripcion = "";
-      this.modelFicha.IdCliente = this.idCliente;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.dataSource.data = r;
       this.loadingSpinnerService.hide();
     })
   }
@@ -50,18 +57,28 @@ export class FichaComponent implements OnInit {
     this.router.navigateByUrl('Cliente/Listado')
   }
 
-
-  guardarFicha() {
-    this.clienteService.saveFicha(this.modelFicha).subscribe(
-      data => {
-        console.log(data)
-        // this.router.navigateByUrl('Cliente/Modificacion?id='+data)
-        this.traerFicha();
-        this.sessionService.showSuccess("La ficha se editó correctamente.");
-      },
-      error => {
-        this.sessionService.showError("La ficha no se editó.");
+  agregarFicha(){
+    let modelFicha = <Ficha>{};
+    modelFicha.IdCliente = this.idCliente;  
+    const dialogRef = this.dialog.open(FichaAltaComponent, {
+      data: { modelFicha: modelFicha }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        console.log(result)
+        this.clienteService.saveFicha(modelFicha).subscribe(
+          data => {
+            console.log(data)
+            // this.router.navigateByUrl('Cliente/Modificacion?id='+data)
+            this.traerFicha();
+            this.sessionService.showSuccess("La ficha se editó correctamente.");
+          },
+          error => {
+            this.sessionService.showError("La ficha no se editó.");
+          }
+        );
       }
-    );
+    })
+
   }
 }

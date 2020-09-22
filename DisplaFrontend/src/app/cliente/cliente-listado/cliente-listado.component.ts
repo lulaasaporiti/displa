@@ -19,7 +19,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class ClienteListadoComponent implements OnInit {
 
-
   form:FormGroup = new FormGroup({
     Codigo: new FormControl(true),
     Optica: new FormControl(true),
@@ -67,7 +66,6 @@ export class ClienteListadoComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
-
 
   constructor(
     public dialog: MatDialog,

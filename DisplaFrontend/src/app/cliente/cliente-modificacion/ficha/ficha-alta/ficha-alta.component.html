@@ -1,0 +1,25 @@
+<div class="dialog-content">
+  <form name="fichaForm" #fichaForm="ngForm" fxLayout="column" fxFlexFill fxFlexOffset="2">
+    <p class="dialog-title">Cargar información:</p>
+    <div fxLayout="column" fxLayoutAlign="space-between start">
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="data.modelFicha.Fecha" name="fecha"
+          #fecha="ngModel" readonly>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field style="width: 201px;">
+        <textarea matInput placeholder="Descripción" rows="4" cols="54" [(ngModel)]="data.modelFicha.Descripcion"
+          name="descripcion" #descripcion="ngModel" required>
+        </textarea>
+        <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio.</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+      <button mat-raised-button (click)="onNoClick()" [mat-dialog-close]="false">Cancelar</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data.modelFicha">Guardar</button>
+    </div>
+  </form>
+</div>

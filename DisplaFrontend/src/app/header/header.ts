@@ -10,6 +10,7 @@ import { PrecioListaUnoComponent } from './gestion-precio/precio-lista-uno/preci
 import { ServicioService } from 'src/services/servicio.service';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { LenteService } from 'src/services/lente.service';
+import { ClienteSeleccionComponent } from '../factura/lente-seleccion/cliente-seleccion.component';
 
 @Component({
   selector: 'app-header',
@@ -65,6 +66,20 @@ export class HeaderComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
         this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
+      }
+    })
+  }
+
+  openDialogClientes(): void {
+    let idCliente;
+    const dialogRef = this.dialog.open(ClienteSeleccionComponent, {
+      data: { idCliente: idCliente },
+      width: '500px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        console.log(result)
+        // this.router.navigateByUrl('Cliente/Stock?id=' + result.idCliente);
       }
     })
   }

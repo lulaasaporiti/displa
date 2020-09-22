@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { ClienteService } from 'src/services/cliente.service';
 import { Ficha } from 'src/app/model/ficha';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 
 
 @Component({
@@ -11,12 +12,18 @@ import { Ficha } from 'src/app/model/ficha';
   styleUrls: ['./ficha-detalle.component.css'],
 })
 export class FichaDetalleComponent implements OnInit {
-
   idCliente: number;
-  ficha: Ficha[] = [];
-  modelFicha = <Ficha>{};
 
+  
+  displayedColumns: string[] = ['Fecha', 'Descripcion'];
+  dataSource = new MatTableDataSource<any>();
+  traerVigentes: boolean = true;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  
   constructor(
+    public dialog: MatDialog,
     private clienteService: ClienteService,
     private segment: ActivatedRoute,
     private loadingSpinnerService: LoadingSpinnerService) {
@@ -32,12 +39,13 @@ export class FichaDetalleComponent implements OnInit {
   }
 
   traerFicha(){
-    this.clienteService.getFicha(this.idCliente)
-    .subscribe(r => {
-      this.ficha = r;
+    this.clienteService.getFicha(this.idCliente).subscribe(r => {
+      console.log(r)
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.dataSource.data = r;
       this.loadingSpinnerService.hide();
     })
   }
-
 
 }

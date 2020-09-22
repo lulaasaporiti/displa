@@ -46,6 +46,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GastoModule } from './gasto/gasto.module';
 import { GestionPrecioModule } from './header/gestion-precio/gestion-precio.module';
 import { AsignacionPrecioClienteModule } from './asignacion-precio/asignacion-precio.module';
+import { FacturaModule } from './factura/factura.module';
 
 
 
@@ -80,6 +81,7 @@ import { AsignacionPrecioClienteModule } from './asignacion-precio/asignacion-pr
     CategoriaIVAModule,
     ClienteModule,
     CondicionVentaModule,
+    FacturaModule,
     GastoModule,
     GestionPrecioModule,
     InsumoModule,

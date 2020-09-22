@@ -19,12 +19,13 @@ import { PrecioServicioListadoComponent } from './cliente-modificacion/precio-se
 import { PrecioServicioListadoDetalleComponent } from './cliente-detalle/precio-servicio-listado-detalle/precio-servicio-listado-detalle.component';
 import { ClienteBloqueadoListadoComponent } from './cliente-bloqueado-listado/cliente-bloqueado-listado.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { FichaAltaComponent } from './cliente-modificacion/ficha/ficha-alta/ficha-alta.component';
 
 @NgModule({
-    entryComponents: [ClienteBajaComponent],
+    entryComponents: [ClienteBajaComponent, FichaAltaComponent],
     declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, InformacionModificacionComponent, InformacionDetalleComponent,
         PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent ,PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, 
-        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteBloqueadoListadoComponent],
+        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteBloqueadoListadoComponent, FichaAltaComponent],
     imports: [
         CommonModule,
         MaterialModule,
