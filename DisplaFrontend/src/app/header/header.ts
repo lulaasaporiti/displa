@@ -10,7 +10,7 @@ import { PrecioListaUnoComponent } from './gestion-precio/precio-lista-uno/preci
 import { ServicioService } from 'src/services/servicio.service';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { LenteService } from 'src/services/lente.service';
-import { ClienteSeleccionComponent } from '../factura/lente-seleccion/cliente-seleccion.component';
+import { ClienteSeleccionComponent } from '../factura/cliente-seleccion/cliente-seleccion.component';
 
 @Component({
   selector: 'app-header',
@@ -79,7 +79,7 @@ export class HeaderComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
         console.log(result)
-        // this.router.navigateByUrl('Cliente/Stock?id=' + result.idCliente);
+        this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
       }
     })
   }
