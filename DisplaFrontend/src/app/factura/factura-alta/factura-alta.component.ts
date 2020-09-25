@@ -1,14 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { LocalidadService } from 'src/services/localidad.service';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { ClienteService } from 'src/services/cliente.service';
 import { Cliente } from 'src/app/model/Cliente';
-import { CategoriaIVAService } from 'src/services/categoria.iva.service';
-import { CondicionVentaService } from 'src/services/condicion.venta.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
-import { MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { LenteSeleccionComponent } from 'src/app/lente/lente-seleccion/lente-seleccion.component';
 
 @Component({
   selector: 'app-factura-alta',
@@ -18,18 +16,36 @@ import { MatTableDataSource } from '@angular/material';
 export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
   private id: number = 0;
+  panelOpenState = false;
   displayedColumns: string[] = ['Cantidad','Sobre','Descripcion','Esferico', 'Cilindrico','Recargo', 'Importe', 'Borrar'];
-  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+  productos: string[] = ['Lentes','Varios' ,'Servicios', 'Libres', 'Descuento', 'Totales'];
   dataSource = new MatTableDataSource<any>();
+  key;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    console.log(event)
+    this.key = event.key;
+    if (this.key = 1) {
+      let idLente;
+      const dialogRef = this.dialog.open(LenteSeleccionComponent, {
+        data: { idLente: idLente },
+        width: '500px'
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result != undefined && result != false) {
+          this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
+        }
+      })
+    }
+  }
 
   constructor(
     private router: Router,
     private sessionService: SessionService,
     private clienteService: ClienteService,
     private segment: ActivatedRoute,
-    private localidadService: LocalidadService,
-    private categoriaIvaService: CategoriaIVAService,
-    private condicionVentaService: CondicionVentaService,
+    private dialog: MatDialog,
     private loadingSpinnerService: LoadingSpinnerService,
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
@@ -40,18 +56,18 @@ export class FacturaAltaComponent implements OnInit {
       this.clienteService.getById(this.id)
         .subscribe(l => {
           this.modelCliente = l;
+          // console.log(l)
           this.loadingSpinnerService.hide();
         });
     }
   }
 
+  
 
   ngOnInit() {
     this.loadingSpinnerService.show();
     combineLatest(
-      this.localidadService.getLocalidadesVigentesList(),
-      this.categoriaIvaService.getCategoriaIVAVigentesList(),
-      this.condicionVentaService.getCondicionVentaVigentesList()
+
     ).subscribe(result => {
      
       this.loadingSpinnerService.hide();
