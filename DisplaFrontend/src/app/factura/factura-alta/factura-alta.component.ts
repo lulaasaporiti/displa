@@ -6,7 +6,7 @@ import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 import { MatDialog, MatTableDataSource } from '@angular/material';
-import { LenteSeleccionComponent } from 'src/app/lente/lente-seleccion/lente-seleccion.component';
+import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente/producto-lente.component';
 
 @Component({
   selector: 'app-factura-alta',
@@ -17,26 +17,54 @@ export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
   private id: number = 0;
   panelOpenState = false;
-  displayedColumns: string[] = ['Cantidad','Sobre','Descripcion','Esferico', 'Cilindrico','Recargo', 'Importe', 'Borrar'];
-  productos: string[] = ['Lentes','Varios' ,'Servicios', 'Libres', 'Descuento', 'Totales'];
+  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion','Esferico', 'Cilindrico','Recargo', 'Importe', 'Borrar'];
+  productos: string[] = ['Lentes', 'Varios', 'Servicios', 'Libres', 'Descuento', 'Totales'];
   dataSource = new MatTableDataSource<any>();
   key;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    console.log(event)
+    // console.log(event)
     this.key = event.key;
-    if (this.key = 1) {
-      let idLente;
-      const dialogRef = this.dialog.open(LenteSeleccionComponent, {
-        data: { idLente: idLente },
-        width: '500px'
-      })
-      dialogRef.afterClosed().subscribe(result => {
-        if (result != undefined && result != false) {
-          this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
-        }
-      })
+    switch (this.key) {
+      case "F1": { //lentes
+        let idCliente;
+        const dialogRef = this.dialog.open(ProductoLenteComponent,  {
+          disableClose: true,
+          data: { idCliente: idCliente },
+          width: '500px'
+        })
+        // dialogRef.afterClosed().subscribe(result => {
+        //   if (result != undefined && result != false) {
+        //     console.log(result)
+        //     this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
+        //   }
+        // })
+        event.preventDefault();
+        break;
+      }
+      case "F3": { //varios
+        event.preventDefault();
+        break;
+      }
+      case "F4": { //servicios
+        event.preventDefault();
+        break;
+      }
+      case "F5": { //libres
+        event.preventDefault();
+        break;
+      }
+      case "F6": { //descuento
+        event.preventDefault();
+        break;
+      }
+      case "F7": { //totales
+        event.preventDefault();
+        break;
+      }
+      default:
+        break;
     }
   }
 

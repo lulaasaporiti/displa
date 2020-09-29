@@ -8,7 +8,6 @@ import { Observable, combineLatest } from 'rxjs';
 import { LenteService } from 'src/services/lente.service';
 import { startWith, map } from 'rxjs/operators';
 import { LimitesGrillaService } from 'src/services/limites.grilla.service';
-import { parse } from 'querystring';
 
 
 @Component({
@@ -27,7 +26,7 @@ export class ManejoStockAltaComponent implements OnInit {
   filteredLentes: Observable<Lente[]>;
 
   limiteGrillaDerecha = <LimiteGrilla>{};
-  limiteGrillaIzquierda = <LimiteGrilla>{};
+  limiteGrillaIzquierda = <LimiteGrilla>{};x
 
   constructor(
     private lenteService: LenteService,
@@ -66,7 +65,6 @@ export class ManejoStockAltaComponent implements OnInit {
       let idLimiteIzquierda;
       let idLimiteDerecha;
       this.cargarStock[index].IdLente = event.Id;
-      // this.cargarStock[index].IdLenteNavigation = control.value;
       let combinacion = event.Combinacion.split("  / ");
       if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
       else idLimiteIzquierda = 3;

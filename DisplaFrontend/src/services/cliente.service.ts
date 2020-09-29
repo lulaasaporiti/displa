@@ -100,4 +100,14 @@ export class ClienteService {
     getListaAsignacionArticulo(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetListaAsignacionArticulo`);
     }
+
+    getPrecioLenteFactura(idCliente, idLente, Esferico, Cilindrico){
+        return this.http.get(`${this.baseUrl}/GetPrecioLenteFactura`, 
+        // new HttpParams()
+        // .set('idCliente', idCliente)
+        // .set('idLente', idLente)
+        // .set('Esferico',Esferico)
+        // .set('Cilindrico',Cilindrico)
+        )
+    }
 }
