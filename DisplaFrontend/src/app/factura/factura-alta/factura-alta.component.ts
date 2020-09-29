@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { ClienteService } from 'src/services/cliente.service';
@@ -7,6 +7,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente/producto-lente.component';
+
 
 @Component({
   selector: 'app-factura-alta',
@@ -22,16 +23,15 @@ export class FacturaAltaComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
   key;
 
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    // console.log(event)
     this.key = event.key;
     switch (this.key) {
       case "F1": { //lentes
-        let idCliente;
         const dialogRef = this.dialog.open(ProductoLenteComponent,  {
           disableClose: true,
-          data: { idCliente: idCliente },
+          data: { idCliente: this.id },
           width: '500px'
         })
         // dialogRef.afterClosed().subscribe(result => {

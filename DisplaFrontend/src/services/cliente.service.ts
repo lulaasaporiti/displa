@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MainService } from './main.service';
+import { HttpParams } from '@angular/common/http';
+
+
 
 @Injectable({
     providedIn: 'root'
@@ -101,13 +104,13 @@ export class ClienteService {
         return this.http.get(`${this.baseUrl}/GetListaAsignacionArticulo`);
     }
 
-    getPrecioLenteFactura(idCliente, idLente, Esferico, Cilindrico){
-        return this.http.get(`${this.baseUrl}/GetPrecioLenteFactura`, 
-        // new HttpParams()
-        // .set('idCliente', idCliente)
-        // .set('idLente', idLente)
-        // .set('Esferico',Esferico)
-        // .set('Cilindrico',Cilindrico)
+    getPrecioLenteFactura(idCliente, idLente, Esferico, Cilindrico): Observable<any> {
+        return this.mainService.get(`${this.baseUrl}/GetPrecioLenteFactura`, 
+        new HttpParams()
+        .set('idCliente', idCliente)
+        .set('idLente', idLente)
+        .set('Esferico',Esferico)
+        .set('Cilindrico',Cilindrico)
         )
     }
 }

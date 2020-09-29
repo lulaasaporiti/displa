@@ -33,7 +33,6 @@ export class TipoServicioService {
     }
 
     deleteTipoServicio(id: number): Observable<any> {
-        console.log(id)
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 }

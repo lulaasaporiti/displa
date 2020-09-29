@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
@@ -7,11 +7,16 @@ import { Lente } from 'src/app/model/lente';
 import { LenteService } from 'src/services/lente.service';
 import { LimitesGrillaService } from 'src/services/limites.grilla.service';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
+import { Directive, ElementRef, Input } from '@angular/core';
+import { ClienteService } from 'src/services/cliente.service';
 
 @Component({
   selector: 'app-producto-lente',
   templateUrl: './producto-lente.component.html',
   styleUrls: ['./producto-lente.component.css']
+})
+@Directive({
+  selector: '[next-tab]',
 })
 export class ProductoLenteComponent implements OnInit {
   lentes: Lente[];
@@ -20,11 +25,16 @@ export class ProductoLenteComponent implements OnInit {
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
 
+  
+  
+
   constructor(
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
     private lenteService: LenteService,
+    private clienteService: ClienteService,
     private limitesGrillaService: LimitesGrillaService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log(data)
   }
 
 
@@ -55,11 +65,6 @@ export class ProductoLenteComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  onEnter(): void {
-    if (this.data.idLente != "" && this.data.idLente != undefined)
-      this.dialogRef.close(this.data);
-  }
-
   _keyPress(event: any) {
     const pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -69,13 +74,28 @@ export class ProductoLenteComponent implements OnInit {
     }
   }
 
+  checkArrowKey(event: KeyboardEvent, el)
+  {
+    if (event.code == "Enter") {
+      console.log("entros")
+      console.log(el)
+      event.preventDefault();
+
+      let keyboardEvent = new KeyboardEvent('keydown', {
+        "key": "Tab",
+      });
+
+      // el.srcElement.dispatchEvent(keyboardEvent);
+      window.onkeyup(keyboardEvent)
+      // console.log(keyboardEvent)
+    }
+  }
 
   setIdLente(control, data) {
     if (control.value != null) {
       let idLimiteIzquierda;
       let idLimiteDerecha;
       data.idLente = control.value.Id;
-      console.log(control.value)
       let combinacion = control.value.Combinacion.split("  / ");
       if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
       else idLimiteIzquierda = 3;
@@ -92,6 +112,12 @@ export class ProductoLenteComponent implements OnInit {
   }
 
   traerPrecio(){
+    if (this.data.MedidaEsferico != undefined && this.data.MedidaCilindrico != undefined)
+    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.data.idLente, this.data.MedidaEsferico, this.data.MedidaCilindrico)
+    .subscribe(result =>
+       {
+
+    })
     console.log(this.data.MedidaEsferico)
   }
 
