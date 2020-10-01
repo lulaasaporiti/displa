@@ -172,7 +172,7 @@ namespace DisplaBackend.Services
 
         public decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico)
         {
-            return _clienteDAO.GetPrecioLenteFactura(idCliente,idLente,Esferico, Cilindrico)
+            return _clienteDAO.GetPrecioLenteFactura(idCliente, idLente, Esferico, Cilindrico);
 
         }
     }

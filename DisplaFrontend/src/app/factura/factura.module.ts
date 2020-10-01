@@ -12,7 +12,7 @@ import { ProductoLenteComponent } from './factura-producto/producto-lente/produc
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
-    entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent],
+    entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent ],
     declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent ],
     imports: [
         CommonModule,

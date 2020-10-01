@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgControl } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { Lente } from 'src/app/model/lente';
@@ -15,9 +15,6 @@ import { ClienteService } from 'src/services/cliente.service';
   templateUrl: './producto-lente.component.html',
   styleUrls: ['./producto-lente.component.css']
 })
-@Directive({
-  selector: '[next-tab]',
-})
 export class ProductoLenteComponent implements OnInit {
   lentes: Lente[];
   lentesControl = new FormControl();
@@ -25,10 +22,8 @@ export class ProductoLenteComponent implements OnInit {
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
 
-  
-  
-
   constructor(
+    private element: ElementRef,
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
     private lenteService: LenteService,
     private clienteService: ClienteService,
@@ -74,20 +69,11 @@ export class ProductoLenteComponent implements OnInit {
     }
   }
 
-  checkArrowKey(event: KeyboardEvent, el)
+  tabInventado(event: KeyboardEvent, el)
   {
     if (event.code == "Enter") {
-      console.log("entros")
-      console.log(el)
       event.preventDefault();
-
-      let keyboardEvent = new KeyboardEvent('keydown', {
-        "key": "Tab",
-      });
-
-      // el.srcElement.dispatchEvent(keyboardEvent);
-      window.onkeyup(keyboardEvent)
-      // console.log(keyboardEvent)
+      document.getElementById(el).focus();
     }
   }
 
