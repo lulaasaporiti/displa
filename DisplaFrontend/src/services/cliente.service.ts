@@ -105,7 +105,7 @@ export class ClienteService {
     }
 
     getPrecioLenteFactura(idCliente, idLente, Esferico, Cilindrico): Observable<any> {
-        return this.mainService.get(`${this.baseUrl}/GetPrecioLenteFactura`, 
+        return this.mainService.get(`Cliente/GetPrecioLenteFactura`, 
         new HttpParams()
         .set('idCliente', idCliente)
         .set('idLente', idLente)

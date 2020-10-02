@@ -7,6 +7,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente/producto-lente.component';
+import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
+import { ComprobanteItem } from 'src/app/model/comprobanteItem';
+import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 
 
 @Component({
@@ -22,7 +25,7 @@ export class FacturaAltaComponent implements OnInit {
   productos: string[] = ['Lentes', 'Varios', 'Servicios', 'Libres', 'Descuento', 'Totales'];
   dataSource = new MatTableDataSource<any>();
   key;
-
+  modelComprobante = <ComprobanteCliente>{};
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -34,12 +37,13 @@ export class FacturaAltaComponent implements OnInit {
           data: { idCliente: this.id },
           width: '500px'
         })
-        // dialogRef.afterClosed().subscribe(result => {
-        //   if (result != undefined && result != false) {
+        dialogRef.afterClosed().subscribe(result => {
+          if (result != undefined && result != false) {
+            this.cargarLente(result);
         //     console.log(result)
         //     this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
-        //   }
-        // })
+          }
+        });
         event.preventDefault();
         break;
       }
@@ -124,5 +128,12 @@ export class FacturaAltaComponent implements OnInit {
         this.sessionService.showError("El cliente no se agregó.");
       }
     );
+  }
+
+  cargarLente(producto){
+    console.log(producto)
+    let item = <ComprobanteItem>{};
+    // item.NumeroSobre = producto.Sobre;
+    this.dataSource.data.push(item);
   }
 }

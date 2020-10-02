@@ -11,5 +11,4 @@ export interface ComprobanteItemLente {
   Esferico: number,
   Cilindrico: number,
   Precio: number
- 
 }

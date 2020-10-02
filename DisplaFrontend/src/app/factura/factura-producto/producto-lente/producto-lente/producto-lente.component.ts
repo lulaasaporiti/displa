@@ -9,6 +9,7 @@ import { LimitesGrillaService } from 'src/services/limites.grilla.service';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
 import { Directive, ElementRef, Input } from '@angular/core';
 import { ClienteService } from 'src/services/cliente.service';
+import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 
 @Component({
   selector: 'app-producto-lente',
@@ -21,6 +22,7 @@ export class ProductoLenteComponent implements OnInit {
   filteredLentes: Observable<Lente[]>;
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
+  modelComprobanteItemLente = <ComprobanteItemLente>{};
 
   constructor(
     private element: ElementRef,
@@ -69,11 +71,11 @@ export class ProductoLenteComponent implements OnInit {
     }
   }
 
-  tabInventado(event: KeyboardEvent, el)
+  tabInventado(event: KeyboardEvent, idElement)
   {
     if (event.code == "Enter") {
       event.preventDefault();
-      document.getElementById(el).focus();
+      document.getElementById(idElement).focus();
     }
   }
 
@@ -81,7 +83,10 @@ export class ProductoLenteComponent implements OnInit {
     if (control.value != null) {
       let idLimiteIzquierda;
       let idLimiteDerecha;
-      data.idLente = control.value.Id;
+      this.modelComprobanteItemLente.IdLente = control.value.Id;
+      this.modelComprobanteItemLente.IdLenteNavigation = control.value;
+      this.modelComprobanteItemLente.Esferico = 0;
+      this.modelComprobanteItemLente.Cilindrico = 0;
       let combinacion = control.value.Combinacion.split("  / ");
       if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
       else idLimiteIzquierda = 3;
@@ -98,13 +103,12 @@ export class ProductoLenteComponent implements OnInit {
   }
 
   traerPrecio(){
-    if (this.data.MedidaEsferico != undefined && this.data.MedidaCilindrico != undefined)
-    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.data.idLente, this.data.MedidaEsferico, this.data.MedidaCilindrico)
-    .subscribe(result =>
-       {
-
+    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente.IdLente, this.modelComprobanteItemLente.Esferico, this.modelComprobanteItemLente.Cilindrico)
+    .subscribe(result => {
+      this.modelComprobanteItemLente.Precio = result;
+      this.modelComprobanteItemLente.Cantidad = 1;
+      console.log(result);
     })
-    console.log(this.data.MedidaEsferico)
   }
 
   filterLente(nombre: any): Lente[] {

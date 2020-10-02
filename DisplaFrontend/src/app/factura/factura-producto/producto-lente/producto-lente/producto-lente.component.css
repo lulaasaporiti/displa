@@ -11,6 +11,11 @@
     margin-top: 20px !important;
 }
 
+.texto-explicativo{
+  font-family: "Chalet London" !important;
+  color: gray;
+}
+
 .mat-dialog-content {
     height: 65px;
 }

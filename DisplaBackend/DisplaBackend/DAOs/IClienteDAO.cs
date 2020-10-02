@@ -33,7 +33,7 @@ namespace DisplaBackend.DAOs
         List<dynamic> GetListaAsignacionLente(List<dynamic> listaPrecios);
         List<dynamic> GetListaAsignacionServicio(List<Servicio> listaPrecios);
         List<dynamic> GetListaAsignacionArticulo(List<ArticuloVario> listaPrecios);
-        decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico);
+        decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -727,7 +727,7 @@ namespace DisplaBackend.DAOs
             }
         }
 
-        public decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico) {
+        public decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo) {
 
             var tienePrecioEspecial = _context.PrecioLenteCliente.Where(pc => pc.IdPrecioLenteNavigation.IdLente == idLente && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
             if (tienePrecioEspecial == null)
@@ -735,7 +735,7 @@ namespace DisplaBackend.DAOs
                 List<PrecioLenteCliente> precioClientes = _context.PrecioLenteCliente.Include(pc => pc.IdPrecioLenteNavigation)
                     .Where(pc => pc.IdCliente == idCliente && pc.IdPrecioLenteNavigation.IdLente == idLente)
                     .ToList();
-                PrecioLente precioProximo = new PrecioLente();
+                PrecioLente precioProximo = precioMinimo;
                 foreach (var p in precioClientes)
                 {
                     if (p.IdPrecioLenteNavigation.Esferico >= Esferico && p.IdPrecioLenteNavigation.Cilindrico >= Cilindrico)
