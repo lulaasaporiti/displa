@@ -113,4 +113,20 @@ export class ClienteService {
         .set('Cilindrico',Cilindrico)
         )
     }
+
+    getPrecioArticuloFactura(idCliente, idArticulo): Observable<any> {
+        return this.mainService.get(`Cliente/GetPrecioArticuloFactura`, 
+        new HttpParams()
+        .set('idCliente', idCliente)
+        .set('idArticulo', idArticulo)
+        )
+    }
+
+    getPrecioServicioFactura(idCliente, idServicio): Observable<any> {
+        return this.mainService.get(`Cliente/GetPrecioServicioFactura`, 
+        new HttpParams()
+        .set('idCliente', idCliente)
+        .set('idServicio', idServicio)
+        )
+    }
 }

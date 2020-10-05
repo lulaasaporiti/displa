@@ -66,13 +66,15 @@ import { FacturaModule } from './factura/factura.module';
     DragDropModule,
     LoadingSpinnerModule,
     HttpClientModule,
-    ToastrModule.forRoot({
-      closeButton: true,
-      timeOut: 2000, //0 is unlimited
-      extendedTimeOut: 100, //Time to close after a user hovers over toast
-      positionClass: 'toast-bottom-left',
-      progressBar: true,
-    }), // ToastrModule added
+    ToastrModule.forRoot(
+      {
+        closeButton: true,
+        timeOut: 2500, //0 is unlimited
+        extendedTimeOut: 100, //Time to close after a user hovers over toast
+        positionClass: 'toast-bottom-right',
+        progressBar: true,
+        preventDuplicates: true,
+      }), // ToastrModule added
     AccountModule,
     ArticuloVarioModule,
     AsignacionPrecioClienteModule,

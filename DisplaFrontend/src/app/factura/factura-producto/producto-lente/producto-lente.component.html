@@ -1,0 +1,64 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <!-- <mat-icon color="primary" style="font-size:30px" svgIcon="selection"></mat-icon> -->
+            <p class="dialog-title">Lentes</p>
+            <!-- <h6 class="texto-explicativo">Generar venta virtual. </h6> -->
+        </div>
+        
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input #elRef  type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
+                    [matAutocomplete]="auto" name="lente" (blur)="setIdLente(this.lentesControl,
+                this.data)" (keyup.enter)="setIdLente(this.lentesControl);tabInventado($event, 'esferico')">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
+                    <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
+                        {{ l.Id }} - {{l.Nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+                <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Medida esférico"
+                                [(ngModel)]="modelComprobanteItemLente.Esferico" id="esferico"
+                                name="esferico" #esferico="ngModel" pattern="^\d*(\.\d{0,2})?$"
+                                 (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico')" required>
+                    <mat-error *ngIf="esferico.invalid">Este campo es obligatorio.</mat-error>
+                    <!-- (input)="compararLimiteGrilla(index, 'esferico')" -->
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Medida cilindríco"
+                    [(ngModel)]="modelComprobanteItemLente.Cilindrico" id="cilindrico" (keyup.enter)="tabInventado($event, 'cantidad')" 
+                    name="cilindrico" #cilindrico="ngModel" (keypress)="_keyPress($event)" (blur)="traerPrecio()"
+                   required>
+                    <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
+                    <!-- (input)="compararGraduacion(index); compararLimiteGrilla(index, 'cilindrico')"  -->
+                </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Precio unitario" id="precio" [(ngModel)]="modelComprobanteItemLente.Precio"
+                    name="precio" #precio pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required disabled>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="25">
+                <input matInput placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'sobre')" (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente.Cantidad" name="cantidad" required>
+                <!-- <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error> -->
+            </mat-form-field>
+
+            <mat-form-field fxFlex="25">
+                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'seleccionar')" [(ngModel)]="modelComprobanteItemLente.Sobre" name="sobre">
+                <!-- <mat-error *ngIf="sobre.invalid">Este campo es obligatorio.</mat-error> -->
+            </mat-form-field>         
+    </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" id="seleccionar"
+                [mat-dialog-close]="modelComprobanteItemLente">Seleccionar</button>
+        </div>
+    </div>
+</form>

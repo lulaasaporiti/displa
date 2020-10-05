@@ -222,11 +222,26 @@ namespace DisplaBackend.Controllers
         {
             return _clienteService.GetListaAsignacionArticulo();
         }
+
         [HttpGet, Route("GetPrecioLenteFactura")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico)
         {
             return _clienteService.GetPrecioLenteFactura(idCliente, idLente, Esferico, Cilindrico);
+        }
+
+        [HttpGet, Route("GetPrecioArticuloFactura")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetPrecioArticuloFactura(int idCliente, int idArticulo)
+        {
+            return _clienteService.GetPrecioArticuloFactura(idCliente, idArticulo);
+        }
+
+        [HttpGet, Route("GetPrecioServicioFactura")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetPrecioServicioFactura(int idCliente, int idServicio)
+        {
+            return _clienteService.GetPrecioServicioFactura(idCliente, idServicio);
         }
     }
 

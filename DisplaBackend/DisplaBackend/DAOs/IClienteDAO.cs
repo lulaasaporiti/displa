@@ -34,6 +34,8 @@ namespace DisplaBackend.DAOs
         List<dynamic> GetListaAsignacionServicio(List<Servicio> listaPrecios);
         List<dynamic> GetListaAsignacionArticulo(List<ArticuloVario> listaPrecios);
         decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo);
+        decimal GetPrecioArticuloFactura(int idCliente, int idArticulo);
+        decimal GetPrecioServicioFactura(int idCliente, int idServicio);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -729,11 +731,11 @@ namespace DisplaBackend.DAOs
 
         public decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo) {
 
-            var tienePrecioEspecial = _context.PrecioLenteCliente.Where(pc => pc.IdPrecioLenteNavigation.IdLente == idLente && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
+            var tienePrecioEspecial = _context.PrecioLenteCliente.Where(pc => pc.IdPrecioLente == idLente && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
             if (tienePrecioEspecial == null)
             {
                 List<PrecioLenteCliente> precioClientes = _context.PrecioLenteCliente.Include(pc => pc.IdPrecioLenteNavigation)
-                    .Where(pc => pc.IdCliente == idCliente && pc.IdPrecioLenteNavigation.IdLente == idLente)
+                    .Where(pc => pc.IdCliente == idCliente && pc.IdPrecioLente == idLente)
                     .ToList();
                 PrecioLente precioProximo = precioMinimo;
                 foreach (var p in precioClientes)
@@ -754,6 +756,37 @@ namespace DisplaBackend.DAOs
                return tienePrecioEspecial.IdPrecioLenteNavigation.Precio;
             }
             
+        }
+
+        public decimal GetPrecioArticuloFactura(int idCliente, int idArticulo)
+        {
+            var tienePrecioEspecial = _context.PrecioArticuloCliente.Where(pc => pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
+            if (tienePrecioEspecial == null)
+            {
+                PrecioArticulo precioArticulo = _context.PrecioArticuloCliente.Include(pc => pc.IdPrecioArticuloNavigation)
+                    .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo).IdPrecioArticuloNavigation;
+                return precioArticulo.Precio;
+            }
+            else
+            {
+                return tienePrecioEspecial.IdPrecioArticuloNavigation.Precio;
+            }
+        }
+
+        public decimal GetPrecioServicioFactura(int idCliente, int idServicio)
+        {
+            var tienePrecioEspecial = _context.PrecioServicioCliente.Where(pc => pc.IdPrecioServicioNavigation.IdServicio == idServicio && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
+            if (tienePrecioEspecial == null)
+            {
+                PrecioServicio precioServicio = _context.PrecioServicioCliente.Include(pc => pc.IdPrecioServicioNavigation)
+                    .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioServicioNavigation.IdServicio == idServicio).IdPrecioServicioNavigation;
+                return precioServicio.Precio;
+            }
+            else
+            {
+                return tienePrecioEspecial.IdPrecioServicioNavigation.Precio;
+            }
+
         }
     }
 }

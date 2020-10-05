@@ -72,12 +72,12 @@ export class SessionService {
 
   showSuccess(msg?: string) {
     msg = msg ? msg : 'Operación realizada con éxito.'
-    this.toastr.success(msg, 'Éxito');
+    // this.toastr.success(msg, 'Éxito');
   }
 
   showError(msg?: string) {
     msg = msg ? msg : 'Por favor intente nuevamente.'
-    this.toastr.error(msg, 'Error');
+    // this.toastr.error(msg, 'Error');
   }
 
   showWarning(msg?: string) {

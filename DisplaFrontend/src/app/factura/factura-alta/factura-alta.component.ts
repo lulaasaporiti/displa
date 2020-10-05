@@ -1,15 +1,16 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { combineLatest } from 'rxjs';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { ClienteService } from 'src/services/cliente.service';
 import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 import { MatDialog, MatTableDataSource } from '@angular/material';
-import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente/producto-lente.component';
+import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente.component';
 import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
+import { ProductoArticuloComponent } from '../factura-producto/producto-articulo/producto-articulo.component';
+import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
   private id: number = 0;
   panelOpenState = false;
-  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion','Esferico', 'Cilindrico','Recargo', 'Importe', 'Borrar'];
+  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe', 'Borrar'];
   productos: string[] = ['Lentes', 'Varios', 'Servicios', 'Libres', 'Descuento', 'Totales'];
   dataSource = new MatTableDataSource<any>();
   key;
@@ -32,7 +33,7 @@ export class FacturaAltaComponent implements OnInit {
     this.key = event.key;
     switch (this.key) {
       case "F1": { //lentes
-        const dialogRef = this.dialog.open(ProductoLenteComponent,  {
+        const dialogRef = this.dialog.open(ProductoLenteComponent, {
           disableClose: true,
           data: { idCliente: this.id },
           width: '500px'
@@ -40,18 +41,37 @@ export class FacturaAltaComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
             this.cargarLente(result);
-        //     console.log(result)
-        //     this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
           }
+          console.log(result)
         });
         event.preventDefault();
         break;
       }
       case "F3": { //varios
+        const dialogRef = this.dialog.open(ProductoArticuloComponent, {
+          disableClose: true,
+          data: { idCliente: this.id },
+          width: '500px'
+        })
+        dialogRef.afterClosed().subscribe(result => {
+          if (result != undefined && result != false) {
+            this.cargarArticuloServicio(result);
+          }
+        });
         event.preventDefault();
         break;
       }
       case "F4": { //servicios
+        const dialogRef = this.dialog.open(ProductoServicioComponent, {
+          disableClose: true,
+          data: { idCliente: this.id },
+          width: '500px'
+        })
+        dialogRef.afterClosed().subscribe(result => {
+          if (result != undefined && result != false) {
+            this.cargarArticuloServicio(result);
+          }
+        });
         event.preventDefault();
         break;
       }
@@ -88,52 +108,68 @@ export class FacturaAltaComponent implements OnInit {
       this.clienteService.getById(this.id)
         .subscribe(l => {
           this.modelCliente = l;
-          // console.log(l)
           this.loadingSpinnerService.hide();
         });
     }
   }
 
-  
-
   ngOnInit() {
     this.loadingSpinnerService.show();
-    combineLatest(
-
-    ).subscribe(result => {
-     
-      this.loadingSpinnerService.hide();
-    });
-
+    this.dataSource = new MatTableDataSource([]);
+    this.loadingSpinnerService.hide();
   }
 
-  myScript(event){
-  console.log(event)
-
-  }
-
-  cancelar(){
+  cancelar() {
     this.router.navigateByUrl('Cliente/Listado')
   }
 
 
-  altaCliente(){
-    this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
-      data => {
-        console.log(data)
-        this.router.navigateByUrl('Cliente/Modificacion?id='+data)
-        this.sessionService.showSuccess("El cliente se agregó correctamente.");
-      },
-      error => {
-        this.sessionService.showError("El cliente no se agregó.");
-      }
-    );
+  cargarLente(producto) {
+    let item = <ComprobanteItem>{};
+    let itemLente = <ComprobanteItemLente>{};
+    itemLente.IdLente = producto.IdLente;
+    item.Descripcion = producto.IdLenteNavigation.DescripcionFactura;
+    item.Cantidad = producto.Cantidad;
+    item.NumeroSobre = producto.Sobre;
+    item.Monto = item.Cantidad * producto.Precio;
+    itemLente.Cantidad = item.Cantidad;
+    itemLente.Cilindrico = producto.Cilindrico;
+    itemLente.Esferico = producto.Esferico;
+    itemLente.IdComprobanteItemNavigation = item;
+    this.dataSource.data = this.dataSource.data.concat(itemLente);
+    this.sessionService.showSuccess("El producto se agregó correctamente")
   }
 
-  cargarLente(producto){
-    console.log(producto)
+
+  cargarArticuloServicio(producto) {
     let item = <ComprobanteItem>{};
-    // item.NumeroSobre = producto.Sobre;
-    this.dataSource.data.push(item);
+    if (producto.IdArticulo != null) {
+      item.IdArticulo = producto.IdArticulo;
+      item.Descripcion = producto.IdArticuloNavigation.Nombre;
+    }
+    else {
+      item.IdServicio = producto.IdServicio;
+      item.Descripcion = producto.IdServicioNavigation.Nombre;
+    }
+    item.Cantidad = producto.Cantidad;
+    item.NumeroSobre = producto.Sobre;
+    item.Monto = item.Cantidad * producto.Monto;
+    this.dataSource.data = this.dataSource.data.concat(item);
+    this.sessionService.showSuccess("El producto se agregó correctamente")
+
   }
+
+
+  // altaCliente(){
+  //   this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
+  //     data => {
+  //       console.log(data)
+  //       this.router.navigateByUrl('Cliente/Modificacion?id='+data)
+  //       this.sessionService.showSuccess("El cliente se agregó correctamente.");
+  //     },
+  //     error => {
+  //       this.sessionService.showError("El cliente no se agregó.");
+  //     }
+  //   );
+  // }
 }

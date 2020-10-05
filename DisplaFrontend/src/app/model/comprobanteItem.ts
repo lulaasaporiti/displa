@@ -1,11 +1,14 @@
 import { ComprobanteCliente } from './comprobanteCliente';
 import { ArticuloVario } from './articuloVario';
+import { Servicio } from './servicio';
 
 
 export interface ComprobanteItem {
     Id: number,
     IdComprobante: number,
     IdComprobanteNavigation: ComprobanteCliente,
+    IdServicio: number,
+    IdServicioNavigation: Servicio,
     IdArticulo: number,
     IdArticuloNavigation: ArticuloVario,
     NumeroSobre: number,
