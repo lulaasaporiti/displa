@@ -26,7 +26,7 @@
 
         <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
             <mat-form-field fxFlex='30'>
-                <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion'
+                <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion' (selectionChange)="cargarGraduacion()"
                     name="combinacion" #combinacion="ngModel" required>
                     <mat-option value="+ +  / - +">+ + / - +</mat-option>
                     <mat-option value="+ -  / - -">+ - / - -</mat-option>
@@ -46,8 +46,8 @@
 
         <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
             <div fxLayout="column" fxFlex='40'>
-                <label>Graduaciones cilíndricas</label>
-                <mat-radio-group class="radio-group" [(ngModel)]="modelLente.GraduacionesCilindricas"
+                <label style="color: rgb(195, 195, 195)">Graduaciones cilíndricas</label>
+                <mat-radio-group class="radio-group" [(ngModel)]="modelLente.GraduacionesCilindricas" disabled
                     name="graduacionesCilindricas" #graduacionesCilindricas="ngModel" fxLayout="row">
                     <mat-radio-button style="margin-left: 10px;" value="+">Positivas</mat-radio-button>
                     <mat-radio-button style="margin-left: 10px;" value="-">Negativas</mat-radio-button>

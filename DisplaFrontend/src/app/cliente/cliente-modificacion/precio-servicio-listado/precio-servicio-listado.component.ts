@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSort, MatTableDataSource } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,7 +13,6 @@ import { ClienteService } from 'src/services/cliente.service';
 import { combineLatest } from 'rxjs';
 import { TipoServicio } from 'src/app/model/tipoServicio';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
-import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -41,6 +40,7 @@ export class PrecioServicioListadoComponent implements OnInit {
   // checkboxChecked: boolean[] = [];
   // checkboxIndeterminate: boolean[] = [];
   recargaPagina = false;
+  habilitarGuardar = true;
   preciosSeleccionados: PrecioServicioCliente[] = [];
   expandedElement: TipoServicio | null;
 
@@ -56,7 +56,6 @@ export class PrecioServicioListadoComponent implements OnInit {
     private sessionService: SessionService,
     private clienteService: ClienteService,
     private segment: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef,
     private loadingSpinnerService: LoadingSpinnerService) {
     this.segment.queryParams.subscribe((params: Params) => {
       this.idCliente = +params['id']; // (+) converts string 'id' to a number;
@@ -122,7 +121,8 @@ export class PrecioServicioListadoComponent implements OnInit {
               if (!index.includes(i))
                 index.push(i);
             }
-          }
+          } else 
+            this.habilitarGuardar = false;
         });
 
         for (let i = 1; i <= maxCantPrecio; i++) {
@@ -191,6 +191,7 @@ export class PrecioServicioListadoComponent implements OnInit {
     if (event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen servicios que no tienen este número de precio, se seleccionará el primero");
     }
+    this.habilitarBotonGuardar();
   }
 
   onClickedTodosTipo(event, idTipoServicio) {
@@ -237,6 +238,7 @@ export class PrecioServicioListadoComponent implements OnInit {
         }
       }
     });
+    this.habilitarBotonGuardar();
   }
 
   chequear(idPrecio: any) {
@@ -309,6 +311,7 @@ export class PrecioServicioListadoComponent implements OnInit {
     } else {
       this.preciosSeleccionados = this.preciosSeleccionados.filter(p => p.IdPrecioServicio != servicio.PrecioServicio[index].Id);
     }
+    this.habilitarBotonGuardar();
   }
 
   valorPrecioEspecial(idServicio) {
@@ -416,6 +419,19 @@ export class PrecioServicioListadoComponent implements OnInit {
       }
     });
     return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
+  }
+
+  habilitarBotonGuardar(){
+    let cantidadPreciosTotales = 0;
+    let seleccionadosFiltrados = this.preciosSeleccionados.filter(p => p.Especial != true).length;
+    this.dataSource.data.forEach(s => {
+      if (s.PrecioServicio != null) {
+        if (s.PrecioServicio[0] != undefined) {
+          cantidadPreciosTotales = cantidadPreciosTotales + 1;
+        }
+      }
+    });
+    this.habilitarGuardar = seleccionadosFiltrados == cantidadPreciosTotales && seleccionadosFiltrados > 0;
   }
 
   guardarCliente() {
