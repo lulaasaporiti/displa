@@ -17,19 +17,21 @@ import { PrecioArticuloListadoDetalleComponent } from './cliente-detalle/precio-
 import { PrecioLenteListadoDetalleComponent } from './cliente-detalle/precio-lente-listado-detalle/precio-lente-listado-detalle.component';
 import { PrecioServicioListadoComponent } from './cliente-modificacion/precio-servicio-listado/precio-servicio-listado.component';
 import { PrecioServicioListadoDetalleComponent } from './cliente-detalle/precio-servicio-listado-detalle/precio-servicio-listado-detalle.component';
-import { ClienteBloqueadoListadoComponent } from './cliente-bloqueado-listado/cliente-bloqueado-listado.component';
+import { ClienteCuentaListadoComponent } from './cliente-cuenta-listado/cliente-cuenta-listado.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { FichaAltaComponent } from './cliente-modificacion/ficha/ficha-alta/ficha-alta.component';
+import { MatButtonToggleModule } from '@angular/material';
 
 @NgModule({
     entryComponents: [ClienteBajaComponent, FichaAltaComponent],
     declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, InformacionModificacionComponent, InformacionDetalleComponent,
         PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent ,PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, 
-        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteBloqueadoListadoComponent, FichaAltaComponent],
+        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, FichaAltaComponent],
     imports: [
         CommonModule,
         MaterialModule,
         DragDropModule,
+        MatButtonToggleModule,
         ClienteRoutingModule,
         LoadingSpinnerModule
     ]

@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'app-cliente-bloqueado-listado',
-  templateUrl: './cliente-bloqueado-listado.component.html',
-  styleUrls: ['./cliente-bloqueado-listado.component.css']
+  selector: 'app-cliente-cuenta-listado',
+  templateUrl: './cliente-cuenta-listado.component.html',
+  styleUrls: ['./cliente-cuenta-listado.component.css']
 })
-export class ClienteBloqueadoListadoComponent implements OnInit {
+export class ClienteCuentaListadoComponent implements OnInit {
   displayedColumns: string[] = ['Optica', 'Saldo', 'MontoExcedido', 'Credito', 'DiasExcedido', 'Plazo',  'Fecha', 'Motivo', 'Estado', 'Opciones'];
-  traerVigentes: boolean = true;
+  panelOpenState = false;
 
 
   dataSource = new MatTableDataSource<any>();
@@ -48,16 +48,11 @@ export class ClienteBloqueadoListadoComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
-  cambiarListado() {
-    this.traerActivos = !this.traerActivos;
-    this.loadClientePage();
-  }
   
 
   loadClientePage() {
     this.loadingSpinnerService.show()
-      this.clienteService.getClientesBloqueados()
+      this.clienteService.getCuentasClientes()
         .subscribe(r => {
           this.dataSource.data = r;
           this.loadingSpinnerService.hide();

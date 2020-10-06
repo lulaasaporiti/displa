@@ -5,14 +5,14 @@ import { LoggedInGuard } from 'src/guards/loggedIn-guard';
 import { ClienteAltaComponent } from './cliente-alta/cliente-alta.component';
 import { InformacionModificacionComponent } from './cliente-modificacion/informacion-modificacion/informacion-modificacion.component';
 import { InformacionDetalleComponent } from './cliente-detalle/informacion-detalle/informacion-detalle.component';
-import { ClienteBloqueadoListadoComponent } from './cliente-bloqueado-listado/cliente-bloqueado-listado.component';
+import { ClienteCuentaListadoComponent } from './cliente-cuenta-listado/cliente-cuenta-listado.component';
 
 const routes: Routes = [
   {
     path: '', canActivate: [LoggedInGuard],
     children: [
       {path: 'Cliente/Listado', component: ClienteListadoComponent},
-      {path: 'CuentaBloqueada/Listado', component: ClienteBloqueadoListadoComponent},
+      {path: 'Cuentas/Listado', component: ClienteCuentaListadoComponent},
       {path: 'Cliente/Alta', component: ClienteAltaComponent},
       {path: 'Cliente/Modificacion', component: InformacionModificacionComponent},
       {path: 'Cliente/Detalle', component: InformacionDetalleComponent},

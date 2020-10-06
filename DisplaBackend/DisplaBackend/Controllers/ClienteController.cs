@@ -165,11 +165,11 @@ namespace DisplaBackend.Controllers
             return Ok(_clienteService.BloquearClientes());
         }
 
-        [HttpGet, Route("GetClientesBloqueados")]
+        [HttpGet, Route("GetCuentasClientes")]
         [EnableCors("DisplaAPIPolicy")]
-        public object GetClientesBloqueados()
+        public object GetCuentasClientes()
         {
-            return _clienteService.GetClientesBloqueados();
+            return _clienteService.GetCuentasClientes();
         }
 
         [HttpPost, Route("AsignarPreciosLentes")]

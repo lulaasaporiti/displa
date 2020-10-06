@@ -17,6 +17,12 @@ mat-paginator{
   transform: scale(0.7);
 }
 
+.toggle-clientes{
+  font-size: small;
+  line-height: 38px !important;
+}
+
+
 
 /* /////////////////// */
 

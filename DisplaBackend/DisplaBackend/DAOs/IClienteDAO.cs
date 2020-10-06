@@ -26,7 +26,7 @@ namespace DisplaBackend.DAOs
         dynamic GetFichaCliente(int idCliente);
         bool SaveFicha(Ficha ficha);
         bool BloquearClientes();
-        List<dynamic> GetClientesBloqueados();
+        List<dynamic> GetCuentasClientes();
         int AsignarPreciosLentes(JObject[] preciosLentes, List<dynamic> listaPrecios);
         int AsignarPreciosServicios(JObject[] preciosServicios, List<Servicio> listaPrecios);
         int AsignarPreciosArticulos(JObject[] preciosArticulos, List<ArticuloVario> listaPrecios);
@@ -440,10 +440,9 @@ namespace DisplaBackend.DAOs
             return _context.SaveChanges() >= 1;
         }
 
-        public List<dynamic> GetClientesBloqueados()
+        public List<dynamic> GetCuentasClientes()
         {
             List<dynamic> clientes = _context.Cliente
-                .Where(c => c.Bloqueado)
                 .Select(c => new
                 {
                     Id = c.Id,

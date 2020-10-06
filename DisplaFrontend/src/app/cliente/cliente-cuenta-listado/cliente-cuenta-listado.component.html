@@ -6,13 +6,40 @@
       <input matInput (keyup)="applyFilter($event.target.value)" #search autofocus="autofocus" placeholder="Buscar">
     </mat-form-field>
   </div>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-accordion fxFill>
+      <mat-expansion-panel [expanded]="false" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5 class="titulo" fxFlex>Filtros</h5>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxLayout="column" style="margin: 12px auto;">
+            <div fxLayout="row" style="font-size: small; line-height: 38px !important;"  fxLayoutAlign="start center">
+              <mat-button-toggle-group fxFlexOffset="2" name="clientes">
+                  <mat-button-toggle [value]="true" (click)="filtrarBloqueados()">
+                      Bloqueados
+                  </mat-button-toggle>
+                  <mat-button-toggle [value]="false">
+                      No bloqueados
+                  </mat-button-toggle>
+              </mat-button-toggle-group>
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="2vw">
+            
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
   <mat-divider fxFlexOffset="2"></mat-divider>
 
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
 
     <ng-container matColumnDef="Optica">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ÓPTICA </th>
-      <td mat-cell *matCellDef="let row"> {{row.Optica}} </td>
+      <td mat-cell *matCellDef="let row">  {{row.Id}} - {{row.Optica}} </td>
     </ng-container>
 
     <ng-container matColumnDef="Saldo">
