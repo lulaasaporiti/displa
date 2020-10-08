@@ -109,6 +109,13 @@ export class ProductoLenteComponent implements OnInit {
     })
   }
 
+  agregarGraduacion() {
+    // let item = <StockLente>{};
+    // item.IdLente = this.data.modelStock[0].IdLente;
+    // this.cargarStock.push(item);
+    // this.msjCilindrico.push(false);
+  }
+
   filterLente(nombre: any): Lente[] {
     if (nombre.length >= 0) {
       var s: string;

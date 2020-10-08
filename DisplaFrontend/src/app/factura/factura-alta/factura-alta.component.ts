@@ -23,7 +23,7 @@ export class FacturaAltaComponent implements OnInit {
   private id: number = 0;
   panelOpenState = false;
   displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe', 'Borrar'];
-  productos: string[] = ['Lentes', 'Varios', 'Servicios', 'Libres', 'Descuento', 'Totales'];
+  productos: string[] = ['Lentes (F1)', 'Varios (F3)', 'Servicios (F4)', 'Libres (F5)', 'Descuento (F6)', 'Totales (F7)'];
   dataSource = new MatTableDataSource<any>();
   key;
   modelComprobante = <ComprobanteCliente>{};
