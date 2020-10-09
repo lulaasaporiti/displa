@@ -8,9 +8,8 @@
         
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input #elRef  type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
-                    [matAutocomplete]="auto" name="lente" (blur)="setIdLente(this.lentesControl,
-                this.data)" (keyup.enter)="setIdLente(this.lentesControl);tabInventado($event, 'esferico')">
+                <input #elRef type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
+                    [matAutocomplete]="auto" name="lente" (blur)="setIdLente(this.lentesControl)" (keyup.enter)="tabInventado($event, 'esferico0')">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
                     <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
                         {{ l.Id }} - {{l.Nombre}}
@@ -18,32 +17,39 @@
                 </mat-autocomplete>
             </mat-form-field>
         </div>
+                
         
-        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
-                <mat-form-field fxFlex="50">
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px"  (change)="updateStateGraduacion()"
+        *ngFor="let l of modelComprobanteItemLente; let index = index">
+                <mat-form-field fxFlex="40">
                     <input matInput placeholder="Medida esférico"
-                                [(ngModel)]="modelComprobanteItemLente.Esferico" id="esferico"
-                                name="esferico" #esferico="ngModel" pattern="^\d*(\.\d{0,2})?$"
-                                 (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico')" required>
+                                [(ngModel)]="modelComprobanteItemLente[index].Esferico" id="esferico{{index}}"
+                                name="esferico{{index}}" #esferico="ngModel" pattern="^\d*(\.\d{0,2})?$"
+                                 (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico0')" required>
                     <mat-error *ngIf="esferico.invalid">Este campo es obligatorio.</mat-error>
                     <!-- (input)="compararLimiteGrilla(index, 'esferico')" -->
                 </mat-form-field>
-                <mat-form-field fxFlex="50">
+                <mat-form-field fxFlex="40">
                     <input matInput placeholder="Medida cilindríco"
-                    [(ngModel)]="modelComprobanteItemLente.Cilindrico" id="cilindrico" (keyup.enter)="tabInventado($event, 'agregar')" 
-                    name="cilindrico" #cilindrico="ngModel" (keypress)="_keyPress($event)" (blur)="traerPrecio()"
+                    [(ngModel)]="modelComprobanteItemLente[index].Cilindrico" id="cilindrico{{index}}" (keyup.enter)="tabInventado($event, 'agregar')" 
+                    name="cilindrico{{index}}" #cilindrico="ngModel" (keypress)="_keyPress($event)" 
                    required>
                     <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
                     <!-- (input)="compararGraduacion(index); compararLimiteGrilla(index, 'cilindrico')"  -->
                 </mat-form-field>
+                <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimaGraduacion()"
+                        [disabled]="modelComprobanteItemLente.length < 1" color="accent">
+                        <mat-icon>close</mat-icon>
+                    </button>
         </div>
         <div fxLayout="row" fxLayoutAlign="start center">
             <p>Graduación</p>
-            <button mat-icon-button color="accent" id="agregar" matTooltip="Agregar graduación" (click)="agregarGraduacion()">
+            <button mat-icon-button color="accent" id="agregar" matTooltip="Agregar graduación" (click)="agregarGraduacion()" [disabled]="modelComprobanteItemLente.length == 2">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
-
+        <!-- (blur)="traerPrecio()" -->
+<!-- 
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFlex="50">
                 <input matInput placeholder="Precio unitario" id="precio" [(ngModel)]="modelComprobanteItemLente.Precio"
@@ -52,14 +58,12 @@
 
             <mat-form-field fxFlex="25">
                 <input matInput placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'sobre')" (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente.Cantidad" name="cantidad" required>
-                <!-- <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error> -->
             </mat-form-field>
 
             <mat-form-field fxFlex="25">
                 <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'seleccionar')" [(ngModel)]="modelComprobanteItemLente.Sobre" name="sobre">
-                <!-- <mat-error *ngIf="sobre.invalid">Este campo es obligatorio.</mat-error> -->
             </mat-form-field>         
-    </div>
+    </div> -->
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>

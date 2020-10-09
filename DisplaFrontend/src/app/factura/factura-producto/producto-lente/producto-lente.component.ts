@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
@@ -7,7 +7,6 @@ import { Lente } from 'src/app/model/lente';
 import { LenteService } from 'src/services/lente.service';
 import { LimitesGrillaService } from 'src/services/limites.grilla.service';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
-import { ElementRef } from '@angular/core';
 import { ClienteService } from 'src/services/cliente.service';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 
@@ -18,11 +17,13 @@ import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 })
 export class ProductoLenteComponent implements OnInit {
   lentes: Lente[];
+  selectedGraduacion = new EventEmitter<ComprobanteItemLente[]>();
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
-  modelComprobanteItemLente = <ComprobanteItemLente>{};
+  modelComprobanteItemLente:  ComprobanteItemLente[] = [];
+
 
   constructor(
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
@@ -30,7 +31,10 @@ export class ProductoLenteComponent implements OnInit {
     private clienteService: ClienteService,
     private limitesGrillaService: LimitesGrillaService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      // console.log(data)
+      let cargarGraduacion= <ComprobanteItemLente>{};
+      cargarGraduacion.Esferico = 0;
+      cargarGraduacion.Cilindrico = 0;
+      this.modelComprobanteItemLente.push(cargarGraduacion);
   }
 
 
@@ -73,6 +77,7 @@ export class ProductoLenteComponent implements OnInit {
   tabInventado(event: KeyboardEvent, idElement)
   {
     if (event.code == "Enter") {
+      console.log(document.getElementsByTagName('input'))
       event.preventDefault();
       document.getElementById(idElement).focus();
     }
@@ -82,10 +87,8 @@ export class ProductoLenteComponent implements OnInit {
     if (control.value != null) {
       let idLimiteIzquierda;
       let idLimiteDerecha;
-      this.modelComprobanteItemLente.IdLente = control.value.Id;
-      this.modelComprobanteItemLente.IdLenteNavigation = control.value;
-      this.modelComprobanteItemLente.Esferico = 0;
-      this.modelComprobanteItemLente.Cilindrico = 0;
+      this.modelComprobanteItemLente[0].IdLente = control.value.Id;
+      this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;
       let combinacion = control.value.Combinacion.split("  / ");
       if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
       else idLimiteIzquierda = 3;
@@ -99,21 +102,39 @@ export class ProductoLenteComponent implements OnInit {
         this.limiteGrillaDerecha = result[1];
       });
     }
+    console.log(this.modelComprobanteItemLente)
   }
 
-  traerPrecio(){
-    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente.IdLente, this.modelComprobanteItemLente.Esferico, this.modelComprobanteItemLente.Cilindrico)
-    .subscribe(result => {
-      this.modelComprobanteItemLente.Precio = result;
-      this.modelComprobanteItemLente.Cantidad = 1;
-    })
-  }
+  // traerPrecio(){
+  //   this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente.IdLente, this.modelComprobanteItemLente.Esferico, this.modelComprobanteItemLente.Cilindrico)
+  //   .subscribe(result => {
+  //     this.modelComprobanteItemLente.Precio = result;
+  //     this.modelComprobanteItemLente.Cantidad = 1;
+  //   })
+  // }
 
   agregarGraduacion() {
-    // let item = <StockLente>{};
-    // item.IdLente = this.data.modelStock[0].IdLente;
-    // this.cargarStock.push(item);
-    // this.msjCilindrico.push(false);
+    let item = <ComprobanteItemLente>{};
+    item.IdLente = this.modelComprobanteItemLente[0].IdLente;
+    item.Esferico = 0;
+    item.Cilindrico = 0;
+    this.modelComprobanteItemLente.push(item);
+  }
+
+  eliminarUltimaGraduacion() {
+    this.modelComprobanteItemLente.pop();
+    this.updateStateGraduacion();
+  }
+
+  graduacionSelected() {
+    this.updateStateGraduacion();
+  }
+
+  updateStateGraduacion() {
+    //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
+    //y el ngOnChanges() lo detecte
+    let nuevaGraduacion = JSON.parse(JSON.stringify(this.modelComprobanteItemLente));
+    this.selectedGraduacion.emit(nuevaGraduacion);
   }
 
   filterLente(nombre: any): Lente[] {

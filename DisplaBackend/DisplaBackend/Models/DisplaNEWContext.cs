@@ -63,6 +63,8 @@ namespace DisplaBackend.Models
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
 
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -768,7 +770,9 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdArticulo).HasColumnName("idArticulo");
 
-                entity.Property(e => e.Precio).HasColumnName("precio");
+                entity.Property(e => e.Precio)
+                    .HasColumnName("precio")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.HasOne(d => d.IdArticuloNavigation)
                     .WithMany(p => p.PrecioArticulo)
@@ -856,7 +860,9 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdServicio).HasColumnName("idServicio");
 
-                entity.Property(e => e.Precio).HasColumnName("precio");
+                entity.Property(e => e.Precio)
+                    .HasColumnName("precio")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.HasOne(d => d.IdServicioNavigation)
                     .WithMany(p => p.PrecioServicio)

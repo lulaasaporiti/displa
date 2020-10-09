@@ -34,8 +34,8 @@ namespace DisplaBackend.DAOs
         List<dynamic> GetListaAsignacionServicio(List<Servicio> listaPrecios);
         List<dynamic> GetListaAsignacionArticulo(List<ArticuloVario> listaPrecios);
         decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo);
-        double GetPrecioArticuloFactura(int idCliente, int idArticulo);
-        double GetPrecioServicioFactura(int idCliente, int idServicio);
+        decimal GetPrecioArticuloFactura(int idCliente, int idArticulo);
+        decimal GetPrecioServicioFactura(int idCliente, int idServicio);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -757,7 +757,7 @@ namespace DisplaBackend.DAOs
             
         }
 
-        public double GetPrecioArticuloFactura(int idCliente, int idArticulo)
+        public decimal GetPrecioArticuloFactura(int idCliente, int idArticulo)
         {
             var tienePrecioEspecial = _context.PrecioArticuloCliente.Where(pc => pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
             if (tienePrecioEspecial == null)
@@ -772,7 +772,7 @@ namespace DisplaBackend.DAOs
             }
         }
 
-        public double GetPrecioServicioFactura(int idCliente, int idServicio)
+        public decimal GetPrecioServicioFactura(int idCliente, int idServicio)
         {
             var tienePrecioEspecial = _context.PrecioServicioCliente.Where(pc => pc.IdPrecioServicioNavigation.IdServicio == idServicio && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
             if (tienePrecioEspecial == null)

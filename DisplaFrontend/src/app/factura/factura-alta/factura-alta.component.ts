@@ -42,7 +42,6 @@ export class FacturaAltaComponent implements OnInit {
           if (result != undefined && result != false) {
             this.cargarLente(result);
           }
-          console.log(result)
         });
         event.preventDefault();
         break;
