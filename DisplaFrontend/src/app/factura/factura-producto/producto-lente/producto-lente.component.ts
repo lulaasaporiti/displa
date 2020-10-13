@@ -77,7 +77,7 @@ export class ProductoLenteComponent implements OnInit {
   tabInventado(event: KeyboardEvent, idElement)
   {
     if (event.code == "Enter") {
-      console.log(document.getElementsByTagName('input'))
+      // console.log(document.getElementsByTagName('input'))
       event.preventDefault();
       document.getElementById(idElement).focus();
     }
@@ -87,6 +87,7 @@ export class ProductoLenteComponent implements OnInit {
     if (control.value != null) {
       let idLimiteIzquierda;
       let idLimiteDerecha;
+      console.log(this.modelComprobanteItemLente);
       this.modelComprobanteItemLente[0].IdLente = control.value.Id;
       this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;
       let combinacion = control.value.Combinacion.split("  / ");
@@ -94,13 +95,13 @@ export class ProductoLenteComponent implements OnInit {
       else idLimiteIzquierda = 3;
       if (combinacion[1] == '- +') idLimiteDerecha = 2;
       else idLimiteDerecha = 4;
-      combineLatest(
-        this.limitesGrillaService.getById(idLimiteIzquierda),
-        this.limitesGrillaService.getById(idLimiteDerecha)
-      ).subscribe(result => {
-        this.limiteGrillaIzquierda = result[0];
-        this.limiteGrillaDerecha = result[1];
-      });
+      // combineLatest(
+      //   this.limitesGrillaService.getById(idLimiteIzquierda),
+      //   this.limitesGrillaService.getById(idLimiteDerecha)
+      // ).subscribe(result => {
+      //   this.limiteGrillaIzquierda = result[0];
+      //   this.limiteGrillaDerecha = result[1];
+      // });
     }
     console.log(this.modelComprobanteItemLente)
   }
@@ -121,9 +122,10 @@ export class ProductoLenteComponent implements OnInit {
     this.modelComprobanteItemLente.push(item);
   }
 
-  eliminarUltimaGraduacion() {
-    this.modelComprobanteItemLente.pop();
-    this.updateStateGraduacion();
+  eliminarUltimaGraduacion(i) {
+    console.log(i)
+    this.modelComprobanteItemLente.splice(+i, 1);
+    // this.updateStateGraduacion();
   }
 
   graduacionSelected() {

@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material';
 import { ProductoLenteComponent } from './factura-producto/producto-lente/producto-lente.component';
 import { ProductoArticuloComponent } from './factura-producto/producto-articulo/producto-articulo.component';
 import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';
+import { MatButtonToggleModule } from '@angular/material';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
@@ -21,7 +22,8 @@ import { ProductoServicioComponent } from './factura-producto/producto-servicio/
         MaterialModule,
         MatListModule,
         FacturaRoutingModule,
-        LoadingSpinnerModule
+        LoadingSpinnerModule,
+        MatButtonToggleModule
     ]
 })
 export class FacturaModule { }
