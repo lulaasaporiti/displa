@@ -36,7 +36,7 @@ export class FacturaAltaComponent implements OnInit {
         const dialogRef = this.dialog.open(ProductoLenteComponent, {
           disableClose: true,
           data: { idCliente: this.id },
-          width: '500px'
+          width: '800px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
@@ -154,7 +154,7 @@ export class FacturaAltaComponent implements OnInit {
     item.NumeroSobre = producto.Sobre;
     item.Monto = item.Cantidad * producto.Monto;
     this.dataSource.data = this.dataSource.data.concat(item);
-    this.sessionService.showSuccess("El producto se agregó correctamente")
+    this.sessionService.showSuccess("El producto se agregó correctamente");
 
   }
 

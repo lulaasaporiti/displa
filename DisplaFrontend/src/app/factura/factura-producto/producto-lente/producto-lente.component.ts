@@ -22,6 +22,7 @@ export class ProductoLenteComponent implements OnInit {
   filteredLentes: Observable<Lente[]>;
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
+  mostrarPrecio = false;
   modelComprobanteItemLente:  ComprobanteItemLente[] = [];
 
 
@@ -41,13 +42,11 @@ export class ProductoLenteComponent implements OnInit {
   ngOnInit() {
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
+      this.mostrarPrecio = false;
       this.filteredLentes = this.lentesControl.valueChanges
         .pipe(
           startWith(''),
-          // map(value => typeof value === 'string' ? value : value.Nombre),
           map(val => this.filterLente(val))
-
-          // map(Nombre => Nombre ? this._filter(Nombre) : this.lentes.slice())
         );
     });
   }
@@ -77,17 +76,32 @@ export class ProductoLenteComponent implements OnInit {
   tabInventado(event: KeyboardEvent, idElement)
   {
     if (event.code == "Enter") {
-      // console.log(document.getElementsByTagName('input'))
       event.preventDefault();
       document.getElementById(idElement).focus();
+      if(idElement == "remove"){
+        document.getElementById(idElement).style.backgroundColor="#e0e0e0";
+      }
     }
+  }
+
+  flechita(event: KeyboardEvent, idElement)
+  {
+    if (event.code == "ArrowLeft") {
+      document.getElementById(idElement).focus();
+      document.getElementById(idElement).style.backgroundColor="#e0e0e0";
+      document.getElementById("remove").style.backgroundColor="transparent";
+    }    
+    if (event.code == "ArrowRight") {
+      document.getElementById(idElement).focus();
+      document.getElementById(idElement).style.backgroundColor="#e0e0e0";
+      document.getElementById("done").style.backgroundColor="transparent";
+    }    
   }
 
   setIdLente(control) {
     if (control.value != null) {
       let idLimiteIzquierda;
       let idLimiteDerecha;
-      console.log(this.modelComprobanteItemLente);
       this.modelComprobanteItemLente[0].IdLente = control.value.Id;
       this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;
       let combinacion = control.value.Combinacion.split("  / ");
@@ -103,16 +117,17 @@ export class ProductoLenteComponent implements OnInit {
       //   this.limiteGrillaDerecha = result[1];
       // });
     }
-    console.log(this.modelComprobanteItemLente)
+    // console.log(this.modelComprobanteItemLente)
   }
 
-  // traerPrecio(){
-  //   this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente.IdLente, this.modelComprobanteItemLente.Esferico, this.modelComprobanteItemLente.Cilindrico)
-  //   .subscribe(result => {
-  //     this.modelComprobanteItemLente.Precio = result;
-  //     this.modelComprobanteItemLente.Cantidad = 1;
-  //   })
-  // }
+  traerPrecio(){
+    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[0].IdLente, this.modelComprobanteItemLente[0].Esferico, this.modelComprobanteItemLente[0].Cilindrico)
+    .subscribe(result => {
+      this.mostrarPrecio = true;
+      this.modelComprobanteItemLente[0].Precio = result;
+      this.modelComprobanteItemLente[0].Cantidad = 1;
+    })
+  }
 
   agregarGraduacion() {
     let item = <ComprobanteItemLente>{};
@@ -123,21 +138,21 @@ export class ProductoLenteComponent implements OnInit {
   }
 
   eliminarUltimaGraduacion(i) {
-    console.log(i)
+    // console.log(i)
     this.modelComprobanteItemLente.splice(+i, 1);
     // this.updateStateGraduacion();
   }
 
-  graduacionSelected() {
-    this.updateStateGraduacion();
-  }
+  // graduacionSelected() {
+  //   this.updateStateGraduacion();
+  // }
 
-  updateStateGraduacion() {
-    //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
-    //y el ngOnChanges() lo detecte
-    let nuevaGraduacion = JSON.parse(JSON.stringify(this.modelComprobanteItemLente));
-    this.selectedGraduacion.emit(nuevaGraduacion);
-  }
+  // updateStateGraduacion() {
+  //   //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
+  //   //y el ngOnChanges() lo detecte
+  //   let nuevaGraduacion = JSON.parse(JSON.stringify(this.modelComprobanteItemLente));
+  //   this.selectedGraduacion.emit(nuevaGraduacion);
+  // }
 
   filterLente(nombre: any): Lente[] {
     if (nombre.length >= 0) {

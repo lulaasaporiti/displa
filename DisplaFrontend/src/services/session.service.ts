@@ -71,17 +71,17 @@ export class SessionService {
   }
 
   showSuccess(msg?: string) {
-    msg = msg ? msg : 'Operación realizada con éxito.'
+    msg = msg ? msg : ' Operación realizada con éxito.'
     // this.toastr.success(msg, 'Éxito');
   }
 
   showError(msg?: string) {
-    msg = msg ? msg : 'Por favor intente nuevamente.'
+    msg = msg ? msg : ' Por favor intente nuevamente.'
     // this.toastr.error(msg, 'Error');
   }
 
   showWarning(msg?: string) {
-    msg = msg ? msg : 'No tiene los permisos necesarios para esta operación.'
+    msg = msg ? msg : ' No tiene los permisos necesarios para esta operación.'
     this.toastr.warning(msg, '¡Cuidado!');
   }
 
