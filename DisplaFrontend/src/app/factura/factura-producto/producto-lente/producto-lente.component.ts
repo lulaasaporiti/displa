@@ -24,6 +24,7 @@ export class ProductoLenteComponent implements OnInit {
   limiteGrillaIzquierda = <LimiteGrilla>{};
   mostrarPrecio = false;
   modelComprobanteItemLente:  ComprobanteItemLente[] = [];
+  servicios: string[] = ['CAL O', 'CAL M', 'CAL B', 'CAL L', 'CAL P', 'CAL F', 'CAL L', 'OTROS'];
 
 
   constructor(
@@ -75,6 +76,7 @@ export class ProductoLenteComponent implements OnInit {
 
   tabInventado(event: KeyboardEvent, idElement)
   {
+    console.log(idElement)
     if (event.code == "Enter") {
       event.preventDefault();
       document.getElementById(idElement).focus();

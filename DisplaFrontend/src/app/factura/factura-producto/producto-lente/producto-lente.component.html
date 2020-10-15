@@ -18,6 +18,7 @@
                 </mat-autocomplete>
             </mat-form-field>
         </div>
+            <!-- ///////////////////////  PRIMERA GRADUACION  ////////////////////////////// -->
         <div mat-dialog-content fxLayout="row" fxLayoutGap="12px">
             <div mat-dialog-content fxLayoutGap="15px">
                 <mat-form-field fxFlex="50">
@@ -28,12 +29,16 @@
                 </mat-form-field>
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Medida cilindríco"
-                        [(ngModel)]="modelComprobanteItemLente[0].Cilindrico" id="cilindrico0"
-                        (keyup.enter)="tabInventado($event, 'remove')" name="cilindrico0" #cilindrico0="ngModel"
+                        [(ngModel)]="modelComprobanteItemLente[0].Cilindrico" id="cilindrico0" (blur)="traerPrecio()"
+                        (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0" #cilindrico0="ngModel"
                         (keypress)="_keyPress($event)" required>
                     <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio.</mat-error>
                 </mat-form-field>
             </div>
+            <!-- ///////////////////////  FIN PRIMERA GRADUACION  ////////////////////////////// -->
+
+
+            <!-- ///////////////////////  SEGUNDA GRADUACION  ////////////////////////////// -->
             <div mat-dialog-content fxLayoutGap="15px" *ngIf="modelComprobanteItemLente.length == 2">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Medida esférico" [(ngModel)]="modelComprobanteItemLente[1].Esferico"
@@ -45,7 +50,7 @@
                 <mat-form-field fxFlex="45">
                     <input matInput placeholder="Medida cilindríco"
                         [(ngModel)]="modelComprobanteItemLente[1].Cilindrico" id="cilindrico1"
-                        (keyup.enter)="tabInventado($event, 'precio1')" name="cilindrico1" #cilindrico1="ngModel"
+                        (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1" #cilindrico1="ngModel"
                         (keypress)="_keyPress($event)" required>
                     <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio.</mat-error>
 
@@ -56,55 +61,72 @@
                     </button>
                 </mat-form-field>
             </div>
+            <!-- /////////////////////// FIN SEGUNDA GRADUACION  ////////////////////////////// -->
+
         </div>
         <div mat-dialog-content fxLayout="row" fxLayoutGap="10px">
-            <div mat-dialog-content fxLayout="row" fxLayoutGap="15px"
-                *ngIf="mostrarPrecio || modelComprobanteItemLente.length == 2">
-                <mat-form-field fxFlex="30">
+            <!-- ///////////////////////  PRECIO PRIMERA GRADUACION  ////////////////////////////// -->
+            <div mat-dialog-content fxLayoutGap="10px" fxFlex="55">
+                <mat-form-field fxFlex="50">
                     <input matInput placeholder="Precio unitario" id="precio"
                         [(ngModel)]="modelComprobanteItemLente[0].Precio" id="precio0" name="precio0" #precio0
                         pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" disabled>
                 </mat-form-field>
 
-                <mat-form-field fxFlex="25">
+                <mat-form-field fxFlex="30">
                     <input matInput placeholder="Cantidad" id="cantidad0" (keyup.enter)="tabInventado($event, 'sobre')"
-                        (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente.Cantidad" name="cantidad0"
+                        (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0"
                         required>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="20">
                     <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
-                        (keyup.enter)="tabInventado($event, 'seleccionar')"
+                        (keyup.enter)="tabInventado($event, 'remove')"
                         [(ngModel)]="modelComprobanteItemLente.Sobre" name="sobre">
                 </mat-form-field>
             </div>
-            <div mat-dialog-content fxLayoutGap="15px" *ngIf="modelComprobanteItemLente.length == 2">
+            <!-- ///////////////////////  FIN PRECIO PRIMERA GRADUACION  ////////////////////////////// -->
+
+
+            <!-- ///////////////////////  PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
+            <div mat-dialog-content fxLayoutGap="10px" *ngIf="modelComprobanteItemLente.length == 2" fxFlex="45">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Precio unitario"
                         [(ngModel)]="modelComprobanteItemLente[1].Precio" id="precio1" name="precio1" #precio1
                         pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" disabled>
                 </mat-form-field>
-                <mat-form-field fxFlex="50">
+                <mat-form-field fxFlex="45">
                     <input matInput placeholder="Cantidad" id="cantidad1" (keyup.enter)="tabInventado($event, 'sobre')"
-                        (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente.Cantidad" name="cantidad1"
+                        (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1"
                         required>
                 </mat-form-field>
             </div>
+            <!-- /////////////////////// FIN PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
+
         </div>
 
         <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2">
             <p style="font-size: small;">Agregar otra graduación</p>
             <mat-button-toggle-group fxFlexOffset="2">
-                <mat-button-toggle id="done" (keyup)="flechita($event, 'remove')" (click)="agregarGraduacion()">
+                <mat-button-toggle id="done" (keyup)="flechita($event, 'remove')" (keyup.enter)="tabInventado($event, 'esferico1')" (click)="agregarGraduacion()">
                     <mat-icon>done</mat-icon>
                 </mat-button-toggle>
-                <mat-button-toggle id="remove" (keyup)="flechita($event, 'done')" (click)="traerPrecio()">
+                <mat-button-toggle id="remove" (keyup)="flechita($event, 'done')" (keyup.enter)="tabInventado($event, 'seleccionar')">
                     <mat-icon>remove</mat-icon>
                 </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
-
-
+        <mat-divider></mat-divider>
+        <div fxLayout="column" fxLayoutAlign="space-evenly start" fxLayoutGap="2px" class="menu-agregar">
+            <h5 class="titulo" fxFlex>Servicios</h5>
+            <mat-list fxLayout="row">
+                <mat-list-item *ngFor="let s of servicios">
+                    <button mat-button>
+                        {{s}}
+                    </button>
+                </mat-list-item>
+            </mat-list>
+        </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
