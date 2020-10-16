@@ -12,7 +12,7 @@
                 <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
-                <mat-select placeholder="Tipo de servicio" [(ngModel)]="modelArticuloVario.IdTipoArticulo" name="tipo"
+                <mat-select placeholder="Tipo de artículo" [(ngModel)]="modelArticuloVario.IdTipoArticulo" name="tipo"
                     #tipo="ngModel" required>
                     <mat-option *ngFor="let ta of tiposArticuloVario" [value]="ta.Id">
                         {{ ta.Nombre }}

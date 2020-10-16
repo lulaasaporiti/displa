@@ -7,20 +7,34 @@
         </div>
         
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
-            <mat-form-field fxFlex="50">
-                <input #elRef  type="text" placeholder="Artículo vario" aria-label="Artículo vario" matInput [formControl]="articulosControl"
-                    [matAutocomplete]="auto" name="articulo" (blur)="setIdArticulo(this.articulosControl,
-                this.data)" (keyup.enter)="setIdArticulo(this.articulosControl); tabInventado($event, 'cantidad')">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayArticulo">
-                    <mat-option *ngFor="let a of filteredArticulos | async" [value]="a">
-                        {{ a.Id }} - {{a.Nombre}}
+           
+            <mat-form-field fxFill>
+                <input type="text" placeholder="Tipo artículo" aria-label="Tipo artículo" matInput
+                    [formControl]="tipoArticulosControl" [matAutocomplete]="auto" name="tipo"
+                    (blur)="setIdTipoArticulo(this.tipoArticulosControl)"
+                    [(ngModel)]="modelTipoArticulo.Nombre">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTipoArticulo">
+                    <mat-option *ngFor="let t of filteredTipoArticulos | async" [value]="t" (onSelectionChange)="tipoArticuloChange($event)">
+                        {{t.Id}} - {{ t.Nombre }} 
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <mat-form-field fxFlex="50">
+            <!-- <mat-form-field appearance="fill"> -->
+                <!-- <mat-label>Toppings</mat-label> -->
+                <!-- <mat-select [formControl]="articulos" multiple> -->
+                  <!-- <mat-select-trigger>
+                    {{toppings.value ? toppings.value[0] : ''}}
+                    <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
+                      (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+                    </span>
+                  </mat-select-trigger> -->
+                  <!-- <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option> -->
+                <!-- </mat-select>
+              </mat-form-field> -->
+            <!-- <mat-form-field fxFlex="50">
                 <input matInput placeholder="Precio unitario" id="precio" [(ngModel)]="modelComprobanteItem.Monto"
                     name="precio" #precio pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required disabled>
-            </mat-form-field>
+            </mat-form-field> -->
         </div>
 
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">

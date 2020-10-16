@@ -19,11 +19,6 @@
 .mat-dialog-content {
     height: 65px;
 }
-
-.menu-agregar{
-  padding: 8px 0;
-}
-
 .radio-group {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -33,6 +28,20 @@
     color: #ff5722;
     font-size: 90%;
     margin-top: 8px;
+}
+
+
+:host /deep/ .mat-list-item-content {
+  padding: 0!important;
+}
+
+.agregar-graduacion{
+  padding-bottom: 16px;
+}
+
+.mat-subheader{
+  padding-bottom: 0!important;
+
 }
 
 .link:link {

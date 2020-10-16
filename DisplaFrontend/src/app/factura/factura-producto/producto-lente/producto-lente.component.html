@@ -105,7 +105,7 @@
 
         </div>
 
-        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2">
+        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2" class="agregar-graduacion">
             <p style="font-size: small;">Agregar otra graduación</p>
             <mat-button-toggle-group fxFlexOffset="2">
                 <mat-button-toggle id="done" (keyup)="flechita($event, 'remove')" (keyup.enter)="tabInventado($event, 'esferico1')" (click)="agregarGraduacion()">
@@ -117,8 +117,9 @@
             </mat-button-toggle-group>
         </div>
         <mat-divider></mat-divider>
-        <div fxLayout="column" fxLayoutAlign="space-evenly start" fxLayoutGap="2px" class="menu-agregar">
-            <h5 class="titulo" fxFlex>Servicios</h5>
+        <div fxLayout="column">
+            <div mat-subheader>Servicios</div>
+        <!-- <mat-divider></mat-divider> -->
             <mat-list fxLayout="row">
                 <mat-list-item *ngFor="let s of servicios">
                     <button mat-button>
