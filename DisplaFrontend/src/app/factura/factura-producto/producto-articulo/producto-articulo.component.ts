@@ -1,5 +1,5 @@
 import { Component, HostListener, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatSelectionListChange, MatSelectChange } from '@angular/material';
 import { FormControl, NgControl } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -17,15 +17,16 @@ import { TipoArticulo } from 'src/app/model/tipoArticulo';
   styleUrls: ['./producto-articulo.component.css']
 })
 export class ProductoArticuloComponent implements OnInit {
-  articulos: ArticuloVario[];
+  articulos: ArticuloVario[] = [];
   tipoArticulos: TipoArticulo[];
   articulosControl = new FormControl();
   tipoArticulosControl = new FormControl();
   filteredArticulos: Observable<ArticuloVario[]>;
   filteredTipoArticulos: Observable<TipoArticulo[]>;
+  comprobantesItems: ComprobanteItem[] = [];
   modelComprobanteItem = <ComprobanteItem>{};
   modelTipoArticulo = <TipoArticulo>{};
-
+  
   constructor(
     private element: ElementRef,
     public dialogRef: MatDialogRef<ProductoArticuloComponent>,
@@ -103,13 +104,28 @@ export class ProductoArticuloComponent implements OnInit {
       this.modelTipoArticulo.Nombre = control.value;
     }
   }
+
   tipoArticuloChange(event: MatOptionSelectionChange) {
-    console.log(event)
     this.articuloService.getArticulosVariosVigentesList()
     .subscribe(ar => {
-      console.log(ar)
+      this.articulos = ar;
+      this.articulos = this.articulos.filter(arti => arti.IdTipoArticulo == event.source.value.Id)
     })
-    // this.selectCUIT = event.source.value.cuit;
+  }
+
+  articulosSeleccionados(event: MatOptionSelectionChange){
+    if (event.source.selected == true){
+      let comprobanteItem = <ComprobanteItem>{}
+      comprobanteItem.IdArticulo = event.source.value.Id;
+      comprobanteItem.IdArticuloNavigation = event.source.value;
+      this.comprobantesItems.push(comprobanteItem);
+    }
+    else {
+     let i = this.comprobantesItems.findIndex(ci => ci.IdArticulo == event.source.value.Id);
+     this.comprobantesItems.splice(i, 1);
+    }
+    console.log(this.comprobantesItems)
+
   }
 
   traerPrecio() {
@@ -118,22 +134,6 @@ export class ProductoArticuloComponent implements OnInit {
         this.modelComprobanteItem.Cantidad = 1;
         this.modelComprobanteItem.Monto = result;
       })
-  }
-
-  filterArticulo(nombre: any): ArticuloVario[] {
-    if (nombre.length >= 0) {
-      var s: string;
-      try {
-        s = nombre.toLowerCase();
-      }
-      catch (ex) {
-        s = nombre.nombre.toLowerCase();
-      }
-      return this.articulos.filter(articulo =>
-        articulo.Id.toString().indexOf(s) !== -1 || articulo.Nombre.toLowerCase().indexOf(s.toLowerCase()) !== -1);
-    } else {
-      return [];
-    }
   }
 
   filterTipoArticulo(nombre: any): TipoArticulo[] {

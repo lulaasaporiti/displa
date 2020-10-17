@@ -51,7 +51,8 @@ export class FacturaAltaComponent implements OnInit {
         const dialogRef = this.dialog.open(ProductoArticuloComponent, {
           disableClose: true,
           data: { idCliente: this.id },
-          width: '500px'
+          width: '800px',
+          height:'600px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
