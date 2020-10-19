@@ -114,14 +114,14 @@ export class ClienteService {
         )
     }
 
-    getPrecioArticuloFactura(idCliente, idArticulo): Observable<any> {
-        return this.mainService.get(`Cliente/GetPrecioArticuloFactura`, 
-        new HttpParams()
-        .set('idCliente', idCliente)
-        .set('idArticulo', idArticulo)
-        )
+    getPrecioArticuloFactura(idCliente, articulos: number[]): Observable<any> {
+        console.log(articulos)
+        return this.mainService.get(`Cliente/GetPrecioArticuloFactura`, {
+            idCliente: idCliente,
+            articulos: articulos
+        });
     }
-
+    
     getPrecioServicioFactura(idCliente, idServicio): Observable<any> {
         return this.mainService.get(`Cliente/GetPrecioServicioFactura`, 
         new HttpParams()

@@ -34,7 +34,7 @@ namespace DisplaBackend.DAOs
         List<dynamic> GetListaAsignacionServicio(List<Servicio> listaPrecios);
         List<dynamic> GetListaAsignacionArticulo(List<ArticuloVario> listaPrecios);
         decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo);
-        decimal GetPrecioArticuloFactura(int idCliente, int idArticulo);
+        JObject GetPrecioArticuloFactura(int idCliente, int[] articulos);
         decimal GetPrecioServicioFactura(int idCliente, int idServicio);
     }
 
@@ -757,19 +757,24 @@ namespace DisplaBackend.DAOs
             
         }
 
-        public decimal GetPrecioArticuloFactura(int idCliente, int idArticulo)
+        public JObject GetPrecioArticuloFactura(int idCliente, int[] articulos)
         {
-            var tienePrecioEspecial = _context.PrecioArticuloCliente.Where(pc => pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
-            if (tienePrecioEspecial == null)
+            JObject preciosArticulos = new JObject();
+            foreach (var idArticulo in articulos)
             {
-                PrecioArticulo precioArticulo = _context.PrecioArticuloCliente.Include(pc => pc.IdPrecioArticuloNavigation)
-                    .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo).IdPrecioArticuloNavigation;
-                return precioArticulo.Precio;
+                var tienePrecioEspecial = _context.PrecioArticuloCliente.Where(pc => pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
+                if (tienePrecioEspecial == null)
+                {
+                    PrecioArticulo precioArticulo = _context.PrecioArticuloCliente.Include(pc => pc.IdPrecioArticuloNavigation)
+                        .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo).IdPrecioArticuloNavigation;
+                    preciosArticulos[idArticulo.ToString()] = precioArticulo.Precio;
+                }
+                else
+                {
+                    preciosArticulos[idArticulo.ToString()] = tienePrecioEspecial.IdPrecioArticuloNavigation.Precio;
+                }
             }
-            else
-            {
-                return tienePrecioEspecial.IdPrecioArticuloNavigation.Precio;
-            }
+            return preciosArticulos;
         }
 
         public decimal GetPrecioServicioFactura(int idCliente, int idServicio)

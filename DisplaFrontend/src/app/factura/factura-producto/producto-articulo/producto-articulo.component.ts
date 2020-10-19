@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, QueryList, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatSelectionListChange, MatSelectChange } from '@angular/material';
 import { FormControl, NgControl } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
@@ -24,8 +24,11 @@ export class ProductoArticuloComponent implements OnInit {
   filteredArticulos: Observable<ArticuloVario[]>;
   filteredTipoArticulos: Observable<TipoArticulo[]>;
   comprobantesItems: ComprobanteItem[] = [];
+  idArticulos: number[] = [];
   modelComprobanteItem = <ComprobanteItem>{};
   modelTipoArticulo = <TipoArticulo>{};
+  @ViewChild('ar', { static: true }) ar;
+
   
   constructor(
     private element: ElementRef,
@@ -79,7 +82,6 @@ export class ProductoArticuloComponent implements OnInit {
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
-      { }
       event.preventDefault();
     }
   }
@@ -87,6 +89,15 @@ export class ProductoArticuloComponent implements OnInit {
   tabInventado(event: KeyboardEvent, idElement) {
     if (event.code == "Enter") {
       event.preventDefault();
+      // event.stopImmediatePropagation();
+      if (idElement == 'cantidad0') {
+        this.ar.close();
+        this.traerPrecio();
+      }
+      if (idElement.startsWith("cantidad")){
+        if (+idElement.split("cantidad")[1] == this.comprobantesItems.length)
+          idElement = 'sobre';
+      }
       document.getElementById(idElement).focus();
     }
   }
@@ -107,32 +118,36 @@ export class ProductoArticuloComponent implements OnInit {
 
   tipoArticuloChange(event: MatOptionSelectionChange) {
     this.articuloService.getArticulosVariosVigentesList()
-    .subscribe(ar => {
-      this.articulos = ar;
-      this.articulos = this.articulos.filter(arti => arti.IdTipoArticulo == event.source.value.Id)
-    })
+      .subscribe(ar => {
+        this.articulos = ar;
+        this.articulos = this.articulos.filter(arti => arti.IdTipoArticulo == event.source.value.Id)
+      })
   }
 
-  articulosSeleccionados(event: MatOptionSelectionChange){
-    if (event.source.selected == true){
+  articulosSeleccionados(event: MatOptionSelectionChange) {
+    if (event.source.selected == true) {
       let comprobanteItem = <ComprobanteItem>{}
       comprobanteItem.IdArticulo = event.source.value.Id;
       comprobanteItem.IdArticuloNavigation = event.source.value;
       this.comprobantesItems.push(comprobanteItem);
+      this.idArticulos.push(event.source.value.Id);
     }
     else {
-     let i = this.comprobantesItems.findIndex(ci => ci.IdArticulo == event.source.value.Id);
-     this.comprobantesItems.splice(i, 1);
+      let i = this.comprobantesItems.findIndex(ci => ci.IdArticulo == event.source.value.Id);
+      this.comprobantesItems.splice(i, 1);
+      this.idArticulos.splice(i, 1);
     }
     console.log(this.comprobantesItems)
+    console.log(this.idArticulos)
 
   }
 
   traerPrecio() {
-    this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.modelComprobanteItem.IdArticulo)
+    this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.idArticulos)
       .subscribe(result => {
-        this.modelComprobanteItem.Cantidad = 1;
-        this.modelComprobanteItem.Monto = result;
+        console.log(result)
+        // this.modelComprobanteItem.Cantidad = 1;
+        // this.modelComprobanteItem.Monto = result;
       })
   }
 
