@@ -9,14 +9,16 @@ import { FacturaAltaComponent } from './factura-alta/factura-alta.component';
 import { MatListModule } from '@angular/material';
 import { ProductoLenteComponent } from './factura-producto/producto-lente/producto-lente.component';
 import { ProductoArticuloComponent } from './factura-producto/producto-articulo/producto-articulo.component';
-import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';
+import { ProductoLibreComponent } from './factura-producto/producto-libre/producto-libre.component';
+// import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';
 import { MatButtonToggleModule } from '@angular/material';
+import { ProductoDescuentoComponent } from './factura-producto/producto-descuento/producto-descuento.component';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
-    entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoServicioComponent ],
-    declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoServicioComponent ],
+    entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent ],
+    declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent ],
     imports: [
         CommonModule,
         MaterialModule,

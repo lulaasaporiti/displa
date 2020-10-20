@@ -79,7 +79,7 @@
                         required>
                 </mat-form-field>
 
-                <mat-form-field fxFlex="20">
+                <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
                     <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
                         (keyup.enter)="tabInventado($event, 'remove')"
                         [(ngModel)]="modelComprobanteItemLente.Sobre" name="sobre">

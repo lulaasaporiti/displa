@@ -11,6 +11,7 @@ import { ServicioService } from 'src/services/servicio.service';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { LenteService } from 'src/services/lente.service';
 import { ClienteSeleccionComponent } from '../factura/cliente-seleccion/cliente-seleccion.component';
+import { LoadingSpinnerService } from '../loading-spinner/loading-spinner.service';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,7 @@ export class HeaderComponent {
     private mainService: MainService,
     private lenteService: LenteService,
     private articuloService: ArticuloVarioService,
+    private loadingSpinnerService: LoadingSpinnerService,
     private servicioService: ServicioService,
     private sessionService: SessionService){
   }
@@ -78,8 +80,13 @@ export class HeaderComponent {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
-        console.log(result)
-        this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
+        this.loadingSpinnerService.show();
+        this.router.navigateByUrl('Account/Login').then(
+          () => {
+            this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
+            this.loadingSpinnerService.hide();
+            window.scrollTo(0, 0);
+          });
       }
     })
   }

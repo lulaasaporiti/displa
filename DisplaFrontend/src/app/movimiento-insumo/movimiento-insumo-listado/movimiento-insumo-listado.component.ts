@@ -16,7 +16,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class MovimientoInsumoListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['TipoMovimiendo', 'Fecha', 'Cantidad', 'Usuario', 'Opciones'];
+  displayedColumns: string[] = ['TipoMovimiento', 'Fecha', 'Cantidad', 'Usuario', 'Opciones'];
   dataSource = new MatTableDataSource<MovimientoInsumo>();
 
   idInsumo: number;

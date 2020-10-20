@@ -10,7 +10,9 @@ import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 import { ProductoArticuloComponent } from '../factura-producto/producto-articulo/producto-articulo.component';
-import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
+// import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
+import { ProductoLibreComponent } from '../factura-producto/producto-libre/producto-libre.component';
+import { ProductoDescuentoComponent } from '../factura-producto/producto-descuento/producto-descuento.component';
 
 
 @Component({
@@ -35,7 +37,7 @@ export class FacturaAltaComponent implements OnInit {
       case "F1": { //lentes
         const dialogRef = this.dialog.open(ProductoLenteComponent, {
           disableClose: true,
-          data: { idCliente: this.id },
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
           width: '900px',
           height:'600px'
         })
@@ -50,9 +52,9 @@ export class FacturaAltaComponent implements OnInit {
       case "F3": { //varios
         const dialogRef = this.dialog.open(ProductoArticuloComponent, {
           disableClose: true,
-          data: { idCliente: this.id },
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
           width: '800px',
-          height:'600px'
+          height:'500px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
@@ -63,24 +65,46 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F4": { //servicios
-        const dialogRef = this.dialog.open(ProductoServicioComponent, {
+        // const dialogRef = this.dialog.open(ProductoServicioComponent, {
+        //   disableClose: true,
+        //   data: { idCliente: this.id },
+        //   width: '500px'
+        // })
+        // dialogRef.afterClosed().subscribe(result => {
+        //   if (result != undefined && result != false) {
+        //     this.cargarArticuloServicio(result);
+        //   }
+        // });
+        event.preventDefault();
+        break;
+      }
+      case "F5": { //libres
+        const dialogRef = this.dialog.open(ProductoLibreComponent, {
           disableClose: true,
-          data: { idCliente: this.id },
-          width: '500px'
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          width: '500px',
+          height:'350px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
-            this.cargarArticuloServicio(result);
+            this.cargarLibre(result);
           }
         });
         event.preventDefault();
         break;
       }
-      case "F5": { //libres
-        event.preventDefault();
-        break;
-      }
       case "F6": { //descuento
+        const dialogRef = this.dialog.open(ProductoDescuentoComponent, {
+          disableClose: true,
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          width: '500px',
+          height:'350px'
+        })
+        dialogRef.afterClosed().subscribe(result => {
+          if (result != undefined && result != false) {
+            this.cargarDescuento(result);
+          }
+        });
         event.preventDefault();
         break;
       }
@@ -143,23 +167,34 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarArticuloServicio(producto) {
-    let item = <ComprobanteItem>{};
-    if (producto.IdArticulo != null) {
-      item.IdArticulo = producto.IdArticulo;
-      item.Descripcion = producto.IdArticuloNavigation.Nombre;
-    }
-    else {
-      item.IdServicio = producto.IdServicio;
-      item.Descripcion = producto.IdServicioNavigation.Nombre;
-    }
-    item.Cantidad = producto.Cantidad;
-    item.NumeroSobre = producto.Sobre;
-    item.Monto = item.Cantidad * producto.Monto;
-    this.dataSource.data = this.dataSource.data.concat(item);
+    console.log(producto)
+    producto.forEach(p => {
+      // p.Cantidad = +producto.Cantidad;
+      // item.NumeroSobre = producto.Sobre;
+      p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
+      this.dataSource.data = this.dataSource.data.concat(p);
+    });
     this.sessionService.showSuccess("El producto se agregó correctamente");
-
   }
 
+
+  cargarLibre(producto) {
+    console.log(producto)
+    // p.Cantidad = +producto.Cantidad;
+    // item.NumeroSobre = producto.Sobre;
+    producto.Monto = Math.round((producto.Monto * +producto.Cantidad) * 100) / 100;
+    this.dataSource.data = this.dataSource.data.concat(producto);
+    this.sessionService.showSuccess("El producto se agregó correctamente");
+  }
+
+  cargarDescuento(producto) {
+    console.log(producto)
+    // p.Cantidad = +producto.Cantidad;
+    // item.NumeroSobre = producto.Sobre;
+    producto.Monto = Math.round((producto.Monto * +producto.Cantidad) * 100) / 100;
+    this.dataSource.data = this.dataSource.data.concat(producto);
+    this.sessionService.showSuccess("El producto se agregó correctamente");
+  }
 
   // altaCliente(){
   //   this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(

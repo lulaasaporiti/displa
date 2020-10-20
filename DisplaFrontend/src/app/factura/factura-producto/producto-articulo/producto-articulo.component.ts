@@ -96,7 +96,7 @@ export class ProductoArticuloComponent implements OnInit {
       }
       if (idElement.startsWith("cantidad")){
         if (+idElement.split("cantidad")[1] == this.comprobantesItems.length)
-          idElement = 'sobre';
+          idElement = 'seleccionar';
       }
       document.getElementById(idElement).focus();
     }
@@ -129,6 +129,8 @@ export class ProductoArticuloComponent implements OnInit {
       let comprobanteItem = <ComprobanteItem>{}
       comprobanteItem.IdArticulo = event.source.value.Id;
       comprobanteItem.IdArticuloNavigation = event.source.value;
+      comprobanteItem.Descripcion = event.source.value.Nombre;
+      comprobanteItem.NumeroSobre = this.modelComprobanteItem.NumeroSobre;
       this.comprobantesItems.push(comprobanteItem);
       this.idArticulos.push(event.source.value.Id);
     }
@@ -137,18 +139,17 @@ export class ProductoArticuloComponent implements OnInit {
       this.comprobantesItems.splice(i, 1);
       this.idArticulos.splice(i, 1);
     }
-    console.log(this.comprobantesItems)
-    console.log(this.idArticulos)
-
   }
 
   traerPrecio() {
     this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.idArticulos)
       .subscribe(result => {
         console.log(result)
+        this.comprobantesItems.forEach(c => c.Monto = result[c.IdArticulo] );
         // this.modelComprobanteItem.Cantidad = 1;
         // this.modelComprobanteItem.Monto = result;
       })
+      console.log(this.comprobantesItems);
   }
 
   filterTipoArticulo(nombre: any): TipoArticulo[] {
