@@ -13,6 +13,8 @@ import { ProductoArticuloComponent } from '../factura-producto/producto-articulo
 // import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
 import { ProductoLibreComponent } from '../factura-producto/producto-libre/producto-libre.component';
 import { ProductoDescuentoComponent } from '../factura-producto/producto-descuento/producto-descuento.component';
+import { ProductoTotalesComponent } from '../factura-producto/producto-totales/producto-totales.component';
+import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
 
 
 @Component({
@@ -65,16 +67,17 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F4": { //servicios
-        // const dialogRef = this.dialog.open(ProductoServicioComponent, {
-        //   disableClose: true,
-        //   data: { idCliente: this.id },
-        //   width: '500px'
-        // })
-        // dialogRef.afterClosed().subscribe(result => {
-        //   if (result != undefined && result != false) {
-        //     this.cargarArticuloServicio(result);
-        //   }
-        // });
+        const dialogRef = this.dialog.open(ProductoServicioComponent, {
+          disableClose: true,
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          width: '800px',
+          height:'500px'
+        })
+        dialogRef.afterClosed().subscribe(result => {
+          if (result != undefined && result != false) {
+            this.cargarArticuloServicio(result);
+          }
+        });
         event.preventDefault();
         break;
       }
@@ -109,6 +112,12 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F7": { //totales
+        const dialogRef = this.dialog.open(ProductoTotalesComponent, {
+          disableClose: true,
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          width: '500px',
+          // height:'350px'
+        })
         event.preventDefault();
         break;
       }
@@ -162,7 +171,7 @@ export class FacturaAltaComponent implements OnInit {
     itemLente.Esferico = producto.Esferico;
     itemLente.IdComprobanteItemNavigation = item;
     this.dataSource.data = this.dataSource.data.concat(itemLente);
-    this.sessionService.showSuccess("El producto se agregó correctamente")
+    this.sessionService.showSuccess("Los productos se agregaron correctamente")
   }
 
 
@@ -174,17 +183,16 @@ export class FacturaAltaComponent implements OnInit {
       p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
       this.dataSource.data = this.dataSource.data.concat(p);
     });
-    this.sessionService.showSuccess("El producto se agregó correctamente");
+    this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
 
   cargarLibre(producto) {
-    console.log(producto)
     // p.Cantidad = +producto.Cantidad;
     // item.NumeroSobre = producto.Sobre;
     producto.Monto = Math.round((producto.Monto * +producto.Cantidad) * 100) / 100;
     this.dataSource.data = this.dataSource.data.concat(producto);
-    this.sessionService.showSuccess("El producto se agregó correctamente");
+    this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
   cargarDescuento(producto) {
@@ -193,9 +201,15 @@ export class FacturaAltaComponent implements OnInit {
     // item.NumeroSobre = producto.Sobre;
     producto.Monto = Math.round((producto.Monto * +producto.Cantidad) * 100) / 100;
     this.dataSource.data = this.dataSource.data.concat(producto);
-    this.sessionService.showSuccess("El producto se agregó correctamente");
+    this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
+  rowBorrarProductos(row: any): void{
+    this.dataSource.data = this.dataSource.data.filter(p =>  p != row);
+
+  }
+
+ 
   // altaCliente(){
   //   this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
   //     data => {

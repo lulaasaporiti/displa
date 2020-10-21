@@ -1,7 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ServicioService } from 'src/services/servicio.service';
-import { ClienteService } from 'src/services/cliente.service';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 
 @Component({
@@ -15,7 +13,6 @@ export class ProductoLibreComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ProductoLibreComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
   }
 
   ngOnInit() { }
@@ -32,6 +29,17 @@ export class ProductoLibreComponent implements OnInit {
       event.preventDefault();
     }
   }
+
+  _keyPressDescripcion(event: any) {
+    const pattern = /[A-Za-z0-9_@./#&+-]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {{}
+      event.preventDefault();
+    }
+  }
+  
+
 
   tabInventado(event: KeyboardEvent, idElement)
   {

@@ -1,20 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ServicioService } from 'src/services/servicio.service';
-import { ClienteService } from 'src/services/cliente.service';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 
 @Component({
-  selector: 'app-producto-descuento',
-  templateUrl: './producto-descuento.component.html',
-  styleUrls: ['./producto-descuento.component.css']
+  selector: 'app-producto-totales',
+  templateUrl: './producto-totales.component.html',
+  styleUrls: ['./producto-totales.component.css']
 })
-export class ProductoDescuentoComponent implements OnInit {
+export class ProductoTotalesComponent implements OnInit {
   modelComprobanteItem = <ComprobanteItem>{};
 
   constructor(
-    public dialogRef: MatDialogRef<ProductoDescuentoComponent>,
+    public dialogRef: MatDialogRef<ProductoTotalesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log(data)
   }
 
   ngOnInit() { }
@@ -25,16 +24,6 @@ export class ProductoDescuentoComponent implements OnInit {
 
   _keyPress(event: any) {
     const pattern = /[0-9-]/;
-    let inputChar = String.fromCharCode(event.charCode);
-
-    if (!pattern.test(inputChar)) {{}
-      event.preventDefault();
-    }
-  }
-
-  
-  _keyPressDescripcion(event: any) {
-    const pattern = /[A-Za-z0-9_@./#&+-]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {{}

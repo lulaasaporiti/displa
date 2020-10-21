@@ -33,7 +33,7 @@ namespace DisplaBackend.Services
         List<dynamic> GetListaAsignacionArticulo();
         decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico);
         JObject GetPrecioArticuloFactura(int idCliente, int[] articulos);
-        decimal GetPrecioServicioFactura(int idCliente, int idServicio);
+        JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
     }
 
     public class ClienteService : IClienteService
@@ -185,9 +185,9 @@ namespace DisplaBackend.Services
 
         }
 
-        public decimal GetPrecioServicioFactura(int idCliente, int idServicio)
+        public JObject GetPrecioServicioFactura(int idCliente, int[] servicios)
         {
-            return _clienteDAO.GetPrecioServicioFactura(idCliente, idServicio);
+            return _clienteDAO.GetPrecioServicioFactura(idCliente, servicios);
 
         }
     }

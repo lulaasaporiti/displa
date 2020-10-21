@@ -47,10 +47,7 @@ export class ProductoArticuloComponent implements OnInit {
       this.filteredTipoArticulos = this.tipoArticulosControl.valueChanges
         .pipe(
           startWith(''),
-          // map(value => typeof value === 'string' ? value : value.Nombre),
           map(val => this.filterTipoArticulo(val))
-
-          // map(Nombre => Nombre ? this._filter(Nombre) : this.articulos.slice())
         );
     });
   }
@@ -62,16 +59,6 @@ export class ProductoArticuloComponent implements OnInit {
   displayTipoArticulo(t?: TipoArticulo): string | undefined {
     return t ? t.Id + ' - ' + t.Nombre : undefined;
   }
-
-  // private _filter(Nombre: string): ArticuloVario[] {
-  //   const filterValue = Nombre.toLowerCase();
-  //   return this.articulos.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
-  // }
-
-  // private _filter(Nombre: string): TipoArticulo[] {
-  //   const filterValue = Nombre.toLowerCase();
-  //   return this.tipoArticulos.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
-  // }
 
   onNoClick(): void {
     this.dialogRef.close(false);
@@ -144,7 +131,6 @@ export class ProductoArticuloComponent implements OnInit {
   traerPrecio() {
     this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.idArticulos)
       .subscribe(result => {
-        console.log(result)
         this.comprobantesItems.forEach(c => c.Monto = result[c.IdArticulo] );
         // this.modelComprobanteItem.Cantidad = 1;
         // this.modelComprobanteItem.Monto = result;

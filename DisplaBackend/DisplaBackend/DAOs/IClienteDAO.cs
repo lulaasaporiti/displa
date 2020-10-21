@@ -35,7 +35,7 @@ namespace DisplaBackend.DAOs
         List<dynamic> GetListaAsignacionArticulo(List<ArticuloVario> listaPrecios);
         decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo);
         JObject GetPrecioArticuloFactura(int idCliente, int[] articulos);
-        decimal GetPrecioServicioFactura(int idCliente, int idServicio);
+        JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -777,19 +777,24 @@ namespace DisplaBackend.DAOs
             return preciosArticulos;
         }
 
-        public decimal GetPrecioServicioFactura(int idCliente, int idServicio)
+        public JObject GetPrecioServicioFactura(int idCliente, int[] servicios)
         {
-            var tienePrecioEspecial = _context.PrecioServicioCliente.Where(pc => pc.IdPrecioServicioNavigation.IdServicio == idServicio && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
-            if (tienePrecioEspecial == null)
+            JObject preciosServicios = new JObject();
+            foreach (var idServicio in servicios)
             {
-                PrecioServicio precioServicio = _context.PrecioServicioCliente.Include(pc => pc.IdPrecioServicioNavigation)
-                    .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioServicioNavigation.IdServicio == idServicio).IdPrecioServicioNavigation;
-                return precioServicio.Precio;
+                var tienePrecioEspecial = _context.PrecioServicioCliente.Where(pc => pc.IdPrecioServicioNavigation.IdServicio == idServicio && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
+                if (tienePrecioEspecial == null)
+                {
+                    PrecioServicio precioServicio = _context.PrecioServicioCliente.Include(pc => pc.IdPrecioServicioNavigation)
+                        .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioServicioNavigation.IdServicio == idServicio).IdPrecioServicioNavigation;
+                    preciosServicios[idServicio.ToString()] = precioServicio.Precio;
+                }
+                else
+                {
+                    preciosServicios[idServicio.ToString()] = tienePrecioEspecial.IdPrecioServicioNavigation.Precio;
+                }
             }
-            else
-            {
-                return tienePrecioEspecial.IdPrecioServicioNavigation.Precio;
-            }
+            return preciosServicios;
 
         }
     }

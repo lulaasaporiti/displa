@@ -1,12 +1,13 @@
 <form #modalForm="ngForm">
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-            <p class="dialog-title">Descuentos</p>
+            <p class="dialog-title">¿Desea emitir remito o factura?</p>
         </div>
         
-        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+        
+        <!-- <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFlex="fxFill">
-                <input  placeholder="Descripción" id="descripcion" matInput [(ngModel)]="modelComprobanteItem.Descripcion"
+                <input #elRef  type="text" placeholder="Descripción" aria-label="Descripcion" matInput [(ngModel)]="modelComprobanteItem.Descripcion"
                     #descripcion="ngModel" name="descripcion" (keyup.enter)="tabInventado($event, 'precio')" required>          
                 <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -14,8 +15,8 @@
 
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFlex="50">
-                <input matInput placeholder="Precio" id="precio" [(ngModel)]="modelComprobanteItem.Monto" (keyup.enter)="tabInventado($event, 'cantidad')"
-                    name="precio" #precio pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPressDescripcion($event)" required>
+                <input matInput placeholder="Precio" id="precio" [(ngModel)]="modelComprobanteItem.Monto"
+                    name="precio" #precio pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required>
                 <mat-error *ngIf="precio.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
 
@@ -28,8 +29,8 @@
 
             <mat-form-field fxFlex="25" *ngIf="data.utilizaSobre">
                 <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'seleccionar')" [(ngModel)]="modelComprobanteItem.NumeroSobre" name="sobre">
-            </mat-form-field>         
-    </div>
+            </mat-form-field>          -->
+    <!-- </div> -->
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>

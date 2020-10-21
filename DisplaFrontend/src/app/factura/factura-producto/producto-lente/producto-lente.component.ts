@@ -76,7 +76,6 @@ export class ProductoLenteComponent implements OnInit {
 
   tabInventado(event: KeyboardEvent, idElement)
   {
-    console.log(idElement)
     if (event.code == "Enter") {
       event.preventDefault();
       document.getElementById(idElement).focus();

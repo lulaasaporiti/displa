@@ -13,12 +13,14 @@ import { ProductoLibreComponent } from './factura-producto/producto-libre/produc
 // import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';
 import { MatButtonToggleModule } from '@angular/material';
 import { ProductoDescuentoComponent } from './factura-producto/producto-descuento/producto-descuento.component';
+import { ProductoTotalesComponent } from './factura-producto/producto-totales/producto-totales.component';
+import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
-    entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent ],
-    declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent ],
+    entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, ProductoTotalesComponent, ProductoServicioComponent ],
+    declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, ProductoTotalesComponent, ProductoServicioComponent ],
     imports: [
         CommonModule,
         MaterialModule,

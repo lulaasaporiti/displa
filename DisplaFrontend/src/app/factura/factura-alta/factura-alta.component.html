@@ -57,7 +57,7 @@
             <div fxLayout="row" fxLayoutGap="2vw">
               <mat-form-field fxFlex='15' fxLayout="column">
                 <input matInput placeholder="Porcentaje descuento" [ngModel]="modelCliente.PorcentajeDescuentoGeneral"
-                  name="porcentaje" #porcentaje="ngModel" disabled>
+                  name="porcentaje" #porcentaje="ngModel">
               </mat-form-field>
               <mat-form-field fxFlex='15' fxLayout="column">
                 <input matInput placeholder="Saldo" [ngModel]="modelCliente.SaldoActual" name="saldo" #saldo="ngModel"
@@ -89,7 +89,7 @@
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="6px" class="menu-agregar"
         (keypress)="handleKeyboardEvent($event)">
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
-          <h5 class="titulo" fxFlex>Productos</h5>
+          <div style="font-weight: bold; font-size: medium;" mat-subheader>Productos</div>
           <mat-list #shoes fxLayout="row">
             <mat-list-item *ngFor="let p of productos">
               <button mat-button (keypress)="myScript($event)">
@@ -147,7 +147,11 @@
 
         <ng-container matColumnDef="Borrar">
           <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> BORRAR </th>
-          <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> </td>
+          <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="center center"> 
+            <button mat-button type="button" (click)="rowBorrarProductos(row)">
+              <mat-icon>clear</mat-icon>
+          </button>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
