@@ -26,6 +26,7 @@ export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
   private id: number = 0;
   panelOpenState = false;
+  displayedColumnsFooter: string[]= ['Subtotal']
   displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe', 'Borrar'];
   productos: string[] = ['Lentes (F1)', 'Varios (F3)', 'Servicios (F4)', 'Libres (F5)', 'Descuento (F6)', 'Totales (F7)'];
   dataSource = new MatTableDataSource<any>();
@@ -99,7 +100,7 @@ export class FacturaAltaComponent implements OnInit {
       case "F6": { //descuento
         const dialogRef = this.dialog.open(ProductoDescuentoComponent, {
           disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          data: { idCliente: this.id},
           width: '500px',
           height:'350px'
         })
@@ -154,7 +155,7 @@ export class FacturaAltaComponent implements OnInit {
   }
 
   cancelar() {
-    this.router.navigateByUrl('Cliente/Listado')
+    this.router.navigateByUrl('/Home')
   }
 
 
@@ -175,11 +176,23 @@ export class FacturaAltaComponent implements OnInit {
   }
 
 
+  getSubTotales() {
+    if (this.dataSource.data.length > 0) {
+      document.getElementById('footers').style.display='block';
+      let subTotales = 0;
+      this.dataSource.data.forEach(to => {
+        subTotales = to.Monto + subTotales;
+      })
+      return subTotales;
+    }
+  }
+
+  getTotales(){
+
+  }
+  
   cargarArticuloServicio(producto) {
-    console.log(producto)
     producto.forEach(p => {
-      // p.Cantidad = +producto.Cantidad;
-      // item.NumeroSobre = producto.Sobre;
       p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
       this.dataSource.data = this.dataSource.data.concat(p);
     });
@@ -188,25 +201,25 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarLibre(producto) {
-    // p.Cantidad = +producto.Cantidad;
-    // item.NumeroSobre = producto.Sobre;
     producto.Monto = Math.round((producto.Monto * +producto.Cantidad) * 100) / 100;
+    if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
+      producto.Monto = producto.Monto*1.21;
+    }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
   cargarDescuento(producto) {
-    console.log(producto)
-    // p.Cantidad = +producto.Cantidad;
-    // item.NumeroSobre = producto.Sobre;
-    producto.Monto = Math.round((producto.Monto * +producto.Cantidad) * 100) / 100;
+    producto.Monto = -(Math.round((producto.Monto * +producto.Cantidad) * 100) / 100);
+    if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
+      producto.Monto = producto.Monto*1.21;
+    }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
   rowBorrarProductos(row: any): void{
     this.dataSource.data = this.dataSource.data.filter(p =>  p != row);
-
   }
 
  

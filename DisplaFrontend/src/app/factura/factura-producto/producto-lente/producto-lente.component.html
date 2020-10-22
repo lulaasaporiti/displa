@@ -81,8 +81,9 @@
 
                 <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
                     <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
-                        (keyup.enter)="tabInventado($event, 'remove')"
-                        [(ngModel)]="modelComprobanteItemLente.Sobre" name="sobre">
+                        (keyup.enter)="tabInventado($event, 'remove')" #sobre="ngModel"
+                        [(ngModel)]="modelComprobanteItemLente.Sobre" name="sobre" required>
+                    <mat-error *ngIf="sobre.invalid">Este campo es obligatorio.</mat-error>
                 </mat-form-field>
             </div>
             <!-- ///////////////////////  FIN PRECIO PRIMERA GRADUACION  ////////////////////////////// -->

@@ -21,9 +21,10 @@
                 <mat-error *ngIf="tipoServiciosControl.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="30" *ngIf="data.utilizaSobre">
-                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
+                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" #sobre="ngModel"
                     (keyup.enter)="tabInventado($event, 'servicios')" [(ngModel)]="modelComprobanteItem.NumeroSobre"
-                    name="sobre">
+                    name="sobre" required>
+                    <mat-error *ngIf="sobre.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">

@@ -154,8 +154,20 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="footer">
+          <td mat-footer-cell *matFooterCellDef id="footers"  [style.display]="'none'">
+            <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px">
+            <label style="font-weight: bold;">Subtotal:</label>
+            <label> {{getSubTotales()}}</label>
+            <label style="font-weight: bold;">Total: </label>
+            <label>{{getTotales()}}</label>
+          </div>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
+        <tr mat-footer-row *matFooterRowDef="['footer']" class="example-second-footer-row"></tr>
       </table>
       <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
     </div>

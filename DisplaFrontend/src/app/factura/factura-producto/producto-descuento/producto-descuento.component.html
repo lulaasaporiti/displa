@@ -6,7 +6,7 @@
         
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFlex="fxFill">
-                <input  placeholder="Descripción" id="descripcion" matInput [(ngModel)]="modelComprobanteItem.Descripcion"
+                <input  placeholder="Descripción" id="descripcion" matInput [(ngModel)]="modelComprobanteItem.Descripcion" (keypress)="_keyPressDescripcion($event)"
                     #descripcion="ngModel" name="descripcion" (keyup.enter)="tabInventado($event, 'precio')" required>          
                 <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -15,20 +15,16 @@
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFlex="50">
                 <input matInput placeholder="Precio" id="precio" [(ngModel)]="modelComprobanteItem.Monto" (keyup.enter)="tabInventado($event, 'cantidad')"
-                    name="precio" #precio pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPressDescripcion($event)" required>
+                    name="precio" #precio pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required>
                 <mat-error *ngIf="precio.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="25">
-                <input matInput placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'sobre')" (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItem.Cantidad" 
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'seleccionar')" (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItem.Cantidad" 
                 #cantidad="ngModel" name="cantidad" required>
                 <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
-
             </mat-form-field>
-
-            <mat-form-field fxFlex="25" *ngIf="data.utilizaSobre">
-                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'seleccionar')" [(ngModel)]="modelComprobanteItem.NumeroSobre" name="sobre">
-            </mat-form-field>         
+        
     </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
