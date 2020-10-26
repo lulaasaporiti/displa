@@ -17,13 +17,13 @@ import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 })
 export class ProductoLenteComponent implements OnInit {
   lentes: Lente[];
-  selectedGraduacion = new EventEmitter<ComprobanteItemLente[]>();
+  // selectedGraduacion = new EventEmitter<ComprobanteItemLente[]>();
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
   mostrarPrecio = false;
-  modelComprobanteItemLente:  ComprobanteItemLente[] = [];
+  modelComprobanteItemLente:  any[] = [];
   servicios: string[] = ['CAL O', 'CAL M', 'CAL B', 'CAL L', 'CAL P', 'CAL F', 'CAL L', 'OTROS'];
 
 
@@ -121,12 +121,15 @@ export class ProductoLenteComponent implements OnInit {
     // console.log(this.modelComprobanteItemLente)
   }
 
-  traerPrecio(){
-    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[0].IdLente, this.modelComprobanteItemLente[0].Esferico, this.modelComprobanteItemLente[0].Cilindrico)
+  traerPrecio(i){
+    console.log(i)
+    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].Esferico, this.modelComprobanteItemLente[+i].Cilindrico)
     .subscribe(result => {
       this.mostrarPrecio = true;
-      this.modelComprobanteItemLente[0].Precio = result;
-      this.modelComprobanteItemLente[0].Cantidad = 1;
+      this.modelComprobanteItemLente[+i].Precio = result;
+      this.modelComprobanteItemLente[+i].Cantidad = 1;
+      if (i == 0)
+        this.modelComprobanteItemLente[0].Sobre = 0;
     })
   }
 

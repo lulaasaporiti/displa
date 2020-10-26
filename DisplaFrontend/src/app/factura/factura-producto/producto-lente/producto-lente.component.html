@@ -29,7 +29,7 @@
                 </mat-form-field>
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Medida cilindríco"
-                        [(ngModel)]="modelComprobanteItemLente[0].Cilindrico" id="cilindrico0" (blur)="traerPrecio()"
+                        [(ngModel)]="modelComprobanteItemLente[0].Cilindrico" id="cilindrico0" (blur)="traerPrecio(0)"
                         (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0" #cilindrico0="ngModel"
                         (keypress)="_keyPress($event)" required>
                     <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio.</mat-error>
@@ -49,7 +49,7 @@
 
                 <mat-form-field fxFlex="45">
                     <input matInput placeholder="Medida cilindríco"
-                        [(ngModel)]="modelComprobanteItemLente[1].Cilindrico" id="cilindrico1"
+                        [(ngModel)]="modelComprobanteItemLente[1].Cilindrico" id="cilindrico1" (blur)="traerPrecio(1)"
                         (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1" #cilindrico1="ngModel"
                         (keypress)="_keyPress($event)" required>
                     <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio.</mat-error>
@@ -82,7 +82,7 @@
                 <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
                     <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
                         (keyup.enter)="tabInventado($event, 'remove')" #sobre="ngModel"
-                        [(ngModel)]="modelComprobanteItemLente.Sobre" name="sobre" required>
+                        [(ngModel)]="modelComprobanteItemLente[0].Sobre" name="sobre" required>
                     <mat-error *ngIf="sobre.invalid">Este campo es obligatorio.</mat-error>
                 </mat-form-field>
             </div>
@@ -97,7 +97,7 @@
                         pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" disabled>
                 </mat-form-field>
                 <mat-form-field fxFlex="45">
-                    <input matInput placeholder="Cantidad" id="cantidad1" (keyup.enter)="tabInventado($event, 'sobre')"
+                    <input matInput placeholder="Cantidad" id="cantidad1" (keyup.enter)="tabInventado($event, 'seleccionar')"
                         (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1"
                         required>
                 </mat-form-field>

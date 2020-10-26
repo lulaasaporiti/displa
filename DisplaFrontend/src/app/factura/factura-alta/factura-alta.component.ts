@@ -26,7 +26,7 @@ export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
   private id: number = 0;
   panelOpenState = false;
-  displayedColumnsFooter: string[]= ['Subtotal']
+  // displayedColumnsFooter: string[]= ['Subtotal']
   displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe', 'Borrar'];
   productos: string[] = ['Lentes (F1)', 'Varios (F3)', 'Servicios (F4)', 'Libres (F5)', 'Descuento (F6)', 'Totales (F7)'];
   dataSource = new MatTableDataSource<any>();
@@ -160,18 +160,23 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarLente(producto) {
+    console.log(producto)
     let item = <ComprobanteItem>{};
-    let itemLente = <ComprobanteItemLente>{};
-    itemLente.IdLente = producto.IdLente;
-    item.Descripcion = producto.IdLenteNavigation.DescripcionFactura;
-    item.Cantidad = producto.Cantidad;
-    item.NumeroSobre = producto.Sobre;
-    item.Monto = item.Cantidad * producto.Precio;
-    itemLente.Cantidad = item.Cantidad;
-    itemLente.Cilindrico = producto.Cilindrico;
-    itemLente.Esferico = producto.Esferico;
-    itemLente.IdComprobanteItemNavigation = item;
-    this.dataSource.data = this.dataSource.data.concat(itemLente);
+    item.Cantidad = 0;
+    item.Monto = 0;
+    item.NumeroSobre = producto[0].Sobre;
+    item.Descripcion = producto[0].IdLenteNavigation.DescripcionFactura;
+    producto.forEach(p => {
+      let itemLente = <ComprobanteItemLente>{};
+      itemLente.IdLente = p.IdLente;
+      item.Cantidad = item.Cantidad + p.Cantidad;
+      item.Monto = item.Monto + (p.Cantidad * p.Precio);
+      itemLente.Cantidad = p.Cantidad;
+      itemLente.Cilindrico = p.Cilindrico;
+      itemLente.Esferico = p.Esferico;
+      itemLente.IdComprobanteItemNavigation = item;
+    })
+    this.dataSource.data = this.dataSource.data.concat(item);
     this.sessionService.showSuccess("Los productos se agregaron correctamente")
   }
 
@@ -179,16 +184,27 @@ export class FacturaAltaComponent implements OnInit {
   getSubTotales() {
     if (this.dataSource.data.length > 0) {
       document.getElementById('footers').style.display='block';
-      let subTotales = 0;
+      this.modelComprobante.SubtotalFactura = 0;
       this.dataSource.data.forEach(to => {
-        subTotales = to.Monto + subTotales;
+        this.modelComprobante.SubtotalFactura = (+to.Monto + this.modelComprobante.SubtotalFactura);
       })
-      return subTotales;
+      return this.modelComprobante.SubtotalFactura;
     }
   }
 
-  getTotales(){
+  getSubtotalConDescuento(){
+    return (this.modelComprobante.SubtotalFactura - ((this.modelComprobante.SubtotalFactura * this.modelCliente.PorcentajeDescuentoGeneral) / 100)).toFixed(2);
+  }
 
+  getMontoIVA(){
+    return +this.getSubtotalConDescuento() * 0.21;
+  }
+  
+  getTotales(){
+    if (this.modelCliente.IdCategoriaIvaNavigation != undefined &&  this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
+      this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento();
+    else 
+      this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21; 
   }
   
   cargarArticuloServicio(producto) {
@@ -201,18 +217,18 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarLibre(producto) {
-    producto.Monto = Math.round((producto.Monto * +producto.Cantidad) * 100) / 100;
+    producto.Monto = ((producto.Monto * +producto.Cantidad) * 100) / 100;
     if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
-      producto.Monto = producto.Monto*1.21;
+      producto.Monto = (producto.Monto*1.21).toFixed(2);
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
   cargarDescuento(producto) {
-    producto.Monto = -(Math.round((producto.Monto * +producto.Cantidad) * 100) / 100);
+    producto.Monto = -(((producto.Monto * +producto.Cantidad) * 100) / 100);
     if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
-      producto.Monto = producto.Monto*1.21;
+      producto.Monto = (producto.Monto*1.21).toFixed(2);
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.sessionService.showSuccess("Los productos se agregaron correctamente");

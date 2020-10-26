@@ -57,7 +57,7 @@
             <div fxLayout="row" fxLayoutGap="2vw">
               <mat-form-field fxFlex='15' fxLayout="column">
                 <input matInput placeholder="Porcentaje descuento" [ngModel]="modelCliente.PorcentajeDescuentoGeneral"
-                  name="porcentaje" #porcentaje="ngModel">
+                  name="porcentaje" #porcentaje="ngModel" [disabled]="modelCliente.IdCategoriaIvaNavigation?.Discrimina">
               </mat-form-field>
               <mat-form-field fxFlex='15' fxLayout="column">
                 <input matInput placeholder="Saldo" [ngModel]="modelCliente.SaldoActual" name="saldo" #saldo="ngModel"
@@ -159,6 +159,10 @@
             <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px">
             <label style="font-weight: bold;">Subtotal:</label>
             <label> {{getSubTotales()}}</label>
+            <label style="font-weight: bold;">Subtotal con descuento:</label>
+            <label> {{ getSubtotalConDescuento() }}</label>
+            <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA RI:</label>
+            <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
             <label style="font-weight: bold;">Total: </label>
             <label>{{getTotales()}}</label>
           </div>
