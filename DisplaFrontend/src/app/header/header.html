@@ -91,6 +91,7 @@
                         [matMenuTriggerFor]="menuDatosProductos">Productos</button>
                     <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatosClientes">Clientes y
                         proveedores</button>
+                        <button mat-menu-item class="button-list" (click)="abrirModificacionParametros()">Modificación parámetros</button>
                 </mat-menu>
                 <mat-menu fxLayoutAlign="start center" #menuDatosProductos="matMenu">
                     <!-- <a mat-menu-item class="button-list" routerLink="Lente/Listado">Lentes</a> -->

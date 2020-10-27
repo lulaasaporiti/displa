@@ -87,7 +87,7 @@ export class FacturaAltaComponent implements OnInit {
           disableClose: true,
           data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
           width: '500px',
-          height:'350px'
+          height:'375px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
@@ -102,7 +102,7 @@ export class FacturaAltaComponent implements OnInit {
           disableClose: true,
           data: { idCliente: this.id},
           width: '500px',
-          height:'350px'
+          height:'375px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
@@ -190,6 +190,11 @@ export class FacturaAltaComponent implements OnInit {
       })
       return this.modelComprobante.SubtotalFactura;
     }
+    else {
+      document.getElementById('footers').style.display='none';
+      this.modelComprobante.SubtotalFactura = 0;
+      this.modelComprobante.MontoTotal = 0;
+    }
   }
 
   getSubtotalConDescuento(){
@@ -197,14 +202,14 @@ export class FacturaAltaComponent implements OnInit {
   }
 
   getMontoIVA(){
-    return +this.getSubtotalConDescuento() * 0.21;
+    return (+this.getSubtotalConDescuento() * 0.21).toFixed(2);
   }
   
   getTotales(){
     if (this.modelCliente.IdCategoriaIvaNavigation != undefined &&  this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
-      this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento();
+      return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento()).toFixed(2);
     else 
-      this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21; 
+      return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21).toFixed(2); 
   }
   
   cargarArticuloServicio(producto) {

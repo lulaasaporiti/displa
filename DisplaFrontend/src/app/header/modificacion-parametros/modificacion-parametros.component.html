@@ -1,0 +1,112 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <p class="dialog-title">Modificación parámetros</p>
+        </div>
+
+        <label style="font-weight: bold; font-size: smaller;">Cotizaciones</label>
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Dólar" id="dolar" [(ngModel)]="modelParametros.Dolar"
+                    name="dolar" #dolar pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Euro" id="euro" [(ngModel)]="modelParametros.Euro"
+                    name="euro" #euro pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+        </div>
+        <label style="font-weight: bold; font-size: smaller;">Numeración</label>
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="12px">
+            <mat-form-field fxFlex="18">
+                <input matInput placeholder="Número de sucursal" id="nroSucursal" [(ngModel)]="modelParametros.NumeroSucursal"
+                    name="nroSucursal" #nroSucursal pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="23">
+                <input matInput placeholder="Número de hoja IVA compras" id="nroIVACompra" [(ngModel)]="modelParametros.NumeroHojaIVACompras"
+                    name="nroIVACompra" #nroIVACompra pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="23">
+                <input matInput placeholder="Número de comprobante A" id="nroComprobanteA" [(ngModel)]="modelParametros.NumeroComprobanteA"
+                    name="nroComprobanteA" #nroComprobanteA pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="16">
+                <input matInput placeholder="Nota de crédito A" id="notaCreditoA" [(ngModel)]="modelParametros.NumeroNotaCreditoA"
+                    name="notaCreditoA" #notaCreditoA pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="16">
+                <input matInput placeholder="Nota de débito A" id="notaDebitoA" [(ngModel)]="modelParametros.NumeroNotaDebitoA"
+                    name="notaDebitoA" #notaDebitoA pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="18">
+                <input matInput placeholder="Número de recibo" id="nroRecibo" [(ngModel)]="modelParametros.NumeroRecibo"
+                    name="nroRecibo" #nroRecibo pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="23">
+                <input matInput placeholder="Número de hoja IVA ventas" id="nroIVAVenta" [(ngModel)]="modelParametros.NumeroHojaIVAVenta"
+                    name="nroIVAVenta" #nroIVAVenta pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="23">
+                <input matInput placeholder="Número de comprobante B" id="nroComprobanteB" [(ngModel)]="modelParametros.NumeroComprobanteB"
+                    name="nroComprobanteB" #nroComprobanteB pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="16">
+                <input matInput placeholder="Nota de crédito B" id="notaCreditoB" [(ngModel)]="modelParametros.NumeroNotaCreditoB"
+                    name="notaCreditoB" #notaCreditoB pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="16">
+                <input matInput placeholder="Nota de débito B" id="notaDebitoB" [(ngModel)]="modelParametros.NumeroNotaDebitoB"
+                    name="notaDebitoB" #notaDebitoB pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+        </div>
+
+        <label style="font-weight: bold; font-size: smaller;">Montos permitidos</label>
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="33">
+                <input matInput placeholder="Monto mínimo de facturación" id="montoMin" [(ngModel)]="modelParametros.MontoMinimo"
+                    name="montoMin" #montoMin pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="33">
+                <input matInput placeholder="Monto máximo por ítem" id="montoMaxProductos" [(ngModel)]="modelParametros.MontoMaximoProductosDiferentes"
+                    name="montoMaxProductos" #montoMaxProductos pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="33">
+                <input matInput placeholder="Monto máximo de comprobantes" id="montoMaxComprobante" [(ngModel)]="modelParametros.MontoMaximoComprobante"
+                    name="montoMaxComprobante" #montoMaxComprobante pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+        </div>
+
+        <label style="font-weight: bold; font-size: smaller;">Proveedores</label>
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="12">
+                <input matInput placeholder="Tasa IVA" id="tasa" [(ngModel)]="modelParametros.TasaIVAProveedores"
+                    name="tasa" #tasa pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="12">
+                <input matInput placeholder="Sobretasa IVA" id="sobretasa" [(ngModel)]="modelParametros.SobretasaIVAProveedores"
+                    name="sobretasa" #sobretasa pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="20">
+                <input matInput placeholder="Monto base retenciones" id="baseRetenciones" [(ngModel)]="modelParametros.MontoBaseRetenciones"
+                    name="baseRetenciones" #baseRetenciones pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="20">
+                <input matInput placeholder="Porcentaje retención" id="porcentajeRetencion" [(ngModel)]="modelParametros.PorcentajeRetenciones"
+                    name="porcentajeRetencion" #porcentajeRetencion pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="28">
+                <input matInput placeholder="Número de certificado de retención" id="nroCertificadoRetencion" [(ngModel)]="modelParametros.NumeroCertificadoRetencion"
+                    name="nroCertificadoRetencion" #nroCertificadoRetencion pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+        </div>
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" id="seleccionar"
+                [mat-dialog-close]="comprobantesItems">Guardar</button>
+        </div>
+    </div>
+</form>

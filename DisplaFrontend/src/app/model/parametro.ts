@@ -1,0 +1,28 @@
+
+export interface Parametro {
+    Id: number,
+    Dolar:	number,
+    Euro: number,	
+    NumeroSucursal: number,
+    NumeroComprobanteA: number,
+    NumeroComprobanteB: number,
+    CantidadProductoDiferentes: number,
+    CantidadProductoDiferentesRemito: number,
+    Observaciones: number,
+    NumeroRecibo: number,
+    NumeroHojaIVAVentas: number,
+    TasaIVAProveedores: number,
+    SobretasaIVAProveedores: number,
+    NumeroHojaIVACompras: number,
+    IngresosBrutos: number,
+    MontoBaseRetenciones: number,
+    PorcentajeRetenciones: number,
+    NumeroCertificadoRetencion: number,
+    NumeroNotaCreditoA: number,
+    NumeroNotaCreditoB: number,
+    NumeroNotaDebitoA: number,
+    NumeroNotaDebitoB: number,
+    MontoMinimo: number,
+    MontoMaximoProductosDiferentes: number,
+    MontoMaximoComprobante: number
+}

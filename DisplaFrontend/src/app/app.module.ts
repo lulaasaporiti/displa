@@ -47,6 +47,7 @@ import { GastoModule } from './gasto/gasto.module';
 import { GestionPrecioModule } from './header/gestion-precio/gestion-precio.module';
 import { AsignacionPrecioClienteModule } from './asignacion-precio/asignacion-precio.module';
 import { FacturaModule } from './factura/factura.module';
+import { ModificacionParametrosModule } from './header/modificacion-parametros/modificacion-parametros.module';
 
 
 
@@ -91,6 +92,7 @@ import { FacturaModule } from './factura/factura.module';
     LimiteGrillaModule,
     LocalidadModule,
     ManejoStockModule,
+    ModificacionParametrosModule,
     MovimientoBlockModule,
     MovimientoInsumoModule,
     ProveedorModule,

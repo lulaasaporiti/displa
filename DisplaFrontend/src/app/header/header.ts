@@ -12,6 +12,7 @@ import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { LenteService } from 'src/services/lente.service';
 import { ClienteSeleccionComponent } from '../factura/cliente-seleccion/cliente-seleccion.component';
 import { LoadingSpinnerService } from '../loading-spinner/loading-spinner.service';
+import { ModificacionParametrosComponent } from './modificacion-parametros/modificacion-parametros.component';
 
 @Component({
   selector: 'app-header',
@@ -111,6 +112,13 @@ export class HeaderComponent {
         });
       }
     });
+  }
+  abrirModificacionParametros(){
+    const dialogRef = this.dialog.open(ModificacionParametrosComponent, {
+      data: { },
+      width: '965px',
+      height: '650px'
+    })
   }
 
   openModalPreciosLista(event): void {
