@@ -5,7 +5,6 @@ import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 import { MatDialog, MatTableDataSource } from '@angular/material';
-import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente.component';
 import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
@@ -15,6 +14,7 @@ import { ProductoLibreComponent } from '../factura-producto/producto-libre/produ
 import { ProductoDescuentoComponent } from '../factura-producto/producto-descuento/producto-descuento.component';
 import { ProductoTotalesComponent } from '../factura-producto/producto-totales/producto-totales.component';
 import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
+import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente.component';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class FacturaAltaComponent implements OnInit {
           disableClose: true,
           data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
           width: '900px',
-          height:'600px'
+          height:'550px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {

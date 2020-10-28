@@ -24,7 +24,8 @@ import {
   MatSortModule,
   MatRadioModule,
   MatChipsModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatStepperModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,6 +41,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatButtonModule,
     MatTabsModule,
     MatMenuModule,
+    MatStepperModule,
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
@@ -79,6 +81,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FlexLayoutModule,
     MatFormFieldModule,
     MatInputModule,
+    MatStepperModule,
     MatListModule,
     MatExpansionModule,
     MatProgressSpinnerModule,

@@ -1,0 +1,10 @@
+<div fxLayout="column">
+    <div mat-subheader>Servicios</div>
+    <mat-list fxLayout="row">
+        <mat-list-item *ngFor="let s of servicios">
+            <button mat-button>
+                {{s}}
+            </button>
+        </mat-list-item>
+    </mat-list>
+</div>

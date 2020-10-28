@@ -55,11 +55,6 @@ export class ManejoStockAltaComponent implements OnInit {
     return l ? l.Id + ' - ' + l.Nombre : undefined;
   }
 
-  private _filter(Nombre: string): Lente[] {
-    const filterValue = Nombre.toLowerCase();
-    return this.lentes.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
-  }
-
   setIdLente(event, index) {
     if (event != undefined) {
       let idLimiteIzquierda;

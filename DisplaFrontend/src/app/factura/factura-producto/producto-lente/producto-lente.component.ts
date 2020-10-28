@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { Lente } from 'src/app/model/lente';
@@ -16,63 +16,51 @@ import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
   styleUrls: ['./producto-lente.component.css']
 })
 export class ProductoLenteComponent implements OnInit {
-  lentes: Lente[];
-  // selectedGraduacion = new EventEmitter<ComprobanteItemLente[]>();
-  lentesControl = new FormControl();
-  filteredLentes: Observable<Lente[]>;
-  limiteGrillaDerecha = <LimiteGrilla>{};
-  limiteGrillaIzquierda = <LimiteGrilla>{};
-  mostrarPrecio = false;
   modelComprobanteItemLente:  any[] = [];
   servicios: string[] = ['CAL O', 'CAL M', 'CAL B', 'CAL L', 'CAL P', 'CAL F', 'CAL L', 'OTROS'];
-
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
+  isOptional = true;
 
   constructor(
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
     private lenteService: LenteService,
     private clienteService: ClienteService,
-    private limitesGrillaService: LimitesGrillaService,
+    private _formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      let cargarGraduacion= <ComprobanteItemLente>{};
-      cargarGraduacion.Esferico = 0;
-      cargarGraduacion.Cilindrico = 0;
-      this.modelComprobanteItemLente.push(cargarGraduacion);
+      // let cargarGraduacion= <ComprobanteItemLente>{};
+      // cargarGraduacion.Esferico = 0;
+      // cargarGraduacion.Cilindrico = 0;
+      // this.modelComprobanteItemLente.push(cargarGraduacion);
   }
 
 
   ngOnInit() {
-    this.lenteService.getLentesVigentesList().subscribe(r => {
-      this.lentes = r;
-      this.mostrarPrecio = false;
-      this.filteredLentes = this.lentesControl.valueChanges
-        .pipe(
-          startWith(''),
-          map(val => this.filterLente(val))
-        );
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ''
     });
-  }
-
-  displayLente(l?: Lente): string | undefined {
-    return l ? l.Id + ' - ' + l.Nombre : undefined;
-  }
-
-  private _filter(Nombre: string): Lente[] {
-    const filterValue = Nombre.toLowerCase();
-    return this.lentes.filter(option => option.Nombre.toLowerCase().indexOf(filterValue) === 0);
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ''
+    });
+    this.thirdFormGroup = this._formBuilder.group({
+      thirdCtrl: ''
+    });
   }
 
   onNoClick(): void {
     this.dialogRef.close(false);
   }
 
-  _keyPress(event: any) {
-    const pattern = /[0-9-]/;
-    let inputChar = String.fromCharCode(event.charCode);
+  listaComprobanteItemEvento(model : any[]){
+    console.log(model)
+    this.modelComprobanteItemLente = model;
+    document.getElementById("siguiente1").focus();
+    console.log(this.firstFormGroup);
+    // this.firstFormGroup.setValue();
+    // console.log(this.firstFormGroup)
 
-    if (!pattern.test(inputChar)) {{}
-      event.preventDefault();
-    }
-  }
+}
 
   tabInventado(event: KeyboardEvent, idElement)
   {
@@ -85,92 +73,5 @@ export class ProductoLenteComponent implements OnInit {
     }
   }
 
-  flechita(event: KeyboardEvent, idElement)
-  {
-    if (event.code == "ArrowLeft") {
-      document.getElementById(idElement).focus();
-      document.getElementById(idElement).style.backgroundColor="#e0e0e0";
-      document.getElementById("remove").style.backgroundColor="transparent";
-    }    
-    if (event.code == "ArrowRight") {
-      document.getElementById(idElement).focus();
-      document.getElementById(idElement).style.backgroundColor="#e0e0e0";
-      document.getElementById("done").style.backgroundColor="transparent";
-    }    
-  }
 
-  setIdLente(control) {
-    if (control.value != null) {
-      let idLimiteIzquierda;
-      let idLimiteDerecha;
-      this.modelComprobanteItemLente[0].IdLente = control.value.Id;
-      this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;
-      let combinacion = control.value.Combinacion.split("  / ");
-      if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
-      else idLimiteIzquierda = 3;
-      if (combinacion[1] == '- +') idLimiteDerecha = 2;
-      else idLimiteDerecha = 4;
-      // combineLatest(
-      //   this.limitesGrillaService.getById(idLimiteIzquierda),
-      //   this.limitesGrillaService.getById(idLimiteDerecha)
-      // ).subscribe(result => {
-      //   this.limiteGrillaIzquierda = result[0];
-      //   this.limiteGrillaDerecha = result[1];
-      // });
-    }
-    // console.log(this.modelComprobanteItemLente)
-  }
-
-  traerPrecio(i){
-    console.log(i)
-    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].Esferico, this.modelComprobanteItemLente[+i].Cilindrico)
-    .subscribe(result => {
-      this.mostrarPrecio = true;
-      this.modelComprobanteItemLente[+i].Precio = result;
-      this.modelComprobanteItemLente[+i].Cantidad = 1;
-      if (i == 0)
-        this.modelComprobanteItemLente[0].Sobre = 0;
-    })
-  }
-
-  agregarGraduacion() {
-    let item = <ComprobanteItemLente>{};
-    item.IdLente = this.modelComprobanteItemLente[0].IdLente;
-    item.Esferico = 0;
-    item.Cilindrico = 0;
-    this.modelComprobanteItemLente.push(item);
-  }
-
-  eliminarUltimaGraduacion(i) {
-    // console.log(i)
-    this.modelComprobanteItemLente.splice(+i, 1);
-    // this.updateStateGraduacion();
-  }
-
-  // graduacionSelected() {
-  //   this.updateStateGraduacion();
-  // }
-
-  // updateStateGraduacion() {
-  //   //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
-  //   //y el ngOnChanges() lo detecte
-  //   let nuevaGraduacion = JSON.parse(JSON.stringify(this.modelComprobanteItemLente));
-  //   this.selectedGraduacion.emit(nuevaGraduacion);
-  // }
-
-  filterLente(nombre: any): Lente[] {
-    if (nombre.length >= 0) {
-      var s: string;
-      try {
-        s = nombre.toLowerCase();
-      }
-      catch (ex) {
-        s = nombre.nombre.toLowerCase();
-      }
-      return this.lentes.filter(lente =>
-        lente.Id.toString().indexOf(s) !== -1 || lente.Nombre.toLowerCase().indexOf(s.toLowerCase()) !== -1);
-    } else {
-      return [];
-    }
-  }
 }
