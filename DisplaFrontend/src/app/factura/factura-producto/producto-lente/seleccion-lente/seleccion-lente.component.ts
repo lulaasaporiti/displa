@@ -32,7 +32,6 @@ export class SeleccionLenteComponent implements OnInit {
     private clienteService: ClienteService,
     private limitesGrillaService: LimitesGrillaService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
       let cargarGraduacion= <ComprobanteItemLente>{};
       cargarGraduacion.Esferico = 0;
       cargarGraduacion.Cilindrico = 0;

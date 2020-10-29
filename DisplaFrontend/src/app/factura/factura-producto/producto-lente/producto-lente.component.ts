@@ -56,7 +56,7 @@ export class ProductoLenteComponent implements OnInit {
     console.log(model)
     this.modelComprobanteItemLente = model;
     document.getElementById("siguiente1").focus();
-    console.log(this.firstFormGroup);
+    // console.log(this.firstFormGroup);
     // this.firstFormGroup.setValue();
     // console.log(this.firstFormGroup)
 

@@ -6,7 +6,7 @@ import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
 import { FacturaRoutingModule } from './factura-routing.module';
 import { ClienteSeleccionComponent } from './cliente-seleccion/cliente-seleccion.component';
 import { FacturaAltaComponent } from './factura-alta/factura-alta.component';
-import { MatListModule } from '@angular/material';
+import { MatListModule, MatTreeModule } from '@angular/material';
 import { ProductoArticuloComponent } from './factura-producto/producto-articulo/producto-articulo.component';
 import { ProductoLibreComponent } from './factura-producto/producto-libre/producto-libre.component';
 // import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';
@@ -31,6 +31,7 @@ import { SeleccionRecargosComponent } from './factura-producto/producto-lente/se
         CommonModule,
         MaterialModule,
         MatListModule,
+        MatTreeModule,
         FacturaRoutingModule,
         LoadingSpinnerModule,
         MatButtonToggleModule

@@ -38,6 +38,7 @@ namespace DisplaBackend.DAOs
         public List<TipoServicio> GetTiposServicioVigentes()
         {
             return _context.TipoServicio
+                .Include(ti => ti.Servicio)
                 .Where(ti => ti.Borrado == false)
                 .ToList();
         }

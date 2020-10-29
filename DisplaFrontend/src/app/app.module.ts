@@ -20,7 +20,7 @@ import { HeaderComponent } from './header/header';
 import { HomeComponent } from './home/home';
 import { UbicacionModule } from './ubicacion/ubicacion.module';
 import { MovimientoBlockModule } from './movimiento-block/movimiento-block.module';
-import { MAT_DATE_LOCALE, MatPaginatorIntl } from '@angular/material';
+import { MAT_DATE_LOCALE, MatPaginatorIntl, MatTreeModule } from '@angular/material';
 import { MatPaginatorIntLabelProvider } from '../providers/MatPaginatorIntLabel-provider';
 import { TipoInsumoModule } from './tipo-insumo/tipo-insumo.module';
 import { InsumoModule } from './insumo/insumo.module';
@@ -65,6 +65,7 @@ import { ModificacionParametrosModule } from './header/modificacion-parametros/m
     BrowserAnimationsModule,
     MaterialModule,
     DragDropModule,
+    MatTreeModule,
     LoadingSpinnerModule,
     HttpClientModule,
     ToastrModule.forRoot(
