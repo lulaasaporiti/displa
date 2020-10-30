@@ -120,9 +120,10 @@ export class SeleccionLenteComponent implements OnInit {
     .subscribe(result => {
       this.mostrarPrecio = true;
       this.modelComprobanteItemLente[+i].Precio = result;
-      // this.modelComprobanteItemLente[+i].Cantidad = 1;
-      if (i == 0)
+      if (i == 0){
         this.modelComprobanteItemLente[0].Sobre = 0;
+        this.modelComprobanteItemLente[+i].Cantidad = 1;
+      }
     })
   }
 
