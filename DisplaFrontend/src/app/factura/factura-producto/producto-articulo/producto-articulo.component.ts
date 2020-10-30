@@ -131,10 +131,13 @@ export class ProductoArticuloComponent implements OnInit {
   traerPrecio() {
     this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.idArticulos)
       .subscribe(result => {
-        this.comprobantesItems.forEach(c => c.Monto = result[c.IdArticulo] );
+        this.comprobantesItems.forEach(c => { 
+          c.Monto = result[c.IdArticulo];
+          c.Cantidad = 1;
         // this.modelComprobanteItem.Cantidad = 1;
         // this.modelComprobanteItem.Monto = result;
-      })
+      });
+      });
       console.log(this.comprobantesItems);
   }
 

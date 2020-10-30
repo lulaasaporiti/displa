@@ -6,7 +6,7 @@
         <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h4 class="titulo" fxFlex>Factura electrónica {{modelCliente.Optica}}</h4>
+              <h4 class="titulo" fxFlex>{{modelCliente.Id}} - Óptica {{modelCliente.Optica}}</h4>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <p class="titulo">Datos cliente</p>

@@ -143,6 +143,12 @@ export class FacturaAltaComponent implements OnInit {
       this.clienteService.getById(this.id)
         .subscribe(l => {
           this.modelCliente = l;
+          if (this.modelCliente.IdCategoriaIva == 2) {
+            this.modelComprobante.Letra = 'B'
+          } else {
+            this.modelComprobante.Letra = 'A'
+          }
+        
           this.loadingSpinnerService.hide();
         });
     }

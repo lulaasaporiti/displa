@@ -60,7 +60,7 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   _keyPress(event: any) {
-    const pattern = /[0-9-]/;
+    const pattern = /[0-9-.,]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {{}
@@ -120,15 +120,17 @@ export class SeleccionLenteComponent implements OnInit {
     .subscribe(result => {
       this.mostrarPrecio = true;
       this.modelComprobanteItemLente[+i].Precio = result;
-      this.modelComprobanteItemLente[+i].Cantidad = 1;
+      // this.modelComprobanteItemLente[+i].Cantidad = 1;
       if (i == 0)
         this.modelComprobanteItemLente[0].Sobre = 0;
     })
   }
 
   agregarGraduacion() {
+    this.modelComprobanteItemLente[0].Cantidad = 0.5;
     let item = <ComprobanteItemLente>{};
     item.IdLente = this.modelComprobanteItemLente[0].IdLente;
+    item.Cantidad = 0.5;
     item.Esferico = 0;
     item.Cilindrico = 0;
     this.modelComprobanteItemLente.push(item);

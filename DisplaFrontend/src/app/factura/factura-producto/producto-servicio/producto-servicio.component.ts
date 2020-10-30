@@ -128,7 +128,10 @@ export class ProductoServicioComponent implements OnInit {
   traerPrecio() {
     this.clienteService.getPrecioServicioFactura(this.data.idCliente, this.idServicios)
       .subscribe(result => {
-        this.comprobantesItems.forEach(c => c.Monto = result[c.IdServicio]);
+        this.comprobantesItems.forEach(c => {
+          c.Monto = result[c.IdServicio]
+          c.Cantidad = 1;
+        });
         // this.modelComprobanteItem.Cantidad = 1;
         // this.modelComprobanteItem.Monto = result;
       })
