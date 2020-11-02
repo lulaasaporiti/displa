@@ -15,6 +15,8 @@ import { ProductoDescuentoComponent } from '../factura-producto/producto-descuen
 import { ProductoTotalesComponent } from '../factura-producto/producto-totales/producto-totales.component';
 import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
 import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente.component';
+import { FacturaFichaComponent } from '../factura-ficha/factura-ficha.component';
+import { Ficha } from 'src/app/model/ficha';
 
 
 @Component({
@@ -143,12 +145,12 @@ export class FacturaAltaComponent implements OnInit {
       this.clienteService.getById(this.id)
         .subscribe(l => {
           this.modelCliente = l;
+          console.log(this.modelCliente)
           if (this.modelCliente.IdCategoriaIva == 2) {
             this.modelComprobante.Letra = 'B'
           } else {
             this.modelComprobante.Letra = 'A'
-          }
-        
+          }       
           this.loadingSpinnerService.hide();
         });
     }
@@ -247,6 +249,33 @@ export class FacturaAltaComponent implements OnInit {
 
   rowBorrarProductos(row: any): void{
     this.dataSource.data = this.dataSource.data.filter(p =>  p != row);
+  }
+
+  abrirFicha() {
+    const dialogRef = this.dialog.open(FacturaFichaComponent, {
+      disableClose: true,
+      data: { ficha: this.modelCliente.Ficha },
+      width: '600px',
+      height: '500px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        let modelFicha = <Ficha>{};
+        modelFicha.Descripcion = result.Descripcion;
+        modelFicha.Fecha = result.Fecha;
+        modelFicha.IdCliente = this.modelCliente.Id;
+        this.clienteService.saveFicha(modelFicha)
+          .subscribe(
+            data => {
+              this.sessionService.showSuccess("La ficha se actualizó correctamente")
+              this.modelCliente.Ficha.push(modelFicha)
+            },
+            error => {
+              this.sessionService.showError("La ficha no se actualizó.");
+            }
+          );
+        }
+      });
   }
 
  

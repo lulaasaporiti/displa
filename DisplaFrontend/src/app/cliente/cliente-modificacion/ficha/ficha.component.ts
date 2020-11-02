@@ -44,7 +44,6 @@ export class FichaComponent implements OnInit {
 
   traerFicha(){
     this.clienteService.getFicha(this.idCliente).subscribe(r => {
-      console.log(r)
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.dataSource.data = r;
@@ -65,10 +64,8 @@ export class FichaComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
-        console.log(result)
         this.clienteService.saveFicha(modelFicha).subscribe(
           data => {
-            console.log(data)
             // this.router.navigateByUrl('Cliente/Modificacion?id='+data)
             this.traerFicha();
             this.sessionService.showSuccess("La ficha se editó correctamente.");

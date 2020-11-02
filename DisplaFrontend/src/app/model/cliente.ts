@@ -1,5 +1,6 @@
 import { CategoriaIVA } from './categoriaIva';
 import { CondicionVenta } from './condicionVenta';
+import { Ficha } from './ficha';
 import { Localidad } from './localidad';
 
 
@@ -25,6 +26,7 @@ export interface Cliente {
 
     IdCategoriaIvaNavigation: CategoriaIVA,
     IdCondicionVentaNavigation: CondicionVenta,
-    IdLocalidadNavigation: Localidad
+    IdLocalidadNavigation: Localidad;
+    Ficha: Ficha[];
     // PrecioEspecialArticuloCliente: PrecioEspecialArticuloCliente
 }

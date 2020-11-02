@@ -4,6 +4,7 @@
         <ng-template matStepLabel>Seleccione el lente y graduación</ng-template>
         <app-seleccion-lente (selectedComprobanteItemLente)="listaComprobanteItemEvento($event)"></app-seleccion-lente>
         <div>
+          <button mat-button (click)="onNoClick()">Cancelar</button>
           <button mat-button matStepperNext id="siguiente1" [disabled]="modelComprobanteItemLente.length == 0">Siguiente</button>
         </div>
       </form>

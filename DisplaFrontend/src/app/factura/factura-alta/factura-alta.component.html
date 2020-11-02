@@ -55,15 +55,16 @@
             </div>
 
             <div fxLayout="row" fxLayoutGap="2vw">
-              <mat-form-field fxFlex='15' fxLayout="column">
+              <mat-form-field fxFlex='20' fxLayout="column">
                 <input matInput placeholder="Porcentaje descuento" [ngModel]="modelCliente.PorcentajeDescuentoGeneral"
-                  name="porcentaje" #porcentaje="ngModel" [disabled]="modelCliente.IdCategoriaIvaNavigation?.Discrimina">
+                  name="porcentaje" #porcentaje="ngModel"
+                  [disabled]="modelCliente.IdCategoriaIvaNavigation?.Discrimina">
               </mat-form-field>
-              <mat-form-field fxFlex='15' fxLayout="column">
+              <mat-form-field fxFlex='20' fxLayout="column">
                 <input matInput placeholder="Saldo" [ngModel]="modelCliente.SaldoActual" name="saldo" #saldo="ngModel"
                   disabled>
               </mat-form-field>
-              <mat-form-field fxFlex='15' fxLayout="column">
+              <mat-form-field fxFlex='20' fxLayout="column">
                 <input matInput placeholder="Monto crédito" [ngModel]="modelCliente.MontoCredito" name="monto"
                   #monto="ngModel" disabled>
               </mat-form-field>
@@ -71,12 +72,22 @@
                 <input matInput placeholder="Plazo crédito (días)" [ngModel]="modelCliente.PlazoCredito" name="plazo"
                   #plazo="ngModel" disabled>
               </mat-form-field>
-              <mat-checkbox class="radio-group" [ngModel]="modelCliente.UtilizaSobre" name="utilizaSobre"
-              #utilizaSobre="ngModel" disabled>Utiliza sobre
-          </mat-checkbox>
               <mat-checkbox class="radio-group" [ngModel]="modelCliente.IdCategoriaIvaNavigation?.Discrimina"
                 name="discrimina" #discrimina="ngModel" disabled> Discrimina IVA
               </mat-checkbox>
+            </div>
+
+            <div fxLayout="row" fxLayoutGap="2vw">
+              <mat-form-field fxFlex='25' fxLayout="column">
+                <input matInput placeholder="Porcentaje percepción IIBB" name="percepcion" disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='25' fxLayout="column">
+                <input matInput placeholder="Porcentaje APR" name="porcentajeAPR" disabled>
+              </mat-form-field>
+              <mat-checkbox class="radio-group" [ngModel]="modelCliente.UtilizaSobre" name="utilizaSobre"
+                #utilizaSobre="ngModel" disabled>Utiliza sobre
+              </mat-checkbox>
+              <button mat-button (click)="abrirFicha()">Ver ficha</button>
             </div>
           </div>
         </mat-expansion-panel>
@@ -147,25 +158,26 @@
 
         <ng-container matColumnDef="Borrar">
           <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> BORRAR </th>
-          <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="center center"> 
+          <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="center center">
             <button mat-button type="button" (click)="rowBorrarProductos(row)">
               <mat-icon>clear</mat-icon>
-          </button>
+            </button>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="footer">
-          <td mat-footer-cell *matFooterCellDef id="footers"  [style.display]="'none'">
+          <td mat-footer-cell *matFooterCellDef id="footers" [style.display]="'none'">
             <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px">
-            <label style="font-weight: bold;">Subtotal:</label>
-            <label> {{getSubTotales()}}</label>
-            <label style="font-weight: bold;">Subtotal con descuento:</label>
-            <label> {{ getSubtotalConDescuento() }}</label>
-            <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA RI:</label>
-            <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
-            <label style="font-weight: bold;">Total: </label>
-            <label>{{getTotales()}}</label>
-          </div>
+              <label style="font-weight: bold;">Subtotal:</label>
+              <label> {{getSubTotales()}}</label>
+              <label style="font-weight: bold;">Subtotal con descuento:</label>
+              <label> {{ getSubtotalConDescuento() }}</label>
+              <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA
+                RI:</label>
+              <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
+              <label style="font-weight: bold;">Total: </label>
+              <label>{{getTotales()}}</label>
+            </div>
           </td>
         </ng-container>
 
