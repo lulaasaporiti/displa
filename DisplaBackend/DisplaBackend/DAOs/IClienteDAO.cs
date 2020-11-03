@@ -168,8 +168,14 @@ namespace DisplaBackend.DAOs
 
         public Cliente GetById(int idCliente)
         {
-            return _context.Cliente.Include(c => c.IdLocalidadNavigation).Include(c => c.IdCategoriaIvaNavigation)
-                .Include(c => c.IdCondicionVentaNavigation).Include(c => c.Ficha).FirstOrDefault(c => c.Id == idCliente);
+            return _context.Cliente
+                .Include(c => c.IdLocalidadNavigation)
+                .Include(c => c.IdCategoriaIvaNavigation)
+                .Include(c => c.IdCondicionVentaNavigation)
+                .Include(c => c.Ficha)
+                .Include(c => c.ClienteBloqueo)
+                .FirstOrDefault(c => c.Id == idCliente);
+
         }
 
         public List<PrecioArticuloCliente> GetPreciosArticulosCliente(int idCliente)
@@ -765,9 +771,17 @@ namespace DisplaBackend.DAOs
                 var tienePrecioEspecial = _context.PrecioArticuloCliente.Where(pc => pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
                 if (tienePrecioEspecial == null)
                 {
-                    PrecioArticulo precioArticulo = _context.PrecioArticuloCliente.Include(pc => pc.IdPrecioArticuloNavigation)
+                    try
+                    {
+                        PrecioArticulo precioArticulo = _context.PrecioArticuloCliente.Include(pc => pc.IdPrecioArticuloNavigation)
                         .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioArticuloNavigation.IdArticulo == idArticulo).IdPrecioArticuloNavigation;
-                    preciosArticulos[idArticulo.ToString()] = precioArticulo.Precio;
+                        preciosArticulos[idArticulo.ToString()] = precioArticulo.Precio;
+                    }
+                    catch (Exception e)
+                    {
+                        preciosArticulos[idArticulo.ToString()] = null;
+                        continue;
+                    }
                 }
                 else
                 {

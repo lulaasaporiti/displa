@@ -10,6 +10,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <p class="titulo">Datos cliente</p>
+          <h5 class="texto-explicativo" *ngIf="modelCliente.Bloqueado"> El cliente se encuentra bloqueado por {{modelCliente.ClienteBloqueo[modelCliente.ClienteBloqueo.length - 1].Motivo.toLowerCase()}}. </h5>
           <div fxLayout="column" style="margin: 12px auto;">
             <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
               <mat-form-field fxFlex='35' fxLayout="column">

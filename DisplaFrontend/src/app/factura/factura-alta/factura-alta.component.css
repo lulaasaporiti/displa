@@ -17,6 +17,11 @@ mat-paginator{
     transform: scale(0.7);
   }
   
+  .texto-explicativo{
+    font-family: "Chalet London" !important;
+    font-size: small;
+    color: firebrick;
+  }
   
   /* /////////////////// */
   

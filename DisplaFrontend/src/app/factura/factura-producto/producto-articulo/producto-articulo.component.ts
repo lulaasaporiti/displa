@@ -10,6 +10,7 @@ import { ArticuloVario } from 'src/app/model/articuloVario';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { TipoArticuloService } from 'src/services/tipo.articulo.service';
 import { TipoArticulo } from 'src/app/model/tipoArticulo';
+import { SessionService } from 'src/services/session.service';
 
 @Component({
   selector: 'app-producto-articulo',
@@ -36,6 +37,7 @@ export class ProductoArticuloComponent implements OnInit {
     private articuloService: ArticuloVarioService,
     private tipoArticuloService: TipoArticuloService,
     private clienteService: ClienteService,
+    private sessionService: SessionService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -129,14 +131,21 @@ export class ProductoArticuloComponent implements OnInit {
   }
 
   traerPrecio() {
+    let mostrarMensaje = false;
     this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.idArticulos)
       .subscribe(result => {
+        console.log(result)
         this.comprobantesItems.forEach(c => { 
           c.Monto = result[c.IdArticulo];
+          if (result[c.IdArticulo] == null)
+            mostrarMensaje = true;
           c.Cantidad = 1;
         // this.modelComprobanteItem.Cantidad = 1;
         // this.modelComprobanteItem.Monto = result;
       });
+      if (mostrarMensaje) {
+        this.sessionService.showInfo("No existe precio seleccionado para algún artículo.");
+      }
       });
       console.log(this.comprobantesItems);
   }
