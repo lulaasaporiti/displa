@@ -22,6 +22,11 @@ mat-paginator{
     font-size: small;
     color: firebrick;
   }
+
+  .radio-group {
+    padding-top: 20px;
+    /* padding-bottom: 10px; */
+}
   
   /* /////////////////// */
   

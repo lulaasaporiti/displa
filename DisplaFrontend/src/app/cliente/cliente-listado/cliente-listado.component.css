@@ -22,6 +22,9 @@ mat-paginator{
   color: gray;
 }
 
+::ng-deep .menu-clientes .mat-menu-content{    
+  background-color: transparent !important;
+}
 
 /* /////////////////// */
 
@@ -52,7 +55,5 @@ td.mat-cell:last-of-type{
   width: 125px !important;
 }
 
-.tamano-celda{
-  height: 100%;
-}
+
 

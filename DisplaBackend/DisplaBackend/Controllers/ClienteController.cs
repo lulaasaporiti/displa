@@ -131,6 +131,16 @@ namespace DisplaBackend.Controllers
             return Ok(_clienteService.SaveFicha(ficha));
         }
 
+        [HttpPost, Route("SaveClienteBloqueo")]
+        public IActionResult SaveClienteBloqueo([FromBody]ClienteBloqueo bloqueo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_clienteService.SaveClienteBloqueo(bloqueo));
+        }
+
         [HttpGet("{idCliente}"), Route("GetPreciosArticulosCliente")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetPreciosArticulosCliente(int idCliente)

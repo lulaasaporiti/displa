@@ -21,12 +21,13 @@ import { ClienteCuentaListadoComponent } from './cliente-cuenta-listado/cliente-
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { FichaAltaComponent } from './cliente-modificacion/ficha/ficha-alta/ficha-alta.component';
 import { MatButtonToggleModule } from '@angular/material';
+import { ClienteBloqueoManualComponent } from './cliente-bloqueo-manual/cliente-bloqueo-manual.component';
 
 @NgModule({
-    entryComponents: [ClienteBajaComponent, FichaAltaComponent],
+    entryComponents: [ClienteBajaComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
     declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, InformacionModificacionComponent, InformacionDetalleComponent,
         PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent ,PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, 
-        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, FichaAltaComponent],
+        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
     imports: [
         CommonModule,
         MaterialModule,

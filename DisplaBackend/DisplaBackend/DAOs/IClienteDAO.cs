@@ -36,6 +36,7 @@ namespace DisplaBackend.DAOs
         decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo);
         JObject GetPrecioArticuloFactura(int idCliente, int[] articulos);
         JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
+        bool SaveClienteBloqueo(ClienteBloqueo bloqueo);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -156,6 +157,31 @@ namespace DisplaBackend.DAOs
                     ficha = _context.Ficha.Update(ficha).Entity;
 
                 }
+                return _context.SaveChanges() >= 1;
+
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public bool SaveClienteBloqueo(ClienteBloqueo bloqueo)
+        {
+            try
+            {
+                var cliente = _context.Cliente.FirstOrDefault(c => c.Id == bloqueo.IdCliente);
+                if (bloqueo.Id == 0)
+                {
+                    bloqueo = _context.Add(bloqueo).Entity;
+                    cliente.Bloqueado = true;
+                }
+                else
+                {
+                    cliente.Bloqueado = false;
+                }
+                _context.Cliente.Update(cliente);
                 return _context.SaveChanges() >= 1;
 
             }
@@ -799,9 +825,18 @@ namespace DisplaBackend.DAOs
                 var tienePrecioEspecial = _context.PrecioServicioCliente.Where(pc => pc.IdPrecioServicioNavigation.IdServicio == idServicio && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
                 if (tienePrecioEspecial == null)
                 {
-                    PrecioServicio precioServicio = _context.PrecioServicioCliente.Include(pc => pc.IdPrecioServicioNavigation)
-                        .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioServicioNavigation.IdServicio == idServicio).IdPrecioServicioNavigation;
-                    preciosServicios[idServicio.ToString()] = precioServicio.Precio;
+                    try
+                    {
+                        PrecioServicio precioServicio = _context.PrecioServicioCliente.Include(pc => pc.IdPrecioServicioNavigation)
+                       .FirstOrDefault(pc => pc.IdCliente == idCliente && pc.IdPrecioServicioNavigation.IdServicio == idServicio).IdPrecioServicioNavigation;
+                        preciosServicios[idServicio.ToString()] = precioServicio.Precio;
+                    }
+                    catch (Exception e)
+                    {
+                        preciosServicios[idServicio.ToString()] = null;
+                        continue;
+                    }
+                       
                 }
                 else
                 {

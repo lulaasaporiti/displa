@@ -145,7 +145,6 @@ export class FacturaAltaComponent implements OnInit {
       this.clienteService.getById(this.id)
         .subscribe(l => {
           this.modelCliente = l;
-          console.log(this.modelCliente)
           if (this.modelCliente.IdCategoriaIva == 2) {
             this.modelComprobante.Letra = 'B'
           } else {

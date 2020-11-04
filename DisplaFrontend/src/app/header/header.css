@@ -13,9 +13,9 @@ mat-menu-panel {
     background-color: #616161;
 }
 
-mat-menu {
+/* mat-menu {
     background-color: #616161 !important;
-}
+} */
 
 mat-nav-list {
     min-width: 100%;    

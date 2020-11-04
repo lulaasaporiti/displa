@@ -134,7 +134,6 @@ export class ProductoArticuloComponent implements OnInit {
     let mostrarMensaje = false;
     this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.idArticulos)
       .subscribe(result => {
-        console.log(result)
         this.comprobantesItems.forEach(c => { 
           c.Monto = result[c.IdArticulo];
           if (result[c.IdArticulo] == null)

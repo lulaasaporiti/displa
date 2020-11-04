@@ -74,10 +74,14 @@ export class AppComponent {
       'attach_money',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/attach_money-24px.svg')
     );
-    // this.matIconRegistry.addSvgIcon(
-    //   'check_outline',
-    //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/check_outline.svg')
-    // );
+    this.matIconRegistry.addSvgIcon(
+      'block',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/block-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'settings_backup_restore',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/settings_backup_restore-24px.svg')
+    );
     // this.matIconRegistry.addSvgIcon(
     //   'error_outline',
     //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/error_outline.svg')

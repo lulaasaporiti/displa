@@ -80,6 +80,10 @@ export class ClienteService {
         return this.http.post(`${this.baseUrl}/SaveFicha`, ficha);
     }
 
+    saveClienteBloqueo(bloqueo): Observable<object> {
+        return this.http.post(`${this.baseUrl}/SaveClienteBloqueo`, bloqueo);
+    }
+
     asignarPreciosLentes(preciosLentes): Observable<any> {
         return this.http.post(`${this.baseUrl}/AsignarPreciosLentes`, preciosLentes);
     }

@@ -5,6 +5,5 @@ export interface ClienteBloqueo {
   IdCliente: number,
   Motivo: string, 
   Fecha: Date,
-
   IdClienteNavigation: Cliente
 }

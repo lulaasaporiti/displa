@@ -1,0 +1,30 @@
+<div class="dialog-content">
+    <div mat-dialog-title fxLayout="row" fxLayoutGap="15px" *ngIf="!data.bloqueado">
+      <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="block"></mat-icon>
+      <p class="dialog-title">Bloquear cliente {{data.optica}}</p>
+    </div>
+    <div mat-dialog-title fxLayout="row" fxLayoutGap="15px" *ngIf="data.bloqueado">
+      <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="settings_backup_restore"></mat-icon>
+      <p  class="dialog-title">¿Está seguro que quiere desbloquear el cliente {{data.optica}}?</p>
+    </div>
+  <div fxLayout="column" *ngIf="!data.bloqueado" fxLayoutAlign="space-between start">
+    <mat-form-field fxFill>
+      <input matInput [matDatepicker]="picker" placeholder="Fecha" name="fecha" [(ngModel)]="modelBloqueo.Fecha"
+        #fecha="ngModel" readonly>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field fxFill style="width: 201px;">
+      <textarea matInput placeholder="Motivo" rows="4" cols="54" [(ngModel)]="modelBloqueo.Motivo" name="motivo"
+        #motivo="ngModel" required>
+        </textarea>
+      <mat-error *ngIf="motivo.invalid">Este campo es obligatorio.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+    <button mat-raised-button (click)="onNoClick()" [mat-dialog-close]="false">Cancelar</button>
+    <button *ngIf="!data.bloqueado" mat-raised-button color="primary" [mat-dialog-close]="modelBloqueo">Bloquear</button>
+    <button *ngIf="data.bloqueado" mat-raised-button color="primary" [mat-dialog-close]="modelBloqueo">Desbloquear</button>
+  </div>
+</div>

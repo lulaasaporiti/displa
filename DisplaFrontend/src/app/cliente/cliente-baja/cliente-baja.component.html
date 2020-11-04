@@ -1,7 +1,7 @@
 <div class="dialog-content">
     <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
         <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="delete"></mat-icon>
-        <p class="dialog-title" *ngIf="!data.modelCliente.Borrado">¿Está seguro que quiere eliminar el cliente {{data.modelCliente.Nombre}}?</p>
+        <p class="dialog-title" *ngIf="!data.modelCliente.Borrado">¿Está seguro que quiere borrar el cliente {{data.modelCliente.Nombre}}?</p>
         <p class="dialog-title" *ngIf="data.modelCliente.Borrado">¿Está seguro que quiere recuperar el cliente {{data.modelCliente.Nombre}}?</p>
     </div>
 

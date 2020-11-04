@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Observable, merge } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ClienteBloqueoManualComponent } from '../cliente-bloqueo-manual/cliente-bloqueo-manual.component';
 
 
 @Component({
@@ -22,23 +23,25 @@ export class ClienteListadoComponent implements OnInit {
   form:FormGroup = new FormGroup({
     Codigo: new FormControl(true),
     Optica: new FormControl(true),
-    Nombre: new FormControl(false),
+    Responsable: new FormControl(false),
     Domicilio: new FormControl(true),
     Telefonos: new FormControl(true),
     Mail: new FormControl(false),
     UtilizaIibb: new FormControl(false),
     Borrado: new FormControl(false),
+    Bloqueado: new FormControl(false),
     Opciones: new FormControl(true),
   });
 
   Codigo = this.form.get('Codigo')
   Optica = this.form.get('Optica');
-  Nombre = this.form.get('Nombre');
+  Responsable = this.form.get('Responsable');
   Domicilio = this.form.get('Domicilio');
   Telefonos = this.form.get('Telefonos');
   Mail = this.form.get('Mail');
   UtilizaIibb = this.form.get('UtilizaIibb');
   Borrado = this.form.get('Borrado');
+  Bloqueado = this.form.get('Bloqueado');
   Opciones = this.form.get('Opciones');
 
 
@@ -47,12 +50,13 @@ export class ClienteListadoComponent implements OnInit {
   [
     {def: 'Codigo', hide: this.Codigo.value},
     {def: 'Optica', hide: this.Optica.value},
-    {def: 'Nombre', hide: this.Nombre.value},
+    {def: 'Responsable', hide: this.Responsable.value},
     {def: 'Domicilio',  hide: this.Domicilio.value},
     {def: 'Telefonos',  hide: this.Telefonos.value},
     {def: 'Mail',  hide: this.Mail.value},
     {def: 'UtilizaIibb',  hide: this.UtilizaIibb.value},
     {def: 'Borrado',  hide: this.Borrado.value},
+    {def: 'Bloqueado',  hide: this.Bloqueado.value},
     {def: 'Opciones', hide: this.Opciones.value},
   ]
 
@@ -90,24 +94,26 @@ export class ClienteListadoComponent implements OnInit {
     this.searchElement.nativeElement.focus();
     let o1:Observable<boolean> = this.Codigo.valueChanges;
     let o2:Observable<boolean> = this.Optica.valueChanges;
-    let o3:Observable<boolean> = this.Nombre.valueChanges;
+    let o3:Observable<boolean> = this.Responsable.valueChanges;
     let o4:Observable<boolean> = this.Domicilio.valueChanges;
     let o5:Observable<boolean> = this.Telefonos.valueChanges;
     let o6:Observable<boolean> = this.Mail.valueChanges;
     let o7:Observable<boolean> = this.UtilizaIibb.valueChanges;
     let o8:Observable<boolean> = this.Borrado.valueChanges;
-    let o9:Observable<boolean> = this.Opciones.valueChanges;
+    let o9:Observable<boolean> = this.Bloqueado.valueChanges;
+    let o10:Observable<boolean> = this.Opciones.valueChanges;
 
-    merge(o1, o2, o3,o4,o5,o6,o7, o8).subscribe(v=>{
+    merge(o1, o2, o3,o4,o5,o6,o7, o8, o9).subscribe(v=>{
     this.displayedColumns[0].hide = this.Codigo.value;
     this.displayedColumns[1].hide = this.Optica.value;
-    this.displayedColumns[2].hide = this.Nombre.value;  
+    this.displayedColumns[2].hide = this.Responsable.value;  
     this.displayedColumns[3].hide = this.Domicilio.value;  
     this.displayedColumns[4].hide = this.Telefonos.value;
     this.displayedColumns[5].hide = this.Mail.value; 
     this.displayedColumns[6].hide = this.UtilizaIibb.value;  
     this.displayedColumns[7].hide = this.Borrado.value;
-    this.displayedColumns[8];  
+    this.displayedColumns[8].hide = this.Bloqueado.value;
+    this.displayedColumns[9];  
     });
   }
 
@@ -154,6 +160,27 @@ export class ClienteListadoComponent implements OnInit {
           error => {
             // console.log(error)
             this.sessionService.showError("El cliente no se borró.");
+          }
+        );
+      }
+    })
+  }
+
+  bloquearCliente(idCliente, optica, bloqueado): void {
+    const dialogRef = this.dialog.open(ClienteBloqueoManualComponent, {
+      data: { id: idCliente, optica: optica,  bloqueado: bloqueado },
+      width: '500px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.clienteService.saveClienteBloqueo(result).subscribe(
+          data => {
+            this.loadClientePage()
+            this.sessionService.showSuccess("El cliente se ha bloqueado/desbloqueado correctamente");
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("El cliente no se bloqueo/desbloqueo.");
           }
         );
       }
