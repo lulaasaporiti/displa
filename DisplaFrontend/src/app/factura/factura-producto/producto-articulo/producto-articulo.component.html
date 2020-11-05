@@ -21,7 +21,7 @@
                 <mat-error *ngIf="tipoArticulosControl.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="30" *ngIf="data.utilizaSobre">
-                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"  #sobre="ngModel"
+                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" #sobre="ngModel"
                     (keyup.enter)="tabInventado($event, 'articulos')" [(ngModel)]="modelComprobanteItem.NumeroSobre"
                     name="sobre" required>
                 <mat-error *ngIf="sobre.invalid">Este campo es obligatorio.</mat-error>
@@ -54,7 +54,9 @@
             </mat-form-field>
             <mat-form-field fxFlex="20">
                 <input matInput placeholder="Precio unitario" id="precio{{i}}" [(ngModel)]="comprobantesItems[i].Monto"
-                    name="precio{{i}}" #precio pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required [disabled]="comprobantesItems[i].Monto != null">
+                    name="precio{{i}}" #precio="ngModel" pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required
+                    [disabled]="preciosIsNull[comprobantesItems[i].IdArticulo] != null">
+                <mat-error *ngIf="precio.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="11">
                 <input matInput placeholder="Cantidad" id="cantidad{{i}}"
@@ -72,8 +74,9 @@
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || comprobantesItems.length == 0 || articulosControl.invalid" id="seleccionar"
-                [mat-dialog-close]="comprobantesItems">Seleccionar</button>
+            <button mat-raised-button color="primary"
+                [disabled]="!modalForm.form.valid || comprobantesItems.length == 0 || articulosControl.invalid"
+                id="seleccionar" [mat-dialog-close]="comprobantesItems">Seleccionar</button>
         </div>
     </div>
 </form>

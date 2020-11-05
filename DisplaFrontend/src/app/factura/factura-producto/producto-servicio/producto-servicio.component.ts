@@ -27,6 +27,7 @@ export class ProductoServicioComponent implements OnInit {
   idServicios: number[] = [];
   modelComprobanteItem = <ComprobanteItem>{};
   modelTipoServicio = <TipoServicio>{};
+  preciosIsNull;
   @ViewChild('ser', { static: true }) ser;
 
   
@@ -131,6 +132,7 @@ export class ProductoServicioComponent implements OnInit {
     let mostrarMensaje = false;
     this.clienteService.getPrecioServicioFactura(this.data.idCliente, this.idServicios)
       .subscribe(result => {
+        this.preciosIsNull = result;
         this.comprobantesItems.forEach(c => {
           c.Monto = result[c.IdServicio]
           if (result[c.IdServicio] == null)

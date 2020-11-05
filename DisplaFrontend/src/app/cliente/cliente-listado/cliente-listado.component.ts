@@ -83,8 +83,10 @@ export class ClienteListadoComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.loadClientePage()
+    this.clienteService.getBloquearClientes().subscribe(resultBloquear => {
+      console.log(resultBloquear)
+    })
   }
-
 
   getDisplayedColumns() {
     return this.displayedColumns.filter(cd=>cd.hide).map(cd=>cd.def);
@@ -145,9 +147,9 @@ export class ClienteListadoComponent implements OnInit {
     }
   }
 
-  eliminarCliente(Cliente: Cliente): void {
+  eliminarCliente(idCliente, optica, borrado): void {
     const dialogRef = this.dialog.open(ClienteBajaComponent, {
-      data: { modelCliente: Cliente }
+      data: {  id: idCliente, optica: optica,  borrado: borrado }
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {

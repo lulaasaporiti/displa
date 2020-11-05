@@ -82,6 +82,11 @@ export class AppComponent {
       'settings_backup_restore',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/settings_backup_restore-24px.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'restore_from_trash',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/restore_from_trash-24px.svg')
+    );
+    
     // this.matIconRegistry.addSvgIcon(
     //   'error_outline',
     //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/error_outline.svg')

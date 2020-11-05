@@ -131,4 +131,9 @@ export class ClienteService {
         servicios: servicios
         });
     }
+
+    getBloquearClientes(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/BloquearClientes`);
+    }
+    
 }

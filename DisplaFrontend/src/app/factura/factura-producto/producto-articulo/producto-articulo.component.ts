@@ -28,6 +28,7 @@ export class ProductoArticuloComponent implements OnInit {
   idArticulos: number[] = [];
   modelComprobanteItem = <ComprobanteItem>{};
   modelTipoArticulo = <TipoArticulo>{};
+  preciosIsNull;
   @ViewChild('ar', { static: true }) ar;
 
   
@@ -134,8 +135,9 @@ export class ProductoArticuloComponent implements OnInit {
     let mostrarMensaje = false;
     this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.idArticulos)
       .subscribe(result => {
+        this.preciosIsNull = result;
         this.comprobantesItems.forEach(c => { 
-          c.Monto = result[c.IdArticulo];
+          c.Monto = result[c.IdArticulo]
           if (result[c.IdArticulo] == null)
             mostrarMensaje = true;
           c.Cantidad = 1;

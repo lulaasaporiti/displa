@@ -456,12 +456,36 @@ namespace DisplaBackend.DAOs
             List<Cliente> clientes = _context.Cliente.Where(c => c.Borrado != true && c.Bloqueado != true).ToList();
             try
             {
+                DateTime today = DateTime.Now;
                 foreach (var c in clientes)
                 {
                     if (c.MontoCredito < c.SaldoActual)
                     {
+                        ClienteBloqueo clienteBloqueo = new ClienteBloqueo();
+                        clienteBloqueo.Motivo = "Bloqueo automático (superó el monto permitido)";
+                        clienteBloqueo.IdCliente = c.Id;
+                        clienteBloqueo.Fecha = today;
+                        _context.ClienteBloqueo.Add(clienteBloqueo);
                         c.Bloqueado = true;
                         _context.Cliente.Update(c);
+                    }
+                    else
+                    {
+                        if (c.SaldoActual < 0 && c.PlazoCredito > 0)
+                        {
+                            ComprobanteCliente ultimoComprobante = _context.ComprobanteCliente.LastOrDefault(cc => cc.IdCliente == c.Id);
+                            DateTime fechaBloqueo = ultimoComprobante.Fecha.AddDays(c.PlazoCredito.Value);
+                            if (fechaBloqueo < today)
+                            {
+                                ClienteBloqueo clienteBloqueo = new ClienteBloqueo();
+                                clienteBloqueo.Motivo = "Bloqueo automático (superó el plazo pautado)";
+                                clienteBloqueo.IdCliente = c.Id;
+                                clienteBloqueo.Fecha = today;
+                                _context.ClienteBloqueo.Add(clienteBloqueo);
+                                c.Bloqueado = true;
+                                _context.Cliente.Update(c);
+                            }
+                        }
                     }
                 }
             }
