@@ -37,6 +37,8 @@ namespace DisplaBackend.DAOs
         JObject GetPrecioArticuloFactura(int idCliente, int[] articulos);
         JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
         bool SaveClienteBloqueo(ClienteBloqueo bloqueo);
+        double GetDiasPlazo(int idCliente);
+        bool DeleteFicha(Ficha ficha);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -194,13 +196,25 @@ namespace DisplaBackend.DAOs
 
         public Cliente GetById(int idCliente)
         {
-            return _context.Cliente
+            var cliente = _context.Cliente
                 .Include(c => c.IdLocalidadNavigation)
                 .Include(c => c.IdCategoriaIvaNavigation)
                 .Include(c => c.IdCondicionVentaNavigation)
                 .Include(c => c.Ficha)
                 .Include(c => c.ClienteBloqueo)
                 .FirstOrDefault(c => c.Id == idCliente);
+            
+            return cliente;
+        }
+
+        public double GetDiasPlazo(int idCliente)
+        {
+            DateTime today = DateTime.Now;
+            int mensajeAvisoBloqueo = 0;
+            var cliente = _context.Cliente.Where(c => c.Id == idCliente).FirstOrDefault();
+            ComprobanteCliente ultimoComprobante = _context.ComprobanteCliente.LastOrDefault(cc => cc.IdCliente == cliente.Id);
+            mensajeAvisoBloqueo = Convert.ToInt32((today - ultimoComprobante.Fecha).TotalDays);
+            return mensajeAvisoBloqueo;
 
         }
 
@@ -259,7 +273,21 @@ namespace DisplaBackend.DAOs
             try
             {
                 cliente.Borrado = !cliente.Borrado;
-                cliente = _context.Cliente.Update(cliente).Entity;
+                _context.Cliente.Update(cliente);
+                return _context.SaveChanges() >= 1;
+            }
+            catch (DbUpdateException e)
+            {
+                throw e;
+            }
+        }
+
+
+        public bool DeleteFicha(Ficha ficha)
+        {
+            try
+            {
+                _context.Ficha.Remove(ficha);
                 return _context.SaveChanges() >= 1;
             }
             catch (DbUpdateException e)

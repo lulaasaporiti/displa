@@ -9,6 +9,7 @@ import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 import { ProductoArticuloComponent } from '../factura-producto/producto-articulo/producto-articulo.component';
+import { combineLatest } from 'rxjs';
 // import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
 import { ProductoLibreComponent } from '../factura-producto/producto-libre/producto-libre.component';
 import { ProductoDescuentoComponent } from '../factura-producto/producto-descuento/producto-descuento.component';
@@ -26,6 +27,7 @@ import { Ficha } from 'src/app/model/ficha';
 })
 export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
+  plazoActual = 0;
   private id: number = 0;
   panelOpenState = false;
   // displayedColumnsFooter: string[]= ['Subtotal']
@@ -141,15 +143,19 @@ export class FacturaAltaComponent implements OnInit {
       this.id = +params['id']; // (+) converts string 'id' to a number;
     });
     if (this.id) {
-      this.loadingSpinnerService.show()
-      this.clienteService.getById(this.id)
-        .subscribe(l => {
-          this.modelCliente = l;
+      this.loadingSpinnerService.show();
+      combineLatest(
+        this.clienteService.getById(this.id),
+        this.clienteService.getDiasPlazo(this.id)
+      )
+      .subscribe(result => {
+          this.modelCliente = result[0];
           if (this.modelCliente.IdCategoriaIva == 2) {
             this.modelComprobante.Letra = 'B'
           } else {
             this.modelComprobante.Letra = 'A'
-          }       
+          }    
+          this.plazoActual = +result[1];   
           this.loadingSpinnerService.hide();
         });
     }

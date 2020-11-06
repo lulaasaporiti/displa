@@ -21,7 +21,7 @@ export class ClienteService {
     }
 
     getCuentasClientes(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetCuentasBloqueados`);
+        return this.http.get(`${this.baseUrl}/GetCuentasClientes`);
     }
     
     getClientesVigentesList(): Observable<any> {
@@ -44,8 +44,16 @@ export class ClienteService {
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
+    deleteFicha(ficha): Observable<any> {
+        return this.http.delete(`${this.baseUrl}/${ficha}`);
+    }
+
     getById(id: number): Observable<any> {
         return this.http.get(`${this.baseUrl}/${id}`);
+    }
+
+    getDiasPlazo(idCliente: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetDiasPlazo?idCliente=${idCliente}`);
     }
 
     getPreciosArticulosCliente(idCliente): Observable<any> {

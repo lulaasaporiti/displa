@@ -75,10 +75,27 @@ namespace DisplaBackend.Controllers
             return Ok(_clienteService.Delete(cliente));
         }
 
+        [HttpDelete]
+        public IActionResult DeleteFicha([FromRoute] Ficha ficha)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(_clienteService.DeleteFicha(ficha));
+        }
+
         [HttpGet("{id}")]
         public object GetById([FromRoute]int id)
         {
             return _clienteService.GetById(id);
+        }
+
+        [HttpGet("{idCliente}"), Route("GetDiasPlazo")]
+        public double GetDiasPlazo(int idCliente)
+        {
+            return _clienteService.GetDiasPlazo(idCliente);
         }
 
         [HttpPost, Route("SavePreciosArticulos")]

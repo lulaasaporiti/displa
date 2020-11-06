@@ -17,7 +17,7 @@ export class FichaComponent implements OnInit {
 
   idCliente: number;
   
-  displayedColumns: string[] = ['Fecha', 'Descripcion'];
+  displayedColumns: string[] = ['Fecha', 'Descripcion', 'Borrar'];
   dataSource = new MatTableDataSource<any>();
   traerVigentes: boolean = true;
 
@@ -54,6 +54,17 @@ export class FichaComponent implements OnInit {
 
   cancelar(){
     this.router.navigateByUrl('Cliente/Listado')
+  }
+
+  rowBorrarFicha(row: any): void{
+    // this.dataSource.data = this.dataSource.data.filter(fi =>  fi.Id != row);
+    this.clienteService.deleteFicha(row)
+    .subscribe(result => {  
+      if(result != undefined && result != false){
+        
+      }
+     })
+    
   }
 
   agregarFicha(){

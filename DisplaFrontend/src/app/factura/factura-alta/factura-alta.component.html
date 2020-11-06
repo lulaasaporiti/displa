@@ -41,18 +41,19 @@
                 <input matInput placeholder="Email" [ngModel]="modelCliente.Mail" id="email" name="email"
                   #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" disabled>
               </mat-form-field>
-
-              <mat-form-field fxFlex='30' fxLayout="column">
-                <input matInput placeholder="Categoría IVA"
-                  [ngModel]="modelCliente.IdCategoriaIvaNavigation?.Descripcion" name="categoria" #categoria="ngModel"
-                  disabled>
-              </mat-form-field>
-
               <mat-form-field fxFlex='30' fxLayout="column">
                 <input matInput placeholder="Condición de venta"
                   [ngModel]="modelCliente.IdCondicionVentaNavigation?.Descripcion" name="condicion" #condicion="ngModel"
                   disabled>
               </mat-form-field>
+              <mat-form-field fxFlex='30' fxLayout="column">
+                <input matInput placeholder="Categoría IVA"
+                  [ngModel]="modelCliente.IdCategoriaIvaNavigation?.Descripcion" name="categoria" #categoria="ngModel"
+                  disabled>
+              </mat-form-field>
+              <mat-checkbox class="radio-group" [ngModel]="modelCliente.IdCategoriaIvaNavigation?.Discrimina"
+              name="discrimina" #discrimina="ngModel" disabled> Discrimina IVA
+            </mat-checkbox>
             </div>
 
             <div fxLayout="row" fxLayoutGap="2vw">
@@ -73,9 +74,10 @@
                 <input matInput placeholder="Plazo crédito (días)" [ngModel]="modelCliente.PlazoCredito" name="plazo"
                   #plazo="ngModel" disabled>
               </mat-form-field>
-              <mat-checkbox class="radio-group" [ngModel]="modelCliente.IdCategoriaIvaNavigation?.Discrimina"
-                name="discrimina" #discrimina="ngModel" disabled> Discrimina IVA
-              </mat-checkbox>
+              <mat-form-field fxFlex='15' fxLayout="column">
+                <input matInput placeholder="Plazo actual (días)" [value]="plazoActual" name="plazoActual"
+                   disabled>
+              </mat-form-field>
             </div>
 
             <div fxLayout="row" fxLayoutGap="2vw">

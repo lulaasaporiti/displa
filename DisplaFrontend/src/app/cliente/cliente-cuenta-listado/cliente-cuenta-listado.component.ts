@@ -5,6 +5,9 @@ import { ClienteService } from 'src/services/cliente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { merge, Observable } from 'rxjs';
 
 
 @Component({
@@ -13,12 +16,53 @@ import { Router } from '@angular/router';
   styleUrls: ['./cliente-cuenta-listado.component.css']
 })
 export class ClienteCuentaListadoComponent implements OnInit {
-  displayedColumns: string[] = ['Optica', 'Saldo', 'MontoExcedido', 'Credito', 'DiasExcedido', 'Plazo',  'Fecha', 'Motivo', 'Estado', 'Opciones'];
   panelOpenState = false;
+  form:FormGroup = new FormGroup({
+    Optica: new FormControl(true),
+    Saldo: new FormControl(true),
+    Monto: new FormControl(true),
+    Credito: new FormControl(true),
+    Dias: new FormControl(true),
+    Plazo: new FormControl(true),
+    Fecha: new FormControl(true),
+    Motivo: new FormControl(true),
+    Estado: new FormControl(true),
+    Opciones: new FormControl(true),
+  });
+
+    Optica = this.form.get('Optica');
+    Saldo = this.form.get('Saldo');
+    Monto = this.form.get('Monto');
+    Credito = this.form.get('Credito');
+    Dias = this.form.get('Dias');
+    Plazo = this.form.get('Plazo');
+    Fecha = this.form.get('Fecha');
+    Motivo = this.form.get('Motivo');
+    Estado = this.form.get('Estado');
+    Opciones = this.form.get('Opciones');
+
+    cbValues;
+    displayedColumns = 
+    [
+      {def: 'Optica', hide: this.Optica.value},
+      {def: 'Saldo', hide: this.Saldo.value},
+      {def: 'Monto',  hide: this.Monto.value},
+      {def: 'Credito',  hide: this.Credito.value},
+      {def: 'Dias',  hide: this.Dias.value},
+      {def: 'Plazo',  hide: this.Plazo.value},
+      {def: 'Fecha',  hide: this.Fecha.value},
+      {def: 'Motivo',  hide: this.Motivo.value},
+      {def: 'Estado',  hide: this.Estado.value},
+      {def: 'Opciones', hide: this.Opciones.value},
+    ]
 
 
   dataSource = new MatTableDataSource<any>();
   traerActivos: boolean = true;
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
+  }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -40,9 +84,9 @@ export class ClienteCuentaListadoComponent implements OnInit {
 
 
 
-  ngAfterViewInit() {
-    this.searchElement.nativeElement.focus();
-  }
+  // ngAfterViewInit() {
+  //   this.searchElement.nativeElement.focus();
+  // }
 
 
   applyFilter(filterValue: string) {
@@ -57,6 +101,37 @@ export class ClienteCuentaListadoComponent implements OnInit {
           this.dataSource.data = r;
           this.loadingSpinnerService.hide();
         })
+  }
+
+  getDisplayedColumns() {
+    return this.displayedColumns.filter(cd=>cd.hide).map(cd=>cd.def);
+  }
+
+  ngAfterViewInit() {
+    this.searchElement.nativeElement.focus();
+    let o1:Observable<boolean> = this.Optica.valueChanges;
+    let o2:Observable<boolean> = this.Saldo.valueChanges;
+    let o3:Observable<boolean> = this.Monto.valueChanges;
+    let o4:Observable<boolean> = this.Credito.valueChanges;
+    let o5:Observable<boolean> = this.Dias.valueChanges;
+    let o6:Observable<boolean> = this.Plazo.valueChanges;
+    let o7:Observable<boolean> = this.Fecha.valueChanges;
+    let o8:Observable<boolean> = this.Motivo.valueChanges;
+    let o9:Observable<boolean> = this.Estado.valueChanges;
+    let o10:Observable<boolean> = this.Opciones.valueChanges;
+
+    merge(o1, o2, o3,o4,o5,o6,o7, o8, o9).subscribe(v=>{
+    this.displayedColumns[0].hide = this.Optica.value;
+    this.displayedColumns[1].hide = this.Saldo.value;
+    this.displayedColumns[2].hide = this.Monto.value;  
+    this.displayedColumns[3].hide = this.Credito.value;  
+    this.displayedColumns[4].hide = this.Dias.value;
+    this.displayedColumns[5].hide = this.Plazo.value; 
+    this.displayedColumns[6].hide = this.Fecha.value;  
+    this.displayedColumns[7].hide = this.Motivo.value;
+    this.displayedColumns[8].hide = this.Estado.value;
+    this.displayedColumns[9];  
+    });
   }
 
 }

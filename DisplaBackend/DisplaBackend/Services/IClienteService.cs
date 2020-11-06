@@ -35,6 +35,8 @@ namespace DisplaBackend.Services
         decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico);
         JObject GetPrecioArticuloFactura(int idCliente, int[] articulos);
         JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
+        double GetDiasPlazo(int idCliente);
+        bool DeleteFicha(Ficha ficha);
     }
 
     public class ClienteService : IClienteService
@@ -78,6 +80,12 @@ namespace DisplaBackend.Services
         {
             return _clienteDAO.Delete(cliente);
         }
+
+        public bool DeleteFicha(Ficha ficha)
+        {
+            return _clienteDAO.DeleteFicha(ficha);
+        }
+
 
         public Cliente GetById(int idCliente)
         {
@@ -135,6 +143,11 @@ namespace DisplaBackend.Services
 
         public bool BloquearClientes() {
             return _clienteDAO.BloquearClientes();
+        }
+
+        public double GetDiasPlazo(int idCliente)
+        {
+            return _clienteDAO.GetDiasPlazo(idCliente);
         }
 
         public List<dynamic> GetCuentasClientes()
