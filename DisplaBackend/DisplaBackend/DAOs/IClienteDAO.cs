@@ -38,7 +38,7 @@ namespace DisplaBackend.DAOs
         JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
         bool SaveClienteBloqueo(ClienteBloqueo bloqueo);
         double GetDiasPlazo(int idCliente);
-        bool DeleteFicha(Ficha ficha);
+        bool DeleteFicha(int idFicha);
     }
 
     public class ClienteDAO : IClienteDAO
@@ -250,16 +250,20 @@ namespace DisplaBackend.DAOs
             var fichas = _context.Ficha
                 .Where(f => f.IdCliente == idCliente)
                 .Select(f => new {
+                    Id = f.Id,
                     Fecha = f.Fecha.Value,
-                    Descripcion = f.Descripcion
+                    Descripcion = f.Descripcion,
+                    EsFicha = true
                 })
                 .ToList();
 
             var ventaVirtuales = _context.VentaVirtual
                 .Where(v => v.IdComprobanteNavigation.IdCliente == idCliente)
                 .Select(v =>  new {
+                    Id = v.Id,
                     Fecha = v.IdComprobanteNavigation.Fecha,
-                    Descripcion = "Se compraron " + v.CantidadVendida + " de " + ((v.IdArticulo == null) ? v.IdComprobanteNavigation.ComprobanteItem.Select(c => c.ComprobanteItemLente.Select(cl => cl.IdLenteNavigation.Nombre)).ToString() : v.IdArticuloNavigation.Nombre)
+                    Descripcion = "Se compraron " + v.CantidadVendida + " de " + ((v.IdArticulo == null) ? v.IdComprobanteNavigation.ComprobanteItem.Select(c => c.ComprobanteItemLente.Select(cl => cl.IdLenteNavigation.Nombre)).ToString() : v.IdArticuloNavigation.Nombre),
+                    EsFicha = false
                 })
                 .ToList();
 
@@ -283,10 +287,11 @@ namespace DisplaBackend.DAOs
         }
 
 
-        public bool DeleteFicha(Ficha ficha)
+        public bool DeleteFicha(int idFicha)
         {
             try
             {
+                Ficha ficha = _context.Ficha.FirstOrDefault(f => f.Id == idFicha);
                 _context.Ficha.Remove(ficha);
                 return _context.SaveChanges() >= 1;
             }

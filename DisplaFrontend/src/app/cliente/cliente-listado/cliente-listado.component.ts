@@ -83,9 +83,6 @@ export class ClienteListadoComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.loadClientePage()
-    this.clienteService.getBloquearClientes().subscribe(resultBloquear => {
-      console.log(resultBloquear)
-    })
   }
 
   getDisplayedColumns() {

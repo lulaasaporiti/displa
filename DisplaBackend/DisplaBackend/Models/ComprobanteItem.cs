@@ -8,6 +8,7 @@ namespace DisplaBackend.Models
         public ComprobanteItem()
         {
             ComprobanteItemLente = new HashSet<ComprobanteItemLente>();
+            Remito = new HashSet<Remito>();
         }
 
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace DisplaBackend.Models
         public virtual ArticuloVario IdArticuloNavigation { get; set; }
         public virtual ComprobanteCliente IdComprobanteNavigation { get; set; }
         public virtual ICollection<ComprobanteItemLente> ComprobanteItemLente { get; set; }
+        public virtual ICollection<Remito> Remito { get; set; }
     }
 }

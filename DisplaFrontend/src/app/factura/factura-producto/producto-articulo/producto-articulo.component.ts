@@ -11,6 +11,7 @@ import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { TipoArticuloService } from 'src/services/tipo.articulo.service';
 import { TipoArticulo } from 'src/app/model/tipoArticulo';
 import { SessionService } from 'src/services/session.service';
+import { VentaVirtual } from 'src/app/model/ventaVirtual';
 
 @Component({
   selector: 'app-producto-articulo',
@@ -25,6 +26,8 @@ export class ProductoArticuloComponent implements OnInit {
   filteredArticulos: Observable<ArticuloVario[]>;
   filteredTipoArticulos: Observable<TipoArticulo[]>;
   comprobantesItems: ComprobanteItem[] = [];
+  ventasVirtuales: VentaVirtual[] = [];
+
   idArticulos: number[] = [];
   modelComprobanteItem = <ComprobanteItem>{};
   modelTipoArticulo = <TipoArticulo>{};
@@ -122,6 +125,10 @@ export class ProductoArticuloComponent implements OnInit {
       comprobanteItem.Descripcion = event.source.value.Nombre;
       comprobanteItem.NumeroSobre = this.modelComprobanteItem.NumeroSobre;
       this.comprobantesItems.push(comprobanteItem);
+      let ventaVirtual = <VentaVirtual>{}
+      ventaVirtual.IdArticuloNavigation = event.source.value;
+      ventaVirtual.IdArticulo = event.source.value.Id;
+      this.ventasVirtuales.push(ventaVirtual);
       this.idArticulos.push(event.source.value.Id);
     }
     else {

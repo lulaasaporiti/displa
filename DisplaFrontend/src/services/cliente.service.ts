@@ -44,8 +44,8 @@ export class ClienteService {
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
-    deleteFicha(ficha): Observable<any> {
-        return this.http.delete(`${this.baseUrl}/${ficha}`);
+    deleteFicha(idFicha): Observable<any> {
+        return this.http.delete(`${this.baseUrl}/DeleteFicha?idFicha=${idFicha}`);
     }
 
     getById(id: number): Observable<any> {

@@ -75,15 +75,15 @@ namespace DisplaBackend.Controllers
             return Ok(_clienteService.Delete(cliente));
         }
 
-        [HttpDelete]
-        public IActionResult DeleteFicha([FromRoute] Ficha ficha)
+        [HttpDelete("{idFicha}"), Route("DeleteFicha")]
+        public IActionResult DeleteFicha(int idFicha)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            return Ok(_clienteService.DeleteFicha(ficha));
+            return Ok(_clienteService.DeleteFicha(idFicha));
         }
 
         [HttpGet("{id}")]

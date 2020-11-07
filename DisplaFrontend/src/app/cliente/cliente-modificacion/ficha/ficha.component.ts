@@ -56,15 +56,16 @@ export class FichaComponent implements OnInit {
     this.router.navigateByUrl('Cliente/Listado')
   }
 
-  rowBorrarFicha(row: any): void{
-    // this.dataSource.data = this.dataSource.data.filter(fi =>  fi.Id != row);
-    this.clienteService.deleteFicha(row)
-    .subscribe(result => {  
-      if(result != undefined && result != false){
-        
-      }
-     })
-    
+  rowBorrarFicha(idFicha): void{
+    this.clienteService.deleteFicha(idFicha)
+    .subscribe(
+      data => {
+        this.dataSource.data = this.dataSource.data.filter(fi =>  fi.Id != idFicha);
+        this.sessionService.showSuccess("La ficha se borró correctamente.");
+      },
+      error => {
+        this.sessionService.showError("La ficha no se borró.");
+      })
   }
 
   agregarFicha(){

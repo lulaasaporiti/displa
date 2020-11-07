@@ -12,6 +12,8 @@ namespace DisplaBackend.Models
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             MovimientoBlock = new HashSet<MovimientoBlock>();
             MovimientoInsumo = new HashSet<MovimientoInsumo>();
+            Remito = new HashSet<Remito>();
+            VentaVirtual = new HashSet<VentaVirtual>();
         }
 
         public int Id { get; set; }
@@ -38,5 +40,7 @@ namespace DisplaBackend.Models
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
+        public virtual ICollection<Remito> Remito { get; set; }
+        public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
     }
 }

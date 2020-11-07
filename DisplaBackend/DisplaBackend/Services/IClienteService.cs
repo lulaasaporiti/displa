@@ -36,7 +36,7 @@ namespace DisplaBackend.Services
         JObject GetPrecioArticuloFactura(int idCliente, int[] articulos);
         JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
         double GetDiasPlazo(int idCliente);
-        bool DeleteFicha(Ficha ficha);
+        bool DeleteFicha(int idFicha);
     }
 
     public class ClienteService : IClienteService
@@ -81,9 +81,9 @@ namespace DisplaBackend.Services
             return _clienteDAO.Delete(cliente);
         }
 
-        public bool DeleteFicha(Ficha ficha)
+        public bool DeleteFicha(int idFicha)
         {
-            return _clienteDAO.DeleteFicha(ficha);
+            return _clienteDAO.DeleteFicha(idFicha);
         }
 
 

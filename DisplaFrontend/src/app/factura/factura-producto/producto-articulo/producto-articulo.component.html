@@ -67,7 +67,7 @@
             </mat-form-field>
             <mat-form-field fxFlex="20">
                 <input matInput placeholder="Precio virtual" id="precioVirtual{{i}}"
-                    [(ngModel)]="comprobantesItems[i].Precio" (keyup.enter)="tabInventado($event, 'cantidad'+(i+1))"
+                    [(ngModel)]="ventasVirtuales[i].Monto" (keyup.enter)="tabInventado($event, 'cantidad'+(i+1))"
                     name="precioVirtual{{i}}" #precioVirtual pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
             </mat-form-field>
         </div>
@@ -76,7 +76,7 @@
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary"
                 [disabled]="!modalForm.form.valid || comprobantesItems.length == 0 || articulosControl.invalid"
-                id="seleccionar" [mat-dialog-close]="comprobantesItems">Seleccionar</button>
+                id="seleccionar" [mat-dialog-close]="comprobantesItems, ventasVirtuales">Seleccionar</button>
         </div>
     </div>
 </form>
