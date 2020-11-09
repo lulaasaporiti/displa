@@ -46,36 +46,36 @@
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px" *ngFor="let c of comprobantesItems; let i = index">
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px" *ngFor="let c of data.comprobantesItems; let i = index">
             <mat-form-field fxFlex="49">
                 <input matInput placeholder="Servicio" id="servicio{{i}}"
-                    value="{{comprobantesItems[i].IdServicio}} - {{comprobantesItems[i].IdServicioNavigation.Nombre}}"
-                    name="articulo{{i}}" disabled>
+                    value="{{data.comprobantesItems[i].IdServicio}} - {{data.comprobantesItems[i].IdServicioNavigation.Nombre}}"
+                    name="servicio{{i}}" disabled>
             </mat-form-field>
             <mat-form-field fxFlex="20">
-                <input matInput placeholder="Precio unitario" id="precio{{i}}" [(ngModel)]="comprobantesItems[i].Monto"
+                <input matInput placeholder="Precio unitario" id="precio{{i}}" [(ngModel)]="data.comprobantesItems[i].Monto"
                     name="precio{{i}}" #precio="ngModel" pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)"
-                    required [disabled]="preciosIsNull[comprobantesItems[i].IdArticulo] != null">
+                    required [disabled]="preciosIsNull != undefined && preciosIsNull[data.comprobantesItems[i].IdServicio] != null">
                 <mat-error *ngIf="precio.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="11">
                 <input matInput placeholder="Cantidad" id="cantidad{{i}}"
                     (keyup.enter)="tabInventado($event, 'precioVirtual'+i)" #cantidad="ngModel"
-                    (keypress)="_keyPress($event)" [(ngModel)]="comprobantesItems[i].Cantidad" name="cantidad{{i}}"
+                    (keypress)="_keyPress($event)" [(ngModel)]="data.comprobantesItems[i].Cantidad" name="cantidad{{i}}"
                     required>
                 <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="20">
                 <input matInput placeholder="Precio virtual" id="precioVirtual{{i}}"
-                    [(ngModel)]="comprobantesItems[i].Precio" (keyup.enter)="tabInventado($event, 'cantidad'+(i+1))"
+                    [(ngModel)]="data.ventasVirtuales[i].Monto" (keyup.enter)="tabInventado($event, 'cantidad'+(i+1))"
                     name="precioVirtual{{i}}" #precioVirtual pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
             </mat-form-field>
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" id="seleccionar"
-                [mat-dialog-close]="comprobantesItems">Seleccionar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid  || data.comprobantesItems.length == 0 || serviciosControl.invalid" id="seleccionar"
+                [mat-dialog-close]="true">Seleccionar</button>
         </div>
     </div>
 </form>

@@ -10,6 +10,7 @@ import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
 import { TipoServicio } from 'src/app/model/tipoServicio';
 import { SessionService } from 'src/services/session.service';
+import { VentaVirtual } from 'src/app/model/ventaVirtual';
 
 @Component({
   selector: 'app-producto-servicio',
@@ -23,7 +24,6 @@ export class ProductoServicioComponent implements OnInit {
   tipoServiciosControl = new FormControl();
   filteredServicios: Observable<Servicio[]>;
   filteredTipoServicios: Observable<TipoServicio[]>;
-  comprobantesItems: ComprobanteItem[] = [];
   idServicios: number[] = [];
   modelComprobanteItem = <ComprobanteItem>{};
   modelTipoServicio = <TipoServicio>{};
@@ -82,7 +82,7 @@ export class ProductoServicioComponent implements OnInit {
         this.traerPrecio();
       }
       if (idElement.startsWith("cantidad")){
-        if (+idElement.split("cantidad")[1] == this.comprobantesItems.length)
+        if (+idElement.split("cantidad")[1] == this.data.comprobantesItems.length)
           idElement = 'seleccionar';
       }
       document.getElementById(idElement).focus();
@@ -118,12 +118,16 @@ export class ProductoServicioComponent implements OnInit {
       comprobanteItem.IdServicioNavigation = event.source.value;
       comprobanteItem.Descripcion = event.source.value.Nombre;
       comprobanteItem.NumeroSobre = this.modelComprobanteItem.NumeroSobre;
-      this.comprobantesItems.push(comprobanteItem);
+      this.data.comprobantesItems.push(comprobanteItem);
+      let ventaVirtual = <VentaVirtual>{}
+      ventaVirtual.IdServicioNavigation = event.source.value;
+      ventaVirtual.IdServicio = event.source.value.Id;
+      this.data.ventasVirtuales.push(ventaVirtual);
       this.idServicios.push(event.source.value.Id);
     }
     else {
-      let i = this.comprobantesItems.findIndex(ci => ci.IdServicio == event.source.value.Id);
-      this.comprobantesItems.splice(i, 1);
+      let i = this.data.comprobantesItems.findIndex(ci => ci.IdServicio == event.source.value.Id);
+      this.data.comprobantesItems.splice(i, 1);
       this.idServicios.splice(i, 1);
     }
   }
@@ -133,7 +137,7 @@ export class ProductoServicioComponent implements OnInit {
     this.clienteService.getPrecioServicioFactura(this.data.idCliente, this.idServicios)
       .subscribe(result => {
         this.preciosIsNull = result;
-        this.comprobantesItems.forEach(c => {
+        this.data.comprobantesItems.forEach(c => {
           c.Monto = result[c.IdServicio]
           if (result[c.IdServicio] == null)
           mostrarMensaje = true;

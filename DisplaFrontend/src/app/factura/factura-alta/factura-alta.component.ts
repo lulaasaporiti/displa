@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { ClienteService } from 'src/services/cliente.service';
 import { Cliente } from 'src/app/model/Cliente';
@@ -18,6 +18,7 @@ import { ProductoServicioComponent } from '../factura-producto/producto-servicio
 import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente.component';
 import { FacturaFichaComponent } from '../factura-ficha/factura-ficha.component';
 import { Ficha } from 'src/app/model/ficha';
+import { VentaVirtual } from 'src/app/model/ventaVirtual';
 
 
 @Component({
@@ -30,6 +31,8 @@ export class FacturaAltaComponent implements OnInit {
   plazoActual = 0;
   private id: number = 0;
   panelOpenState = false;
+  comprobantesItems: ComprobanteItem[] = [];
+  ventasVirtuales: VentaVirtual[] = [];
   // displayedColumnsFooter: string[]= ['Subtotal']
   displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe', 'Borrar'];
   productos: string[] = ['Lentes (F1)', 'Varios (F3)', 'Servicios (F4)', 'Libres (F5)', 'Descuento (F6)', 'Totales (F7)'];
@@ -46,7 +49,7 @@ export class FacturaAltaComponent implements OnInit {
           disableClose: true,
           data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
           width: '900px',
-          height:'550px'
+          height: '550px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
@@ -57,31 +60,34 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F3": { //varios
+        this.comprobantesItems = [];
+        this.ventasVirtuales = [];
         const dialogRef = this.dialog.open(ProductoArticuloComponent, {
           disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, comprobantesItems: this.comprobantesItems, ventasVirtuales: this.ventasVirtuales },
           width: '800px',
-          height:'500px'
+          height: '500px'
         })
         dialogRef.afterClosed().subscribe(result => {
-          console.log(result)
           if (result != undefined && result != false) {
-            this.cargarArticuloServicio(result);
+            this.cargarArticuloServicio();
           }
         });
         event.preventDefault();
         break;
       }
       case "F4": { //servicios
+        this.comprobantesItems = [];
+        this.ventasVirtuales = [];
         const dialogRef = this.dialog.open(ProductoServicioComponent, {
           disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, comprobantesItems: this.comprobantesItems, ventasVirtuales: this.ventasVirtuales },
           width: '800px',
-          height:'500px'
+          height: '500px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
-            this.cargarArticuloServicio(result);
+            this.cargarArticuloServicio();
           }
         });
         event.preventDefault();
@@ -92,7 +98,7 @@ export class FacturaAltaComponent implements OnInit {
           disableClose: true,
           data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
           width: '500px',
-          height:'375px'
+          height: '375px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
@@ -105,9 +111,9 @@ export class FacturaAltaComponent implements OnInit {
       case "F6": { //descuento
         const dialogRef = this.dialog.open(ProductoDescuentoComponent, {
           disableClose: true,
-          data: { idCliente: this.id},
+          data: { idCliente: this.id },
           width: '500px',
-          height:'375px'
+          height: '375px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
@@ -138,6 +144,7 @@ export class FacturaAltaComponent implements OnInit {
     private clienteService: ClienteService,
     private segment: ActivatedRoute,
     private dialog: MatDialog,
+    private changeDetector: ChangeDetectorRef,
     private loadingSpinnerService: LoadingSpinnerService,
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
@@ -149,14 +156,14 @@ export class FacturaAltaComponent implements OnInit {
         this.clienteService.getById(this.id),
         this.clienteService.getDiasPlazo(this.id)
       )
-      .subscribe(result => {
+        .subscribe(result => {
           this.modelCliente = result[0];
           if (this.modelCliente.IdCategoriaIva == 2) {
             this.modelComprobante.Letra = 'B'
           } else {
             this.modelComprobante.Letra = 'A'
-          }    
-          this.plazoActual = +result[1];   
+          }
+          this.plazoActual = +result[1];
           this.loadingSpinnerService.hide();
         });
     }
@@ -174,7 +181,7 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarLente(producto) {
-    console.log(producto)
+    // console.log(producto)
     let item = <ComprobanteItem>{};
     item.Cantidad = 0;
     item.Monto = 0;
@@ -197,7 +204,7 @@ export class FacturaAltaComponent implements OnInit {
 
   getSubTotales() {
     if (this.dataSource.data.length > 0) {
-      document.getElementById('footers').style.display='block';
+      document.getElementById('footers').style.display = 'block';
       this.modelComprobante.SubtotalFactura = 0;
       this.dataSource.data.forEach(to => {
         this.modelComprobante.SubtotalFactura = (+to.Monto + this.modelComprobante.SubtotalFactura);
@@ -205,31 +212,46 @@ export class FacturaAltaComponent implements OnInit {
       return this.modelComprobante.SubtotalFactura;
     }
     else {
-      document.getElementById('footers').style.display='none';
+      document.getElementById('footers').style.display = 'none';
       this.modelComprobante.SubtotalFactura = 0;
       this.modelComprobante.MontoTotal = 0;
     }
   }
 
-  getSubtotalConDescuento(){
-    return (this.modelComprobante.SubtotalFactura - ((this.modelComprobante.SubtotalFactura * this.modelCliente.PorcentajeDescuentoGeneral) / 100)).toFixed(2);
+  getSubtotalConDescuento() {
+    let subtotal = 0;
+    this.dataSource.data.forEach(to => {
+      if (to.Descripcion.endsWith("VIRTUAL")) {
+        subtotal = subtotal + to.Monto;
+      }
+      else {
+        subtotal = subtotal + (to.Monto - (to.Monto * this.modelCliente.PorcentajeDescuentoGeneral) / 100);
+      }
+    })
+    return subtotal.toFixed(2);
   }
 
-  getMontoIVA(){
+  getMontoIVA() {
     return (+this.getSubtotalConDescuento() * 0.21).toFixed(2);
   }
-  
-  getTotales(){
-    if (this.modelCliente.IdCategoriaIvaNavigation != undefined &&  this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
+
+  getTotales() {
+    if (this.modelCliente.IdCategoriaIvaNavigation != undefined && this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
       return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento()).toFixed(2);
-    else 
-      return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21).toFixed(2); 
+    else
+      return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21).toFixed(2);
   }
-  
-  cargarArticuloServicio(producto) {
-    producto.forEach(p => {
+
+  cargarArticuloServicio() {
+    this.comprobantesItems.forEach(p => {
+      let venta = this.ventasVirtuales.filter(v => (v.IdArticulo != undefined && v.IdArticulo == p.IdArticulo) || (v.IdServicio != undefined && v.IdServicio == p.IdServicio))[0];
+      if (venta.Monto != undefined) {
+        p.Monto = +venta.Monto;
+        p.Descripcion = p.Descripcion + ' V. VIRTUAL';
+      }
       p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
       this.dataSource.data = this.dataSource.data.concat(p);
+      this.changeDetector.detectChanges();
     });
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
@@ -238,7 +260,7 @@ export class FacturaAltaComponent implements OnInit {
   cargarLibre(producto) {
     producto.Monto = ((producto.Monto * +producto.Cantidad) * 100) / 100;
     if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
-      producto.Monto = (producto.Monto*1.21).toFixed(2);
+      producto.Monto = (producto.Monto * 1.21).toFixed(2);
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
@@ -247,14 +269,14 @@ export class FacturaAltaComponent implements OnInit {
   cargarDescuento(producto) {
     producto.Monto = -(((producto.Monto * +producto.Cantidad) * 100) / 100);
     if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
-      producto.Monto = (producto.Monto*1.21).toFixed(2);
+      producto.Monto = (producto.Monto * 1.21).toFixed(2);
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
-  rowBorrarProductos(row: any): void{
-    this.dataSource.data = this.dataSource.data.filter(p =>  p != row);
+  rowBorrarProductos(row: any): void {
+    this.dataSource.data = this.dataSource.data.filter(p => p != row);
   }
 
   abrirFicha() {
@@ -280,11 +302,11 @@ export class FacturaAltaComponent implements OnInit {
               this.sessionService.showError("La ficha no se actualizó.");
             }
           );
-        }
-      });
+      }
+    });
   }
 
- 
+
   // altaCliente(){
   //   this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
   //     data => {

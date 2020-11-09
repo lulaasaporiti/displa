@@ -25,8 +25,7 @@ export class ProductoArticuloComponent implements OnInit {
   tipoArticulosControl = new FormControl();
   filteredArticulos: Observable<ArticuloVario[]>;
   filteredTipoArticulos: Observable<TipoArticulo[]>;
-  comprobantesItems: ComprobanteItem[] = [];
-  ventasVirtuales: VentaVirtual[] = [];
+
 
   idArticulos: number[] = [];
   modelComprobanteItem = <ComprobanteItem>{};
@@ -88,7 +87,7 @@ export class ProductoArticuloComponent implements OnInit {
         this.traerPrecio();
       }
       if (idElement.startsWith("cantidad")){
-        if (+idElement.split("cantidad")[1] == this.comprobantesItems.length)
+        if (+idElement.split("cantidad")[1] == this.data.comprobantesItems.length)
           idElement = 'seleccionar';
       }
       document.getElementById(idElement).focus();
@@ -124,16 +123,16 @@ export class ProductoArticuloComponent implements OnInit {
       comprobanteItem.IdArticuloNavigation = event.source.value;
       comprobanteItem.Descripcion = event.source.value.Nombre;
       comprobanteItem.NumeroSobre = this.modelComprobanteItem.NumeroSobre;
-      this.comprobantesItems.push(comprobanteItem);
+      this.data.comprobantesItems.push(comprobanteItem);
       let ventaVirtual = <VentaVirtual>{}
       ventaVirtual.IdArticuloNavigation = event.source.value;
       ventaVirtual.IdArticulo = event.source.value.Id;
-      this.ventasVirtuales.push(ventaVirtual);
+      this.data.ventasVirtuales.push(ventaVirtual);
       this.idArticulos.push(event.source.value.Id);
     }
     else {
-      let i = this.comprobantesItems.findIndex(ci => ci.IdArticulo == event.source.value.Id);
-      this.comprobantesItems.splice(i, 1);
+      let i = this.data.comprobantesItems.findIndex(ci => ci.IdArticulo == event.source.value.Id);
+      this.data.comprobantesItems.splice(i, 1);
       this.idArticulos.splice(i, 1);
     }
   }
@@ -143,7 +142,7 @@ export class ProductoArticuloComponent implements OnInit {
     this.clienteService.getPrecioArticuloFactura(this.data.idCliente, this.idArticulos)
       .subscribe(result => {
         this.preciosIsNull = result;
-        this.comprobantesItems.forEach(c => { 
+        this.data.comprobantesItems.forEach(c => { 
           c.Monto = result[c.IdArticulo]
           if (result[c.IdArticulo] == null)
             mostrarMensaje = true;
@@ -155,7 +154,6 @@ export class ProductoArticuloComponent implements OnInit {
         this.sessionService.showInfo("No existe precio seleccionado para algún artículo.");
       }
       });
-      console.log(this.comprobantesItems);
   }
 
   filterTipoArticulo(nombre: any): TipoArticulo[] {
