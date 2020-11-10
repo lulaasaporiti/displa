@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
+import { Component, Inject, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
@@ -28,6 +28,7 @@ export class ProductoLenteComponent implements OnInit {
     private lenteService: LenteService,
     private clienteService: ClienteService,
     private _formBuilder: FormBuilder,
+    private changeDetector: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       // let cargarGraduacion= <ComprobanteItemLente>{};
       // cargarGraduacion.Esferico = 0;
@@ -53,14 +54,17 @@ export class ProductoLenteComponent implements OnInit {
   }
 
   listaComprobanteItemEvento(model : any[]){
-    console.log(model)
     this.modelComprobanteItemLente = model;
+    console.log(this.modelComprobanteItemLente)
+    this.changeDetector.detectChanges();
     document.getElementById("siguiente1").focus();
     // console.log(this.firstFormGroup);
     // this.firstFormGroup.setValue();
     // console.log(this.firstFormGroup)
-
 }
+
+  lenteEvento(){
+  }
 
   tabInventado(event: KeyboardEvent, idElement)
   {

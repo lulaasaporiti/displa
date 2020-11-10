@@ -9,7 +9,7 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" optional>
+    <mat-step [stepControl]="secondFormGroup" [optional]>
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Seleccione servicios</ng-template>
         <app-seleccion-servicios></app-seleccion-servicios>
@@ -19,10 +19,10 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="thirdFormGroup" optional>
+    <mat-step [stepControl]="thirdFormGroup" [optional]>
       <form [formGroup]="thirdFormGroup">
         <ng-template matStepLabel>Seleccione recargos</ng-template>
-        <app-seleccion-recargos></app-seleccion-recargos>
+        <app-seleccion-recargos [selectedLente]="modelComprobanteItemLente[0]?.IdLente"></app-seleccion-recargos>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
           <button mat-button matStepperNext id="siguiente3">Siguiente</button>

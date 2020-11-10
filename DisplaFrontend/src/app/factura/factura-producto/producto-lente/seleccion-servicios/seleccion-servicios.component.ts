@@ -54,7 +54,7 @@ export class ChecklistDatabase {
     this.tipoServicioService.getTiposServiciosVigentesList()
     .subscribe(ti => {
       this.tipoServicio = ti;
-      console.log(ti)
+      // console.log(ti)
       
       
       this.initialize(ti);
@@ -68,7 +68,7 @@ export class ChecklistDatabase {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
     const data = tipoServicios;
-    console.log(data)
+    // console.log(data)
 
     // Notify the change.
     this.dataChange.next(data);
@@ -195,7 +195,7 @@ export class SeleccionServiciosComponent {
     flatNode.item = node;
     flatNode.expandable = true;
     flatNode.level = level;
-    console.log(flatNode)
+    // console.log(flatNode)
     // && existingNode.item === node.item
     //     ? existingNode
         // :

@@ -68,9 +68,11 @@
                 </mat-form-field>
 
                 <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Cantidad" id="cantidad0" (keyup.enter)="tabInventado($event, 'sobre')"
+                    <input matInput placeholder="Cantidad" id="cantidad0" (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
                         (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0"
                         required>
+                    <mat-error *ngIf="cantidad0.invalid">Este campo es obligatorio.</mat-error>
+
                 </mat-form-field>
 
                 <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
@@ -91,13 +93,13 @@
                         pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" disabled>
                 </mat-form-field>
                 <mat-form-field fxFlex="45">
-                    <input matInput placeholder="Cantidad" id="cantidad1" (keyup.enter)="comprobanteItemLenteSelected()"
+                    <input matInput placeholder="Cantidad" id="cantidad1" (keyup.enter)="comprobanteItemLenteSelected()" #cantidad1="ngModel"
                         (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1"
                         required>
+                    <mat-error *ngIf="cantidad1.invalid">Este campo es obligatorio.</mat-error>
                 </mat-form-field>
             </div>
             <!-- /////////////////////// FIN PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
-
         </div>
 
         <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2" class="agregar-graduacion">

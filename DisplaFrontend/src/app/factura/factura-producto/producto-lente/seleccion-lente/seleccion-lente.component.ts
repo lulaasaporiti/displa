@@ -100,6 +100,7 @@ export class SeleccionLenteComponent implements OnInit {
       this.modelComprobanteItemLente[0].IdLente = control.value.Id;
       this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;
       let combinacion = control.value.Combinacion.split("  / ");
+      console.log(this.modelComprobanteItemLente[0].IdLenteNavigation)
       if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
       else idLimiteIzquierda = 3;
       if (combinacion[1] == '- +') idLimiteDerecha = 2;

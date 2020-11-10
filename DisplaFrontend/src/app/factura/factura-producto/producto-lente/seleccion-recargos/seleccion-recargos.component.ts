@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
+import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-seleccion-recargos',
@@ -6,14 +6,25 @@ import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
   styleUrls: ['./seleccion-recargos.component.css']
 })
 export class SeleccionRecargosComponent implements OnInit {
+  @Input() selectedLente: number;
+
 
 
   constructor() {
+    console.log(this.selectedLente)
   }
 
 
   ngOnInit() {
+    console.log(this.selectedLente)
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
+    for (const propName in changes) {
+      console.log(changes.selectedLente.currentValue)
+    }
+}
 
   _keyPress(event: any) {
     const pattern = /[0-9-]/;
