@@ -128,6 +128,12 @@ namespace DisplaBackend.Controllers
             return Ok(_lenteService.Delete(lente));
         }
 
+        [HttpGet("{idLente}"), Route("GetRecargoLente")]
+        public object GetRecargoLente(int idLente)
+        {
+            return _lenteService.GetRecargoLente(idLente);
+        }
+
     }
 
 

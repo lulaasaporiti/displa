@@ -18,7 +18,7 @@ namespace DisplaBackend.Services
         List<string> GetCombinaciones();
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
         bool GenerarPrecioLista(int porcentaje, int lista);
-        
+        List<RecargoLente> GetRecargoLente(int idLente);
     }
 
     public class LenteService : ILenteService
@@ -84,7 +84,13 @@ namespace DisplaBackend.Services
             return _lenteDAO.GetById(idLente);
         }
 
-      
+        public List<RecargoLente> GetRecargoLente(int idLente)
+        {
+            return _lenteDAO.GetRecargoLente(idLente);
+        }
+
+
+
     }
 
 }

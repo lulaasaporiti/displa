@@ -21,6 +21,7 @@ namespace DisplaBackend.DAOs
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
         bool GenerarPrecioLista(int porcentaje, int lista);
         PrecioLente GetPrecioMinimo(int idLente);
+        List<RecargoLente> GetRecargoLente(int idLente);
     }
 
     public class LenteDAO : ILenteDAO
@@ -314,5 +315,15 @@ namespace DisplaBackend.DAOs
         public PrecioLente GetPrecioMinimo(int idLente) {
             return _context.PrecioLente.Where(p => p.IdLente == idLente).OrderBy(p => p.Cilindrico).ThenBy(p => p.Esferico).FirstOrDefault();
         }
+
+        public List<RecargoLente> GetRecargoLente(int idLente)
+        {
+            return _context.RecargoLente
+                .Include(rl => rl.IdLenteNavigation)
+                .Where(rl => rl.IdLente == idLente)
+                .ToList();
+        }
     }
+
+   
 }

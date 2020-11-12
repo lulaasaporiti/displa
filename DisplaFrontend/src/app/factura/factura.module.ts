@@ -18,15 +18,16 @@ import { SeleccionLenteComponent } from './factura-producto/producto-lente/selec
 import { SeleccionServiciosComponent } from './factura-producto/producto-lente/seleccion-servicios/seleccion-servicios.component';
 import { SeleccionRecargosComponent } from './factura-producto/producto-lente/seleccion-recargos/seleccion-recargos.component';
 import { FacturaFichaComponent } from './factura-ficha/factura-ficha.component';
+import { LenteVentaVirtualComponent } from './factura-producto/producto-lente/lente-venta-virtual/lente-venta-virtual.component';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, 
-        ProductoDescuentoComponent, ProductoTotalesComponent, ProductoServicioComponent, FacturaFichaComponent ],
+        ProductoDescuentoComponent, ProductoTotalesComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent ],
     declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, SeleccionLenteComponent, 
         ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, ProductoTotalesComponent, 
-        ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent ],
+        ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent ],
     imports: [
         CommonModule,
         MaterialModule,

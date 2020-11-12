@@ -19,6 +19,7 @@ import { ProductoLenteComponent } from '../factura-producto/producto-lente/produ
 import { FacturaFichaComponent } from '../factura-ficha/factura-ficha.component';
 import { Ficha } from 'src/app/model/ficha';
 import { VentaVirtual } from 'src/app/model/ventaVirtual';
+import { LenteVentaVirtualComponent } from '../factura-producto/producto-lente/lente-venta-virtual/lente-venta-virtual.component';
 
 
 @Component({
@@ -45,11 +46,12 @@ export class FacturaAltaComponent implements OnInit {
     this.key = event.key;
     switch (this.key) {
       case "F1": { //lentes
+        this.dialog.closeAll();
         const dialogRef = this.dialog.open(ProductoLenteComponent, {
           disableClose: true,
           data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
           width: '900px',
-          height: '550px'
+          height: '625px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
@@ -60,6 +62,7 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F3": { //varios
+        this.dialog.closeAll();
         this.comprobantesItems = [];
         this.ventasVirtuales = [];
         const dialogRef = this.dialog.open(ProductoArticuloComponent, {
@@ -77,6 +80,7 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F4": { //servicios
+        this.dialog.closeAll();
         this.comprobantesItems = [];
         this.ventasVirtuales = [];
         const dialogRef = this.dialog.open(ProductoServicioComponent, {
@@ -94,6 +98,7 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F5": { //libres
+        this.dialog.closeAll();
         const dialogRef = this.dialog.open(ProductoLibreComponent, {
           disableClose: true,
           data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
@@ -109,6 +114,7 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F6": { //descuento
+        this.dialog.closeAll();
         const dialogRef = this.dialog.open(ProductoDescuentoComponent, {
           disableClose: true,
           data: { idCliente: this.id },
@@ -124,12 +130,29 @@ export class FacturaAltaComponent implements OnInit {
         break;
       }
       case "F7": { //totales
+        this.dialog.closeAll();
         const dialogRef = this.dialog.open(ProductoTotalesComponent, {
           disableClose: true,
           data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
           width: '500px',
           // height:'350px'
         })
+        event.preventDefault();
+        break;
+      }
+      case "F9": { //venta virtual lente
+          this.dialog.closeAll();
+          const dialogRef = this.dialog.open(LenteVentaVirtualComponent, {
+          disableClose: true,
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          width: '700px',
+          // height:'350px'
+        })
+        dialogRef.afterClosed().subscribe(result => {
+          if (result != undefined && result != false) {
+            this.cargarVentaVirtual(result);
+          }
+        });
         event.preventDefault();
         break;
       }
@@ -199,6 +222,16 @@ export class FacturaAltaComponent implements OnInit {
     })
     this.dataSource.data = this.dataSource.data.concat(item);
     this.sessionService.showSuccess("Los productos se agregaron correctamente")
+  }
+  
+  cargarVentaVirtual(venta){
+    console.log(venta)
+    let item = <VentaVirtual>{};
+    item.CantidadEntregada = 0;
+    item.Monto = 0;
+    // item.Descripcion = venta.IdLenteNavigation.DescripcionFactura;
+    this.dataSource.data = this.dataSource.data.concat(item);
+
   }
 
 

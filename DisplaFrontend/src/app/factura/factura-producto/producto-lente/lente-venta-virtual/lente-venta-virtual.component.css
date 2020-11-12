@@ -35,6 +35,10 @@
   padding: 0!important;
 }
 
+.agregar-graduacion{
+  padding-bottom: 16px;
+}
+
 .mat-subheader{
   padding-bottom: 0!important;
 
@@ -68,73 +72,4 @@
     font-weight: bold;
     font-style: italic;
     text-decoration: black;
-  }
-
-   /* /////////////////// */
-  
-  
-   table {
-    width: 100%;
-    width: 100%;
-    padding: 0px !important;
-  }
-  
-  .mat-table{
-    background-color: transparent;
-  }
-  
-  th.mat-header-cell:first-of-type{
-    padding-left: 0px;
-  }
-  
-  th.mat-header-cell:last-of-type{
-    padding-right: 0px;
-  }
-  
-  td.mat-cell:first-of-type{
-    padding-left: 0px;
-  }
-  
-  td.mat-cell:last-of-type{
-    padding-right: 0px;
-  }
-  
-  td {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  mat-checkbox {
-    padding-bottom: 3px;
-  }
-  
-  tr.example-detail-row {
-    height: auto;
-  }
-
-  tr.mat-header-row{
-    height: auto;
-  }
-  
-  .example-element-row td {
-    border-bottom-width: 0;
-  }
-  
-  .example-element-detail {
-    overflow: hidden;
-    display: flex;
-  }
-  
-  .example-element-description {
-    padding: 16px;
-  }
-  
-  .example-element-description-attribution {
-    opacity: 0.5;
-  }
-  
-  td.mat-cell.informacion{
-    padding-top: 0px;
-    padding-bottom: 8px;
-    
   }

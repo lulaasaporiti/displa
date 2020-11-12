@@ -1,10 +1,65 @@
 <div fxLayout="column">
-    <div mat-subheader>Servicios</div>
-    <mat-list fxLayout="row">
-        <mat-list-item *ngFor="let s of servicios">
-            <button mat-button>
-                {{s}}
-            </button>
-        </mat-list-item>
-    </mat-list>
+    <div mat-dialog-content fxLayout="row">
+        <mat-form-field fxFill>
+            <input type="text" placeholder="Lente" aria-label="Lente"  [value]="modelLente[0]?.IdLenteNavigation.Nombre" matInput disabled>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-content fxLayoutGap="15px" fxLayout="row">
+        <mat-form-field fxFlex="25">
+            <input matInput placeholder="Medida esférico" [value]="modelLente[0]?.Esferico" disabled>
+        </mat-form-field>
+        <mat-form-field fxFlex="25">
+            <input matInput placeholder="Medida esférico" [value]="modelLente[0]?.Cilindrico" disabled>
+        </mat-form-field>
+        <mat-form-field fxFlex="25">
+            <input matInput placeholder="Precio unitario" [value]="modelLente[0]?.Precio" disabled>
+        </mat-form-field>
+        <mat-form-field fxFlex="25">
+            <input matInput placeholder="Cantidad"  [value]="modelLente[0]?.Cantidad"
+                disabled>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-content fxLayoutGap="15px" *ngIf="modelLente.length == 2">
+        <mat-form-field fxFlex="25">
+            <input matInput placeholder="Medida esférico" [value]="modelLente[1]?.Esferico" disabled>
+        </mat-form-field>
+        <mat-form-field fxFlex="25">
+            <input matInput placeholder="Medida esférico" [value]="modelLente[1]?.Cilindrico" disabled>
+        </mat-form-field>
+        <mat-form-field fxFlex="25">
+            <input matInput placeholder="Precio unitario" [value]="modelLente[1]?.Precio" disabled>
+        </mat-form-field>
+        <mat-form-field fxFlex="25">
+            <input matInput placeholder="Cantidad"  [value]="modelLente[1]?.Cantidad"
+                disabled>
+        </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+    <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">    
+      <ng-container matColumnDef="Descripcion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="50"> DESCRIPCIÓN </th>
+        <td mat-cell *matCellDef="let row" fxFlex="50" fxLayoutAlign="start center">
+          {{row.Descripcion}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Porcentaje">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> PORCENTAJE </th>
+        <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
+          {{row.Porcentaje}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Seleccionar">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> SELECCIONAR </th>
+        <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
+            <mat-checkbox [checked]="this.recargosSeleccionados.indexOf(row) > -1" (change)="onClicked(row, $event)">
+            </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

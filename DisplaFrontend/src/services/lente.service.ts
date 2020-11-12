@@ -56,4 +56,8 @@ export class LenteService {
     generarPrecioLista(generarPrecio: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/GenerarPrecioLista`, generarPrecio);
     }
+
+    getRecargoLente(idLente: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetRecargoLente?idLente=${idLente}`);
+    }
 }

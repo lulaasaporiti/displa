@@ -55,7 +55,7 @@ export class ProductoLenteComponent implements OnInit {
 
   listaComprobanteItemEvento(model : any[]){
     this.modelComprobanteItemLente = model;
-    console.log(this.modelComprobanteItemLente)
+    // console.log(this.modelComprobanteItemLente)
     this.changeDetector.detectChanges();
     document.getElementById("siguiente1").focus();
     // console.log(this.firstFormGroup);
