@@ -43,6 +43,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual DbSet<MovimientoInsumo> MovimientoInsumo { get; set; }
         public virtual DbSet<MovimientoInterno> MovimientoInterno { get; set; }
+        public virtual DbSet<Parametros> Parametros { get; set; }
         public virtual DbSet<PrecioArticulo> PrecioArticulo { get; set; }
         public virtual DbSet<PrecioArticuloCliente> PrecioArticuloCliente { get; set; }
         public virtual DbSet<PrecioLente> PrecioLente { get; set; }
@@ -379,6 +380,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdTipoComprobante).HasColumnName("idTipoComprobante");
 
+                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
                 entity.Property(e => e.Letra)
                     .IsRequired()
                     .HasColumnName("letra")
@@ -413,6 +416,11 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdTipoComprobante)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ComprobanteCliente_TipoComprobante");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.ComprobanteCliente)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .HasConstraintName("FK_ComprobanteCliente_AspNetUsers");
             });
 
             modelBuilder.Entity<ComprobanteItem>(entity =>
@@ -763,6 +771,65 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.Observaciones)
                     .HasColumnName("observaciones")
                     .HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<Parametros>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CantidadProductoDiferentes).HasColumnName("cantidadProductoDiferentes");
+
+                entity.Property(e => e.CantidadProductoDiferentesRemito).HasColumnName("cantidadProductoDiferentesRemito");
+
+                entity.Property(e => e.Dolar)
+                    .HasColumnName("dolar")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.Euro)
+                    .HasColumnName("euro")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.IngresosBrutos).HasColumnName("ingresosBrutos");
+
+                entity.Property(e => e.MontoBaseRetenciones).HasColumnName("montoBaseRetenciones");
+
+                entity.Property(e => e.MontoMaximoComprobante).HasColumnName("montoMaximoComprobante");
+
+                entity.Property(e => e.MontoMaximoProductosDiferentes).HasColumnName("montoMaximoProductosDiferentes");
+
+                entity.Property(e => e.MontoMinimo).HasColumnName("montoMinimo");
+
+                entity.Property(e => e.NumeroCertificadoRetencion).HasColumnName("numeroCertificadoRetencion");
+
+                entity.Property(e => e.NumeroComprobanteA).HasColumnName("numeroComprobanteA");
+
+                entity.Property(e => e.NumeroComprobanteB).HasColumnName("numeroComprobanteB");
+
+                entity.Property(e => e.NumeroHojaIvacompras).HasColumnName("numeroHojaIVACompras");
+
+                entity.Property(e => e.NumeroHojaIvaventas).HasColumnName("numeroHojaIVAVentas");
+
+                entity.Property(e => e.NumeroNotaCreditoA).HasColumnName("numeroNotaCreditoA");
+
+                entity.Property(e => e.NumeroNotaCreditoB).HasColumnName("numeroNotaCreditoB");
+
+                entity.Property(e => e.NumeroNotaDebitoA).HasColumnName("numeroNotaDebitoA");
+
+                entity.Property(e => e.NumeroNotaDebitoB).HasColumnName("numeroNotaDebitoB");
+
+                entity.Property(e => e.NumeroRecibo).HasColumnName("numeroRecibo");
+
+                entity.Property(e => e.NumeroSucursal).HasColumnName("numeroSucursal");
+
+                entity.Property(e => e.Observaciones)
+                    .HasColumnName("observaciones")
+                    .HasMaxLength(1500);
+
+                entity.Property(e => e.PorcentajeRetenciones).HasColumnName("porcentajeRetenciones");
+
+                entity.Property(e => e.SobretasaIvaproveedores).HasColumnName("sobretasaIVAProveedores");
+
+                entity.Property(e => e.TasaIvaproveedores).HasColumnName("tasaIVAProveedores");
             });
 
             modelBuilder.Entity<PrecioArticulo>(entity =>
@@ -1162,6 +1229,11 @@ namespace DisplaBackend.Models
                     .HasColumnName("cantidadVendida")
                     .HasColumnType("decimal(6, 2)");
 
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(250);
+
                 entity.Property(e => e.IdArticulo).HasColumnName("idArticulo");
 
                 entity.Property(e => e.IdComprobante).HasColumnName("idComprobante");
@@ -1194,10 +1266,14 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdLente)
                     .HasConstraintName("FK_VentaVirtual_Lente");
 
+                entity.HasOne(d => d.IdServicioNavigation)
+                    .WithMany(p => p.VentaVirtual)
+                    .HasForeignKey(d => d.IdServicio)
+                    .HasConstraintName("FK_VentaVirtual_Servicio");
+
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.VentaVirtual)
                     .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_VentaVirtual_AspNetUsers");
             });
 

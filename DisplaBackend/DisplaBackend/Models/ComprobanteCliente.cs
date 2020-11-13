@@ -26,9 +26,11 @@ namespace DisplaBackend.Models
         public int? PorcentajeDtoGral { get; set; }
         public double? MontoIvari { get; set; }
         public DateTime? FechaAnulado { get; set; }
+        public int? IdUsuario { get; set; }
 
         public virtual Cliente IdClienteNavigation { get; set; }
         public virtual TipoComprobante IdTipoComprobanteNavigation { get; set; }
+        public virtual AspNetUsers IdUsuarioNavigation { get; set; }
         public virtual ICollection<ComprobanteItem> ComprobanteItem { get; set; }
         public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
     }

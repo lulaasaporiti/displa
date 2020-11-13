@@ -1,6 +1,8 @@
 import { ComprobanteCliente } from './comprobanteCliente';
 import { ArticuloVario } from './articuloVario';
 import { Servicio } from './servicio';
+import { ComprobanteItemLente } from './comprobanteItemLente';
+import { Remito } from './remito';
 
 
 export interface ComprobanteItem {
@@ -18,5 +20,8 @@ export interface ComprobanteItem {
     IIBB: number,
     Recargo: number,
     EntregaVentaVirtual: boolean,
-    VentaVirtual: boolean
+    VentaVirtual: boolean,
+
+    ComprobanteItemLente: ComprobanteItemLente[]
+    Remito: Remito[]
 }

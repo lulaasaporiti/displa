@@ -26,7 +26,7 @@
             </mat-form-field>
 
             <mat-form-field fxFlex="30">
-                <input matInput placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'seleccionar')"
+                <input matInput type="number" placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'seleccionar')"
                     #cantidad="ngModel" (keypress)="_keyPress($event)" [(ngModel)]="modelVentaVirtual.CantidadVendida"
                     name="cantidad" required>
                 <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>

@@ -10,6 +10,7 @@ namespace DisplaBackend.Models
             AspNetUserClaims = new HashSet<AspNetUserClaims>();
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
+            ComprobanteCliente = new HashSet<ComprobanteCliente>();
             MovimientoBlock = new HashSet<MovimientoBlock>();
             MovimientoInsumo = new HashSet<MovimientoInsumo>();
             Remito = new HashSet<Remito>();
@@ -38,6 +39,7 @@ namespace DisplaBackend.Models
         public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual ICollection<ComprobanteCliente> ComprobanteCliente { get; set; }
         public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
         public virtual ICollection<Remito> Remito { get; set; }

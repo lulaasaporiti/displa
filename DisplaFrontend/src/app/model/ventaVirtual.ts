@@ -6,6 +6,7 @@ import { Usuario } from './usuario';
 
 export interface VentaVirtual {
     Id: number,
+    Descripcion: string,
     CantidadVendida: number,
     CantidadEntregada: number,
     IdComprobante: number,

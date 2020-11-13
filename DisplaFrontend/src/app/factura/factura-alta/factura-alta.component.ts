@@ -20,6 +20,7 @@ import { FacturaFichaComponent } from '../factura-ficha/factura-ficha.component'
 import { Ficha } from 'src/app/model/ficha';
 import { VentaVirtual } from 'src/app/model/ventaVirtual';
 import { LenteVentaVirtualComponent } from '../factura-producto/producto-lente/lente-venta-virtual/lente-venta-virtual.component';
+import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
 
 
 @Component({
@@ -169,6 +170,7 @@ export class FacturaAltaComponent implements OnInit {
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
     private loadingSpinnerService: LoadingSpinnerService,
+    private comprobanteClienteService: ComprobanteClienteService
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number;
@@ -181,6 +183,11 @@ export class FacturaAltaComponent implements OnInit {
       )
         .subscribe(result => {
           this.modelCliente = result[0];
+          this.modelComprobante.IdCliente = this.id;
+          this.modelComprobante.ComprobanteItem = [];
+          this.modelComprobante.VentaVirtual = [];
+          this.modelComprobante.IdTipoComprobante = 1;
+          this.modelComprobante.IdUsuario = +this.sessionService.getPayload()['idUser'];
           if (this.modelCliente.IdCategoriaIva == 2) {
             this.modelComprobante.Letra = 'B'
           } else {
@@ -221,17 +228,21 @@ export class FacturaAltaComponent implements OnInit {
       itemLente.IdComprobanteItemNavigation = item;
     })
     this.dataSource.data = this.dataSource.data.concat(item);
+    this.modelComprobante.ComprobanteItem.push(item);
     this.sessionService.showSuccess("Los productos se agregaron correctamente")
   }
   
   cargarVentaVirtual(venta){
     console.log(venta)
     let item = <VentaVirtual>{};
+    item = venta;
     item.CantidadEntregada = 0;
-    item.Monto = 0;
+    item.Descripcion = venta.IdLenteNavigation.Nombre + ' V. VIRTUAL';
+    item.IdLenteNavigation = null;
+    item.Monto = +item.Monto * +item.CantidadVendida;
     // item.Descripcion = venta.IdLenteNavigation.DescripcionFactura;
     this.dataSource.data = this.dataSource.data.concat(item);
-
+    this.modelComprobante.VentaVirtual.push(item);
   }
 
 
@@ -254,7 +265,7 @@ export class FacturaAltaComponent implements OnInit {
   getSubtotalConDescuento() {
     let subtotal = 0;
     this.dataSource.data.forEach(to => {
-      if (to.Descripcion.endsWith("VIRTUAL")) {
+      if (to.Descripcion != undefined && to.Descripcion.endsWith("VIRTUAL") || to.CantidadVendida != undefined) {
         subtotal = subtotal + to.Monto;
       }
       else {
@@ -278,11 +289,16 @@ export class FacturaAltaComponent implements OnInit {
   cargarArticuloServicio() {
     this.comprobantesItems.forEach(p => {
       let venta = this.ventasVirtuales.filter(v => (v.IdArticulo != undefined && v.IdArticulo == p.IdArticulo) || (v.IdServicio != undefined && v.IdServicio == p.IdServicio))[0];
+      console.log(venta)
       if (venta.Monto != undefined) {
-        p.Monto = +venta.Monto;
-        p.Descripcion = p.Descripcion + ' V. VIRTUAL';
+        venta.CantidadVendida = p.Cantidad;
+        venta.Monto = Math.round((+venta.Monto * +p.Cantidad) * 100) / 100;
+        venta.Descripcion = p.Descripcion + ' V. VIRTUAL';
+        this.modelComprobante.VentaVirtual.push(venta);
+      } else {
+        p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
+        this.modelComprobante.ComprobanteItem.push(p);
       }
-      p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
       this.dataSource.data = this.dataSource.data.concat(p);
       this.changeDetector.detectChanges();
     });
@@ -296,6 +312,7 @@ export class FacturaAltaComponent implements OnInit {
       producto.Monto = (producto.Monto * 1.21).toFixed(2);
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
+    this.modelComprobante.ComprobanteItem.push(producto);
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
@@ -305,6 +322,7 @@ export class FacturaAltaComponent implements OnInit {
       producto.Monto = (producto.Monto * 1.21).toFixed(2);
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
+    this.modelComprobante.ComprobanteItem.push(producto);
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
@@ -340,16 +358,16 @@ export class FacturaAltaComponent implements OnInit {
   }
 
 
-  // altaCliente(){
-  //   this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
-  //     data => {
-  //       console.log(data)
-  //       this.router.navigateByUrl('Cliente/Modificacion?id='+data)
-  //       this.sessionService.showSuccess("El cliente se agregó correctamente.");
-  //     },
-  //     error => {
-  //       this.sessionService.showError("El cliente no se agregó.");
-  //     }
-  //   );
-  // }
+  altaComprobanteCliente(){
+    this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
+      data => {
+        console.log(data)
+        // this.router.navigateByUrl('Cliente/Modificacion?id='+data)
+        this.sessionService.showSuccess("La factura se agregó correctamente.");
+      },
+      error => {
+        this.sessionService.showError("La factura no se agregó.");
+      }
+    );
+  }
 }

@@ -1,6 +1,6 @@
 <div class="content">
   <app-loading-spinner></app-loading-spinner>
-  <form name="clienteForm" #clienteForm="ngForm" fxLayout="column" fxFlexFill>
+  <!-- <form name="clienteForm" #clienteForm="ngForm" fxLayout="column" fxFlexFill> -->
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-accordion fxFill>
         <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
@@ -119,7 +119,7 @@
         <ng-container matColumnDef="Cantidad">
           <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> CANTIDAD </th>
           <td mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
-            {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Cantidad : row.Cantidad }}
+            {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Cantidad : (row.CantidadVendida != undefined) ? row.CantidadVendida : row.Cantidad }}
           </td>
         </ng-container>
 
@@ -133,6 +133,7 @@
         <ng-container matColumnDef="Descripcion">
           <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> DESCRIPCIÓN </th>
           <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
+            <!-- : (row.CantidadVendida != undefined) ? row.IdLenteNavigation.Nombre + ' V. VIRTUAL' -->
             {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Descripcion : row.Descripcion }}
           </td>
         </ng-container>
@@ -194,8 +195,8 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
       <button mat-raised-button (click)="cancelar()">Cancelar</button>
-      <button mat-raised-button color="primary" [disabled]="!clienteForm.form.valid"
-        (click)="altaCliente()">Agregar</button>
+      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= getTotales()"
+        (click)="altaComprobanteCliente()">Agregar</button>
     </div>
-  </form>
+  <!-- </form> -->
 </div>

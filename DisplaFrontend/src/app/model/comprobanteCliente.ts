@@ -1,5 +1,8 @@
 import { Cliente } from './Cliente';
+import { ComprobanteItem } from './comprobanteItem';
 import { TipoComprobante } from './tipoComprobante';
+import { Usuario } from './usuario';
+import { VentaVirtual } from './ventaVirtual';
 
 export interface ComprobanteCliente {
     Id: number,
@@ -17,5 +20,10 @@ export interface ComprobanteCliente {
     MontoTotal: number,
     SubtotalFactura: number,
     PorcentajeDtoGral: number,
-    MontoIVARI: number
+    MontoIVARI: number,
+    IdUsuario: number,
+    IdUsuarioNavigation: Usuario,
+
+    ComprobanteItem: ComprobanteItem[],
+    VentaVirtual: VentaVirtual[]
 }
