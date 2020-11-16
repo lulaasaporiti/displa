@@ -21,6 +21,7 @@ export class ComprobanteClienteService {
     }
     
     saveOrUpdateComprobanteCliente(comprobantecliente: Object): Observable<object> {
+        console.log("entro")
         return this.http.post(`${this.baseUrl}/`, comprobantecliente);
     }
 
@@ -29,7 +30,6 @@ export class ComprobanteClienteService {
     }
 
     deleteComprobanteCliente(id: number): Observable<any> {
-        console.log(id)
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 }

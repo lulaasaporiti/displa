@@ -52,6 +52,35 @@ namespace DisplaBackend.DAOs
                 if (comprobanteCliente.Id == 0)
                 {
                     comprobanteCliente.Fecha = DateTime.Now;
+                    //////////////agregar el navigation de lente en null cuando lo terminemos.//////////
+                    foreach (var c in comprobanteCliente.ComprobanteItem.ToList())
+                    {
+                        if (c.IdArticuloNavigation != null)
+                        {
+                            c.IdArticuloNavigation.StockActual = c.IdArticuloNavigation.StockActual - c.Cantidad;
+                            _context.ArticuloVario.Update(c.IdArticuloNavigation);
+                            c.IdArticuloNavigation = null;
+                        }
+                        c.IdServicioNavigation = null;
+
+                        if (c.ComprobanteItemLente.Count > 0)
+                        {
+                            foreach (var cl in c.ComprobanteItemLente)
+                            {
+                               StockLente lente = _context.StockLente.FirstOrDefault(st => st.IdLente == cl.IdLente && st.MedidaCilindrico == cl.Cilindrico && st.MedidaEsferico == cl.Esferico);
+                                if (lente != null)
+                                {
+                                    lente.Stock = lente.Stock - cl.Cantidad;
+                                    _context.StockLente.Update(lente);
+                                }
+                            }
+                        }
+                    }
+                    foreach (var v in comprobanteCliente.VentaVirtual.ToList())
+                    {
+                        v.IdArticuloNavigation = null;
+                        v.IdServicioNavigation = null;
+                    }
                     comprobanteCliente = _context.Add(comprobanteCliente).Entity;
                 }
                 else

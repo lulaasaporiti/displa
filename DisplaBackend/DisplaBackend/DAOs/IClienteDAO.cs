@@ -262,7 +262,7 @@ namespace DisplaBackend.DAOs
                 .Select(v =>  new {
                     Id = v.Id,
                     Fecha = v.IdComprobanteNavigation.Fecha,
-                    Descripcion = "Se compraron " + v.CantidadVendida + " de " + ((v.IdArticulo == null) ? v.IdComprobanteNavigation.ComprobanteItem.Select(c => c.ComprobanteItemLente.Select(cl => cl.IdLenteNavigation.Nombre)).ToString() : v.IdArticuloNavigation.Nombre),
+                    Descripcion = "Se compraron " + v.CantidadVendida + " de " + v.Descripcion,
                     EsFicha = false
                 })
                 .ToList();

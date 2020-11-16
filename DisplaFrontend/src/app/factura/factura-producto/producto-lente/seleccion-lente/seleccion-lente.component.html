@@ -17,8 +17,7 @@
             <div mat-dialog-content fxLayoutGap="15px">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Medida esférico" [(ngModel)]="modelComprobanteItemLente[0].Esferico"
-                        id="esferico0" name="esferico0" #esferico0="ngModel" pattern="^\d*(\.\d{0,2})?$"
-                        (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico0')" required>
+                        id="esferico0" name="esferico0" #esferico0="ngModel" (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico0')" required>
                     <mat-error *ngIf="esferico0.invalid">Este campo es obligatorio.</mat-error>
                 </mat-form-field>
                 <mat-form-field fxFlex="50">
@@ -36,7 +35,7 @@
             <div mat-dialog-content fxLayoutGap="15px" *ngIf="modelComprobanteItemLente.length == 2">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Medida esférico" [(ngModel)]="modelComprobanteItemLente[1].Esferico"
-                        id="esferico1" name="esferico1" #esferico1="ngModel" pattern="^\d*(\.\d{0,2})?$"
+                        id="esferico1" name="esferico1" #esferico1="ngModel"
                         (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico1')" required>
                     <mat-error *ngIf="esferico1.invalid">Este campo es obligatorio.</mat-error>
                 </mat-form-field>
@@ -113,21 +112,11 @@
                 </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
-        <!-- <div fxLayout="column">
-            <div mat-subheader>Servicios</div>
-            <mat-list fxLayout="row">
-                <mat-list-item *ngFor="let s of servicios">
-                    <button mat-button>
-                        {{s}}
-                    </button>
-                </mat-list-item>
-            </mat-list>
-        </div> -->
 
-        <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <!-- <button mat-raised-button (click)="onNoClick()">Cancelar</button> -->
             <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" id="seleccionar"
                 [mat-dialog-close]="modelComprobanteItemLente">Seleccionar</button>
-        </div> -->
+        </div>
     </div>
 </form>

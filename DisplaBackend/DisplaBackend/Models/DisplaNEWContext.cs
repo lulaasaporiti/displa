@@ -66,7 +66,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -440,6 +439,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdComprobante).HasColumnName("idComprobante");
 
+                entity.Property(e => e.IdServicio).HasColumnName("idServicio");
+
                 entity.Property(e => e.Iibb).HasColumnName("IIBB");
 
                 entity.Property(e => e.Monto).HasColumnName("monto");
@@ -462,6 +463,11 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdComprobante)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ComprobanteItem_ComprobanteCliente");
+
+                entity.HasOne(d => d.IdServicioNavigation)
+                    .WithMany(p => p.ComprobanteItem)
+                    .HasForeignKey(d => d.IdServicio)
+                    .HasConstraintName("FK_ComprobanteItem_Servicio");
             });
 
             modelBuilder.Entity<ComprobanteItemLente>(entity =>
@@ -1112,6 +1118,12 @@ namespace DisplaBackend.Models
                     .HasColumnType("decimal(6, 2)");
 
                 entity.Property(e => e.Stock).HasColumnName("stock");
+
+                entity.HasOne(d => d.IdLenteNavigation)
+                    .WithMany(p => p.StockLente)
+                    .HasForeignKey(d => d.IdLente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StockLente_Lente");
             });
 
             modelBuilder.Entity<TarjetaCredito>(entity =>

@@ -10,6 +10,7 @@ namespace DisplaBackend.Models
             ComprobanteItemLente = new HashSet<ComprobanteItemLente>();
             PrecioLente = new HashSet<PrecioLente>();
             RecargoLente = new HashSet<RecargoLente>();
+            StockLente = new HashSet<StockLente>();
             VentaVirtual = new HashSet<VentaVirtual>();
         }
 
@@ -27,6 +28,7 @@ namespace DisplaBackend.Models
         public virtual ICollection<ComprobanteItemLente> ComprobanteItemLente { get; set; }
         public virtual ICollection<PrecioLente> PrecioLente { get; set; }
         public virtual ICollection<RecargoLente> RecargoLente { get; set; }
+        public virtual ICollection<StockLente> StockLente { get; set; }
         public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
     }
 }

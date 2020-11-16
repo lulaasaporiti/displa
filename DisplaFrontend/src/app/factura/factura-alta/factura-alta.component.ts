@@ -188,6 +188,7 @@ export class FacturaAltaComponent implements OnInit {
           this.modelComprobante.VentaVirtual = [];
           this.modelComprobante.IdTipoComprobante = 1;
           this.modelComprobante.IdUsuario = +this.sessionService.getPayload()['idUser'];
+
           if (this.modelCliente.IdCategoriaIva == 2) {
             this.modelComprobante.Letra = 'B'
           } else {
@@ -211,8 +212,8 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarLente(producto) {
-    // console.log(producto)
     let item = <ComprobanteItem>{};
+    item.ComprobanteItemLente = [];
     item.Cantidad = 0;
     item.Monto = 0;
     item.NumeroSobre = producto[0].Sobre;
@@ -220,12 +221,13 @@ export class FacturaAltaComponent implements OnInit {
     producto.forEach(p => {
       let itemLente = <ComprobanteItemLente>{};
       itemLente.IdLente = p.IdLente;
+      itemLente.Precio = p.Precio;
       item.Cantidad = item.Cantidad + p.Cantidad;
       item.Monto = item.Monto + (p.Cantidad * p.Precio);
       itemLente.Cantidad = p.Cantidad;
       itemLente.Cilindrico = p.Cilindrico;
       itemLente.Esferico = p.Esferico;
-      itemLente.IdComprobanteItemNavigation = item;
+      item.ComprobanteItemLente.push(itemLente);
     })
     this.dataSource.data = this.dataSource.data.concat(item);
     this.modelComprobante.ComprobanteItem.push(item);
@@ -233,9 +235,9 @@ export class FacturaAltaComponent implements OnInit {
   }
   
   cargarVentaVirtual(venta){
-    console.log(venta)
     let item = <VentaVirtual>{};
     item = venta;
+    item.IdUsuario = +this.sessionService.getPayload()['idUser'];
     item.CantidadEntregada = 0;
     item.Descripcion = venta.IdLenteNavigation.Nombre + ' V. VIRTUAL';
     item.IdLenteNavigation = null;
@@ -289,17 +291,18 @@ export class FacturaAltaComponent implements OnInit {
   cargarArticuloServicio() {
     this.comprobantesItems.forEach(p => {
       let venta = this.ventasVirtuales.filter(v => (v.IdArticulo != undefined && v.IdArticulo == p.IdArticulo) || (v.IdServicio != undefined && v.IdServicio == p.IdServicio))[0];
-      console.log(venta)
       if (venta.Monto != undefined) {
         venta.CantidadVendida = p.Cantidad;
         venta.Monto = Math.round((+venta.Monto * +p.Cantidad) * 100) / 100;
         venta.Descripcion = p.Descripcion + ' V. VIRTUAL';
+        venta.IdUsuario = +this.sessionService.getPayload()['idUser'];
         this.modelComprobante.VentaVirtual.push(venta);
+        this.dataSource.data = this.dataSource.data.concat(venta);  
       } else {
         p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
         this.modelComprobante.ComprobanteItem.push(p);
+        this.dataSource.data = this.dataSource.data.concat(p);
       }
-      this.dataSource.data = this.dataSource.data.concat(p);
       this.changeDetector.detectChanges();
     });
     this.sessionService.showSuccess("Los productos se agregaron correctamente");
@@ -334,8 +337,8 @@ export class FacturaAltaComponent implements OnInit {
     const dialogRef = this.dialog.open(FacturaFichaComponent, {
       disableClose: true,
       data: { ficha: this.modelCliente.Ficha },
-      width: '600px',
-      height: '500px'
+      width: '700px',
+      height: '600px'
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
@@ -361,8 +364,6 @@ export class FacturaAltaComponent implements OnInit {
   altaComprobanteCliente(){
     this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
       data => {
-        console.log(data)
-        // this.router.navigateByUrl('Cliente/Modificacion?id='+data)
         this.sessionService.showSuccess("La factura se agregó correctamente.");
       },
       error => {

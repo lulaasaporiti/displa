@@ -25,10 +25,15 @@
        
 
         <div fxLayout="row" fxLayoutGap="2vw">
-            <mat-form-field fxFlex="50">
+            <mat-form-field fxFlex="25">
                 <input matInput placeholder="Stock mínimo" [(ngModel)]="modelArticuloVario.StockMinimo" name="stockMinimo"
                     #stockMinimo="ngModel" required>
                 <mat-error *ngIf="stockMinimo.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="25">
+                <input matInput placeholder="Stock actual" [(ngModel)]="modelArticuloVario.StockActual" name="stockActual"
+                    #stockActual="ngModel" required>
+                <mat-error *ngIf="stockActual.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
                 <input matInput placeholder="Precio costo" [(ngModel)]="modelArticuloVario.PrecioCosto" name="precioCosto"
