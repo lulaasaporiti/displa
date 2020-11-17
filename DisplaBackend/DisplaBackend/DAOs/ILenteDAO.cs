@@ -52,6 +52,7 @@ namespace DisplaBackend.DAOs
                     Nombre = l.Nombre,
                     DescripcionFactura = l.DescripcionFactura,
                     Borrado = l.Borrado,
+                    GraduacionesCilindricas = l.GraduacionesCilindricas,
                     Combinacion = l.Combinacion,
                     PrecioLente = l.PrecioLente
                         .Where(p => p.PrecioLenteCliente.Where(pc => pc.Especial == true).Count() == 0)
