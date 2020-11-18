@@ -149,43 +149,33 @@ export class ManejoStockAltaComponent implements OnInit {
   }
 
 
+
   //0.25 o 10.00
   //0.5
   //1
   divisionMedida(event, tipoGraduacion) {
-  //   console.log(event)
-  //   console.log(this.cargarStock[event]);
-  //   if (tipoGraduacion == 'esferico') {
-  //     if (this.cargarStock[event].MedidaEsferico != undefined) {
-  //       var lala = +this.cargarStock[event].MedidaEsferico;
-  //       console.log(parseFloat((lala/100).toFixed(2)))
-  //       this.cargarStock[event].MedidaEsferico = parseFloat((lala/100).toFixed(2));
-  //       console.log(this.cargarStock[event].MedidaEsferico)
-  //     } 
-  //   } else {
-  //     if (this.cargarStock[event].MedidaCilindrico != undefined) {
-  //       this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico / 100;
-  //     }
-  //   }
+    //   console.log(event)
+    //   console.log(this.cargarStock[event]);
+    //   if (tipoGraduacion == 'esferico') {
+    //     if (this.cargarStock[event].MedidaEsferico != undefined) {
+    //       var lala = +this.cargarStock[event].MedidaEsferico;
+    //       console.log(parseFloat((lala/100).toFixed(2)))
+    //       this.cargarStock[event].MedidaEsferico = parseFloat((lala/100).toFixed(2));
+    //       console.log(this.cargarStock[event].MedidaEsferico)
+    //     } 
+    //   } else {
+    //     if (this.cargarStock[event].MedidaCilindrico != undefined) {
+    //       this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico / 100;
+    //     }
+    //   }
   }
 
-  compararLimiteGrilla(event, tipoGraduacion) {
-  //   console.log(this.cargarStock[event].MedidaEsferico / 100)
-  //   if (tipoGraduacion == 'esferico') {
-  //     if (this.cargarStock[event].MedidaEsferico / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico && this.cargarStock[event].MedidaEsferico / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico) {
-  //       this.msjLimiteEsferico[event] = ((this.cargarStock[event].MedidaEsferico / 100) % 0.25) > 0;
-  //     }
-  //     else {
-  //       this.msjLimiteEsferico[event] = true;
-  //     }
-  //   }
-  //   else {
-  //     if (this.cargarStock[event].MedidaCilindrico / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico && this.cargarStock[event].MedidaCilindrico / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico) {
-  //       this.msjLimiteCilindrico[event] = ((this.cargarStock[event].MedidaCilindrico / 100) % 0.25) > 0;
-  //     }
-  //     else {
-  //       this.msjLimiteCilindrico[event] = true;
-  //     }
-  //   }
+  compararLimiteGrilla(index, tipoGraduacion) {
+    if (tipoGraduacion == 'esferico') {
+      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+    }
+    else {
+      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+    }
   }
 }

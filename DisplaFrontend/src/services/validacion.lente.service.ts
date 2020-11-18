@@ -36,11 +36,8 @@ export class ValidacionLenteService {
     }
 
     compararLimiteGrilla(lente, medida, tipoGraduacion) {
-        // console.log(medida / 100)
-        console.log(lente)
+        console.log(+medida / 100)
         console.log(this.limiteGrillaIzquierda)
-        console.log(this.limiteGrillaIzquierda == undefined)
-        console.log(medida)
         if (lente != undefined) {
             let combinacion = lente.Combinacion.split("  / ");
             if ((this.limiteGrillaDerecha == undefined && this.limiteGrillaIzquierda == undefined) || combinacion[0] != this.limiteGrillaIzquierda.Combinacion) {
@@ -49,16 +46,17 @@ export class ValidacionLenteService {
         }
         if (medida != undefined) {
             if (tipoGraduacion == 'esferico') {
-                if (medida / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico && medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico) {
-                    return ((medida / 100) % 0.25) > 0;
+                if ((+medida / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico)) {
+                    console.log(+medida / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico )
+                    return ((+medida / 100) % 0.25) != 0;
                 }
                 else {
                     return true;
                 }
             }
             else {
-                if (+medida / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico && +medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico) {
-                    return ((+medida / 100) % 0.25) > 0;
+                if ((+medida / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
+                    return ((+medida / 100) % 0.25) != 0;
                 }
                 else {
                     return true;

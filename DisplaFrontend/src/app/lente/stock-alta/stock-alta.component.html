@@ -15,28 +15,28 @@
             <div>
                 <div fxLayout="row" fxLayoutGap="1vw" (change)="updateStateStock()" *ngFor="let s of cargarStock; let index = index">
                     <div fxLayout="column">
-                        <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Medida esférico" (keypress)="_keyPress($event)"
+                        <mat-form-field>
+                            <input matInput placeholder="Medida esférico"
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel"
-                                (blur)="divisionMedida(index, 'esferico')"
-                                (input)="compararLimiteGrilla(index, 'esferico')" required>
+                                (blur)="divisionMedida(index, 'esferico')" (keypress)="_keyPress($event)"
+                                (input)="compararLimiteGrilla(index, 'esferico')" 
+                                required>
                             <mat-error *ngIf="esferico.invalid">Este campo es obligatorio.</mat-error>
-                        </mat-form-field>
-                        <p class="msjError" *ngIf="msjLimiteEsferico[index]">La medida no se encuentra dentro de los límites.</p>
+                        </mat-form-field>       
+                        <p class="msjError" *ngIf="msjLimiteEsferico[index]">
+                            La medida no se encuentra dentro de los límites.</p>
                     </div>
-
                     <div fxLayout="column">
-                        <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Medida cilindríco"
+                        <mat-form-field>
+                            <input matInput placeholder="Medida cilindríco" 
                                 [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
                                 name="cilindrico{{index}}" #cilindrico="ngModel"
                                 (blur)="divisionMedida(index, 'cilindrico')" (keypress)="_keyPress($event)"
-                                (input)="compararGraduacion(index); compararLimiteGrilla(index, 'cilindrico')"
-                                required>
+                                (input)="compararLimiteGrilla(index, 'cilindrico')" required>
                             <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
-                        <p class="msjError" *ngIf="msjCilindrico[index]">La medida no respeta el signo de la lente.</p>
+                        <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(cargarStock[index])">La medida no respeta el signo de la lente.</p>
                         <p class="msjError" *ngIf="msjLimiteCilindrico[index]">
                             La medida no se encuentra dentro de los límites.
                         </p>
@@ -56,7 +56,7 @@
         </div>
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || cargarStock.length == 0"
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || cargarStock.length == 0 || msjLimiteCilindrico.includes(true) || msjLimiteEsferico.includes(true)"
                 (click)="agregarNuevoStock()">Agregar</button>
         </div>
     </div>
