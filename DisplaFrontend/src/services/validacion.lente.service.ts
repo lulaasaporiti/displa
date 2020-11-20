@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
 import { LimitesGrillaService } from './limites.grilla.service';
 
@@ -32,15 +30,9 @@ export class ValidacionLenteService {
             this.limiteGrillaIzquierda = result[0];
             this.limiteGrillaDerecha = result[1];
         });
-        console.log(this.limiteGrillaIzquierda)
     }
 
     compararLimiteGrilla(lente, medida, tipoGraduacion) {
-        // console.log(medida / 100)
-        console.log(lente)
-        console.log(this.limiteGrillaIzquierda)
-        console.log(this.limiteGrillaIzquierda == undefined)
-        console.log(medida)
         if (lente != undefined) {
             let combinacion = lente.Combinacion.split("  / ");
             if ((this.limiteGrillaDerecha == undefined && this.limiteGrillaIzquierda == undefined) || combinacion[0] != this.limiteGrillaIzquierda.Combinacion) {
@@ -49,16 +41,16 @@ export class ValidacionLenteService {
         }
         if (medida != undefined) {
             if (tipoGraduacion == 'esferico') {
-                if (medida / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico && medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico) {
-                    return ((medida / 100) % 0.25) > 0;
+                if ((+medida / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico)) {
+                    return ((+medida / 100) % 0.25) != 0;
                 }
                 else {
                     return true;
                 }
             }
             else {
-                if (+medida / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico && +medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico) {
-                    return ((+medida / 100) % 0.25) > 0;
+                if ((+medida / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
+                    return ((+medida / 100) % 0.25) != 0;
                 }
                 else {
                     return true;
@@ -80,19 +72,16 @@ export class ValidacionLenteService {
     }
 
     divisionMedida(lente, medida, tipoGraduacion) {
-        // console.log(medida)
-        this.getLimitesGrilla(lente);
-        if (tipoGraduacion == 'esferico') {
-            if (medida != undefined) {
-                var lala = +medida;
-                console.log(parseFloat((lala / 100).toFixed(2)))
-                medida = parseFloat((lala / 100).toFixed(2));
-                console.log(medida)
-            }
-        } else {
-            if (medida != undefined) {
-                medida = medida / 100;
+        console.log(lente)
+        console.log(medida)
+        if (medida != undefined && !medida.includes('.')) {
+            if (tipoGraduacion == 'esferico') {
+                lente.MedidaEsferico = (+medida / 100).toFixed(2);
+
+            } else {
+                lente.MedidaCilindrico = (+medida / 100).toFixed(2);
             }
         }
     }
+
 }

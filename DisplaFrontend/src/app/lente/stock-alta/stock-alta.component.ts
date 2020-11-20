@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { StockLente } from 'src/app/model/stockLente';
 import { StockLenteService } from 'src/services/stock.lente.service';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
 
 @Component({
   selector: 'app-stock-alta',
@@ -18,8 +19,8 @@ export class StockAltaComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<StockAltaComponent>,
     private stockLenteService: StockLenteService,
+    private validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data)
     this.agregarStock();
   }
 
@@ -34,6 +35,7 @@ export class StockAltaComponent implements OnInit {
   agregarStock() {
     let item = <StockLente>{};
     item.IdLente = this.data.modelStock[0].IdLente;
+    item.IdLenteNavigation = this.data.lente;
     this.cargarStock.push(item);
     this.msjCilindrico.push(false);
     this.msjLimiteEsferico.push(false);
@@ -73,22 +75,8 @@ export class StockAltaComponent implements OnInit {
       });
   }
 
-  divisionMedida(event, tipoGraduacion){
-    if (tipoGraduacion == 'esferico') {
-      if (this.cargarStock[event].MedidaEsferico != undefined) {
-        var lala = +this.cargarStock[event].MedidaEsferico;
-        this.cargarStock[event].MedidaEsferico = +((lala * 100 / 100).toFixed(3));
-        console.log(this.cargarStock[event].MedidaEsferico)
-      } 
-    } else {
-      if (this.cargarStock[event].MedidaCilindrico != undefined) {
-        this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico / 100;
-      }
-    }
-  }
-
   _keyPress(event: any) {
-    const pattern = /[0-9]/;
+    const pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
@@ -96,34 +84,13 @@ export class StockAltaComponent implements OnInit {
     }
   }
 
-  compararLimiteGrilla(event, tipoGraduacion) {
+  compararLimiteGrilla(index, tipoGraduacion) {
     if (tipoGraduacion == 'esferico') {
-      if (this.cargarStock[event].MedidaEsferico / 100 <= this.data.limiteGrillaIzquierda.LimiteSuperiorEsferico && this.cargarStock[event].MedidaEsferico / 100 >= this.data.limiteGrillaDerecha.LimiteInferiorEsferico) {
-          this.msjLimiteEsferico[event] = ((this.cargarStock[event].MedidaEsferico / 100 ) % 0.25) > 0;
-      }
-      else {
-        this.msjLimiteEsferico[event] = true;
-      }
+      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+      console.log(this.msjLimiteEsferico[index])
     }
     else {
-      if (this.cargarStock[event].MedidaCilindrico / 100 <= this.data.limiteGrillaDerecha.LimiteSuperiorCilindrico && this.cargarStock[event].MedidaCilindrico / 100 >= this.data.limiteGrillaDerecha.LimiteInferiorCilindrico) {
-        this.msjLimiteCilindrico[event] = ((this.cargarStock[event].MedidaCilindrico / 100 ) % 0.25) > 0;
-      }
-      else {
-        this.msjLimiteCilindrico[event] = true;
-      }
-    }
-  }
-
-  compararGraduacion(event) {
-    if (this.cargarStock[event].MedidaCilindrico > 0 && this.data.graduacionCilindrica == '-') {
-      this.msjCilindrico[event] = true;
-    }
-    else {
-      if (0 > this.cargarStock[event].MedidaCilindrico && this.data.graduacionCilindrica == '+') {
-        this.msjCilindrico[event] = true;
-      }
-      this.msjCilindrico[event] = false;
+      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
     }
   }
 }

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 import { RecargoLente } from 'src/app/model/recargoLente';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
 
 @Component({
   selector: 'app-lente-alta',
@@ -18,12 +19,16 @@ export class LenteAltaComponent {
   modelRecargo: RecargoLente[] = [];
   selectedRecargo = new EventEmitter<RecargoLente[]>();
   modelLente = <Lente>{};
+  msjCilindrico: boolean[] = [];
+  msjLimiteEsferico: boolean[] = [];
+  msjLimiteCilindrico: boolean[] = [];
 
   constructor(
+    private router: Router,
     private lenteService: LenteService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService,
-    private router: Router
+    private validacionLenteService: ValidacionLenteService
   ) {
     this.loadingSpinnerService.show();
     this.lenteService.getCodigoLente().subscribe(result => {
@@ -46,8 +51,8 @@ export class LenteAltaComponent {
   agregarPrecio(i) {
     let item = <PrecioLente>{};
     item.IdLente = this.modelLente.Id;
-    item.Esferico = this.modelPrecio[i].Esferico;
-    item.Cilindrico = this.modelPrecio[i].Cilindrico;
+    item.MedidaEsferico = this.modelPrecio[i].MedidaEsferico;
+    item.MedidaCilindrico = this.modelPrecio[i].MedidaCilindrico;
     this.modelPrecio.push(item);
   }
 
@@ -95,7 +100,6 @@ export class LenteAltaComponent {
     this.modelLente.RecargoLente = this.modelRecargo;
     this.lenteService.saveOrUpdateLente(this.modelLente).subscribe(
       data => {
-        console.log(data)
         this.router.navigateByUrl('Lente/Listado')
         this.sessionService.showSuccess("La lente se agregó correctamente.");
       },
@@ -109,5 +113,24 @@ export class LenteAltaComponent {
     let combinacion = this.modelLente.Combinacion.split("  / ");
     if (combinacion[0] == '+ +') this.modelLente.GraduacionesCilindricas = '+';
     if (combinacion[0] == '+ -') this.modelLente.GraduacionesCilindricas = '-';
+  }
+
+  _keyPress(event: any) {
+    const pattern = /[0-9-]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  compararLimiteGrilla(index, tipoGraduacion) {
+    console.log(this.modelPrecio[index].MedidaEsferico)
+    if (tipoGraduacion == 'esferico') {
+      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaEsferico, 'esferico')
+    }
+    else {
+      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaCilindrico, 'cilindrico')
+    }
   }
 }

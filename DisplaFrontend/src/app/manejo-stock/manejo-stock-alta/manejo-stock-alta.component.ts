@@ -32,8 +32,7 @@ export class ManejoStockAltaComponent implements OnInit {
   constructor(
     private lenteService: LenteService,
     private stockLenteService: StockLenteService,
-    private validacionLenteService: ValidacionLenteService,
-    private limitesGrillaService: LimitesGrillaService
+    private validacionLenteService: ValidacionLenteService
 
   ) {
     this.agregarStock();
@@ -42,14 +41,10 @@ export class ManejoStockAltaComponent implements OnInit {
   ngOnInit() {
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
-      // console.log(this.lentes)
       this.filteredLentes = this.lentesControl.valueChanges
         .pipe(
           startWith(''),
-          // map(value => typeof value === 'string' ? value : value.Nombre),
           map(val => this.filterLente(val))
-
-          // map(Nombre => Nombre ? this._filter(Nombre) : this.lentes.slice())
         );
     });
   }
@@ -60,21 +55,7 @@ export class ManejoStockAltaComponent implements OnInit {
 
   setIdLente(event, index) {
     if (event != undefined) {
-      this.cargarStock[index].IdLente = event.Id;
-      // let idLimiteIzquierda;
-      // let idLimiteDerecha;
-      // let combinacion = event.Combinacion.split("  / ");
-      // if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
-      // else idLimiteIzquierda = 3;
-      // if (combinacion[1] == '- +') idLimiteDerecha = 2;
-      // else idLimiteDerecha = 4;
-      // combineLatest(
-      //   this.limitesGrillaService.getById(idLimiteIzquierda),
-      //   this.limitesGrillaService.getById(idLimiteDerecha)
-      // ).subscribe(result => {
-      //   this.limiteGrillaIzquierda = result[0];
-      //   this.limiteGrillaDerecha = result[1];
-      // });
+      this.cargarStock[index].IdLente = event.Id
     }
   }
 
@@ -148,44 +129,12 @@ export class ManejoStockAltaComponent implements OnInit {
     }
   }
 
-
-  //0.25 o 10.00
-  //0.5
-  //1
-  divisionMedida(event, tipoGraduacion) {
-  //   console.log(event)
-  //   console.log(this.cargarStock[event]);
-  //   if (tipoGraduacion == 'esferico') {
-  //     if (this.cargarStock[event].MedidaEsferico != undefined) {
-  //       var lala = +this.cargarStock[event].MedidaEsferico;
-  //       console.log(parseFloat((lala/100).toFixed(2)))
-  //       this.cargarStock[event].MedidaEsferico = parseFloat((lala/100).toFixed(2));
-  //       console.log(this.cargarStock[event].MedidaEsferico)
-  //     } 
-  //   } else {
-  //     if (this.cargarStock[event].MedidaCilindrico != undefined) {
-  //       this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico / 100;
-  //     }
-  //   }
-  }
-
-  compararLimiteGrilla(event, tipoGraduacion) {
-  //   console.log(this.cargarStock[event].MedidaEsferico / 100)
-  //   if (tipoGraduacion == 'esferico') {
-  //     if (this.cargarStock[event].MedidaEsferico / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico && this.cargarStock[event].MedidaEsferico / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico) {
-  //       this.msjLimiteEsferico[event] = ((this.cargarStock[event].MedidaEsferico / 100) % 0.25) > 0;
-  //     }
-  //     else {
-  //       this.msjLimiteEsferico[event] = true;
-  //     }
-  //   }
-  //   else {
-  //     if (this.cargarStock[event].MedidaCilindrico / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico && this.cargarStock[event].MedidaCilindrico / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico) {
-  //       this.msjLimiteCilindrico[event] = ((this.cargarStock[event].MedidaCilindrico / 100) % 0.25) > 0;
-  //     }
-  //     else {
-  //       this.msjLimiteCilindrico[event] = true;
-  //     }
-  //   }
+  compararLimiteGrilla(index, tipoGraduacion) {
+    if (tipoGraduacion == 'esferico') {
+      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+    }
+    else {
+      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+    }
   }
 }

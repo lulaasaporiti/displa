@@ -26,8 +26,8 @@
 
         <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
             <mat-form-field fxFlex='30'>
-                <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion' (selectionChange)="cargarGraduacion()"
-                    name="combinacion" #combinacion="ngModel" required>
+                <mat-select placeholder="Combinación" [(ngModel)]="modelLente.Combinacion" id='combinacion'
+                    (selectionChange)="cargarGraduacion()" name="combinacion" #combinacion="ngModel" required>
                     <mat-option value="+ +  / - +">+ + / - +</mat-option>
                     <mat-option value="+ -  / - -">+ - / - -</mat-option>
                 </mat-select>
@@ -78,27 +78,45 @@
                 </p>
                 <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center"
                     *ngFor="let p of modelPrecio; let i = index">
-                    <mat-form-field>
-                        <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" required>
-                        <mat-error *ngIf="inputEsferico.invalid">Este campo es obligatorio</mat-error>
-                    </mat-form-field>
+                    <div fxLayout="column">
 
+                        <mat-form-field>
+                            <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel"
+                                autocomplete="off" [(ngModel)]="p.MedidaEsferico" id="esferico{{i}}" name="esferico{{i}}"
+                                required (keypress)="_keyPress($event)"
+                                (blur)="this.validacionLenteService.divisionMedida(modelPrecio[i], modelPrecio[i].MedidaEsferico, 'esferico')"
+                                (input)="compararLimiteGrilla(i, 'esferico')">
+                            <mat-error *ngIf="inputEsferico.invalid">Este campo es obligatorio</mat-error>
+                        </mat-form-field>
+                        <p class="msjError" *ngIf="msjLimiteEsferico[i]">
+                            La medida no se encuentra dentro de los límites.</p>
+                    </div>
+                    <div fxLayout="column">
+                        <mat-form-field>
+                            <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel"
+                                autocomplete="off" [(ngModel)]="p.MedidaCilindrico" id="cilindrico{{i}}"
+                                name="cilindrico{{i}}" required (keypress)="_keyPress($event)"
+                                (blur)="this.validacionLenteService.divisionMedida(modelPrecio[i], modelPrecio[i].MedidaCilindrico, 'cilindrico')"
+                                (keypress)="_keyPress($event)" (input)="compararLimiteGrilla(i, 'cilindrico')">
+                            <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
+                        </mat-form-field>
+                        <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(modelPrecio[i])">La medida
+                            no respeta el signo de la lente.</p>
+                        <p class="msjError" *ngIf="msjLimiteCilindrico[i]">
+                            La medida no se encuentra dentro de los límites.
+                        </p>
+                    </div>
                     <mat-form-field>
-                        <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" required>
-                        <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]+(\.[0-9][0-9]?)?"
-                            [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" required>
+                        <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel"
+                            pattern="[0-9]+(\.[0-9][0-9]?)?" [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}"
+                            required>
                         <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
-                        <input type="text" placeholder="Precio costo par" matInput #inputPrecioPar="ngModel" pattern="[0-9]+(\.[0-9][0-9]?)?"
-                            [(ngModel)]="p.CostoPar" id="precioPar{{i}}" name="precioPar{{i}}" required>
+                        <input type="text" placeholder="Precio costo par" matInput #inputPrecioPar="ngModel"
+                            pattern="[0-9]+(\.[0-9][0-9]?)?" [(ngModel)]="p.CostoPar" id="precioPar{{i}}"
+                            name="precioPar{{i}}" required>
                         <mat-error *ngIf="inputPrecioPar.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
@@ -147,7 +165,8 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8">
             <button mat-raised-button (click)="cancelar()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!lenteForm.form.valid"
+            <button mat-raised-button color="primary"
+                [disabled]="!lenteForm.form.valid || msjLimiteCilindrico.includes(true) || msjLimiteEsferico.includes(true)"
                 (click)="altaLente()">Agregar</button>
         </div>
     </form>
