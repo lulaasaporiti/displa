@@ -154,28 +154,14 @@ export class ManejoStockAltaComponent implements OnInit {
   //0.5
   //1
   divisionMedida(event, tipoGraduacion) {
-    //   console.log(event)
-    //   console.log(this.cargarStock[event]);
-    //   if (tipoGraduacion == 'esferico') {
-    //     if (this.cargarStock[event].MedidaEsferico != undefined) {
-    //       var lala = +this.cargarStock[event].MedidaEsferico;
-    //       console.log(parseFloat((lala/100).toFixed(2)))
-    //       this.cargarStock[event].MedidaEsferico = parseFloat((lala/100).toFixed(2));
-    //       console.log(this.cargarStock[event].MedidaEsferico)
-    //     } 
-    //   } else {
-    //     if (this.cargarStock[event].MedidaCilindrico != undefined) {
-    //       this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico / 100;
-    //     }
-    //   }
   }
 
   compararLimiteGrilla(index, tipoGraduacion) {
     if (tipoGraduacion == 'esferico') {
-      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')
     }
     else {
-      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index], this.cargarStock[index].MedidaCilindrico, 'cilindrico')
     }
   }
 }

@@ -36,9 +36,8 @@
                         <mat-form-field>
                             <input matInput placeholder="Medida esférico"
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
-                                name="esferico{{index}}" #esferico="ngModel"
-                                (blur)="divisionMedida(index, 'esferico')" (keypress)="_keyPress($event)"
-                                (input)="compararLimiteGrilla(index, 'esferico')" 
+                                name="esferico{{index}}" #esferico="ngModel" (keypress)="_keyPress($event)"
+                                (blur)="compararLimiteGrilla(index, 'esferico')" 
                                 required>
                             <mat-error *ngIf="esferico.invalid">Este campo es obligatorio.</mat-error>
                         </mat-form-field>       
@@ -50,7 +49,7 @@
                             <input matInput placeholder="Medida cilindríco" 
                                 [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
                                 name="cilindrico{{index}}" #cilindrico="ngModel"
-                                (blur)="divisionMedida(index, 'cilindrico')" (keypress)="_keyPress($event)"
+                                (blur)="validacionLenteService.divisionMedida(cargarStock[index].Id, cargarStock[index].MedidaCilindrico, 'cilindrico')" (keypress)="_keyPress($event)"
                                 (input)="compararLimiteGrilla(index, 'cilindrico')" required>
                             <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
