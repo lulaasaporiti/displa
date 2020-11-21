@@ -17,7 +17,7 @@
 }
 
 .mat-dialog-content {
-    height: 80px;
+    height: 91px;
 }
 .radio-group {
     padding-top: 10px;
@@ -25,11 +25,10 @@
 }
 
 .msjError {
-    color: #ff5722;
-    font-size: 90%;
-    margin-top: 8px;
+  color: #ff5722;
+  font-size: 68%;
+  /* margin-top: 8px; */
 }
-
 
 :host /deep/ .mat-list-item-content {
   padding: 0!important;

@@ -67,7 +67,7 @@ namespace DisplaBackend.DAOs
                         {
                             foreach (var cl in c.ComprobanteItemLente)
                             {
-                               StockLente lente = _context.StockLente.FirstOrDefault(st => st.IdLente == cl.IdLente && st.MedidaCilindrico == cl.Cilindrico && st.MedidaEsferico == cl.Esferico);
+                               StockLente lente = _context.StockLente.FirstOrDefault(st => st.IdLente == cl.IdLente && st.MedidaCilindrico == cl.MedidaCilindrico && st.MedidaEsferico == cl.MedidaEsferico);
                                 if (lente != null)
                                 {
                                     lente.Stock = lente.Stock - cl.Cantidad;

@@ -8,7 +8,7 @@ export interface ComprobanteItemLente {
   IdComprobanteItem: number,
   IdComprobanteItemNavigation: ComprobanteItem,
   Cantidad: number,
-  Esferico: number,
-  Cilindrico: number,
+  MedidaEsferico: number,
+  MedidaCilindrico: number,
   Precio: number
 }

@@ -41,7 +41,9 @@ export class ValidacionLenteService {
         }
         if (medida != undefined) {
             if (tipoGraduacion == 'esferico') {
+                console.log(this.limiteGrillaIzquierda)
                 if ((+medida / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico)) {
+                    console.log(((+medida / 100) % 0.25) != 0)
                     return ((+medida / 100) % 0.25) != 0;
                 }
                 else {
@@ -59,12 +61,13 @@ export class ValidacionLenteService {
         }
     }
 
-    compararGraduacion(lente) {
-        if (+lente.MedidaCilindrico > 0 && lente.IdLenteNavigation.GraduacionesCilindricas == '-') {
+    //Recibe dos tipos de modelo distintos, cargaStock y modelPrecio
+    compararGraduacion(stockPrecio, lente) {
+        if (+stockPrecio.MedidaCilindrico > 0 && lente.GraduacionesCilindricas == '-') {
             return true;
         }
         else {
-            if (0 > +lente.MedidaCilindrico && lente.IdLenteNavigation.GraduacionesCilindricas == '+') {
+            if (0 > +stockPrecio.MedidaCilindrico && lente.GraduacionesCilindricas == '+') {
                 return true;
             }
             return false;
@@ -72,8 +75,6 @@ export class ValidacionLenteService {
     }
 
     divisionMedida(lente, medida, tipoGraduacion) {
-        console.log(lente)
-        console.log(medida)
         if (medida != undefined && !medida.includes('.')) {
             if (tipoGraduacion == 'esferico') {
                 lente.MedidaEsferico = (+medida / 100).toFixed(2);

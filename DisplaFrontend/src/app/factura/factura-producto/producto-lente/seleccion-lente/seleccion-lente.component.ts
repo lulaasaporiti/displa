@@ -9,6 +9,7 @@ import { LimitesGrillaService } from 'src/services/limites.grilla.service';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
 import { ClienteService } from 'src/services/cliente.service';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
 
 @Component({
   selector: 'app-seleccion-lente',
@@ -25,16 +26,18 @@ export class SeleccionLenteComponent implements OnInit {
   limiteGrillaIzquierda = <LimiteGrilla>{};
   mostrarPrecio = false;
   modelComprobanteItemLente: any[] = [];
-
+  msjCilindrico: boolean[] = [];
+  msjLimiteEsferico: boolean[] = [];
+  msjLimiteCilindrico: boolean[] = [];
 
   constructor(
     private lenteService: LenteService,
     private clienteService: ClienteService,
-    private limitesGrillaService: LimitesGrillaService,
+    private validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       let cargarGraduacion= <ComprobanteItemLente>{};
-      cargarGraduacion.Esferico = 0;
-      cargarGraduacion.Cilindrico = 0;
+      cargarGraduacion.MedidaEsferico = 0;
+      cargarGraduacion.MedidaCilindrico = 0;
       this.modelComprobanteItemLente.push(cargarGraduacion);
   }
 
@@ -60,7 +63,7 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   _keyPress(event: any) {
-    const pattern = /[0-9-.,]/;
+    const pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {{}
@@ -95,29 +98,16 @@ export class SeleccionLenteComponent implements OnInit {
 
   setIdLente(control) {
     if (control.value != null) {
-      let idLimiteIzquierda;
-      let idLimiteDerecha;
       this.modelComprobanteItemLente[0].IdLente = control.value.Id;
       this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;
-      let combinacion = control.value.Combinacion.split("  / ");
       // console.log(this.modelComprobanteItemLente[0].IdLenteNavigation)
-      if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
-      else idLimiteIzquierda = 3;
-      if (combinacion[1] == '- +') idLimiteDerecha = 2;
-      else idLimiteDerecha = 4;
-      // combineLatest(
-      //   this.limitesGrillaService.getById(idLimiteIzquierda),
-      //   this.limitesGrillaService.getById(idLimiteDerecha)
-      // ).subscribe(result => {
-      //   this.limiteGrillaIzquierda = result[0];
-      //   this.limiteGrillaDerecha = result[1];
-      // });
+      
     }
     // console.log(this.modelComprobanteItemLente)
   }
 
   traerPrecio(i){
-    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].Esferico, this.modelComprobanteItemLente[+i].Cilindrico)
+    this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].MedidaEsferico, this.modelComprobanteItemLente[+i].MedidaCilindrico)
     .subscribe(result => {
       this.mostrarPrecio = true;
       this.modelComprobanteItemLente[+i].Precio = result;
@@ -133,8 +123,8 @@ export class SeleccionLenteComponent implements OnInit {
     let item = <ComprobanteItemLente>{};
     item.IdLente = this.modelComprobanteItemLente[0].IdLente;
     item.Cantidad = 0.5;
-    item.Esferico = 0;
-    item.Cilindrico = 0;
+    item.MedidaEsferico = 0;
+    item.MedidaCilindrico = 0;
     this.modelComprobanteItemLente.push(item);
   }
 
@@ -160,6 +150,17 @@ export class SeleccionLenteComponent implements OnInit {
 
   comprobanteItemLenteSelected() {
     this.selectedComprobanteItemLente.emit(this.modelComprobanteItemLente);
+  }
+
+  compararLimiteGrilla(index, tipoGraduacion) {
+    console.log(index)
+    console.log(this.modelComprobanteItemLente[index])
+    if (tipoGraduacion == 'esferico') {
+      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaEsferico, 'esferico')
+    }
+    else {
+      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaCilindrico, 'cilindrico')
+    }
   }
 
   // updateState() {

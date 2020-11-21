@@ -125,7 +125,6 @@ export class LenteAltaComponent {
   }
 
   compararLimiteGrilla(index, tipoGraduacion) {
-    console.log(this.modelPrecio[index].MedidaEsferico)
     if (tipoGraduacion == 'esferico') {
       this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaEsferico, 'esferico')
     }

@@ -54,7 +54,7 @@
                                 (input)="compararLimiteGrilla(index, 'cilindrico')" required>
                             <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
-                        <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p>
+                        <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p>
                         <p class="msjError" *ngIf="msjLimiteCilindrico[index]">
                             La medida no se encuentra dentro de los límites.
                         </p>

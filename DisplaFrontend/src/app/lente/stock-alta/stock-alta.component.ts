@@ -87,7 +87,6 @@ export class StockAltaComponent implements OnInit {
   compararLimiteGrilla(index, tipoGraduacion) {
     if (tipoGraduacion == 'esferico') {
       this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
-      console.log(this.msjLimiteEsferico[index])
     }
     else {
       this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')

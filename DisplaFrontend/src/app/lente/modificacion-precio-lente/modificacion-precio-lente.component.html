@@ -18,13 +18,13 @@
                 <div fxLayout="row" fxLayoutGap="15px">
                     <mat-form-field>
                         <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" required type="number">
+                            [(ngModel)]="p.MedidaEsferico" id="esferico{{i}}" name="esferico{{i}}" required type="number">
                         <mat-error *ngIf="inputEsferico.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
                         <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" pattern="[0-9]*"
-                            [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" required type="number">
+                            [(ngModel)]="p.MedidaCilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" required type="number">
                         <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
 

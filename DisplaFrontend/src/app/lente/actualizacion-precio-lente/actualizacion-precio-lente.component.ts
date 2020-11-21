@@ -115,8 +115,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
               if (this.preciosSeleccionados.findIndex(ps => ps.Id == precio.Precio[checkbox].Id) == -1) {
                 precioLente.Id = precio.Precio[checkbox].Id;
                 precioLente.IdLente = precio.IdLente;
-                precioLente.Esferico = precio.Esferico;
-                precioLente.Cilindrico = precio.Cilindrico;
+                precioLente.MedidaEsferico = precio.MedidaEsferico;
+                precioLente.MedidaCilindrico = precio.MedidaCilindrico;
                 this.preciosSeleccionados.push(precioLente);
                 var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
                 if (tienePorcentaje) {
@@ -130,8 +130,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
                 mostrarMensaje = true;
                 precioLente.Id = precio[0].Id;
                 precioLente.IdLente = precio.IdLente;
-                precioLente.Esferico = precio.Esferico;
-                precioLente.Cilindrico = precio.Cilindrico;
+                precioLente.MedidaEsferico = precio.MedidaEsferico;
+                precioLente.MedidaCilindrico = precio.MedidaCilindrico;
                 this.preciosSeleccionados.push(precioLente);
               }
             }
@@ -169,8 +169,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
         let precioLente = <PrecioLente>{};
         precioLente.Id = pl.Precio[index].Id;
         precioLente.IdLente = lente.Id;
-        precioLente.Cilindrico = pl.Cilindrico;
-        precioLente.Esferico = pl.Esferico;
+        precioLente.MedidaCilindrico = pl.MedidaCilindrico;
+        precioLente.MedidaEsferico = pl.MedidaEsferico;
         this.preciosSeleccionados.push(precioLente);
         var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
         if (tienePorcentaje) {
@@ -201,8 +201,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
               precioLente.Id = p.Id;
               precioLente.IdLente = pl.IdLente;
               precioLente.IdLenteNavigation = pl.IdLenteNavigation;
-              precioLente.Esferico = pl.Esferico;
-              precioLente.Cilindrico = pl.Cilindrico
+              precioLente.MedidaEsferico = pl.MedidaEsferico;
+              precioLente.MedidaCilindrico = pl.MedidaCilindrico
               this.preciosSeleccionados.push(precioLente);
             }
           })
@@ -268,8 +268,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
         l.PrecioLente.forEach(pl => {
           if (pl.Precio[i] != undefined) {
             cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (this.preciosSeleccionados.some(p => p.Id == pl.Precio[i].Id && p.IdLente == pl.IdLente && p.Esferico == pl.Esferico
-              && p.Cilindrico == pl.Cilindrico)) {
+            if (this.preciosSeleccionados.some(p => p.Id == pl.Precio[i].Id && p.IdLente == pl.IdLente && p.MedidaEsferico == pl.MedidaEsferico
+              && p.MedidaCilindrico == pl.MedidaCilindrico)) {
               cantidadSeleccionados = cantidadSeleccionados + 1;
             }
           }
@@ -287,8 +287,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
         l.PrecioLente.forEach(pl => {
           if (pl.Precio[i] != undefined) {
           cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (this.preciosSeleccionados.some(p => p.Id == pl.Precio[i].Id && p.IdLente == pl.IdLente && p.Esferico == pl.Esferico
-              && p.Cilindrico == pl.Cilindrico)) {
+            if (this.preciosSeleccionados.some(p => p.Id == pl.Precio[i].Id && p.IdLente == pl.IdLente && p.MedidaEsferico == pl.MedidaEsferico
+              && p.MedidaCilindrico == pl.MedidaCilindrico)) {
               cantidadSeleccionados = cantidadSeleccionados + 1;
             }
           }
