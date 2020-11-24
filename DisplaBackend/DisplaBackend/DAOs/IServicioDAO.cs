@@ -18,6 +18,7 @@ namespace DisplaBackend.DAOs
         Servicio GetById(int idServicio);
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
         bool GenerarPrecioLista(int porcentaje, int lista);
+        List<Servicio> GetCalibrados();
     }
 
     public class ServicioDAO : IServicioDAO
@@ -224,6 +225,16 @@ namespace DisplaBackend.DAOs
             {
                 throw e;
             }
+        }
+
+        public List<Servicio> GetCalibrados()
+        {
+            return _context.Servicio
+                .Include(b => b.IdTipoServicioNavigation)
+                .Include(b => b.PrecioServicio)
+                .Where(b => b.Nombre.Contains("CAL"))
+                .OrderByDescending(b => b.Borrado)
+                .ToList();
         }
     }
 }

@@ -1,15 +1,16 @@
-import { Component, Inject, OnInit, EventEmitter, Output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Component, Inject, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatSelect } from '@angular/material';
 import { FormControl } from '@angular/forms';
-import { Observable, combineLatest } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { Observable, combineLatest, ReplaySubject, Subject } from 'rxjs';
+import { startWith, map, takeUntil, take } from 'rxjs/operators';
 import { Lente } from 'src/app/model/lente';
 import { LenteService } from 'src/services/lente.service';
-import { LimitesGrillaService } from 'src/services/limites.grilla.service';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
 import { ClienteService } from 'src/services/cliente.service';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 import { ValidacionLenteService } from 'src/services/validacion.lente.service';
+import { ServicioService } from 'src/services/servicio.service';
+import { Servicio } from 'src/app/model/servicio';
 
 @Component({
   selector: 'app-seleccion-lente',
@@ -29,10 +30,18 @@ export class SeleccionLenteComponent implements OnInit {
   msjCilindrico: boolean[] = [];
   msjLimiteEsferico: boolean[] = [];
   msjLimiteCilindrico: boolean[] = [];
+  servicios: Servicio[] = [];
+  serviciosControl = new FormControl();
+  bankMultiFilterCtrl: FormControl = new FormControl();
+  filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
 
+
+ _onDestroy = new Subject<void>();
+  @ViewChild('multiSelect', { static: true }) multiSelect: MatSelect;
   constructor(
     private lenteService: LenteService,
     private clienteService: ClienteService,
+    private servicioService: ServicioService,
     private validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       let cargarGraduacion= <ComprobanteItemLente>{};
@@ -100,6 +109,7 @@ export class SeleccionLenteComponent implements OnInit {
     if (control.value != null) {
       this.modelComprobanteItemLente[0].IdLente = control.value.Id;
       this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;
+      this.getCalibrados();
       // console.log(this.modelComprobanteItemLente[0].IdLenteNavigation)
       
     }
@@ -116,6 +126,37 @@ export class SeleccionLenteComponent implements OnInit {
         this.modelComprobanteItemLente[+i].Cantidad = 1;
       }
     })
+  }
+
+  getCalibrados(){
+    this.servicioService.getCalibrados()
+    .subscribe(s => {
+      this.servicios = s;
+    })
+
+    this.filteredServicios.next(this.servicios.slice());
+    this.bankMultiFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterServicios();
+      });
+  }
+
+  setInitialValue() {
+    this.filteredServicios
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        this.multiSelect.compareWith = (a: Servicio, b: Servicio) => a && b && a.Id === b.Id;
+      });
+  }
+
+  serviciosSeleccionados(event: MatOptionSelectionChange) {
+
   }
 
   agregarGraduacion() {
@@ -146,6 +187,24 @@ export class SeleccionLenteComponent implements OnInit {
     } else {
       return [];
     }
+  }
+
+  filterServicios() {
+    if (!this.servicios) {
+      return;
+    }
+    // get the search keyword
+    let search = this.bankMultiFilterCtrl.value;
+    if (!search) {
+      this.filteredServicios.next(this.servicios.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.filteredServicios.next(
+      this.servicios.filter(ser => ser.Id.toString().indexOf(search) !== -1 || ser.Nombre.toLowerCase().indexOf(search) > -1)
+    );
   }
 
   comprobanteItemLenteSelected() {

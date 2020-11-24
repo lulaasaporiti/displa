@@ -819,11 +819,11 @@ namespace DisplaBackend.DAOs
 
         public decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo) {
 
-            var tienePrecioEspecial = _context.PrecioLenteCliente.Where(pc => pc.IdPrecioLente == idLente && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
+            var tienePrecioEspecial = _context.PrecioLenteCliente.Where(pc => pc.IdPrecioLenteNavigation.IdLente == idLente && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
             if (tienePrecioEspecial == null)
             {
                 List<PrecioLenteCliente> precioClientes = _context.PrecioLenteCliente.Include(pc => pc.IdPrecioLenteNavigation)
-                    .Where(pc => pc.IdCliente == idCliente && pc.IdPrecioLente == idLente)
+                    .Where(pc => pc.IdCliente == idCliente && pc.IdPrecioLenteNavigation.IdLente == idLente)
                     .ToList();
                 PrecioLente precioProximo = precioMinimo;
                 foreach (var p in precioClientes)

@@ -16,6 +16,10 @@ export class ServicioService {
         return this.http.get(`${this.baseUrl}/GetServicios`);
     }
 
+    getCalibrados(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetCalibrados`);
+    }
+
     getServiciosVigentesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetServiciosVigentes`);
     }
@@ -37,7 +41,6 @@ export class ServicioService {
     }
 
     deleteServicio(id: number): Observable<any> {
-        console.log(id)
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 

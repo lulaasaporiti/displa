@@ -19,6 +19,7 @@ import { SeleccionServiciosComponent } from './factura-producto/producto-lente/s
 import { SeleccionRecargosComponent } from './factura-producto/producto-lente/seleccion-recargos/seleccion-recargos.component';
 import { FacturaFichaComponent } from './factura-ficha/factura-ficha.component';
 import { LenteVentaVirtualComponent } from './factura-producto/producto-lente/lente-venta-virtual/lente-venta-virtual.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
@@ -35,7 +36,8 @@ import { LenteVentaVirtualComponent } from './factura-producto/producto-lente/le
         MatTreeModule,
         FacturaRoutingModule,
         LoadingSpinnerModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        NgxMatSelectSearchModule
     ]
 })
 export class FacturaModule { }

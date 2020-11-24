@@ -142,6 +142,38 @@
             </mat-button-toggle-group>
         </div>
 
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFill>
+                <!-- <mat-label>Servicios</mat-label> -->
+                <!-- <mat-form-field> -->
+                    <mat-select [formControl]="serviciosControl" placeholder="Calibrados" [multiple]="true" #multiSelect>
+                      <mat-option>
+                        <ngx-mat-select-search [formControl]="bankMultiFilterCtrl"></ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let s of filteredServicios | async" [value]="s">
+                        {{s.Id}} - {{s.Nombre}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <!-- <mat-select [formControl]="c" name="servicios" id="servicios" multiple #ser
+                    (keyup.enter)="tabInventado($event, 'cantidad0')" placeholder="Servicios"
+                    (keydown.enter)="$event.stopImmediatePropagation()" required>
+                    <mat-option>
+                        <ngx-mat-select-search [formControl]="serviciosControl"></ngx-mat-select-search>
+                      </mat-option>
+                    <mat-select-trigger>
+                        {{(!ser.empty) ? ser.value[0].Id : ''}} - {{(!ser.empty)  ? ser.value[0].Nombre : ''}}
+                        <span *ngIf="ser.value?.length > 1" class="example-additional-selection">
+                            (+{{ser.value.length - 1}} {{ser.value?.length === 2 ? 'servicio' : 'más'}})
+                        </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let s of servicios" [value]="s"
+                        (onSelectionChange)="serviciosSeleccionados($event)">{{s.Id}} - {{s.Nombre}}</mat-option>
+                </mat-select> 
+                <mat-error *ngIf="serviciosControl.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field> -->
+        </div>
+
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <!-- <button mat-raised-button (click)="onNoClick()">Cancelar</button> -->
             <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" id="seleccionar"

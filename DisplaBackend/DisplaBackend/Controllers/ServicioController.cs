@@ -37,6 +37,14 @@ namespace DisplaBackend.Controllers
             return _servicioService.GetServicios();
         }
 
+        [HttpGet, Route("GetCalibrados")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetCalibrados()
+        {
+            return _servicioService.GetCalibrados();
+        }
+
+
         [HttpGet, Route("GetServiciosVigentes")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetServiciosVigentes()

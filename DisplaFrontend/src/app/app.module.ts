@@ -48,6 +48,7 @@ import { GestionPrecioModule } from './header/gestion-precio/gestion-precio.modu
 import { AsignacionPrecioClienteModule } from './asignacion-precio/asignacion-precio.module';
 import { FacturaModule } from './factura/factura.module';
 import { ModificacionParametrosModule } from './header/modificacion-parametros/modificacion-parametros.module';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 
 
@@ -96,6 +97,7 @@ import { ModificacionParametrosModule } from './header/modificacion-parametros/m
     ModificacionParametrosModule,
     MovimientoBlockModule,
     MovimientoInsumoModule,
+    NgxMatSelectSearchModule,
     ProveedorModule,
     ProvinciaModule,
     ServicioModule,

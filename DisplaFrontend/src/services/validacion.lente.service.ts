@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
 import { LimitesGrillaService } from './limites.grilla.service';
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Injectable({
     providedIn: 'root'
@@ -16,11 +15,10 @@ export class ValidacionLenteService {
         private limitesGrillaService: LimitesGrillaService
     ) { }
 
-    async getLimitesGrilla(lente):Promise<void> {
+    getLimitesGrilla(lente) {
         let idLimiteDerecha;
         let idLimiteIzquierda;
-        console.log(lente)
-        let combinacion = lente.IdLenteNavigation.Combinacion.split("  / ");
+        let combinacion = lente.Combinacion.split("  / ");
         if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
         else idLimiteIzquierda = 3;
         if (combinacion[1] == '- +') idLimiteDerecha = 2;
@@ -28,19 +26,15 @@ export class ValidacionLenteService {
         combineLatest(
             this.limitesGrillaService.getById(idLimiteIzquierda),
             this.limitesGrillaService.getById(idLimiteDerecha)
-        ).subscribe(async result => {
-            await setTimeout(() => {
-                 this.limiteGrillaIzquierda = result[0];
-                 this.limiteGrillaDerecha = result[1];
-                // await this.limiteGrillaDerecha != undefined;
-                // await this.limiteGrillaIzquierda != undefined;
-            }, 100000);
+        ).subscribe(result => {
+            this.limiteGrillaIzquierda = result[0];
+            this.limiteGrillaDerecha = result[1];
         });
     }
 
     compararLimiteGrilla(lente, medida, tipoGraduacion) {
         if (lente != undefined) {
-            let combinacion = lente.IdLenteNavigation.Combinacion.split("  / ");
+            let combinacion = lente.Combinacion.split("  / ");
             if ((this.limiteGrillaDerecha == undefined && this.limiteGrillaIzquierda == undefined) || combinacion[0] != this.limiteGrillaIzquierda.Combinacion) {
                 this.getLimitesGrilla(lente);
             }
