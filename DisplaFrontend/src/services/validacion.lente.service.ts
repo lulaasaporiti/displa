@@ -32,12 +32,13 @@ export class ValidacionLenteService {
             this.limitesGrillaService.getById(idLimiteDerecha)
         ).subscribe(async result => {
             await setTimeout(() => {
-                this.limiteGrillaIzquierda = result[0];
-                this.limiteGrillaDerecha = result[1];
+                 this.limiteGrillaIzquierda = result[0];
+                 this.limiteGrillaDerecha = result[1];
                 // await this.limiteGrillaDerecha != undefined;
                 // await this.limiteGrillaIzquierda != undefined;
-            }, 3000);
+            }, 100000);
         });
+
     }
 
     compararLimiteGrilla(lente, medida, tipoGraduacion) {
