@@ -56,7 +56,7 @@ namespace DisplaBackend.DAOs
                     Combinacion = l.Combinacion,
                     PrecioLente = l.PrecioLente
                         .Where(p => p.PrecioLenteCliente.Where(pc => pc.Especial == true).Count() == 0)
-                        .Select(p => new PrecioLente { Id = p.Id, Precio = p.Precio, IdLente = p.IdLente, PrecioLenteCliente = p.PrecioLenteCliente, Cilindrico = p.Cilindrico, Esferico = p.Esferico })
+                        .Select(p => new PrecioLente { Id = p.Id, Precio = p.Precio, IdLente = p.IdLente, PrecioLenteCliente = p.PrecioLenteCliente, MedidaCilindrico = p.MedidaCilindrico, MedidaEsferico = p.MedidaEsferico })
                         .OrderBy(p => p.Precio).ToList()
                 })
                 .ToList();
@@ -79,12 +79,12 @@ namespace DisplaBackend.DAOs
                         .GroupBy(p => new
                         {
                             IdLente = p.IdLente,
-                            Esferico = p.Esferico,
-                            Cilindrico = p.Cilindrico
+                            Esferico = p.MedidaEsferico,
+                            Cilindrico = p.MedidaCilindrico
                         })
                         .Select(p => new
                         {
-                            Precio = _context.PrecioLente.Where(pl => pl.IdLente == p.Key.IdLente && pl.Esferico == p.Key.Esferico && pl.Cilindrico == p.Key.Cilindrico)
+                            Precio = _context.PrecioLente.Where(pl => pl.IdLente == p.Key.IdLente && pl.MedidaEsferico == p.Key.Esferico && pl.MedidaCilindrico == p.Key.Cilindrico)
                                 .OrderBy(pl => pl.Precio)
                                 .Select(pl => new { pl.Id, pl.Precio }).ToArray<dynamic>(),
                             IdLente = p.Key.IdLente,
@@ -134,8 +134,8 @@ namespace DisplaBackend.DAOs
                             }
                         }
                         precio.Precio = Math.Round(p.Precio[0].Precio + ((p.Precio[0].Precio * porcentaje) / 100), 2);
-                        precio.Esferico = p.Esferico;
-                        precio.Cilindrico = p.Cilindrico;
+                        precio.MedidaEsferico = p.Esferico;
+                        precio.MedidaCilindrico = p.Cilindrico;
                         precio.IdLente = p.IdLente;
 
                         precios.Add(precio);
@@ -176,6 +176,9 @@ namespace DisplaBackend.DAOs
                         //p.Precio = p.Precio;
                         //p.Cilindrico = p.Cilindrico;
                         //p.Esferico = p.Esferico;
+                        if (lente.GraduacionesCilindricas == '-'.ToString()) {
+                            p.MedidaCilindrico = 0 - p.MedidaCilindrico;
+                        }
                         _context.PrecioLente.Add(p);
                     });
 
@@ -202,13 +205,21 @@ namespace DisplaBackend.DAOs
                         {
                             if (p.Id == 0)
                             {
+                                if (lente.GraduacionesCilindricas == '-'.ToString())
+                                {
+                                    p.MedidaCilindrico = 0 - p.MedidaCilindrico;
+                                }
                                 _context.PrecioLente.Add(p);
                             }
                             else
                             {
-                                var precioBBDD = _context.PrecioLente.AsNoTracking().FirstOrDefault(pl => pl.Id == p.Id && pl.Esferico == p.Esferico && pl.Cilindrico == p.Cilindrico);
+                                var precioBBDD = _context.PrecioLente.AsNoTracking().FirstOrDefault(pl => pl.Id == p.Id && pl.MedidaEsferico == p.MedidaEsferico && pl.MedidaCilindrico == p.MedidaCilindrico);
                                 if (precioBBDD != null)
                                 {
+                                    if (lente.GraduacionesCilindricas == '-'.ToString())
+                                    {
+                                        p.MedidaCilindrico = 0 - p.MedidaCilindrico;
+                                    }
                                     _context.PrecioLente.Update(p);
                                 }
                             }
@@ -314,7 +325,7 @@ namespace DisplaBackend.DAOs
         }
 
         public PrecioLente GetPrecioMinimo(int idLente) {
-            return _context.PrecioLente.Where(p => p.IdLente == idLente).OrderBy(p => p.Cilindrico).ThenBy(p => p.Esferico).FirstOrDefault();
+            return _context.PrecioLente.Where(p => p.IdLente == idLente).OrderBy(p => p.MedidaCilindrico).ThenBy(p => p.MedidaEsferico).FirstOrDefault();
         }
 
         public List<RecargoLente> GetRecargoLente(int idLente)

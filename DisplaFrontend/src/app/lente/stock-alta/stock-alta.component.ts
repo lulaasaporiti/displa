@@ -21,7 +21,6 @@ export class StockAltaComponent implements OnInit {
     private stockLenteService: StockLenteService,
     private validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(data)
     this.agregarStock();
   }
 
@@ -36,6 +35,7 @@ export class StockAltaComponent implements OnInit {
   agregarStock() {
     let item = <StockLente>{};
     item.IdLente = this.data.modelStock[0].IdLente;
+    item.IdLenteNavigation = this.data.lente;
     this.cargarStock.push(item);
     this.msjCilindrico.push(false);
     this.msjLimiteEsferico.push(false);
@@ -75,20 +75,6 @@ export class StockAltaComponent implements OnInit {
       });
   }
 
-  divisionMedida(event, tipoGraduacion){
-    // if (tipoGraduacion == 'esferico') {
-    //   if (this.cargarStock[event].MedidaEsferico != undefined) {
-    //     var lala = +this.cargarStock[event].MedidaEsferico;
-    //     this.cargarStock[event].MedidaEsferico = +((lala * 100 / 100).toFixed(3));
-    //     console.log(this.cargarStock[event].MedidaEsferico)
-    //   } 
-    // } else {
-    //   if (this.cargarStock[event].MedidaCilindrico != undefined) {
-    //     this.cargarStock[event].MedidaCilindrico = this.cargarStock[event].MedidaCilindrico / 100;
-    //   }
-    // }
-  }
-
   _keyPress(event: any) {
     const pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -105,7 +91,5 @@ export class StockAltaComponent implements OnInit {
     else {
       this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
     }
-    console.log(this.msjLimiteEsferico[index])
   }
-
 }

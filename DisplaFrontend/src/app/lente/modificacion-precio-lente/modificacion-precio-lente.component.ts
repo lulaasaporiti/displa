@@ -38,8 +38,8 @@ export class ModificacionPrecioLenteComponent implements OnInit {
   agregarPrecio(i) {
     let item = <PrecioLente>{};
     item.IdLente = this.modelLente.Id;
-    item.Esferico = this.modelPrecio[i].Esferico;
-    item.Cilindrico = this.modelPrecio[i].Cilindrico;
+    item.MedidaEsferico = this.modelPrecio[i].MedidaEsferico;
+    item.MedidaCilindrico = this.modelPrecio[i].MedidaCilindrico;
     this.modelPrecio.push(item);
   }
 

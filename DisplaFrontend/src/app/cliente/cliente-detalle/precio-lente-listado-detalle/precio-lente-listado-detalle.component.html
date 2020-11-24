@@ -22,7 +22,7 @@
           <div fxLayout="column">
             <div *ngFor="let precio of row.PrecioLente; let j = index" fxLayout="row">
               <mat-checkbox *ngIf="row.PrecioLente[j].Precio[i] != undefined" name="checkbox{{i}}"
-               [checked]="chequear(row.PrecioLente[j].Precio[i].Id)"  matTooltip="Esférico: {{row.PrecioLente[j].Esferico}} Cilíndrico: {{row.PrecioLente[j].Cilindrico}}"
+               [checked]="chequear(row.PrecioLente[j].Precio[i].Id)"  matTooltip="Esférico: {{row.PrecioLente[j].MedidaEsferico}} Cilíndrico: {{row.PrecioLente[j].MedidaCilindrico}}"
                disabled>
                 {{row.PrecioLente[j].Precio[i].Precio}} 
               </mat-checkbox>

@@ -13,8 +13,8 @@ namespace DisplaBackend.Models
         public int Id { get; set; }
         public int IdLente { get; set; }
         public decimal Precio { get; set; }
-        public decimal Esferico { get; set; }
-        public decimal Cilindrico { get; set; }
+        public decimal MedidaEsferico { get; set; }
+        public decimal MedidaCilindrico { get; set; }
         public decimal? CostoPar { get; set; }
 
         public virtual Lente IdLenteNavigation { get; set; }

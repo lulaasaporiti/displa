@@ -255,8 +255,7 @@ export class GrillaComponent {
     const dialogRef = this.dialog.open(StockAltaComponent, {
       width: '700px',
       height: '650px',
-      data: { modelStock: this.stock, descripcion: this.lente.Nombre, graduacionCilindrica: this.lente.GraduacionesCilindricas,
-        limiteGrillaIzquierda: this.limiteGrillaIzquierda, limiteGrillaDerecha: this.limiteGrillaDerecha }
+      data: { modelStock: this.stock, lente: this.lente }
     });
     dialogRef.afterClosed().subscribe(result => {
       this.loadingSpinnerService.show();

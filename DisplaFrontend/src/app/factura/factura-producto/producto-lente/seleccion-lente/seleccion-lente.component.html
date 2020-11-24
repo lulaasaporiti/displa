@@ -14,45 +14,74 @@
         </div>
             <!-- ///////////////////////  PRIMERA GRADUACION  ////////////////////////////// -->
         <div mat-dialog-content fxLayout="row" fxLayoutGap="12px">
-            <div mat-dialog-content fxLayoutGap="15px">
-                <mat-form-field fxFlex="50">
-                    <input matInput placeholder="Medida esférico" [(ngModel)]="modelComprobanteItemLente[0].Esferico"
-                        id="esferico0" name="esferico0" #esferico0="ngModel" (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico0')" required>
-                    <mat-error *ngIf="esferico0.invalid">Este campo es obligatorio.</mat-error>
-                </mat-form-field>
-                <mat-form-field fxFlex="50">
-                    <input matInput placeholder="Medida cilindríco"
-                        [(ngModel)]="modelComprobanteItemLente[0].Cilindrico" id="cilindrico0" (blur)="traerPrecio(0)"
-                        (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0" #cilindrico0="ngModel"
-                        (keypress)="_keyPress($event)" required>
-                    <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio.</mat-error>
-                </mat-form-field>
+            <div mat-dialog-content fxLayoutGap="15px" fxLayout="row">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input type="text" placeholder="Medida esférico" matInput 
+                            autocomplete="off" [(ngModel)]="modelComprobanteItemLente[0].MedidaEsferico" id="esferico0" name="esferico0" #esferico0="ngModel"
+                            required (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico0')"
+                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaEsferico, 'esferico')"
+                            (input)="compararLimiteGrilla(0, 'esferico')">
+                        <mat-error *ngIf="esferico0.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+                    <p class="msjError" *ngIf="msjLimiteEsferico[0]">
+                        La medida no se encuentra dentro de los límites.</p>
+                </div>
+
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input type="text" placeholder="Medida cilindríco" matInput 
+                            autocomplete="off" [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico"  id="cilindrico0" (blur)="traerPrecio(0)"
+                            (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0" #cilindrico0="ngModel"
+                            (keypress)="_keyPress($event)" required (input)="compararLimiteGrilla(0, 'cilindrico')"
+                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico')">
+                        <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+                    <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(modelComprobanteItemLente[0], modelComprobanteItemLente[0].IdLenteNavigation)">La medida
+                            no respeta el signo de la lente.</p>
+                    <p class="msjError" *ngIf="msjLimiteCilindrico[0]">
+                        La medida no se encuentra dentro de los límites.</p>
+                </div>
             </div>
             <!-- ///////////////////////  FIN PRIMERA GRADUACION  ////////////////////////////// -->
 
 
             <!-- ///////////////////////  SEGUNDA GRADUACION  ////////////////////////////// -->
-            <div mat-dialog-content fxLayoutGap="15px" *ngIf="modelComprobanteItemLente.length == 2">
-                <mat-form-field fxFlex="50">
-                    <input matInput placeholder="Medida esférico" [(ngModel)]="modelComprobanteItemLente[1].Esferico"
-                        id="esferico1" name="esferico1" #esferico1="ngModel"
-                        (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico1')" required>
-                    <mat-error *ngIf="esferico1.invalid">Este campo es obligatorio.</mat-error>
-                </mat-form-field>
+            <div mat-dialog-content fxLayoutGap="15px" *ngIf="modelComprobanteItemLente.length == 2" fxLayout="row">
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input type="text" placeholder="Medida esférico" matInput 
+                            autocomplete="off" [(ngModel)]="modelComprobanteItemLente[1].MedidaEsferico" id="esferico1" name="esferico1" #esferico1="ngModel"
+                            required (keypress)="_keyPress($event)" (keyup.enter)="tabInventado($event, 'cilindrico1')"
+                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaEsferico, 'esferico')"
+                            (input)="compararLimiteGrilla(1, 'esferico')">
+                        <mat-error *ngIf="esferico1.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+                    <p class="msjError" *ngIf="msjLimiteEsferico[1]">
+                        La medida no se encuentra dentro de los límites.</p>
+                </div>
 
-                <mat-form-field fxFlex="45">
-                    <input matInput placeholder="Medida cilindríco"
-                        [(ngModel)]="modelComprobanteItemLente[1].Cilindrico" id="cilindrico1" (blur)="traerPrecio(1)"
-                        (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1" #cilindrico1="ngModel"
-                        (keypress)="_keyPress($event)" required>
-                    <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio.</mat-error>
-
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input type="text" placeholder="Medida cilindríco" matInput 
+                            autocomplete="off" [(ngModel)]="modelComprobanteItemLente[1].MedidaCilindrico"  id="cilindrico1" (blur)="traerPrecio(1)"
+                            (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1" #cilindrico1="ngModel"
+                            (keypress)="_keyPress($event)" required (input)="compararLimiteGrilla(1, 'cilindrico')"
+                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')">
+                        <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+                    <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(modelComprobanteItemLente[1], modelComprobanteItemLente[0].IdLenteNavigation)">La medida
+                        no respeta el signo de la lente.</p>
+                    <p class="msjError" *ngIf="msjLimiteCilindrico[1]">
+                        La medida no se encuentra dentro de los límites.</p>
+                </div>
+                <!-- <mat-form-field fxFlex="45"> -->
                     <button mat-button matSuffix mat-icon-button aria-label="Clear"
                         (click)="eliminarUltimaGraduacion(1)" [disabled]="modelComprobanteItemLente.length < 1"
                         color="accent">
                         <mat-icon>close</mat-icon>
                     </button>
-                </mat-form-field>
+                <!-- </mat-form-field> -->
             </div>
             <!-- /////////////////////// FIN SEGUNDA GRADUACION  ////////////////////////////// -->
 

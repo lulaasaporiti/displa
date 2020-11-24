@@ -417,7 +417,7 @@ namespace DisplaBackend.DAOs
                     foreach (var pc in preciosClientes)
                     {
                         if (pc.IdPrecioLente != p.IdPrecioLente && pc.IdPrecioLenteNavigation.IdLente == p.IdPrecioLenteNavigation.IdLente && pc.Especial != true && p.Especial != true
-                            && pc.IdPrecioLenteNavigation.Esferico == p.IdPrecioLenteNavigation.Esferico && pc.IdPrecioLenteNavigation.Cilindrico == p.IdPrecioLenteNavigation.Cilindrico)
+                            && pc.IdPrecioLenteNavigation.MedidaEsferico == p.IdPrecioLenteNavigation.MedidaEsferico && pc.IdPrecioLenteNavigation.MedidaCilindrico == p.IdPrecioLenteNavigation.MedidaCilindrico)
                             preciosABorrar.Add(pc);
                     }
                     if (p.IdPrecioLente == 0 && p.Especial == true)
@@ -588,7 +588,7 @@ namespace DisplaBackend.DAOs
                                 else
                                 {
                                     var precioBBDD = preciosClienteBBDD.Find(plc => plc.IdPrecioLente != precioLente.IdPrecioLente &&
-                                     (plc.IdPrecioLenteNavigation.IdLente == idLente && plc.IdPrecioLenteNavigation.Esferico == Esferico && plc.IdPrecioLenteNavigation.Cilindrico == Cilindrico));
+                                     (plc.IdPrecioLenteNavigation.IdLente == idLente && plc.IdPrecioLenteNavigation.MedidaEsferico == Esferico && plc.IdPrecioLenteNavigation.MedidaCilindrico == Cilindrico));
                                     if (precioBBDD != null)
                                     {
                                         precioLente.Id = precioBBDD.Id;
@@ -828,9 +828,9 @@ namespace DisplaBackend.DAOs
                 PrecioLente precioProximo = precioMinimo;
                 foreach (var p in precioClientes)
                 {
-                    if (p.IdPrecioLenteNavigation.Esferico >= Esferico && p.IdPrecioLenteNavigation.Cilindrico >= Cilindrico)
+                    if (p.IdPrecioLenteNavigation.MedidaEsferico >= Esferico && p.IdPrecioLenteNavigation.MedidaCilindrico >= Cilindrico)
                     {
-                        if (precioProximo.Esferico >= p.IdPrecioLenteNavigation.Esferico && precioProximo.Cilindrico >= p.IdPrecioLenteNavigation.Cilindrico)
+                        if (precioProximo.MedidaEsferico >= p.IdPrecioLenteNavigation.MedidaEsferico && precioProximo.MedidaCilindrico >= p.IdPrecioLenteNavigation.MedidaCilindrico)
                         {
                             precioProximo = p.IdPrecioLenteNavigation;
                         }

@@ -31,8 +31,8 @@ export class ProductoLenteComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       // let cargarGraduacion= <ComprobanteItemLente>{};
-      // cargarGraduacion.Esferico = 0;
-      // cargarGraduacion.Cilindrico = 0;
+      // cargarGraduacion.MedidaEsferico = 0;
+      // cargarGraduacion.MedidaCilindrico = 0;
       // this.modelComprobanteItemLente.push(cargarGraduacion);
   }
 

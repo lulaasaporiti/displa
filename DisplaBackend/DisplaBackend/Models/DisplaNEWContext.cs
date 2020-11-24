@@ -476,17 +476,17 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
 
-                entity.Property(e => e.Cilindrico)
-                    .HasColumnName("cilindrico")
-                    .HasColumnType("decimal(3, 2)");
-
-                entity.Property(e => e.Esferico)
-                    .HasColumnName("esferico")
-                    .HasColumnType("decimal(3, 2)");
-
                 entity.Property(e => e.IdComprobanteItem).HasColumnName("idComprobanteItem");
 
                 entity.Property(e => e.IdLente).HasColumnName("idLente");
+
+                entity.Property(e => e.MedidaCilindrico)
+                    .HasColumnName("medidaCilindrico")
+                    .HasColumnType("decimal(3, 2)");
+
+                entity.Property(e => e.MedidaEsferico)
+                    .HasColumnName("medidaEsferico")
+                    .HasColumnType("decimal(3, 2)");
 
                 entity.Property(e => e.Precio).HasColumnName("precio");
 
@@ -881,19 +881,19 @@ namespace DisplaBackend.Models
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Cilindrico)
-                    .HasColumnName("cilindrico")
-                    .HasColumnType("decimal(6, 2)");
-
                 entity.Property(e => e.CostoPar)
                     .HasColumnName("costoPar")
                     .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.Esferico)
-                    .HasColumnName("esferico")
+                entity.Property(e => e.IdLente).HasColumnName("idLente");
+
+                entity.Property(e => e.MedidaCilindrico)
+                    .HasColumnName("medidaCilindrico")
                     .HasColumnType("decimal(6, 2)");
 
-                entity.Property(e => e.IdLente).HasColumnName("idLente");
+                entity.Property(e => e.MedidaEsferico)
+                    .HasColumnName("medidaEsferico")
+                    .HasColumnType("decimal(6, 2)");
 
                 entity.Property(e => e.Precio)
                     .HasColumnName("precio")

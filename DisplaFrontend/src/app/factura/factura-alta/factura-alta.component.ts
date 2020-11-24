@@ -225,8 +225,8 @@ export class FacturaAltaComponent implements OnInit {
       item.Cantidad = item.Cantidad + p.Cantidad;
       item.Monto = item.Monto + (p.Cantidad * p.Precio);
       itemLente.Cantidad = p.Cantidad;
-      itemLente.Cilindrico = p.Cilindrico;
-      itemLente.Esferico = p.Esferico;
+      itemLente.MedidaCilindrico = p.MedidaCilindrico;
+      itemLente.MedidaEsferico = p.MedidaEsferico;
       item.ComprobanteItemLente.push(itemLente);
     })
     this.dataSource.data = this.dataSource.data.concat(item);

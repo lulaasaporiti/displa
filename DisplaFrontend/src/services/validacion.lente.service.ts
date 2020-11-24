@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';
 import { LimitesGrillaService } from './limites.grilla.service';
 import { async } from 'rxjs/internal/scheduler/async';
@@ -38,7 +36,6 @@ export class ValidacionLenteService {
                 // await this.limiteGrillaIzquierda != undefined;
             }, 100000);
         });
-
     }
 
     compararLimiteGrilla(lente, medida, tipoGraduacion) {
@@ -52,7 +49,7 @@ export class ValidacionLenteService {
             if (tipoGraduacion == 'esferico') {
                 console.log(this.limiteGrillaIzquierda)
                 if ((+medida / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico)) {
-                    this.divisionMedida(lente, medida, tipoGraduacion);
+                    console.log(((+medida / 100) % 0.25) != 0)
                     return ((+medida / 100) % 0.25) != 0;
                 }
                 else {
@@ -70,12 +67,13 @@ export class ValidacionLenteService {
         }
     }
 
-    compararGraduacion(lente) {
-        if (+lente.MedidaCilindrico > 0 && lente.IdLenteNavigation.GraduacionesCilindricas == '-') {
+    //Recibe dos tipos de modelo distintos, cargaStock y modelPrecio
+    compararGraduacion(stockPrecio, lente) {
+        if (+stockPrecio.MedidaCilindrico > 0 && lente.GraduacionesCilindricas == '-') {
             return true;
         }
         else {
-            if (0 > +lente.MedidaCilindrico && lente.IdLenteNavigation.GraduacionesCilindricas == '+') {
+            if (0 > +stockPrecio.MedidaCilindrico && lente.GraduacionesCilindricas == '+') {
                 return true;
             }
             return false;
@@ -83,22 +81,14 @@ export class ValidacionLenteService {
     }
 
     divisionMedida(lente, medida, tipoGraduacion) {
-        // if (lente != undefined) {
-        //     let combinacion = lente.IdLenteNavigation.Combinacion.split("  / ");
-        //     if ((this.limiteGrillaDerecha == undefined && this.limiteGrillaIzquierda == undefined) || combinacion[0] != this.limiteGrillaIzquierda.Combinacion) {
-        //         this.getLimitesGrilla(lente);
-        //     }
-        // }
         if (medida != undefined && !medida.includes('.')) {
             if (tipoGraduacion == 'esferico') {
-                if (medida != undefined) {
-                    lente.MedidaEsferico = (+medida / 100).toFixed(2);
-                }
+                lente.MedidaEsferico = (+medida / 100).toFixed(2);
+
             } else {
-                if (medida != undefined) {
-                    lente.MedidaCilindrico = (+medida / 100).toFixed(2);
-                }
+                lente.MedidaCilindrico = (+medida / 100).toFixed(2);
             }
         }
     }
+
 }

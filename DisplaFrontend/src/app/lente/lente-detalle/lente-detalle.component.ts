@@ -51,14 +51,6 @@ export class LenteDetalleComponent {
     this.modelPrecio.push(item);
   }
 
-  agregarPrecio(i) {
-    let item = <PrecioLente>{};
-    item.IdLente = this.modelLente.Id;
-    item.Esferico = this.modelPrecio[i].Esferico;
-    item.Cilindrico = this.modelPrecio[i].Cilindrico;
-    this.modelPrecio.push(item);
-  }
-
   eliminarPrecio(index) {
     this.modelPrecio.splice(index, 1);
     this.updateStatePrecio();

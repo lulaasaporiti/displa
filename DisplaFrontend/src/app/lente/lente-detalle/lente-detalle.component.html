@@ -62,12 +62,12 @@
                 *ngFor="let p of modelPrecio; let i = index">
                 <mat-form-field>
                     <input type="text" placeholder="Esférico" matInput #inputEsferico="ngModel" 
-                        [(ngModel)]="p.Esferico" id="esferico{{i}}" name="esferico{{i}}" disabled>
+                        [(ngModel)]="p.MedidaEsferico" id="esferico{{i}}" name="esferico{{i}}" disabled>
                 </mat-form-field>
 
                 <mat-form-field>
                     <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" 
-                        [(ngModel)]="p.Cilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" disabled>
+                        [(ngModel)]="p.MedidaCilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" disabled>
                 </mat-form-field>
 
                 <mat-form-field>
