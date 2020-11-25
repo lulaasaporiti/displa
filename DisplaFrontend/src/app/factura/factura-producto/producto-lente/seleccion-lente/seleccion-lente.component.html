@@ -23,7 +23,7 @@
                             (keyup.enter)="tabInventado($event, 'cilindrico0')"
                             (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaEsferico, 'esferico')"
                             (input)="compararLimiteGrilla(0, 'esferico')"
-                            [disabled]="modelComprobanteItemLente[0].IdLente == undefined">
+                            [disabled]="deshabilitar">
                         <mat-error *ngIf="esferico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <p class="msjError" *ngIf="msjLimiteEsferico[0]">
@@ -37,7 +37,7 @@
                             (blur)="traerPrecio(0)" (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0"
                             #cilindrico0="ngModel" (keypress)="_keyPress($event)" required
                             (input)="compararLimiteGrilla(0, 'cilindrico')"
-                            [disabled]="modelComprobanteItemLente[0].IdLente == undefined"
+                            [disabled]="deshabilitar"
                             (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico')">
                         <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
@@ -80,8 +80,7 @@
                     </mat-form-field>
                     <p class="msjError"
                         *ngIf="validacionLenteService.compararGraduacion(modelComprobanteItemLente[1], modelComprobanteItemLente[0].IdLenteNavigation)">
-                        La medida
-                        no respeta el signo de la lente.</p>
+                        La medida no respeta el signo de la lente.</p>
                     <p class="msjError" *ngIf="msjLimiteCilindrico[1]">
                         La medida no se encuentra dentro de los límites.</p>
                 </div>
@@ -142,11 +141,17 @@
 
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFill>
-                <mat-select [formControl]="serviciosControl" placeholder="Calibrados" [multiple]="true" #multiSelect
+                <mat-select [formControl]="serviciosControl" placeholder="Calibrados" [multiple]="true" #ser
                     (keydown.enter)="$event.stopImmediatePropagation()" id="calibrado" (keyup.enter)="comprobanteItemLenteSelected()">
                     <mat-option>
                         <ngx-mat-select-search [formControl]="bankMultiFilterCtrl"></ngx-mat-select-search>
                     </mat-option>
+                    <mat-select-trigger>
+                        {{(!ser.empty) ? ser.value[0].Id : ''}} - {{(!ser.empty)  ? ser.value[0].Nombre : ''}}
+                        <span *ngIf="ser.value?.length > 1" class="example-additional-selection">
+                            (+{{ser.value.length - 1}} {{ser.value?.length === 2 ? 'servicio' : 'más'}})
+                        </span>
+                    </mat-select-trigger>
                     <mat-option *ngFor="let s of filteredServicios | async" [value]="s"
                         (onSelectionChange)="serviciosSeleccionados($event)">
                         {{s.Id}} - {{s.Nombre}}
@@ -154,6 +159,9 @@
                 </mat-select>
             </mat-form-field>
         </div>
+
+
+        
 
         <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2"
             class="agregar-graduacion">

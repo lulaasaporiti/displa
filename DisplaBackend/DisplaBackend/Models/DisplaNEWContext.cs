@@ -32,6 +32,8 @@ namespace DisplaBackend.Models
         public virtual DbSet<ComprobanteCliente> ComprobanteCliente { get; set; }
         public virtual DbSet<ComprobanteItem> ComprobanteItem { get; set; }
         public virtual DbSet<ComprobanteItemLente> ComprobanteItemLente { get; set; }
+        public virtual DbSet<ComprobanteItemRecargo> ComprobanteItemRecargo { get; set; }
+        public virtual DbSet<ComprobanteItemServicio> ComprobanteItemServicio { get; set; }
         public virtual DbSet<CondicionVenta> CondicionVenta { get; set; }
         public virtual DbSet<Ficha> Ficha { get; set; }
         public virtual DbSet<Gasto> Gasto { get; set; }
@@ -65,6 +67,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -501,6 +504,56 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdLente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ComprobanteItemLente_Lente");
+            });
+
+            modelBuilder.Entity<ComprobanteItemRecargo>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdComprobanteItem).HasColumnName("idComprobanteItem");
+
+                entity.Property(e => e.IdRecargo).HasColumnName("idRecargo");
+
+                entity.Property(e => e.Monto)
+                    .HasColumnName("monto")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.IdComprobanteItemNavigation)
+                    .WithMany(p => p.ComprobanteItemRecargo)
+                    .HasForeignKey(d => d.IdComprobanteItem)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecargoComprobanteItem_ComprobanteItem");
+
+                entity.HasOne(d => d.IdRecargoNavigation)
+                    .WithMany(p => p.ComprobanteItemRecargo)
+                    .HasForeignKey(d => d.IdRecargo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecargoComprobanteItem_RecargoLente");
+            });
+
+            modelBuilder.Entity<ComprobanteItemServicio>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdComprobanteItem).HasColumnName("idComprobanteItem");
+
+                entity.Property(e => e.IdServicio).HasColumnName("idServicio");
+
+                entity.Property(e => e.Monto)
+                    .HasColumnName("monto")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.IdComprobanteItemNavigation)
+                    .WithMany(p => p.ComprobanteItemServicio)
+                    .HasForeignKey(d => d.IdComprobanteItem)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ComprobanteItemServicio_ComprobanteItem");
+
+                entity.HasOne(d => d.IdServicioNavigation)
+                    .WithMany(p => p.ComprobanteItemServicio)
+                    .HasForeignKey(d => d.IdServicio)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ComprobanteItemServicio_Servicio");
             });
 
             modelBuilder.Entity<CondicionVenta>(entity =>

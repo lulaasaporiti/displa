@@ -8,6 +8,7 @@ namespace DisplaBackend.Models
         public Servicio()
         {
             ComprobanteItem = new HashSet<ComprobanteItem>();
+            ComprobanteItemServicio = new HashSet<ComprobanteItemServicio>();
             PrecioServicio = new HashSet<PrecioServicio>();
             VentaVirtual = new HashSet<VentaVirtual>();
         }
@@ -19,6 +20,7 @@ namespace DisplaBackend.Models
 
         public virtual TipoServicio IdTipoServicioNavigation { get; set; }
         public virtual ICollection<ComprobanteItem> ComprobanteItem { get; set; }
+        public virtual ICollection<ComprobanteItemServicio> ComprobanteItemServicio { get; set; }
         public virtual ICollection<PrecioServicio> PrecioServicio { get; set; }
         public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
     }

@@ -34,7 +34,7 @@ export class SeleccionLenteComponent implements OnInit {
   serviciosControl = new FormControl();
   bankMultiFilterCtrl: FormControl = new FormControl();
   filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
-
+  deshabilitar: boolean = true;
 
  _onDestroy = new Subject<void>();
   @ViewChild('multiSelect', { static: true }) multiSelect: MatSelect;
@@ -60,9 +60,10 @@ export class SeleccionLenteComponent implements OnInit {
           startWith(''),
           map(val => this.filterLente(val))
         );
+      document.getElementById("lente").focus();
+
     });
     this.getCalibrados();
-
   }
 
   ngAfterViewInit() {
@@ -87,6 +88,8 @@ export class SeleccionLenteComponent implements OnInit {
     if (event.code == "Enter") {
       event.preventDefault();
       document.getElementById(idElement).focus();
+      if (idElement == "esferico0")
+        this.deshabilitar = false;
       if(idElement == "remove"){
         document.getElementById(idElement).style.backgroundColor="#e0e0e0";
       }
