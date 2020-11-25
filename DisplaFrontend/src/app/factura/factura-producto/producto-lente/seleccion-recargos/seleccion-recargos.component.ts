@@ -1,5 +1,8 @@
 import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
+import { RecargoLente } from 'src/app/model/recargoLente';
 import { LenteService } from 'src/services/lente.service';
+import { SessionService } from 'src/services/session.service';
 
 @Component({
   selector: 'app-seleccion-recargos',
@@ -7,24 +10,33 @@ import { LenteService } from 'src/services/lente.service';
   styleUrls: ['./seleccion-recargos.component.css']
 })
 export class SeleccionRecargosComponent implements OnInit {
-  @Input() selectedLente: number;
+  @Input() selectedLente: any[];
+  dataSource = new MatTableDataSource<RecargoLente>();
+  displayedColumns: string[] = ['Descripcion', 'Porcentaje', 'Seleccionar'];
+  modelLente: any[] = [];
+  recargosSeleccionados: RecargoLente[];
+  
 
 
-
-  constructor(private lenteService: LenteService) {
-    console.log(this.selectedLente)
+  constructor(
+    private lenteService: LenteService,
+    private sessionService: SessionService,
+    ) {
   }
 
 
   ngOnInit() {
-    console.log(this.selectedLente)
+    this.recargosSeleccionados = [];
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
-    console.log(changes.selectedLente.currentValue)
-    if (changes.selectedLente.currentValue != null) {
-    }
+      if (changes.selectedLente.currentValue.length > 0) {
+        this.modelLente = changes.selectedLente.currentValue;
+        this.lenteService.getRecargoLente(changes.selectedLente.currentValue[0].IdLente)
+          .subscribe(r => {
+            this.dataSource.data = r;
+          })
+      }
 }
 
   _keyPress(event: any) {
@@ -43,6 +55,30 @@ export class SeleccionRecargosComponent implements OnInit {
       document.getElementById(idElement).focus();
     }
   }
+
+  deshabilitarCheck(option){
+    let optionEsta = this.recargosSeleccionados.includes(option);
+      if (this.recargosSeleccionados.length == 2) {
+        if (optionEsta){
+          return false;
+        }
+        else {
+          return true;
+        }
+        // this.sessionService.showWarning("No se pueden seleccionar más recargos para esta lente");
+    }
+
+  }
+
+  onClicked(option, event) {
+    let incluye = this.recargosSeleccionados.includes(option);
+
+    if (!incluye) {
+        this.recargosSeleccionados.push(option);
+    } else {
+        this.recargosSeleccionados = this.recargosSeleccionados.filter(n => n != option);
+    }
+}
 
 
   // traerPrecio(i){

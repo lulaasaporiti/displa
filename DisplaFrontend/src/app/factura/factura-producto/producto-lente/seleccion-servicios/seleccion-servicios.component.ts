@@ -41,7 +41,6 @@ export class TodoItemFlatNode {
 @Injectable()
 export class ChecklistDatabase {
   tipoServicio: [];
-  // servicios: string[] = ['CAL O', 'CAL M', 'CAL B', 'CAL L', 'CAL P', 'CAL F', 'CAL L', 'OTROS'];
   dataChange = new BehaviorSubject<TipoServicio[]>([]);
 
   get data(): TipoServicio[] { return this.dataChange.value; }
@@ -53,8 +52,8 @@ export class ChecklistDatabase {
 
     this.tipoServicioService.getTiposServiciosVigentesList()
     .subscribe(ti => {
+      ti =  ti.filter(t => !t.Nombre.startsWith("CAL"));
       this.tipoServicio = ti;
-      // console.log(ti)
       
       
       this.initialize(ti);
