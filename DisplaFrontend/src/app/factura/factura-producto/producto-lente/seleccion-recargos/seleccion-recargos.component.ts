@@ -47,7 +47,7 @@ export class SeleccionRecargosComponent implements OnInit {
 
   // traerPrecio(i){
   //   console.log(i)
-  //   this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].MedidaEsferico, this.modelComprobanteItemLente[+i].MedidaCilindrico)
+  //   this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].Esferico, this.modelComprobanteItemLente[+i].Cilindrico)
   //   .subscribe(result => {
   //     this.mostrarPrecio = true;
   //     this.modelComprobanteItemLente[+i].Precio = result;
