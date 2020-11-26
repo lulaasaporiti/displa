@@ -11,6 +11,7 @@ import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 import { ValidacionLenteService } from 'src/services/validacion.lente.service';
 import { ServicioService } from 'src/services/servicio.service';
 import { Servicio } from 'src/app/model/servicio';
+import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 
 @Component({
   selector: 'app-seleccion-lente',
@@ -19,6 +20,7 @@ import { Servicio } from 'src/app/model/servicio';
 })
 export class SeleccionLenteComponent implements OnInit {
   @Output() selectedComprobanteItemLente = new EventEmitter<any[]>(); 
+  @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>(); 
   
   lentes: Lente[];
   lentesControl = new FormControl();
@@ -35,6 +37,7 @@ export class SeleccionLenteComponent implements OnInit {
   bankMultiFilterCtrl: FormControl = new FormControl();
   filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
   deshabilitar: boolean = true;
+  serviciosLente: ComprobanteItemServicio[] = []
 
  _onDestroy = new Subject<void>();
   @ViewChild('multiSelect', { static: true }) multiSelect: MatSelect;
@@ -55,12 +58,12 @@ export class SeleccionLenteComponent implements OnInit {
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
       this.mostrarPrecio = false;
+      document.getElementById("lente").focus();
       this.filteredLentes = this.lentesControl.valueChanges
         .pipe(
           startWith(''),
           map(val => this.filterLente(val))
         );
-      document.getElementById("lente").focus();
 
     });
     this.getCalibrados();
@@ -131,7 +134,7 @@ export class SeleccionLenteComponent implements OnInit {
 
   setInitialValue() {
     this.filteredServicios
-      .pipe(take(1), takeUntil(this._onDestroy))
+      // .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
         // setting the compareWith property to a comparison function
         // triggers initializing the selection according to the initial value of
@@ -151,17 +154,25 @@ export class SeleccionLenteComponent implements OnInit {
 
     this.filteredServicios.next(this.servicios.slice());
     this.bankMultiFilterCtrl.valueChanges
-    .pipe(takeUntil(this._onDestroy))
+    // .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.filterServicios();
       });
   }
 
   serviciosSeleccionados(event: MatOptionSelectionChange) {
-    if (event.source.selected == true) { 
-   }
-
-  }
+    if (event.source.selected == true) {
+      let comprobanteItem = <ComprobanteItemServicio>{}
+      comprobanteItem.IdServicio = event.source.value.Id;
+      comprobanteItem.IdServicioNavigation = event.source.value;
+      this.serviciosLente.push(comprobanteItem);
+    }
+    else {
+      let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
+      this.serviciosLente.splice(i, 1);
+    }
+    console.log(this.serviciosLente)
+}
 
   agregarGraduacion() {
     this.modelComprobanteItemLente[0].Cantidad = 0.5;
@@ -213,11 +224,10 @@ export class SeleccionLenteComponent implements OnInit {
 
   comprobanteItemLenteSelected() {
     this.selectedComprobanteItemLente.emit(this.modelComprobanteItemLente);
+    this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
   }
 
   compararLimiteGrilla(index, tipoGraduacion) {
-    console.log(index)
-    console.log(this.modelComprobanteItemLente[index])
     if (tipoGraduacion == 'esferico') {
       this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaEsferico, 'esferico')
     }

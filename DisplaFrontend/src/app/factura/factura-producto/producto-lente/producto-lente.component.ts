@@ -1,14 +1,10 @@
-import { Component, Inject, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, combineLatest } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
-import { Lente } from 'src/app/model/lente';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { LenteService } from 'src/services/lente.service';
-import { LimitesGrillaService } from 'src/services/limites.grilla.service';
-import { LimiteGrilla } from 'src/app/model/limiteGrilla';
 import { ClienteService } from 'src/services/cliente.service';
-import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
+import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
+import { ComprobanteItemRecargo } from 'src/app/model/comprobanteItemRecargo';
 
 @Component({
   selector: 'app-producto-lente',
@@ -16,12 +12,13 @@ import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
   styleUrls: ['./producto-lente.component.css']
 })
 export class ProductoLenteComponent implements OnInit {
-  modelComprobanteItemLente:  any[] = [];
-  servicios: string[] = ['CAL O', 'CAL M', 'CAL B', 'CAL L', 'CAL P', 'CAL F', 'CAL L', 'OTROS'];
+  modelComprobanteItemLente: any[] = [];
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   isOptional = true;
+  serviciosLente: ComprobanteItemServicio[] = [];
+  recargosLente: ComprobanteItemRecargo[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
@@ -30,10 +27,10 @@ export class ProductoLenteComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      // let cargarGraduacion= <ComprobanteItemLente>{};
-      // cargarGraduacion.MedidaEsferico = 0;
-      // cargarGraduacion.MedidaCilindrico = 0;
-      // this.modelComprobanteItemLente.push(cargarGraduacion);
+    // let cargarGraduacion= <ComprobanteItemLente>{};
+    // cargarGraduacion.MedidaEsferico = 0;
+    // cargarGraduacion.MedidaCilindrico = 0;
+    // this.modelComprobanteItemLente.push(cargarGraduacion);
   }
 
 
@@ -53,26 +50,38 @@ export class ProductoLenteComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  listaComprobanteItemEvento(model : any[]){
+  listaComprobanteItemEvento(model: any[]) {
     this.modelComprobanteItemLente = model;
+    this.data.item.ComprobanteItemLente = model;
     // console.log(this.modelComprobanteItemLente)
     this.changeDetector.detectChanges();
     document.getElementById("siguiente1").focus();
     // console.log(this.firstFormGroup);
     // this.firstFormGroup.setValue();
     // console.log(this.firstFormGroup)
-}
-
-  lenteEvento(){
   }
 
-  tabInventado(event: KeyboardEvent, idElement)
-  {
+  listaServiciosComprobanteItemEvento(model: any[]) {
+    this.data.item.ComprobanteItemServicio = model;
+    // console.log(this.modelComprobanteItemLente)
+    this.changeDetector.detectChanges();
+    document.getElementById("siguiente1").focus();
+  }
+
+  listaRecargosComprobanteItemEvento(model: any[]) {
+    // this.recargosLente = model;
+    this.data.item.ComprobanteItemRecargo = model;
+    // console.log(this.modelComprobanteItemLente)
+    this.changeDetector.detectChanges();
+    document.getElementById("siguiente1").focus();
+  }
+
+  tabInventado(event: KeyboardEvent, idElement) {
     if (event.code == "Enter") {
       event.preventDefault();
       document.getElementById(idElement).focus();
-      if(idElement == "remove"){
-        document.getElementById(idElement).style.backgroundColor="#e0e0e0";
+      if (idElement == "remove") {
+        document.getElementById(idElement).style.backgroundColor = "#e0e0e0";
       }
     }
   }

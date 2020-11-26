@@ -128,6 +128,7 @@ export class ProductoServicioComponent implements OnInit {
     else {
       let i = this.data.comprobantesItems.findIndex(ci => ci.IdServicio == event.source.value.Id);
       this.data.comprobantesItems.splice(i, 1);
+      this.data.ventasVirtuales.splice(i, 1);
       this.idServicios.splice(i, 1);
     }
   }

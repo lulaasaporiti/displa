@@ -48,15 +48,17 @@ export class FacturaAltaComponent implements OnInit {
     switch (this.key) {
       case "F1": { //lentes
         this.dialog.closeAll();
+        let item = <ComprobanteItem>{};
+        item.ComprobanteItemLente = [];
         const dialogRef = this.dialog.open(ProductoLenteComponent, {
           disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, item: item },
           width: '965px',
           height: '625px'
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {
-            this.cargarLente(result);
+            this.cargarLente(item);
           }
         });
         event.preventDefault();
@@ -214,11 +216,13 @@ export class FacturaAltaComponent implements OnInit {
   cargarLente(producto) {
     let item = <ComprobanteItem>{};
     item.ComprobanteItemLente = [];
+    item.ComprobanteItemRecargo = producto.ComprobanteItemRecargo;
+    item.ComprobanteItemServicio = producto.ComprobanteItemServicio;
     item.Cantidad = 0;
     item.Monto = 0;
-    item.NumeroSobre = producto[0].Sobre;
-    item.Descripcion = producto[0].IdLenteNavigation.DescripcionFactura;
-    producto.forEach(p => {
+    item.NumeroSobre = producto.ComprobanteItemLente[0].Sobre;
+    item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura;
+    producto.ComprobanteItemLente.forEach(p => {
       let itemLente = <ComprobanteItemLente>{};
       itemLente.IdLente = p.IdLente;
       itemLente.Precio = p.Precio;

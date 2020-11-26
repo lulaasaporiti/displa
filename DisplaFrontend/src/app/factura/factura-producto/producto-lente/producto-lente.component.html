@@ -2,7 +2,7 @@
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Seleccione el lente y graduación</ng-template>
-        <app-seleccion-lente (selectedComprobanteItemLente)="listaComprobanteItemEvento($event)"></app-seleccion-lente>
+        <app-seleccion-lente (selectedComprobanteItemLente)="listaComprobanteItemEvento($event)" (selectedServiciosComprobanteItem)="listaServiciosComprobanteItemEvento($event)"></app-seleccion-lente>
         <div>
           <button mat-button (click)="onNoClick()">Cancelar</button>
           <button mat-button matStepperNext id="siguiente1" [disabled]="modelComprobanteItemLente.length == 0">Siguiente</button>
@@ -22,7 +22,7 @@
     <mat-step [stepControl]="thirdFormGroup" [optional]>
       <form [formGroup]="thirdFormGroup">
         <ng-template matStepLabel>Seleccione recargos</ng-template>
-        <app-seleccion-recargos [selectedLente]="modelComprobanteItemLente"></app-seleccion-recargos>
+        <app-seleccion-recargos (selectedRecargosComprobanteItem)="listaRecargosComprobanteItemEvento($event)" [selectedLente]="modelComprobanteItemLente"></app-seleccion-recargos>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
           <button mat-button matStepperNext id="siguiente3">Siguiente</button>

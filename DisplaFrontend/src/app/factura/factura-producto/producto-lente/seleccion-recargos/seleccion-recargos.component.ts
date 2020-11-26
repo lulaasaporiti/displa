@@ -15,13 +15,14 @@ export class SeleccionRecargosComponent implements OnInit {
   displayedColumns: string[] = ['Descripcion', 'Porcentaje', 'Seleccionar'];
   modelLente: any[] = [];
   recargosSeleccionados: RecargoLente[];
-  
+  @Output() selectedRecargosComprobanteItem = new EventEmitter<any[]>();
+
 
 
   constructor(
     private lenteService: LenteService,
     private sessionService: SessionService,
-    ) {
+  ) {
   }
 
 
@@ -30,55 +31,60 @@ export class SeleccionRecargosComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-      if (changes.selectedLente.currentValue.length > 0) {
-        this.modelLente = changes.selectedLente.currentValue;
-        this.lenteService.getRecargoLente(changes.selectedLente.currentValue[0].IdLente)
-          .subscribe(r => {
-            this.dataSource.data = r;
-          })
-      }
-}
+    if (changes.selectedLente.currentValue.length > 0) {
+      this.modelLente = changes.selectedLente.currentValue;
+      this.lenteService.getRecargoLente(changes.selectedLente.currentValue[0].IdLente)
+        .subscribe(r => {
+          this.dataSource.data = r;
+        })
+    }
+  }
+
+  comprobanteItemRecargosSelected() {
+    this.selectedRecargosComprobanteItem.emit(this.recargosSeleccionados);
+  }
 
   _keyPress(event: any) {
     const pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);
 
-    if (!pattern.test(inputChar)) {{}
+    if (!pattern.test(inputChar)) {
+      { }
       event.preventDefault();
     }
   }
 
-  tabInventado(event: KeyboardEvent, idElement)
-  {
+  tabInventado(event: KeyboardEvent, idElement) {
     if (event.code == "Enter") {
       event.preventDefault();
       document.getElementById(idElement).focus();
     }
   }
 
-  deshabilitarCheck(option){
+  deshabilitarCheck(option) {
     let optionEsta = this.recargosSeleccionados.includes(option);
-      if (this.recargosSeleccionados.length == 2) {
-        if (optionEsta){
-          return false;
-        }
-        else {
-          return true;
-        }
-        // this.sessionService.showWarning("No se pueden seleccionar más recargos para esta lente");
+    if (this.recargosSeleccionados.length == 2) {
+      if (optionEsta) {
+        return false;
+      }
+      else {
+        return true;
+      }
+      // this.sessionService.showWarning("No se pueden seleccionar más recargos para esta lente");
     }
 
   }
 
-  onClicked(option, event) {
+  onClicked(option) {
     let incluye = this.recargosSeleccionados.includes(option);
 
     if (!incluye) {
-        this.recargosSeleccionados.push(option);
+      this.recargosSeleccionados.push(option);
     } else {
-        this.recargosSeleccionados = this.recargosSeleccionados.filter(n => n != option);
+      this.recargosSeleccionados = this.recargosSeleccionados.filter(n => n != option);
     }
-}
+    this.comprobanteItemRecargosSelected();
+  }
 
 
   // traerPrecio(i){

@@ -1,9 +1,7 @@
-import { PrecioArticulo } from './precioArticulo';
-import { Cliente } from './cliente';
 import { ComprobanteItem } from './comprobanteItem';
 import { Servicio } from './servicio';
 
-export interface ComprobanteItemServicio {
+export interface ComprobanteItemRecargo {
     Id: number,
     IdRecargo: number,
     IdRecargpNavigation: Servicio

@@ -3,6 +3,8 @@ import { ArticuloVario } from './articuloVario';
 import { Servicio } from './servicio';
 import { ComprobanteItemLente } from './comprobanteItemLente';
 import { Remito } from './remito';
+import { ComprobanteItemRecargo } from './comprobanteItemRecargo';
+import { ComprobanteItemServicio } from './comprobanteItemServicio';
 
 
 export interface ComprobanteItem {
@@ -23,5 +25,7 @@ export interface ComprobanteItem {
     VentaVirtual: boolean,
 
     ComprobanteItemLente: ComprobanteItemLente[]
+    ComprobanteItemServicio: ComprobanteItemServicio[]
+    ComprobanteItemRecargo: ComprobanteItemRecargo[]
     Remito: Remito[]
 }

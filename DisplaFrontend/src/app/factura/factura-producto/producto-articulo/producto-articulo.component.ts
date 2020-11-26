@@ -133,6 +133,7 @@ export class ProductoArticuloComponent implements OnInit {
     else {
       let i = this.data.comprobantesItems.findIndex(ci => ci.IdArticulo == event.source.value.Id);
       this.data.comprobantesItems.splice(i, 1);
+      this.data.ventasVirtuales.splice(i, 1);
       this.idArticulos.splice(i, 1);
     }
   }
