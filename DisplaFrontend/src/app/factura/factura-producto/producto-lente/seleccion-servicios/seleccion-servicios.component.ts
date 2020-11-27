@@ -1,13 +1,13 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Inject, OnInit, EventEmitter, Injectable } from '@angular/core';
+import { Component, Injectable, Input, SimpleChanges } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { Servicio } from 'src/app/model/servicio';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
 
 export class TipoServicio {
-  children: Servicio[];
+  children: TipoServicio[];
   item: string;
   id: number;
 }
@@ -18,24 +18,6 @@ export class TodoItemFlatNode {
   level: number;
   expandable: boolean;
 }
-
-// const TREE_DATA = {
-//   Groceries: {
-//     'Almond Meal flour': null,
-//     'Organic eggs': null,
-//     'Protein Powder': null,
-//     Fruits: {
-//       Apple: null,
-//       Berries: ['Blueberry', 'Raspberry'],
-//       Orange: null
-//     }
-//   },
-//   Reminders: [
-//     'Cook dinner',
-//     'Read the Material Design spec',
-//     'Upgrade Application to Angular'
-//   ]
-// };
 
 
 @Injectable()
@@ -53,9 +35,7 @@ export class ChecklistDatabase {
     this.tipoServicioService.getTiposServiciosVigentesList()
     .subscribe(ti => {
       ti =  ti.filter(t => !t.Nombre.startsWith("CAL"));
-      this.tipoServicio = ti;
-      
-      
+      this.tipoServicio = ti;     
       this.initialize(ti);
     })
 
@@ -66,7 +46,7 @@ export class ChecklistDatabase {
   initialize(tipoServicios) {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
-    const data = tipoServicios;
+    const data = this.buildFileTree(tipoServicios,0);
     // console.log(data)
 
     // Notify the change.
@@ -77,53 +57,25 @@ export class ChecklistDatabase {
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `TodoItemNode`.
    */
-  // buildFileTree(obj: {[key: string]: any}, level: number): TipoServicio[] {
-  //   return Object.keys(obj).reduce<TipoServicio[]>((accumulator, key) => {
-  //     const value = obj[key];
-
-  //     const node = new TipoServicio();
-  //     node.item = key;
-  //     // node.id = id;
-     
-
-  //     if (value != null) {
-  //       if (typeof value === 'object') {
-  //         node.children = this.buildFileTree(value, level + 1);
-  //       } else {
-  //         node.item = value;
-  //       }
-  //     }
-
-  //     return accumulator.concat(node);
-  //   }, []);
-  // }
-
-  /** Add an item to to-do list */
-  insertItem(parent: TipoServicio, name: string) {
-    if (parent.children) {
-      // parent.children.push({item: name} as TipoServicio);
-      this.dataChange.next(this.data);
-    }
+  buildFileTree(obj: {[key: string]: any}, level: number): TipoServicio[] {
+    return Object.keys(obj).reduce<TipoServicio[]>((accumulator, key) => {
+      const value = obj[key];
+      const node = new TipoServicio();
+      node.item = value.Nombre; 
+      // node.id = valKCue.Id;
+      if (value != null) {
+        if (value['Servicio'] != undefined) {          
+          // value['Servicio'].forEach(element => {
+            node.children = this.buildFileTree(value['Servicio'], level + 1);
+          // });
+        } else {
+          node.item = value;
+        }
+      }
+   
+      return accumulator.concat(node);
+    }, []);
   }
-
-  updateItem(node: TipoServicio, name: string) {
-    node.item = name;
-    this.dataChange.next(this.data);
-  }
-
-  
-  // _keyPress(event: any) {
-  //   const pattern = /[0-9-]/;
-  //   let inputChar = String.fromCharCode(event.charCode);
-
-  //   if (!pattern.test(inputChar)) {{}
-  //     event.preventDefault();
-  //   }
-  // }
-
-  // ngOnInit(){
-
-  // }
 
   // tabInventado(event: KeyboardEvent, idElement)
   // {
@@ -144,6 +96,16 @@ export class ChecklistDatabase {
   providers: [ChecklistDatabase]
 })
 export class SeleccionServiciosComponent {
+  @Input() selectedLente: any[];
+  modelLente: any[] = [];
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.selectedLente.currentValue.length > 0) {
+      this.modelLente = changes.selectedLente.currentValue;
+    }
+  }
+
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<TodoItemFlatNode, TipoServicio>();
 
@@ -192,16 +154,9 @@ export class SeleccionServiciosComponent {
   transformer = (node: TipoServicio, level: number) => {
     const flatNode = new TodoItemFlatNode(); 
     flatNode.item = node;
-    flatNode.expandable = true;
+    flatNode.expandable = flatNode['item'].item.length >  0;
     flatNode.level = level;
-    // console.log(flatNode)
-    // && existingNode.item === node.item
-    //     ? existingNode
-        // :
-        //  new TodoItemFlatNode();
-    // flatNode. = node;
-    // flatNode.level = level;
-    // flatNode.expandable = !node.children.length;
+    console.log(flatNode)
     // this.flatNodeMap.set(flatNode);
     // this.nestedNodeMap.set(node, flatNode);
     return flatNode;
@@ -285,17 +240,5 @@ export class SeleccionServiciosComponent {
     return null;
   }
 
-  /** Select the category so we can insert the new item. */
-  addNewItem(node: TodoItemFlatNode) {
-    const parentNode = this.flatNodeMap.get(node);
-    this._database.insertItem(parentNode!, '');
-    this.treeControl.expand(node);
-  }
-
-  /** Save the node to database */
-  saveNode(node: TodoItemFlatNode, itemValue: string) {
-    const nestedNode = this.flatNodeMap.get(node);
-    this._database.updateItem(nestedNode!, itemValue);
-  }
 }
 
