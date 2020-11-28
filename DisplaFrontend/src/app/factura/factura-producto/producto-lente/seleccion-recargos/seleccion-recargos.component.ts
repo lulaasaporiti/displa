@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import { ComprobanteItemRecargo } from 'src/app/model/comprobanteItemRecargo';
 import { RecargoLente } from 'src/app/model/recargoLente';
 import { LenteService } from 'src/services/lente.service';
 import { SessionService } from 'src/services/session.service';
@@ -15,13 +16,14 @@ export class SeleccionRecargosComponent implements OnInit {
   displayedColumns: string[] = ['Descripcion', 'Porcentaje', 'Seleccionar'];
   modelLente: any[] = [];
   recargosSeleccionados: RecargoLente[];
+  comprobanteItemRecargos: ComprobanteItemRecargo[] = [];
   @Output() selectedRecargosComprobanteItem = new EventEmitter<any[]>();
 
 
 
   constructor(
     private lenteService: LenteService,
-    private sessionService: SessionService,
+    private sessionService: SessionService
   ) {
   }
 
@@ -41,7 +43,7 @@ export class SeleccionRecargosComponent implements OnInit {
   }
 
   comprobanteItemRecargosSelected() {
-    this.selectedRecargosComprobanteItem.emit(this.recargosSeleccionados);
+    this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
   }
 
   _keyPress(event: any) {
@@ -72,21 +74,22 @@ export class SeleccionRecargosComponent implements OnInit {
       }
       // this.sessionService.showWarning("No se pueden seleccionar más recargos para esta lente");
     }
-
   }
 
   onClicked(option) {
     let incluye = this.recargosSeleccionados.includes(option);
-
+    let comprobanteItemRecargo = <ComprobanteItemRecargo>{};
+    comprobanteItemRecargo.IdRecargo = option.Id;
+    comprobanteItemRecargo.IdRecargoNavigation = option;
     if (!incluye) {
       this.recargosSeleccionados.push(option);
+      this.comprobanteItemRecargos.push(comprobanteItemRecargo);
     } else {
-      this.recargosSeleccionados = this.recargosSeleccionados.filter(n => n != option);
+      this.recargosSeleccionados = this.recargosSeleccionados.filter(s => s != option);
+      this.comprobanteItemRecargos = this.comprobanteItemRecargos.filter(cs => cs != comprobanteItemRecargo);
     }
     this.comprobanteItemRecargosSelected();
   }
-
-
   // traerPrecio(i){
   //   console.log(i)
   //   this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].Esferico, this.modelComprobanteItemLente[+i].Cilindrico)

@@ -12,7 +12,7 @@
     <mat-step [stepControl]="secondFormGroup" [optional]>
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Seleccione servicios</ng-template>
-        <app-seleccion-servicios></app-seleccion-servicios>
+        <app-seleccion-servicios (selectedServiciosComprobanteItem)="listaServiciosComprobanteItemEvento($event)" [selectedLente]="modelComprobanteItemLente"></app-seleccion-servicios>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
           <button mat-button matStepperNext id="siguiente2">Siguiente</button>

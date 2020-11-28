@@ -55,6 +55,7 @@ export class SeleccionLenteComponent implements OnInit {
 
 
   ngOnInit() {
+    this.getCalibrados();
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
       this.mostrarPrecio = false;
@@ -66,7 +67,6 @@ export class SeleccionLenteComponent implements OnInit {
         );
 
     });
-    this.getCalibrados();
   }
 
   ngAfterViewInit() {
@@ -88,11 +88,12 @@ export class SeleccionLenteComponent implements OnInit {
 
   tabInventado(event: KeyboardEvent, idElement)
   {
+    if (idElement == "esferico0") {
+      this.deshabilitar = false;
+    }
     if (event.code == "Enter") {
       event.preventDefault();
       document.getElementById(idElement).focus();
-      if (idElement == "esferico0")
-        this.deshabilitar = false;
       if(idElement == "remove"){
         document.getElementById(idElement).style.backgroundColor="#e0e0e0";
       }
@@ -132,19 +133,19 @@ export class SeleccionLenteComponent implements OnInit {
     })
   }
 
-  setInitialValue() {
-    this.filteredServicios
-      // .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
-        this.multiSelect.compareWith = (a: Servicio, b: Servicio) => a && b && a.Id === b.Id;
-      });
+  // setInitialValue() {
+  //   this.filteredServicios
+  //     // .pipe(take(1), takeUntil(this._onDestroy))
+  //     .subscribe(() => {
+  //       // setting the compareWith property to a comparison function
+  //       // triggers initializing the selection according to the initial value of
+  //       // the form control (i.e. _initializeSelection())
+  //       // this needs to be done after the filteredBanks are loaded initially
+  //       // and after the mat-option elements are available
+  //       this.multiSelect.compareWith = (a: Servicio, b: Servicio) => a && b && a.Id === b.Id;
+  //     });
 
-      }
+  //     }
 
   getCalibrados(){
     this.servicioService.getCalibrados()
