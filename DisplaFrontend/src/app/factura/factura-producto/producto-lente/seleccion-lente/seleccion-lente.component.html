@@ -12,6 +12,7 @@
                 </mat-autocomplete>
             </mat-form-field>
         </div>
+        
         <!-- ///////////////////////  PRIMERA GRADUACION  ////////////////////////////// -->
         <div mat-dialog-content fxLayout="row" fxLayoutGap="12px">
             <div mat-dialog-content fxLayoutGap="15px" fxLayout="row">
@@ -138,7 +139,22 @@
             <!-- /////////////////////// FIN PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
         </div>
 
+        
 
+        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2"
+            class="agregar-graduacion">
+            <p style="font-size: small;">Agregar otra graduación</p>
+            <mat-button-toggle-group fxFlexOffset="2">
+                <mat-button-toggle id="done" (keyup)="flechita($event, 'remove')"
+                    (keyup.enter)="tabInventado($event, 'esferico1')" (click)="agregarGraduacion()">
+                    <mat-icon>done</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle id="remove" (keyup)="flechita($event, 'done')"
+                    (keyup.enter)="comprobanteItemLenteSelected()">
+                    <mat-icon>remove</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFill>
                 <mat-select [formControl]="serviciosControl" placeholder="Calibrados" [multiple]="true" #ser 
@@ -158,24 +174,6 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-        </div>
-
-
-        
-
-        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2"
-            class="agregar-graduacion">
-            <p style="font-size: small;">Agregar otra graduación</p>
-            <mat-button-toggle-group fxFlexOffset="2">
-                <mat-button-toggle id="done" (keyup)="flechita($event, 'remove')"
-                    (keyup.enter)="tabInventado($event, 'esferico1')" (click)="agregarGraduacion()">
-                    <mat-icon>done</mat-icon>
-                </mat-button-toggle>
-                <mat-button-toggle id="remove" (keyup)="flechita($event, 'done')"
-                    (keyup.enter)="comprobanteItemLenteSelected()">
-                    <mat-icon>remove</mat-icon>
-                </mat-button-toggle>
-            </mat-button-toggle-group>
         </div>
     </div>
 </form>
