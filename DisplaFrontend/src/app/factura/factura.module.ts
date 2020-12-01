@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { FacturaRoutingModule } from './factura-routing.module';
@@ -20,15 +19,16 @@ import { SeleccionRecargosComponent } from './factura-producto/producto-lente/se
 import { FacturaFichaComponent } from './factura-ficha/factura-ficha.component';
 import { LenteVentaVirtualComponent } from './factura-producto/producto-lente/lente-venta-virtual/lente-venta-virtual.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ResumenLenteComponent } from './factura-producto/producto-lente/resumen-lente/resumen-lente.component';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, 
-        ProductoDescuentoComponent, ProductoTotalesComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent ],
+        ProductoDescuentoComponent, ProductoTotalesComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
     declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, SeleccionLenteComponent, 
         ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, ProductoTotalesComponent, 
-        ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent ],
+        ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
     imports: [
         CommonModule,
         MaterialModule,

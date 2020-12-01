@@ -1,0 +1,35 @@
+<div mat-dialog-content fxLayout="row">
+    <mat-form-field fxFill>
+        <input type="text" placeholder="Lente" aria-label="Lente"  [value]="modelLente[0]?.IdLenteNavigation.Nombre" matInput disabled>
+    </mat-form-field>
+</div>
+<div mat-dialog-content fxLayoutGap="15px" fxLayout="row">
+    <mat-form-field fxFlex="25">
+        <input matInput placeholder="Medida esférico" [value]="modelLente[0]?.MedidaEsferico" disabled>
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
+        <input matInput placeholder="Medida esférico" [value]="modelLente[0]?.MedidaCilindrico" disabled>
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
+        <input matInput placeholder="Precio unitario" [value]="modelLente[0]?.Precio" disabled>
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
+        <input matInput placeholder="Cantidad"  [value]="modelLente[0]?.Cantidad"
+            disabled>
+    </mat-form-field>
+</div>
+<div mat-dialog-content fxLayoutGap="15px" *ngIf="modelLente.length == 2">
+    <mat-form-field fxFlex="25">
+        <input matInput placeholder="Medida esférico" [value]="modelLente[1]?.MedidaEsferico" disabled>
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
+        <input matInput placeholder="Medida esférico" [value]="modelLente[1]?.MedidaCilindrico" disabled>
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
+        <input matInput placeholder="Precio unitario" [value]="modelLente[1]?.Precio" disabled>
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
+        <input matInput placeholder="Cantidad"  [value]="modelLente[1]?.Cantidad"
+            disabled>
+    </mat-form-field>
+</div>

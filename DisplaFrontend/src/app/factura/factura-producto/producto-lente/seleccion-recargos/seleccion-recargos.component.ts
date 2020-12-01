@@ -90,17 +90,6 @@ export class SeleccionRecargosComponent implements OnInit {
     }
     this.comprobanteItemRecargosSelected();
   }
-  // traerPrecio(i){
-  //   console.log(i)
-  //   this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].Esferico, this.modelComprobanteItemLente[+i].Cilindrico)
-  //   .subscribe(result => {
-  //     this.mostrarPrecio = true;
-  //     this.modelComprobanteItemLente[+i].Precio = result;
-  //     this.modelComprobanteItemLente[+i].Cantidad = 1;
-  //     if (i == 0)
-  //       this.modelComprobanteItemLente[0].Sobre = 0;
-  //   })
-  // }
 
 
 }

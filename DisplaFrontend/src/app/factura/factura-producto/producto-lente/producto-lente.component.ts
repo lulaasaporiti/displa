@@ -16,6 +16,7 @@ export class ProductoLenteComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+  fourthFormGroup: FormGroup;
   isOptional = true;
   serviciosLente: ComprobanteItemServicio[] = [];
 
@@ -44,6 +45,9 @@ export class ProductoLenteComponent implements OnInit {
     this.thirdFormGroup = this._formBuilder.group({
       thirdCtrl: ''
     });
+    this.fourthFormGroup = this._formBuilder.group({
+      thirdCtrl: ''
+    });
   }
 
   onNoClick(): void {
@@ -62,16 +66,16 @@ export class ProductoLenteComponent implements OnInit {
   }
 
   listaServiciosComprobanteItemEvento(model: ComprobanteItemServicio[]) {
-    console.log(model);
+    // console.log(model);
     if (model.length > 0) {
       model.forEach(element => {
         if (!this.serviciosLente.includes(element))
           this.serviciosLente.push(element)
       });
-      console.log(this.serviciosLente)
+      // console.log(this.serviciosLente)
       this.data.item.ComprobanteItemServicio = this.serviciosLente;
     }
-    console.log(this.data.item.ComprobanteItemServicio)
+    // console.log(this.data.item.ComprobanteItemServicio)
     this.changeDetector.detectChanges();
     document.getElementById("siguiente1").focus();
   }

@@ -15,6 +15,7 @@ namespace DisplaBackend.DAOs
         bool Delete(TipoServicio tipoServicio);
         TipoServicio GetById(int idTipoServicio);
         List<TipoServicio> GetTiposServicioConServicios();
+        List<TipoServicio> GetServiciosSinCalibrados(int idCliente);
 
     }
 
@@ -89,6 +90,16 @@ namespace DisplaBackend.DAOs
         {
             return _context.TipoServicio
                 .Where(ti => ti.Borrado == false && ti.Servicio.Count > 0)
+                .ToList();
+        }
+
+        public List<TipoServicio> GetServiciosSinCalibrados(int idCliente)
+        { 
+             return _context.TipoServicio
+                .Include(ti => ti.Servicio)
+                .ThenInclude(s => s.PrecioServicio)
+                .ThenInclude(c => c.PrecioServicioCliente)
+                .Where(ti => ti.Borrado == false && ti.Servicio.Any(s => !s.Borrado && !s.Nombre.Contains("CAL") && s.PrecioServicio.Any(ps => ps.PrecioServicioCliente.Any(psc => psc.IdCliente == idCliente))))
                 .ToList();
         }
     }

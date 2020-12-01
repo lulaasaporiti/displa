@@ -13,6 +13,7 @@ namespace DisplaBackend.Services
         bool Delete(TipoServicio tipoServicio);
         TipoServicio GetById(int idTipoServicio);
         List<TipoServicio> GetTiposServicioConServicios();
+        List<TipoServicio> GetServiciosSinCalibrados(int idCliente);
     }
 
     public class TipoServicioService : ITipoServicioService
@@ -27,6 +28,11 @@ namespace DisplaBackend.Services
         public List<TipoServicio> GetTiposServicio()
         {
             return _tipoServicioDAO.GetTiposServicio();
+        }
+
+        public List<TipoServicio> GetServiciosSinCalibrados(int idCliente)
+        {
+            return _tipoServicioDAO.GetServiciosSinCalibrados(idCliente);
         }
 
         public List<TipoServicio> GetTiposServicioVigentes()

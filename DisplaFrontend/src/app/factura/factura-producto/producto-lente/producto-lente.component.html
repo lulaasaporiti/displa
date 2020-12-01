@@ -21,8 +21,8 @@
     </mat-step>
     <mat-step [stepControl]="thirdFormGroup" [optional]>
       <form [formGroup]="thirdFormGroup">
-        <ng-template matStepLabel>Seleccione recargos</ng-template>
-        <app-seleccion-recargos (selectedRecargosComprobanteItem)="listaRecargosComprobanteItemEvento($event)" [selectedLente]="modelComprobanteItemLente"></app-seleccion-recargos>
+        <ng-template matStepLabel>Seleccione tratamientos</ng-template>
+        <app-seleccion-recargos (selectedRecargosComprobanteItem)="listaRecargosComprobanteItemEvento($event)"  [selectedLente]="modelComprobanteItemLente"></app-seleccion-recargos>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
           <button mat-button matStepperNext id="siguiente3">Siguiente</button>
@@ -30,11 +30,13 @@
       </form>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Confirmar</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Anterior</button>
-      </div>
+      <form [formGroup]="fourthFormGroup">
+        <ng-template matStepLabel>Resumen lente</ng-template>
+        <app-resumen-lente [selectedLente]="modelComprobanteItemLente"></app-resumen-lente>
+        <div>
+          <button mat-button matStepperPrevious>Anterior</button>
+        </div>
+      </form>
     </mat-step>
   </mat-horizontal-stepper>
   

@@ -32,7 +32,7 @@ export class SeleccionLenteComponent implements OnInit {
   msjCilindrico: boolean[] = [];
   msjLimiteEsferico: boolean[] = [];
   msjLimiteCilindrico: boolean[] = [];
-  servicios: Servicio[] = [];
+  servicios: any[] = [];
   serviciosControl = new FormControl();
   bankMultiFilterCtrl: FormControl = new FormControl();
   filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
@@ -148,9 +148,10 @@ export class SeleccionLenteComponent implements OnInit {
   //     }
 
   getCalibrados(){
-    this.servicioService.getCalibrados()
+    this.servicioService.getCalibrados(this.data.idCliente)
     .subscribe(s => {
       this.servicios = s;
+      // console.log(s)
     })
 
     this.filteredServicios.next(this.servicios.slice());
@@ -164,15 +165,15 @@ export class SeleccionLenteComponent implements OnInit {
   serviciosSeleccionados(event: MatOptionSelectionChange) {
     if (event.source.selected == true) {
       let comprobanteItem = <ComprobanteItemServicio>{}
-      comprobanteItem.IdServicio = event.source.value.Id;
+      comprobanteItem.IdServicio = event.source.value.IdPrecioServicioNavigation.IdServicioNavigation.Id;
       comprobanteItem.IdServicioNavigation = event.source.value;
       this.serviciosLente.push(comprobanteItem);
     }
     else {
-      let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
+      let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.IdPrecioServicioNavigation.IdServicioNavigation.Id);
       this.serviciosLente.splice(i, 1);
     }
-    console.log(this.serviciosLente)
+    // console.log(this.serviciosLente)
 }
 
   agregarGraduacion() {
@@ -219,7 +220,7 @@ export class SeleccionLenteComponent implements OnInit {
     }
     // filter the banks
     this.filteredServicios.next(
-      this.servicios.filter(ser => ser.Id.toString().indexOf(search) !== -1 || ser.Nombre.toLowerCase().indexOf(search) > -1)
+      this.servicios.filter(ser => ser.IdPrecioServicioNavigation.IdServicioNavigation.Id.toString().indexOf(search) !== -1 || ser.IdPrecioServicioNavigation.IdServicioNavigation.Nombre.toLowerCase().indexOf(search) > -1)
     );
   }
 
@@ -236,11 +237,4 @@ export class SeleccionLenteComponent implements OnInit {
       this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaCilindrico, 'cilindrico')
     }
   }
-
-  // updateState() {
-  //   //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
-  //   //y el ngOnChanges() lo detecte
-  //   let modelSoporteCloned = JSON.parse(JSON.stringify(this.modelSoporte));
-  //   this.selectedSoportes.emit(modelSoporteCloned);
-  // }
 }

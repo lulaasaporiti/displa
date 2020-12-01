@@ -39,9 +39,9 @@ namespace DisplaBackend.Controllers
 
         [HttpGet, Route("GetCalibrados")]
         [EnableCors("DisplaAPIPolicy")]
-        public object GetCalibrados()
+        public object GetCalibrados(int idCliente)
         {
-            return _servicioService.GetCalibrados();
+            return _servicioService.GetCalibrados(idCliente);
         }
 
 

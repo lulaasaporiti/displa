@@ -1,10 +1,11 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Injectable, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material';
+import { Component, Injectable, Input, Output, SimpleChanges, EventEmitter, Inject } from '@angular/core';
+import { MatTreeFlatDataSource, MatTreeFlattener, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 import { Servicio } from 'src/app/model/servicio';
+import { ServicioService } from 'src/services/servicio.service';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
 
 export class TipoServicio {
@@ -30,12 +31,14 @@ export class ChecklistDatabase {
 
 
   constructor(
-    private tipoServicioService: TipoServicioService
-  ) {
+    private tipoServicioService: TipoServicioService,
+    @Inject(MAT_DIALOG_DATA) public dataModal: any) {
 
-    this.tipoServicioService.getTiposServiciosVigentesList()
+
+    this.tipoServicioService.getServiciosSinCalibrados(this.dataModal.idCliente)
     .subscribe(ti => {
-      ti =  ti.filter(t => !t.Nombre.startsWith("CAL"));
+      console.log(ti)
+      // ti =  ti.filter(t => !t.Nombre.startsWith("CAL"));
       this.tipoServicio = ti;     
       this.initialize(ti);
     })

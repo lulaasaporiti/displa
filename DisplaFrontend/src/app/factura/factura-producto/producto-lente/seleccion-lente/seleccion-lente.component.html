@@ -137,30 +137,6 @@
             </div>
             <!-- /////////////////////// FIN PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
         </div>
-
-
-        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
-            <mat-form-field fxFill>
-                <mat-select [formControl]="serviciosControl" placeholder="Calibrados" [multiple]="true" #ser 
-                    (keydown.enter)="$event.stopImmediatePropagation()" id="calibrado" (keyup.enter)="comprobanteItemLenteSelected()">
-                    <mat-option>
-                        <ngx-mat-select-search [formControl]="bankMultiFilterCtrl"></ngx-mat-select-search>
-                    </mat-option>
-                    <mat-select-trigger>
-                        {{(!ser.empty) ? ser.value[0].Id : ''}} - {{(!ser.empty)  ? ser.value[0].Nombre : ''}}
-                        <span *ngIf="ser.value?.length > 1" class="example-additional-selection">
-                            (+{{ser.value.length - 1}} {{ser.value?.length === 2 ? 'servicio' : 'más'}})
-                        </span>
-                    </mat-select-trigger>
-                    <mat-option *ngFor="let s of filteredServicios | async" [value]="s"
-                        (onSelectionChange)="serviciosSeleccionados($event)">
-                        {{s.Id}} - {{s.Nombre}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-
         
 
         <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2"
@@ -172,10 +148,31 @@
                     <mat-icon>done</mat-icon>
                 </mat-button-toggle>
                 <mat-button-toggle id="remove" (keyup)="flechita($event, 'done')"
-                    (keyup.enter)="comprobanteItemLenteSelected()">
+                    (keyup.enter)="tabInventado($event, 'calibrado'); comprobanteItemLenteSelected()">
                     <mat-icon>remove</mat-icon>
                 </mat-button-toggle>
             </mat-button-toggle-group>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFill>
+                <mat-select [formControl]="serviciosControl" placeholder="Calibrados" [multiple]="true" #ser 
+                    (keydown.enter)="$event.stopImmediatePropagation()" id="calibrado" (keyup.enter)="comprobanteItemLenteSelected()">
+                    <mat-option>
+                        <ngx-mat-select-search [formControl]="bankMultiFilterCtrl"></ngx-mat-select-search>
+                    </mat-option>
+                    <mat-select-trigger>
+                        {{(!ser.empty) ? ser.value[0].IdPrecioServicioNavigation.IdServicioNavigation.Id : ''}} - {{(!ser.empty)  ? ser.value[0].IdPrecioServicioNavigation.IdServicioNavigation.Nombre : ''}}
+                        <span *ngIf="ser.value?.length > 1" class="example-additional-selection">
+                            (+{{ser.value.length - 1}} {{ser.value?.length === 2 ? 'servicio' : 'más'}})
+                        </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let s of filteredServicios | async" [value]="s"
+                        (onSelectionChange)="serviciosSeleccionados($event)">
+                        {{s.IdPrecioServicioNavigation.IdServicio}} - {{s.IdPrecioServicioNavigation.IdServicioNavigation.Nombre}} - Precio  {{s.IdPrecioServicioNavigation.Precio}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </div>
 </form>

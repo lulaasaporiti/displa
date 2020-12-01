@@ -20,6 +20,10 @@ export class TipoServicioService {
         return this.http.get(`${this.baseUrl}/GetTiposServicioVigentes`);
     }
 
+    getServiciosSinCalibrados(idCliente): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetServiciosSinCalibrados?idCliente=${idCliente}`);
+    }
+
     getTiposServicioConServiciosList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetTiposServicioConServicios`);
     }

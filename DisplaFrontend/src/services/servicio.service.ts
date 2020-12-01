@@ -16,8 +16,8 @@ export class ServicioService {
         return this.http.get(`${this.baseUrl}/GetServicios`);
     }
 
-    getCalibrados(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetCalibrados`);
+    getCalibrados(idCliente): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetCalibrados?idCliente=${idCliente}`);
     }
 
     getServiciosVigentesList(): Observable<any> {
