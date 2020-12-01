@@ -1,55 +1,56 @@
-
 <div fxLayout="column">
-<div mat-dialog-content fxLayout="row">
-  <mat-form-field fxFill>
-      <input type="text" placeholder="Lente" aria-label="Lente"  [value]="modelLente[0]?.IdLenteNavigation.Nombre" matInput disabled>
-  </mat-form-field>
-</div>
-<div mat-dialog-content fxLayoutGap="15px" fxLayout="row">
-  <mat-form-field fxFlex="25">
+  <div mat-dialog-content fxLayout="row">
+    <mat-form-field fxFill>
+      <input type="text" placeholder="Lente" aria-label="Lente" [value]="modelLente[0]?.IdLenteNavigation.Nombre"
+        matInput disabled>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-content fxLayoutGap="15px" fxLayout="row">
+    <mat-form-field fxFlex="25">
       <input matInput placeholder="Medida esférico" [value]="modelLente[0]?.MedidaEsferico" disabled>
-  </mat-form-field>
-  <mat-form-field fxFlex="25">
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
       <input matInput placeholder="Medida esférico" [value]="modelLente[0]?.MedidaCilindrico" disabled>
-  </mat-form-field>
-  <mat-form-field fxFlex="25">
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
       <input matInput placeholder="Precio unitario" [value]="modelLente[0]?.Precio" disabled>
-  </mat-form-field>
-  <mat-form-field fxFlex="25">
-      <input matInput placeholder="Cantidad"  [value]="modelLente[0]?.Cantidad"
-          disabled>
-  </mat-form-field>
-</div>
-<div mat-dialog-content fxLayoutGap="15px" *ngIf="modelLente.length == 2">
-  <mat-form-field fxFlex="25">
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
+      <input matInput placeholder="Cantidad" [value]="modelLente[0]?.Cantidad" disabled>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-content fxLayoutGap="15px" *ngIf="modelLente.length == 2">
+    <mat-form-field fxFlex="25">
       <input matInput placeholder="Medida esférico" [value]="modelLente[1]?.MedidaEsferico" disabled>
-  </mat-form-field>
-  <mat-form-field fxFlex="25">
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
       <input matInput placeholder="Medida esférico" [value]="modelLente[1]?.MedidaCilindrico" disabled>
-  </mat-form-field>
-  <mat-form-field fxFlex="25">
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
       <input matInput placeholder="Precio unitario" [value]="modelLente[1]?.Precio" disabled>
-  </mat-form-field>
-  <mat-form-field fxFlex="25">
-      <input matInput placeholder="Cantidad"  [value]="modelLente[1]?.Cantidad"
-          disabled>
-  </mat-form-field>
-</div>
-<mat-divider></mat-divider>
+    </mat-form-field>
+    <mat-form-field fxFlex="25">
+      <input matInput placeholder="Cantidad" [value]="modelLente[1]?.Cantidad" disabled>
+    </mat-form-field>
+  </div>
+  <mat-divider></mat-divider>
 
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node; when: !hasChild " matTreeNodeToggle matTreeNodePadding>
-      <button mat-icon-button disabled>{{item['children'] != undefined ? item['children'].item['Nombre'] : ' '}}</button>
-    </mat-tree-node>
-  
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-      <button mat-icon-button matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node.item">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <!-- <div *ngFor="let n of node; let i = index">
+      <mat-tree-node *matTreeNodeDef="let node; when: !expandable" matTreeNodePadding>
+        <mat-checkbox>{{node.children != undefined ? node.children.item['Nombre'] : ' '}}</mat-checkbox>
+      </mat-tree-node>
+    </div> -->
+
+    <mat-tree-node *matTreeNodeDef="let node; when: expandable" matTreeNodePadding>
+      <button mat-icon-button *ngIf="node.expandable" matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
         <mat-icon class="mat-icon-rtl-mirror">
           {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
         </mat-icon>
         {{node.item.item}}
       </button>
+      <mat-checkbox *ngIf="!node.expandable" [checked]="this.serviciosSeleccionados.indexOf(node.item.item) > -1" (change)="onClicked(node.item.item)">{{node.item.item['Nombre']}}</mat-checkbox>
+
       <!-- <mat-checkbox [checked]="descendantsAllSelected(node)"
                     [indeterminate]="descendantsPartiallySelected(node)"
                     (change)="todoItemSelectionToggle(node)"></mat-checkbox> -->

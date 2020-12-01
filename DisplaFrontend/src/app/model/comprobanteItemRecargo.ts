@@ -1,10 +1,10 @@
 import { ComprobanteItem } from './comprobanteItem';
-import { Servicio } from './servicio';
+import { RecargoLente } from './recargoLente';
 
 export interface ComprobanteItemRecargo {
     Id: number,
     IdRecargo: number,
-    IdRecargpNavigation: Servicio
+    IdRecargoNavigation: RecargoLente,
     IdComprobanteItem: number,
     IdComprobanteItemNavigation: ComprobanteItem,
     Monto: number,

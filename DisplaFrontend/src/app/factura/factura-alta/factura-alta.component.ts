@@ -214,6 +214,7 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarLente(producto) {
+    console.log(producto)
     let item = <ComprobanteItem>{};
     item.ComprobanteItemLente = [];
     item.ComprobanteItemRecargo = producto.ComprobanteItemRecargo;

@@ -18,7 +18,6 @@ export class ProductoLenteComponent implements OnInit {
   thirdFormGroup: FormGroup;
   isOptional = true;
   serviciosLente: ComprobanteItemServicio[] = [];
-  recargosLente: ComprobanteItemRecargo[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
@@ -27,6 +26,7 @@ export class ProductoLenteComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.data.item.ComprobanteItemServicio = [];
     // let cargarGraduacion= <ComprobanteItemLente>{};
     // cargarGraduacion.MedidaEsferico = 0;
     // cargarGraduacion.MedidaCilindrico = 0;
@@ -61,9 +61,17 @@ export class ProductoLenteComponent implements OnInit {
     // console.log(this.firstFormGroup)
   }
 
-  listaServiciosComprobanteItemEvento(model: any[]) {
-    this.data.item.ComprobanteItemServicio = model;
-    // console.log(this.modelComprobanteItemLente)
+  listaServiciosComprobanteItemEvento(model: ComprobanteItemServicio[]) {
+    console.log(model);
+    if (model.length > 0) {
+      model.forEach(element => {
+        if (!this.serviciosLente.includes(element))
+          this.serviciosLente.push(element)
+      });
+      console.log(this.serviciosLente)
+      this.data.item.ComprobanteItemServicio = this.serviciosLente;
+    }
+    console.log(this.data.item.ComprobanteItemServicio)
     this.changeDetector.detectChanges();
     document.getElementById("siguiente1").focus();
   }
