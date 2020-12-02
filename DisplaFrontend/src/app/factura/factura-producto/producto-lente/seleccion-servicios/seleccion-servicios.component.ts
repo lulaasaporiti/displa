@@ -37,7 +37,7 @@ export class ChecklistDatabase {
 
     this.tipoServicioService.getServiciosSinCalibrados(this.dataModal.idCliente)
     .subscribe(ti => {
-      console.log(ti)
+      // console.log(ti)
       // ti =  ti.filter(t => !t.Nombre.startsWith("CAL"));
       this.tipoServicio = ti;     
       this.initialize(ti);

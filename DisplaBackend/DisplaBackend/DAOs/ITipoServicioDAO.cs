@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DisplaBackend.DAOs
 {
@@ -94,13 +93,29 @@ namespace DisplaBackend.DAOs
         }
 
         public List<TipoServicio> GetServiciosSinCalibrados(int idCliente)
-        { 
-             return _context.TipoServicio
-                .Include(ti => ti.Servicio)
-                .ThenInclude(s => s.PrecioServicio)
-                .ThenInclude(c => c.PrecioServicioCliente)
-                .Where(ti => ti.Borrado == false && ti.Servicio.Any(s => !s.Borrado && !s.Nombre.Contains("CAL") && s.PrecioServicio.Any(ps => ps.PrecioServicioCliente.Any(psc => psc.IdCliente == idCliente))))
-                .ToList();
+        {
+            List<TipoServicio> lista = _context.TipoServicio
+               .Include(ti => ti.Servicio)
+               .ThenInclude(s => s.PrecioServicio)
+               .ThenInclude(c => c.PrecioServicioCliente)
+               .Where(ti => ti.Borrado == false && ti.Servicio.Any(s => !s.Borrado && !s.Nombre.Contains("CAL")))
+               .Select(ti => new TipoServicio()
+               {
+                   Id = ti.Id,
+                   Nombre = ti.Nombre,
+                   Servicio = ti.Servicio.Select(s => new Servicio()
+                   {
+                       Id = s.Id,
+                       Nombre = s.Nombre,
+                       PrecioServicio = s.PrecioServicio.Where(ps => ps.PrecioServicioCliente.Any(psc => psc.IdCliente == idCliente))
+                      .Select(x => new PrecioServicio()
+                      {
+                          Id = x.Id,
+                          Precio = x.Precio
+                      }).ToList()
+                   }).ToList()
+               }).ToList();
+            return lista;
         }
     }
 }

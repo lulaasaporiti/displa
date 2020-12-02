@@ -7,22 +7,28 @@ import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges }
 })
 export class ResumenLenteComponent implements OnInit {
   @Input() selectedLente: any[];
+  @Input() selectedServicios: any[];
+  @Input() selectedRecargos: any[];
+
   modelLente: any[] = [];
 
+  constructor(  ) {  }
 
-
-  constructor(
-  ) {
-  }
-
-
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.selectedLente.currentValue.length > 0) {
-      // this.modelLente = changes.selectedLente.currentValue;
+    // console.log(changes)
+    if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
+      this.modelLente = changes.selectedLente.currentValue;
       console.log(changes.selectedLente.currentValue)
+    }
+    if (changes.selectedServicios != undefined && changes.selectedServicios.currentValue.length > 0) {
+      // this.modelLente = changes.selectedServicios.currentValue;
+      console.log(changes.selectedServicios.currentValue)
+    }
+    if (changes.selectedRecargos != undefined && changes.selectedRecargos.currentValue != undefined && changes.selectedRecargos.currentValue.length > 0) {
+      // this.modelLente = changes.selectedLente.currentValue;
+      console.log(changes.selectedRecargos.currentValue)
     }
   }
 

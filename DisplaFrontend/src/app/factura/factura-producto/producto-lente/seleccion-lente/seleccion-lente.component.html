@@ -148,7 +148,7 @@
                     <mat-icon>done</mat-icon>
                 </mat-button-toggle>
                 <mat-button-toggle id="remove" (keyup)="flechita($event, 'done')"
-                    (keyup.enter)="comprobanteItemLenteSelected()">
+                    (keyup.enter)="comprobanteItemLenteSelected(); tabInventado($event, 'calibrado')">
                     <mat-icon>remove</mat-icon>
                 </mat-button-toggle>
             </mat-button-toggle-group>
@@ -167,7 +167,7 @@
                             (+{{ser.value.length - 1}} {{ser.value?.length === 2 ? 'servicio' : 'más'}})
                         </span>
                     </mat-select-trigger>
-                    <mat-option *ngFor="let s of filteredServicios | async" [value]="s"
+                    <mat-option *ngFor="let s of filteredServicios | async" [value]="s" (keydown.enter)="$event.stopImmediatePropagation()"
                         (onSelectionChange)="serviciosSeleccionados($event)">
                         {{s.IdPrecioServicioNavigation.IdServicio}} - {{s.IdPrecioServicioNavigation.IdServicioNavigation.Nombre}} - Precio  {{s.IdPrecioServicioNavigation.Precio}}
                     </mat-option>

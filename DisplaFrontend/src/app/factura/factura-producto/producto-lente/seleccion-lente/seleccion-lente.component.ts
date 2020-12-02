@@ -133,33 +133,38 @@ export class SeleccionLenteComponent implements OnInit {
     })
   }
 
-  // setInitialValue() {
-  //   this.filteredServicios
-  //     // .pipe(take(1), takeUntil(this._onDestroy))
-  //     .subscribe(() => {
-  //       // setting the compareWith property to a comparison function
-  //       // triggers initializing the selection according to the initial value of
-  //       // the form control (i.e. _initializeSelection())
-  //       // this needs to be done after the filteredBanks are loaded initially
-  //       // and after the mat-option elements are available
-  //       this.multiSelect.compareWith = (a: Servicio, b: Servicio) => a && b && a.Id === b.Id;
-  //     });
-
-  //     }
-
-  getCalibrados(){
-    this.servicioService.getCalibrados(this.data.idCliente)
-    .subscribe(s => {
-      this.servicios = s;
-      // console.log(s)
-    })
-
-    this.filteredServicios.next(this.servicios.slice());
-    this.bankMultiFilterCtrl.valueChanges
-    // .pipe(takeUntil(this._onDestroy))
+  setInitialValue() {
+    this.filteredServicios
+      // .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
-        this.filterServicios();
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        this.multiSelect.compareWith = (a: Servicio, b: Servicio) => a && b && a.Id === b.Id;
       });
+      }
+
+  getCalibrados() {
+    this.servicioService.getCalibrados(this.data.idCliente)
+      .subscribe(s => {
+        this.servicios = s;
+        // console.log(s)
+        this.filteredServicios.next(this.servicios.slice());
+        this.bankMultiFilterCtrl.valueChanges
+          // .pipe(takeUntil(this._onDestroy))
+          .subscribe(() => {
+            this.filterServicios();
+          });
+      })
+
+    // this.filteredServicios.next(this.servicios.slice());
+    // this.bankMultiFilterCtrl.valueChanges
+    // // .pipe(takeUntil(this._onDestroy))
+    //   .subscribe(() => {
+    //     this.filterServicios();
+    //   });
   }
 
   serviciosSeleccionados(event: MatOptionSelectionChange) {

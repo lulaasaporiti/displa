@@ -62,10 +62,4 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
-
-    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-        <!-- <button mat-raised-button (click)="onNoClick()">Cancelar</button> -->
-        <button mat-raised-button color="primary" id="seleccionar"
-            [mat-dialog-close]="true">Seleccionar</button>
-    </div>
 </div>
