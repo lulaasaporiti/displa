@@ -67,7 +67,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
-
+    
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1141,6 +1141,10 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Borrado).HasColumnName("borrado");
+
+                entity.Property(e => e.DescripcionFactura)
+                    .HasColumnName("descripcionFactura")
+                    .HasMaxLength(10);
 
                 entity.Property(e => e.IdTipoServicio).HasColumnName("idTipoServicio");
 

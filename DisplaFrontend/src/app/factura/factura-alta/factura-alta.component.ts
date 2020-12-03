@@ -220,6 +220,7 @@ export class FacturaAltaComponent implements OnInit {
     item.ComprobanteItemLente = [];
     item.ComprobanteItemRecargo = producto.ComprobanteItemRecargo;
     item.ComprobanteItemServicio = producto.ComprobanteItemServicio;
+    console.log(item.ComprobanteItemServicio)
     item.Cantidad = 0;
     item.Monto = 0;
     item.NumeroSobre = producto.ComprobanteItemLente[0].Sobre;
@@ -236,9 +237,11 @@ export class FacturaAltaComponent implements OnInit {
       item.ComprobanteItemLente.push(itemLente);
     })
     montoLentes = item.Monto;
-    producto.ComprobanteItemRecargo.forEach(r => {
-      item.Monto = item.Monto + (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));      
-    })
+    if (producto.ComprobanteItemRecargo != undefined) {
+      producto.ComprobanteItemRecargo.forEach(r => {
+        item.Monto = item.Monto + (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
+      })
+    }
     producto.ComprobanteItemServicio.forEach(s => {
     })
     this.dataSource.data = this.dataSource.data.concat(item);

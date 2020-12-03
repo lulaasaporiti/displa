@@ -99,6 +99,4 @@ export class ProductoLenteComponent implements OnInit {
       }
     }
   }
-
-
 }

@@ -6,6 +6,7 @@ export interface Servicio {
     Nombre: string,
     IdTipoServicio: number,
     IdTipoServicioNavigation: TipoServicio,
+    DescripcionFactura: string,
     Borrado: boolean,
     PrecioServicio: PrecioServicio[]
 }

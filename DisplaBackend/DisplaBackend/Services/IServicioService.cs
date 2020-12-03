@@ -16,7 +16,7 @@ namespace DisplaBackend.Services
         Servicio GetById(int idServicio);
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
         bool GenerarPrecioLista(int porcentaje, int lista);
-        List<PrecioServicioCliente> GetCalibrados(int idCliente);
+        List<Servicio> GetCalibrados(int idCliente);
     }
 
     public class ServicioService : IServicioService
@@ -33,7 +33,7 @@ namespace DisplaBackend.Services
             return _servicioDAO.GetServicios();
         }
 
-        public List<PrecioServicioCliente> GetCalibrados(int idCliente)
+        public List<Servicio> GetCalibrados(int idCliente)
         {
             return _servicioDAO.GetCalibrados(idCliente);
         }

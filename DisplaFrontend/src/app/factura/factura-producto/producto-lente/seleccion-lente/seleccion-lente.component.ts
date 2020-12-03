@@ -170,12 +170,12 @@ export class SeleccionLenteComponent implements OnInit {
   serviciosSeleccionados(event: MatOptionSelectionChange) {
     if (event.source.selected == true) {
       let comprobanteItem = <ComprobanteItemServicio>{}
-      comprobanteItem.IdServicio = event.source.value.IdPrecioServicioNavigation.IdServicioNavigation.Id;
+      comprobanteItem.IdServicio = event.source.value.Id;
       comprobanteItem.IdServicioNavigation = event.source.value;
       this.serviciosLente.push(comprobanteItem);
     }
     else {
-      let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.IdPrecioServicioNavigation.IdServicioNavigation.Id);
+      let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
       this.serviciosLente.splice(i, 1);
     }
     // console.log(this.serviciosLente)
@@ -225,7 +225,7 @@ export class SeleccionLenteComponent implements OnInit {
     }
     // filter the banks
     this.filteredServicios.next(
-      this.servicios.filter(ser => ser.IdPrecioServicioNavigation.IdServicioNavigation.Id.toString().indexOf(search) !== -1 || ser.IdPrecioServicioNavigation.IdServicioNavigation.Nombre.toLowerCase().indexOf(search) > -1)
+      this.servicios.filter(ser => ser.Id.toString().indexOf(search) !== -1 || ser.Nombre.toLowerCase().indexOf(search) > -1)
     );
   }
 

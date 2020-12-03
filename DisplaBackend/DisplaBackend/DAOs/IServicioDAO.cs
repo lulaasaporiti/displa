@@ -18,7 +18,7 @@ namespace DisplaBackend.DAOs
         Servicio GetById(int idServicio);
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
         bool GenerarPrecioLista(int porcentaje, int lista);
-        List<PrecioServicioCliente> GetCalibrados(int idCliente);
+        List<Servicio> GetCalibrados(int idCliente);
     }
 
     public class ServicioDAO : IServicioDAO
@@ -227,12 +227,30 @@ namespace DisplaBackend.DAOs
             }
         }
 
-        public List<PrecioServicioCliente> GetCalibrados(int idCliente)
+        public List<Servicio> GetCalibrados(int idCliente)
         {
-            return _context.PrecioServicioCliente
-                .Include(b => b.IdPrecioServicioNavigation)
-                .ThenInclude(b => b.IdServicioNavigation)
-                .Where(b => b.IdPrecioServicioNavigation.IdServicioNavigation.Nombre.Contains("CAL") && !b.IdPrecioServicioNavigation.IdServicioNavigation.Borrado && b.IdCliente == idCliente).ToList();
+            //return _context.PrecioServicioCliente
+            //    .Include(b => b.IdPrecioServicioNavigation)
+            //    .ThenInclude(b => b.IdServicioNavigation)
+            //    .Where(b => b.IdPrecioServicioNavigation.IdServicioNavigation.Nombre.Contains("CAL") && !b.IdPrecioServicioNavigation.IdServicioNavigation.Borrado && b.IdCliente == idCliente)
+
+            //    .ToList();
+            return _context.Servicio
+                .Include(s => s.PrecioServicio)
+                .ThenInclude(c => c.PrecioServicioCliente)
+                .Where(s => s.Borrado == false && s.Nombre.Contains("CAL"))
+                .Select(s => new Servicio()
+                {
+                    Id = s.Id,
+                    Nombre = s.Nombre,
+                    PrecioServicio = s.PrecioServicio.Where(ps => ps.PrecioServicioCliente.Any(psc => psc.IdCliente == idCliente))
+                      .Select(x => new PrecioServicio()
+                      {
+                          Id = x.Id,
+                          Precio = x.Precio
+                      }).ToList()
+                }).ToList()
+                .ToList();
         }
 
     }

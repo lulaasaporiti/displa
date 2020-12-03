@@ -17,6 +17,7 @@ namespace DisplaBackend.Models
         public string Nombre { get; set; }
         public int IdTipoServicio { get; set; }
         public bool Borrado { get; set; }
+        public string DescripcionFactura { get; set; }
 
         public virtual TipoServicio IdTipoServicioNavigation { get; set; }
         public virtual ICollection<ComprobanteItem> ComprobanteItem { get; set; }
