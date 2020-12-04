@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LenteService } from 'src/services/lente.service';
@@ -19,8 +19,8 @@ export class ProductoLenteComponent implements OnInit {
   fourthFormGroup: FormGroup;
   isOptional = true;
   serviciosLente: ComprobanteItemServicio[] = [];
-  selectedServicio = new EventEmitter<any[]>();
-
+  // selectedServicio = new EventEmitter<any[]>();
+  @Output() selectedServicio = new EventEmitter<any[]>();
   constructor(
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
     private lenteService: LenteService,

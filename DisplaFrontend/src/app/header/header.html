@@ -63,9 +63,22 @@
                 </mat-menu>
 
 
-                <!-- <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Ventas</button>
-            <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Contabilidad</button> -->
-
+                <button mat-button class="button-list" [matMenuTriggerFor]="menuVentas">Ventas</button>
+                <mat-menu fxLayoutAlign="start center" #menuVentas="matMenu">
+                    <a mat-menu-item class="button-list" (click)="openDialogClientes();">Factura </a>
+                    <a mat-menu-item class="button-list">Nota de crédito</a>
+                    <a mat-menu-item class="button-list">Nota de débito</a>
+                    <a mat-menu-item class="button-list">Recibo</a>
+                    <a mat-menu-item class="button-list">Impresión de recibos pendientes</a>
+                    <a mat-menu-item class="button-list">Búsqueda de un item en factura o remito</a>
+                    <a mat-menu-item class="button-list"  [matMenuTriggerFor]="menuSobre">Sobre</a>
+                    <a mat-menu-item class="button-list">Imprimir CAE pendientes</a>
+                </mat-menu>
+             <!-- <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Contabilidad</button> -->
+             <mat-menu fxLayoutAlign="start center" #menuSobre="matMenu">
+                <a mat-menu-item class="button-list" (click)="openDialogAltaSobre();">Alta</a>
+                <a mat-menu-item class="button-list">Consulta</a>
+            </mat-menu>
 
                 <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
                 <mat-menu fxLayoutAlign="start center" #menuClientes="matMenu">

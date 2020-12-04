@@ -49,6 +49,7 @@ import { AsignacionPrecioClienteModule } from './asignacion-precio/asignacion-pr
 import { FacturaModule } from './factura/factura.module';
 import { ModificacionParametrosModule } from './header/modificacion-parametros/modificacion-parametros.module';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { SobreModule } from './sobre/sobre.module';
 
 
 
@@ -101,6 +102,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     ProveedorModule,
     ProvinciaModule,
     ServicioModule,
+    SobreModule,
     TarjetaCreditoModule,
     TipoArticuloModule,
     TipoBlockModule,

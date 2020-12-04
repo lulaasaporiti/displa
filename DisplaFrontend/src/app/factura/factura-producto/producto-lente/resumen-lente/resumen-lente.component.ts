@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { MatTableDataSource, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-resumen-lente',
@@ -7,32 +8,34 @@ import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges }
 })
 export class ResumenLenteComponent implements OnInit {
   @Input() selectedLente: any[];
-  @Input() selectedServicios: any[];
-  @Input() selectedRecargos: any[];
+  dataSource = new MatTableDataSource<any>();
+  displayedColumns: string[] = ['Descripcion'];
 
   modelLente: any[] = [];
 
-  constructor(  ) {  }
+  constructor(private changeDetector: ChangeDetectorRef,
+    @Inject(MAT_DIALOG_DATA) public data: any)  { 
+      // console.log(data)
+     } 
 
-  ngOnInit() {  }
+  ngOnInit() {
+    this.changeDetector.detectChanges();
+    // console.log(this.data.item)
+   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes)
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
-      console.log(changes.selectedLente.currentValue)
     }
-    if (changes.selectedServicios != undefined && changes.selectedServicios.currentValue.length > 0) {
-      // this.modelLente = changes.selectedServicios.currentValue;
-      console.log(changes.selectedServicios.currentValue)
-    }
-    if (changes.selectedRecargos != undefined && changes.selectedRecargos.currentValue != undefined && changes.selectedRecargos.currentValue.length > 0) {
-      // this.modelLente = changes.selectedLente.currentValue;
-      console.log(changes.selectedRecargos.currentValue)
-    }
+    console.log(changes)
+   
+    // this.dataSource.data.concat(this.data.item.ComprobanteItemRecargo);
   }
 
+  ngAfterViewInit() {
 
+  }
+  
   _keyPress(event: any) {
     const pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);

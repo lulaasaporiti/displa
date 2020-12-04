@@ -107,6 +107,7 @@ namespace DisplaBackend.DAOs
                    {
                        Id = s.Id,
                        Nombre = s.Nombre,
+                       DescripcionFactura = s.DescripcionFactura,
                        PrecioServicio = s.PrecioServicio.Where(ps => ps.PrecioServicioCliente.Any(psc => psc.IdCliente == idCliente))
                       .Select(x => new PrecioServicio()
                       {

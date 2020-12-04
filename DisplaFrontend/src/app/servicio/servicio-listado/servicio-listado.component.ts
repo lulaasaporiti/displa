@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class ServicioListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['Nombre', 'TipoServicio', 'Borrado', 'Opciones'];
+  displayedColumns: string[] = ['Nombre', 'TipoServicio','DescripcionF', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Servicio>();
   traerVigentes: boolean = true;
 

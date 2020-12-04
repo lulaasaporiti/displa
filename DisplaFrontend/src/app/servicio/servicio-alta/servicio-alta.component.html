@@ -25,6 +25,14 @@
             </mat-form-field>
         </div>
 
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Descripción factura" [(ngModel)]="data.modelServicio.DescripcionFactura" name="descripcionFactura"
+                    #descripcionFactura="ngModel" required>
+                <mat-error *ngIf="descripcionFactura.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
 
     <div fxLayout="row" fxLayoutAlign="start center">
         <p>Precios</p>

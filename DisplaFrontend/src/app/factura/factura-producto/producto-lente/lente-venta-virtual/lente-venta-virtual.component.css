@@ -1,6 +1,9 @@
 .dialog-content {
     padding: 15px 25px 30px 25px;
 }
+.colorVenta{
+  background-color:#f0f4c3;
+}
 
 .dialog-title {
     font-family: "Chalet London" !important;
@@ -44,32 +47,3 @@
 
 }
 
-.link:link {
-    color: black;
-    font-weight: bold;
-    font-style: italic;
-    background-color: transparent;
-    text-decoration:none;
-  }
-  
-  .link:visited {
-    color: black;
-    font-weight: bold;
-    font-style: italic;
-    background-color: transparent;
-    text-decoration: none;
-  }
-  
-  .link:hover {
-    color: black;
-    font-weight: bold;
-    font-style: italic;
-    text-decoration: black;
-  }
-
-  .link:active {
-    color: black;
-    font-weight: bold;
-    font-style: italic;
-    text-decoration: black;
-  }

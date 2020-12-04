@@ -13,6 +13,7 @@ import { LenteService } from 'src/services/lente.service';
 import { ClienteSeleccionComponent } from '../factura/cliente-seleccion/cliente-seleccion.component';
 import { LoadingSpinnerService } from '../loading-spinner/loading-spinner.service';
 import { ModificacionParametrosComponent } from './modificacion-parametros/modificacion-parametros.component';
+import { SobreAltaComponent } from '../sobre/sobre-alta/sobre-alta.component';
 
 @Component({
   selector: 'app-header',
@@ -90,6 +91,25 @@ export class HeaderComponent {
           });
       }
     })
+  }
+
+  openDialogAltaSobre(): void {
+    let idCliente;
+    const dialogRef = this.dialog.open(SobreAltaComponent, {
+      data: { idCliente: idCliente },
+      width: '500px'
+    })
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result != undefined && result != false) {
+    //     this.loadingSpinnerService.show();
+    //     this.router.navigateByUrl('Account/Login').then(
+    //       () => {
+    //         this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
+    //         this.loadingSpinnerService.hide();
+    //         window.scrollTo(0, 0);
+    //       });
+    //   }
+    // })
   }
 
   forgotPassword() {

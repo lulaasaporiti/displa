@@ -162,14 +162,14 @@
                         <ngx-mat-select-search [formControl]="bankMultiFilterCtrl"></ngx-mat-select-search>
                     </mat-option>
                     <mat-select-trigger>
-                        {{(!ser.empty) ? ser.value[0].Id : ''}} - {{(!ser.empty)  ? ser.value[0].Nombre : ''}}
+                        {{(!ser.empty) ? ser.value[0].Id : ''}} - {{(!ser.empty)  ? ser.value[0].Nombre : ''}}  - Precio  {{(!ser.empty)  ?  ser.value[0].PrecioServicio[0].Precio : ''}}
                         <span *ngIf="ser.value?.length > 1" class="example-additional-selection">
                             (+{{ser.value.length - 1}} {{ser.value?.length === 2 ? 'servicio' : 'más'}})
                         </span>
                     </mat-select-trigger>
                     <mat-option *ngFor="let s of filteredServicios | async" [value]="s" (keydown.enter)="$event.stopImmediatePropagation()"
                         (onSelectionChange)="serviciosSeleccionados($event)">
-                        {{s.Id}} - {{s.Nombre}} - Precio  {{s.Precio}}
+                        {{s.Id}} - {{s.Nombre}} - Precio  {{s.PrecioServicio[0].Precio}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>

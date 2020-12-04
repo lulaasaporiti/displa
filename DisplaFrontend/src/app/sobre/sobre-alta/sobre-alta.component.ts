@@ -1,28 +1,27 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ClienteService } from 'src/services/cliente.service';
-import { Cliente } from 'src/app/model/cliente';
+import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
+import { Cliente } from 'src/app/model/cliente';
+import { ClienteService } from 'src/services/cliente.service';
 import { startWith, map } from 'rxjs/operators';
 
+
 @Component({
-  selector: 'app-cliente-seleccion',
-  templateUrl: './cliente-seleccion.component.html',
-  styleUrls: ['./cliente-seleccion.component.css']
+  selector: 'app-sobre-alta',
+  templateUrl: './sobre-alta.component.html',
+  styleUrls: ['./sobre-alta.component.css']
 })
-export class ClienteSeleccionComponent implements OnInit {
+export class SobreAltaComponent {
   clientes: Cliente[];
   clientesControl = new FormControl();
   filteredClientes: Observable<Cliente[]>;
-  deshabilitarSeleccionar = false;
 
   constructor(
-    public dialogRef: MatDialogRef<ClienteSeleccionComponent>,
+    public dialogRef: MatDialogRef<SobreAltaComponent>,
     private clienteService: ClienteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
-
 
   ngOnInit() {
     this.clienteService.getClientesVigentesList()
@@ -35,6 +34,9 @@ export class ClienteSeleccionComponent implements OnInit {
           );
       });
   }
+  onNoClick(): void {
+    this.dialogRef.close(false);
+  }
 
   displayCliente(c?: Cliente): string | undefined {
     return c ? c.Id + ' - ' + c.Optica : undefined;
@@ -45,24 +47,9 @@ export class ClienteSeleccionComponent implements OnInit {
     return this.clientes.filter(option => option.Optica.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  onNoClick(): void {
-    this.dialogRef.close(false);
-  }
-
-  onEnter(): void {
-    if (this.data.idCliente != "" && this.data.idCliente != undefined)
-      this.dialogRef.close(this.data);
-  }
-
   setIdCliente(control, data) {
     if (control.value != null) {
-      if (control.value.Bloqueado == true) {
-        this.deshabilitarSeleccionar = true;
-      }
-      else {
-        data.idCliente = control.value.Id;
-        this.deshabilitarSeleccionar = false;
-      }
+
     }
   }
 
@@ -81,4 +68,6 @@ export class ClienteSeleccionComponent implements OnInit {
       return [];
     }
   }
+
+
 }

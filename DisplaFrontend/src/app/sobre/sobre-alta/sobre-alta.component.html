@@ -1,0 +1,45 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="selection"></mat-icon>
+            <p class="dialog-title">Alta de sobre</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
+                    [matAutocomplete]="auto" (blur)="setIdCliente(this.clientesControl,
+                data)" (keyup.enter)="setIdCliente(this.clientesControl, data);onEnter();" required>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
+                    <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
+                        {{ c.Id }} - {{c.Optica}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="clientesControl.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+        
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <p>Datos</p>
+            <button mat-icon-button color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div fxLayout="row" fxFill>
+            <div>
+                <div fxLayoutGap="1vw">
+                    <!-- <mat-form-field (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
+                        <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
+                        <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+    
+                        <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                        (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1"
+                            color="accent">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

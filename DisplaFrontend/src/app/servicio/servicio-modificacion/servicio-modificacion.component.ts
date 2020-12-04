@@ -18,6 +18,7 @@ export class ServicioModificacionComponent implements OnInit{
     public dialogRef: MatDialogRef<ServicioModificacionComponent>,
     private tipoServicioService: TipoServicioService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log(data)
     }
 
     ngOnInit() {
