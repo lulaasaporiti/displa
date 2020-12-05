@@ -8,11 +8,11 @@
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
-                    [matAutocomplete]="auto" (blur)="setIdCliente(this.clientesControl,
-                data)" (keyup.enter)="setIdCliente(this.clientesControl, data);onEnter();" required>
+                    [matAutocomplete]="auto" (blur)="setIdCliente(this.clientesControl)" 
+                    (keyup.enter)="setIdCliente(this.clientesControl)" required>
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
                     <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
-                        {{ c.Id }} - {{c.Optica}}
+                        {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                     </mat-option>
                 </mat-autocomplete>
                 <mat-error *ngIf="clientesControl.invalid">Este campo es obligatorio.</mat-error>
@@ -21,25 +21,36 @@
         
         <div fxLayout="row" fxLayoutAlign="start center">
             <p>Datos</p>
-            <button mat-icon-button color="accent" matTooltip="Agregar precio" (click)="agregarPrecio()">
+            <button mat-icon-button color="accent" matTooltip="Agregar sobre" (click)="agregarSobre()">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
-        <div fxLayout="row" fxFill>
-            <div>
-                <div fxLayoutGap="1vw">
-                    <!-- <mat-form-field (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
-                        <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
-                        <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+        <div fxFill fxLayout="row">
+            <div fxFill>
+                <div fxLayoutGap="1vw" (change)="sobreSelected()" *ngFor="let s of sobres; let index = index">
+                    <mat-form-field fxFlex="18">
+                        <input matInput placeholder="Número" [(ngModel)]="s.Numero" id="numero{{index}}" name="numero{{index}}" #numero="ngModel" required>
+                        <mat-error *ngIf="numero.invalid">Este campo es obligatorio</mat-error>
     
-                        <button mat-button matSuffix mat-icon-button aria-label="Clear"
+                        <!-- <button mat-button matSuffix mat-icon-button aria-label="Clear"
                         (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1"
                             color="accent">
                             <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field> -->
+                        </button> -->
+                    </mat-form-field>
+                    <mat-form-field fxFlex="18">
+                        <input matInput placeholder="Entregas" [(ngModel)]="s.Entregas" id="entregas{{index}}" name="entregas{{index}}" #entregas="ngModel" required>
+                        <mat-error *ngIf="entregas.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+                    <mat-form-field fxFlex>
+                        <input matInput placeholder="Observaciones" [(ngModel)]="s.Observaciones" id="observaciones{{index}}" name="observaciones{{index}}" #observaciones="ngModel">
+                    </mat-form-field>
                 </div>
             </div>
+        </div>
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="sobres">Agregar</button>
         </div>
     </div>
 </form>

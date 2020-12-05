@@ -57,6 +57,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<RecargoLente> RecargoLente { get; set; }
         public virtual DbSet<Remito> Remito { get; set; }
         public virtual DbSet<Servicio> Servicio { get; set; }
+        public virtual DbSet<Sobre> Sobre { get; set; }
         public virtual DbSet<StockLente> StockLente { get; set; }
         public virtual DbSet<TarjetaCredito> TarjetaCredito { get; set; }
         public virtual DbSet<TipoArticulo> TipoArticulo { get; set; }
@@ -67,7 +68,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
-    
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1158,6 +1158,39 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdTipoServicio)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Servicio_TipoServicio");
+            });
+
+            modelBuilder.Entity<Sobre>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Entregas).HasColumnName("entregas");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.Property(e => e.Numero).HasColumnName("numero");
+
+                entity.Property(e => e.Observaciones)
+                    .HasColumnName("observaciones")
+                    .HasMaxLength(250);
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.Sobre)
+                    .HasForeignKey(d => d.IdCliente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Sobre_Cliente");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.Sobre)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Sobre_AspNetUsers");
             });
 
             modelBuilder.Entity<StockLente>(entity =>

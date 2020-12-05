@@ -1,6 +1,5 @@
-<div  *ngIf="isAuthenticated()">
-
-    <mat-toolbar fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+<div *ngIf="isAuthenticated()">
+    <mat-toolbar fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
         <mat-nav-list fxLayout="row">
             <div fxLayout="row" fxFill class="menu-nav">
                 <a mat-button fxLayoutAlign="start center" routerLink="Home" class="button-list" fxLayout="row">
@@ -70,24 +69,49 @@
                     <a mat-menu-item class="button-list">Nota de débito</a>
                     <a mat-menu-item class="button-list">Recibo</a>
                     <a mat-menu-item class="button-list">Impresión de recibos pendientes</a>
-                    <a mat-menu-item class="button-list">Búsqueda de un item en factura o remito</a>
-                    <a mat-menu-item class="button-list"  [matMenuTriggerFor]="menuSobre">Sobre</a>
+                    <a mat-menu-item class="button-list">Búsqueda de un item</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuSobre">Sobre</a>
                     <a mat-menu-item class="button-list">Imprimir CAE pendientes</a>
                 </mat-menu>
-             <!-- <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Contabilidad</button> -->
-             <mat-menu fxLayoutAlign="start center" #menuSobre="matMenu">
-                <a mat-menu-item class="button-list" (click)="openDialogAltaSobre();">Alta</a>
-                <a mat-menu-item class="button-list">Consulta</a>
-            </mat-menu>
+                <mat-menu fxLayoutAlign="start center" #menuSobre="matMenu">
+                    <a mat-menu-item class="button-list" (click)="openDialogAltaSobre();">Alta</a>
+                    <a mat-menu-item class="button-list">Consulta</a>
+                </mat-menu>
 
-                <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
+                <button mat-button class="button-list" [matMenuTriggerFor]="menuContabilidad">Contabilidad</button>
+                <mat-menu fxLayoutAlign="start center" #menuContabilidad="matMenu">
+                    <a mat-menu-item class="button-list">Movimientos internos</a>
+                    <a mat-menu-item class="button-list">Consultar pedido</a>
+                    <a mat-menu-item class="button-list">Consultar de remitos anulados</a>
+                    <a mat-menu-item class="button-list">Anulación/consulta de comprobante</a>
+                    <a mat-menu-item class="button-list">Consulta de ventas virtuales</a>
+                    <a mat-menu-item class="button-list">IVA ventas</a>
+                    <a mat-menu-item class="button-list">Ingresos brutos</a>
+                    <a mat-menu-item class="button-list">Valorización de stock</a>
+                    <a mat-menu-item class="button-list">Porcentajes de descuentos</a>
+                    <a mat-menu-item class="button-list">Consulta de clientes fuera de lista</a>
+                </mat-menu>
+
+                <button mat-button class="button-menu" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
                 <mat-menu fxLayoutAlign="start center" #menuClientes="matMenu">
                     <a mat-menu-item class="button-list" routerLink="Cuentas/Listado">Listado de cuentas
                         corrientes</a>
                     <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Clientes</a>
                 </mat-menu>
 
-                <!-- <button mat-button class="button-list" [matMenuTriggerFor]="menuClientes">Estadísticas ventas</button> -->
+                <button mat-button class="button-menu" [matMenuTriggerFor]="menuEstadisticas">Estadísticas ventas</button>
+                <mat-menu fxLayoutAlign="start center" #menuEstadisticas="matMenu">
+                    <a mat-menu-item class="button-list">Ranking de facturación</a>
+                    <a mat-menu-item class="button-list">Artículos por rubro</a>
+                    <a mat-menu-item class="button-list">Cristales por clase</a>
+                    <a mat-menu-item class="button-list">Totales por periodo</a>
+                    <a mat-menu-item class="button-list">Cantidad de lentes vendidos</a>
+                    <a mat-menu-item class="button-list">Detalle artículos varios</a>
+                    <a mat-menu-item class="button-list">Ventas de artículos varios</a>
+                    <a mat-menu-item class="button-list">¿Quién dejó de comprar?</a>
+                    <a mat-menu-item class="button-list">Rubros vendidos por clientes</a>
+                    <a mat-menu-item class="button-list">Ventas por mes</a>
+                </mat-menu>
 
                 <a mat-button routerLink="Proveedor/Listado" class="button-list" fxLayout="row">
                     Proveedores
@@ -104,7 +128,8 @@
                         [matMenuTriggerFor]="menuDatosProductos">Productos</button>
                     <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuDatosClientes">Clientes y
                         proveedores</button>
-                        <button mat-menu-item class="button-list" (click)="abrirModificacionParametros()">Modificación parámetros</button>
+                    <button mat-menu-item class="button-list" (click)="abrirModificacionParametros()">Modificación
+                        parámetros</button>
                 </mat-menu>
                 <mat-menu fxLayoutAlign="start center" #menuDatosProductos="matMenu">
                     <!-- <a mat-menu-item class="button-list" routerLink="Lente/Listado">Lentes</a> -->
@@ -152,7 +177,7 @@
                 <a mat-button class="footer-list" routerLink="">Facturas proveedores</a>
                 <a mat-button class="footer-list" routerLink="">Cuentas proveedores</a>
                 <a mat-button class="footer-list" routerLink="">Recibos proveedores</a>
-                <a mat-button class="footer-list" routerLink="">Alta de sobres</a>
+                <a mat-button class="footer-list" (click)="openDialogAltaSobre();">Alta de sobres</a>
             </p>
         </div>
     </footer>

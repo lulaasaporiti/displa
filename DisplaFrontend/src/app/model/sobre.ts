@@ -1,12 +1,14 @@
-import { TipoServicio } from './tipoServicio';
-import { PrecioServicio } from './precioServicio';
+import { Cliente } from './cliente';
+import { Usuario } from './usuario';
 
-export interface Servicio {
+export interface Sobre {
     Id: number,
-    Nombre: string,
-    IdTipoServicio: number,
-    IdTipoServicioNavigation: TipoServicio,
-    DescripcionFactura: string,
-    Borrado: boolean,
-    PrecioServicio: PrecioServicio[]
+    Numero: number,
+    Entregas: number,
+    Observaciones: string,
+    Fecha: Date,
+    IdCliente: number,
+    IdClienteNavigation: Cliente,
+    IdUsuario: number,
+    IdUsuarioNavigation: Usuario
 }

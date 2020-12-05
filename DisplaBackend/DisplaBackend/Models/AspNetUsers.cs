@@ -14,6 +14,7 @@ namespace DisplaBackend.Models
             MovimientoBlock = new HashSet<MovimientoBlock>();
             MovimientoInsumo = new HashSet<MovimientoInsumo>();
             Remito = new HashSet<Remito>();
+            Sobre = new HashSet<Sobre>();
             VentaVirtual = new HashSet<VentaVirtual>();
         }
 
@@ -43,6 +44,7 @@ namespace DisplaBackend.Models
         public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
         public virtual ICollection<Remito> Remito { get; set; }
+        public virtual ICollection<Sobre> Sobre { get; set; }
         public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
     }
 }

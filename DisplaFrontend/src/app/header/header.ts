@@ -14,6 +14,7 @@ import { ClienteSeleccionComponent } from '../factura/cliente-seleccion/cliente-
 import { LoadingSpinnerService } from '../loading-spinner/loading-spinner.service';
 import { ModificacionParametrosComponent } from './modificacion-parametros/modificacion-parametros.component';
 import { SobreAltaComponent } from '../sobre/sobre-alta/sobre-alta.component';
+import { SobreService } from 'src/services/sobre.service';
 
 @Component({
   selector: 'app-header',
@@ -24,15 +25,16 @@ export class HeaderComponent {
   hide;
 
   constructor(
-    public dialog: MatDialog,
     private router: Router,
-    private accountService: AccountService,
+    public dialog: MatDialog,
     private mainService: MainService,
     private lenteService: LenteService,
-    private articuloService: ArticuloVarioService,
-    private loadingSpinnerService: LoadingSpinnerService,
+    private sobreService: SobreService,
+    private sessionService: SessionService,
+    private accountService: AccountService,
     private servicioService: ServicioService,
-    private sessionService: SessionService){
+    private articuloService: ArticuloVarioService,
+    private loadingSpinnerService: LoadingSpinnerService,){
   }
 
 
@@ -97,19 +99,23 @@ export class HeaderComponent {
     let idCliente;
     const dialogRef = this.dialog.open(SobreAltaComponent, {
       data: { idCliente: idCliente },
-      width: '500px'
+      width: '550px',
+      height: '500px'
     })
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result != undefined && result != false) {
-    //     this.loadingSpinnerService.show();
-    //     this.router.navigateByUrl('Account/Login').then(
-    //       () => {
-    //         this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
-    //         this.loadingSpinnerService.hide();
-    //         window.scrollTo(0, 0);
-    //       });
-    //   }
-    // })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.loadingSpinnerService.show();
+        this.sobreService.saveOrUpdateSobre(result).subscribe(
+          data => {
+            this.sessionService.showSuccess("Los sobres se han agregado correctamente.");
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("Algún sobre no se agregó.");
+          }
+        );
+      }
+    })
   }
 
   forgotPassword() {

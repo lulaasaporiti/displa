@@ -1,10 +1,12 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Cliente } from 'src/app/model/cliente';
 import { ClienteService } from 'src/services/cliente.service';
 import { startWith, map } from 'rxjs/operators';
+import { Sobre } from 'src/app/model/sobre';
+import { SessionService } from 'src/services/session.service';
 
 
 @Component({
@@ -16,10 +18,14 @@ export class SobreAltaComponent {
   clientes: Cliente[];
   clientesControl = new FormControl();
   filteredClientes: Observable<Cliente[]>;
+  sobres: Sobre[] = [];
+  selectedSobre = new EventEmitter<Sobre[]>();
+  idCliente: number;
 
   constructor(
     public dialogRef: MatDialogRef<SobreAltaComponent>,
     private clienteService: ClienteService,
+    private sessionService: SessionService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -34,12 +40,13 @@ export class SobreAltaComponent {
           );
       });
   }
+
   onNoClick(): void {
     this.dialogRef.close(false);
   }
 
   displayCliente(c?: Cliente): string | undefined {
-    return c ? c.Id + ' - ' + c.Optica : undefined;
+    return c ? c.Id + ' - ' + c.Optica + ' - ' + c.Responsable : undefined;
   }
 
   private _filter(Optica: string): Cliente[] {
@@ -47,9 +54,9 @@ export class SobreAltaComponent {
     return this.clientes.filter(option => option.Optica.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  setIdCliente(control, data) {
+  setIdCliente(control) {
     if (control.value != null) {
-
+      this.idCliente = control.value.Id;
     }
   }
 
@@ -69,5 +76,29 @@ export class SobreAltaComponent {
     }
   }
 
+  agregarSobre(){
+    let sobre = <Sobre>{};
+    sobre.Entregas = 1;
+    sobre.Fecha = new Date();
+    sobre.IdCliente = this.idCliente;
+    sobre.IdUsuario = +this.sessionService.getPayload()['idUser'];
+    this.sobres.push(sobre);
+  }
+
+  eliminarUltimoSobre() {
+    this.sobres.pop();
+    this.updateStateSobre();
+  }
+
+  sobreSelected() {
+    this.updateStateSobre();
+  }
+
+  updateStateSobre() {
+    //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
+    //y el ngOnChanges() lo detecte
+    let modelSobre = JSON.parse(JSON.stringify(this.data.modelServicio.SobreServicio));
+    this.selectedSobre.emit(modelSobre);
+  }
 
 }
