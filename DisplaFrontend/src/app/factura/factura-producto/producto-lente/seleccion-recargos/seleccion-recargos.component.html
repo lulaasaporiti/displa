@@ -9,7 +9,7 @@
             <input matInput placeholder="Medida esférico" [value]="modelLente[0]?.MedidaEsferico" disabled>
         </mat-form-field>
         <mat-form-field fxFlex="25">
-            <input matInput placeholder="Medida esférico" [value]="modelLente[0]?.MedidaCilindrico" disabled>
+            <input matInput placeholder="Medida cilíndrico" [value]="modelLente[0]?.MedidaCilindrico" disabled>
         </mat-form-field>
         <mat-form-field fxFlex="25">
             <input matInput placeholder="Precio unitario" [value]="modelLente[0]?.Precio" disabled>
@@ -24,7 +24,7 @@
             <input matInput placeholder="Medida esférico" [value]="modelLente[1]?.MedidaEsferico" disabled>
         </mat-form-field>
         <mat-form-field fxFlex="25">
-            <input matInput placeholder="Medida esférico" [value]="modelLente[1]?.MedidaCilindrico" disabled>
+            <input matInput placeholder="Medida cilíndrico" [value]="modelLente[1]?.MedidaCilindrico" disabled>
         </mat-form-field>
         <mat-form-field fxFlex="25">
             <input matInput placeholder="Precio unitario" [value]="modelLente[1]?.Precio" disabled>
@@ -62,10 +62,4 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
-
-    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-        <!-- <button mat-raised-button (click)="onNoClick()">Cancelar</button> -->
-        <button mat-raised-button color="primary" id="seleccionar"
-            [mat-dialog-close]="true">Seleccionar</button>
-    </div>
 </div>

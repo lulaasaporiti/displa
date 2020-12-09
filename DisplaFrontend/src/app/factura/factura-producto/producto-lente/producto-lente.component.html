@@ -32,9 +32,11 @@
     <mat-step>
       <form [formGroup]="fourthFormGroup">
         <ng-template matStepLabel>Resumen lente</ng-template>
-        <app-resumen-lente [selectedLente]="modelComprobanteItemLente"></app-resumen-lente>
+        <app-resumen-lente [selectedLente]="modelComprobanteItemLente" [selectedServicio]="comprobanteItemServicios"  [selectedRecargo]="comprobanteItemRecargos"></app-resumen-lente>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
+          <button mat-raised-button color="primary" id="seleccionar"
+        [mat-dialog-close]="true">Confirmar</button>
         </div>
       </form>
     </mat-step>

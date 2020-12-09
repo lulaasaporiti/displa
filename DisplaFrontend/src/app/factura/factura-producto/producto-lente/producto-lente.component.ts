@@ -1,10 +1,7 @@
 import { Component, Inject, OnInit, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { LenteService } from 'src/services/lente.service';
-import { ClienteService } from 'src/services/cliente.service';
 import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
-import { ComprobanteItemRecargo } from 'src/app/model/comprobanteItemRecargo';
 
 @Component({
   selector: 'app-producto-lente',
@@ -13,26 +10,21 @@ import { ComprobanteItemRecargo } from 'src/app/model/comprobanteItemRecargo';
 })
 export class ProductoLenteComponent implements OnInit {
   modelComprobanteItemLente: any[] = [];
+  comprobanteItemRecargos: any[] = [];
+  comprobanteItemServicios: any[] = [];
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
   isOptional = true;
   serviciosLente: ComprobanteItemServicio[] = [];
-  // selectedServicio = new EventEmitter<any[]>();
-  @Output() selectedServicio = new EventEmitter<any[]>();
+  // @Output() selectedServicio = new EventEmitter<any[]>();
   constructor(
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
-    private lenteService: LenteService,
-    private clienteService: ClienteService,
     private _formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.data.item.ComprobanteItemServicio = [];
-    // let cargarGraduacion= <ComprobanteItemLente>{};
-    // cargarGraduacion.MedidaEsferico = 0;
-    // cargarGraduacion.MedidaCilindrico = 0;
-    // this.modelComprobanteItemLente.push(cargarGraduacion);
   }
 
 
@@ -58,36 +50,29 @@ export class ProductoLenteComponent implements OnInit {
   listaComprobanteItemEvento(model: any[]) {
     this.modelComprobanteItemLente = model;
     this.data.item.ComprobanteItemLente = model;
-    // console.log(this.modelComprobanteItemLente)
     this.changeDetector.detectChanges();
     document.getElementById("siguiente1").focus();
-    // console.log(this.firstFormGroup);
-    // this.firstFormGroup.setValue();
-    // console.log(this.firstFormGroup)
   }
 
   listaServiciosComprobanteItemEvento(model: ComprobanteItemServicio[]) {
-    // console.log(model);
     if (model.length > 0) {
       model.forEach(element => {
         if (!this.serviciosLente.includes(element))
           this.serviciosLente.push(element)
       });
-      // console.log(this.serviciosLente)
       this.data.item.ComprobanteItemServicio = this.serviciosLente;
-      this.selectedServicio.emit(this.data.item.ComprobanteItemServicio)
+      // this.selectedServicio.emit(this.data.item.ComprobanteItemServicio);
+      this.comprobanteItemServicios = model;
     }
-    // console.log(this.data.item.ComprobanteItemServicio)
     this.changeDetector.detectChanges();
-    document.getElementById("siguiente1").focus();
+    // document.getElementById("siguiente2").focus();
   }
 
   listaRecargosComprobanteItemEvento(model: any[]) {
-    // this.recargosLente = model;
+    this.comprobanteItemRecargos = model;
     this.data.item.ComprobanteItemRecargo = model;
-    // console.log(this.modelComprobanteItemLente)
     this.changeDetector.detectChanges();
-    document.getElementById("siguiente1").focus();
+    // document.getElementById("siguiente3").focus();
   }
 
   tabInventado(event: KeyboardEvent, idElement) {

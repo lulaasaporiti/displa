@@ -8,28 +8,33 @@ import { MatTableDataSource, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ResumenLenteComponent implements OnInit {
   @Input() selectedLente: any[];
+  @Input() selectedRecargo: any[];
+  @Input() selectedServicio: any[];
+
   dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['Descripcion'];
+  displayedColumns: string[] = ['Descripcion', 'Precio'];
 
   modelLente: any[] = [];
 
-  constructor(private changeDetector: ChangeDetectorRef,
-    @Inject(MAT_DIALOG_DATA) public data: any)  { 
-      // console.log(data)
-     } 
+  constructor(private changeDetector: ChangeDetectorRef)  { 
+  } 
 
   ngOnInit() {
     this.changeDetector.detectChanges();
-    // console.log(this.data.item)
    }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
-    console.log(changes)
+    if (changes.selectedRecargo != undefined && changes.selectedRecargo.currentValue.length > 0) {
+      this.dataSource.data =  this.dataSource.data.concat(changes.selectedRecargo.currentValue)
+    }
+    if (changes.selectedServicio != undefined && changes.selectedServicio.currentValue.length > 0) {
+      this.dataSource.data =  this.dataSource.data.concat(changes.selectedServicio.currentValue)
+    }
+    console.log(this.dataSource.data)
    
-    // this.dataSource.data.concat(this.data.item.ComprobanteItemRecargo);
   }
 
   ngAfterViewInit() {

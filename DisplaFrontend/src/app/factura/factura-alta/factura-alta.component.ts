@@ -214,13 +214,11 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarLente(producto) {
-    // console.log(producto)
     let item = <ComprobanteItem>{};
     let montoLentes = 0;
     item.ComprobanteItemLente = [];
     item.ComprobanteItemRecargo = producto.ComprobanteItemRecargo;
     item.ComprobanteItemServicio = producto.ComprobanteItemServicio;
-    // console.log(item.ComprobanteItemServicio)
     item.Cantidad = 0;
     item.Monto = 0;
     item.NumeroSobre = producto.ComprobanteItemLente[0].Sobre;
@@ -240,9 +238,11 @@ export class FacturaAltaComponent implements OnInit {
     if (producto.ComprobanteItemRecargo != undefined) {
       producto.ComprobanteItemRecargo.forEach(r => {
         item.Monto = item.Monto + (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
+        r.Monto = (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
       })
     }
     producto.ComprobanteItemServicio.forEach(s => {
+      
     })
     this.dataSource.data = this.dataSource.data.concat(item);
     this.modelComprobante.ComprobanteItem.push(item);
@@ -379,6 +379,7 @@ export class FacturaAltaComponent implements OnInit {
   altaComprobanteCliente(){
     this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
       data => {
+        this.router.navigateByUrl('/Home')
         this.sessionService.showSuccess("La factura se agregó correctamente.");
       },
       error => {
