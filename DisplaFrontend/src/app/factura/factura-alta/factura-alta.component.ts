@@ -1,16 +1,15 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { ClienteService } from 'src/services/cliente.service';
 import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
 import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
 import { ProductoArticuloComponent } from '../factura-producto/producto-articulo/producto-articulo.component';
 import { combineLatest } from 'rxjs';
-// import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
 import { ProductoLibreComponent } from '../factura-producto/producto-libre/producto-libre.component';
 import { ProductoDescuentoComponent } from '../factura-producto/producto-descuento/producto-descuento.component';
 import { ProductoTotalesComponent } from '../factura-producto/producto-totales/producto-totales.component';
@@ -41,6 +40,9 @@ export class FacturaAltaComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
   key;
   modelComprobante = <ComprobanteCliente>{};
+  
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -205,6 +207,7 @@ export class FacturaAltaComponent implements OnInit {
   ngOnInit() {
     this.loadingSpinnerService.show();
     this.dataSource = new MatTableDataSource([]);
+    this.dataSource.paginator = this.paginator;
     this.loadingSpinnerService.hide();
   }
 
@@ -242,7 +245,7 @@ export class FacturaAltaComponent implements OnInit {
       })
     }
     producto.ComprobanteItemServicio.forEach(s => {
-      
+      s.Monto = s.IdServicioNavigation.PrecioServicio[0].Precio;
     })
     this.dataSource.data = this.dataSource.data.concat(item);
     this.modelComprobante.ComprobanteItem.push(item);
@@ -379,7 +382,7 @@ export class FacturaAltaComponent implements OnInit {
   altaComprobanteCliente(){
     this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
       data => {
-        this.router.navigateByUrl('/Home')
+        // this.router.navigateByUrl('/Home')
         this.sessionService.showSuccess("La factura se agregó correctamente.");
       },
       error => {

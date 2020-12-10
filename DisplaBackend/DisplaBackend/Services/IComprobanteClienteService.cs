@@ -9,7 +9,7 @@ namespace DisplaBackend.Services
     {
         List<ComprobanteCliente> GetComprobantesCliente();
         List<ComprobanteCliente> GetComprobantesClienteVigentes();
-        bool SaveOrUpdate(ComprobanteCliente comprobanteCliente);
+        Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente);
         bool Delete(ComprobanteCliente comprobanteCliente);
         ComprobanteCliente GetById(int idComprobanteCliente);
     }
@@ -33,9 +33,9 @@ namespace DisplaBackend.Services
             return _comprobanteClienteDAO.GetComprobantesClienteVigentes();
         }
 
-        public bool SaveOrUpdate(ComprobanteCliente comprobanteCliente)
+        public async Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente)
         {
-            return _comprobanteClienteDAO.SaveOrUpdate(comprobanteCliente);
+            return await _comprobanteClienteDAO.SaveOrUpdate(comprobanteCliente);
 
         }
 

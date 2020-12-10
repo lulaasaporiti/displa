@@ -35,7 +35,7 @@
     </mat-form-field>
 </div>
 
-<table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">  
+<!-- <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">  
 
     <ng-container matColumnDef="Descripcion">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPCIÓN </th>
@@ -53,5 +53,33 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator> -->
+
+  <div fxLayout="row" fxFlexOffset="4" fxFill *ngIf="modelRecargo != undefined">
+    <div fxLayout="column">
+        <p>Recargos</p>
+        <div fxLayout="row" fxLayoutGap="2vw" fxFlex='20' fxFlexOffset="4" fxLayoutAlign="space-evenly center"
+            *ngFor="let r of modelRecargo; let i = index">
+            <mat-form-field>
+                <input type="text" placeholder="Tratamiento" matInput #inputEsferico="ngModel" 
+                    [(ngModel)]="r.IdRecargoNavigation.Descripcion" id="recargo{{i}}" name="recargo{{i}}" disabled>
+            </mat-form-field>
+
+            <!-- <mat-form-field>
+                <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel" 
+                    [(ngModel)]="p.MedidaCilindrico" id="cilindrico{{i}}" name="cilindrico{{i}}" disabled>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel"
+                    [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" disabled>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input type="text" placeholder="Precio costo par" matInput #inputPrecioPar="ngModel"
+                    [(ngModel)]="p.CostoPar" id="precioPar{{i}}" name="precioPar{{i}}" disabled>
+            </mat-form-field> -->
+        </div>
+    </div>
+</div>
 </div>

@@ -11,7 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<ComprobanteCliente> GetComprobantesCliente();
         List<ComprobanteCliente> GetComprobantesClienteVigentes();
-        bool SaveOrUpdate(ComprobanteCliente comprobanteCliente);
+        Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente);
         bool Delete(ComprobanteCliente comprobanteCliente);
         ComprobanteCliente GetById(int idComprobanteCliente);
 
@@ -45,7 +45,7 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public bool SaveOrUpdate(ComprobanteCliente comprobanteCliente)
+        public async Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente)
         {
             try
             {
@@ -76,19 +76,38 @@ namespace DisplaBackend.DAOs
                             }
                         }
                     }
+                    var servicios = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemServicio);
+                    var recargos = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemRecargo);
+                    if (servicios != null) {
+                        foreach (var s in servicios.ElementAt(0).ToArray())
+                        {
+                            s.IdServicioNavigation = null;
+                            _context.ComprobanteItemServicio.Add(s);
+                        }
+                    }
+                    if (recargos != null)
+                    {
+                        foreach (var r in recargos.ElementAt(0).ToArray())
+                        {
+                            r.IdRecargoNavigation = null;
+                            _context.ComprobanteItemRecargo.Add(r);
+                        }
+                    }
                     foreach (var v in comprobanteCliente.VentaVirtual.ToList())
                     {
                         v.IdArticuloNavigation = null;
                         v.IdServicioNavigation = null;
                     }
                     comprobanteCliente = _context.Add(comprobanteCliente).Entity;
+
+                    
                 }
                 else
                 {
                     comprobanteCliente = _context.ComprobanteCliente.Update(comprobanteCliente).Entity;
 
                 }
-                return _context.SaveChanges() >= 1;
+                return await _context.SaveChangesAsync() >= 1;
 
             }
             catch (Exception e)

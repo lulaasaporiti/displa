@@ -15,6 +15,7 @@ export class ResumenLenteComponent implements OnInit {
   displayedColumns: string[] = ['Descripcion', 'Precio'];
 
   modelLente: any[] = [];
+  modelRecargo: any[] = [];
 
   constructor(private changeDetector: ChangeDetectorRef)  { 
   } 
@@ -27,14 +28,22 @@ export class ResumenLenteComponent implements OnInit {
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
-    if (changes.selectedRecargo != undefined && changes.selectedRecargo.currentValue.length > 0) {
-      this.dataSource.data =  this.dataSource.data.concat(changes.selectedRecargo.currentValue)
+    if (changes.selectedRecargo != undefined && changes.selectedRecargo.currentValue != undefined) {
+      console.log(changes.selectedRecargo)
+      console.log(changes.selectedRecargo.currentValue)
+      this.modelRecargo = changes.selectedRecargo.currentValue;
+      console.log(this.modelRecargo)
+      // changes.selectedRecargo.currentValue.forEach(element => {
+      //   console.log(element)
+      //   if (!this.dataSource.data.includes(element)) {
+      //     this.dataSource.data = this.dataSource.data.concat(element);
+      //   }
+      // });
+      // this.dataSource.data =  this.dataSource.data.concat(changes.selectedRecargo.currentValue)
     }
     if (changes.selectedServicio != undefined && changes.selectedServicio.currentValue.length > 0) {
       this.dataSource.data =  this.dataSource.data.concat(changes.selectedServicio.currentValue)
     }
-    console.log(this.dataSource.data)
-   
   }
 
   ngAfterViewInit() {

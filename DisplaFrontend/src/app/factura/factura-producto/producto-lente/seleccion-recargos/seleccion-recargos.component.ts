@@ -42,10 +42,6 @@ export class SeleccionRecargosComponent implements OnInit {
     }
   }
 
-  comprobanteItemRecargosSelected() {
-    this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
-  }
-
   _keyPress(event: any) {
     const pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -84,12 +80,11 @@ export class SeleccionRecargosComponent implements OnInit {
     if (!incluye) {
       this.recargosSeleccionados.push(option);
       this.comprobanteItemRecargos.push(comprobanteItemRecargo);
+      this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
     } else {
-      this.recargosSeleccionados = this.recargosSeleccionados.filter(s => s != option);
-      this.comprobanteItemRecargos = this.comprobanteItemRecargos.filter(cs => cs != comprobanteItemRecargo);
+      this.recargosSeleccionados.splice(this.recargosSeleccionados.findIndex(s => s == option), 1);
+      this.comprobanteItemRecargos.splice(this.comprobanteItemRecargos.findIndex(cs => cs == comprobanteItemRecargo), 1);
+      this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
     }
-    this.comprobanteItemRecargosSelected();
   }
-
-
 }

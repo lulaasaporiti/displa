@@ -38,7 +38,7 @@ namespace DisplaBackend.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveOrUpdate([FromBody]ComprobanteCliente comprobanteCliente)
+        public async Task<IActionResult> SaveOrUpdate([FromBody]ComprobanteCliente comprobanteCliente)
         {
             if (!ModelState.IsValid)
             {
@@ -49,10 +49,10 @@ namespace DisplaBackend.Controllers
             //var aux = model.GetValue("nombre").ToString();
             //ComprobanteCliente comprobanteCliente = JsonConvert.DeserializeObject<ComprobanteCliente>(aux);
 
-            return Ok(_comprobanteClienteService.SaveOrUpdate(comprobanteCliente));
+            return Ok(await _comprobanteClienteService.SaveOrUpdate(comprobanteCliente));
             
         }
-
+    
         [HttpDelete("{idComprobanteCliente}")]
         public IActionResult Delete([FromRoute]int idComprobanteCliente)
         {
