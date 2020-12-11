@@ -18,7 +18,7 @@ import { merge, Observable } from 'rxjs';
 export class ClienteCuentaListadoComponent implements OnInit {
   panelOpenState = false;
   original: any[] = [];
-  form:FormGroup = new FormGroup({
+  form: FormGroup = new FormGroup({
     Optica: new FormControl(true),
     Saldo: new FormControl(true),
     Monto: new FormControl(true),
@@ -31,30 +31,30 @@ export class ClienteCuentaListadoComponent implements OnInit {
     Opciones: new FormControl(true),
   });
 
-    Optica = this.form.get('Optica');
-    Saldo = this.form.get('Saldo');
-    Monto = this.form.get('Monto');
-    Credito = this.form.get('Credito');
-    Dias = this.form.get('Dias');
-    Plazo = this.form.get('Plazo');
-    Fecha = this.form.get('Fecha');
-    Motivo = this.form.get('Motivo');
-    Estado = this.form.get('Estado');
-    Opciones = this.form.get('Opciones');
+  Optica = this.form.get('Optica');
+  Saldo = this.form.get('Saldo');
+  Monto = this.form.get('Monto');
+  Credito = this.form.get('Credito');
+  Dias = this.form.get('Dias');
+  Plazo = this.form.get('Plazo');
+  Fecha = this.form.get('Fecha');
+  Motivo = this.form.get('Motivo');
+  Estado = this.form.get('Estado');
+  Opciones = this.form.get('Opciones');
 
-    cbValues;
-    displayedColumns = 
+  cbValues;
+  displayedColumns =
     [
-      {def: 'Optica', hide: this.Optica.value},
-      {def: 'Saldo', hide: this.Saldo.value},
-      {def: 'Monto',  hide: this.Monto.value},
-      {def: 'Credito',  hide: this.Credito.value},
-      {def: 'Dias',  hide: this.Dias.value},
-      {def: 'Plazo',  hide: this.Plazo.value},
-      {def: 'Fecha',  hide: this.Fecha.value},
-      {def: 'Motivo',  hide: this.Motivo.value},
-      {def: 'Estado',  hide: this.Estado.value},
-      {def: 'Opciones', hide: this.Opciones.value},
+      { def: 'Optica', hide: this.Optica.value },
+      { def: 'Saldo', hide: this.Saldo.value },
+      { def: 'Monto', hide: this.Monto.value },
+      { def: 'Credito', hide: this.Credito.value },
+      { def: 'Dias', hide: this.Dias.value },
+      { def: 'Plazo', hide: this.Plazo.value },
+      { def: 'Fecha', hide: this.Fecha.value },
+      { def: 'Motivo', hide: this.Motivo.value },
+      { def: 'Estado', hide: this.Estado.value },
+      { def: 'Opciones', hide: this.Opciones.value },
     ]
 
 
@@ -93,58 +93,63 @@ export class ClienteCuentaListadoComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
 
   loadClientePage() {
     this.loadingSpinnerService.show()
-      this.clienteService.getCuentasClientes()
-        .subscribe(r => {
-          this.dataSource.data = r;
-          this.original = r;
-          console.log(r)
-          this.loadingSpinnerService.hide();
-        })
+    this.clienteService.getCuentasClientes()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.original = r;
+        console.log(r)
+        this.loadingSpinnerService.hide();
+      })
   }
 
-  traerDesbloqueados(){
-  this.dataSource.data = this.original;
-  this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == false)
-}
+  traerDesbloqueados() {
+    this.dataSource.data = this.original;
+    this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == false)
+  }
 
 
-traerBloqueados(){
-  this.dataSource.data = this.original;
-  this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == true)
-}
+  traerBloqueados() {
+    this.dataSource.data = this.original;
+    this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == true)
+  }
+
+  traerManuales(event) {
+    console.log(event)
+
+  }
 
   getDisplayedColumns() {
-    return this.displayedColumns.filter(cd=>cd.hide).map(cd=>cd.def);
+    return this.displayedColumns.filter(cd => cd.hide).map(cd => cd.def);
   }
 
   ngAfterViewInit() {
     this.searchElement.nativeElement.focus();
-    let o1:Observable<boolean> = this.Optica.valueChanges;
-    let o2:Observable<boolean> = this.Saldo.valueChanges;
-    let o3:Observable<boolean> = this.Monto.valueChanges;
-    let o4:Observable<boolean> = this.Credito.valueChanges;
-    let o5:Observable<boolean> = this.Dias.valueChanges;
-    let o6:Observable<boolean> = this.Plazo.valueChanges;
-    let o7:Observable<boolean> = this.Fecha.valueChanges;
-    let o8:Observable<boolean> = this.Motivo.valueChanges;
-    let o9:Observable<boolean> = this.Estado.valueChanges;
-    let o10:Observable<boolean> = this.Opciones.valueChanges;
+    let o1: Observable<boolean> = this.Optica.valueChanges;
+    let o2: Observable<boolean> = this.Saldo.valueChanges;
+    let o3: Observable<boolean> = this.Monto.valueChanges;
+    let o4: Observable<boolean> = this.Credito.valueChanges;
+    let o5: Observable<boolean> = this.Dias.valueChanges;
+    let o6: Observable<boolean> = this.Plazo.valueChanges;
+    let o7: Observable<boolean> = this.Fecha.valueChanges;
+    let o8: Observable<boolean> = this.Motivo.valueChanges;
+    let o9: Observable<boolean> = this.Estado.valueChanges;
+    let o10: Observable<boolean> = this.Opciones.valueChanges;
 
-    merge(o1, o2, o3,o4,o5,o6,o7, o8, o9).subscribe(v=>{
-    this.displayedColumns[0].hide = this.Optica.value;
-    this.displayedColumns[1].hide = this.Saldo.value;
-    this.displayedColumns[2].hide = this.Monto.value;  
-    this.displayedColumns[3].hide = this.Credito.value;  
-    this.displayedColumns[4].hide = this.Dias.value;
-    this.displayedColumns[5].hide = this.Plazo.value; 
-    this.displayedColumns[6].hide = this.Fecha.value;  
-    this.displayedColumns[7].hide = this.Motivo.value;
-    this.displayedColumns[8].hide = this.Estado.value;
-    this.displayedColumns[9];  
+    merge(o1, o2, o3, o4, o5, o6, o7, o8, o9).subscribe(v => {
+      this.displayedColumns[0].hide = this.Optica.value;
+      this.displayedColumns[1].hide = this.Saldo.value;
+      this.displayedColumns[2].hide = this.Monto.value;
+      this.displayedColumns[3].hide = this.Credito.value;
+      this.displayedColumns[4].hide = this.Dias.value;
+      this.displayedColumns[5].hide = this.Plazo.value;
+      this.displayedColumns[6].hide = this.Fecha.value;
+      this.displayedColumns[7].hide = this.Motivo.value;
+      this.displayedColumns[8].hide = this.Estado.value;
+      this.displayedColumns[9];
     });
   }
 

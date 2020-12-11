@@ -176,8 +176,10 @@ namespace DisplaBackend.DAOs
                 var cliente = _context.Cliente.FirstOrDefault(c => c.Id == bloqueo.IdCliente);
                 if (bloqueo.Id == 0)
                 {
+                    bloqueo.Manual = true;
                     bloqueo = _context.Add(bloqueo).Entity;
                     cliente.Bloqueado = true;
+                    
                 }
                 else
                 {

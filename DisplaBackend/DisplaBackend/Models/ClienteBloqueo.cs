@@ -9,6 +9,7 @@ namespace DisplaBackend.Models
         public int IdCliente { get; set; }
         public string Motivo { get; set; }
         public DateTime Fecha { get; set; }
+        public bool Manual { get; set; }
 
         public virtual Cliente IdClienteNavigation { get; set; }
     }

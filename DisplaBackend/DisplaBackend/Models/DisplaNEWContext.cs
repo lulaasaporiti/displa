@@ -354,6 +354,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 
+                entity.Property(e => e.Manual).HasColumnName("manual");
+
                 entity.Property(e => e.Motivo)
                     .IsRequired()
                     .HasColumnName("motivo")

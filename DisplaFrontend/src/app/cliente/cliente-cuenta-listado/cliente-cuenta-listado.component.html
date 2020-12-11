@@ -15,27 +15,28 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div fxLayout="column" style="margin: 12px auto;">
-          <form [formGroup]="form">
-            <div fxLayoutGap="10px" fxLayoutAlign="start center" fxLayout="row" cdkDropList cdkDropListOrientation="horizontal" class="example-list"
-              (cdkDropListDropped)="drop($event)">
+          <form [formGroup]="form" fxLayout="column" fxLayoutAlign="space-evenly start">
+            <div fxLayoutGap="10px" fxLayoutAlign="start center" fxLayout="row" cdkDropList
+              cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
               <div *ngFor="let cd of displayedColumns">
                 <mat-checkbox *ngIf="cd.def != 'Opciones'" [formControlName]="cd.def" cdkDrag>{{cd.def}}</mat-checkbox>
               </div>
-              <div style="font-size: small; line-height: 38px !important;">
-                <mat-button-toggle-group fxFlexOffset="2" name="clientes">
-                  <mat-button-toggle [value]="true" (click)="traerBloqueados()">
-                    Bloqueados
-                  </mat-button-toggle>
-                  <mat-button-toggle [value]="false" (click)="traerDesbloqueados()">
-                    No bloqueados
-                  </mat-button-toggle>
-                </mat-button-toggle-group>
+            </div>
+            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" style="font-size: small; line-height: 38px !important;">
+              <mat-button-toggle-group name="clientes">
+                <mat-button-toggle [value]="true" (click)="traerBloqueados()">
+                  Bloqueados
+                </mat-button-toggle>
+                <mat-button-toggle [value]="false" (click)="traerDesbloqueados()">
+                  No bloqueados
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+              <div fxLayoutAlign="start center">
+                <mat-slide-toggle color="accent" [checked]="true" (click)="traerManuales()">Bloqueados manuales
+                </mat-slide-toggle>
               </div>
             </div>
           </form>
-          <div fxLayout="row" fxLayoutGap="2vw">
-
-          </div>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
