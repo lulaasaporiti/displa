@@ -17,6 +17,7 @@ import { merge, Observable } from 'rxjs';
 })
 export class ClienteCuentaListadoComponent implements OnInit {
   panelOpenState = false;
+  original: any[] = [];
   form:FormGroup = new FormGroup({
     Optica: new FormControl(true),
     Saldo: new FormControl(true),
@@ -99,9 +100,22 @@ export class ClienteCuentaListadoComponent implements OnInit {
       this.clienteService.getCuentasClientes()
         .subscribe(r => {
           this.dataSource.data = r;
+          this.original = r;
+          console.log(r)
           this.loadingSpinnerService.hide();
         })
   }
+
+  traerDesbloqueados(){
+  this.dataSource.data = this.original;
+  this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == false)
+}
+
+
+traerBloqueados(){
+  this.dataSource.data = this.original;
+  this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == true)
+}
 
   getDisplayedColumns() {
     return this.displayedColumns.filter(cd=>cd.hide).map(cd=>cd.def);

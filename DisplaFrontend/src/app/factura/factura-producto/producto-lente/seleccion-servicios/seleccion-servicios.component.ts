@@ -101,6 +101,7 @@ export class ChecklistDatabase {
 })
 export class SeleccionServiciosComponent {
   @Input() selectedLente: any[];
+  @Input() selectedCalibrados: any[];
   modelLente: any[] = [];
   serviciosSeleccionados: Servicio[] = []; 
   comprobanteItemServicios: ComprobanteItemServicio[] = [];
@@ -110,6 +111,8 @@ export class SeleccionServiciosComponent {
     if (changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
+    console.log(changes.selectedCalibrados)
+
   }
 
   treeControl: FlatTreeControl<TodoItemFlatNode>;
@@ -160,8 +163,8 @@ export class SeleccionServiciosComponent {
       this.serviciosSeleccionados.push(option);
       this.comprobanteItemServicios.push(comprobanteItemServicio);
     } else {
-      this.serviciosSeleccionados = this.serviciosSeleccionados.filter(s => s != option);
-      this.comprobanteItemServicios = this.comprobanteItemServicios.filter(cs => cs != comprobanteItemServicio);
+      this.serviciosSeleccionados = this.serviciosSeleccionados.splice(this.serviciosSeleccionados.findIndex(s => s == option), 1);
+      this.comprobanteItemServicios = this.comprobanteItemServicios.splice(this.comprobanteItemServicios.findIndex(cs => cs == comprobanteItemServicio), 1);
     }
     this.comprobanteItemServiciosSelected();
   }

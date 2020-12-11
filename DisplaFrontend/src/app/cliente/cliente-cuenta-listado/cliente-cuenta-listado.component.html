@@ -23,10 +23,10 @@
               </div>
               <div style="font-size: small; line-height: 38px !important;">
                 <mat-button-toggle-group fxFlexOffset="2" name="clientes">
-                  <mat-button-toggle [value]="true" (click)="filtrarBloqueados()">
+                  <mat-button-toggle [value]="true" (click)="traerBloqueados()">
                     Bloqueados
                   </mat-button-toggle>
-                  <mat-button-toggle [value]="false">
+                  <mat-button-toggle [value]="false" (click)="traerDesbloqueados()">
                     No bloqueados
                   </mat-button-toggle>
                 </mat-button-toggle-group>

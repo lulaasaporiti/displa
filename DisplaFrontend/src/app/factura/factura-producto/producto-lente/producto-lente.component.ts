@@ -60,19 +60,16 @@ export class ProductoLenteComponent implements OnInit {
         if (!this.serviciosLente.includes(element))
           this.serviciosLente.push(element)
       });
-      this.data.item.ComprobanteItemServicio = this.serviciosLente;
-      // this.selectedServicio.emit(this.data.item.ComprobanteItemServicio);
       this.comprobanteItemServicios = model;
+      this.data.item.ComprobanteItemServicio = this.serviciosLente;
     }
     this.changeDetector.detectChanges();
-    // document.getElementById("siguiente2").focus();
   }
 
   listaRecargosComprobanteItemEvento(model: any[]) {
     this.comprobanteItemRecargos = model;
     this.data.item.ComprobanteItemRecargo = model;
     this.changeDetector.detectChanges();
-    // document.getElementById("siguiente3").focus();
   }
 
   tabInventado(event: KeyboardEvent, idElement) {

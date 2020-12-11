@@ -178,6 +178,7 @@ export class SeleccionLenteComponent implements OnInit {
       let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
       this.serviciosLente.splice(i, 1);
     }
+    this.comprobanteItemLenteSelected();
     // console.log(this.serviciosLente)
 }
 

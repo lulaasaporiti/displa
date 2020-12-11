@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { ComprobanteItemRecargo } from 'src/app/model/comprobanteItemRecargo';
 import { RecargoLente } from 'src/app/model/recargoLente';
 import { LenteService } from 'src/services/lente.service';
@@ -20,16 +20,17 @@ export class SeleccionRecargosComponent implements OnInit {
   @Output() selectedRecargosComprobanteItem = new EventEmitter<any[]>();
 
 
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private lenteService: LenteService,
-    private sessionService: SessionService
   ) {
   }
 
 
   ngOnInit() {
     this.recargosSeleccionados = [];
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -72,6 +73,10 @@ export class SeleccionRecargosComponent implements OnInit {
     }
   }
 
+  comprobanteItemRecargosSelected() {
+    this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
+  }
+
   onClicked(option) {
     let incluye = this.recargosSeleccionados.includes(option);
     let comprobanteItemRecargo = <ComprobanteItemRecargo>{};
@@ -80,11 +85,12 @@ export class SeleccionRecargosComponent implements OnInit {
     if (!incluye) {
       this.recargosSeleccionados.push(option);
       this.comprobanteItemRecargos.push(comprobanteItemRecargo);
-      this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
+      // this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
     } else {
       this.recargosSeleccionados.splice(this.recargosSeleccionados.findIndex(s => s == option), 1);
       this.comprobanteItemRecargos.splice(this.comprobanteItemRecargos.findIndex(cs => cs == comprobanteItemRecargo), 1);
-      this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
+      // this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
     }
+    this.comprobanteItemRecargosSelected();
   }
 }
