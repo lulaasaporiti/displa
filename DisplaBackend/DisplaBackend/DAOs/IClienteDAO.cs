@@ -545,8 +545,9 @@ namespace DisplaBackend.DAOs
                     Credito = c.MontoCredito,
                     DiasExcedido = c.PlazoCredito,
                     Plazo = c.PlazoCredito,
-                    //Motivo = _context.ClienteBloqueo.FirstOrDefault(cb => cb.IdCliente == c.Id).Motivo,
-                    //Fecha = _context.ClienteBloqueo.FirstOrDefault(cb => cb.IdCliente == c.Id).Fecha
+                    Motivo = (_context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault() != null) ? _context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault().Motivo : "",
+                    Fecha = (_context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault() != null) ? _context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault().Fecha : (DateTime?)null,
+                    BloqueoManual = (_context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault() != null) ? _context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault().Manual : false
 
                 })
                 .ToList<dynamic>();

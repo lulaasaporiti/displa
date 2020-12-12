@@ -93,32 +93,32 @@
         </button>
         <mat-menu #menu="matMenu" class="menu-clientes">
           <button mat-icon-button matTooltip="Ver detalle" [matTooltipPosition]="'above'" aria-label="Ver detalle"
-          (click)="detalleCliente(row.Id)">
-          <mat-icon svgIcon="detail_outline" class="tabla_icono"></mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
-          (click)="modificarCliente(row.Id)">
-          <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Bloquear" *ngIf="!row.Bloqueado" [matTooltipPosition]="'above'" aria-label="Bloquear"
-        (click)="bloquearCliente(row.Id, row.Optica, row.Bloqueado)">
-        <mat-icon svgIcon="block" class="tabla_icono"></mat-icon>
-      </button>
-      <button mat-icon-button matTooltip="Desbloquear" *ngIf="row.Bloqueado" [matTooltipPosition]="'above'" aria-label="Desbloquear"
-      (click)="bloquearCliente(row.Id, row.Optica, row.Bloqueado)">
-      <mat-icon svgIcon="settings_backup_restore" class="tabla_icono"></mat-icon>
-    </button>
-        <button mat-icon-button matTooltip="Borrar" *ngIf="!row.Borrado" [matTooltipPosition]="'above'" aria-label="Borrar"
-          (click)="eliminarCliente(row.Id, row.Optica, row.Borrado)">
-          <mat-icon svgIcon="delete_outline" class="tabla_icono"></mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Recuperar" *ngIf="row.Borrado" [matTooltipPosition]="'above'" aria-label="Recuperar"
-          (click)="eliminarCliente(row.Id, row.Optica, row.Borrado)">
-          <mat-icon svgIcon="restore_from_trash" class="tabla_icono"></mat-icon>
-        </button>
+            (click)="detalleCliente(row.Id)">
+            <mat-icon svgIcon="detail_outline" class="tabla_icono"></mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
+            (click)="modificarCliente(row.Id)">
+            <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Bloquear" *ngIf="!row.Bloqueado" [matTooltipPosition]="'above'"
+            aria-label="Bloquear" (click)="bloquearCliente(row.Id, row.Optica, row.Bloqueado)">
+            <mat-icon svgIcon="block" class="tabla_icono"></mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Desbloquear" *ngIf="row.Bloqueado" [matTooltipPosition]="'above'"
+            aria-label="Desbloquear" (click)="bloquearCliente(row.Id, row.Optica, row.Bloqueado)">
+            <mat-icon svgIcon="settings_backup_restore" class="tabla_icono"></mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Borrar" *ngIf="!row.Borrado" [matTooltipPosition]="'above'" aria-label="Borrar"
+            (click)="eliminarCliente(row.Id, row.Optica, row.Borrado)">
+            <mat-icon svgIcon="delete_outline" class="tabla_icono"></mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Recuperar" *ngIf="row.Borrado" [matTooltipPosition]="'above'"
+            aria-label="Recuperar" (click)="eliminarCliente(row.Id, row.Optica, row.Borrado)">
+            <mat-icon svgIcon="restore_from_trash" class="tabla_icono"></mat-icon>
+          </button>
         </mat-menu>
-      </td>
-    </ng-container>
+        </td>
+        </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()" fxFill sticky></tr>
     <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" fxFill></tr>

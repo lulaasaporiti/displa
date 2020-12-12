@@ -59,7 +59,9 @@ export class ClienteCuentaListadoComponent implements OnInit {
 
 
   dataSource = new MatTableDataSource<any>();
-  traerActivos: boolean = true;
+  traerActivos = true;
+  manual: boolean;
+  todo: boolean;
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
@@ -77,18 +79,13 @@ export class ClienteCuentaListadoComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
+    this.manual = false;
+    this.todo = true;
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.loadClientePage()
   }
-
-
-
-  // ngAfterViewInit() {
-  //   this.searchElement.nativeElement.focus();
-  // }
-
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -99,9 +96,8 @@ export class ClienteCuentaListadoComponent implements OnInit {
     this.loadingSpinnerService.show()
     this.clienteService.getCuentasClientes()
       .subscribe(r => {
-        this.dataSource.data = r;
+        this.dataSource.data = r.filter(d => d.BloqueoManual == false);
         this.original = r;
-        console.log(r)
         this.loadingSpinnerService.hide();
       })
   }
@@ -118,8 +114,23 @@ export class ClienteCuentaListadoComponent implements OnInit {
   }
 
   traerManuales(event) {
-    console.log(event)
+    console.log(event.checked)
+    console.log(this.manual)
+    if (!event.checked) {
+      this.todo = false;
+      this.dataSource.data = this.original.filter(d => d.Bloqueado == true && d.BloqueoManual == true)
+    } else {
+      this.todo = true;  
+      this.dataSource.data = this.original.filter(d => d.BloqueoManual == false);
+    }
+  }
 
+  traerTodos(event) {
+    if (!event.checked) {
+      this.dataSource.data = this.original;
+    } else {
+      this.dataSource.data = [];
+    }
   }
 
   getDisplayedColumns() {

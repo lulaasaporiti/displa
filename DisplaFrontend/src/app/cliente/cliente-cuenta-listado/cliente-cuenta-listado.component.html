@@ -32,7 +32,11 @@
                 </mat-button-toggle>
               </mat-button-toggle-group>
               <div fxLayoutAlign="start center">
-                <mat-slide-toggle color="accent" [checked]="true" (click)="traerManuales()">Bloqueados manuales
+                <mat-slide-toggle color="accent" #manuales id="manuales" name="manuales" [checked]="manual" (click)="traerManuales(manuales)">Bloqueados manuales
+                </mat-slide-toggle>
+              </div>
+              <div fxLayoutAlign="start center">
+                <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo" (click)="traerTodos(todos)">Todos los clientes
                 </mat-slide-toggle>
               </div>
             </div>
@@ -81,7 +85,7 @@
     <ng-container matColumnDef="Fecha">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> FECHA </th>
       <td mat-cell *matCellDef="let row">
-        {{row.Fecha}}
+        {{row.Fecha | date:"dd/MM/yyyy"}}
       </td>
     </ng-container>
 
@@ -95,19 +99,24 @@
     <ng-container matColumnDef="Estado">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
       <td mat-cell *matCellDef="let row">
-        {{row.Estado}}
+        {{(!row.Bloqueado) ? 'No bloqueado' : ((row.BloqueoManual) ? 'Bloqueado manual' : 'Bloqueado automático')}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="Opciones">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button matTooltip="Consulta" [matTooltipPosition]="'above'" aria-label="Consulta">
-          <mat-icon svgIcon="detail_outline" class="tabla_icono"></mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Ver opciones">
+          <mat-icon>more_vert</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar">
-          <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
-        </button>
+        <mat-menu #menu="matMenu" class="menu-clientes">
+          <button mat-icon-button matTooltip="Consulta" [matTooltipPosition]="'above'" aria-label="Consulta">
+            <mat-icon svgIcon="detail_outline" class="tabla_icono"></mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar">
+            <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
+          </button>
+        </mat-menu>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()" fxFill sticky></tr>

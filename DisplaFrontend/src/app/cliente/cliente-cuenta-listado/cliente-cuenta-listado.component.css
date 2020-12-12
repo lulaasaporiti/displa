@@ -22,7 +22,9 @@ mat-paginator{
   line-height: 38px !important;
 }
 
-
+::ng-deep .menu-clientes .mat-menu-content{    
+  background-color: transparent !important;
+}
 
 /* /////////////////// */
 
