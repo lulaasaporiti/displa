@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { ClienteService } from 'src/services/cliente.service';
@@ -28,7 +28,6 @@ export class ClienteCuentaListadoComponent implements OnInit {
     Fecha: new FormControl(true),
     Motivo: new FormControl(true),
     Estado: new FormControl(true),
-    Opciones: new FormControl(true),
   });
 
   Optica = this.form.get('Optica');
@@ -40,7 +39,6 @@ export class ClienteCuentaListadoComponent implements OnInit {
   Fecha = this.form.get('Fecha');
   Motivo = this.form.get('Motivo');
   Estado = this.form.get('Estado');
-  Opciones = this.form.get('Opciones');
 
   cbValues;
   displayedColumns =
@@ -54,7 +52,6 @@ export class ClienteCuentaListadoComponent implements OnInit {
       { def: 'Fecha', hide: this.Fecha.value },
       { def: 'Motivo', hide: this.Motivo.value },
       { def: 'Estado', hide: this.Estado.value },
-      { def: 'Opciones', hide: this.Opciones.value },
     ]
 
 
@@ -76,6 +73,7 @@ export class ClienteCuentaListadoComponent implements OnInit {
     private router: Router,
     private clienteService: ClienteService,
     private sessionService: SessionService,
+    private changeDetector: ChangeDetectorRef,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
@@ -105,17 +103,23 @@ export class ClienteCuentaListadoComponent implements OnInit {
   traerDesbloqueados() {
     this.dataSource.data = this.original;
     this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == false)
+    this.todo = false;
+    this.manual = false;
+    this.changeDetector.detectChanges();
   }
 
 
   traerBloqueados() {
     this.dataSource.data = this.original;
     this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == true)
+    this.todo = false;
+    this.manual = false;
+    this.changeDetector.detectChanges();
   }
 
   traerManuales(event) {
-    console.log(event.checked)
-    console.log(this.manual)
+    document.getElementById("bloqueados").style.backgroundColor="transparent";
+    document.getElementById("nobloqueados").style.backgroundColor="transparent";
     if (!event.checked) {
       this.todo = false;
       this.dataSource.data = this.original.filter(d => d.Bloqueado == true && d.BloqueoManual == true)
@@ -126,10 +130,28 @@ export class ClienteCuentaListadoComponent implements OnInit {
   }
 
   traerTodos(event) {
+    document.getElementById("bloqueados").style.backgroundColor="transparent";
+    document.getElementById("nobloqueados").style.backgroundColor="transparent";
     if (!event.checked) {
+      this.todo = event.checked;
       this.dataSource.data = this.original;
     } else {
+      this.todo =  event.checked;
       this.dataSource.data = [];
+    }
+  }
+
+  applyFilterAvanzados(filtro: number, campo: string){
+    console.log(filtro)
+    if (campo == 'diferencia'){
+      this.dataSource.data = this.dataSource.data.filter(d => d.Saldo >= filtro)   
+    }
+    if (campo == 'dias'){
+      this.dataSource.data = this.dataSource.data.filter(d => d.DiasExcedido >= filtro)   
+    }
+    if (filtro.toString() == ""){
+      this.dataSource.data = this.original;
+
     }
   }
 
@@ -148,7 +170,6 @@ export class ClienteCuentaListadoComponent implements OnInit {
     let o7: Observable<boolean> = this.Fecha.valueChanges;
     let o8: Observable<boolean> = this.Motivo.valueChanges;
     let o9: Observable<boolean> = this.Estado.valueChanges;
-    let o10: Observable<boolean> = this.Opciones.valueChanges;
 
     merge(o1, o2, o3, o4, o5, o6, o7, o8, o9).subscribe(v => {
       this.displayedColumns[0].hide = this.Optica.value;

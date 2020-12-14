@@ -8,11 +8,11 @@ import { BlockAltaComponent } from './block-alta/block-alta.component';
 import { BlockBajaComponent } from './block-baja/block-baja.component';
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-// import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { BusquedaCajaComponent } from './busqueda-caja/busqueda-caja.component';
 
 @NgModule({
     entryComponents: [BlockAltaComponent, BlockBajaComponent, BlockModificacionComponent],
-    declarations: [BlockListadoComponent, BlockAltaComponent, BlockBajaComponent, BlockModificacionComponent],
+    declarations: [BlockListadoComponent, BlockAltaComponent, BlockBajaComponent, BlockModificacionComponent, BusquedaCajaComponent],
     imports: [
         CommonModule,
         MaterialModule,

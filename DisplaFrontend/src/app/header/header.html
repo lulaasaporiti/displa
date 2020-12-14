@@ -11,7 +11,7 @@
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuArticulos">Artículos varios</a>
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuServicios">Servicios</a>
                     <a mat-menu-item class="button-list" routerLink="Insumo/Listado">Insumos</a>
-                    <a mat-menu-item class="button-list" routerLink="Block/Listado">Blocks</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuBlock">Blocks</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuLentes="matMenu">
@@ -22,6 +22,13 @@
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuGestionPreciosLente">Gestión de
                         precios</a>
                 </mat-menu>
+
+                <mat-menu fxLayoutAlign="start center" #menuBlock="matMenu">
+                    <a mat-menu-item class="button-list" routerLink="Block/Listado">Listado de blocks</a>
+                    <a mat-menu-item class="button-list" routerLink="Busqueda/Listado">Búsqueda de cajas</a>
+                    <a mat-menu-item class="button-list">Estadísticas</a>
+                </mat-menu>
+
 
                 <mat-menu fxLayoutAlign="start center" #menuArticulos="matMenu">
                     <a mat-menu-item class="button-list" routerLink="ArticuloVario/Listado">Listado de artículos</a>

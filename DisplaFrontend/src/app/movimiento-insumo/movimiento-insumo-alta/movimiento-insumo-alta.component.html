@@ -7,7 +7,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="data.modelMovimientoBlock.Fecha"
+                <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="data.modelMovimientoInsumo.Fecha"
                 name="fecha" #fecha="ngModel" readonly required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -16,7 +16,7 @@
         </div>
 
         <div mat-dialog-content fxLayout="row">
-            <mat-radio-group class="radio-group" [(ngModel)]="data.modelMovimientoBlock.TipoMovimiento"
+            <mat-radio-group class="radio-group" [(ngModel)]="data.modelMovimientoInsumo.TipoMovimiento"
                 name="tipoMovimiento" #tipoMovimiento="ngModel">
                 <mat-radio-button value="Alta">Alta</mat-radio-button>
                 <mat-radio-button style="margin-left: 5px;" value="Baja">Baja</mat-radio-button>
@@ -25,7 +25,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Precio" [(ngModel)]="data.modelMovimientoBlock.Precio" name="precio"
+                <input matInput placeholder="Precio" [(ngModel)]="data.modelMovimientoInsumo.Precio" name="precio"
                     #precio="ngModel" required>
                 <mat-error *ngIf="precio.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -33,7 +33,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Base" [(ngModel)]="data.modelMovimientoBlock.Base" name="base"
+                <input matInput placeholder="Base" [(ngModel)]="data.modelMovimientoInsumo.Base" name="base"
                     #base="ngModel" required>
                 <mat-error *ngIf="base.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -41,7 +41,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Adición" [(ngModel)]="data.modelMovimientoBlock.Adicion" name="adicion"
+                <input matInput placeholder="Adición" [(ngModel)]="data.modelMovimientoInsumo.Adicion" name="adicion"
                     #adicion="ngModel" required>
                 <mat-error *ngIf="adicion.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
@@ -49,7 +49,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <mat-select placeholder="Ubicacion" [(ngModel)]="data.modelMovimientoBlock.IdUbicacion" name="ubicacion"
+                <mat-select placeholder="Ubicacion" [(ngModel)]="data.modelMovimientoInsumo.IdUbicacion" name="ubicacion"
                     #ubicacion="ngModel" required>
                     <mat-option *ngFor="let u of ubicaciones" [value]="u.Id">
                         {{ u.Nombre }}

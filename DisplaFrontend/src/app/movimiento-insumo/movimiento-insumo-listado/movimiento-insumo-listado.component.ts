@@ -66,7 +66,6 @@ export class MovimientoInsumoListadoComponent implements OnInit {
     let movimientoInsumo = <MovimientoInsumo>{};
     movimientoInsumo.IdInsumo = this.idInsumo;
     movimientoInsumo.IdUsuario = this.sessionService.getPayload()['idUser'];
-
     const dialogRef = this.dialog.open(MovimientoInsumoAltaComponent, {
       width: '550px',
       data: { modelMovimientoInsumo: movimientoInsumo }

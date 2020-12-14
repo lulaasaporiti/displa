@@ -533,6 +533,7 @@ namespace DisplaBackend.DAOs
 
         public List<dynamic> GetCuentasClientes()
         {
+            var today = DateTime.Now;
             List<dynamic> clientes = _context.Cliente
                 .Select(c => new
                 {
@@ -543,13 +544,14 @@ namespace DisplaBackend.DAOs
                     Saldo = c.SaldoActual,
                     MontoExcedido = c.SaldoActual - c.MontoCredito,
                     Credito = c.MontoCredito,
-                    DiasExcedido = c.PlazoCredito,
+                    DiasExcedido = c.ComprobanteCliente.Count > 0 ?  today.Subtract(c.ComprobanteCliente.OrderByDescending(co => co.Fecha).FirstOrDefault().Fecha).Days : 0,
                     Plazo = c.PlazoCredito,
                     Motivo = (_context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault() != null) ? _context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault().Motivo : "",
                     Fecha = (_context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault() != null) ? _context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault().Fecha : (DateTime?)null,
                     BloqueoManual = (_context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault() != null) ? _context.ClienteBloqueo.Where(cb => cb.IdCliente == c.Id).OrderByDescending(cb => cb.Fecha).FirstOrDefault().Manual : false
 
                 })
+                .OrderBy(c => c.Id)
                 .ToList<dynamic>();
             return clientes;
         }
