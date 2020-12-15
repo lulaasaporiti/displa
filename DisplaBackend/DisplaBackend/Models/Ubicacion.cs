@@ -7,13 +7,13 @@ namespace DisplaBackend.Models
     {
         public Ubicacion()
         {
-            MovimientoBlock = new HashSet<MovimientoBlock>();
+            Caja = new HashSet<Caja>();
         }
 
         public int Id { get; set; }
         public string Nombre { get; set; }
         public bool Borrado { get; set; }
 
-        public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
+        public virtual ICollection<Caja> Caja { get; set; }
     }
 }

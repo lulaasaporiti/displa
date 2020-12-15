@@ -1,5 +1,5 @@
 import { Block } from './block';
-import { Ubicacion } from './Ubicacion';
+import { Caja } from './caja';
 import { Usuario } from './usuario';
 
 export interface MovimientoBlock {
@@ -11,8 +11,7 @@ export interface MovimientoBlock {
     PrecioCosto: number,
     IdBlock: number,
     IdBlockNavigation: Block,
-    IdUbicacion: number,
-    IdUbicacionNavigation: Ubicacion,
     IdUsuario: number,
-    IdUsuarioNavigation: Usuario
+    IdUsuarioNavigation: Usuario,
+    Caja: Caja[];
 }

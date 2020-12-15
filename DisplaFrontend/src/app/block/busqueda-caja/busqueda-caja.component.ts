@@ -10,6 +10,11 @@ import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.s
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
 import { Caja } from 'src/app/model/caja';
+import { TipoBlock } from 'src/app/model/tipoBlock';
+import { TipoBlockService } from 'src/services/tipo.block.service';
+import { Ubicacion } from 'src/app/model/Ubicacion';
+import { UbicacionService } from 'src/services/ubicacion.service';
+import { combineLatest } from 'rxjs';
 
 
 @Component({
@@ -19,23 +24,32 @@ import { Caja } from 'src/app/model/caja';
 })
 export class BusquedaCajaComponent implements OnInit {
   
-  displayedColumns: string[] = ['NumeroCajaChica', 'NumeroCajaGrande', 'Cantidad',"MovimientoBlock", 'Opciones'];
+  displayedColumns: string[] = ['Nombre', 'Base/ADD', 'NumeroCajaGrande', 'NumeroCajaChica', 'Cantidad', 'Fecha'];
   dataSource = new MatTableDataSource<Caja>();
-  traerVigentes: boolean = true;
+  tiposBlock: TipoBlock[];
+  ubicaciones: Ubicacion[];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
   
   constructor(
-    public dialog: MatDialog,
     private router: Router,
+    public dialog: MatDialog,
     private blockService: BlockService,
     private sessionService: SessionService,
+    private ubicacionService: UbicacionService,
+    private tipoBlockService: TipoBlockService,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
-    this.searchElement.nativeElement.focus();
+    combineLatest(
+      this.ubicacionService.getUbicacionesVigentesList(),
+      this.tipoBlockService.getTiposBlocksVigentesList()
+    ).subscribe(r => {
+      this.ubicaciones = r[0];
+      this.tiposBlock = r[1];
+    });
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.loadBlockPage();
@@ -45,30 +59,34 @@ export class BusquedaCajaComponent implements OnInit {
     this.searchElement.nativeElement.focus();
   }
 
+  _keyPress(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  cambiarListado() {
-    this.traerVigentes = !this.traerVigentes;
-    this.loadBlockPage();
-  }
-
   loadBlockPage() {
     this.loadingSpinnerService.show()
-    if (this.traerVigentes == true) {
+    // if (this.traerVigentes == true) {
     this.blockService.getBlocksVigentesList()
       .subscribe(r => {
         this.dataSource.data = r;
         this.loadingSpinnerService.hide();
       })
-    } else {
-      this.blockService.getBlocksList()
-      .subscribe(r => {
-        this.dataSource.data = r;
+    // } else {
+    //   this.blockService.getBlocksList()
+    //   .subscribe(r => {
+    //     this.dataSource.data = r;
         this.loadingSpinnerService.hide();
-      })
-    }
+    //   })
+    // }
   }
 
   getMovimientosBlock(idBlock){

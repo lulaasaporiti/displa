@@ -10,7 +10,6 @@ const routes: Routes = [
     children: [
       {path: 'Block/Listado', component: BlockListadoComponent},
       {path: 'Busqueda/Listado', component: BusquedaCajaComponent},
-      
     ]
   }
 ];

@@ -15,7 +15,7 @@ export class MovimientoBlockAltaComponent {
     public dialogRef: MatDialogRef<MovimientoBlockAltaComponent>,
     private ubicacionService: UbicacionService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-
+      console.log(data)
   }
 
   ngOnInit() {

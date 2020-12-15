@@ -7,6 +7,7 @@ import { MovimientoBlockService } from 'src/services/movimiento.block.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Caja } from 'src/app/model/caja';
 
 
 @Component({
@@ -64,11 +65,14 @@ export class MovimientoBlockListadoComponent implements OnInit {
 
   agregarMovimientoBlock(): void {
     let movimientoBlock = <MovimientoBlock>{};
+    movimientoBlock.Caja = [];
+    movimientoBlock.Caja.push(<Caja>{});
     movimientoBlock.IdBlock = this.idBlock;
     movimientoBlock.IdUsuario = this.sessionService.getPayload()['idUser'];
 
     const dialogRef = this.dialog.open(MovimientoBlockAltaComponent, {
       width: '550px',
+      height: '600px',
       data: { modelMovimientoBlock: movimientoBlock }
     });
     dialogRef.afterClosed().subscribe(result => {

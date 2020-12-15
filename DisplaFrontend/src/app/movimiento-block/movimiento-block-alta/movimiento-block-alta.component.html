@@ -7,8 +7,8 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="data.modelMovimientoBlock.Fecha"
-                name="fecha" #fecha="ngModel" readonly required>
+                <input matInput [matDatepicker]="picker" placeholder="Fecha"
+                    [(ngModel)]="data.modelMovimientoBlock.Fecha" name="fecha" #fecha="ngModel" readonly required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="fecha.invalid">Este campo es obligatorio.</mat-error>
@@ -31,16 +31,13 @@
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="2vw">
+            <mat-form-field >
                 <input matInput placeholder="Base" [(ngModel)]="data.modelMovimientoBlock.Base" name="base"
                     #base="ngModel" required>
                 <mat-error *ngIf="base.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
-        </div>
-
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
+            <mat-form-field >
                 <input matInput placeholder="Adición" [(ngModel)]="data.modelMovimientoBlock.Adicion" name="adicion"
                     #adicion="ngModel" required>
                 <mat-error *ngIf="adicion.invalid">Este campo es obligatorio.</mat-error>
@@ -49,7 +46,7 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <mat-select placeholder="Ubicacion" [(ngModel)]="data.modelMovimientoBlock.IdUbicacion" name="ubicacion"
+                <mat-select placeholder="Ubicacion" [(ngModel)]="data.modelMovimientoBlock.Caja[0].IdUbicacion" name="ubicacion"
                     #ubicacion="ngModel" required>
                     <mat-option *ngFor="let u of ubicaciones" [value]="u.Id">
                         {{ u.Nombre }}
@@ -57,6 +54,31 @@
                 </mat-select>
                 <mat-error *ngIf="ubicacion.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxFill>
+            <label style="font-weight: bold; font-size: small;">F5 - Activa/desactiva carga masiva</label>
+            <div fxLayout="row" fxLayoutGap="2vw">
+                <mat-form-field fxFlex="33">
+                    <input matInput placeholder="Caja grande" id="grande" name="grande"
+                        [(ngModel)]="data.modelMovimientoBlock.Caja[0].NumeroCajaGrande" #grande="ngModel" required
+                        (keypress)="_keyPress($event)">
+                    <mat-error *ngIf="grande.invalid">Este campo es obligatorio.</mat-error>
+                </mat-form-field>
+                <div fxFlex="33">
+                    <mat-form-field>
+                        <input matInput placeholder="Caja chica" id="chica" name="chica"
+                            [(ngModel)]="data.modelMovimientoBlock.Caja[0].NumeroCajaChica" #chica="ngModel" required
+                            (keypress)="_keyPress($event)">
+                        <mat-error *ngIf="chica.invalid">Este campo es obligatorio.</mat-error>
+                    </mat-form-field>
+                </div>
+                <mat-form-field fxFlex="33">
+                    <input matInput placeholder="Cantidad" id="cantidad" name="cantidad"
+                        [(ngModel)]="data.modelMovimientoBlock.Caja[0].Cantidad" #cantidad="ngModel" required (keypress)="_keyPress($event)">
+                    <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
+                </mat-form-field>
+            </div>
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">

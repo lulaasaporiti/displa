@@ -69,6 +69,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -225,9 +226,13 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.CambioUbicacion).HasColumnName("cambioUbicacion");
+
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
 
                 entity.Property(e => e.IdMovimientoBlock).HasColumnName("idMovimientoBlock");
+
+                entity.Property(e => e.IdUbicacion).HasColumnName("idUbicacion");
 
                 entity.Property(e => e.NumeroCajaChica).HasColumnName("numeroCajaChica");
 
@@ -238,6 +243,12 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdMovimientoBlock)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Caja_MovimientoBlock");
+
+                entity.HasOne(d => d.IdUbicacionNavigation)
+                    .WithMany(p => p.Caja)
+                    .HasForeignKey(d => d.IdUbicacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Caja_Ubicacion");
             });
 
             modelBuilder.Entity<CategoriaIva>(entity =>
@@ -743,8 +754,6 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdBlock).HasColumnName("idBlock");
 
-                entity.Property(e => e.IdUbicacion).HasColumnName("idUbicacion");
-
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.Property(e => e.Precio).HasColumnName("precio");
@@ -759,12 +768,6 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdBlock)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovimientoBlock_Block");
-
-                entity.HasOne(d => d.IdUbicacionNavigation)
-                    .WithMany(p => p.MovimientoBlock)
-                    .HasForeignKey(d => d.IdUbicacion)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MovimientoBlock_Ubicacion");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.MovimientoBlock)

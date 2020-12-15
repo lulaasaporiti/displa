@@ -10,7 +10,10 @@ namespace DisplaBackend.Models
         public int NumeroCajaChica { get; set; }
         public int Cantidad { get; set; }
         public int IdMovimientoBlock { get; set; }
+        public bool CambioUbicacion { get; set; }
+        public int IdUbicacion { get; set; }
 
         public virtual MovimientoBlock IdMovimientoBlockNavigation { get; set; }
+        public virtual Ubicacion IdUbicacionNavigation { get; set; }
     }
 }
