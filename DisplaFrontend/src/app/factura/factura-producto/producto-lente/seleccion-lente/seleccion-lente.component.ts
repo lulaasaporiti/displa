@@ -178,7 +178,10 @@ export class SeleccionLenteComponent implements OnInit {
       let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
       this.serviciosLente.splice(i, 1);
     }
-    this.comprobanteItemLenteSelected();
+    console.log(this.serviciosLente)
+    this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
+
+    // this.comprobanteItemLenteSelected();
     // console.log(this.serviciosLente)
 }
 
@@ -232,7 +235,7 @@ export class SeleccionLenteComponent implements OnInit {
 
   comprobanteItemLenteSelected() {
     this.selectedComprobanteItemLente.emit(this.modelComprobanteItemLente);
-    this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
+    // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
   }
 
   compararLimiteGrilla(index, tipoGraduacion) {

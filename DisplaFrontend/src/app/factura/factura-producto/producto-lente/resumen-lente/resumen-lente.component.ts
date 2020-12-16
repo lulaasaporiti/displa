@@ -31,8 +31,6 @@ export class ResumenLenteComponent implements OnInit {
     }
     if (changes.selectedRecargo != undefined && changes.selectedRecargo.currentValue != undefined) {
       this.modelRecargo = changes.selectedRecargo.currentValue;
-      console.log(changes.selectedRecargo)
-      console.log(this.modelRecargo)
     }
     if (changes.selectedServicio != undefined && changes.selectedServicio.currentValue.length > 0) {
       this.modelServicio = changes.selectedServicio.currentValue;

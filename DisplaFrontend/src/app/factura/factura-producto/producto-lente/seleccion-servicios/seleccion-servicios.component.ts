@@ -2,10 +2,9 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Injectable, Input, Output, SimpleChanges, EventEmitter, Inject } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 import { Servicio } from 'src/app/model/servicio';
-import { ServicioService } from 'src/services/servicio.service';
+import { SessionService } from 'src/services/session.service';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
 
 export class TipoServicio {
@@ -107,12 +106,29 @@ export class SeleccionServiciosComponent {
   comprobanteItemServicios: ComprobanteItemServicio[] = [];
   @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>();
 
+
   ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
     if (changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
-    console.log(changes.selectedCalibrados)
+    if (changes.selectedCalibrados != undefined && changes.selectedCalibrados.currentValue != undefined) {
+      this.comprobanteItemServicios = changes.selectedCalibrados.currentValue;
+      console.log(this.comprobanteItemServicios)
+    }
+  }
 
+  deshabilitarCheck(option) {
+    let optionEsta = this.comprobanteItemServicios.find(cs => cs.IdServicio == option.Id);
+    console.log(this.comprobanteItemServicios)
+    if (this.comprobanteItemServicios.length == 2) {
+      if (optionEsta) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
   }
 
   treeControl: FlatTreeControl<TodoItemFlatNode>;
@@ -122,7 +138,8 @@ export class SeleccionServiciosComponent {
   dataSource: MatTreeFlatDataSource<TipoServicio, TodoItemFlatNode>;
 
 
-  constructor(private _database: ChecklistDatabase) {
+  constructor(private _database: ChecklistDatabase,
+    private sessionService: SessionService) {
     this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
       this.isExpandable, this.getChildren);
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
@@ -164,9 +181,11 @@ export class SeleccionServiciosComponent {
       this.comprobanteItemServicios.push(comprobanteItemServicio);
     } else {
       this.serviciosSeleccionados = this.serviciosSeleccionados.splice(this.serviciosSeleccionados.findIndex(s => s == option), 1);
-      this.comprobanteItemServicios = this.comprobanteItemServicios.splice(this.comprobanteItemServicios.findIndex(cs => cs == comprobanteItemServicio), 1);
+      this.comprobanteItemServicios = this.comprobanteItemServicios.splice(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio == comprobanteItemServicio.IdServicio), 1);
     }
     this.comprobanteItemServiciosSelected();
+    if (this.serviciosSeleccionados.length == 2) 
+      this.sessionService.showInfo("Recuerde que se pueden seleccionar hasta dos servicios");
   }
 }
 

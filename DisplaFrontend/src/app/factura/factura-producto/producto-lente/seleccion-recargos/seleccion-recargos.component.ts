@@ -24,6 +24,7 @@ export class SeleccionRecargosComponent implements OnInit {
 
   constructor(
     private lenteService: LenteService,
+    private sessionService: SessionService
   ) {
   }
 
@@ -63,13 +64,13 @@ export class SeleccionRecargosComponent implements OnInit {
   deshabilitarCheck(option) {
     let optionEsta = this.recargosSeleccionados.includes(option);
     if (this.recargosSeleccionados.length == 2) {
+      // this.sessionService.showWarning("No se pueden seleccionar más recargos para esta lente");
       if (optionEsta) {
         return false;
       }
       else {
         return true;
       }
-      // this.sessionService.showWarning("No se pueden seleccionar más recargos para esta lente");
     }
   }
 
@@ -88,9 +89,11 @@ export class SeleccionRecargosComponent implements OnInit {
       // this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
     } else {
       this.recargosSeleccionados.splice(this.recargosSeleccionados.findIndex(s => s == option), 1);
-      this.comprobanteItemRecargos.splice(this.comprobanteItemRecargos.findIndex(cs => cs == comprobanteItemRecargo), 1);
+      this.comprobanteItemRecargos.splice(this.comprobanteItemRecargos.findIndex(cs => cs.IdRecargo == comprobanteItemRecargo.IdRecargo), 1);
       // this.selectedRecargosComprobanteItem.emit(this.comprobanteItemRecargos);
     }
     this.comprobanteItemRecargosSelected();
+    if (this.recargosSeleccionados.length == 2) 
+      this.sessionService.showInfo("Recuerde que se pueden seleccionar hasta dos recargos");
   }
 }

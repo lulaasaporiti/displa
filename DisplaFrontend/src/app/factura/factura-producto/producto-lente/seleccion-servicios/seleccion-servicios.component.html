@@ -49,7 +49,7 @@
         </mat-icon>
         {{node.item.item}}
       </button>
-      <mat-checkbox *ngIf="!node.expandable" [checked]="this.serviciosSeleccionados.indexOf(node.item.item) > -1" (change)="onClicked(node.item.item)">
+      <mat-checkbox *ngIf="!node.expandable" [checked]="this.serviciosSeleccionados.indexOf(node.item.item) > -1" (change)="onClicked(node.item.item)" [disabled]="deshabilitarCheck(node.item.item)">
         {{node.item.item['Nombre']}} - Precio {{node.item.item['PrecioServicio'][0].Precio}}
       </mat-checkbox>
 
