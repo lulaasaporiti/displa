@@ -158,13 +158,6 @@ export class SeleccionLenteComponent implements OnInit {
             this.filterServicios();
           });
       })
-
-    // this.filteredServicios.next(this.servicios.slice());
-    // this.bankMultiFilterCtrl.valueChanges
-    // // .pipe(takeUntil(this._onDestroy))
-    //   .subscribe(() => {
-    //     this.filterServicios();
-    //   });
   }
 
   serviciosSeleccionados(event: MatOptionSelectionChange) {
@@ -173,16 +166,14 @@ export class SeleccionLenteComponent implements OnInit {
       comprobanteItem.IdServicio = event.source.value.Id;
       comprobanteItem.IdServicioNavigation = event.source.value;
       this.serviciosLente.push(comprobanteItem);
+      // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
     }
     else {
       let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
       this.serviciosLente.splice(i, 1);
+      // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
     }
-    console.log(this.serviciosLente)
-    this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
-
-    // this.comprobanteItemLenteSelected();
-    // console.log(this.serviciosLente)
+    this.comprobanteItemServicioSelected();
 }
 
   agregarGraduacion() {
@@ -236,6 +227,10 @@ export class SeleccionLenteComponent implements OnInit {
   comprobanteItemLenteSelected() {
     this.selectedComprobanteItemLente.emit(this.modelComprobanteItemLente);
     // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
+  }
+
+  comprobanteItemServicioSelected() {
+    this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
   }
 
   compararLimiteGrilla(index, tipoGraduacion) {

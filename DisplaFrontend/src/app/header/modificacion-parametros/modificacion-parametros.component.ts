@@ -4,6 +4,7 @@ import { ServicioService } from 'src/services/servicio.service';
 import { ClienteService } from 'src/services/cliente.service';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
 import { Parametro } from 'src/app/model/parametro';
+import { ParametroService } from 'src/services/parametro.service';
 
 @Component({
   selector: 'app-modificacion-parametros',
@@ -17,17 +18,16 @@ export class  ModificacionParametrosComponent implements OnInit {
   
   constructor(
     public dialogRef: MatDialogRef<ModificacionParametrosComponent>,
-    private clienteService: ClienteService,
+    private parametroService: ParametroService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
 
   ngOnInit() {
-
+    this.parametroService.getParametro().subscribe(p => {
+      this.modelParametros = p;
+    });
   }
-
-
-
 
   onNoClick(): void {
     this.dialogRef.close(false);

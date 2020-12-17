@@ -27,6 +27,7 @@ namespace DisplaBackend.Models
         public double? MontoIvari { get; set; }
         public DateTime? FechaAnulado { get; set; }
         public int? IdUsuario { get; set; }
+        public string Observaciones { get; set; }
 
         public virtual Cliente IdClienteNavigation { get; set; }
         public virtual TipoComprobante IdTipoComprobanteNavigation { get; set; }

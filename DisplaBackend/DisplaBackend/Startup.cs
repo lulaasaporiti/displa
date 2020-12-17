@@ -212,6 +212,8 @@ namespace DisplaBackend
             services.AddScoped<IMovimientoBlockDAO, MovimientoBlockDAO>();
             services.AddScoped<IMovimientoInsumoService, MovimientoInsumoService>();
             services.AddScoped<IMovimientoInsumoDAO, MovimientoInsumoDAO>();
+            services.AddScoped<IParametroService, ParametroService>();
+            services.AddScoped<IParametroDAO, ParametroDAO>();
             services.AddScoped<IProveedorService, ProveedorService>();
             services.AddScoped<IProveedorDAO, ProveedorDAO>();
             services.AddScoped<IProvinciaService, ProvinciaService>();

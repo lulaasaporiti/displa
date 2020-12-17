@@ -101,11 +101,18 @@
                     name="nroCertificadoRetencion" #nroCertificadoRetencion pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
             </mat-form-field>
         </div>
+        <label style="font-weight: bold; font-size: smaller;">Observaciones</label>
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFill>
+                <textarea matInput id="obs" [(ngModel)]="modelParametros.Observaciones"
+                    name="obs" #obs cols="2" rows="4"></textarea>
+            </mat-form-field>
+        </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" id="seleccionar"
-                [mat-dialog-close]="comprobantesItems">Guardar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="modelParametros">Guardar</button>
         </div>
     </div>
 </form>

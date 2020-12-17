@@ -1,5 +1,5 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Injectable, Input, Output, SimpleChanges, EventEmitter, Inject } from '@angular/core';
+import { Component, Injectable, Input, Output, SimpleChanges, EventEmitter, Inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
@@ -98,38 +98,13 @@ export class ChecklistDatabase {
   styleUrls: ['./seleccion-servicios.component.css'],
   providers: [ChecklistDatabase]
 })
-export class SeleccionServiciosComponent {
+export class SeleccionServiciosComponent implements OnInit{
   @Input() selectedLente: any[];
   @Input() selectedCalibrados: any[];
   modelLente: any[] = [];
   serviciosSeleccionados: Servicio[] = []; 
   comprobanteItemServicios: ComprobanteItemServicio[] = [];
   @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>();
-
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
-    if (changes.selectedLente.currentValue.length > 0) {
-      this.modelLente = changes.selectedLente.currentValue;
-    }
-    if (changes.selectedCalibrados != undefined && changes.selectedCalibrados.currentValue != undefined) {
-      this.comprobanteItemServicios = changes.selectedCalibrados.currentValue;
-      console.log(this.comprobanteItemServicios)
-    }
-  }
-
-  deshabilitarCheck(option) {
-    let optionEsta = this.comprobanteItemServicios.find(cs => cs.IdServicio == option.Id);
-    console.log(this.comprobanteItemServicios)
-    if (this.comprobanteItemServicios.length == 2) {
-      if (optionEsta) {
-        return false;
-      }
-      else {
-        return true;
-      }
-    }
-  }
 
   treeControl: FlatTreeControl<TodoItemFlatNode>;
 
@@ -139,7 +114,8 @@ export class SeleccionServiciosComponent {
 
 
   constructor(private _database: ChecklistDatabase,
-    private sessionService: SessionService) {
+    private sessionService: SessionService, 
+    private changeDetector: ChangeDetectorRef) {
     this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
       this.isExpandable, this.getChildren);
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
@@ -165,6 +141,35 @@ export class SeleccionServiciosComponent {
     flatNode.expandable = flatNode['item'].item.length >  0;
     flatNode.level = level;
     return flatNode;
+  }
+
+  
+  ngOnInit() {
+    this.changeDetector.detectChanges();
+   }
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.selectedLente.currentValue.length > 0) {
+      this.modelLente = changes.selectedLente.currentValue;
+    }
+    if (changes.selectedCalibrados != undefined && changes.selectedCalibrados.currentValue != undefined) {
+      this.comprobanteItemServicios = changes.selectedCalibrados.currentValue;
+      // console.log(this.comprobanteItemServicios)
+    }
+  }
+
+  deshabilitarCheck(option) {
+    let optionEsta = this.comprobanteItemServicios.find(cs => cs.IdServicio == option.Id);
+    // console.log(this.comprobanteItemServicios)
+    if (this.comprobanteItemServicios.length >= 2) {
+      if (optionEsta) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
   }
 
   comprobanteItemServiciosSelected() {

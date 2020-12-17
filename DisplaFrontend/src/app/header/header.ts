@@ -15,6 +15,7 @@ import { LoadingSpinnerService } from '../loading-spinner/loading-spinner.servic
 import { ModificacionParametrosComponent } from './modificacion-parametros/modificacion-parametros.component';
 import { SobreAltaComponent } from '../sobre/sobre-alta/sobre-alta.component';
 import { SobreService } from 'src/services/sobre.service';
+import { ParametroService } from 'src/services/parametro.service';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +34,7 @@ export class HeaderComponent {
     private sessionService: SessionService,
     private accountService: AccountService,
     private servicioService: ServicioService,
+    private parametroService: ParametroService,
     private articuloService: ArticuloVarioService,
     private loadingSpinnerService: LoadingSpinnerService,){
   }
@@ -145,6 +147,19 @@ export class HeaderComponent {
       width: '965px',
       height: '650px'
     })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.parametroService.saveOrUpdateParametro(result).subscribe(result => {
+          if (result) {
+
+            
+
+          } else {
+            this.sessionService.showError("No se pudieron guardar.");
+          }
+        });
+      }
+    });
   }
 
   openModalPreciosLista(event): void {

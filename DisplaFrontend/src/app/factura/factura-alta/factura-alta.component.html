@@ -58,7 +58,7 @@
 
             <div fxLayout="row" fxLayoutGap="2vw">
               <mat-form-field fxFlex='20' fxLayout="column">
-                <input matInput placeholder="Porcentaje descuento" [ngModel]="modelCliente.PorcentajeDescuentoGeneral"
+                <input matInput placeholder="Porcentaje descuento" [(ngModel)]="modelCliente.PorcentajeDescuentoGeneral"
                   name="porcentaje" #porcentaje="ngModel"
                   [disabled]="modelCliente.IdCategoriaIvaNavigation?.Discrimina">
               </mat-form-field>
@@ -198,6 +198,13 @@
       </table>
       <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
     </div>
+
+    <div mat-dialog-content fxLayout="row" *ngIf="modelComprobante.Observaciones != undefined">
+      <mat-form-field fxFill>
+          <textarea matInput id="obs" placeholder="Observaciones" [(ngModel)]="modelComprobante.Observaciones"
+              name="obs" #obs cols="2" rows="4"></textarea>
+      </mat-form-field>
+  </div>
 
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">

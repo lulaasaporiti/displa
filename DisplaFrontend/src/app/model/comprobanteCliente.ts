@@ -20,6 +20,7 @@ export interface ComprobanteCliente {
     MontoTotal: number,
     SubtotalFactura: number,
     PorcentajeDtoGral: number,
+    Observaciones: string,
     MontoIVARI: number,
     IdUsuario: number,
     IdUsuarioNavigation: Usuario,

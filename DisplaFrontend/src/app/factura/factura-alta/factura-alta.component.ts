@@ -20,6 +20,7 @@ import { Ficha } from 'src/app/model/ficha';
 import { VentaVirtual } from 'src/app/model/ventaVirtual';
 import { LenteVentaVirtualComponent } from '../factura-producto/producto-lente/lente-venta-virtual/lente-venta-virtual.component';
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
+import { ParametroService } from 'src/services/parametro.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class FacturaAltaComponent implements OnInit {
   productos: string[] = ['Lentes (F1)', 'Varios (F3)', 'Servicios (F4)', 'Libres (F5)', 'Descuento (F6)', 'Totales (F7)'];
   dataSource = new MatTableDataSource<any>();
   key;
+  bloquearF = false;
   modelComprobante = <ComprobanteCliente>{};
   
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -136,12 +138,10 @@ export class FacturaAltaComponent implements OnInit {
       }
       case "F7": { //totales
         this.dialog.closeAll();
-        const dialogRef = this.dialog.open(ProductoTotalesComponent, {
-          disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
-          width: '500px',
-          // height:'350px'
-        })
+        this.parametroService.getObservaciones().subscribe(result =>{
+          this.modelComprobante.Observaciones = result;
+          console.log(result)
+        });
         event.preventDefault();
         break;
       }
@@ -168,11 +168,12 @@ export class FacturaAltaComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private dialog: MatDialog,
+    private segment: ActivatedRoute,
     private sessionService: SessionService,
     private clienteService: ClienteService,
-    private segment: ActivatedRoute,
-    private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
+    private parametroService: ParametroService,
     private loadingSpinnerService: LoadingSpinnerService,
     private comprobanteClienteService: ComprobanteClienteService
   ) {
@@ -380,6 +381,7 @@ export class FacturaAltaComponent implements OnInit {
 
 
   altaComprobanteCliente(){
+    this.modelComprobante.IdClienteNavigation = this.modelCliente;
     this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
       data => {
         // this.router.navigateByUrl('/Home')
