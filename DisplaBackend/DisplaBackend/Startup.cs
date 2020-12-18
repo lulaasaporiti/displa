@@ -218,6 +218,8 @@ namespace DisplaBackend
             services.AddScoped<IProveedorDAO, ProveedorDAO>();
             services.AddScoped<IProvinciaService, ProvinciaService>();
             services.AddScoped<IProvinciaDAO, ProvinciaDAO>();
+            services.AddScoped<IRemitoService, RemitoService>();
+            services.AddScoped<IRemitoDAO, RemitoDAO>();
             services.AddScoped<IServicioService, ServicioService>();
             services.AddScoped<IServicioDAO, ServicioDAO>();
             services.AddScoped<ISobreService, SobreService>();

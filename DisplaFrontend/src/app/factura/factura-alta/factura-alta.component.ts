@@ -12,7 +12,7 @@ import { ProductoArticuloComponent } from '../factura-producto/producto-articulo
 import { combineLatest } from 'rxjs';
 import { ProductoLibreComponent } from '../factura-producto/producto-libre/producto-libre.component';
 import { ProductoDescuentoComponent } from '../factura-producto/producto-descuento/producto-descuento.component';
-import { ProductoTotalesComponent } from '../factura-producto/producto-totales/producto-totales.component';
+import { FacturaConfirmarComponent } from '../factura-confirmar/factura-confirmar.component';
 import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
 import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente.component';
 import { FacturaFichaComponent } from '../factura-ficha/factura-ficha.component';
@@ -21,6 +21,7 @@ import { VentaVirtual } from 'src/app/model/ventaVirtual';
 import { LenteVentaVirtualComponent } from '../factura-producto/producto-lente/lente-venta-virtual/lente-venta-virtual.component';
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
 import { ParametroService } from 'src/services/parametro.service';
+import { RemitoService } from 'src/services/remito.service';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class FacturaAltaComponent implements OnInit {
   key;
   bloquearF = false;
   modelComprobante = <ComprobanteCliente>{};
-  
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
 
@@ -52,112 +53,125 @@ export class FacturaAltaComponent implements OnInit {
     switch (this.key) {
       case "F1": { //lentes
         this.dialog.closeAll();
-        let item = <ComprobanteItem>{};
-        item.ComprobanteItemLente = [];
-        const dialogRef = this.dialog.open(ProductoLenteComponent, {
-          disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, item: item },
-          width: '965px',
-          height: '625px'
-        })
-        dialogRef.afterClosed().subscribe(result => {
-          if (result != undefined && result != false) {
-            this.cargarLente(item);
-          }
-        });
+        if (this.bloquearF != true) {
+          let item = <ComprobanteItem>{};
+          item.ComprobanteItemLente = [];
+          const dialogRef = this.dialog.open(ProductoLenteComponent, {
+            disableClose: true,
+            data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, item: item },
+            width: '965px',
+            height: '625px'
+          })
+          dialogRef.afterClosed().subscribe(result => {
+            if (result != undefined && result != false) {
+              this.cargarLente(item);
+            }
+          });
+        }
         event.preventDefault();
         break;
       }
       case "F3": { //varios
         this.dialog.closeAll();
-        this.comprobantesItems = [];
-        this.ventasVirtuales = [];
-        const dialogRef = this.dialog.open(ProductoArticuloComponent, {
-          disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, comprobantesItems: this.comprobantesItems, ventasVirtuales: this.ventasVirtuales },
-          width: '800px',
-          height: '500px'
-        })
-        dialogRef.afterClosed().subscribe(result => {
-          if (result != undefined && result != false) {
-            this.cargarArticuloServicio();
-          }
-        });
+        if (this.bloquearF != true) {
+          this.comprobantesItems = [];
+          this.ventasVirtuales = [];
+          const dialogRef = this.dialog.open(ProductoArticuloComponent, {
+            disableClose: true,
+            data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, comprobantesItems: this.comprobantesItems, ventasVirtuales: this.ventasVirtuales },
+            width: '800px',
+            height: '500px'
+          })
+          dialogRef.afterClosed().subscribe(result => {
+            if (result != undefined && result != false) {
+              this.cargarArticuloServicio();
+            }
+          });
+        }
         event.preventDefault();
         break;
       }
       case "F4": { //servicios
         this.dialog.closeAll();
-        this.comprobantesItems = [];
-        this.ventasVirtuales = [];
-        const dialogRef = this.dialog.open(ProductoServicioComponent, {
-          disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, comprobantesItems: this.comprobantesItems, ventasVirtuales: this.ventasVirtuales },
-          width: '800px',
-          height: '500px'
-        })
-        dialogRef.afterClosed().subscribe(result => {
-          if (result != undefined && result != false) {
-            this.cargarArticuloServicio();
-          }
-        });
+        if (this.bloquearF != true) {
+          this.comprobantesItems = [];
+          this.ventasVirtuales = [];
+          const dialogRef = this.dialog.open(ProductoServicioComponent, {
+            disableClose: true,
+            data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, comprobantesItems: this.comprobantesItems, ventasVirtuales: this.ventasVirtuales },
+            width: '800px',
+            height: '500px'
+          })
+          dialogRef.afterClosed().subscribe(result => {
+            if (result != undefined && result != false) {
+              this.cargarArticuloServicio();
+            }
+          });
+        }
         event.preventDefault();
         break;
       }
       case "F5": { //libres
         this.dialog.closeAll();
-        const dialogRef = this.dialog.open(ProductoLibreComponent, {
-          disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
-          width: '500px',
-          height: '375px'
-        })
-        dialogRef.afterClosed().subscribe(result => {
-          if (result != undefined && result != false) {
-            this.cargarLibre(result);
-          }
-        });
+        if (this.bloquearF != true) {
+          const dialogRef = this.dialog.open(ProductoLibreComponent, {
+            disableClose: true,
+            data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+            width: '500px',
+            height: '375px'
+          })
+          dialogRef.afterClosed().subscribe(result => {
+            if (result != undefined && result != false) {
+              this.cargarLibre(result);
+            }
+          });
+        }
         event.preventDefault();
         break;
       }
       case "F6": { //descuento
         this.dialog.closeAll();
-        const dialogRef = this.dialog.open(ProductoDescuentoComponent, {
-          disableClose: true,
-          data: { idCliente: this.id },
-          width: '500px',
-          height: '375px'
-        })
-        dialogRef.afterClosed().subscribe(result => {
-          if (result != undefined && result != false) {
-            this.cargarDescuento(result);
-          }
-        });
+        if (this.bloquearF != true) {
+          const dialogRef = this.dialog.open(ProductoDescuentoComponent, {
+            disableClose: true,
+            data: { idCliente: this.id },
+            width: '500px',
+            height: '375px'
+          })
+          dialogRef.afterClosed().subscribe(result => {
+            if (result != undefined && result != false) {
+              this.cargarDescuento(result);
+            }
+          });
+        }
         event.preventDefault();
         break;
       }
       case "F7": { //totales
         this.dialog.closeAll();
-        this.parametroService.getObservaciones().subscribe(result =>{
-          this.modelComprobante.Observaciones = result;
-          console.log(result)
-        });
+        this.bloquearF = true;
+        this.parametroService.getObservaciones()
+          .subscribe(result => {
+            this.modelComprobante.Observaciones = result;
+          });
         event.preventDefault();
         break;
       }
       case "F9": { //venta virtual lente
-          this.dialog.closeAll();
+        this.dialog.closeAll();
+        if (this.bloquearF != true) {
           const dialogRef = this.dialog.open(LenteVentaVirtualComponent, {
-          disableClose: true,
-          data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
-          width: '700px',
-          // height:'350px'
-        })
-        dialogRef.afterClosed().subscribe(result => {
-          if (result != undefined && result != false) {
-            this.cargarVentaVirtual(result);
-          }
-        });
+            disableClose: true,
+            data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+            width: '700px',
+            // height:'350px'
+          })
+          dialogRef.afterClosed().subscribe(result => {
+            if (result != undefined && result != false) {
+              this.cargarVentaVirtual(result);
+            }
+          });
+        }
         event.preventDefault();
         break;
       }
@@ -170,6 +184,7 @@ export class FacturaAltaComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private segment: ActivatedRoute,
+    private remitoService: RemitoService,
     private sessionService: SessionService,
     private clienteService: ClienteService,
     private changeDetector: ChangeDetectorRef,
@@ -193,7 +208,6 @@ export class FacturaAltaComponent implements OnInit {
           this.modelComprobante.VentaVirtual = [];
           this.modelComprobante.IdTipoComprobante = 1;
           this.modelComprobante.IdUsuario = +this.sessionService.getPayload()['idUser'];
-
           if (this.modelCliente.IdCategoriaIva == 2) {
             this.modelComprobante.Letra = 'B'
           } else {
@@ -252,8 +266,8 @@ export class FacturaAltaComponent implements OnInit {
     this.modelComprobante.ComprobanteItem.push(item);
     this.sessionService.showSuccess("Los productos se agregaron correctamente")
   }
-  
-  cargarVentaVirtual(venta){
+
+  cargarVentaVirtual(venta) {
     let item = <VentaVirtual>{};
     item = venta;
     item.IdUsuario = +this.sessionService.getPayload()['idUser'];
@@ -316,7 +330,7 @@ export class FacturaAltaComponent implements OnInit {
         venta.Descripcion = p.Descripcion + ' V. VIRTUAL';
         venta.IdUsuario = +this.sessionService.getPayload()['idUser'];
         this.modelComprobante.VentaVirtual.push(venta);
-        this.dataSource.data = this.dataSource.data.concat(venta);  
+        this.dataSource.data = this.dataSource.data.concat(venta);
       } else {
         p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
         this.modelComprobante.ComprobanteItem.push(p);
@@ -380,16 +394,37 @@ export class FacturaAltaComponent implements OnInit {
   }
 
 
-  altaComprobanteCliente(){
+  altaComprobanteCliente() {
     this.modelComprobante.IdClienteNavigation = this.modelCliente;
-    this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
-      data => {
-        // this.router.navigateByUrl('/Home')
-        this.sessionService.showSuccess("La factura se agregó correctamente.");
-      },
-      error => {
-        this.sessionService.showError("La factura no se agregó.");
+    const dialogRef = this.dialog.open(FacturaConfirmarComponent, {
+      disableClose: true,
+      data: {},
+      width: '700px',
+      // height:'350px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 1) {
+        this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
+          data => {
+            // this.router.navigateByUrl('/Home')
+            this.sessionService.showSuccess("La factura se agregó correctamente.");
+          },
+          error => {
+            this.sessionService.showError("La factura no se agregó.");
+          }
+        );
       }
-    );
+      if (result == 0) {
+        this.remitoService.saveOrUpdateRemito(this.modelComprobante).subscribe(
+          data => {
+            // this.router.navigateByUrl('/Home')
+            this.sessionService.showSuccess("El remito se agregó correctamente.");
+          },
+          error => {
+            this.sessionService.showError("El remito no se agregó.");
+          }
+        ); 
+      }
+    })
   }
 }

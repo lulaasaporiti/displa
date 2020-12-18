@@ -3,17 +3,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 
 @Component({
-  selector: 'app-producto-totales',
-  templateUrl: './producto-totales.component.html',
-  styleUrls: ['./producto-totales.component.css']
+  selector: 'app-factura-confirmar',
+  templateUrl: './factura-confirmar.component.html',
+  styleUrls: ['./factura-confirmar.component.css']
 })
-export class ProductoTotalesComponent implements OnInit {
-  modelComprobanteItem = <ComprobanteItem>{};
+export class FacturaConfirmarComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<ProductoTotalesComponent>,
+    public dialogRef: MatDialogRef<FacturaConfirmarComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
   }
 
   ngOnInit() { }

@@ -209,7 +209,7 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
       <button mat-raised-button (click)="cancelar()">Cancelar</button>
-      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= getTotales()"
+      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= getTotales() || bloquearF == false"
         (click)="altaComprobanteCliente()">Agregar</button>
     </div>
   <!-- </form> -->

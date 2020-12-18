@@ -458,6 +458,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdComprobante).HasColumnName("idComprobante");
 
+                entity.Property(e => e.IdRemito).HasColumnName("idRemito");
+
                 entity.Property(e => e.IdServicio).HasColumnName("idServicio");
 
                 entity.Property(e => e.Iibb).HasColumnName("IIBB");
@@ -480,8 +482,12 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdComprobanteNavigation)
                     .WithMany(p => p.ComprobanteItem)
                     .HasForeignKey(d => d.IdComprobante)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ComprobanteItem_ComprobanteCliente");
+
+                entity.HasOne(d => d.IdRemitoNavigation)
+                    .WithMany(p => p.ComprobanteItem)
+                    .HasForeignKey(d => d.IdRemito)
+                    .HasConstraintName("FK_ComprobanteItem_Remito");
 
                 entity.HasOne(d => d.IdServicioNavigation)
                     .WithMany(p => p.ComprobanteItem)
@@ -1121,8 +1127,6 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 
-                entity.Property(e => e.IdComprobanteItem).HasColumnName("idComprobanteItem");
-
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.HasOne(d => d.IdClienteNavigation)
@@ -1130,12 +1134,6 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdCliente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Remito_Cliente");
-
-                entity.HasOne(d => d.IdComprobanteItemNavigation)
-                    .WithMany(p => p.Remito)
-                    .HasForeignKey(d => d.IdComprobanteItem)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Remito_ComprobanteItem");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Remito)

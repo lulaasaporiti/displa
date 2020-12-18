@@ -10,7 +10,7 @@ import { ProductoArticuloComponent } from './factura-producto/producto-articulo/
 import { ProductoLibreComponent } from './factura-producto/producto-libre/producto-libre.component';
 import { MatButtonToggleModule } from '@angular/material';
 import { ProductoDescuentoComponent } from './factura-producto/producto-descuento/producto-descuento.component';
-import { ProductoTotalesComponent } from './factura-producto/producto-totales/producto-totales.component';
+import { FacturaConfirmarComponent } from './factura-confirmar/factura-confirmar.component';
 import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';
 import { ProductoLenteComponent } from './factura-producto/producto-lente/producto-lente.component';
 import { SeleccionLenteComponent } from './factura-producto/producto-lente/seleccion-lente/seleccion-lente.component';
@@ -25,9 +25,9 @@ import { ResumenLenteComponent } from './factura-producto/producto-lente/resumen
 
 @NgModule({
     entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, 
-        ProductoDescuentoComponent, ProductoTotalesComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
+        ProductoDescuentoComponent, FacturaConfirmarComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
     declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, SeleccionLenteComponent, 
-        ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, ProductoTotalesComponent, 
+        ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, FacturaConfirmarComponent, 
         ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
     imports: [
         CommonModule,

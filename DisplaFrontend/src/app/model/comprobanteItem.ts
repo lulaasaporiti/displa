@@ -11,6 +11,8 @@ export interface ComprobanteItem {
     Id: number,
     IdComprobante: number,
     IdComprobanteNavigation: ComprobanteCliente,
+    IdRemito: number,
+    IdRemitoNavigation: Remito,
     IdServicio: number,
     IdServicioNavigation: Servicio,
     IdArticulo: number,
