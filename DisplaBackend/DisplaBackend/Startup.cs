@@ -240,6 +240,8 @@ namespace DisplaBackend
             services.AddScoped<ITipoServicioDAO, TipoServicioDAO>();
             services.AddScoped<IUbicacionService, UbicacionService>();
             services.AddScoped<IUbicacionDAO, UbicacionDAO>();
+            services.AddScoped<IVentaVirtualService, VentaVirtualService>();
+            services.AddScoped<IVentaVirtualDAO, VentaVirtualDAO>();
 
             services.AddCors();
             services.AddCors(options =>

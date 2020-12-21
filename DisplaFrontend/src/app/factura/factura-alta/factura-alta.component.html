@@ -82,10 +82,10 @@
 
             <div fxLayout="row" fxLayoutGap="2vw">
               <mat-form-field fxFlex='25' fxLayout="column">
-                <input matInput placeholder="Porcentaje percepción IIBB" name="percepcion" disabled>
+                <input matInput placeholder="Porcentaje percepción IIBB" name="percepcion" value="0" disabled>
               </mat-form-field>
               <mat-form-field fxFlex='25' fxLayout="column">
-                <input matInput placeholder="Porcentaje APR" name="porcentajeAPR" disabled>
+                <input matInput placeholder="Porcentaje APR" name="porcentajeAPR" value="0" disabled>
               </mat-form-field>
               <mat-checkbox class="radio-group" [ngModel]="modelCliente.UtilizaSobre" name="utilizaSobre"
                 #utilizaSobre="ngModel" disabled>Utiliza sobre

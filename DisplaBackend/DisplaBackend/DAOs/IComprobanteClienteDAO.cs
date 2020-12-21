@@ -64,9 +64,10 @@ namespace DisplaBackend.DAOs
                     {
                         if (c.IdArticuloNavigation != null)
                         {
-                            c.IdArticuloNavigation.StockActual = c.IdArticuloNavigation.StockActual - c.Cantidad;
-                            _context.ArticuloVario.Update(c.IdArticuloNavigation);
+                            var articulo = c.IdArticuloNavigation;
                             c.IdArticuloNavigation = null;
+                            articulo.StockActual = articulo.StockActual - c.Cantidad;
+                            _context.Entry(articulo).State = EntityState.Modified;
                         }
                         c.IdServicioNavigation = null;
 
@@ -85,14 +86,14 @@ namespace DisplaBackend.DAOs
                     }
                     var servicios = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemServicio);
                     var recargos = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemRecargo);
-                    if (servicios != null) {
+                    if (servicios.Count() > 0) {
                         foreach (var s in servicios.ElementAt(0).ToArray())
                         {
                             s.IdServicioNavigation = null;
                             _context.ComprobanteItemServicio.Add(s);
                         }
                     }
-                    if (recargos != null)
+                    if (recargos.Count() > 0)
                     {
                         foreach (var r in recargos.ElementAt(0).ToArray())
                         {

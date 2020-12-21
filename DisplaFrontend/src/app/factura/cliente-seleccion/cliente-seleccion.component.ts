@@ -36,15 +36,6 @@ export class ClienteSeleccionComponent implements OnInit {
       });
   }
 
-  displayCliente(c?: Cliente): string | undefined {
-    return c ? c.Id + ' - ' + c.Optica : undefined;
-  }
-
-  private _filter(Optica: string): Cliente[] {
-    const filterValue = Optica.toLowerCase();
-    return this.clientes.filter(option => option.Optica.toLowerCase().indexOf(filterValue) === 0);
-  }
-
   onNoClick(): void {
     this.dialogRef.close(false);
   }
@@ -65,6 +56,12 @@ export class ClienteSeleccionComponent implements OnInit {
       }
     }
   }
+
+  displayCliente(c?: Cliente): string | undefined {
+    return c ? c.Id + ' - ' + c.Optica : undefined;
+  }
+
+  
 
   filterCliente(nombre: any): Cliente[] {
     if (nombre.length >= 0) {
