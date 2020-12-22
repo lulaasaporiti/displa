@@ -15,9 +15,9 @@ export class VentaVirtualService {
     getVentasVirtualesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetVentasVirtuales`);
     }
-    
-    getVentasVirtualesVigentesList(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetVentasVirtualesVigentes`);
+
+    getEntregasPendientes(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetEntregasPendientes`);
     }
     
     saveOrUpdateVentaVirtual(ventaVirtual: Object): Observable<object> {
@@ -29,7 +29,11 @@ export class VentaVirtualService {
     }
 
     deleteVentaVirtual(id: number): Observable<any> {
-        console.log(id)
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
+
+    getVentasVirtualesCliente(idCliente: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetVentasVirtualesCliente?idCliente=${idCliente}`);
+    }
+
 }

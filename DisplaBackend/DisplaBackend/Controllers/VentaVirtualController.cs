@@ -31,6 +31,13 @@ namespace DisplaBackend.Controllers
         }
 
 
+        [HttpGet, Route("GetEntregasPendientes")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetEntregasPendientes()
+        {
+            return _ventaVirtualService.GetEntregasPendientes();
+        }
+
         [HttpPost]
         public IActionResult SaveOrUpdate([FromBody]VentaVirtual ventaVirtual)
         {

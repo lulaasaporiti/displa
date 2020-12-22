@@ -14,6 +14,7 @@ namespace DisplaBackend.DAOs
         bool Delete(VentaVirtual ventaVirtual);
         VentaVirtual GetById(int idVentaVirtual);
         List<VentaVirtual> GetVentasVirtualesCliente(int idCliente);
+        List<VentaVirtual> GetEntregasPendientes();
     }
 
     public class VentaVirtualDAO : IVentaVirtualDAO
@@ -29,6 +30,19 @@ namespace DisplaBackend.DAOs
         public List<VentaVirtual> GetVentasVirtuales()
         {
             return _context.VentaVirtual
+                .Include(v => v.IdComprobanteNavigation.IdTipoComprobanteNavigation)
+                .Include(v => v.IdComprobanteNavigation)
+                .ThenInclude(vc => vc.IdClienteNavigation)
+                .ToList();
+        }
+
+        public List<VentaVirtual> GetEntregasPendientes()
+        {
+            return _context.VentaVirtual
+                .Include(v => v.IdComprobanteNavigation.IdTipoComprobanteNavigation)
+                .Include(v => v.IdComprobanteNavigation)
+                .ThenInclude(vc => vc.IdClienteNavigation)
+                .Where(v => v.CantidadVendida > v.CantidadEntregada)
                 .ToList();
         }
 
@@ -77,6 +91,9 @@ namespace DisplaBackend.DAOs
         public List<VentaVirtual> GetVentasVirtualesCliente(int idCliente)
         {
             return _context.VentaVirtual
+                .Include(v => v.IdComprobanteNavigation.IdTipoComprobanteNavigation)
+                .Include(v => v.IdComprobanteNavigation)
+                .ThenInclude(vc => vc.IdClienteNavigation) 
                 .Where(v => v.IdComprobanteNavigation.IdCliente == idCliente)
                 .ToList();
         }

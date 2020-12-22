@@ -12,6 +12,7 @@ namespace DisplaBackend.Services
         bool Delete(VentaVirtual ventaVirtual);
         VentaVirtual GetById(int idVentaVirtual);
         List<VentaVirtual> GetVentasVirtualesCliente(int idCliente);
+        List<VentaVirtual> GetEntregasPendientes();
     }
 
     public class VentaVirtualService : IVentaVirtualService
@@ -27,6 +28,12 @@ namespace DisplaBackend.Services
         {
             return _ventaVirtualDAO.GetVentasVirtuales();
         }
+
+        public List<VentaVirtual> GetEntregasPendientes()
+        {
+            return _ventaVirtualDAO.GetEntregasPendientes();
+        }
+
 
         public List<VentaVirtual> GetVentasVirtualesCliente(int idCliente)
         {

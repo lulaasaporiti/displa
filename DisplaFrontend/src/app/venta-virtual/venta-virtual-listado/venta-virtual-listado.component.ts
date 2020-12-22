@@ -6,10 +6,12 @@ import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.s
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { merge, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Cliente } from 'src/app/model/cliente';
 import { startWith, map } from 'rxjs/operators';
+// import { add, subtract } from 'add-subtract-date';
 import { VentaVirtualService } from 'src/services/venta.virtual.service';
+import { VentaVirtualModificacionComponent } from '../venta-virtual-modificacion/venta-virtual-modificacion.component';
 
 
 @Component({
@@ -19,13 +21,17 @@ import { VentaVirtualService } from 'src/services/venta.virtual.service';
 })
 export class VentaVirtualListadoComponent implements OnInit {
   panelOpenState = false;
+  today = new Date();
+  desde: Date;
   original: any[] = [];
-  displayedColumns = [ ]
+  displayedColumns = ['Optica', 'Fecha', 'NumeroComprobante', 'TipoComprobante', 'Descripcion', 'CantidadVendida', 'CantidadEntregada', 'CantidadRestante', 'Opciones']
   clientes: Cliente[];
   clientesControl = new FormControl();
   filteredClientes: Observable<Cliente[]>;
   dataSource = new MatTableDataSource<any>();
   todo: boolean;
+  pendientes: boolean;
+
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -40,19 +46,12 @@ export class VentaVirtualListadoComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
+    // this.desde = subtract(d, 40, "days"); // Check this. does subtract() manipulate "d" or create a new date?
     this.todo = true;
+    this.pendientes = true;
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.clienteService.getClientesVigentesList()
-      .subscribe(r => {
-        this.clientes = r;
-        this.filteredClientes = this.clientesControl.valueChanges
-          .pipe(
-            startWith(''),
-            map(val => this.filterCliente(val))
-          );
-      });
   }
 
   applyFilter(filterValue: string) {
@@ -62,6 +61,35 @@ export class VentaVirtualListadoComponent implements OnInit {
   displayCliente(c?: Cliente): string | undefined {
     return c ? c.Id + ' - ' + c.Optica + ' - ' + c.Responsable : undefined;
   }
+
+  traerVentasCliente(event) {
+    this.ventaVirtualService.getVentasVirtualesCliente(event.source.value.Id)
+      .subscribe(vc => {
+        this.dataSource.data = vc;
+      })
+  }
+
+  modificarCantidad(row: any) {
+    const dialogRef = this.dialog.open(VentaVirtualModificacionComponent, {
+      width: '550px',
+      data: { row }
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.ventaVirtualService.saveOrUpdateVentaVirtual(row).subscribe(
+          data => {
+            this.sessionService.showSuccess("La venta virtual se ha modificado correctamente");
+            // this.loadServicioPage();
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("La venta virtual no se modificó.");
+          }
+        );
+      }
+    });
+  }
+
 
   filterCliente(nombre: any): Cliente[] {
     if (nombre.length >= 0) {
@@ -81,34 +109,41 @@ export class VentaVirtualListadoComponent implements OnInit {
 
   traerTodos(event) {
     if (!event.checked) {
-      this.todo = event.checked;
-      this.dataSource.data = this.original;
+      this.ventaVirtualService.getVentasVirtualesList().subscribe(cv => {
+        this.dataSource.data = cv;
+      })
     } else {
-      this.todo =  event.checked;
+      this.todo = event.checked;
       this.dataSource.data = [];
     }
   }
 
-  applyFilterAvanzados(filtro: number, campo: string){
-    console.log(filtro)
-    if (campo == 'diferencia'){
-      this.dataSource.data = this.dataSource.data.filter(d => d.Saldo >= filtro)   
-    }
-    if (campo == 'dias'){
-      this.dataSource.data = this.dataSource.data.filter(d => d.DiasExcedido >= filtro)   
-    }
-    if (filtro.toString() == ""){
-      this.dataSource.data = this.original;
-
+  entregasPendientes(event) {
+    if (!event.checked) {
+      this.ventaVirtualService.getEntregasPendientes().subscribe(cv => {
+        this.dataSource.data = cv;
+      })
+    } else {
+      this.pendientes = event.checked;
+      this.dataSource.data = [];
     }
   }
 
-  getDisplayedColumns() {
-    return this.displayedColumns.filter(cd => cd.hide).map(cd => cd.def);
+  applyFilterAvanzados(filtro: number, campo: string) {
+    // if (campo == 'diferencia'){
+    //   this.dataSource.data = this.dataSource.data.filter(d => d.Saldo >= filtro)   
+    // }
+    // if (campo == 'dias'){
+    //   this.dataSource.data = this.dataSource.data.filter(d => d.DiasExcedido >= filtro)   
+    // }
+    // if (filtro.toString() == ""){
+    //   this.dataSource.data = this.original;
+
+    // }
   }
 
   ngAfterViewInit() {
-   
+
   }
 
 }

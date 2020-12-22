@@ -7,10 +7,11 @@ import { MatSlideToggleModule } from '@angular/material';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { VentaVirtualRoutingModule } from './venta-virtual-routing.module';
 import { VentaVirtualListadoComponent } from './venta-virtual-listado/venta-virtual-listado.component';
+import { VentaVirtualModificacionComponent } from './venta-virtual-modificacion/venta-virtual-modificacion.component';
 
 @NgModule({
-    entryComponents: [],
-    declarations: [VentaVirtualListadoComponent],
+    entryComponents: [VentaVirtualModificacionComponent],
+    declarations: [VentaVirtualListadoComponent, VentaVirtualModificacionComponent],
     imports: [
         CommonModule,
         MaterialModule,

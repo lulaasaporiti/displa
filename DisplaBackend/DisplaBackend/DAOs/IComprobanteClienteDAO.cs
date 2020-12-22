@@ -59,6 +59,7 @@ namespace DisplaBackend.DAOs
                 if (comprobanteCliente.Id == 0)
                 {
                     comprobanteCliente.Fecha = DateTime.Now;
+                    comprobanteCliente.Sucursal = 5;
                     //////////////agregar el navigation de lente en null cuando lo terminemos.//////////
                     foreach (var c in comprobanteCliente.ComprobanteItem.ToList())
                     {

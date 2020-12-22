@@ -15,13 +15,13 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div fxLayout="column" style="margin: 12px auto;">
-            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" style="font-size: small; line-height: 38px !important;">
+            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill style="font-size: small; line-height: 38px !important;">
               <div fxLayoutAlign="start center" fxLayoutGap="2vw">
                 <mat-form-field fxFill>
                   <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
                       [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
+                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="traerVentasCliente($event)">
                           {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                       </mat-option>
                   </mat-autocomplete>
@@ -30,17 +30,19 @@
               </mat-slide-toggle>
               </div>
             </div>
-            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill>
+            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill style="font-size: small; line-height: 38px !important;">
               <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Desde" name="desde" #desde readonly>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="desde" placeholder="Desde" name="desde" #desde readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
               <mat-form-field>
-                <input matInput [matDatepicker]="picker2" placeholder="Hasta" name="hasta" #hasta readonly>
+                <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
+              <mat-slide-toggle color="accent" #pendientes id="pendientes" name="pendientes" [checked]="pendientes" (click)="entregasPendientes(pendientes)">Mostrar solo entregas pendientes
+              </mat-slide-toggle>
             </div>
         </div>
       </mat-expansion-panel>
@@ -50,62 +52,68 @@
 
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
     <ng-container matColumnDef="Optica">
-      <th mat-header-cell *matHeaderCellDef fxFlex="15" mat-sort-header> ÓPTICA </th>
-      <td mat-cell *matCellDef="let row"  fxFlex="15" fxLayoutAlign="start center"> {{row.Id}} - {{row.Optica}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Saldo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> SALDO </th>
-      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center" > {{row.Saldo}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Monto">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> MONTO </th>
-      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.MontoExcedido}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Credito">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> CRÉDITO </th>
-      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.Credito}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Dias">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> DÍAS </th>
-      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.DiasExcedido}}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Plazo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> PLAZO </th>
-      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.Plazo}}
-      </td>
+      <th mat-header-cell *matHeaderCellDef fxFlex="10" mat-sort-header> ÓPTICA </th>
+      <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center"> {{row.IdComprobanteNavigation.IdClienteNavigation.Id}} - {{row.IdComprobanteNavigation.IdClienteNavigation.Optica}} </td>
     </ng-container>
 
     <ng-container matColumnDef="Fecha">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="15"> FECHA </th>
-      <td mat-cell *matCellDef="let row"  fxFlex="15" fxLayoutAlign="start center">
-        {{row.Fecha | date:"dd/MM/yyyy"}}
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> FECHA </th>
+      <td mat-cell *matCellDef="let row"   fxFlex="10" fxLayoutAlign="start center">
+        {{row.IdComprobanteNavigation.Fecha | date:"dd/MM/yyyy"}}
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="Motivo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="25"> MOTIVO </th>
-      <td mat-cell *matCellDef="let row"  fxFlex="25" fxLayoutAlign="start center">
-        {{row.Motivo}}
+    <ng-container matColumnDef="NumeroComprobante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10"> NÚMERO  </th>
+      <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center"> {{row.IdComprobanteNavigation.Numero}}
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="Estado">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="15"> ESTADO </th>
-      <td mat-cell *matCellDef="let row"  fxFlex="15" fxLayoutAlign="start center">
-        {{(!row.Bloqueado) ? 'No bloqueado' : ((row.BloqueoManual) ? 'Bloqueado manual' : 'Bloqueado automático')}}
+    <ng-container matColumnDef="TipoComprobante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10"> TIPO  </th>
+      <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center"> {{row.IdComprobanteNavigation.IdTipoComprobanteNavigation.Descripcion}} - {{row.IdComprobanteNavigation.Letra}} 
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()" fxFill sticky></tr>
-    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" fxFill></tr>
+    <ng-container matColumnDef="Descripcion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="20"> DESCRIPCIÓN </th>
+      <td mat-cell *matCellDef="let row"  fxFlex="20" fxLayoutAlign="start center"> {{row.Descripcion}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="CantidadVendida">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10"> VENDIDOS </th>
+      <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center"> {{row.CantidadVendida}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="CantidadEntregada">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10"> ENTREGADOS </th>
+      <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center">
+        {{row.CantidadEntregada}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="CantidadRestante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10"> RESTANTES </th>
+      <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center">
+        {{row.CantidadVendida - row.CantidadEntregada}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Opciones">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> OPCIONES </th>
+      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center">
+        <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
+        (click)="modificarCantidad(row)">
+        <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
+      </button>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>
