@@ -22,7 +22,7 @@ import { VentaVirtualModificacionComponent } from '../venta-virtual-modificacion
 export class VentaVirtualListadoComponent implements OnInit {
   panelOpenState = false;
   today = new Date();
-  desde: Date;
+  since: Date;
   original: any[] = [];
   displayedColumns = ['Optica', 'Fecha', 'NumeroComprobante', 'TipoComprobante', 'Descripcion', 'CantidadVendida', 'CantidadEntregada', 'CantidadRestante', 'Opciones']
   clientes: Cliente[];
@@ -46,7 +46,7 @@ export class VentaVirtualListadoComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
-    // this.desde = subtract(d, 40, "days"); // Check this. does subtract() manipulate "d" or create a new date?
+    this.since = new Date(this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
     this.todo = true;
     this.pendientes = true;
     this.searchElement.nativeElement.focus();
@@ -65,7 +65,8 @@ export class VentaVirtualListadoComponent implements OnInit {
   traerVentasCliente(event) {
     this.ventaVirtualService.getVentasVirtualesCliente(event.source.value.Id)
       .subscribe(vc => {
-        this.dataSource.data = vc;
+        this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        this.original = vc;
       })
   }
 
@@ -110,7 +111,8 @@ export class VentaVirtualListadoComponent implements OnInit {
   traerTodos(event) {
     if (!event.checked) {
       this.ventaVirtualService.getVentasVirtualesList().subscribe(cv => {
-        this.dataSource.data = cv;
+        this.dataSource.data = cv.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        this.original = cv;
       })
     } else {
       this.todo = event.checked;
@@ -121,24 +123,34 @@ export class VentaVirtualListadoComponent implements OnInit {
   entregasPendientes(event) {
     if (!event.checked) {
       this.ventaVirtualService.getEntregasPendientes().subscribe(cv => {
-        this.dataSource.data = cv;
+        this.dataSource.data = cv.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        this.original = cv;
       })
     } else {
       this.pendientes = event.checked;
+      this.original = [];
       this.dataSource.data = [];
     }
   }
 
-  applyFilterAvanzados(filtro: number, campo: string) {
-    // if (campo == 'diferencia'){
-    //   this.dataSource.data = this.dataSource.data.filter(d => d.Saldo >= filtro)   
-    // }
-    // if (campo == 'dias'){
-    //   this.dataSource.data = this.dataSource.data.filter(d => d.DiasExcedido >= filtro)   
-    // }
+  applyFilterAvanzados(event, campo: string) {
+    if (campo == 'desde'){
+      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+    }
+    if (campo == 'hasta'){
+      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+    }
+    if (campo == 'pendientes'){
+      this.entregasPendientes(event);
+    }
+    if (campo == 'todos'){
+      this.traerTodos(event);
+    }
+    if (campo == 'cliente'){
+      this.traerVentasCliente(event);
+    }
     // if (filtro.toString() == ""){
     //   this.dataSource.data = this.original;
-
     // }
   }
 

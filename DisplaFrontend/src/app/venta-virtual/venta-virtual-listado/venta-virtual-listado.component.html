@@ -21,27 +21,27 @@
                   <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
                       [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="traerVentasCliente($event)">
+                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="applyFilterAvanzados($event, 'cliente')">
                           {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                       </mat-option>
                   </mat-autocomplete>
               </mat-form-field>
-              <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo" (click)="traerTodos(todos)">Todos los clientes
+              <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo" (click)="applyFilterAvanzados(todos, 'todos')">Todos los clientes
               </mat-slide-toggle>
               </div>
             </div>
             <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill style="font-size: small; line-height: 38px !important;">
               <mat-form-field>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="desde" placeholder="Desde" name="desde" #desde readonly>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel" (blur)="applyFilterAvanzados('', 'desde')" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
               <mat-form-field>
-                <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta readonly>
+                <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta="ngModel" (blur)="applyFilterAvanzados('', 'hasta')" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
-              <mat-slide-toggle color="accent" #pendientes id="pendientes" name="pendientes" [checked]="pendientes" (click)="entregasPendientes(pendientes)">Mostrar solo entregas pendientes
+              <mat-slide-toggle color="accent" #pendientes id="pendientes" name="pendientes" [checked]="pendientes" (click)="applyFilterAvanzados(pendientes, 'pendientes')">Mostrar solo entregas pendientes
               </mat-slide-toggle>
             </div>
         </div>

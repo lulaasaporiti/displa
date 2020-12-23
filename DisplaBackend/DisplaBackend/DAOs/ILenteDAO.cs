@@ -176,9 +176,9 @@ namespace DisplaBackend.DAOs
                         //p.Precio = p.Precio;
                         //p.Cilindrico = p.Cilindrico;
                         //p.Esferico = p.Esferico;
-                        if (lente.GraduacionesCilindricas == '-'.ToString()) {
-                            p.MedidaCilindrico = 0 - p.MedidaCilindrico;
-                        }
+                        //if (lente.GraduacionesCilindricas == '-'.ToString()) {
+                        //    p.MedidaCilindrico = 0 - p.MedidaCilindrico;
+                        //}
                         _context.PrecioLente.Add(p);
                     });
 
@@ -205,10 +205,10 @@ namespace DisplaBackend.DAOs
                         {
                             if (p.Id == 0)
                             {
-                                if (lente.GraduacionesCilindricas == '-'.ToString())
-                                {
-                                    p.MedidaCilindrico = 0 - p.MedidaCilindrico;
-                                }
+                                //if (lente.GraduacionesCilindricas == '-'.ToString())
+                                //{
+                                //    p.MedidaCilindrico = 0 - p.MedidaCilindrico;
+                                //}
                                 _context.PrecioLente.Add(p);
                             }
                             else
@@ -216,10 +216,10 @@ namespace DisplaBackend.DAOs
                                 var precioBBDD = _context.PrecioLente.AsNoTracking().FirstOrDefault(pl => pl.Id == p.Id && pl.MedidaEsferico == p.MedidaEsferico && pl.MedidaCilindrico == p.MedidaCilindrico);
                                 if (precioBBDD != null)
                                 {
-                                    if (lente.GraduacionesCilindricas == '-'.ToString())
-                                    {
-                                        p.MedidaCilindrico = 0 - p.MedidaCilindrico;
-                                    }
+                                    //if (lente.GraduacionesCilindricas == '-'.ToString())
+                                    //{
+                                    //    p.MedidaCilindrico = 0 - p.MedidaCilindrico;
+                                    //}
                                     _context.PrecioLente.Update(p);
                                 }
                             }
