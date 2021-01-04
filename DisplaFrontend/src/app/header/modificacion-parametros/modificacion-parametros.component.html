@@ -64,17 +64,21 @@
 
         <label style="font-weight: bold; font-size: smaller;">Montos permitidos</label>
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
-            <mat-form-field fxFlex="33">
+            <mat-form-field fxFlex="25">
                 <input matInput placeholder="Monto mínimo de facturación" id="montoMin" [(ngModel)]="modelParametros.MontoMinimo"
                     name="montoMin" #montoMin pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
             </mat-form-field>
-            <mat-form-field fxFlex="33">
+            <mat-form-field fxFlex="25">
                 <input matInput placeholder="Monto máximo por ítem" id="montoMaxProductos" [(ngModel)]="modelParametros.MontoMaximoProductosDiferentes"
                     name="montoMaxProductos" #montoMaxProductos pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
             </mat-form-field>
-            <mat-form-field fxFlex="33">
+            <mat-form-field fxFlex="25">
                 <input matInput placeholder="Monto máximo de comprobantes" id="montoMaxComprobante" [(ngModel)]="modelParametros.MontoMaximoComprobante"
                     name="montoMaxComprobante" #montoMaxComprobante pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
+            </mat-form-field>
+            <mat-form-field fxFlex="25">
+                <input matInput placeholder="Límite pares para venta virtual" id="limiteVentaVirtual" [(ngModel)]="modelParametros.LimiteVentaVirtual"
+                    name="limiteVentaVirtual" #limiteVentaVirtual pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)">
             </mat-form-field>
         </div>
 

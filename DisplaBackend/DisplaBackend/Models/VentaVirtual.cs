@@ -5,6 +5,11 @@ namespace DisplaBackend.Models
 {
     public partial class VentaVirtual
     {
+        public VentaVirtual()
+        {
+            VentaVirtualMovimientos = new HashSet<VentaVirtualMovimientos>();
+        }
+
         public int Id { get; set; }
         public string Descripcion { get; set; }
         public decimal CantidadVendida { get; set; }
@@ -22,5 +27,6 @@ namespace DisplaBackend.Models
         public virtual Lente IdLenteNavigation { get; set; }
         public virtual Servicio IdServicioNavigation { get; set; }
         public virtual AspNetUsers IdUsuarioNavigation { get; set; }
+        public virtual ICollection<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
     }
 }

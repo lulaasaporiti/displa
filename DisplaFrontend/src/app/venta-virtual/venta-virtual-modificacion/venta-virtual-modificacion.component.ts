@@ -10,6 +10,7 @@ export class VentaVirtualModificacionComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<VentaVirtualModificacionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log(data)
   }
 
   ngOnInit() {

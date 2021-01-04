@@ -12,6 +12,7 @@ export class ProductoLenteComponent implements OnInit {
   modelComprobanteItemLente: any[] = [];
   comprobanteItemRecargos: any[] = [];
   comprobanteItemServicios: any[] = [];
+  indiceServicio: number = -1;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -70,6 +71,10 @@ export class ProductoLenteComponent implements OnInit {
     this.comprobanteItemRecargos = model;
     this.data.item.ComprobanteItemRecargo = model;
     this.changeDetector.detectChanges();
+  }
+
+  indiceServicioSelected(i: number) {
+    this.indiceServicio = i;
   }
 
   tabInventado(event: KeyboardEvent, idElement) {

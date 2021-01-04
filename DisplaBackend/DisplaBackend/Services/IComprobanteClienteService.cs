@@ -17,10 +17,13 @@ namespace DisplaBackend.Services
     public class ComprobanteClienteService : IComprobanteClienteService
     {
         private IComprobanteClienteDAO _comprobanteClienteDAO;
+        private IParametroDAO _parametroDAO;
 
-        public ComprobanteClienteService(IComprobanteClienteDAO comprobanteClienteDAO)
+
+        public ComprobanteClienteService(IComprobanteClienteDAO comprobanteClienteDAO, IParametroDAO parametroDAO)
         {
             _comprobanteClienteDAO = comprobanteClienteDAO;
+            _parametroDAO = parametroDAO;
         }
 
         public List<ComprobanteCliente> GetComprobantesCliente()

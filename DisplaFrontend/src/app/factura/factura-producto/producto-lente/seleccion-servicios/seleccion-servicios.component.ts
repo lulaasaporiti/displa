@@ -101,6 +101,7 @@ export class ChecklistDatabase {
 export class SeleccionServiciosComponent implements OnInit{
   @Input() selectedLente: any[];
   @Input() selectedCalibrados: any[];
+  @Input() selectedIndex: any[];
   modelLente: any[] = [];
   serviciosSeleccionados: Servicio[] = []; 
   comprobanteItemServicios: ComprobanteItemServicio[] = [];
@@ -150,18 +151,23 @@ export class SeleccionServiciosComponent implements OnInit{
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.selectedLente.currentValue.length > 0) {
+    console.log(changes)
+    console.log(this.comprobanteItemServicios)
+    if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
     if (changes.selectedCalibrados != undefined && changes.selectedCalibrados.currentValue != undefined) {
       this.comprobanteItemServicios = changes.selectedCalibrados.currentValue;
       // console.log(this.comprobanteItemServicios)
     }
+    if (changes.selectedIndex != undefined && changes.selectedIndex.currentValue >= 0) {
+      this.comprobanteItemServicios = this.comprobanteItemServicios.splice(changes.selectedIndex.currentValue, 1);
+    }
   }
 
   deshabilitarCheck(option) {
     let optionEsta = this.comprobanteItemServicios.find(cs => cs.IdServicio == option.Id);
-    // console.log(this.comprobanteItemServicios)
+    // console.log(this.comprobanteItemServicios.length)
     if (this.comprobanteItemServicios.length >= 2) {
       if (optionEsta) {
         return false;
@@ -185,8 +191,8 @@ export class SeleccionServiciosComponent implements OnInit{
       this.serviciosSeleccionados.push(option);
       this.comprobanteItemServicios.push(comprobanteItemServicio);
     } else {
-      this.serviciosSeleccionados = this.serviciosSeleccionados.splice(this.serviciosSeleccionados.findIndex(s => s == option), 1);
-      this.comprobanteItemServicios = this.comprobanteItemServicios.splice(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio == comprobanteItemServicio.IdServicio), 1);
+      this.serviciosSeleccionados = this.serviciosSeleccionados.splice(this.serviciosSeleccionados.findIndex(s => s != option), 1);
+      this.comprobanteItemServicios = this.comprobanteItemServicios.splice(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio), 1);
     }
     this.comprobanteItemServiciosSelected();
     if (this.serviciosSeleccionados.length == 2) 

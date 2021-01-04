@@ -30,5 +30,6 @@ namespace DisplaBackend.Models
         public int? MontoMinimo { get; set; }
         public int? MontoMaximoProductosDiferentes { get; set; }
         public int? MontoMaximoComprobante { get; set; }
+        public int? LimiteVentaVirtual { get; set; }
     }
 }

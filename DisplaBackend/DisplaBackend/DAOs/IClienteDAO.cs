@@ -33,7 +33,7 @@ namespace DisplaBackend.DAOs
         List<dynamic> GetListaAsignacionLente(List<dynamic> listaPrecios);
         List<dynamic> GetListaAsignacionServicio(List<Servicio> listaPrecios);
         List<dynamic> GetListaAsignacionArticulo(List<ArticuloVario> listaPrecios);
-        decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo);
+        decimal GetPrecioLenteFactura(int idCliente, int idLente, decimal Esferico, decimal Cilindrico, PrecioLente precioMinimo);
         JObject GetPrecioArticuloFactura(int idCliente, int[] articulos);
         JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
         bool SaveClienteBloqueo(ClienteBloqueo bloqueo);
@@ -822,8 +822,7 @@ namespace DisplaBackend.DAOs
             }
         }
 
-        public decimal GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico, PrecioLente precioMinimo) {
-
+        public decimal GetPrecioLenteFactura(int idCliente, int idLente, decimal Esferico, decimal Cilindrico, PrecioLente precioMinimo) {
             var tienePrecioEspecial = _context.PrecioLenteCliente.Where(pc => pc.IdPrecioLenteNavigation.IdLente == idLente && pc.IdCliente == idCliente && pc.Especial == true).FirstOrDefault();
             if (tienePrecioEspecial == null)
             {
@@ -833,7 +832,7 @@ namespace DisplaBackend.DAOs
                 PrecioLente precioProximo = precioMinimo;
                 foreach (var p in precioClientes)
                 {
-                    if (p.IdPrecioLenteNavigation.MedidaEsferico >= Esferico && p.IdPrecioLenteNavigation.MedidaCilindrico >= Cilindrico)
+                    if (p.IdPrecioLenteNavigation.MedidaEsferico >= Math.Abs(Esferico) && p.IdPrecioLenteNavigation.MedidaCilindrico >= Math.Abs(Cilindrico))
                     {
                         if (precioProximo.MedidaEsferico >= p.IdPrecioLenteNavigation.MedidaEsferico && precioProximo.MedidaCilindrico >= p.IdPrecioLenteNavigation.MedidaCilindrico)
                         {

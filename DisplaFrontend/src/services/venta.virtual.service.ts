@@ -36,4 +36,7 @@ export class VentaVirtualService {
         return this.http.get(`${this.baseUrl}/GetVentasVirtualesCliente?idCliente=${idCliente}`);
     }
 
+    saveOrUpdateVentaVirtualMovimiento(movimientoVentaVirtual: Object): Observable<object> {
+        return this.http.post(`${this.baseUrl}/VentaVirtualMovimiento`, movimientoVentaVirtual);
+    }
 }

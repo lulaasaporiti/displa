@@ -150,10 +150,9 @@ export class HeaderComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
         this.parametroService.saveOrUpdateParametro(result).subscribe(result => {
+          console.log(result)
           if (result) {
-
-            
-
+            this.sessionService.showSuccess("Se guardaron los parámetros.");
           } else {
             this.sessionService.showError("No se pudieron guardar.");
           }

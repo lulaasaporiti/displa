@@ -15,6 +15,7 @@ namespace DisplaBackend.DAOs
         VentaVirtual GetById(int idVentaVirtual);
         List<VentaVirtual> GetVentasVirtualesCliente(int idCliente);
         List<VentaVirtual> GetEntregasPendientes();
+        bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos);
     }
 
     public class VentaVirtualDAO : IVentaVirtualDAO
@@ -53,12 +54,28 @@ namespace DisplaBackend.DAOs
             {
                 if (ventaVirtual.Id == 0)
                 {
-                    ventaVirtual = _context.Add(ventaVirtual).Entity;
+                    ventaVirtual = _context.VentaVirtual.Add(ventaVirtual).Entity;
                 }
                 else
                 {
                     ventaVirtual = _context.VentaVirtual.Update(ventaVirtual).Entity;
+                }
+                return _context.SaveChanges() >= 1;
 
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos)
+        {
+            try
+            {
+                if (ventaVirtualMovimientos.Id == 0)
+                {
+                    ventaVirtualMovimientos = _context.VentaVirtualMovimientos.Add(ventaVirtualMovimientos).Entity;
                 }
                 return _context.SaveChanges() >= 1;
 

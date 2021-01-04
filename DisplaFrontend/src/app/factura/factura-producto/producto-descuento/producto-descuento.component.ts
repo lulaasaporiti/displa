@@ -34,7 +34,7 @@ export class ProductoDescuentoComponent implements OnInit {
 
   
   _keyPressDescripcion(event: any) {
-    const pattern = /[A-Za-z0-9_@./#&+-]/;
+    const pattern = /[A-Za-z0-9_@./#&+-\s]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {{}

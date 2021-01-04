@@ -16,6 +16,7 @@ namespace DisplaBackend.Models
         public DateTime? FechaAnulado { get; set; }
         public int IdCliente { get; set; }
         public int IdUsuario { get; set; }
+        public bool Impreso { get; set; }
 
         public virtual Cliente IdClienteNavigation { get; set; }
         public virtual AspNetUsers IdUsuarioNavigation { get; set; }

@@ -22,6 +22,7 @@ import { LenteVentaVirtualComponent } from '../factura-producto/producto-lente/l
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
 import { ParametroService } from 'src/services/parametro.service';
 import { RemitoService } from 'src/services/remito.service';
+import { Parametro } from 'src/app/model/parametro';
 
 
 @Component({
@@ -31,6 +32,7 @@ import { RemitoService } from 'src/services/remito.service';
 })
 export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
+  parametro = <Parametro>{};
   plazoActual = 0;
   private id: number = 0;
   panelOpenState = false;
@@ -162,7 +164,7 @@ export class FacturaAltaComponent implements OnInit {
         if (this.bloquearF != true) {
           const dialogRef = this.dialog.open(LenteVentaVirtualComponent, {
             disableClose: true,
-            data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre },
+            data: { idCliente: this.id, utilizaSobre: this.modelCliente.UtilizaSobre, limite: this.parametro.LimiteVentaVirtual },
             width: '700px',
             // height:'350px'
           })
@@ -199,10 +201,12 @@ export class FacturaAltaComponent implements OnInit {
       this.loadingSpinnerService.show();
       combineLatest(
         this.clienteService.getById(this.id),
-        this.clienteService.getDiasPlazo(this.id)
+        this.clienteService.getDiasPlazo(this.id),
+        this.parametroService.getParametro()
       )
         .subscribe(result => {
           this.modelCliente = result[0];
+          this.parametro = result[2];
           this.modelComprobante.IdCliente = this.id;
           this.modelComprobante.ComprobanteItem = [];
           this.modelComprobante.VentaVirtual = [];
@@ -210,8 +214,13 @@ export class FacturaAltaComponent implements OnInit {
           this.modelComprobante.IdUsuario = +this.sessionService.getPayload()['idUser'];
           if (this.modelCliente.IdCategoriaIva == 2) {
             this.modelComprobante.Letra = 'B'
+            this.modelComprobante.Numero = this.parametro.NumeroComprobanteB;
+            this.parametro.NumeroComprobanteB++;
           } else {
             this.modelComprobante.Letra = 'A'
+            this.modelComprobante.Numero = this.parametro.NumeroComprobanteA;
+            this.parametro.NumeroComprobanteA++;
+
           }
           this.plazoActual = +result[1];
           this.loadingSpinnerService.hide();
@@ -406,7 +415,8 @@ export class FacturaAltaComponent implements OnInit {
       if (result == 1) {
         this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
           data => {
-            // this.router.navigateByUrl('/Home')
+            this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
+            // this.router.navigateByUrl('/Home');
             this.sessionService.showSuccess("La factura se agregó correctamente.");
           },
           error => {

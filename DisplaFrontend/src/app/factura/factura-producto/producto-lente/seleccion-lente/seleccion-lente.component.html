@@ -34,18 +34,16 @@
                 <div fxLayout="column">
                     <mat-form-field>
                         <input type="text" placeholder="Medida cilindríco" matInput autocomplete="off"
-                            [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico" id="cilindrico0"
-                            (blur)="traerPrecio(0)" (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0"
-                            #cilindrico0="ngModel" (keypress)="_keyPress($event)" required
+                            [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico" id="cilindrico0" 
+                            (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0"
+                            #cilindrico0="ngModel" (keypress)="_keyPress($event)" required [disabled]="deshabilitar"
                             (input)="compararLimiteGrilla(0, 'cilindrico')"
-                            [disabled]="deshabilitar"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico')">
+                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico'); traerPrecio(0)">
                         <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
-                    <p class="msjError"
+                    <!-- <p class="msjError"
                         *ngIf="validacionLenteService.compararGraduacion(modelComprobanteItemLente[0], modelComprobanteItemLente[0].IdLenteNavigation)">
-                        La medida
-                        no respeta el signo de la lente.</p>
+                        La medida no respeta el signo de la lente.</p> -->
                     <p class="msjError" *ngIf="msjLimiteCilindrico[0]">
                         La medida no se encuentra dentro de los límites.</p>
                 </div>
@@ -79,9 +77,9 @@
                             (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')">
                         <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
-                    <p class="msjError"
+                    <!-- <p class="msjError"
                         *ngIf="validacionLenteService.compararGraduacion(modelComprobanteItemLente[1], modelComprobanteItemLente[0].IdLenteNavigation)">
-                        La medida no respeta el signo de la lente.</p>
+                        La medida no respeta el signo de la lente.</p> -->
                     <p class="msjError" *ngIf="msjLimiteCilindrico[1]">
                         La medida no se encuentra dentro de los límites.</p>
                 </div>
@@ -153,10 +151,18 @@
                 </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
-        
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFill>
-                <mat-select [formControl]="serviciosControl" placeholder="Calibrados" [multiple]="true" #ser 
+                <input type="text" placeholder="Calibrados" aria-label="calibrados" matInput [formControl]="serviciosControl"
+                    [matAutocomplete]="autoCal" name="calibrado" id="calibrado" (blur)="serviciosSeleccionados(serviciosControl)"
+                    (keyup.enter)="comprobanteItemLenteSelected()">
+                <mat-autocomplete #autoCal="matAutocomplete" [displayWith]="displayServicio">
+                    <mat-option *ngFor="let s of filteredServicios | async" [value]="s">
+                        {{ s.Id }} - {{s.Nombre}} - Precio {{s.PrecioServicio[0].Precio}}
+                    </mat-option>
+                </mat-autocomplete>
+
+                <!-- <mat-select [formControl]="serviciosControl" placeholder="Calibrados" #ser 
                     (keydown.enter)="$event.stopImmediatePropagation()" id="calibrado" (keyup.enter)="comprobanteItemLenteSelected()">
                     <mat-option>
                         <ngx-mat-select-search [formControl]="bankMultiFilterCtrl"></ngx-mat-select-search>
@@ -171,7 +177,7 @@
                         (onSelectionChange)="serviciosSeleccionados($event)">
                         {{s.Id}} - {{s.Nombre}} - Precio  {{s.PrecioServicio[0].Precio}}
                     </mat-option>
-                </mat-select>
+                </mat-select> -->
             </mat-form-field>
         </div>
     </div>

@@ -67,7 +67,9 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
+        public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -864,6 +866,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IngresosBrutos).HasColumnName("ingresosBrutos");
 
+                entity.Property(e => e.LimiteVentaVirtual).HasColumnName("limiteVentaVirtual");
+
                 entity.Property(e => e.MontoBaseRetenciones).HasColumnName("montoBaseRetenciones");
 
                 entity.Property(e => e.MontoMaximoComprobante).HasColumnName("montoMaximoComprobante");
@@ -1129,6 +1133,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
+                entity.Property(e => e.Impreso).HasColumnName("impreso");
+
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.Remito)
                     .HasForeignKey(d => d.IdCliente)
@@ -1383,6 +1389,33 @@ namespace DisplaBackend.Models
                     .WithMany(p => p.VentaVirtual)
                     .HasForeignKey(d => d.IdUsuario)
                     .HasConstraintName("FK_VentaVirtual_AspNetUsers");
+            });
+
+            modelBuilder.Entity<VentaVirtualMovimientos>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Cantidad)
+                    .HasColumnName("cantidad")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.Entrega).HasColumnName("entrega");
+
+                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.Property(e => e.IdVentaVirtual).HasColumnName("idVentaVirtual");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.VentaVirtualMovimientos)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_VentaVirtualMovimientos_AspNetUsers");
+
+                entity.HasOne(d => d.IdVentaVirtualNavigation)
+                    .WithMany(p => p.VentaVirtualMovimientos)
+                    .HasForeignKey(d => d.IdVentaVirtual)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_VentaVirtualMovimientos_VentaVirtual");
             });
 
             modelBuilder.Entity<VirtualComprobante>(entity =>

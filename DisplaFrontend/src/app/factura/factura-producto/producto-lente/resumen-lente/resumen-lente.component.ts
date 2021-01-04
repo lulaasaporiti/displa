@@ -10,6 +10,8 @@ export class ResumenLenteComponent implements OnInit {
   @Input() selectedLente: any[];
   @Input() selectedRecargo: any[];
   @Input() selectedServicio: any[];
+  @Input() selectedIndex: any[];
+
 
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = ['Descripcion', 'Precio'];
@@ -34,7 +36,11 @@ export class ResumenLenteComponent implements OnInit {
     }
     if (changes.selectedServicio != undefined && changes.selectedServicio.currentValue.length > 0) {
       this.modelServicio = changes.selectedServicio.currentValue;
-      console.log(this.modelServicio)
+      // console.log(this.modelServicio)
+    }
+    if (changes.selectedIndex != undefined && changes.selectedIndex.currentValue >= 0) {
+      this.modelServicio = this.modelServicio.splice(changes.selectedIndex.currentValue, 1);
+      // console.log(this.modelServicio)
     }
   }
 

@@ -252,7 +252,7 @@ namespace DisplaBackend.Controllers
 
         [HttpGet, Route("GetPrecioLenteFactura")]
         [EnableCors("DisplaAPIPolicy")]
-        public object GetPrecioLenteFactura(int idCliente, int idLente, int Esferico, int Cilindrico)
+        public object GetPrecioLenteFactura(int idCliente, int idLente, decimal Esferico, decimal Cilindrico)
         {
             return _clienteService.GetPrecioLenteFactura(idCliente, idLente, Esferico, Cilindrico);
         }

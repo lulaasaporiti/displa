@@ -13,6 +13,7 @@ namespace DisplaBackend.Services
         VentaVirtual GetById(int idVentaVirtual);
         List<VentaVirtual> GetVentasVirtualesCliente(int idCliente);
         List<VentaVirtual> GetEntregasPendientes();
+        bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos);
     }
 
     public class VentaVirtualService : IVentaVirtualService
@@ -56,6 +57,9 @@ namespace DisplaBackend.Services
             return _ventaVirtualDAO.GetById(idVentaVirtual);
         }
 
+        public bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos) {
+            return _ventaVirtualDAO.SaveOrUpdateMovimiento(ventaVirtualMovimientos);
+        }
     }
 
 }

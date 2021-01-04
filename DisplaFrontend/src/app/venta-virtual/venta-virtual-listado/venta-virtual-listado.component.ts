@@ -12,6 +12,10 @@ import { startWith, map } from 'rxjs/operators';
 // import { add, subtract } from 'add-subtract-date';
 import { VentaVirtualService } from 'src/services/venta.virtual.service';
 import { VentaVirtualModificacionComponent } from '../venta-virtual-modificacion/venta-virtual-modificacion.component';
+import { ParametroService } from 'src/services/parametro.service';
+import { Parametro } from 'src/app/model/parametro';
+import { VentaVirtualMovimientos } from 'src/app/model/ventaVirtualMovimiento';
+import { VentaVirtual } from 'src/app/model/ventaVirtual';
 
 
 @Component({
@@ -31,7 +35,7 @@ export class VentaVirtualListadoComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
   todo: boolean;
   pendientes: boolean;
-
+  parametro = <Parametro>{};
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -42,6 +46,7 @@ export class VentaVirtualListadoComponent implements OnInit {
     private router: Router,
     private clienteService: ClienteService,
     private sessionService: SessionService,
+    private parametroService: ParametroService,
     private ventaVirtualService: VentaVirtualService,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
@@ -52,6 +57,9 @@ export class VentaVirtualListadoComponent implements OnInit {
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.parametroService.getParametro().subscribe(result => { 
+      this.parametro = result;
+    });
   }
 
   applyFilter(filterValue: string) {
@@ -70,17 +78,31 @@ export class VentaVirtualListadoComponent implements OnInit {
       })
   }
 
-  modificarCantidad(row: any) {
+  modificarCantidad(venta: VentaVirtual) {
+    let cantidadVentaAnterior = venta.CantidadVendida;
     const dialogRef = this.dialog.open(VentaVirtualModificacionComponent, {
       width: '550px',
-      data: { row }
+      data: { venta: venta, limite: this.parametro.LimiteVentaVirtual }
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
-        this.ventaVirtualService.saveOrUpdateVentaVirtual(row).subscribe(
+        this.ventaVirtualService.saveOrUpdateVentaVirtual(venta).subscribe(
           data => {
-            this.sessionService.showSuccess("La venta virtual se ha modificado correctamente");
-            // this.loadServicioPage();
+            let movimiento = <VentaVirtualMovimientos>{};
+            movimiento.IdVentaVirtual = venta.Id;
+            movimiento.Cantidad = +venta.CantidadVendida - cantidadVentaAnterior;
+            movimiento.Entrega = false;
+            movimiento.IdUsuario = +this.sessionService.getPayload()['idUser'];
+            this.ventaVirtualService.saveOrUpdateVentaVirtualMovimiento(movimiento).subscribe(
+              data => {
+                this.sessionService.showSuccess("La venta virtual se ha modificado correctamente");
+                // this.loadServicioPage();
+              },  
+              error => {
+                // console.log(error)
+                this.sessionService.showError("El movimiento de la venta virtual no se agregó.");
+              }
+            )
           },
           error => {
             // console.log(error)

@@ -54,6 +54,22 @@ namespace DisplaBackend.Controllers
             
         }
 
+        [HttpPost, Route("VentaVirtualMovimiento")]
+        public IActionResult SaveOrUpdateMovimiento([FromBody]VentaVirtualMovimientos ventaVirtualMovimientos)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            //int idAsignacion = Convert.ToInt32(model.GetValue("idAsignacion").Value<string>());
+
+            //var aux = model.GetValue("nombre").ToString();
+            //VentaVirtual ventaVirtual = JsonConvert.DeserializeObject<VentaVirtual>(aux);
+
+            return Ok(_ventaVirtualService.SaveOrUpdateMovimiento(ventaVirtualMovimientos));
+
+        }
+
         [HttpDelete("{idVentaVirtual}")]
         public IActionResult Delete([FromRoute]int idVentaVirtual)
         {

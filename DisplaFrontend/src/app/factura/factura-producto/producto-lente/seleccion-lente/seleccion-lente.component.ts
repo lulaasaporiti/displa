@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatSelect } from '@angular/material';
 import { FormControl } from '@angular/forms';
-import { Observable, combineLatest, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { startWith, map, takeUntil, take } from 'rxjs/operators';
 import { Lente } from 'src/app/model/lente';
 import { LenteService } from 'src/services/lente.service';
@@ -20,11 +20,14 @@ import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 })
 export class SeleccionLenteComponent implements OnInit {
   @Output() selectedComprobanteItemLente = new EventEmitter<any[]>(); 
-  @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>(); 
+  @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>();
+  @Output() selectedIndice = new EventEmitter<number>();
+
   
   lentes: Lente[];
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
+  filteredServicios: Observable<Servicio[]>;
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
   mostrarPrecio = false;
@@ -35,7 +38,7 @@ export class SeleccionLenteComponent implements OnInit {
   servicios: any[] = [];
   serviciosControl = new FormControl();
   bankMultiFilterCtrl: FormControl = new FormControl();
-  filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
+  // filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
   deshabilitar: boolean = true;
   serviciosLente: ComprobanteItemServicio[] = []
 
@@ -65,7 +68,6 @@ export class SeleccionLenteComponent implements OnInit {
           startWith(''),
           map(val => this.filterLente(val))
         );
-
     });
   }
 
@@ -75,6 +77,10 @@ export class SeleccionLenteComponent implements OnInit {
 
   displayLente(l?: Lente): string | undefined {
     return l ? l.Id + ' - ' + l.Nombre : undefined;
+  }
+
+  displayServicio(s?: Servicio): string | undefined {
+    return s ? s.Id + ' - ' + s.Nombre + ' - Precio ' + s.PrecioServicio[0].Precio : undefined;
   }
 
   _keyPress(event: any) {
@@ -134,16 +140,16 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   setInitialValue() {
-    this.filteredServicios
-      // .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
-        this.multiSelect.compareWith = (a: Servicio, b: Servicio) => a && b && a.Id === b.Id;
-      });
+    // this.filteredServicios
+    //   // .pipe(take(1), takeUntil(this._onDestroy))
+    //   .subscribe(() => {
+    //     // setting the compareWith property to a comparison function
+    //     // triggers initializing the selection according to the initial value of
+    //     // the form control (i.e. _initializeSelection())
+    //     // this needs to be done after the filteredBanks are loaded initially
+    //     // and after the mat-option elements are available
+    //     this.multiSelect.compareWith = (a: Servicio, b: Servicio) => a && b && a.Id === b.Id;
+    //   });
       }
 
   getCalibrados() {
@@ -151,30 +157,45 @@ export class SeleccionLenteComponent implements OnInit {
       .subscribe(s => {
         this.servicios = s;
         // console.log(s)
-        this.filteredServicios.next(this.servicios.slice());
-        this.bankMultiFilterCtrl.valueChanges
-          // .pipe(takeUntil(this._onDestroy))
-          .subscribe(() => {
-            this.filterServicios();
-          });
+        this.filteredServicios = this.serviciosControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(val => this.filterServicios(val))
+        );
+        // this.filteredServicios.next(this.servicios.slice());
+        // this.bankMultiFilterCtrl.valueChanges
+        //   // .pipe(takeUntil(this._onDestroy))
+        //   .subscribe(() => {
+        //     this.filterServicios();
+        //   });
       })
   }
 
-  serviciosSeleccionados(event: MatOptionSelectionChange) {
-    if (event.source.selected == true) {
+  serviciosSeleccionados(event: FormControl
+    // event: MatOptionSelectionChange
+  ) {
+    if (event.value != null && event.value != "") {
+      // if (event.source.selected == true) {
       let comprobanteItem = <ComprobanteItemServicio>{}
-      comprobanteItem.IdServicio = event.source.value.Id;
-      comprobanteItem.IdServicioNavigation = event.source.value;
-      this.serviciosLente.push(comprobanteItem);
-      // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
+      comprobanteItem.IdServicio = event.value.Id;
+      comprobanteItem.IdServicioNavigation = event.value;
+      if (!this.serviciosLente.includes(comprobanteItem))
+        this.serviciosLente.push(comprobanteItem);
+      this.comprobanteItemServicioSelected();
+      
+      // this.serviciosLente.push(comprobanteItem);
+      //   // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
     }
     else {
-      let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
-      this.serviciosLente.splice(i, 1);
-      // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
+      let i = this.serviciosLente.findIndex(s => s.IdServicioNavigation.DescripcionFactura.startsWith('CAL '));
+      this.indiceServicioSelected(i);
+      // console.log(this.serviciosLente.splice(this.serviciosLente.findIndex(s => s.IdServicioNavigation.DescripcionFactura.startsWith('CAL '), 1)))
+      //   let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
+      //   this.serviciosLente.splice(i, 1);
+      //   // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
+
     }
-    this.comprobanteItemServicioSelected();
-}
+  }
 
   agregarGraduacion() {
     this.modelComprobanteItemLente[0].Cantidad = 0.5;
@@ -206,22 +227,35 @@ export class SeleccionLenteComponent implements OnInit {
     }
   }
 
-  filterServicios() {
-    if (!this.servicios) {
-      return;
-    }
-    // get the search keyword
-    let search = this.bankMultiFilterCtrl.value;
-    if (!search) {
-      this.filteredServicios.next(this.servicios.slice());
-      return;
+  filterServicios(nombre: any): Servicio[] {
+    if (nombre.length >= 0) {
+      var s: string;
+      try {
+        s = nombre.toLowerCase();
+      }
+      catch (ex) {
+        s = nombre.nombre.toLowerCase();
+      }
+      return this.servicios.filter(servicio =>
+        servicio.Id.toString().indexOf(s) !== -1 || servicio.Nombre.toLowerCase().indexOf(s.toLowerCase()) !== -1);
     } else {
-      search = search.toLowerCase();
+      return [];
     }
-    // filter the banks
-    this.filteredServicios.next(
-      this.servicios.filter(ser => ser.Id.toString().indexOf(search) !== -1 || ser.Nombre.toLowerCase().indexOf(search) > -1)
-    );
+    // if (!this.servicios) {
+    //   return;
+    // }
+    // // get the search keyword
+    // let search = this.bankMultiFilterCtrl.value;
+    // if (!search) {
+    //   this.filteredServicios.next(this.servicios.slice());
+    //   return;
+    // } else {
+    //   search = search.toLowerCase();
+    // }
+    // // filter the banks
+    // this.filteredServicios.next(
+    //   this.servicios.filter(ser => ser.Id.toString().indexOf(search) !== -1 || ser.Nombre.toLowerCase().indexOf(search) > -1)
+    // );
   }
 
   comprobanteItemLenteSelected() {
@@ -230,7 +264,12 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   comprobanteItemServicioSelected() {
-    this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
+    let serviciosCloned = JSON.parse(JSON.stringify(this.serviciosLente));
+    this.selectedServiciosComprobanteItem.emit(serviciosCloned);
+  }
+
+  indiceServicioSelected(i) {
+    this.selectedIndice.emit(i);
   }
 
   compararLimiteGrilla(index, tipoGraduacion) {

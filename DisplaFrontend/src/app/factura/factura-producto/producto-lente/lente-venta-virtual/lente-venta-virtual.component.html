@@ -1,7 +1,4 @@
-
-
-
-<form #modalForm="ngForm" >
+<form #modalForm="ngForm">
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
             <p class="dialog-title colorVenta">Venta virtual</p>
@@ -28,18 +25,22 @@
                 <mat-error *ngIf="monto.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="30">
-                <input matInput type="number" placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'seleccionar')"
-                    #cantidad="ngModel" (keypress)="_keyPress($event)" [(ngModel)]="modelVentaVirtual.CantidadVendida"
-                    name="cantidad" required>
-                <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
-
+            <div fxLayout="column">
+                <mat-form-field>
+                    <input matInput type="number" placeholder="Cantidad" id="cantidad"
+                        (keyup.enter)="tabInventado($event, 'seleccionar')" #cantidad="ngModel"
+                        (keypress)="_keyPress($event)" [(ngModel)]="modelVentaVirtual.CantidadVendida" name="cantidad"
+                        required>
+                    <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
+                </mat-form-field>
+                <p class="msjError" *ngIf="modelVentaVirtual.CantidadVendida > data.limite">
+                    La cantidad vendida supera el límite.</p>
+            </div>
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" id="seleccionar"
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || modelVentaVirtual.CantidadVendida > data.limite" id="seleccionar"
                 [mat-dialog-close]="modelVentaVirtual">Seleccionar</button>
         </div>
     </div>

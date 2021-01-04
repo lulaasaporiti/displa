@@ -24,5 +24,6 @@ export interface Parametro {
     NumeroNotaDebitoB: number,
     MontoMinimo: number,
     MontoMaximoProductosDiferentes: number,
-    MontoMaximoComprobante: number
+    MontoMaximoComprobante: number,
+    LimiteVentaVirtual: number
 }
