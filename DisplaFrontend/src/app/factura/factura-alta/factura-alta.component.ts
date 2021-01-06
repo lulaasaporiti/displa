@@ -151,11 +151,17 @@ export class FacturaAltaComponent implements OnInit {
       }
       case "F7": { //totales
         this.dialog.closeAll();
-        this.bloquearF = true;
-        this.parametroService.getObservaciones()
+        if (this.modelComprobante.MontoTotal == 0){
+          this.sessionService.showWarning("La factura no puede ser 0")
+          this.bloquearF = false;
+        }
+        else{
+          this.bloquearF = true;
+          this.parametroService.getObservaciones()
           .subscribe(result => {
             this.modelComprobante.Observaciones = result;
           });
+        }
         event.preventDefault();
         break;
       }

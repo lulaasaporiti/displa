@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
-import { TipoInsumo } from 'src/app/model/tipoInsumo';
-import { TipoInsumoService } from 'src/services/tipo.insumo.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
+import { SobreService } from 'src/services/sobre.service';
+import { Cliente } from 'src/app/model/cliente';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Sobre } from 'src/app/model/sobre';
 
 
 @Component({
@@ -13,10 +16,16 @@ import { SessionService } from 'src/services/session.service';
   styleUrls: ['./sobre-consulta.component.css']
 })
 export class SobreConsultaComponent implements OnInit {
-  
-  displayedColumns: string[] = ['Nombre', 'NotificaStockMinimo', 'Borrado', 'Opciones'];
-  dataSource = new MatTableDataSource<TipoInsumo>();
-  traerVigentes: boolean = true;
+  panelOpenState = false;
+  today = new Date();
+  original: any[] = [];
+  since: Date;
+  todo: boolean;
+  displayedColumns: string[] = ['Optica','Sobre','Entrada', 'Salida', 'NumeroComprobante','Observaciones'];
+  dataSource = new MatTableDataSource<Sobre>();
+  clientes: Cliente[];
+  clientesControl = new FormControl();
+  filteredClientes: Observable<Cliente[]>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -25,44 +34,83 @@ export class SobreConsultaComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private tipoInsumoService: TipoInsumoService,
     private sessionService: SessionService,
+    private sobreService: SobreService,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.loadTipoInsumoPage()
+    this.loadSobrePage()
   }
 
   ngAfterViewInit() {
     this.searchElement.nativeElement.focus();
   }
 
+
+  loadSobrePage() {
+    this.loadingSpinnerService.show();
+    this.sobreService.getSobresList()
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.original = r;
+        this.todo = true;
+        console.log(r)
+        this.loadingSpinnerService.hide();
+      })
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  cambiarListado() {
-    this.traerVigentes = !this.traerVigentes;
-    this.loadTipoInsumoPage();
+  filterCliente(nombre: any): Cliente[] {
+    if (nombre.length >= 0) {
+      var s: string;
+      try {
+        s = nombre.toLowerCase();
+      }
+      catch (ex) {
+        s = nombre.nombre.toLowerCase();
+      }
+      return this.clientes.filter(cliente =>
+        cliente.Id.toString().indexOf(s) !== -1 || cliente.Optica.toLowerCase().indexOf(s.toLowerCase()) !== -1);
+    } else {
+      return [];
+    }
   }
 
-  loadTipoInsumoPage() {
-    this.loadingSpinnerService.show();
-    if (this.traerVigentes == true) {
-      this.tipoInsumoService.getTiposInsumosVigentesList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+  displayCliente(c?: Cliente): string | undefined {
+    return c ? c.Id + ' - ' + c.Optica + ' - ' + c.Responsable : undefined;
+  }
+
+  traerTodos(event) {
+    if (!event.checked) {
+      // this.sobreService.getSobresList().subscribe(so => {
+      //   this.dataSource.data = so.filter(s => new Date(Date.parse(s.Fecha.toString())) >= this.since && new Date(Date.parse(s.Fecha.toString())) <= this.today);
+      //   this.original = so;
+      // })
     } else {
-      this.tipoInsumoService.getTiposInsumosList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+      this.todo = event.checked;
+      this.dataSource.data = [];
+    }
+  }
+
+
+  applyFilterAvanzados(event, campo: string) {
+    if (campo == 'entrada'){
+      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.Fecha.toString())) >= this.since && new Date(Date.parse(v.Fecha.toString())) <= this.today);
+    }
+    if (campo == 'salida'){
+      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.Fecha.toString())) >= this.since && new Date(Date.parse(v.Fecha.toString())) <= this.today);
+    }
+    if (campo == 'todos'){
+      this.traerTodos(event);
+    }
+    if (campo == 'sobre'){
+      this.dataSource.data = this.original.filter(s => s.Numero == event);
     }
   }
 

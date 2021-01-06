@@ -29,6 +29,8 @@ namespace DisplaBackend.DAOs
         public List<Sobre> GetSobres()
         {
             return _context.Sobre
+                .Include(s => s.IdClienteNavigation)
+                .ThenInclude(c => c.ComprobanteCliente)
                 .ToList();
         }
 

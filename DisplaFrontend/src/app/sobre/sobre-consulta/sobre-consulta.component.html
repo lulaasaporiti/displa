@@ -1,57 +1,111 @@
 <div class="content">
-  <app-loading-spinner></app-loading-spinner>
+  <!-- <app-loading-spinner></app-loading-spinner> -->
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-    <h4 fxLayout="column" class="titulo" fxFlex>Tipos de Insumo</h4>
+    <h4 fxLayout="column" class="titulo" fxFlex>Consulta de sobres</h4>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
-      <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus" placeholder="Buscar">
     </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-accordion fxFill>
+      <mat-expansion-panel [expanded]="false" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5 class="titulo" fxFlex>Filtros</h5>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxLayout="column" style="margin: 12px auto;">
+            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill style="font-size: small; line-height: 38px !important;">
+              <div fxLayoutAlign="start center" fxLayoutGap="2vw">
+                <mat-form-field fxFill>
+                  <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
+                      [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
+                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="applyFilterAvanzados($event, 'cliente')">
+                          {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
+                      </mat-option>
+                  </mat-autocomplete>
+              </mat-form-field>
+              <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo" (click)="applyFilterAvanzados(todos, 'todos')">Todos los clientes
+              </mat-slide-toggle>
+              </div>
+            </div>
+            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill style="font-size: small; line-height: 38px !important;">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Entrada" name="entrada" #entrada="ngModel" (blur)="applyFilterAvanzados('', 'entrada')" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Salida" name="salida" #salida="ngModel" (blur)="applyFilterAvanzados('', 'salida')" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field>
+                <input type="text" placeholder="Con número de sobre" aria-label="Con número de sobre" matInput (click)="applyFilterAvanzados($event, 'sobre')">
+            </mat-form-field>
+            </div>     
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
   <mat-divider fxFlexOffset="2"></mat-divider>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="6px" class="menu-agregar">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
-      <button mat-mini-fab class="buttonFixed" color="primary" (click)="agregarTipoInsumo()">
-        <mat-icon svgIcon="add"></mat-icon>
-      </button>
-      <p>Agregar</p>
-    </div>
-    
-    <a mat-button *ngIf="traerVigentes" class="footer-list" routerLink="." (click)="cambiarListado()">Mostrar todos</a>
-    <a mat-button *ngIf="!traerVigentes" class="footer-list" routerLink="." (click)="cambiarListado()">Mostrar vigentes</a>
-  </div>
-  
-  <mat-divider></mat-divider>
-
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
-
-    <ng-container matColumnDef="Nombre">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="60"> NOMBRE </th>
-      <td mat-cell *matCellDef="let row" fxFlex="60" fxLayoutAlign="start center"> {{row.Nombre}} </td>
+    <ng-container matColumnDef="Optica">
+      <th mat-header-cell *matHeaderCellDef fxFlex mat-sort-header> ÓPTICA </th>
+      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.IdClienteNavigation.Id}} - {{row.IdClienteNavigation.Optica}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="NotificaStockMinimo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> NOTIFICA STOCK MÍNIMO</th>
-      <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.NotificaStockMinimo == true ? 'Si' : 'No'}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Borrado">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> BORRADO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Opciones">
-      <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="end">
-        <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
-          (click)="modificarTipoInsumo(row)">
-          <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Eliminar" [matTooltipPosition]="'above'" aria-label="Eliminar"
-          (click)="eliminarTipoInsumo(row)">
-          <mat-icon svgIcon="delete_outline" class="tabla_icono"></mat-icon>
-        </button>
+    <ng-container matColumnDef="Sobre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> SOBRE </th>
+      <td mat-cell *matCellDef="let row"   fxFlex fxLayoutAlign="start center">
+        {{row.Numero}}
       </td>
     </ng-container>
+
+    <ng-container matColumnDef="Entrada">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> ENTRADA </th>
+      <td mat-cell *matCellDef="let row"   fxFlex fxLayoutAlign="start center">  {{row.Fecha | date:"dd/MM/yyyy"}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Salida">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> SALIDA </th>
+      <td mat-cell *matCellDef="let row"   fxFlex fxLayoutAlign="start center">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="NumeroComprobante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> COMPROBANTE  </th>
+      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> 
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Observaciones">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> OBSERVACIONES  </th>
+      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.Observaciones}}
+      </td>
+    </ng-container>
+
+    
+
+    <!-- <ng-container matColumnDef="CantidadVendida">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10"> VENDIDOS </th>
+      <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center"> {{row.CantidadVendida}}
+      </td>
+    </ng-container> -->
+<!-- 
+    <ng-container matColumnDef="Opciones">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> OPCIONES </th>
+      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center">
+        <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
+        (click)="modificarCantidad(row)">
+        <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
+      </button>
+      </td>
+    </ng-container> -->
+
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>

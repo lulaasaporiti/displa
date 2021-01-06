@@ -17,11 +17,18 @@ mat-paginator{
   transform: scale(0.7);
 }
 
+.toggle-clientes{
+  font-size: small;
+  line-height: 38px !important;
+}
+
+::ng-deep .menu-clientes .mat-menu-content{    
+  background-color: transparent !important;
+}
 
 /* /////////////////// */
 
 table {
-  width: 100%;
   width: 100%;
   padding: 0px !important;
 }
@@ -39,6 +46,7 @@ th.mat-header-cell:last-of-type{
 }
 
 td.mat-cell:first-of-type{
+  padding: 12px;
   padding-left: 0px;
 }
 

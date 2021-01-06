@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoggedInGuard } from 'src/guards/loggedIn-guard';
+import { SobreConsultaComponent } from './sobre-consulta/sobre-consulta.component';
 
 const routes: Routes = [
   {
     path: '', canActivate: [LoggedInGuard],
     children: [
-      // {path: 'TipoInsumo/Listado', component: TipoInsumoListadoComponent},
+      {path: 'Sobre/Consulta', component: SobreConsultaComponent},
     ]
   }
 ];

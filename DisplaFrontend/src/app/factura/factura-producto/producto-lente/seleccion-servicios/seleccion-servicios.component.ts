@@ -152,7 +152,6 @@ export class SeleccionServiciosComponent implements OnInit{
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes)
-    console.log(this.comprobanteItemServicios)
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
@@ -161,8 +160,10 @@ export class SeleccionServiciosComponent implements OnInit{
       // console.log(this.comprobanteItemServicios)
     }
     if (changes.selectedIndex != undefined && changes.selectedIndex.currentValue >= 0) {
-      this.comprobanteItemServicios = this.comprobanteItemServicios.splice(changes.selectedIndex.currentValue, 1);
+      this.comprobanteItemServicios = changes.selectedCalibrados.currentValue.splice(changes.selectedIndex.currentValue, 1);
+
     }
+    console.log(this.comprobanteItemServicios)
   }
 
   deshabilitarCheck(option) {
