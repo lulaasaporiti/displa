@@ -279,7 +279,10 @@ export class FacturaAltaComponent implements OnInit {
     })
     this.dataSource.data = this.dataSource.data.concat(item);
     this.modelComprobante.ComprobanteItem.push(item);
-    this.sessionService.showSuccess("Los productos se agregaron correctamente")
+    if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
+      this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+    else
+      this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
   cargarVentaVirtual(venta) {
@@ -364,7 +367,10 @@ export class FacturaAltaComponent implements OnInit {
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.modelComprobante.ComprobanteItem.push(producto);
-    this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    if (producto.Monto > this.parametro.MontoMaximoProductosDiferentes)
+      this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+    else
+      this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
   cargarDescuento(producto) {

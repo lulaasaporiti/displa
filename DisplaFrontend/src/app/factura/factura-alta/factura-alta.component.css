@@ -91,7 +91,11 @@ mat-paginator{
   td.mat-cell.informacion{
     padding-top: 0px;
     padding-bottom: 8px;
-    
   }
   
+  .conColor {
+    background: #FCE4EC;
+    margin-top: 0px;
+    padding-bottom: 0px;
+  }
 

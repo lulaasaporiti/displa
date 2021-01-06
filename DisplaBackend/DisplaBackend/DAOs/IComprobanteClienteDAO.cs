@@ -49,13 +49,13 @@ namespace DisplaBackend.DAOs
         {
             try
             {
-                var clienteBBDD = _context.Cliente.Where(c => c.Id == comprobanteCliente.IdCliente).FirstOrDefault();
-                if (clienteBBDD.PorcentajeDescuentoGeneral != comprobanteCliente.IdClienteNavigation.PorcentajeDescuentoGeneral)
-                {
-                    clienteBBDD.PorcentajeDescuentoGeneral = comprobanteCliente.IdClienteNavigation.PorcentajeDescuentoGeneral;
-                    _context.Cliente.Update(clienteBBDD);
-                    comprobanteCliente.IdClienteNavigation = null;
-                }
+                //var clienteBBDD = _context.Cliente.Where(c => c.Id == comprobanteCliente.IdCliente).FirstOrDefault();
+                //if (clienteBBDD.PorcentajeDescuentoGeneral != comprobanteCliente.IdClienteNavigation.PorcentajeDescuentoGeneral)
+                //{
+                //    clienteBBDD.PorcentajeDescuentoGeneral = comprobanteCliente.IdClienteNavigation.PorcentajeDescuentoGeneral;
+                //    _context.Cliente.Update(clienteBBDD);
+                //    comprobanteCliente.IdClienteNavigation = null;
+                //}
                 if (comprobanteCliente.Id == 0)
                 {
                     comprobanteCliente.Fecha = DateTime.Now;

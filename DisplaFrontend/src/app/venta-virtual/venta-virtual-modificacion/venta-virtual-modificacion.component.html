@@ -7,11 +7,11 @@
 
         <div mat-dialog-content fxLayout="column">
             <mat-form-field>
-                <input matInput placeholder="Cantidad" [(ngModel)]="data.venta.CantidadVendida" name="cantidad"
+                <input matInput placeholder="Cantidad" [(ngModel)]="data.venta.CantidadEntregada" name="cantidad"
                     #cantidad="ngModel" required>
                 <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
-            <p class="msjError" *ngIf="data.venta.CantidadVendida > data.limite">
+            <p class="msjError" *ngIf="data.venta.CantidadEntregada > data.limite">
                 La cantidad vendida supera el límite.</p>
         </div>
 
