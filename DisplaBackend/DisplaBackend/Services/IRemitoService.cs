@@ -7,7 +7,7 @@ namespace DisplaBackend.Services
 {
     public interface IRemitoService
     {
-        List<Remito> GetRemitos();
+        List<Remito> GetRemitosPendientesCliente(int idCliente);
         List<Remito> GetRemitosVigentes();
         Task<bool> SaveOrUpdate(Remito remito);
         bool Delete(Remito remito);
@@ -23,9 +23,9 @@ namespace DisplaBackend.Services
             _remitoDAO = remitoDAO;
         }
 
-        public List<Remito> GetRemitos()
+        public List<Remito> GetRemitosPendientesCliente(int idCliente)
         {
-            return _remitoDAO.GetRemitos();
+            return _remitoDAO.GetRemitosPendientesCliente(idCliente);
         }
 
         public List<Remito> GetRemitosVigentes()

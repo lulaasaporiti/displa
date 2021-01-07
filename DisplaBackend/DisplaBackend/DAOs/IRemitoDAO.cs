@@ -9,7 +9,7 @@ namespace DisplaBackend.DAOs
 {
     public interface IRemitoDAO
     {
-        List<Remito> GetRemitos();
+        List<Remito> GetRemitosPendientesCliente(int idCliente);
         List<Remito> GetRemitosVigentes();
         Task<bool> SaveOrUpdate(Remito remito);
         bool Delete(Remito remito);
@@ -27,9 +27,10 @@ namespace DisplaBackend.DAOs
         }
 
 
-        public List<Remito> GetRemitos()
+        public List<Remito> GetRemitosPendientesCliente(int idCliente)
         {
             return _context.Remito
+                .Where(r =>  r.IdCliente == idCliente && r.FechaFactura == null)
                 .Include(r => r.ComprobanteItem)
                 .ToList();
         }

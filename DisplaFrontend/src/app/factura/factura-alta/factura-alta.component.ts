@@ -23,6 +23,7 @@ import { ComprobanteClienteService } from 'src/services/comprobanteCliente.servi
 import { ParametroService } from 'src/services/parametro.service';
 import { RemitoService } from 'src/services/remito.service';
 import { Parametro } from 'src/app/model/parametro';
+import { Remito } from 'src/app/model/remito';
 
 
 @Component({
@@ -33,6 +34,8 @@ import { Parametro } from 'src/app/model/parametro';
 export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
   parametro = <Parametro>{};
+  remito = <Remito>{};
+  totalRemitos = 0;
   plazoActual = 0;
   private id: number = 0;
   panelOpenState = false;
@@ -151,8 +154,8 @@ export class FacturaAltaComponent implements OnInit {
       }
       case "F7": { //totales
         this.dialog.closeAll();
-        if (this.modelComprobante.MontoTotal == 0){
-          this.sessionService.showWarning("La factura no puede ser 0")
+        if (this.modelComprobante.MontoTotal <= 0){
+          this.sessionService.showWarning("El monto de la factura no puede ser 0 ni negativo")
           this.bloquearF = false;
         }
         else{
@@ -208,11 +211,14 @@ export class FacturaAltaComponent implements OnInit {
       combineLatest(
         this.clienteService.getById(this.id),
         this.clienteService.getDiasPlazo(this.id),
-        this.parametroService.getParametro()
+        this.parametroService.getParametro(),
+        this.remitoService.getRemitosPendientesCliente(this.id)
       )
         .subscribe(result => {
           this.modelCliente = result[0];
           this.parametro = result[2];
+          this.remito = result[3];
+          console.log(this.remito);
           this.modelComprobante.IdCliente = this.id;
           this.modelComprobante.ComprobanteItem = [];
           this.modelComprobante.VentaVirtual = [];
@@ -260,8 +266,8 @@ export class FacturaAltaComponent implements OnInit {
       let itemLente = <ComprobanteItemLente>{};
       itemLente.IdLente = p.IdLente;
       itemLente.Precio = p.Precio;
-      item.Cantidad = item.Cantidad + p.Cantidad;
-      item.Monto = item.Monto + (p.Cantidad * p.Precio);
+      item.Cantidad = +item.Cantidad + +p.Cantidad;
+      item.Monto = +item.Monto + (p.Cantidad * p.Precio);
       itemLente.Cantidad = p.Cantidad;
       itemLente.MedidaCilindrico = p.MedidaCilindrico;
       itemLente.MedidaEsferico = p.MedidaEsferico;
@@ -281,8 +287,13 @@ export class FacturaAltaComponent implements OnInit {
     this.modelComprobante.ComprobanteItem.push(item);
     if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
       this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
-    else
+    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos")   
+    } 
+    else {
       this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    }
+    
   }
 
   cargarVentaVirtual(venta) {
@@ -313,7 +324,22 @@ export class FacturaAltaComponent implements OnInit {
       this.modelComprobante.SubtotalFactura = 0;
       this.modelComprobante.MontoTotal = 0;
     }
+    
   }
+
+  getTotalRemito() {
+    this.remito.ComprobanteItem.forEach(co =>{   
+      
+     })
+  }
+
+  validaciones(row){
+    if (row.IdComprobanteItemNavigation != undefined && row.IdComprobanteItemNavigation.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto > this.parametro.MontoMaximoProductosDiferentes) 
+      return 'conColor';
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes && this.dataSource.data[this.dataSource.data.length-1] == row)
+      return 'conColor';
+  }
+
 
   getSubtotalConDescuento() {
     let subtotal = 0;
@@ -349,14 +375,22 @@ export class FacturaAltaComponent implements OnInit {
         venta.IdUsuario = +this.sessionService.getPayload()['idUser'];
         this.modelComprobante.VentaVirtual.push(venta);
         this.dataSource.data = this.dataSource.data.concat(venta);
+        if (venta.Monto > this.parametro.MontoMaximoProductosDiferentes)
+        this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+        else
+        this.sessionService.showSuccess("Los productos se agregaron correctamente");
       } else {
         p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
         this.modelComprobante.ComprobanteItem.push(p);
         this.dataSource.data = this.dataSource.data.concat(p);
+        if (p.Monto > this.parametro.MontoMaximoProductosDiferentes)
+        this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+        else {
+        this.sessionService.showSuccess("Los productos se agregaron correctamente");
+        }
       }
       this.changeDetector.detectChanges();
     });
-    this.sessionService.showSuccess("Los productos se agregaron correctamente");
   }
 
 
@@ -369,8 +403,12 @@ export class FacturaAltaComponent implements OnInit {
     this.modelComprobante.ComprobanteItem.push(producto);
     if (producto.Monto > this.parametro.MontoMaximoProductosDiferentes)
       this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
-    else
+    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos")   
+    }
+    else {
       this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    }
   }
 
   cargarDescuento(producto) {

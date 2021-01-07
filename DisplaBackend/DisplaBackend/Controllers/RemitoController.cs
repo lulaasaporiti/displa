@@ -23,11 +23,11 @@ namespace DisplaBackend.Controllers
             _remitoService = remitoService;
         }
 
-        [HttpGet, Route("GetRemitos")]
+        [HttpGet, Route("GetRemitosPendientesCliente")]
         [EnableCors("DisplaAPIPolicy")]
-        public object GetRemitos()
+        public object GetRemitos(int idCliente)
         {
-            return _remitoService.GetRemitos();
+            return _remitoService.GetRemitosPendientesCliente(idCliente);
         }
 
         [HttpGet, Route("GetRemitosVigentes")]

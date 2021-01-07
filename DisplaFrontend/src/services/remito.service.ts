@@ -12,8 +12,8 @@ export class RemitoService {
 
     constructor(private http: HttpClient) { }
 
-    getRemitosClienteList(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetRemitosCliente`);
+    getRemitosPendientesCliente(idCliente: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetRemitosPendientesCliente?idCliente=${idCliente}`);
     }
     
     getRemitosClienteVigentesList(): Observable<any> {

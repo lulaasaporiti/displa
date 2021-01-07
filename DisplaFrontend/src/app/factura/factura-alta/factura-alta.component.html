@@ -186,6 +186,8 @@
               <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA
                 RI:</label>
               <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
+              <label *ngIf="remitos.length > 0"style="font-weight: bold;">Total con remitos:</label>
+              <label> {{getTotalRemito()}}</label>
               <label style="font-weight: bold;">Total: </label>
               <label>{{getTotales()}}</label>
             </div>
@@ -193,7 +195,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="(row.IdComprobanteItemNavigation != undefined) ? (row.IdComprobanteItemNavigation.Monto > parametro.MontoMaximoProductosDiferentes) ? 'conColor' : '' : (row.Monto > parametro.MontoMaximoProductosDiferentes) ? 'conColor' : ''" fxFill></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="validaciones(row)" fxFill></tr>
         <tr mat-footer-row *matFooterRowDef="['footer']" class="example-second-footer-row"></tr>
       </table>
       <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
