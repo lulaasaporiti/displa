@@ -11,6 +11,7 @@
           </mat-expansion-panel-header>
           <p class="titulo">Datos cliente</p>
           <h5 class="texto-explicativo" *ngIf="modelCliente.Bloqueado"> El cliente se encuentra bloqueado{{ modelCliente.ClienteBloqueo.length > 0 ? ' por ' + modelCliente.ClienteBloqueo[modelCliente.ClienteBloqueo.length - 1].Motivo.toLowerCase() : '' }}. </h5>
+          <h5 class="texto-remitos" *ngIf="remitos.length > 0"> {{ getCantidadProductos() + ' productos pendientes de facturar.' }} </h5>
           <div fxLayout="column" style="margin: 12px auto;">
             <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
               <mat-form-field fxFlex='35' fxLayout="column">
@@ -180,16 +181,18 @@
           <td mat-footer-cell *matFooterCellDef id="footers" [style.display]="'none'">
             <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px">
               <label style="font-weight: bold;">Subtotal:</label>
-              <label> {{getSubTotales()}}</label>
+              <label> {{getSubtotales()}}</label>
               <label style="font-weight: bold;">Subtotal con descuento:</label>
               <label> {{ getSubtotalConDescuento() }}</label>
               <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA
                 RI:</label>
               <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
-              <label *ngIf="remitos.length > 0"style="font-weight: bold;">Total con remitos:</label>
+              <label *ngIf="remitos.length > 0"style="font-weight: bold;">Total remitos:</label>
               <label> {{getTotalRemito()}}</label>
-              <label style="font-weight: bold;">Total: </label>
-              <label>{{getTotales()}}</label>
+              <label *ngIf="remitos.length > 0"style="font-weight: bold;">Total:</label>
+              <label> {{getTotales()}}</label>
+              <label style="font-weight: bold; color: darkred;">Total con remitos: </label>
+              <label>{{(+getTotales() + +getTotalRemito())}}</label>
             </div>
           </td>
         </ng-container>

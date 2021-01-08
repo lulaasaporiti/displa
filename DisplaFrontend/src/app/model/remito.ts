@@ -1,6 +1,7 @@
 import { Cliente } from "./cliente";
 import { ComprobanteItem } from "./comprobanteItem";
 import { Usuario } from "./usuario";
+import { VentaVirtual } from "./ventaVirtual";
 
 export interface Remito {
     Id: number,
@@ -13,4 +14,5 @@ export interface Remito {
     IdUsuarioNavigation: Usuario,
 
     ComprobanteItem: ComprobanteItem[],
+    VentaVirtual: VentaVirtual[]
 }

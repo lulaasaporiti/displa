@@ -37,7 +37,6 @@ export class ArticuloVarioService {
     }
 
     deleteArticuloVario(id: number): Observable<any> {
-        console.log(id)
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 

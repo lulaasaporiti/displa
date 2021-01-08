@@ -11,7 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<ComprobanteCliente> GetComprobantesCliente();
         List<ComprobanteCliente> GetComprobantesClienteVigentes();
-        Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente);
+        Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente, List<Remito> remitos);
         bool Delete(ComprobanteCliente comprobanteCliente);
         ComprobanteCliente GetById(int idComprobanteCliente);
 
@@ -45,7 +45,7 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public async Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente)
+        public async Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente, List<Remito> remitos)
         {
             try
             {
@@ -108,13 +108,22 @@ namespace DisplaBackend.DAOs
                         v.IdServicioNavigation = null;
                     }
                     comprobanteCliente = _context.Add(comprobanteCliente).Entity;
-
-                    
+                    if (remitos.Count > 0)
+                    {
+                        remitos.ForEach(r => {
+                            r.FechaFactura = comprobanteCliente.Fecha;
+                            foreach (var c in r.ComprobanteItem)
+                            {
+                                c.IdComprobante = comprobanteCliente.Id;
+                                _context.ComprobanteItem.Update(c);
+                            }
+                            _context.Remito.Update(r);
+                        });
+                    }
                 }
                 else
                 {
                     comprobanteCliente = _context.ComprobanteCliente.Update(comprobanteCliente).Entity;
-
                 }
                 return await _context.SaveChangesAsync() >= 1;
 

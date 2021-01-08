@@ -34,8 +34,8 @@ import { Remito } from 'src/app/model/remito';
 export class FacturaAltaComponent implements OnInit {
   modelCliente = <Cliente>{};
   parametro = <Parametro>{};
-  remito = <Remito>{};
-  totalRemitos = 0;
+  remitos: Remito [] = [];
+  totalRemitos;
   plazoActual = 0;
   private id: number = 0;
   panelOpenState = false;
@@ -217,8 +217,8 @@ export class FacturaAltaComponent implements OnInit {
         .subscribe(result => {
           this.modelCliente = result[0];
           this.parametro = result[2];
-          this.remito = result[3];
-          console.log(this.remito);
+          this.remitos = result[3];
+          console.log(this.remitos);
           this.modelComprobante.IdCliente = this.id;
           this.modelComprobante.ComprobanteItem = [];
           this.modelComprobante.VentaVirtual = [];
@@ -310,8 +310,8 @@ export class FacturaAltaComponent implements OnInit {
   }
 
 
-  getSubTotales() {
-    if (this.dataSource.data.length > 0) {
+  getSubtotales() {
+    if (this.dataSource.data.length > 0 || this.remitos.length > 0) {
       document.getElementById('footers').style.display = 'block';
       this.modelComprobante.SubtotalFactura = 0;
       this.dataSource.data.forEach(to => {
@@ -323,14 +323,30 @@ export class FacturaAltaComponent implements OnInit {
       document.getElementById('footers').style.display = 'none';
       this.modelComprobante.SubtotalFactura = 0;
       this.modelComprobante.MontoTotal = 0;
-    }
-    
+    } 
   }
 
   getTotalRemito() {
-    this.remito.ComprobanteItem.forEach(co =>{   
-      
-     })
+    let totalAux = 0;
+    if (this.remitos != undefined && this.remitos.length > 0) {
+      this.remitos.forEach(r => {
+        r.ComprobanteItem.forEach(co => {
+          totalAux = totalAux + co.Monto;
+        });
+      });
+      this.totalRemitos = totalAux;
+      return this.totalRemitos.toFixed(2);
+    }
+  }
+
+  getCantidadProductos() {
+    let cantidadAux = 0;
+    if (this.remitos != undefined && this.remitos.length > 0) {
+      this.remitos.forEach(r => {
+        cantidadAux = cantidadAux + r.ComprobanteItem.length;
+      });
+      return cantidadAux;
+    }
   }
 
   validaciones(row){
@@ -362,7 +378,8 @@ export class FacturaAltaComponent implements OnInit {
     if (this.modelCliente.IdCategoriaIvaNavigation != undefined && this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
       return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento()).toFixed(2);
     else
-      return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21).toFixed(2);
+      return ((
+        this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21)).toFixed(2);
   }
 
   cargarArticuloServicio() {
@@ -454,7 +471,6 @@ export class FacturaAltaComponent implements OnInit {
 
 
   altaComprobanteCliente() {
-    this.modelComprobante.IdClienteNavigation = this.modelCliente;
     const dialogRef = this.dialog.open(FacturaConfirmarComponent, {
       disableClose: true,
       data: {},
@@ -466,7 +482,7 @@ export class FacturaAltaComponent implements OnInit {
         this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
           data => {
             this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
-            // this.router.navigateByUrl('/Home');
+            this.router.navigateByUrl('/Home');
             this.sessionService.showSuccess("La factura se agregó correctamente.");
           },
           error => {
@@ -477,7 +493,7 @@ export class FacturaAltaComponent implements OnInit {
       if (result == 0) {
         this.remitoService.saveOrUpdateRemito(this.modelComprobante).subscribe(
           data => {
-            // this.router.navigateByUrl('/Home')
+            this.router.navigateByUrl('/Home');
             this.sessionService.showSuccess("El remito se agregó correctamente.");
           },
           error => {

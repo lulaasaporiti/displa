@@ -18,12 +18,13 @@ namespace DisplaBackend.Services
     {
         private IComprobanteClienteDAO _comprobanteClienteDAO;
         private IParametroDAO _parametroDAO;
+        private IRemitoDAO _remitoDAO;
 
-
-        public ComprobanteClienteService(IComprobanteClienteDAO comprobanteClienteDAO, IParametroDAO parametroDAO)
+        public ComprobanteClienteService(IComprobanteClienteDAO comprobanteClienteDAO, IParametroDAO parametroDAO, IRemitoDAO remitoDAO)
         {
             _comprobanteClienteDAO = comprobanteClienteDAO;
             _parametroDAO = parametroDAO;
+            _remitoDAO = remitoDAO;
         }
 
         public List<ComprobanteCliente> GetComprobantesCliente()
@@ -38,7 +39,8 @@ namespace DisplaBackend.Services
 
         public async Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente)
         {
-            return await _comprobanteClienteDAO.SaveOrUpdate(comprobanteCliente);
+            List<Remito> remitos = _remitoDAO.GetRemitosPendientesCliente(comprobanteCliente.IdCliente);
+            return await _comprobanteClienteDAO.SaveOrUpdate(comprobanteCliente, remitos);
 
         }
 
