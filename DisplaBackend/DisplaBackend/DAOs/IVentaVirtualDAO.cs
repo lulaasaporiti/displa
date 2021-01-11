@@ -16,6 +16,8 @@ namespace DisplaBackend.DAOs
         List<VentaVirtual> GetVentasVirtualesCliente(int idCliente);
         List<VentaVirtual> GetEntregasPendientes();
         bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos);
+        decimal GetLentesConVentaVirtual(int idCliente, int idLente);
+        decimal GetArticulosConVentaVirtual(int idCliente, int idArticulo);
     }
 
     public class VentaVirtualDAO : IVentaVirtualDAO
@@ -114,5 +116,28 @@ namespace DisplaBackend.DAOs
                 .Where(v => v.IdComprobanteNavigation.IdCliente == idCliente)
                 .ToList();
         }
+
+        public decimal GetLentesConVentaVirtual (int idCliente, int idLente)
+        {
+            List<VentaVirtual> ventaVirtual  = _context.VentaVirtual.Where(v => v.IdLente == idLente && v.IdComprobanteNavigation.IdCliente == idCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
+            decimal restantes = 0;
+            foreach (var v in ventaVirtual)
+            {
+                restantes = restantes + (v.CantidadVendida - v.CantidadEntregada);
+            }
+            return restantes;
+        }
+
+        public decimal GetArticulosConVentaVirtual(int idCliente, int idArticulo)
+        {
+            List<VentaVirtual> ventaVirtual = _context.VentaVirtual.Where(v => v.IdArticulo == idArticulo && v.IdComprobanteNavigation.IdCliente == idCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
+            decimal restantes = 0;
+            foreach (var v in ventaVirtual)
+            {
+                restantes = restantes + (v.CantidadVendida - v.CantidadEntregada);
+            }
+            return restantes;
+        }
+
     }
 }

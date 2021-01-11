@@ -7,6 +7,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               <h4 class="titulo" fxFlex>{{modelCliente.Id}} - Óptica {{modelCliente.Optica}}</h4>
+              <h4 class="titulo"  fxFlexOffset="10">Factura</h4>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <p class="titulo">Datos cliente</p>
@@ -187,9 +188,9 @@
               <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA
                 RI:</label>
               <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
-              <label *ngIf="remitos.length > 0"style="font-weight: bold;">Total remitos:</label>
-              <label> {{getTotalRemito()}}</label>
-              <label *ngIf="remitos.length > 0"style="font-weight: bold;">Total:</label>
+              <label *ngIf="remitos.length > 0" style="font-weight: bold;">Total remitos:</label>
+              <label *ngIf="remitos.length > 0"> {{getTotalRemito()}}</label>
+              <label style="font-weight: bold;">Total:</label>
               <label> {{getTotales()}}</label>
               <label style="font-weight: bold; color: darkred;">Total con remitos: </label>
               <label>{{(+getTotales() + +getTotalRemito())}}</label>

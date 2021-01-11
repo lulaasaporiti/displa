@@ -2,23 +2,20 @@
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
             <mat-icon color="primary" style="font-size:30px" svgIcon="edit"></mat-icon>
-            <p class="dialog-title">Ingrese nueva cantidad</p>
+            <p class="dialog-title">Ingrese nueva cantidad restante</p>
         </div>
 
         <div mat-dialog-content fxLayout="column">
             <mat-form-field>
-                <input matInput placeholder="Cantidad" [(ngModel)]="data.venta.CantidadEntregada" name="cantidad"
+                <input matInput placeholder="Cantidad de 0 a {{data.venta.CantidadVendida}}" [(ngModel)]="cantidadRestante" name="cantidad"
                     #cantidad="ngModel" required>
                 <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
-            <p class="msjError" *ngIf="data.venta.CantidadEntregada > data.limite">
-                La cantidad vendida supera el límite.</p>
         </div>
-
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || data.venta.CantidadVendida > data.limite"  [mat-dialog-close]="data.venta">Guardar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"  [mat-dialog-close]="cantidadRestante">Guardar</button>
         </div>
     </div>
 </form>

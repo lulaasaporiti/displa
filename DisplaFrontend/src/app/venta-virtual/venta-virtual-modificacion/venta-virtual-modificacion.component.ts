@@ -7,10 +7,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
   styleUrls: ['./venta-virtual-modificacion.component.css']
 })
 export class VentaVirtualModificacionComponent implements OnInit {
+  cantidadRestante;
   constructor(
     public dialogRef: MatDialogRef<VentaVirtualModificacionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
+      this.cantidadRestante =  this.data.venta.CantidadVendida - this.data.venta.CantidadEntregada;
   }
 
   ngOnInit() {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { MainService } from './main.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ export class VentaVirtualService {
 
     private baseUrl = environment.BASE_USER_ENDPOINT + 'VentaVirtual';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,  private mainService: MainService) { }
 
     getVentasVirtualesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetVentasVirtuales`);
@@ -38,5 +39,19 @@ export class VentaVirtualService {
 
     saveOrUpdateVentaVirtualMovimiento(movimientoVentaVirtual: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/VentaVirtualMovimiento`, movimientoVentaVirtual);
+    }
+
+    getLentesConVentaVirtual(idCliente, idLente): Observable<any> {
+        return this.mainService.get(`VentaVirtual/GetLentesConVentaVirtual`, {    
+        idCliente: idCliente,
+        idLente: idLente
+        });
+    }
+
+    getArticulosConVentaVirtual(idCliente, idArticulo): Observable<any> {
+        return this.mainService.get(`VentaVirtual/GetArticulosConVentaVirtual`, {    
+        idCliente: idCliente,
+        idArticulo: idArticulo
+        });
     }
 }

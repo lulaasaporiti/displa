@@ -24,6 +24,7 @@ import { ParametroService } from 'src/services/parametro.service';
 import { RemitoService } from 'src/services/remito.service';
 import { Parametro } from 'src/app/model/parametro';
 import { Remito } from 'src/app/model/remito';
+import { VentaVirtualService } from 'src/services/venta.virtual.service';
 
 
 @Component({
@@ -200,6 +201,7 @@ export class FacturaAltaComponent implements OnInit {
     private clienteService: ClienteService,
     private changeDetector: ChangeDetectorRef,
     private parametroService: ParametroService,
+    private ventaVirtualService: VentaVirtualService,
     private loadingSpinnerService: LoadingSpinnerService,
     private comprobanteClienteService: ComprobanteClienteService
   ) {
@@ -218,7 +220,6 @@ export class FacturaAltaComponent implements OnInit {
           this.modelCliente = result[0];
           this.parametro = result[2];
           this.remitos = result[3];
-          console.log(this.remitos);
           this.modelComprobante.IdCliente = this.id;
           this.modelComprobante.ComprobanteItem = [];
           this.modelComprobante.VentaVirtual = [];
@@ -262,27 +263,35 @@ export class FacturaAltaComponent implements OnInit {
     item.Monto = 0;
     item.NumeroSobre = producto.ComprobanteItemLente[0].Sobre;
     item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura;
+    ////remplazar por venta virtual
+    this.ventaVirtualService.getLentesConVentaVirtual(this.id, producto.ComprobanteItemLente[0].IdLente)
+    .subscribe(vl => {     
     producto.ComprobanteItemLente.forEach(p => {
       let itemLente = <ComprobanteItemLente>{};
       itemLente.IdLente = p.IdLente;
       itemLente.Precio = p.Precio;
       item.Cantidad = +item.Cantidad + +p.Cantidad;
-      item.Monto = +item.Monto + (p.Cantidad * p.Precio);
+      if (vl > 0) {  
+        item.Monto = 0;
+        item.Descripcion = item.Descripcion + '(V.Virt)'
+      }
+      else
+        item.Monto = +item.Monto + (p.Cantidad * p.Precio);
       itemLente.Cantidad = p.Cantidad;
       itemLente.MedidaCilindrico = p.MedidaCilindrico;
       itemLente.MedidaEsferico = p.MedidaEsferico;
       item.ComprobanteItemLente.push(itemLente);
     })
     montoLentes = item.Monto;
-    if (producto.ComprobanteItemRecargo != undefined) {
+    if (producto.ComprobanteItemRecargo != undefined) {/////recargos lente
       producto.ComprobanteItemRecargo.forEach(r => {
         item.Monto = item.Monto + (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
         r.Monto = (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
       })
     }
-    producto.ComprobanteItemServicio.forEach(s => {
+    producto.ComprobanteItemServicio.forEach(s => {////servicios lente
       s.Monto = s.IdServicioNavigation.PrecioServicio[0].Precio;
-    })
+    })    
     this.dataSource.data = this.dataSource.data.concat(item);
     this.modelComprobante.ComprobanteItem.push(item);
     if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
@@ -293,6 +302,7 @@ export class FacturaAltaComponent implements OnInit {
     else {
       this.sessionService.showSuccess("Los productos se agregaron correctamente");
     }
+  }); 
     
   }
 
@@ -334,9 +344,9 @@ export class FacturaAltaComponent implements OnInit {
           totalAux = totalAux + co.Monto;
         });
       });
-      this.totalRemitos = totalAux;
-      return this.totalRemitos.toFixed(2);
     }
+    this.totalRemitos = totalAux;
+    return this.totalRemitos.toFixed(2);
   }
 
   getCantidadProductos() {
@@ -350,7 +360,7 @@ export class FacturaAltaComponent implements OnInit {
   }
 
   validaciones(row){
-    if (row.IdComprobanteItemNavigation != undefined && row.IdComprobanteItemNavigation.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto > this.parametro.MontoMaximoProductosDiferentes) 
+    if (row.IdComprobanteItemNavigation != undefined && row.IdComprobanteItemNavigation.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto == 0) 
       return 'conColor';
     if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes && this.dataSource.data[this.dataSource.data.length-1] == row)
       return 'conColor';

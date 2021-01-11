@@ -86,6 +86,7 @@ export class VentaVirtualListadoComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
+        venta.CantidadEntregada = venta.CantidadVendida - result;
         this.ventaVirtualService.saveOrUpdateVentaVirtual(venta).subscribe(
           data => {
             let movimiento = <VentaVirtualMovimientos>{};
