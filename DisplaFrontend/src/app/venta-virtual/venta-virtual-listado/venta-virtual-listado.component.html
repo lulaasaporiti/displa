@@ -105,7 +105,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> OPCIONES </th>
       <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center">
         <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
-        (click)="modificarCantidad(row)">
+        (click)="modificarCantidad(row, $event)">
         <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
       </button>
       </td>
@@ -113,7 +113,7 @@
 
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill (click)="verMovimientos(row.Id, row.IdComprobanteNavigation.IdClienteNavigation)"></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

@@ -1,0 +1,19 @@
+<div class="dialog-content">
+    <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+        <mat-icon color="primary" style="font-size:30px" svgIcon="selection"></mat-icon>
+        <p class="dialog-title">{{data.cliente.Id}} - {{data.cliente.Optica}}</p>
+    </div>
+
+    <!-- <div mat-dialog-content fxLayout="column">
+        <mat-form-field>
+            <input matInput placeholder="Cantidad de 0 a {{data.venta.CantidadVendida}}" [(ngModel)]="cantidadRestante"
+                name="cantidad" #cantidad="ngModel" required>
+            <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
+        </mat-form-field>
+    </div> -->
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+        <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="">Guardar</button>
+    </div>
+</div>

@@ -18,6 +18,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos);
         decimal GetLentesConVentaVirtual(int idCliente, int idLente);
         decimal GetArticulosConVentaVirtual(int idCliente, int idArticulo);
+        List<VentaVirtualMovimientos> GetMovimientos(int idVenta);
     }
 
     public class VentaVirtualDAO : IVentaVirtualDAO
@@ -86,6 +87,15 @@ namespace DisplaBackend.DAOs
             {
                 return false;
             }
+        }
+
+        public List<VentaVirtualMovimientos> GetMovimientos(int idVenta)
+        {
+            return _context.VentaVirtualMovimientos
+                .Include(vm => vm.IdUsuarioNavigation)
+                .Include(vm => vm.IdVentaVirtualNavigation)
+                    .ThenInclude(vv => vv.IdComprobanteNavigation)
+                .Where(vm => vm.IdVentaVirtual == idVenta).ToList();
         }
 
         public VentaVirtual GetById(int idVentaVirtual)

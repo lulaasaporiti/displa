@@ -109,9 +109,12 @@ namespace DisplaBackend.Controllers
             return _ventaVirtualService.GetArticulosConVentaVirtual(idCliente, idArticulo);
         }
 
-
-
-
+        [HttpGet, Route("GetMovimientos")]
+        [EnableCors("DisplaAPIPolicy")]
+        public List<VentaVirtualMovimientos> GetMovimientos(int idVenta)
+        {
+            return _ventaVirtualService.GetMovimientos(idVenta); 
+        }
     }
 
 

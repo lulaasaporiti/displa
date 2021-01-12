@@ -265,45 +265,51 @@ export class FacturaAltaComponent implements OnInit {
     item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura;
     ////remplazar por venta virtual
     this.ventaVirtualService.getLentesConVentaVirtual(this.id, producto.ComprobanteItemLente[0].IdLente)
-    .subscribe(vl => {     
-    producto.ComprobanteItemLente.forEach(p => {
-      let itemLente = <ComprobanteItemLente>{};
-      itemLente.IdLente = p.IdLente;
-      itemLente.Precio = p.Precio;
-      item.Cantidad = +item.Cantidad + +p.Cantidad;
-      if (vl > 0) {  
-        item.Monto = 0;
-        item.Descripcion = item.Descripcion + '(V.Virt)'
-      }
-      else
-        item.Monto = +item.Monto + (p.Cantidad * p.Precio);
-      itemLente.Cantidad = p.Cantidad;
-      itemLente.MedidaCilindrico = p.MedidaCilindrico;
-      itemLente.MedidaEsferico = p.MedidaEsferico;
-      item.ComprobanteItemLente.push(itemLente);
-    })
-    montoLentes = item.Monto;
-    if (producto.ComprobanteItemRecargo != undefined) {/////recargos lente
-      producto.ComprobanteItemRecargo.forEach(r => {
-        item.Monto = item.Monto + (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
-        r.Monto = (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
-      })
-    }
-    producto.ComprobanteItemServicio.forEach(s => {////servicios lente
-      s.Monto = s.IdServicioNavigation.PrecioServicio[0].Precio;
-    })    
-    this.dataSource.data = this.dataSource.data.concat(item);
-    this.modelComprobante.ComprobanteItem.push(item);
-    if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
-      this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
-    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
-      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos")   
-    } 
-    else {
-      this.sessionService.showSuccess("Los productos se agregaron correctamente");
-    }
-  }); 
-    
+      .subscribe(vl => {
+        producto.ComprobanteItemLente.forEach(p => {
+          let itemLente = <ComprobanteItemLente>{};
+          itemLente.IdLente = p.IdLente;
+          itemLente.Precio = p.Precio;
+          item.Cantidad = +item.Cantidad + +p.Cantidad;
+          if (vl == 0) 
+            item.Monto = +item.Monto + (p.Cantidad * p.Precio);
+          itemLente.Cantidad = p.Cantidad;
+          itemLente.MedidaCilindrico = p.MedidaCilindrico;
+          itemLente.MedidaEsferico = p.MedidaEsferico;
+          item.ComprobanteItemLente.push(itemLente);
+        })
+        if (vl > 0) { //si el cliente tiene algun venta virtual
+          item.Monto = 0;
+          item.EntregaVentaVirtual = true;
+          let ventasVirtuales = this.dataSource.data.filter(v => v.EntregaVentaVirtual == true 
+            && (v.ComprobanteItemLente != [] && v.ComprobanteItemLente.find(cl => cl.IdLente == producto.ComprobanteItemLente[0].IdLente)))
+          let cantidadResta = item.Cantidad;
+          ventasVirtuales.forEach(v => {
+            cantidadResta = cantidadResta + v.Cantidad;
+          });
+          item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura + ' (V.Virt +' + (vl - +cantidadResta) + ')';
+        }
+        montoLentes = item.Monto;
+        if (producto.ComprobanteItemRecargo != undefined) {/////recargos lente
+          producto.ComprobanteItemRecargo.forEach(r => {
+            item.Monto = item.Monto + (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
+            r.Monto = (montoLentes * (r.IdRecargoNavigation.Porcentaje / 100));
+          })
+        }
+        producto.ComprobanteItemServicio.forEach(s => {////servicios lente
+          s.Monto = s.IdServicioNavigation.PrecioServicio[0].Precio;
+        })
+        this.dataSource.data = this.dataSource.data.concat(item);
+        this.modelComprobante.ComprobanteItem.push(item);
+        if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
+          this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+        else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos")
+        }
+        else {
+          this.sessionService.showSuccess("Los productos se agregaron correctamente");
+        }
+      });
   }
 
   cargarVentaVirtual(venta) {
@@ -360,10 +366,12 @@ export class FacturaAltaComponent implements OnInit {
   }
 
   validaciones(row){
-    if (row.IdComprobanteItemNavigation != undefined && row.IdComprobanteItemNavigation.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto == 0) 
+    if (row.IdComprobanteItemNavigation != undefined && row.IdComprobanteItemNavigation.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto == 0 && !row.Descripcion.includes('V.Virt +')) 
       return 'conColor';
     if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes && this.dataSource.data[this.dataSource.data.length-1] == row)
       return 'conColor';
+    if (row.Descripcion.includes('V.Virt +0'))
+      return 'colorVerde';
   }
 
 

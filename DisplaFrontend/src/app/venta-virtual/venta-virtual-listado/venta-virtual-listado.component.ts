@@ -12,6 +12,7 @@ import { startWith, map } from 'rxjs/operators';
 // import { add, subtract } from 'add-subtract-date';
 import { VentaVirtualService } from 'src/services/venta.virtual.service';
 import { VentaVirtualModificacionComponent } from '../venta-virtual-modificacion/venta-virtual-modificacion.component';
+import { VentaVirtualMovimientosComponent } from '../venta-virtual-movimientos/venta-virtual-movimientos.component';
 import { ParametroService } from 'src/services/parametro.service';
 import { Parametro } from 'src/app/model/parametro';
 import { VentaVirtualMovimientos } from 'src/app/model/ventaVirtualMovimiento';
@@ -71,14 +72,17 @@ export class VentaVirtualListadoComponent implements OnInit {
   }
 
   traerVentasCliente(event) {
+    this.loadingSpinnerService.show();
     this.ventaVirtualService.getVentasVirtualesCliente(event.source.value.Id)
       .subscribe(vc => {
         this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.original = vc;
+        this.loadingSpinnerService.hide();
       })
   }
 
-  modificarCantidad(venta: VentaVirtual) {
+  modificarCantidad(venta: VentaVirtual, event) {
+    event.stopPropagation();
     let cantidadVentaAnterior = venta.CantidadVendida;
     const dialogRef = this.dialog.open(VentaVirtualModificacionComponent, {
       width: '550px',
@@ -114,6 +118,13 @@ export class VentaVirtualListadoComponent implements OnInit {
     });
   }
 
+  verMovimientos(idVenta, cliente) {
+    const dialogRef = this.dialog.open(VentaVirtualMovimientosComponent, {
+      width: '550px',
+      data: { idVenta: idVenta, cliente: cliente }
+    })
+    dialogRef.afterClosed().subscribe(result => { });
+  }
 
   filterCliente(nombre: any): Cliente[] {
     if (nombre.length >= 0) {
@@ -132,27 +143,33 @@ export class VentaVirtualListadoComponent implements OnInit {
   }
 
   traerTodos(event) {
+    this.loadingSpinnerService.show();
     if (!event.checked) {
       this.ventaVirtualService.getVentasVirtualesList().subscribe(cv => {
         this.dataSource.data = cv.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.original = cv;
+        this.loadingSpinnerService.hide();
       })
     } else {
       this.todo = event.checked;
       this.dataSource.data = [];
+      this.loadingSpinnerService.hide();
     }
   }
 
   entregasPendientes(event) {
+    this.loadingSpinnerService.show();
     if (!event.checked) {
       this.ventaVirtualService.getEntregasPendientes().subscribe(cv => {
         this.dataSource.data = cv.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.original = cv;
+        this.loadingSpinnerService.hide();
       })
     } else {
       this.pendientes = event.checked;
       this.original = [];
       this.dataSource.data = [];
+      this.loadingSpinnerService.hide();
     }
   }
 
@@ -176,9 +193,4 @@ export class VentaVirtualListadoComponent implements OnInit {
     //   this.dataSource.data = this.original;
     // }
   }
-
-  ngAfterViewInit() {
-
-  }
-
 }

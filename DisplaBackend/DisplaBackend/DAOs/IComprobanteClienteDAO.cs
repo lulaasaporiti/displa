@@ -84,6 +84,10 @@ namespace DisplaBackend.DAOs
                                 }
                             }
                         }
+                        ///////HAY QUE SUMAR LA CANTIDAD ENTREGADA EN LA VENTA VIRTUAL
+                        if (c.EntregaVentaVirtual == true) { 
+
+                        }
                     }
                     var servicios = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemServicio);
                     var recargos = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemRecargo);

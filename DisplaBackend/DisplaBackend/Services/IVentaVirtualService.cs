@@ -16,6 +16,7 @@ namespace DisplaBackend.Services
         bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos);
         decimal GetLentesConVentaVirtual(int idCliente, int idLente);
         decimal GetArticulosConVentaVirtual(int idCliente, int idArticulo);
+        List<VentaVirtualMovimientos> GetMovimientos(int idVenta);
     }
 
     public class VentaVirtualService : IVentaVirtualService
@@ -71,6 +72,11 @@ namespace DisplaBackend.Services
         public decimal GetArticulosConVentaVirtual(int idCliente, int idArticulo)
         {
             return _ventaVirtualDAO.GetArticulosConVentaVirtual(idCliente, idArticulo);
+        }
+
+        public List<VentaVirtualMovimientos> GetMovimientos(int idVenta)
+        {
+            return _ventaVirtualDAO.GetMovimientos(idVenta);
         }
     }
 

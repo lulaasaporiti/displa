@@ -54,4 +54,8 @@ export class VentaVirtualService {
         idArticulo: idArticulo
         });
     }
+
+    getMovimientos(idVenta: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetMovimientos?idVenta=${idVenta}`);
+    }
 }
