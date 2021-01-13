@@ -14,6 +14,7 @@ namespace DisplaBackend.Models
         public string Nombre { get; set; }
         public double? IngresosBrutos { get; set; }
         public bool Borrado { get; set; }
+        public decimal? Iva { get; set; }
 
         public virtual ICollection<ArticuloVario> ArticuloVario { get; set; }
     }

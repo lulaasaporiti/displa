@@ -70,7 +70,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -90,9 +89,13 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.PorcentajeUtilidad).HasColumnName("porcentajeUtilidad");
 
-                entity.Property(e => e.PrecioCosto).HasColumnName("precioCosto");
+                entity.Property(e => e.PrecioCosto)
+                    .HasColumnName("precioCosto")
+                    .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.StockActual).HasColumnName("stockActual");
+                entity.Property(e => e.StockActual)
+                    .HasColumnName("stockActual")
+                    .HasColumnType("decimal(10, 1)");
 
                 entity.Property(e => e.StockMinimo).HasColumnName("stockMinimo");
 
@@ -447,7 +450,9 @@ namespace DisplaBackend.Models
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
+                entity.Property(e => e.Cantidad)
+                    .HasColumnName("cantidad")
+                    .HasColumnType("decimal(10, 1)");
 
                 entity.Property(e => e.Descripcion)
                     .IsRequired()
@@ -466,7 +471,9 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Iibb).HasColumnName("IIBB");
 
-                entity.Property(e => e.Monto).HasColumnName("monto");
+                entity.Property(e => e.Monto)
+                    .HasColumnName("monto")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.NumeroSobre).HasColumnName("numeroSobre");
 
@@ -501,7 +508,9 @@ namespace DisplaBackend.Models
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
+                entity.Property(e => e.Cantidad)
+                    .HasColumnName("cantidad")
+                    .HasColumnType("decimal(10, 1)");
 
                 entity.Property(e => e.IdComprobanteItem).HasColumnName("idComprobanteItem");
 
@@ -515,7 +524,9 @@ namespace DisplaBackend.Models
                     .HasColumnName("medidaEsferico")
                     .HasColumnType("decimal(3, 2)");
 
-                entity.Property(e => e.Precio).HasColumnName("precio");
+                entity.Property(e => e.Precio)
+                    .HasColumnName("precio")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.HasOne(d => d.IdComprobanteItemNavigation)
                     .WithMany(p => p.ComprobanteItemLente)
@@ -693,6 +704,10 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.Property(e => e.IngresosBrutos).HasColumnName("ingresosBrutos");
+
+                entity.Property(e => e.Iva)
+                    .HasColumnName("IVA")
+                    .HasColumnType("decimal(4, 2)");
 
                 entity.Property(e => e.MediosPares)
                     .HasColumnName("mediosPares")
@@ -1219,7 +1234,9 @@ namespace DisplaBackend.Models
                     .HasColumnName("medidaEsferico")
                     .HasColumnType("decimal(6, 2)");
 
-                entity.Property(e => e.Stock).HasColumnName("stock");
+                entity.Property(e => e.Stock)
+                    .HasColumnName("stock")
+                    .HasColumnType("decimal(10, 1)");
 
                 entity.HasOne(d => d.IdLenteNavigation)
                     .WithMany(p => p.StockLente)
@@ -1257,6 +1274,10 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.Borrado).HasColumnName("borrado");
 
                 entity.Property(e => e.IngresosBrutos).HasColumnName("ingresosBrutos");
+
+                entity.Property(e => e.Iva)
+                    .HasColumnName("IVA")
+                    .HasColumnType("decimal(4, 2)");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
@@ -1401,9 +1422,16 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Entrega).HasColumnName("entrega");
 
+                entity.Property(e => e.IdComprobanteCliente).HasColumnName("idComprobanteCliente");
+
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.Property(e => e.IdVentaVirtual).HasColumnName("idVentaVirtual");
+
+                entity.HasOne(d => d.IdComprobanteClienteNavigation)
+                    .WithMany(p => p.VentaVirtualMovimientos)
+                    .HasForeignKey(d => d.IdComprobanteCliente)
+                    .HasConstraintName("FK_VentaVirtualMovimientos_ComprobanteCliente");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.VentaVirtualMovimientos)

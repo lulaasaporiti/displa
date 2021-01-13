@@ -207,16 +207,16 @@
 
     <div mat-dialog-content fxLayout="row" *ngIf="modelComprobante.Observaciones != undefined">
       <mat-form-field fxFill>
-          <textarea matInput id="obs" placeholder="Observaciones" [(ngModel)]="modelComprobante.Observaciones"
+          <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" [(ngModel)]="modelComprobante.Observaciones"
               name="obs" #obs cols="2" rows="4"></textarea>
       </mat-form-field>
   </div>
 
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
-      <button mat-raised-button (click)="cancelar()">Cancelar</button>
+      <button mat-raised-button id="cancelar" (click)="cancelar()">Cancelar</button>
       <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= getTotales() || bloquearF == false"
-        (click)="altaComprobanteCliente()">Finalizar</button>
+        id="finalizar" (click)="altaComprobanteCliente()">Finalizar</button>
     </div>
   <!-- </form> -->
 </div>

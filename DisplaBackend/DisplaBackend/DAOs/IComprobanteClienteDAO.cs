@@ -60,7 +60,7 @@ namespace DisplaBackend.DAOs
                 {
                     comprobanteCliente.Fecha = DateTime.Now;
                     comprobanteCliente.Sucursal = 5;
-                    //////////////agregar el navigation de lente en null cuando lo terminemos.//////////
+                    comprobanteCliente = _context.Add(comprobanteCliente).Entity;
                     foreach (var c in comprobanteCliente.ComprobanteItem.ToList())
                     {
                         if (c.IdArticuloNavigation != null)
@@ -85,8 +85,44 @@ namespace DisplaBackend.DAOs
                             }
                         }
                         ///////HAY QUE SUMAR LA CANTIDAD ENTREGADA EN LA VENTA VIRTUAL
-                        if (c.EntregaVentaVirtual == true) { 
-
+                        if (c.EntregaVentaVirtual == true) {
+                            List<VentaVirtual> ventas;
+                            if (c.IdArticulo != null)
+                                ventas = _context.VentaVirtual.Where(v => v.IdArticulo == c.IdArticulo && v.IdComprobanteNavigation.IdCliente == comprobanteCliente.IdCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
+                            else
+                                ventas = _context.VentaVirtual.Where(v => v.IdLente == c.ComprobanteItemLente.ElementAt(0).IdLente && v.IdComprobanteNavigation.IdCliente == comprobanteCliente.IdCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
+                            decimal cantidadItem = c.Cantidad;
+                            ventas.ForEach(v => {
+                                if (cantidadItem > 0)
+                                {
+                                    if (cantidadItem < (v.CantidadVendida - v.CantidadEntregada))
+                                    {
+                                        v.CantidadEntregada = v.CantidadEntregada + cantidadItem;
+                                        _context.VentaVirtual.Update(v);
+                                        VentaVirtualMovimientos movimiento = new VentaVirtualMovimientos();
+                                        movimiento.Cantidad = cantidadItem;
+                                        cantidadItem = 0;
+                                        movimiento.Entrega = true;
+                                        movimiento.IdComprobanteCliente = comprobanteCliente.Id;
+                                        movimiento.IdUsuario = comprobanteCliente.IdUsuario.Value;
+                                        movimiento.IdVentaVirtual = v.Id;
+                                        _context.VentaVirtualMovimientos.Add(movimiento);
+                                    }
+                                    else
+                                    {
+                                        VentaVirtualMovimientos movimiento = new VentaVirtualMovimientos();
+                                        movimiento.Cantidad = v.CantidadVendida - v.CantidadEntregada;
+                                        cantidadItem = cantidadItem - movimiento.Cantidad.Value;
+                                        v.CantidadEntregada = v.CantidadVendida;
+                                        _context.VentaVirtual.Update(v);
+                                        movimiento.Entrega = true;
+                                        movimiento.IdComprobanteCliente = comprobanteCliente.Id;
+                                        movimiento.IdUsuario = comprobanteCliente.IdUsuario.Value;
+                                        movimiento.IdVentaVirtual = v.Id;
+                                        _context.VentaVirtualMovimientos.Add(movimiento);
+                                    }
+                                }
+                            });
                         }
                     }
                     var servicios = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemServicio);
@@ -111,7 +147,7 @@ namespace DisplaBackend.DAOs
                         v.IdArticuloNavigation = null;
                         v.IdServicioNavigation = null;
                     }
-                    comprobanteCliente = _context.Add(comprobanteCliente).Entity;
+                    //comprobanteCliente = _context.Add(comprobanteCliente).Entity;
                     if (remitos.Count > 0)
                     {
                         remitos.ForEach(r => {

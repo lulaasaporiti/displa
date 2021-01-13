@@ -159,11 +159,12 @@ export class FacturaAltaComponent implements OnInit {
           this.sessionService.showWarning("El monto de la factura no puede ser 0 ni negativo")
           this.bloquearF = false;
         }
-        else{
+        else {
           this.bloquearF = true;
           this.parametroService.getObservaciones()
           .subscribe(result => {
             this.modelComprobante.Observaciones = result;
+            document.getElementById("finalizar").focus();
           });
         }
         event.preventDefault();

@@ -9,6 +9,7 @@ namespace DisplaBackend.Models
         {
             ComprobanteItem = new HashSet<ComprobanteItem>();
             VentaVirtual = new HashSet<VentaVirtual>();
+            VentaVirtualMovimientos = new HashSet<VentaVirtualMovimientos>();
         }
 
         public int Id { get; set; }
@@ -34,5 +35,6 @@ namespace DisplaBackend.Models
         public virtual AspNetUsers IdUsuarioNavigation { get; set; }
         public virtual ICollection<ComprobanteItem> ComprobanteItem { get; set; }
         public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
+        public virtual ICollection<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
     }
 }

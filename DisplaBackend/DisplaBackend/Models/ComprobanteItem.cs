@@ -19,8 +19,8 @@ namespace DisplaBackend.Models
         public int? IdRemito { get; set; }
         public int? NumeroSobre { get; set; }
         public string Descripcion { get; set; }
-        public int Cantidad { get; set; }
-        public double Monto { get; set; }
+        public decimal Cantidad { get; set; }
+        public decimal Monto { get; set; }
         public int? Iibb { get; set; }
         public string Recargo { get; set; }
         public bool EntregaVentaVirtual { get; set; }

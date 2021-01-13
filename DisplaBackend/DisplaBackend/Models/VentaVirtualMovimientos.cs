@@ -10,7 +10,9 @@ namespace DisplaBackend.Models
         public decimal? Cantidad { get; set; }
         public bool Entrega { get; set; }
         public int IdUsuario { get; set; }
+        public int? IdComprobanteCliente { get; set; }
 
+        public virtual ComprobanteCliente IdComprobanteClienteNavigation { get; set; }
         public virtual AspNetUsers IdUsuarioNavigation { get; set; }
         public virtual VentaVirtual IdVentaVirtualNavigation { get; set; }
     }
