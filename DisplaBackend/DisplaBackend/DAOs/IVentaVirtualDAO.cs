@@ -93,8 +93,10 @@ namespace DisplaBackend.DAOs
         {
             return _context.VentaVirtualMovimientos
                 .Include(vm => vm.IdUsuarioNavigation)
+                .Include(vm => vm.IdComprobanteClienteNavigation)
                 .Include(vm => vm.IdVentaVirtualNavigation)
                     .ThenInclude(vv => vv.IdComprobanteNavigation)
+                    .ThenInclude(vv => vv.IdTipoComprobanteNavigation)
                 .Where(vm => vm.IdVentaVirtual == idVenta).ToList();
         }
 

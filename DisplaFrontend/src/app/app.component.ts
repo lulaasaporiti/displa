@@ -31,6 +31,10 @@ export class AppComponent {
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/swap_horiz-24px.svg')
     );
     this.matIconRegistry.addSvgIcon(
+      'movimiento_venta',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/import_export-24px.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
       'delete_outline',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/delete_outline-24px.svg')
     );

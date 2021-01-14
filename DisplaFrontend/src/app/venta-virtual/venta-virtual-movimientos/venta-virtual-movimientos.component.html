@@ -1,17 +1,57 @@
-<div class="dialog-content">
+<div fxLayout="column">
     <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-        <mat-icon color="primary" style="font-size:30px" svgIcon="selection"></mat-icon>
-        <p class="dialog-title">{{data.cliente.Id}} - {{data.cliente.Optica}}</p>
+        <mat-icon color="primary" style="font-size:30px" svgIcon="movimiento_venta"></mat-icon>
+        <p class="dialog-title">Movimientos {{data.producto}}</p>  
+    </div>
+    <div fxLayout="row">
+        <h5> {{data.cliente.Id}} - {{data.cliente.Optica}}</h5>
     </div>
 
-    <!-- <div mat-dialog-content fxLayout="column">
-        <mat-form-field>
-            
-            <input matInput placeholder="Cantidad de 0 a {{data.venta.CantidadVendida}}" [(ngModel)]="cantidadRestante"
-                name="cantidad" #cantidad="ngModel" required>
-            <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
-        </mat-form-field>
-    </div> -->
+    <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+    
+        <ng-container matColumnDef="Fecha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> FECHA </th>
+          <td mat-cell *matCellDef="let row"   fxFlex fxLayoutAlign="start center">
+            {{(row.IdComprobanteClienteNavigation != null ? row.IdComprobanteClienteNavigation.Fecha : row.IdVentaVirtualNavigation.IdComprobanteNavigation.Fecha) | date:"dd/MM/yyyy"}}
+          </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="NumeroComprobante">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> NÚMERO  </th>
+          <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.IdComprobanteClienteNavigation != null ? row.IdComprobanteClienteNavigation.Numero : row.IdVentaVirtualNavigation.IdComprobanteNavigation.Numero }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="TipoComprobante">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> TIPO  </th>
+            <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center">
+             {{(row.IdComprobanteClienteNavigation != null ? row.IdComprobanteClienteNavigation.IdTipoComprobanteNavigation.Descripcion : row.IdVentaVirtualNavigation.IdComprobanteNavigation.IdTipoComprobanteNavigation.Descripcion)}} - {{row.IdComprobanteClienteNavigation != null ? row.IdComprobanteClienteNavigation.Letra : row.IdVentaVirtualNavigation.IdComprobanteNavigation.Letra}} 
+            </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="Usuario">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> USUARIO  </th>
+          <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.IdUsuarioNavigation.Nombre}}, {{row.IdUsuarioNavigation.Apellido}} 
+          </td>
+        </ng-container>
+   
+        <ng-container matColumnDef="Cantidad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> CANTIDAD </th>
+          <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.Cantidad}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Entrega">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> ENTREGA </th>
+            <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.Entrega == true ? 'Si' : 'No'}}
+            </td>
+          </ng-container>
+    
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
+      </table>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 
     <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
         <button mat-raised-button (click)="onNoClick()">Cancelar</button>

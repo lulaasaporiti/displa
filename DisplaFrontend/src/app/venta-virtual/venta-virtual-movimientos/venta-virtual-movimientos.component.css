@@ -1,22 +1,50 @@
-.dialog-content {
+mat-paginator{
+    background: transparent;
+    font-size: 11px;
+  }
+  
+  /* /////////////////// */
+  
+  .buscador{
+    font-size: 14px;
+  }
+  
+  .dialog-content {
     padding: 15px 25px 30px 25px;
 }
-
 .dialog-title {
     font-family: "Chalet London" !important;
     font-size: 18px;
 }
 
-.dialog-botones {
-    margin-top: 20px !important;
-}
-
-.mat-dialog-content {
-    height: 85px;
-}
-
-.msjError {
-    color: #ff5722;
-    font-size: 68%;
-    margin-top: 1px;
-  }  
+  
+  
+  /* /////////////////// */
+  
+  table {
+    width: 100%;
+    padding: 0px !important;
+  }
+  
+  .mat-table{
+    background-color: transparent;
+  }
+  
+  th.mat-header-cell:first-of-type{
+    padding-left: 0px;
+  }
+  
+  th.mat-header-cell:last-of-type{
+    padding-right: 0px;
+  }
+  
+  td.mat-cell:first-of-type{
+    padding: 12px;
+    padding-left: 0px;
+  }
+  
+  td.mat-cell:last-of-type{
+    padding-right: 0px;
+  }
+  
+  

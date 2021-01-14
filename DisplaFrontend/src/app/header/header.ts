@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SessionService } from 'src/services/session.service';
@@ -141,6 +141,7 @@ export class HeaderComponent {
       }
     });
   }
+
   abrirModificacionParametros(){
     const dialogRef = this.dialog.open(ModificacionParametrosComponent, {
       data: { },
@@ -221,6 +222,7 @@ export class HeaderComponent {
       // }
     })
   }
+
 }
 
 

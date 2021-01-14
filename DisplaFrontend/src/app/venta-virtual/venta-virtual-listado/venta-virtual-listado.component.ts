@@ -118,10 +118,11 @@ export class VentaVirtualListadoComponent implements OnInit {
     });
   }
 
-  verMovimientos(idVenta, cliente) {
+  verMovimientos(idVenta, cliente, producto) {
     const dialogRef = this.dialog.open(VentaVirtualMovimientosComponent, {
-      width: '550px',
-      data: { idVenta: idVenta, cliente: cliente }
+      width: '600px',
+      height: '600px',
+      data: { idVenta: idVenta, cliente: cliente, producto: producto }
     })
     dialogRef.afterClosed().subscribe(result => { });
   }

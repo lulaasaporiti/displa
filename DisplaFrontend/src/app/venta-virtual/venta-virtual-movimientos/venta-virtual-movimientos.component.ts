@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { VentaVirtualService } from 'src/services/venta.virtual.service';
 
@@ -10,16 +10,22 @@ import { VentaVirtualService } from 'src/services/venta.virtual.service';
 export class VentaVirtualMovimientosComponent implements OnInit {
   displayedColumns = ['Fecha', 'NumeroComprobante', 'TipoComprobante', 'Cantidad', 'Entrega', 'Usuario']
   dataSource = new MatTableDataSource<any>();
-  
+
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('search', { static: true }) searchElement: ElementRef;
   
   constructor(
     public dialogRef: MatDialogRef<VentaVirtualMovimientosComponent>,
     private ventaVirtualService: VentaVirtualService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      this.ventaVirtualService.getMovimientos(data.idVenta).subscribe(m => {
-        console.log(m);
+      this.ventaVirtualService.getMovimientos(data.idVenta
+        ).subscribe(m => {
+          console.log(m)
+          this.dataSource.data = m;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
       });
   }
 

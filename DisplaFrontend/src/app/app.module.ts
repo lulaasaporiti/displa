@@ -51,6 +51,7 @@ import { ModificacionParametrosModule } from './header/modificacion-parametros/m
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { SobreModule } from './sobre/sobre.module';
 import { VentaVirtualModule } from './venta-virtual/venta-virtual.module';
+import { EstadisticaModule } from './estadistica/estadistica.module';
 
 
 
@@ -88,6 +89,7 @@ import { VentaVirtualModule } from './venta-virtual/venta-virtual.module';
     CategoriaIVAModule,
     ClienteModule,
     CondicionVentaModule,
+    EstadisticaModule,
     FacturaModule,
     GastoModule,
     GestionPrecioModule,
