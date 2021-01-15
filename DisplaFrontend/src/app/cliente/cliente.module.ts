@@ -22,11 +22,12 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { FichaAltaComponent } from './cliente-modificacion/ficha/ficha-alta/ficha-alta.component';
 import { MatButtonToggleModule } from '@angular/material';
 import { ClienteBloqueoManualComponent } from './cliente-bloqueo-manual/cliente-bloqueo-manual.component';
+import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
 
 @NgModule({
     entryComponents: [ClienteBajaComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
     declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, InformacionModificacionComponent, InformacionDetalleComponent,
-        PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent ,PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, 
+        PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent ,PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, CuentaPorClienteComponent,
         FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
     imports: [
         CommonModule,

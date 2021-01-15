@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace DisplaBackend.Services
         Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente);
         bool Delete(ComprobanteCliente comprobanteCliente);
         ComprobanteCliente GetById(int idComprobanteCliente);
+        List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha);
     }
 
     public class ComprobanteClienteService : IComprobanteClienteService
@@ -54,6 +56,10 @@ namespace DisplaBackend.Services
             return _comprobanteClienteDAO.GetById(idComprobanteCliente);
         }
 
+        public List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha)
+        {
+            return _comprobanteClienteDAO.GetCuentaPorCliente(idCliente, fecha);
+        }
     }
 
 }

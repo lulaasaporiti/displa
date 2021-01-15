@@ -101,6 +101,7 @@
 
                 <button mat-button class="button-menu" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
                 <mat-menu fxLayoutAlign="start center" #menuClientes="matMenu">
+                    <a mat-menu-item class="button-list" routerLink="Cliente/Cuenta">Cuenta por cliente</a>
                     <a mat-menu-item class="button-list" routerLink="Cuentas/Listado">Listado de cuentas
                         corrientes</a>
                     <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Clientes</a>

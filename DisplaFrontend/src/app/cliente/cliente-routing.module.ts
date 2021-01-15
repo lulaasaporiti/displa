@@ -6,6 +6,7 @@ import { ClienteAltaComponent } from './cliente-alta/cliente-alta.component';
 import { InformacionModificacionComponent } from './cliente-modificacion/informacion-modificacion/informacion-modificacion.component';
 import { InformacionDetalleComponent } from './cliente-detalle/informacion-detalle/informacion-detalle.component';
 import { ClienteCuentaListadoComponent } from './cliente-cuenta-listado/cliente-cuenta-listado.component';
+import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,8 @@ const routes: Routes = [
       {path: 'Cliente/Alta', component: ClienteAltaComponent},
       {path: 'Cliente/Modificacion', component: InformacionModificacionComponent},
       {path: 'Cliente/Detalle', component: InformacionDetalleComponent},
+      {path: 'Cliente/Cuenta', component: CuentaPorClienteComponent},
+
     ]
   }
 ];

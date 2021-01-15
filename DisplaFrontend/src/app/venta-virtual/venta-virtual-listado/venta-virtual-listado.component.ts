@@ -61,6 +61,15 @@ export class VentaVirtualListadoComponent implements OnInit {
     this.parametroService.getParametro().subscribe(result => { 
       this.parametro = result;
     });
+    this.clienteService.getClientesVigentesList()
+      .subscribe(r => {
+        this.clientes = r;
+        this.filteredClientes = this.clientesControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(val => this.filterCliente(val))
+          );
+      });
   }
 
   applyFilter(filterValue: string) {

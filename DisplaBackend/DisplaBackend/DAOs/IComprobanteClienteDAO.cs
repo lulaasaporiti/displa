@@ -14,6 +14,7 @@ namespace DisplaBackend.DAOs
         Task<bool> SaveOrUpdate(ComprobanteCliente comprobanteCliente, List<Remito> remitos);
         bool Delete(ComprobanteCliente comprobanteCliente);
         ComprobanteCliente GetById(int idComprobanteCliente);
+        List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha);
 
     }
 
@@ -176,7 +177,13 @@ namespace DisplaBackend.DAOs
 
         public ComprobanteCliente GetById(int idComprobanteCliente)
         {
-            return _context.ComprobanteCliente.FirstOrDefault(u => u.Id == idComprobanteCliente);
+            return _context.ComprobanteCliente
+                .Include(c => c.ComprobanteItem)
+                .Include(c => c.IdClienteNavigation)
+                .Include(c => c.IdTipoComprobanteNavigation)
+                .Include(c => c.IdUsuarioNavigation)
+                .Include(c => c.VentaVirtual)
+                .FirstOrDefault(u => u.Id == idComprobanteCliente);
         }
 
         public bool Delete(ComprobanteCliente comprobanteCliente)
@@ -191,6 +198,11 @@ namespace DisplaBackend.DAOs
             {
                 throw e;
             }
+        }
+
+        public List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha)
+        {
+            return _context.ComprobanteCliente.Where(cc => cc.IdCliente == idCliente && cc.Fecha > fecha).ToList();
         }
     }
 }

@@ -71,6 +71,19 @@ namespace DisplaBackend.Controllers
             return Ok(_comprobanteClienteService.Delete(comprobanteCliente));
         }
 
+        [HttpGet("{id}")]
+        public object GetById([FromRoute]int id)
+        {
+            return _comprobanteClienteService.GetById(id);
+        }
+
+        [HttpGet, Route("GetCuentaPorCliente")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetCuentaPorCliente(int idCliente, DateTime fecha)
+        {
+            return _comprobanteClienteService.GetCuentaPorCliente(idCliente, fecha);
+        }
+
     }
 
 

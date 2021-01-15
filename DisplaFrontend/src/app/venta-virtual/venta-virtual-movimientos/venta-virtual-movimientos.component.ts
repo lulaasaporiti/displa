@@ -37,4 +37,8 @@ export class VentaVirtualMovimientosComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
+  abrirComprobante(idComprobante: number){
+    let url = `Factura/Detalle?id=${idComprobante}`
+    window.open(url, '_blank');
+  }
 }
