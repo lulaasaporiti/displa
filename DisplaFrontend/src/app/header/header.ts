@@ -16,6 +16,8 @@ import { ModificacionParametrosComponent } from './modificacion-parametros/modif
 import { SobreAltaComponent } from '../sobre/sobre-alta/sobre-alta.component';
 import { SobreService } from 'src/services/sobre.service';
 import { ParametroService } from 'src/services/parametro.service';
+import { BusquedaItemFacturadoComponent } from '../factura/busqueda-item-facturado/busqueda-item-facturado.component';
+import { ReciboAltaComponent } from '../recibo/recibo-alta/recibo-alta.component';
 
 @Component({
   selector: 'app-header',
@@ -78,7 +80,22 @@ export class HeaderComponent {
     })
   }
 
-  openDialogClientes(): void {
+  openDialogBusquedaItem(): void {
+    let idCliente;
+    const dialogRef = this.dialog.open(BusquedaItemFacturadoComponent, {
+      data: { idCliente: idCliente },
+      width: '600px'
+    })
+  }
+
+  openDialogAltaRecibo(): void {
+    const dialogRef = this.dialog.open(ReciboAltaComponent, {
+      data: {  },
+      width: '650px'
+    })
+  }
+
+  openDialogClientes(event): void {
     let idCliente;
     const dialogRef = this.dialog.open(ClienteSeleccionComponent, {
       data: { idCliente: idCliente },
@@ -86,15 +103,36 @@ export class HeaderComponent {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
-        this.loadingSpinnerService.show();
-        this.router.navigateByUrl('Account/Login').then(
-          () => {
-            this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
-            this.loadingSpinnerService.hide();
-            window.scrollTo(0, 0);
-          });
+        if (event == 'factura') {
+          this.loadingSpinnerService.show();
+          this.router.navigateByUrl('Account/Login').then(
+            () => {
+              this.router.navigateByUrl('Factura/Alta?id=' + result.idCliente);
+              this.loadingSpinnerService.hide();
+              window.scrollTo(0, 0);
+            });
+        }
+        if (event == 'credito') {
+          this.loadingSpinnerService.show();
+          this.router.navigateByUrl('Account/Login').then(
+            () => {
+              this.router.navigateByUrl('NotaCredito/Alta?id=' + result.idCliente);
+              this.loadingSpinnerService.hide();
+              window.scrollTo(0, 0);
+            });
+        }
+        if (event == 'debito') {
+          this.loadingSpinnerService.show();
+          this.router.navigateByUrl('Account/Login').then(
+            () => {
+              this.router.navigateByUrl('NotaDebito/Alta?id=' + result.idCliente);
+              this.loadingSpinnerService.hide();
+              window.scrollTo(0, 0);
+            });
+        }
       }
     })
+
   }
 
   openDialogAltaSobre(): void {

@@ -17,7 +17,7 @@ import { SessionService } from 'src/services/session.service';
 })
 export class TipoArticuloListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['Nombre', 'IngresosBrutos', 'Borrado', 'Opciones'];
+  displayedColumns: string[] = ['Nombre', 'IngresosBrutos','IVA', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<TipoArticulo>();
   traerVigentes: boolean = true;
 

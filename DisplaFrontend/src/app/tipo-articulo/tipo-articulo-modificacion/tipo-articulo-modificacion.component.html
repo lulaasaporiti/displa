@@ -21,6 +21,13 @@
             </mat-form-field>
         </div>
 
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Porcentaje IVA" [(ngModel)]="data.modelTipoArticulo.IVA"
+                    name="iva" #iva="ngModel" (keyup.enter)="onEnter();">
+            </mat-form-field>
+        </div>
+        
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>

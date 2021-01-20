@@ -1,30 +1,16 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
-import { ClienteService } from 'src/services/cliente.service';
 import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { SessionService } from 'src/services/session.service';
-import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
-import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
-import { ProductoArticuloComponent } from '../factura-producto/producto-articulo/producto-articulo.component';
 import { combineLatest } from 'rxjs';
-import { ProductoLibreComponent } from '../factura-producto/producto-libre/producto-libre.component';
-import { ProductoDescuentoComponent } from '../factura-producto/producto-descuento/producto-descuento.component';
-import { FacturaConfirmarComponent } from '../factura-confirmar/factura-confirmar.component';
-import { ProductoServicioComponent } from '../factura-producto/producto-servicio/producto-servicio.component';
-import { ProductoLenteComponent } from '../factura-producto/producto-lente/producto-lente.component';
-import { FacturaFichaComponent } from '../factura-ficha/factura-ficha.component';
-import { Ficha } from 'src/app/model/ficha';
 import { VentaVirtual } from 'src/app/model/ventaVirtual';
-import { LenteVentaVirtualComponent } from '../factura-producto/producto-lente/lente-venta-virtual/lente-venta-virtual.component';
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
-import { ParametroService } from 'src/services/parametro.service';
 import { RemitoService } from 'src/services/remito.service';
 import { Parametro } from 'src/app/model/parametro';
 import { Remito } from 'src/app/model/remito';
-import { VentaVirtualService } from 'src/services/venta.virtual.service';
 
 
 @Component({

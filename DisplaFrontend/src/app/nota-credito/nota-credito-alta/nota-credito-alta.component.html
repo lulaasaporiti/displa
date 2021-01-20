@@ -1,0 +1,222 @@
+<div class="content">
+  <app-loading-spinner></app-loading-spinner>
+  <!-- <form name="clienteForm" #clienteForm="ngForm" fxLayout="column" fxFlexFill> -->
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-accordion fxFill>
+        <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h4 class="titulo" fxFlex>{{modelCliente.Id}} - Óptica {{modelCliente.Optica}}</h4>
+              <h4 class="titulo"  fxFlexOffset="10">Nota de crédito</h4>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p class="titulo">Datos cliente</p>
+          <h5 class="texto-explicativo" *ngIf="modelCliente.Bloqueado"> El cliente se encuentra bloqueado{{ modelCliente.ClienteBloqueo.length > 0 ? ' por ' + modelCliente.ClienteBloqueo[modelCliente.ClienteBloqueo.length - 1].Motivo.toLowerCase() : '' }}. </h5>
+          <h5 class="texto-remitos" *ngIf="remitos.length > 0"> {{ getCantidadProductos() + ' productos pendientes de facturar.' }} </h5>
+          <div fxLayout="column" style="margin: 12px auto;">
+            <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
+              <mat-form-field fxFlex='35' fxLayout="column">
+                <input matInput placeholder="Responsable" [ngModel]="modelCliente.Responsable" name="responsable"
+                  #responsable="ngModel" disabled>
+              </mat-form-field>
+
+              <mat-form-field fxFlex='25' fxLayout="column">
+                <input matInput placeholder="CUIT" [ngModel]="modelCliente.Cuit" name="cuit" #cuit="ngModel" disabled>
+              </mat-form-field>
+
+              <mat-form-field fxFlex='40' fxLayout="column">
+                <input matInput placeholder="Domicilio" [ngModel]="modelCliente.Direccion" name="direccion"
+                  #direccion="ngModel" disabled>
+              </mat-form-field>
+
+              <mat-form-field fxFlex='35' fxLayout="column">
+                <input matInput placeholder="Localidad" [ngModel]="modelCliente.IdLocalidadNavigation?.Nombre"
+                  name="localidad" #localidad="ngModel" disabled>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutGap="2vw">
+              <mat-form-field fxFlex='20' fxLayout="column">
+                <input matInput placeholder="Teléfonos" [ngModel]="modelCliente.Telefonos" name="telefonos"
+                  #telefonos="ngModel" disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='40' fxLayout="column">
+                <input matInput placeholder="Email" [ngModel]="modelCliente.Mail" id="email" name="email"
+                  #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='15' fxLayout="column">
+                <input matInput placeholder="Condición de venta"
+                  [ngModel]="modelCliente.IdCondicionVentaNavigation?.Descripcion" name="condicion" #condicion="ngModel"
+                  disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='15' fxLayout="column">
+                <input matInput placeholder="Categoría IVA"
+                  [ngModel]="modelCliente.IdCategoriaIvaNavigation?.Descripcion" name="categoria" #categoria="ngModel"
+                  disabled>
+              </mat-form-field>
+              <mat-checkbox class="radio-group" [ngModel]="modelCliente.IdCategoriaIvaNavigation?.Discrimina"
+              name="discrimina" #discrimina="ngModel" disabled> Discrimina IVA
+            </mat-checkbox>
+            </div>
+
+            <div fxLayout="row" fxLayoutGap="2vw">
+              <mat-form-field fxFlex='20' fxLayout="column">
+                <input matInput placeholder="Porcentaje descuento" [(ngModel)]="modelCliente.PorcentajeDescuentoGeneral"
+                  name="porcentaje" #porcentaje="ngModel"
+                  [disabled]="modelCliente.IdCategoriaIvaNavigation?.Discrimina">
+              </mat-form-field>
+              <mat-form-field fxFlex='20' fxLayout="column">
+                <input matInput placeholder="Saldo" [ngModel]="modelCliente.SaldoActual" name="saldo" #saldo="ngModel"
+                  disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='20' fxLayout="column">
+                <input matInput placeholder="Monto crédito" [ngModel]="modelCliente.MontoCredito" name="monto"
+                  #monto="ngModel" disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='15' fxLayout="column">
+                <input matInput placeholder="Plazo crédito (días)" [ngModel]="modelCliente.PlazoCredito" name="plazo"
+                  #plazo="ngModel" disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='15' fxLayout="column">
+                <input matInput placeholder="Plazo actual (días)" [value]="plazoActual" name="plazoActual"
+                   disabled>
+              </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutGap="2vw">
+              <mat-form-field fxFlex='25' fxLayout="column">
+                <input matInput placeholder="Porcentaje percepción IIBB" name="percepcion" value="0" disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='25' fxLayout="column">
+                <input matInput placeholder="Porcentaje APR" name="porcentajeAPR" value="0" disabled>
+              </mat-form-field>
+              <mat-checkbox class="radio-group" [ngModel]="modelCliente.UtilizaSobre" name="utilizaSobre"
+                #utilizaSobre="ngModel" disabled>Utiliza sobre
+              </mat-checkbox>
+              <button mat-button (click)="abrirFicha()">Ver ficha</button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+
+    <div fxLayout="column">
+      <app-loading-spinner></app-loading-spinner>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="6px" class="menu-agregar"
+        (keypress)="handleKeyboardEvent($event)">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
+          <div style="font-weight: bold; font-size: medium;" mat-subheader>Productos</div>
+          <mat-list #shoes fxLayout="row">
+            <mat-list-item *ngFor="let p of productos">
+              <button mat-button (keypress)="myScript($event)">
+                {{p}}
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+      <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+        <ng-container matColumnDef="Cantidad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> CANTIDAD </th>
+          <td mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
+            {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Cantidad : (row.CantidadVendida != undefined) ? row.CantidadVendida : row.Cantidad }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Sobre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> SOBRE </th>
+          <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center">
+            {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.NumeroSobre : row.NumeroSobre }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Descripcion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> DESCRIPCIÓN </th>
+          <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
+            <!-- : (row.CantidadVendida != undefined) ? row.IdLenteNavigation.Nombre + ' V. VIRTUAL' -->
+            {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Descripcion : row.Descripcion }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Esferico">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> ESFÉRICO </th>
+          <td mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
+            {{(row.ComprobanteItemLente != undefined) ? row.ComprobanteItemLente.MedidaEsferico : '' }} </td>
+        </ng-container>
+        <ng-container matColumnDef="Cilindrico">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> CILÍNDRICO </th>
+          <td mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
+            {{(row.ComprobanteItemLente != undefined) ? row.ComprobanteItemLente.MedidaCilindrico : '' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Recargo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> RECARGO </th>
+          <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center">
+            <div *ngFor="let r of row.ComprobanteItemRecargo; let j = index" fxLayout="row">
+              {{row.ComprobanteItemRecargo[j].IdRecargoNavigation.Descripcion.split(' ')[0] + (j == row.ComprobanteItemRecargo.length -1 ? ' ' :  ', ')}}
+            </div>
+            <div *ngFor="let r of row.ComprobanteItemServicio; let j = index" fxLayout="row">
+              {{row.ComprobanteItemServicio[j].IdServicioNavigation.DescripcionFactura + (j == row.ComprobanteItemServicio.length -1 ? ' ' :  ', ')}}
+            </div>
+          </td>
+          </ng-container>
+
+        <ng-container matColumnDef="Importe">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> IMPORTE </th>
+          <td mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
+            {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Monto : row.Monto }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Borrar">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> BORRAR </th>
+          <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="center center">
+            <button mat-button type="button" (click)="rowBorrarProductos(row)">
+              <mat-icon svgIcon="close" class="tabla_icono"></mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="footer">
+          <td mat-footer-cell *matFooterCellDef id="footers" [style.display]="'none'">
+            <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px">
+              <label style="font-weight: bold;">Subtotal:</label>
+              <label> {{getSubtotales()}}</label>
+              <label style="font-weight: bold;">Subtotal con descuento:</label>
+              <label> {{ getSubtotalConDescuento() }}</label>
+              <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA
+                RI:</label>
+              <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
+              <label *ngIf="remitos.length > 0" style="font-weight: bold;">Total remitos:</label>
+              <label *ngIf="remitos.length > 0"> {{getTotalRemito()}}</label>
+              <label style="font-weight: bold;">Total:</label>
+              <label> {{getTotales()}}</label>
+              <label style="font-weight: bold; color: darkred;">Total con remitos: </label>
+              <label>{{(+getTotales() + +getTotalRemito())}}</label>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="validaciones(row)" fxFill></tr>
+        <tr mat-footer-row *matFooterRowDef="['footer']" class="example-second-footer-row"></tr>
+      </table>
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+    </div>
+
+    <div mat-dialog-content fxLayout="row" *ngIf="modelComprobante.Observaciones != undefined">
+      <mat-form-field fxFill>
+          <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" [(ngModel)]="modelComprobante.Observaciones"
+              name="obs" #obs cols="2" rows="4"></textarea>
+      </mat-form-field>
+  </div>
+
+
+    <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
+      <button mat-raised-button id="cancelar" (click)="cancelar()">Cancelar</button>
+      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= getTotales() || bloquearF == false"
+        id="finalizar" (click)="altaComprobanteCliente()">Finalizar</button>
+    </div>
+  <!-- </form> -->
+</div>

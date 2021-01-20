@@ -21,7 +21,7 @@
                   <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
                       [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="applyFilterAvanzados($event, 'cliente')">
+                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="applyFilterAvanzados(c.Id, 'cliente')">
                           {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                       </mat-option>
                   </mat-autocomplete>
@@ -42,7 +42,7 @@
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
               <mat-form-field>
-                <input type="text" placeholder="Con número de sobre" aria-label="Con número de sobre" matInput (click)="applyFilterAvanzados($event, 'sobre')">
+                <input type="text" placeholder="Con número de sobre" aria-label="Con número de sobre" matInput (keyup)="applyFilterAvanzados($event.target.value, 'sobre')">
             </mat-form-field>
             </div>     
         </div>

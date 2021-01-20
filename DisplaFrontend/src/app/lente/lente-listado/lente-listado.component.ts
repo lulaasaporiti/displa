@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class LenteListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['Id', 'Nombre', 'Borrado', 'Opciones'];
+  displayedColumns: string[] = ['Id', 'Nombre','IVA','Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<Lente>();
   traerVigentes: boolean = true;
 

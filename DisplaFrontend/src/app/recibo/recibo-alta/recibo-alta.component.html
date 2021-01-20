@@ -1,0 +1,60 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
+            <p class="dialog-title">Alta recibo</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
+                [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
+                <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
+                    {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
+                </mat-option>
+            </mat-autocomplete>
+            </mat-form-field>
+        </div>
+            
+        <div mat-dialog-content  fxLayout="row">
+            <mat-form-field fxFill>
+                <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" [(ngModel)]="modelRecibo.Observaciones"
+                    name="obs" #obs cols="2" rows="1"></textarea>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="32">
+                <input matInput placeholder="Monto efectivo" [(ngModel)]="modelRecibo.MontoEfectivo" name="montoE"
+                    #montoE="ngModel" required>
+                <mat-error *ngIf="montoE.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="32">
+                <input matInput placeholder="Monto cheque" [(ngModel)]="modelRecibo.MontoCheque" name="montoC"
+                    #montoC="ngModel" required>
+                <mat-error *ngIf="montoC.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="32">
+                <input matInput placeholder="Monto total" [(ngModel)]="modelRecibo.Montototal" name="montoT"
+                    #montoT="ngModel" required>
+                <mat-error *ngIf="montoT.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Número interdeposito" [(ngModel)]="modelRecibo.NroInterdeposito" name="numero"
+                    #numero="ngModel" required>
+                <mat-error *ngIf="numero.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>   
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
+                cdkFocusInitial>Agregar</button>
+        </div>
+    </div>
+
+</form>

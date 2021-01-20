@@ -205,7 +205,7 @@
       <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
     </div>
 
-    <div mat-dialog-content fxLayout="row" *ngIf="modelComprobante.Observaciones != undefined">
+    <div fxLayout="row" *ngIf="modelComprobante.Observaciones != undefined">
       <mat-form-field fxFill>
           <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" [(ngModel)]="modelComprobante.Observaciones"
               name="obs" #obs cols="2" rows="4"></textarea>

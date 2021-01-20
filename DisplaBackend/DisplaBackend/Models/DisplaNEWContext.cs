@@ -55,6 +55,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<RecargoLente> RecargoLente { get; set; }
+        public virtual DbSet<Recibo> Recibo { get; set; }
         public virtual DbSet<Remito> Remito { get; set; }
         public virtual DbSet<Servicio> Servicio { get; set; }
         public virtual DbSet<Sobre> Sobre { get; set; }
@@ -1126,6 +1127,45 @@ namespace DisplaBackend.Models
                     .WithMany(p => p.RecargoLente)
                     .HasForeignKey(d => d.IdLente)
                     .HasConstraintName("FK_RecargoLente_Lente");
+            });
+
+            modelBuilder.Entity<Recibo>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.IdCuentaBancaria).HasColumnName("idCuentaBancaria");
+
+                entity.Property(e => e.MontoCheque)
+                    .HasColumnName("montoCheque")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.MontoEfectivo)
+                    .HasColumnName("montoEfectivo")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.MontoInterdeposito)
+                    .HasColumnName("montoInterdeposito")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.NroInterdeposito)
+                    .HasColumnName("nroInterdeposito")
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.Observaciones)
+                    .HasColumnName("observaciones")
+                    .HasMaxLength(500);
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.Recibo)
+                    .HasForeignKey(d => d.IdCliente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Recibo_Cliente");
             });
 
             modelBuilder.Entity<Remito>(entity =>

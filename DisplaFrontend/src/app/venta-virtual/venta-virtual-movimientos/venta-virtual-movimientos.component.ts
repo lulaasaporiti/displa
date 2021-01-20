@@ -22,7 +22,6 @@ export class VentaVirtualMovimientosComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.ventaVirtualService.getMovimientos(data.idVenta
         ).subscribe(m => {
-          console.log(m)
           this.dataSource.data = m;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

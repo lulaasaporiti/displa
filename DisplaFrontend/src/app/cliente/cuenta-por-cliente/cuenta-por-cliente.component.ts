@@ -22,7 +22,7 @@ export class CuentaPorClienteComponent implements OnInit {
   modelCliente = <Cliente>{};
   panelOpenState = false;
   today = new Date();
-  since: Date;
+  since;
   displayedColumns = ['Fecha', 'Comprobante', 'Debe', 'Haber', 'Saldo']
   clientes: Cliente[];
   clientesControl = new FormControl();
@@ -66,10 +66,14 @@ export class CuentaPorClienteComponent implements OnInit {
   }
 
   traerCuentaCliente(event) {
+    console.log(event
+      )
+    
     this.loadingSpinnerService.show();
-    this.comprobanteService.getCuentaPorCliente(this.modelCliente.Id, this.since)
+    this.comprobanteService.getCuentaPorCliente(event.Id , this.since.toDateString())
       .subscribe(cc => {
         console.log(cc);
+        this.dataSource.data = cc;
         // this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.loadingSpinnerService.hide();
       })

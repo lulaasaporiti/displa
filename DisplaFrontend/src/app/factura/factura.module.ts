@@ -21,20 +21,22 @@ import { LenteVentaVirtualComponent } from './factura-producto/producto-lente/le
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ResumenLenteComponent } from './factura-producto/producto-lente/resumen-lente/resumen-lente.component';
 import { FacturaDetalleComponent } from './factura-detalle/factura-detalle.component';
+import { BusquedaItemFacturadoComponent } from './busqueda-item-facturado/busqueda-item-facturado.component';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, 
-        ProductoDescuentoComponent, FacturaConfirmarComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
+        ProductoDescuentoComponent, FacturaConfirmarComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent, BusquedaItemFacturadoComponent ],
     declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, SeleccionLenteComponent, 
         ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, FacturaConfirmarComponent, FacturaDetalleComponent,
-        ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
+        ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent, BusquedaItemFacturadoComponent ],
     imports: [
         CommonModule,
         MaterialModule,
         MatListModule,
         MatTreeModule,
+        MatButtonToggleModule,
         FacturaRoutingModule,
         LoadingSpinnerModule,
         MatButtonToggleModule,

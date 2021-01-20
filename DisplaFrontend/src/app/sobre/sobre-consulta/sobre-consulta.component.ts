@@ -8,6 +8,9 @@ import { Cliente } from 'src/app/model/cliente';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Sobre } from 'src/app/model/sobre';
+import { ClienteService } from 'src/services/cliente.service';
+import { startWith, map } from 'rxjs/operators';
+
 
 
 @Component({
@@ -35,6 +38,7 @@ export class SobreConsultaComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private sessionService: SessionService,
+    private clienteService: ClienteService,
     private sobreService: SobreService,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
@@ -42,7 +46,16 @@ export class SobreConsultaComponent implements OnInit {
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.loadSobrePage()
+    this.clienteService.getClientesVigentesList()
+      .subscribe(r => {
+        this.clientes = r;
+        this.filteredClientes = this.clientesControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(val => this.filterCliente(val))
+          );
+      });
+    this.loadSobrePage();
   }
 
   ngAfterViewInit() {
@@ -55,9 +68,9 @@ export class SobreConsultaComponent implements OnInit {
     this.sobreService.getSobresList()
       .subscribe(r => {
         this.dataSource.data = r;
+        console.log(r)
         this.original = r;
         this.todo = true;
-        console.log(r)
         this.loadingSpinnerService.hide();
       })
   }
@@ -88,10 +101,7 @@ export class SobreConsultaComponent implements OnInit {
 
   traerTodos(event) {
     if (!event.checked) {
-      // this.sobreService.getSobresList().subscribe(so => {
-      //   this.dataSource.data = so.filter(s => new Date(Date.parse(s.Fecha.toString())) >= this.since && new Date(Date.parse(s.Fecha.toString())) <= this.today);
-      //   this.original = so;
-      // })
+         this.dataSource.data = this.original;
     } else {
       this.todo = event.checked;
       this.dataSource.data = [];
@@ -111,6 +121,13 @@ export class SobreConsultaComponent implements OnInit {
     }
     if (campo == 'sobre'){
       this.dataSource.data = this.original.filter(s => s.Numero == event);
+    }
+    if (campo == 'cliente'){
+      this.todo = false;
+      this.dataSource.data = this.original.filter(s => s.IdCliente == event);
+    }
+    if (event.toString() == ""){
+    this.dataSource.data = this.original;
     }
   }
 

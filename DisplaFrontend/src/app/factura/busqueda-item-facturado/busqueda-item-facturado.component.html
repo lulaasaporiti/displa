@@ -1,0 +1,40 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <p class="dialog-title">Búsqueda de un ítem facturado</p>
+        </div>
+
+        <div fxLayoutGap="2vw" mat-dialog-content fxLayout="row">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel"  readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta="ngModel"  readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div fxLayoutGap="4vw" mat-dialog-content fxLayout="row" >
+            <mat-button-toggle-group name="items">
+              <mat-button-toggle [value]="true" id="lentes">
+                Lentes
+              </mat-button-toggle>
+              <mat-button-toggle [value]="false" id="articulos">
+                Artículos
+              </mat-button-toggle>
+              <mat-button-toggle [value]="false" id="libres">
+                Libres
+              </mat-button-toggle>
+            </mat-button-toggle-group>         
+          </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+          <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary"
+                [mat-dialog-close]="data">Buscar</button>
+        </div>
+    </div>
+</form>

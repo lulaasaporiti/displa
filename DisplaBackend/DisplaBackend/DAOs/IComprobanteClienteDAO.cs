@@ -202,7 +202,7 @@ namespace DisplaBackend.DAOs
 
         public List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha)
         {
-            return _context.ComprobanteCliente.Where(cc => cc.IdCliente == idCliente && cc.Fecha > fecha).ToList();
+            return _context.ComprobanteCliente.Include(c => c.IdTipoComprobanteNavigation).Where(cc => cc.IdCliente == idCliente && cc.Fecha > fecha).ToList();
         }
     }
 }

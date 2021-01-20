@@ -27,6 +27,7 @@ export class SobreAltaComponent {
     private clienteService: ClienteService,
     private sessionService: SessionService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log(data)
   }
 
   ngOnInit() {
@@ -97,7 +98,7 @@ export class SobreAltaComponent {
   updateStateSobre() {
     //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
     //y el ngOnChanges() lo detecte
-    let modelSobre = JSON.parse(JSON.stringify(this.data.modelServicio.SobreServicio));
+    let modelSobre = JSON.parse(JSON.stringify(this.sobres));
     this.selectedSobre.emit(modelSobre);
   }
 
