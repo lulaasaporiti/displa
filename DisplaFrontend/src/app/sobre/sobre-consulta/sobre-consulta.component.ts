@@ -23,6 +23,7 @@ export class SobreConsultaComponent implements OnInit {
   today = new Date();
   original: any[] = [];
   since: Date;
+  cliente= <Cliente>{};
   todo: boolean;
   displayedColumns: string[] = ['Optica','Sobre','Entrada', 'Salida', 'NumeroComprobante','Observaciones'];
   dataSource = new MatTableDataSource<Sobre>();
@@ -65,15 +66,19 @@ export class SobreConsultaComponent implements OnInit {
 
   loadSobrePage() {
     this.loadingSpinnerService.show();
-    this.sobreService.getSobresList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        console.log(r)
-        this.original = r;
-        this.todo = true;
-        this.loadingSpinnerService.hide();
-      })
+   
   }
+
+  buscarSobres() {
+  this.sobreService.getSobresConsulta(this.cliente.Id, this.since.toDateString(), this.today.toDateString())
+  .subscribe(r => {
+    this.dataSource.data = r;
+    console.log(r)
+    // this.original = r;
+    this.todo = true;
+    this.loadingSpinnerService.hide();
+  })
+}
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();

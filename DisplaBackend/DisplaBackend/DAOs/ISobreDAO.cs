@@ -13,6 +13,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(Sobre[] sobres);
         bool Delete(Sobre sobre);
         Sobre GetById(int idSobre);
+        List<dynamic> GetSobresConsulta(int IdCliente, DateTime fechaDesde, DateTime fechaHasta);
 
     }
 
@@ -31,6 +32,7 @@ namespace DisplaBackend.DAOs
             return _context.Sobre
                 .Include(s => s.IdClienteNavigation)
                 .ThenInclude(c => c.ComprobanteCliente)
+                .ThenInclude(c => c.ComprobanteItem)
                 .ToList();
         }
 
@@ -77,6 +79,22 @@ namespace DisplaBackend.DAOs
             {
                 throw e;
             }
+        }
+
+        public List<dynamic> GetSobresConsulta(int IdCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            var sobreConsulta = _context.Sobre.Where(s => s.IdCliente == IdCliente && s.Fecha >= fechaDesde && fechaHasta <= s.Fecha)
+                .Include(so => so.IdClienteNavigation)
+                .ThenInclude(c => c.ComprobanteCliente)
+                .Select(sc => new 
+                {
+                    Numero = sc.Numero,
+                    Fecha = sc.Fecha,
+                    IdClienteNavigation = sc.IdClienteNavigation,
+                    Observaciones = sc.Observaciones,
+                    Comprobante = sc.IdClienteNavigation.ComprobanteCliente.Where(c => c.ComprobanteItem.Select(ci => ci.NumeroSobre == sc.Numero).FirstOrDefault())
+                }).ToList<dynamic>();
+            return sobreConsulta;
         }
     }
 }

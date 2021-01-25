@@ -59,5 +59,13 @@ namespace DisplaBackend.Controllers
 
             return Ok(_sobreService.Delete(sobre));
         }
+
+
+        [HttpGet, Route("GetSobresConsulta")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetSobresConsulta(int IdCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _sobreService.GetSobresConsulta(IdCliente, fechaDesde, fechaHasta);
+        }
     }
 }

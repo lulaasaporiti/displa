@@ -18,10 +18,10 @@
             <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill style="font-size: small; line-height: 38px !important;">
               <div fxLayoutAlign="start center" fxLayoutGap="2vw">
                 <mat-form-field fxFill>
-                  <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
+                  <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [(ngModel)]="cliente" [formControl]="clientesControl"
                       [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="applyFilterAvanzados(c.Id, 'cliente')">
+                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
                           {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                       </mat-option>
                   </mat-autocomplete>
@@ -45,6 +45,7 @@
                 <input type="text" placeholder="Con número de sobre" aria-label="Con número de sobre" matInput (keyup)="applyFilterAvanzados($event.target.value, 'sobre')">
             </mat-form-field>
             </div>     
+            <button mat-raised-button color="primary" (click)="buscarSobres()">Buscar</button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>

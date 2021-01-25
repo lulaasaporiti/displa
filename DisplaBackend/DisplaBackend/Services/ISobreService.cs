@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace DisplaBackend.Services
         bool SaveOrUpdate(Sobre[] sobres);
         bool Delete(Sobre sobre);
         Sobre GetById(int idSobre);
+        List<dynamic> GetSobresConsulta(int IdCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class SobreService : ISobreService
@@ -43,6 +45,10 @@ namespace DisplaBackend.Services
             return _sobreDAO.GetById(idSobre);
         }
 
+        public List<dynamic> GetSobresConsulta(int IdCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _sobreDAO.GetSobresConsulta(IdCliente,fechaDesde,fechaHasta);
+        }
     }
 
 }

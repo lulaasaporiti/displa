@@ -66,9 +66,6 @@ export class CuentaPorClienteComponent implements OnInit {
   }
 
   traerCuentaCliente(event) {
-    console.log(event
-      )
-    
     this.loadingSpinnerService.show();
     this.comprobanteService.getCuentaPorCliente(event.Id , this.since.toDateString())
       .subscribe(cc => {
