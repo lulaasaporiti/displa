@@ -23,7 +23,7 @@ export class SobreConsultaComponent implements OnInit {
   today = new Date();
   original: any[] = [];
   since: Date;
-  cliente= <Cliente>{};
+  cliente = <Cliente>{};
   todo: boolean;
   displayedColumns: string[] = ['Optica','Sobre','Entrada', 'Salida', 'NumeroComprobante','Observaciones'];
   dataSource = new MatTableDataSource<Sobre>();
@@ -44,6 +44,7 @@ export class SobreConsultaComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
+    this.since = new Date(new Date().setDate(this.today.getDate()-10));
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -74,8 +75,8 @@ export class SobreConsultaComponent implements OnInit {
   .subscribe(r => {
     this.dataSource.data = r;
     console.log(r)
-    // this.original = r;
-    this.todo = true;
+    this.original = r;
+    // this.todo = true;
     this.loadingSpinnerService.hide();
   })
 }
@@ -101,7 +102,9 @@ export class SobreConsultaComponent implements OnInit {
   }
 
   displayCliente(c?: Cliente): string | undefined {
-    return c ? c.Id + ' - ' + c.Optica + ' - ' + c.Responsable : undefined;
+    console.log(c)
+    console.log(c == null || c == undefined)
+    return (c != null || c == undefined) ? '' : c.Id + ' - ' + c.Optica + ' - ' + c.Responsable;
   }
 
   traerTodos(event) {
@@ -115,17 +118,17 @@ export class SobreConsultaComponent implements OnInit {
 
 
   applyFilterAvanzados(event, campo: string) {
-    if (campo == 'entrada'){
+    if (campo == 'desde'){
       this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.Fecha.toString())) >= this.since && new Date(Date.parse(v.Fecha.toString())) <= this.today);
     }
-    if (campo == 'salida'){
+    if (campo == 'hasta'){
       this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.Fecha.toString())) >= this.since && new Date(Date.parse(v.Fecha.toString())) <= this.today);
     }
     if (campo == 'todos'){
       this.traerTodos(event);
     }
     if (campo == 'sobre'){
-      this.dataSource.data = this.original.filter(s => s.Numero == event);
+      this.dataSource.data = this.original.filter(s => s.Numero == +event);
     }
     if (campo == 'cliente'){
       this.todo = false;

@@ -83,17 +83,40 @@ namespace DisplaBackend.DAOs
 
         public List<dynamic> GetSobresConsulta(int IdCliente, DateTime fechaDesde, DateTime fechaHasta)
         {
-            var sobreConsulta = _context.Sobre.Where(s => s.IdCliente == IdCliente && s.Fecha >= fechaDesde && fechaHasta <= s.Fecha)
+            var sobreConsulta = new List<dynamic>();
+            if (IdCliente > 0)
+            { 
+                sobreConsulta = _context.Sobre.Where(s => s.IdCliente == IdCliente && s.Fecha >= fechaDesde && s.Fecha <= fechaHasta)
                 .Include(so => so.IdClienteNavigation)
                 .ThenInclude(c => c.ComprobanteCliente)
+                    .ThenInclude(ci => ci.ComprobanteItem)
                 .Select(sc => new 
                 {
                     Numero = sc.Numero,
                     Fecha = sc.Fecha,
                     IdClienteNavigation = sc.IdClienteNavigation,
                     Observaciones = sc.Observaciones,
-                    Comprobante = sc.IdClienteNavigation.ComprobanteCliente.Where(c => c.ComprobanteItem.Select(ci => ci.NumeroSobre == sc.Numero).FirstOrDefault())
+                    Comprobante = sc.IdClienteNavigation.ComprobanteCliente
+                    .Where(c => c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.Fecha > sc.Fecha &&
+                    c.ComprobanteItem.Any(ci => ci.NumeroSobre == sc.Numero)).Select(c => new { c.IdTipoComprobanteNavigation, c.Numero, c.Fecha})
                 }).ToList<dynamic>();
+            } else
+            {
+                sobreConsulta = _context.Sobre.Where(s => s.Fecha >= fechaDesde && s.Fecha <= fechaHasta)
+                .Include(so => so.IdClienteNavigation)
+                .ThenInclude(c => c.ComprobanteCliente)
+                    .ThenInclude(ci => ci.ComprobanteItem)
+                .Select(sc => new
+                {
+                    Numero = sc.Numero,
+                    Fecha = sc.Fecha,
+                    IdClienteNavigation = sc.IdClienteNavigation,
+                    Observaciones = sc.Observaciones,
+                    Comprobante = sc.IdClienteNavigation.ComprobanteCliente
+                    .Where(c => c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.Fecha > sc.Fecha &&
+                    c.ComprobanteItem.Any(ci => ci.NumeroSobre == sc.Numero)).Select(c => new { c.IdTipoComprobanteNavigation, c.Numero, c.Fecha })
+                }).ToList<dynamic>();
+            }
             return sobreConsulta;
         }
     }

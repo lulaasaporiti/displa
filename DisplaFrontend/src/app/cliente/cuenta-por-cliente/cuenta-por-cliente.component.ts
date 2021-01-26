@@ -42,7 +42,8 @@ export class CuentaPorClienteComponent implements OnInit {
     private comprobanteService: ComprobanteClienteService) { }
 
   ngOnInit() {
-    this.since = new Date(this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
+    this.since = new Date(new Date().setDate(this.today.getDate()-30));
+    // this.since = new Date(this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

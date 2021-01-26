@@ -52,7 +52,8 @@ export class VentaVirtualListadoComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
-    this.since = new Date(this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
+    this.since = new Date(new Date().setDate(this.today.getDate()-30));
+    // this.since = new Date(this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
     this.todo = true;
     this.pendientes = true;
     this.searchElement.nativeElement.focus();
