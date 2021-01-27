@@ -1,4 +1,5 @@
 import { Cliente } from './cliente';
+import { CuentaBancaria } from './cuentaBancaria';
 
 export interface Recibo {
     Id: number,
@@ -11,5 +12,6 @@ export interface Recibo {
     IdCliente: number,
     IdClienteNavigation: Cliente,
     Observaciones: string,
-    IdCuentaBancaria: number
+    IdCuentaBancaria: number,
+    IdCuentaBancariaNavigation: CuentaBancaria
 }

@@ -100,7 +100,8 @@ namespace DisplaBackend.DAOs
                     .Where(c => c.Fecha >= fechaDesde && c.Fecha <= fechaHasta && c.Fecha > sc.Fecha &&
                     c.ComprobanteItem.Any(ci => ci.NumeroSobre == sc.Numero)).Select(c => new { c.IdTipoComprobanteNavigation, c.Numero, c.Fecha})
                 }).ToList<dynamic>();
-            } else
+            }
+            else
             {
                 sobreConsulta = _context.Sobre.Where(s => s.Fecha >= fechaDesde && s.Fecha <= fechaHasta)
                 .Include(so => so.IdClienteNavigation)

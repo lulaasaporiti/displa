@@ -134,9 +134,11 @@ export class ClienteCuentaListadoComponent implements OnInit {
     document.getElementById("nobloqueados").style.backgroundColor="transparent";
     if (!event.checked) {
       this.todo = event.checked;
+      this.manual = false;
       this.dataSource.data = this.original;
     } else {
-      this.todo =  event.checked;
+      this.todo = event.checked;
+      this.manual = false;
       this.dataSource.data = [];
     }
   }

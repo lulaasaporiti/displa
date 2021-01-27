@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
@@ -23,8 +23,8 @@ export class SobreConsultaComponent implements OnInit {
   today = new Date();
   original: any[] = [];
   since: Date;
-  cliente = <Cliente>{};
-  todo: boolean;
+  cliente;
+  todo: boolean = false;
   displayedColumns: string[] = ['Optica','Sobre','Entrada', 'Salida', 'NumeroComprobante','Observaciones'];
   dataSource = new MatTableDataSource<Sobre>();
   clientes: Cliente[];
@@ -38,9 +38,10 @@ export class SobreConsultaComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private sobreService: SobreService,
     private sessionService: SessionService,
     private clienteService: ClienteService,
-    private sobreService: SobreService,
+    private changeDetector: ChangeDetectorRef,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
@@ -74,7 +75,6 @@ export class SobreConsultaComponent implements OnInit {
   this.sobreService.getSobresConsulta(this.cliente.Id, this.since.toDateString(), this.today.toDateString())
   .subscribe(r => {
     this.dataSource.data = r;
-    console.log(r)
     this.original = r;
     // this.todo = true;
     this.loadingSpinnerService.hide();
@@ -101,10 +101,8 @@ export class SobreConsultaComponent implements OnInit {
     }
   }
 
-  displayCliente(c?: Cliente): string | undefined {
-    console.log(c)
-    console.log(c == null || c == undefined)
-    return (c != null || c == undefined) ? '' : c.Id + ' - ' + c.Optica + ' - ' + c.Responsable;
+  displayCliente(c): string | undefined {
+    return c ? c.Id + ' - ' + c.Optica + ' - ' + c.Responsable : '';
   }
 
   traerTodos(event) {
@@ -118,24 +116,25 @@ export class SobreConsultaComponent implements OnInit {
 
 
   applyFilterAvanzados(event, campo: string) {
-    if (campo == 'desde'){
-      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.Fecha.toString())) >= this.since && new Date(Date.parse(v.Fecha.toString())) <= this.today);
-    }
-    if (campo == 'hasta'){
-      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.Fecha.toString())) >= this.since && new Date(Date.parse(v.Fecha.toString())) <= this.today);
-    }
+    console.log(event)
     if (campo == 'todos'){
-      this.traerTodos(event);
+      this.clientesControl.setValue("");
+      this.todo = this.clientesControl.value == "";
+      // this.traerTodos(event);
     }
     if (campo == 'sobre'){
       this.dataSource.data = this.original.filter(s => s.Numero == +event);
     }
     if (campo == 'cliente'){
-      this.todo = false;
-      this.dataSource.data = this.original.filter(s => s.IdCliente == event);
+      console.log(this.cliente)
+      this.todo = (this.cliente == "");
+      this.changeDetector.detectChanges();
+      console.log("entra a cliente")
+      console.log(this.todo)
+      // this.dataSource.data = this.original.filter(s => s.IdCliente == event.value.Id);
     }
     if (event.toString() == ""){
-    this.dataSource.data = this.original;
+      this.dataSource.data = this.original;
     }
   }
 

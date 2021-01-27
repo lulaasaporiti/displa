@@ -35,6 +35,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<ComprobanteItemRecargo> ComprobanteItemRecargo { get; set; }
         public virtual DbSet<ComprobanteItemServicio> ComprobanteItemServicio { get; set; }
         public virtual DbSet<CondicionVenta> CondicionVenta { get; set; }
+        public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual DbSet<Ficha> Ficha { get; set; }
         public virtual DbSet<Gasto> Gasto { get; set; }
         public virtual DbSet<Insumo> Insumo { get; set; }
@@ -604,6 +605,32 @@ namespace DisplaBackend.Models
                     .HasMaxLength(50);
             });
 
+            modelBuilder.Entity<CuentaBancaria>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.FechaApertura)
+                    .HasColumnName("fechaApertura")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdBanco).HasColumnName("idBanco");
+
+                entity.Property(e => e.Numero)
+                    .IsRequired()
+                    .HasColumnName("numero")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.SaldoInicial)
+                    .HasColumnName("saldoInicial")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.HasOne(d => d.IdBancoNavigation)
+                    .WithMany(p => p.CuentaBancaria)
+                    .HasForeignKey(d => d.IdBanco)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CuentaBancaria_Banco");
+            });
+
             modelBuilder.Entity<Ficha>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1166,6 +1193,11 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdCliente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Recibo_Cliente");
+
+                entity.HasOne(d => d.IdCuentaBancariaNavigation)
+                    .WithMany(p => p.Recibo)
+                    .HasForeignKey(d => d.IdCuentaBancaria)
+                    .HasConstraintName("FK_Recibo_CuentaBancaria");
             });
 
             modelBuilder.Entity<Remito>(entity =>

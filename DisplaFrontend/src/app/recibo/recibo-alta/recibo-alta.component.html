@@ -25,17 +25,17 @@
         </div>
 
         <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
-            <mat-form-field fxFlex="32">
+            <mat-form-field fxFlex="30">
                 <input matInput placeholder="Monto efectivo" [(ngModel)]="modelRecibo.MontoEfectivo" name="montoE"
                     #montoE="ngModel" required>
                 <mat-error *ngIf="montoE.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
-            <mat-form-field fxFlex="32">
+            <mat-form-field fxFlex="30">
                 <input matInput placeholder="Monto cheque" [(ngModel)]="modelRecibo.MontoCheque" name="montoC"
                     #montoC="ngModel" required>
                 <mat-error *ngIf="montoC.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
-            <mat-form-field fxFlex="32">
+            <mat-form-field fxFlex="30">
                 <input matInput placeholder="Monto total" [(ngModel)]="modelRecibo.Montototal" name="montoT"
                     #montoT="ngModel" required>
                 <mat-error *ngIf="montoT.invalid">Este campo es obligatorio.</mat-error>
@@ -47,6 +47,24 @@
                 <input matInput placeholder="Número interdeposito" [(ngModel)]="modelRecibo.NroInterdeposito" name="numero"
                     #numero="ngModel" required>
                 <mat-error *ngIf="numero.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>   
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Monto interdeposito" [(ngModel)]="modelRecibo.MontoInterdeposito" name="montoInter"
+                    #montoInter="ngModel" required>
+                <mat-error *ngIf="montoInter.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>   
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Cuenta bancaria" [(ngModel)]="modelRecibo.IdCuentaBancariaNavigation" name="cuenta"
+                    #cuenta="ngModel" required>
+                <mat-error *ngIf="cuenta.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>   
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Banco" [(ngModel)]="modelRecibo.IdCuentaBancariaNavigation" name="banco"
+                    #banco="ngModel" required disabled>
+                <mat-error *ngIf="banco.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>   
         </div>
 

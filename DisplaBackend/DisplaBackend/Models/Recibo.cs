@@ -16,5 +16,6 @@ namespace DisplaBackend.Models
         public string NroInterdeposito { get; set; }
 
         public virtual Cliente IdClienteNavigation { get; set; }
+        public virtual CuentaBancaria IdCuentaBancariaNavigation { get; set; }
     }
 }

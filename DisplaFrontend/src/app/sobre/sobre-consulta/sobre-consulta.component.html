@@ -3,7 +3,8 @@
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
     <h4 fxLayout="column" class="titulo" fxFlex>Consulta de sobres</h4>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
-      <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus" placeholder="Buscar">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus"
+        placeholder="Buscar">
     </mat-form-field>
   </div>
   <div fxLayout="row" fxLayoutAlign="start center">
@@ -15,37 +16,43 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div fxLayout="column" style="margin: 12px auto;">
-            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill style="font-size: small; line-height: 38px !important;">
-              <div fxLayoutAlign="start center" fxLayoutGap="2vw">
-                <mat-form-field fxFill>
-                  <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [(ngModel)]="cliente" [formControl]="clientesControl"
-                      [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
-                          {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
-                      </mat-option>
-                  </mat-autocomplete>
+          <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
+            style="font-size: small; line-height: 38px !important;">
+            <div fxLayoutAlign="start center" fxLayoutGap="2vw">
+              <mat-form-field fxFill>
+                <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
+                  [matAutocomplete]="auto" name="cli" [(ngModel)]="cliente" (blur)="applyFilterAvanzados(this.clientesControl, 'cliente')">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
+                  <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
+                    {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
+                  </mat-option>
+                </mat-autocomplete>
               </mat-form-field>
-              <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo" (click)="applyFilterAvanzados(todos, 'todos')">Todos los clientes
+              <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo"
+                (click)="applyFilterAvanzados(todos, 'todos')">Todos los clientes
               </mat-slide-toggle>
-              </div>
             </div>
-            <div fxLayoutGap="2vw"  fxFlexOffset="2" fxLayout="row" fxFill style="font-size: small; line-height: 38px !important;">
-              <mat-form-field>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel" (blur)="applyFilterAvanzados('', 'desde')" readonly>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-              <mat-form-field>
-                <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta="ngModel" (blur)="applyFilterAvanzados('', 'hasta')" readonly>
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-              </mat-form-field>
-              <mat-form-field>
-                <input type="text" placeholder="Con número de sobre" aria-label="Con número de sobre" matInput (keyup)="applyFilterAvanzados($event.target.value, 'sobre')">
+          </div>
+          <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
+            style="font-size: small; line-height: 38px !important;">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde"
+                #desde="ngModel" (blur)="applyFilterAvanzados('', 'desde')" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            </div>     
-            <button mat-raised-button color="primary" (click)="buscarSobres()">Buscar</button>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta"
+                #hasta="ngModel" (blur)="applyFilterAvanzados('', 'hasta')" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input type="text" placeholder="Con número de sobre" aria-label="Con número de sobre" matInput
+                (keyup)="applyFilterAvanzados($event.target.value, 'sobre')">
+            </mat-form-field>
+          </div>
+          <button mat-raised-button color="primary" (click)="buscarSobres()">Buscar</button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -55,51 +62,53 @@
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
     <ng-container matColumnDef="Optica">
       <th mat-header-cell *matHeaderCellDef fxFlex mat-sort-header> ÓPTICA </th>
-      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.IdClienteNavigation.Id}} - {{row.IdClienteNavigation.Optica}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.IdClienteNavigation.Id}} -
+        {{row.IdClienteNavigation.Optica}} </td>
     </ng-container>
 
     <ng-container matColumnDef="Sobre">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> SOBRE </th>
-      <td mat-cell *matCellDef="let row"   fxFlex fxLayoutAlign="start center">
+      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
         {{row.Numero}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="Entrada">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> ENTRADA </th>
-      <td mat-cell *matCellDef="let row"   fxFlex fxLayoutAlign="start center">  {{row.Fecha | date:"dd/MM/yyyy"}}
+      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Fecha | date:"dd/MM/yyyy"}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="Salida">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> SALIDA </th>
-      <td mat-cell *matCellDef="let row"   fxFlex fxLayoutAlign="start center">
+      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
         {{row.Comprobante.length > 0 ? (row.Comprobante[0].Fecha | date:"dd/MM/yyyy") : ''}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="NumeroComprobante">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> COMPROBANTE  </th>
-      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> 
-        {{row.Comprobante.length > 0 ? row.Comprobante[0].IdTipoComprobanteNavigation.Codigo + ' ' + row.Comprobante[0].Numero : ''}}
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> COMPROBANTE </th>
+      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
+        {{row.Comprobante.length > 0 ? row.Comprobante[0].IdTipoComprobanteNavigation.Codigo + ' ' +
+        row.Comprobante[0].Numero : ''}}
 
       </td>
     </ng-container>
 
     <ng-container matColumnDef="Observaciones">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> OBSERVACIONES  </th>
-      <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center"> {{row.Observaciones}}
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> OBSERVACIONES </th>
+      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Observaciones}}
       </td>
     </ng-container>
 
-    
+
 
     <!-- <ng-container matColumnDef="CantidadVendida">
       <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10"> VENDIDOS </th>
       <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center"> {{row.CantidadVendida}}
       </td>
     </ng-container> -->
-<!-- 
+    <!-- 
     <ng-container matColumnDef="Opciones">
       <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex> OPCIONES </th>
       <td mat-cell *matCellDef="let row"  fxFlex fxLayoutAlign="start center">
