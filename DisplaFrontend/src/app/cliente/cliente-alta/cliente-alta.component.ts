@@ -101,7 +101,6 @@ export class ClienteAltaComponent implements OnInit {
   altaCliente(){
     this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
       data => {
-        console.log(data)
         this.router.navigateByUrl('Cliente/Modificacion?id='+data)
         this.sessionService.showSuccess("El cliente se agregó correctamente.");
       },

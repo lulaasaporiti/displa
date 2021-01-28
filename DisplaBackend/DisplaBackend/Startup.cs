@@ -198,6 +198,8 @@ namespace DisplaBackend
             services.AddScoped<IComprobanteClienteDAO, ComprobanteClienteDAO>();
             services.AddScoped<ICondicionVentaService, CondicionVentaService>();
             services.AddScoped<ICondicionVentaDAO, CondicionVentaDAO>();
+            services.AddScoped<ICuentaBancariaService, CuentaBancariaService>();
+            services.AddScoped<ICuentaBancariaDAO, CuentaBancariaDAO>();
             services.AddScoped<IEstadisticaService, EstadisticaService>();
             services.AddScoped<IEstadisticaDAO, EstadisticaDAO>();
             services.AddScoped<IGastoService, GastoService>();
@@ -220,6 +222,8 @@ namespace DisplaBackend
             services.AddScoped<IProveedorDAO, ProveedorDAO>();
             services.AddScoped<IProvinciaService, ProvinciaService>();
             services.AddScoped<IProvinciaDAO, ProvinciaDAO>();
+            services.AddScoped<IReciboService, ReciboService>();
+            services.AddScoped<IReciboDAO, ReciboDAO>();
             services.AddScoped<IRemitoService, RemitoService>();
             services.AddScoped<IRemitoDAO, RemitoDAO>();
             services.AddScoped<IServicioService, ServicioService>();

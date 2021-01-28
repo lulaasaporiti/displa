@@ -8,12 +8,14 @@
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
-                [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
-                    {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
-                </mat-option>
-            </mat-autocomplete>
+                    [matAutocomplete]="auto1" name="cliente" (blur)="setIdCliente(this.clientesControl)"
+                    [(ngModel)]="modelRecibo.IdClienteNavigation" required>
+                <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayCliente">
+                    <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
+                        {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="clientesControl.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
             
@@ -57,20 +59,25 @@
 
         <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
             <mat-form-field fxFlex="50">
-                <input matInput placeholder="Cuenta bancaria" [(ngModel)]="modelRecibo.IdCuentaBancariaNavigation" name="cuenta"
-                    #cuenta="ngModel" required>
-                <mat-error *ngIf="cuenta.invalid">Este campo es obligatorio.</mat-error>
+                <input type="text" placeholder="Cuenta bancaria" aria-label="Cuenta bancaria" matInput [formControl]="cuentasControl"
+                [matAutocomplete]="auto" [(ngModel)]="modelRecibo.IdCuentaBancariaNavigation" name="cuenta" (blur)="setIdCuentaBancaria(this.cuentasControl)"
+                required>
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCuentas">
+                <mat-option *ngFor="let cue of filteredCuentas | async" [value]="cue" (onSelectionChange)="bancoCuenta($event)">
+                    {{ cue.Numero }} 
+                </mat-option>
+            </mat-autocomplete>
+                <mat-error *ngIf="cuentasControl.invalid">Este campo es obligatorio.</mat-error>
             </mat-form-field>   
             <mat-form-field fxFlex="50">
-                <input matInput placeholder="Banco" [(ngModel)]="modelRecibo.IdCuentaBancariaNavigation" name="banco"
-                    #banco="ngModel" required disabled>
-                <mat-error *ngIf="banco.invalid">Este campo es obligatorio.</mat-error>
+                <input matInput placeholder="Banco" [(ngModel)]="banco" name="banco"
+                    disabled>
             </mat-form-field>   
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data"
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="modelRecibo"
                 cdkFocusInitial>Agregar</button>
         </div>
     </div>

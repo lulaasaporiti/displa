@@ -18,6 +18,7 @@ import { SobreService } from 'src/services/sobre.service';
 import { ParametroService } from 'src/services/parametro.service';
 import { BusquedaItemFacturadoComponent } from '../factura/busqueda-item-facturado/busqueda-item-facturado.component';
 import { ReciboAltaComponent } from '../recibo/recibo-alta/recibo-alta.component';
+import { ReciboService } from 'src/services/recibo.service';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +34,7 @@ export class HeaderComponent {
     private mainService: MainService,
     private lenteService: LenteService,
     private sobreService: SobreService,
+    private reciboService: ReciboService,
     private sessionService: SessionService,
     private accountService: AccountService,
     private servicioService: ServicioService,
@@ -92,6 +94,20 @@ export class HeaderComponent {
     const dialogRef = this.dialog.open(ReciboAltaComponent, {
       data: {  },
       width: '650px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.loadingSpinnerService.show();
+        this.reciboService.saveOrUpdateRecibo(result).subscribe(
+          data => {
+            this.sessionService.showSuccess("EL recibo se agregó correctamente.");
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("El recibo no se agregó.");
+          }
+        );
+      }
     })
   }
 
