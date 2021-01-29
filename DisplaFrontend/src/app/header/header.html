@@ -87,7 +87,7 @@
 
                 <button mat-button class="button-list" [matMenuTriggerFor]="menuContabilidad">Contabilidad</button>
                 <mat-menu fxLayoutAlign="start center" #menuContabilidad="matMenu">
-                    <a mat-menu-item class="button-list">Movimientos internos</a>
+                    <a mat-menu-item class="button-list" (click)="openDialogAltaMovimientoInterno('cliente');">Movimientos internos</a>
                     <a mat-menu-item class="button-list">Consultar pedido</a>
                     <a mat-menu-item class="button-list">Consultar de remitos anulados</a>
                     <a mat-menu-item class="button-list">Anulación/consulta de comprobante</a>
@@ -121,9 +121,33 @@
                     <a mat-menu-item class="button-list">Ventas por mes</a>
                 </mat-menu>
 
-                <a mat-button routerLink="Proveedor/Listado" class="button-list" fxLayout="row">
-                    Proveedores
-                </a>
+                <button mat-button class="button-menu" [matMenuTriggerFor]="menuProveedores">Proveedores</button>
+                <mat-menu fxLayoutAlign="start center" #menuProveedores="matMenu">
+                    <a mat-menu-item class="button-list" routerLink="Proveedor/Listado">Listado</a>
+                    <a mat-menu-item class="button-list">Gastos</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Comprobantes</a>
+                    <a mat-menu-item class="button-list">IVA compras</a>
+                    <a mat-menu-item class="button-list">Consulta de comprobantes</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuCuentasProveedores">Cuentas corrientes</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Estadisticas</a>
+                    <a mat-menu-item class="button-list">Cálculo de retenciones</a>
+                    <a mat-menu-item class="button-list">Informe de retenciones</a>
+                    <a mat-menu-item class="button-list">Tipos de descuento</a>
+                </mat-menu>
+
+                <mat-menu fxLayoutAlign="start center" #menuComprobantes="matMenu">
+                    <a mat-menu-item class="button-list">Factura</a>
+                    <a mat-menu-item class="button-list">Nota de débito</a>
+                    <a mat-menu-item class="button-list">Nota de crédito</a>
+                    <a mat-menu-item class="button-list">Recibo</a>
+                    <a mat-menu-item class="button-list" (click)="openDialogAltaMovimientoInterno('proveedor');">Movimientos internos</a>
+                </mat-menu>
+
+                <mat-menu fxLayoutAlign="start center" #menuCuentasProveedores="matMenu">
+                    <a mat-menu-item class="button-list">Cuenta por proveedor</a>
+                    <a mat-menu-item class="button-list">Saldos a la fecha</a>
+                </mat-menu>
+
                 <a mat-button routerLink="TarjetaCredito/Listado" class="button-list" fxLayout="row">
                     Tarjetas de crédito
                 </a>

@@ -1,0 +1,75 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
+            <p class="dialog-title" *ngIf="data.tipo == 'cliente'">Alta movimiento interno</p>
+            <p class="dialog-title" *ngIf="data.tipo == 'proveedor'">Alta movimiento interno proveedor</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row"  *ngIf="data.tipo == 'cliente'">
+            <mat-form-field fxFill>
+                <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
+                    [matAutocomplete]="auto1" name="cliente" (blur)="setIdCliente(this.clientesControl)"
+                    [(ngModel)]="modelMovimientoInterno.IdClienteNavigation" required>
+                <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayCliente">
+                    <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
+                        {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="clientesControl.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" *ngIf="data.tipo == 'proveedor'">
+            <mat-form-field fxFill>
+                <input type="text" placeholder="Proveedor" aria-label="Proveedor" matInput [formControl]="proveedoresControl"
+                    [matAutocomplete]="auto" name="proveedor" (blur)="setIdProveedor(this.proveedoresControl)"
+                    [(ngModel)]="modelMovimientoInterno.IdProveedorNavigation" required>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProvedor">
+                    <mat-option *ngFor="let p of filteredProveedores | async" [value]="p">
+                        {{ p.Id }} - {{p.Nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="proveedoresControl.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="modelMovimientoInterno.Fecha"
+                    name="fecha" #fecha="ngModel" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <textarea matInput id="obs" placeholder="Observaciones" id="observaciones"
+                    [(ngModel)]="modelMovimientoInterno.Observaciones" name="obs" #obs cols="2" rows="1"></textarea>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Monto " [(ngModel)]="modelMovimientoInterno.Monto" name="monto"
+                    #monto="ngModel" required>
+                <mat-error *ngIf="monto.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <mat-select placeholder="Tipo comprobante" [(ngModel)]="modelMovimientoInterno.IdTipoComprobante" name="tipo"
+                    #tipo="ngModel" required>
+                    <mat-option *ngFor="let tc of tipoComprobante" [value]="tc.Id">
+                        {{ tc.Descripcion }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="tipo.invalid">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="modelMovimientoInterno" cdkFocusInitial>Agregar</button>
+        </div>
+    </div>
+
+</form>

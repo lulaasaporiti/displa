@@ -19,6 +19,8 @@ import { ParametroService } from 'src/services/parametro.service';
 import { BusquedaItemFacturadoComponent } from '../factura/busqueda-item-facturado/busqueda-item-facturado.component';
 import { ReciboAltaComponent } from '../recibo/recibo-alta/recibo-alta.component';
 import { ReciboService } from 'src/services/recibo.service';
+import { MovimientoInternoAltaComponent } from '../movimiento-interno/movimiento-interno-alta/movimiento-interno-alta.component';
+import { MovimientoInternoService } from 'src/services/movimiento.interno.service';
 
 @Component({
   selector: 'app-header',
@@ -40,7 +42,9 @@ export class HeaderComponent {
     private servicioService: ServicioService,
     private parametroService: ParametroService,
     private articuloService: ArticuloVarioService,
-    private loadingSpinnerService: LoadingSpinnerService,){
+    private loadingSpinnerService: LoadingSpinnerService,
+    private movimientoInternoService: MovimientoInternoService,
+    ){
   }
 
 
@@ -100,11 +104,31 @@ export class HeaderComponent {
         this.loadingSpinnerService.show();
         this.reciboService.saveOrUpdateRecibo(result).subscribe(
           data => {
-            this.sessionService.showSuccess("EL recibo se agregó correctamente.");
+            this.sessionService.showSuccess("El recibo se agregó correctamente.");
           },
           error => {
             // console.log(error)
             this.sessionService.showError("El recibo no se agregó.");
+          }
+        );
+      }
+    })
+  }
+
+  openDialogAltaMovimientoInterno(tipo): void {
+    const dialogRef = this.dialog.open(MovimientoInternoAltaComponent, {
+      data: { tipo: tipo },
+      width: '650px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.loadingSpinnerService.show();
+        this.movimientoInternoService.saveOrUpdateMovimientoInterno(result).subscribe(
+          data => {
+            this.sessionService.showSuccess("El movimiento interno se agregó correctamente.");
+          },
+          error => {
+            this.sessionService.showError("El movimiento interno no se agregó.");
           }
         );
       }

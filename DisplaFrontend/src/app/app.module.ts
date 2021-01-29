@@ -56,6 +56,7 @@ import { NotaCreditoModule } from './nota-credito/nota-credito.module';
 import { NotaDebitoComponent } from './nota-debito/nota-debito-alta/nota-debito-alta.component';
 import { NotaDebitoModule } from './nota-debito/nota-debito.module';
 import { ReciboModule } from './recibo/recibo.module';
+import { MovimientoInternoModule } from './movimiento-interno/movimiento-interno.module';
 
 
 
@@ -105,6 +106,7 @@ import { ReciboModule } from './recibo/recibo.module';
     ModificacionParametrosModule,
     MovimientoBlockModule,
     MovimientoInsumoModule,
+    MovimientoInternoModule,
     NgxMatSelectSearchModule,
     NotaCreditoModule,
     NotaDebitoModule,
