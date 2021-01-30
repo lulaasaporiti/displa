@@ -90,6 +90,10 @@ export class AppComponent {
       'restore_from_trash',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/restore_from_trash-24px.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'estadistica',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/leaderboard-24px.svg')
+    );
     
     // this.matIconRegistry.addSvgIcon(
     //   'error_outline',

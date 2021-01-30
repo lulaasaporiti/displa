@@ -118,7 +118,7 @@
                     <a mat-menu-item class="button-list">Ventas de artículos varios</a>
                     <a mat-menu-item class="button-list">¿Quién dejó de comprar?</a>
                     <a mat-menu-item class="button-list">Rubros vendidos por clientes</a>
-                    <a mat-menu-item class="button-list">Ventas por mes</a>
+                    <a mat-menu-item class="button-list" (click)="openDialogVentaClienteMes()">Ventas por mes</a>
                 </mat-menu>
 
                 <button mat-button class="button-menu" [matMenuTriggerFor]="menuProveedores">Proveedores</button>

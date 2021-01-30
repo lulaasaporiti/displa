@@ -1,0 +1,62 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="estadistica"></mat-icon>
+            <p class="dialog-title">Venta de clientes por mes</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="2vw"
+            style="font-size: small; line-height: 38px !important;">
+            <mat-form-field fxFlex="55">
+                <mat-select [formControl]="clientesControl" name="cliente" id="cliente" multiple #cli
+                    placeholder="Clientes" required>
+                    <mat-select-trigger>
+                        {{(!cli.empty) ? cli.value[0].Id : ''}} - {{(!cli.empty) ? cli.value[0].Optica : ''}}
+                        <span *ngIf="cli.value?.length > 1" class="example-additional-selection">
+                            (+{{cli.value.length - 1}} {{cli.value?.length === 2 ? 'clientes' : 'más'}})
+                        </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let c of clientes" [value]="c"
+                        (onSelectionChange)="clientesSeleccionados($event)">{{c.Id}} - {{c.Optica}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div fxLayoutAlign="start center">
+                <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo">Todos los clientes
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="2vw"
+            style="font-size: small; line-height: 38px !important;">
+            <mat-form-field fxFlex="25">
+                <!-- <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde"
+                    #desde="ngModel"  readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker> -->
+                <input matInput [matDatepicker]="dob">
+                <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                <mat-datepicker #dob startView="multi-year" (yearSelected)="handleYearSelected($event)"
+                    (monthSelected)="handleMonthSelected($event)">
+                </mat-datepicker>
+
+            </mat-form-field>
+            <mat-form-field fxFlex="25">
+                <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta"
+                    #hasta="ngModel" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <div fxLayoutAlign="start center">
+                <mat-slide-toggle color="accent" #unifica id="unifica" name="unifica" [checked]="analogo">Unifica con
+                    analogo
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!clientesControl.valid"
+                [mat-dialog-close]="data">Aceptar</button>
+        </div>
+    </div>
+</form>

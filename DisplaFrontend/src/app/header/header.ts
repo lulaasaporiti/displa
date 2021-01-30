@@ -21,6 +21,7 @@ import { ReciboAltaComponent } from '../recibo/recibo-alta/recibo-alta.component
 import { ReciboService } from 'src/services/recibo.service';
 import { MovimientoInternoAltaComponent } from '../movimiento-interno/movimiento-interno-alta/movimiento-interno-alta.component';
 import { MovimientoInternoService } from 'src/services/movimiento.interno.service';
+import { VentaClienteMesComponent } from '../estadistica/venta-cliente-mes/venta-cliente-mes.component';
 
 @Component({
   selector: 'app-header',
@@ -133,6 +134,26 @@ export class HeaderComponent {
         );
       }
     })
+  }
+
+  openDialogVentaClienteMes(): void {
+    const dialogRef = this.dialog.open(VentaClienteMesComponent, {
+      data: {  },
+      width: '650px'
+    })
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result != undefined && result != false) {
+    //     this.loadingSpinnerService.show();
+    //     this.movimientoInternoService.saveOrUpdateMovimientoInterno(result).subscribe(
+    //       data => {
+    //         this.sessionService.showSuccess("El movimiento interno se agregó correctamente.");
+    //       },
+    //       error => {
+    //         this.sessionService.showError("El movimiento interno no se agregó.");
+    //       }
+    //     );
+    //   }
+    // })
   }
 
   openDialogClientes(event): void {

@@ -33,6 +33,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [],
@@ -68,7 +69,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatRadioModule,
     MatCheckboxModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MomentDateModule,
   ],
   exports: [
     BrowserAnimationsModule,
