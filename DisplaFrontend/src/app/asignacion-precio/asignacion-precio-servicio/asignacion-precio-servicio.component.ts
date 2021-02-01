@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ServicioService } from 'src/services/servicio.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';

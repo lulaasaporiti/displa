@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material/core';
 import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { combineLatest } from 'rxjs';

@@ -3,7 +3,7 @@ import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.s
 import { Params, ActivatedRoute } from '@angular/router';
 import { ClienteService } from 'src/services/cliente.service';
 import { Ficha } from 'src/app/model/ficha';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, , MAT_DIALOG_DATA } from '@angular/material/core';
 
 
 @Component({

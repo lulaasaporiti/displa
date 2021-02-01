@@ -5,10 +5,10 @@ import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
 import { FacturaRoutingModule } from './factura-routing.module';
 import { ClienteSeleccionComponent } from './cliente-seleccion/cliente-seleccion.component';
 import { FacturaAltaComponent } from './factura-alta/factura-alta.component';
-import { MatListModule, MatTreeModule } from '@angular/material';
+import { MatListModule, MatTreeModule } from '@angular/material/core';
 import { ProductoArticuloComponent } from './factura-producto/producto-articulo/producto-articulo.component';
 import { ProductoLibreComponent } from './factura-producto/producto-libre/producto-libre.component';
-import { MatButtonToggleModule } from '@angular/material';
+import { MatButtonToggleModule } from '@angular/material/core';
 import { ProductoDescuentoComponent } from './factura-producto/producto-descuento/producto-descuento.component';
 import { FacturaConfirmarComponent } from './factura-confirmar/factura-confirmar.component';
 import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';

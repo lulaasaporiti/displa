@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { , MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TipoServicio } from 'src/app/model/tipoServicio';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
 import { PrecioServicio } from 'src/app/model/precioServicio';

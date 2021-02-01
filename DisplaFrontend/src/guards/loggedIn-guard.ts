@@ -1,7 +1,7 @@
 import { CanActivate, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { SessionService } from '../services/session.service';
-import { MatDialog } from '@angular/material';
+import { , MAT_DIALOG_DATA } from '@angular/material/core';
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {

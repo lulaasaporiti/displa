@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { TipoServicio } from 'src/app/model/tipoServicio';
 import { TipoServicioAltaComponent } from '../tipo-servicio-alta/tipo-servicio-alta.component';

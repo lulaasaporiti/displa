@@ -7,7 +7,7 @@ import { StockLenteService } from 'src/services/stock.lente.service';
 import { LenteService } from 'src/services/lente.service';
 import { StockLente } from 'src/app/model/stockLente';
 import { Lente } from 'src/app/model/lente';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatTableDataSource, , MAT_DIALOG_DATA } from '@angular/material/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { StockAltaComponent } from '../stock-alta/stock-alta.component';
 

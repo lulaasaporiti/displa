@@ -8,7 +8,7 @@ import { UsuarioAltaComponent } from './usuario-alta/usuario-alta.component';
 import { UsuarioBajaComponent } from './usuario-baja/usuario-baja.component';
 import { MaterialModule } from '../material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSlideToggleModule } from '@angular/material';
+import { MatSlideToggleModule } from '@angular/material/core';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({

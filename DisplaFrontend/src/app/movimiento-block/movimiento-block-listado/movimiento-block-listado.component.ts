@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MovimientoBlock } from 'src/app/model/movimientoBlock';
 import { MovimientoBlockAltaComponent } from '../movimiento-block-alta/movimiento-block-alta.component';

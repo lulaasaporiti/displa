@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatDatepicker } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { Observable } from 'rxjs';
 import { Cliente } from 'src/app/model/cliente';
 import { ClienteService } from 'src/services/cliente.service';

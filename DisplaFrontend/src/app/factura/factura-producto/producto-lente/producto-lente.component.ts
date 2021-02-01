@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 

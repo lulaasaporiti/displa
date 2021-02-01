@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatSort, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatSort, MatTableDataSource, , MAT_DIALOG_DATA } from '@angular/material/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatPaginator } from '@angular/material/paginator';
 import { combineLatest } from 'rxjs';

@@ -28,7 +28,7 @@ import {
   MatChipsModule,
   MatTooltipModule,
   MatStepperModule
-} from '@angular/material';
+} from '@angular/material/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

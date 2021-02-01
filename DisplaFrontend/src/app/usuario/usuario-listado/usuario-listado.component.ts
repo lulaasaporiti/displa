@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Output, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSlideToggleModule } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSlideToggleModule } from '@angular/material/core';
 import { UsuarioAltaComponent } from '../usuario-alta/usuario-alta.component';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { UsuarioBajaComponent } from '../usuario-baja/usuario-baja.component';

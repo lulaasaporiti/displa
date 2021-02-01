@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatSort, MatPaginator } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSort, MatPaginator } from '@angular/material/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material/core';
 import { ComprobanteItemRecargo } from 'src/app/model/comprobanteItemRecargo';
 import { RecargoLente } from 'src/app/model/recargoLente';
 import { LenteService } from 'src/services/lente.service';

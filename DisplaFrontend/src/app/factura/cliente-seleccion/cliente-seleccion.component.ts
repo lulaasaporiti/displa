@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClienteService } from 'src/services/cliente.service';
 import { Cliente } from 'src/app/model/cliente';
 import { FormControl } from '@angular/forms';
