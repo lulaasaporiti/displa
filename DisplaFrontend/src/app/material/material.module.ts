@@ -11,8 +11,6 @@ import {
   MatInputModule,
   MatListModule,
   MatExpansionModule,
-  MatProgressSpinnerModule,
-  MatProgressBarModule,
   MatDatepickerModule,
   MatNativeDateModule,
   MatPaginatorModule,
@@ -21,14 +19,16 @@ import {
   MatDialogModule,
   MatAutocompleteModule,
   MatTreeModule,
-  MatTableModule,
   MatSlideToggleModule,
-  MatSortModule,
   MatRadioModule,
   MatChipsModule,
   MatTooltipModule,
   MatStepperModule
 } from '@angular/material/core';
+import { MatSortModule } from '@angular/material/sort';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableModule } from '@angular/material/table';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

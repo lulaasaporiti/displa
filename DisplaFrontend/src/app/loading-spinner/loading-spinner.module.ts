@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-import { MatProgressSpinnerModule, MatProgressBarModule } from '@angular/material/core';
+// import { MatProgressSpinnerModule, MatProgressBarModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoadingSpinnerService } from './loading-spinner.service';
 
 @NgModule({

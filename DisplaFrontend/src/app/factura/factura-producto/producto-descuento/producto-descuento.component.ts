@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { , MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ServicioService } from 'src/services/servicio.service';
 import { ClienteService } from 'src/services/cliente.service';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { , MAT_DIALOG_DATA } from '@angular/material/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AccountUsernameComponent } from '../account-username/account-username.component';
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';

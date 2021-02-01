@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { , MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProvinciaService } from 'src/services/provincia.service';
 import { Provincia } from 'src/app/model/provincia';
 

@@ -1,7 +1,8 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, Output, EventEmitter, Directive } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 
+@Directive()
 @Injectable({
   providedIn: 'root'
 })

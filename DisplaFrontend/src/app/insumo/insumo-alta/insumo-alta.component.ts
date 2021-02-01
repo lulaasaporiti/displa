@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { , MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TipoInsumoService } from 'src/services/tipo.insumo.service';
 import { TipoInsumo } from 'src/app/model/tipoInsumo';
 

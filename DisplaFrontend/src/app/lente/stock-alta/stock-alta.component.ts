@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
-import { , MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { StockLente } from 'src/app/model/stockLente';
 import { StockLenteService } from 'src/services/stock.lente.service';
 import { ValidacionLenteService } from 'src/services/validacion.lente.service';
