@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/core';
+import { MatDialog } from '@angular/material';
 import { SessionService } from 'src/services/session.service';
 import { AccountService } from 'src/services/account.service';
 import { MainService } from 'src/services/main.service';

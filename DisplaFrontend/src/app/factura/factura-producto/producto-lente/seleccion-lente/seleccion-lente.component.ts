@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatSelect } from '@angular/material/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatSelect } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { startWith, map, takeUntil, take } from 'rxjs/operators';

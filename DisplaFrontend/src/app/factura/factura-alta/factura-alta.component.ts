@@ -4,7 +4,7 @@ import { ClienteService } from 'src/services/cliente.service';
 import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
-import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material/core';
+import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
 import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';

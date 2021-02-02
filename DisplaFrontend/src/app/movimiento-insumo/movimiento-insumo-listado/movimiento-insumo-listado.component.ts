@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MovimientoInsumo } from 'src/app/model/movimientoInsumo';
 import { MovimientoInsumoAltaComponent } from '../movimiento-insumo-alta/movimiento-insumo-alta.component';

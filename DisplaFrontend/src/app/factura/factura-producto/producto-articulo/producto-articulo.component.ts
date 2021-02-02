@@ -1,5 +1,5 @@
 import { Component, HostListener, Inject, OnInit, QueryList, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatSelectionListChange, MatSelectChange } from '@angular/material/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange, MatSelectionListChange, MatSelectChange } from '@angular/material';
 import { FormControl, NgControl } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';

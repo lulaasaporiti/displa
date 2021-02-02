@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { TipoBlock } from 'src/app/model/tipoBlock';
 import { TipoBlockAltaComponent } from '../tipo-block-alta/tipo-block-alta.component';

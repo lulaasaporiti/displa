@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource, MatSort, MatPaginator, MatAccordion } from '@angular/material/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource, MatSort, MatPaginator, MatAccordion } from '@angular/material';
 import { ClienteService } from 'src/services/cliente.service';
 
 @Component({

@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { ClienteService } from 'src/services/cliente.service';
-import { Ficha } from 'src/app/model/ficha';
-import { MatTableDataSource, MatPaginator, MatSort, , MAT_DIALOG_DATA } from '@angular/material/core';
+import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 
 @Component({

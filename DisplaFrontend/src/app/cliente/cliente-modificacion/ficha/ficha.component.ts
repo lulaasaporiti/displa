@@ -4,8 +4,8 @@ import { SessionService } from 'src/services/session.service';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { ClienteService } from 'src/services/cliente.service';
 import { Ficha } from 'src/app/model/ficha';
-import { MatTableDataSource, MatPaginator, MatSort, , MAT_DIALOG_DATA } from '@angular/material/core';
 import { FichaAltaComponent } from './ficha-alta/ficha-alta.component';
+import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 
 @Component({

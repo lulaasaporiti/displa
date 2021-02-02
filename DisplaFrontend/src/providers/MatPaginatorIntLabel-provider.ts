@@ -1,4 +1,4 @@
-import { MatPaginatorIntl } from '@angular/material/core';
+import { MatPaginatorIntl } from '@angular/material';
 import { Injectable } from "@angular/core";
 @Injectable()
 export class MatPaginatorIntLabelProvider extends MatPaginatorIntl {

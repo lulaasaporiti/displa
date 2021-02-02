@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatOptionSelectionChange } from '@angular/material/core';
+import { MatOptionSelectionChange } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Cliente } from 'src/app/model/cliente';
 import { ClienteService } from 'src/services/cliente.service';
 import { startWith, map } from 'rxjs/operators';
-import { Moment } from 'moment';
+// import { Moment } from 'moment';
 
 @Component({
   selector: 'app-venta-cliente-mes',
@@ -40,12 +40,12 @@ export class VentaClienteMesComponent {
       });
   }
 
-  handleYearSelected(normalizedYear: Moment) {
-    console.log("normalizedYear: ", normalizedYear.toDate());
-  }
-  handleMonthSelected(normalizedMonth: Moment) {
-    console.log("normalizedMonth: ", normalizedMonth.toDate());
-  }
+  // handleYearSelected(normalizedYear: Moment) {
+  //   console.log("normalizedYear: ", normalizedYear.toDate());
+  // }
+  // handleMonthSelected(normalizedMonth: Moment) {
+  //   console.log("normalizedMonth: ", normalizedMonth.toDate());
+  // }
 
 
   onNoClick(): void {

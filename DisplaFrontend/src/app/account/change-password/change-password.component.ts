@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Usuario } from '../../model/usuario';
 import { ChangePasswordView } from '../../model/changePasswordView';

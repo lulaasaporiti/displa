@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { PrecioLenteClienteService } from 'src/services/precio.lente.cliente.service';
 import { LenteService } from 'src/services/lente.service';
@@ -10,6 +9,7 @@ import { ClienteService } from 'src/services/cliente.service';
 import { PrecioLenteCliente } from 'src/app/model/precioLenteCliente';
 import { combineLatest } from 'rxjs';
 import { PrecioLente } from 'src/app/model/precioLente';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 
 
 @Component({

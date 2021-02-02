@@ -1,30 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  MatButtonModule,
-  MatMenuModule,
-  MatToolbarModule,
-  MatIconModule,
-  MatCardModule,
-  MatTabsModule,
-  MatSidenavModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatListModule,
-  MatExpansionModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatPaginatorModule,
-  MatCheckboxModule,
-  MatSelectModule,
-  MatDialogModule,
-  MatAutocompleteModule,
-  MatTreeModule,
-  MatSlideToggleModule,
-  MatRadioModule,
-  MatChipsModule,
-  MatTooltipModule,
-  MatStepperModule
-} from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -33,7 +8,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MomentDateModule } from '@angular/material-moment-adapter';
+import { MatButtonModule } from '@angular/material/button';
+import { MatAutocompleteModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSlideToggleModule, MatStepperModule, MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule } from '@angular/material';
+// import { MomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [],
@@ -70,7 +47,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     MatCheckboxModule,
     MatChipsModule,
     MatTooltipModule,
-    MomentDateModule,
+    // MomentDateModule,
   ],
   exports: [
     BrowserAnimationsModule,

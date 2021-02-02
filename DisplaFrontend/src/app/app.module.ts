@@ -20,7 +20,7 @@ import { HeaderComponent } from './header/header';
 import { HomeComponent } from './home/home';
 import { UbicacionModule } from './ubicacion/ubicacion.module';
 import { MovimientoBlockModule } from './movimiento-block/movimiento-block.module';
-import { MAT_DATE_LOCALE, MatPaginatorIntl, MatTreeModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material';
 import { MatPaginatorIntLabelProvider } from '../providers/MatPaginatorIntLabel-provider';
 import { TipoInsumoModule } from './tipo-insumo/tipo-insumo.module';
 import { InsumoModule } from './insumo/insumo.module';
@@ -57,6 +57,7 @@ import { NotaDebitoComponent } from './nota-debito/nota-debito-alta/nota-debito-
 import { NotaDebitoModule } from './nota-debito/nota-debito.module';
 import { ReciboModule } from './recibo/recibo.module';
 import { MovimientoInternoModule } from './movimiento-interno/movimiento-interno.module';
+import { MatPaginatorIntl, MatTreeModule } from '@angular/material';
 
 
 

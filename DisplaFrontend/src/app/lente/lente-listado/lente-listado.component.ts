@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Lente } from 'src/app/model/lente';
 import { LenteBajaComponent } from '../lente-baja/lente-baja.component';
@@ -7,6 +6,7 @@ import { LenteService } from 'src/services/lente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 
 
 @Component({

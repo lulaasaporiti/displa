@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Localidad } from 'src/app/model/localidad';
 import { LocalidadAltaComponent } from '../localidad-alta/localidad-alta.component';
@@ -9,6 +8,7 @@ import { LocalidadService } from 'src/services/localidad.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 
 
 @Component({

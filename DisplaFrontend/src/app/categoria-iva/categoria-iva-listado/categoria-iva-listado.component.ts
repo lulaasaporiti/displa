@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { CategoriaIVA } from 'src/app/model/categoriaIva';
 import { CategoriaIVAAltaComponent } from '../categoria-iva-alta/categoria-iva-alta.component';

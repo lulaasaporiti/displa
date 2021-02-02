@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { TipoServicio } from 'src/app/model/tipoServicio';
 import { TipoServicioAltaComponent } from '../tipo-servicio-alta/tipo-servicio-alta.component';
@@ -8,6 +7,7 @@ import { TipoServicioModificacionComponent } from '../tipo-servicio-modificacion
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 
 
 @Component({
