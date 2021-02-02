@@ -9,7 +9,8 @@ import { StockLente } from 'src/app/model/stockLente';
 import { Lente } from 'src/app/model/lente';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { StockAltaComponent } from '../stock-alta/stock-alta.component';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -38,12 +39,12 @@ export class GrillaComponent {
 
 
   constructor(
-    private limitesGrillaService: LimitesGrillaService,
-    private stockLenteService: StockLenteService,
-    public  dialog: MatDialog,
-    private lenteService: LenteService,
     private router: Router,
+    public  dialog: MatDialog,
     private segment: ActivatedRoute,
+    private lenteService: LenteService,
+    private stockLenteService: StockLenteService,
+    private limitesGrillaService: LimitesGrillaService,
     private loadingSpinnerService: LoadingSpinnerService
   ) {
     this.loadingSpinnerService.show();

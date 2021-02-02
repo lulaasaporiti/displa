@@ -6,8 +6,9 @@ import { NotaDebitoComponent } from './nota-debito-alta/nota-debito-alta.compone
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NotaDebitoRoutingModule } from './nota-debito-routing.module';
 import { NotaDebitoConfirmarComponent } from './nota-debito-confirmar/nota-debito-confirmar.component';
-import { MatButtonToggleModule, MatListModule, MatTreeModule } from '@angular/material';
-
+import {MatListModule} from '@angular/material/list';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatTreeModule} from '@angular/material/tree';
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({

@@ -1,15 +1,17 @@
 import { Component, OnInit, ViewChild, Output, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatSlideToggleModule } from '@angular/material';
 import { UsuarioAltaComponent } from '../usuario-alta/usuario-alta.component';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { UsuarioBajaComponent } from '../usuario-baja/usuario-baja.component';
 import { UsuarioModificacionComponent } from '../usuario-modificacion/usuario-modificacion.component';
 import { Usuario } from 'src/app/model/usuario';
-import { AccountModule } from 'src/app/account/account.module';
 import { AccountService } from 'src/services/account.service';
 import { RegisterView } from 'src/app/model/registerView';
 import { SessionService } from 'src/services/session.service';
 import { ChangePasswordComponent } from 'src/app/account/change-password/change-password.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 
 
 

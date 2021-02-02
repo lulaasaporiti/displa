@@ -9,7 +9,9 @@ import { ClienteService } from 'src/services/cliente.service';
 import { PrecioLenteCliente } from 'src/app/model/precioLenteCliente';
 import { combineLatest } from 'rxjs';
 import { PrecioLente } from 'src/app/model/precioLente';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({

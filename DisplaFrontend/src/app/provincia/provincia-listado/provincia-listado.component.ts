@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { Provincia } from 'src/app/model/Provincia';
 import { ProvinciaAltaComponent } from '../provincia-alta/provincia-alta.component';
@@ -8,6 +7,9 @@ import { ProvinciaModificacionComponent } from '../provincia-modificacion/provin
 import { ProvinciaService } from 'src/services/provincia.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({

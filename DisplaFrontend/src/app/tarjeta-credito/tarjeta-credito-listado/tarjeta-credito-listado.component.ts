@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { TarjetaCredito } from 'src/app/model/tarjetaCredito';
 import { TarjetaCreditoAltaComponent } from '../tarjeta-credito-alta/tarjeta-credito-alta.component';

@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef, MatOptionSelectionChange } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Cliente } from 'src/app/model/cliente';
 import { ClienteService } from 'src/services/cliente.service';
@@ -9,6 +8,8 @@ import { combineLatest } from 'rxjs';
 import { Recibo } from 'src/app/model/recibo';
 import { CuentaBancaria } from 'src/app/model/cuentaBancaria';
 import { CuentaBancariaService } from 'src/services/cuenta.bancaria.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 
 @Component({

@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ToastrModule } from 'ngx-toastr';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +19,6 @@ import { HeaderComponent } from './header/header';
 import { HomeComponent } from './home/home';
 import { UbicacionModule } from './ubicacion/ubicacion.module';
 import { MovimientoBlockModule } from './movimiento-block/movimiento-block.module';
-import { MAT_DATE_LOCALE } from '@angular/material';
 import { MatPaginatorIntLabelProvider } from '../providers/MatPaginatorIntLabel-provider';
 import { TipoInsumoModule } from './tipo-insumo/tipo-insumo.module';
 import { InsumoModule } from './insumo/insumo.module';
@@ -53,11 +51,13 @@ import { SobreModule } from './sobre/sobre.module';
 import { VentaVirtualModule } from './venta-virtual/venta-virtual.module';
 import { EstadisticaModule } from './estadistica/estadistica.module';
 import { NotaCreditoModule } from './nota-credito/nota-credito.module';
-import { NotaDebitoComponent } from './nota-debito/nota-debito-alta/nota-debito-alta.component';
 import { NotaDebitoModule } from './nota-debito/nota-debito.module';
 import { ReciboModule } from './recibo/recibo.module';
 import { MovimientoInternoModule } from './movimiento-interno/movimiento-interno.module';
-import { MatPaginatorIntl, MatTreeModule } from '@angular/material';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+
 
 
 

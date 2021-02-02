@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
+
 import { MatPaginator } from '@angular/material/paginator';
 import { ArticuloVario } from 'src/app/model/articuloVario';
-import { ArticuloVarioAltaComponent } from '../articulo-vario-alta/articulo-vario-alta.component';
 import { ArticuloVarioBajaComponent } from '../articulo-vario-baja/articulo-vario-baja.component';
-import { ArticuloVarioModificacionComponent } from '../articulo-vario-modificacion/articulo-vario-modificacion.component';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({

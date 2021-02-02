@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { ClienteService } from 'src/services/cliente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
@@ -17,6 +16,9 @@ import { ParametroService } from 'src/services/parametro.service';
 import { Parametro } from 'src/app/model/parametro';
 import { VentaVirtualMovimientos } from 'src/app/model/ventaVirtualMovimiento';
 import { VentaVirtual } from 'src/app/model/ventaVirtual';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({

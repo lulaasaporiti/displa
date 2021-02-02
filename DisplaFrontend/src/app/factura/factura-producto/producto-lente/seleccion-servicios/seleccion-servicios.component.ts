@@ -1,6 +1,7 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Injectable, Input, Output, SimpleChanges, EventEmitter, Inject, ChangeDetectorRef, OnInit } from '@angular/core';
-import { MatTreeFlatDataSource, MatTreeFlattener, MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
 import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 import { Servicio } from 'src/app/model/servicio';

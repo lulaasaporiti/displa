@@ -9,7 +9,6 @@ import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.s
 import { SessionService } from 'src/services/session.service';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { ArticuloVario } from 'src/app/model/articuloVario';
-import { PrecioArticulo } from 'src/app/model/precioArticulo';
 import { ClienteService } from 'src/services/cliente.service';
 import { combineLatest } from 'rxjs';
 import { TipoArticulo } from 'src/app/model/tipoArticulo';

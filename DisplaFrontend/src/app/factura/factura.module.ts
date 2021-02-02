@@ -5,10 +5,8 @@ import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
 import { FacturaRoutingModule } from './factura-routing.module';
 import { ClienteSeleccionComponent } from './cliente-seleccion/cliente-seleccion.component';
 import { FacturaAltaComponent } from './factura-alta/factura-alta.component';
-import { MatListModule, MatTreeModule } from '@angular/material';
 import { ProductoArticuloComponent } from './factura-producto/producto-articulo/producto-articulo.component';
 import { ProductoLibreComponent } from './factura-producto/producto-libre/producto-libre.component';
-import { MatButtonToggleModule } from '@angular/material';
 import { ProductoDescuentoComponent } from './factura-producto/producto-descuento/producto-descuento.component';
 import { FacturaConfirmarComponent } from './factura-confirmar/factura-confirmar.component';
 import { ProductoServicioComponent } from './factura-producto/producto-servicio/producto-servicio.component';
@@ -22,6 +20,9 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ResumenLenteComponent } from './factura-producto/producto-lente/resumen-lente/resumen-lente.component';
 import { FacturaDetalleComponent } from './factura-detalle/factura-detalle.component';
 import { BusquedaItemFacturadoComponent } from './busqueda-item-facturado/busqueda-item-facturado.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatListModule } from '@angular/material/list';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
@@ -39,7 +40,6 @@ import { BusquedaItemFacturadoComponent } from './busqueda-item-facturado/busque
         MatButtonToggleModule,
         FacturaRoutingModule,
         LoadingSpinnerModule,
-        MatButtonToggleModule,
         NgxMatSelectSearchModule
     ]
 })

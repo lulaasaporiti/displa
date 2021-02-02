@@ -23,6 +23,7 @@ export interface Cliente {
     PasswordWeb: string,
     Bloqueado: boolean,
     Borrado: boolean,
+    SaldoActual:number,
 
     IdCategoriaIvaNavigation: CategoriaIVA,
     IdCondicionVentaNavigation: CondicionVenta,

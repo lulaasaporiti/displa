@@ -1,6 +1,5 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
 import { SessionService } from 'src/services/session.service';
 import { AccountService } from 'src/services/account.service';
 import { MainService } from 'src/services/main.service';
@@ -22,6 +21,7 @@ import { ReciboService } from 'src/services/recibo.service';
 import { MovimientoInternoAltaComponent } from '../movimiento-interno/movimiento-interno-alta/movimiento-interno-alta.component';
 import { MovimientoInternoService } from 'src/services/movimiento.interno.service';
 import { VentaClienteMesComponent } from '../estadistica/venta-cliente-mes/venta-cliente-mes.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-header',

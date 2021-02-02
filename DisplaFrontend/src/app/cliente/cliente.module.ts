@@ -20,9 +20,9 @@ import { PrecioServicioListadoDetalleComponent } from './cliente-detalle/precio-
 import { ClienteCuentaListadoComponent } from './cliente-cuenta-listado/cliente-cuenta-listado.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { FichaAltaComponent } from './cliente-modificacion/ficha/ficha-alta/ficha-alta.component';
-import { MatButtonToggleModule } from '@angular/material';
 import { ClienteBloqueoManualComponent } from './cliente-bloqueo-manual/cliente-bloqueo-manual.component';
 import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
+import { MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     entryComponents: [ClienteBajaComponent, FichaAltaComponent, ClienteBloqueoManualComponent],

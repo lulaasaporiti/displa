@@ -8,9 +8,9 @@ import { UsuarioAltaComponent } from './usuario-alta/usuario-alta.component';
 import { UsuarioBajaComponent } from './usuario-baja/usuario-baja.component';
 import { MaterialModule } from '../material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSlideToggleModule } from '@angular/material';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
     entryComponents: [UsuarioAltaComponent, UsuarioModificacionComponent, UsuarioBajaComponent],
     declarations: [UsuarioListadoComponent, UsuarioAltaComponent, UsuarioModificacionComponent, UsuarioBajaComponent],
@@ -20,7 +20,8 @@ import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
         UsuarioRoutingModule,
         LoadingSpinnerModule,
         BrowserAnimationsModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatSelectModule
     ]
 })
 export class UsuarioModule { }

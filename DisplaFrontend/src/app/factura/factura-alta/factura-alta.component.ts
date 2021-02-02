@@ -4,7 +4,6 @@ import { ClienteService } from 'src/services/cliente.service';
 import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
-import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
 import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { ComprobanteItemLente } from 'src/app/model/comprobanteItemLente';
@@ -25,6 +24,9 @@ import { RemitoService } from 'src/services/remito.service';
 import { Parametro } from 'src/app/model/parametro';
 import { Remito } from 'src/app/model/remito';
 import { VentaVirtualService } from 'src/services/venta.virtual.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
