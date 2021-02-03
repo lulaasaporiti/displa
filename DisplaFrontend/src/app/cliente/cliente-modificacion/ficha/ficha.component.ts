@@ -5,7 +5,10 @@ import { Router, Params, ActivatedRoute } from '@angular/router';
 import { ClienteService } from 'src/services/cliente.service';
 import { Ficha } from 'src/app/model/ficha';
 import { FichaAltaComponent } from './ficha-alta/ficha-alta.component';
-import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({

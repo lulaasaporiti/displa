@@ -42,7 +42,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   expandedElement: TipoServicio | null;
   porcentajesServicios = [];
   habilitarPorcentajeTodos = false;
-  hablitarPorcentajeFila = false;
+  habilitarPorcentajeFila = false;
   habilitarPorcentajeTipoS = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -191,7 +191,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
       this.dataSource.data.forEach(ar => {
         ar.PrecioServicio.forEach(pa => {
         this.habilitarPorcentajeTodos = true;
-        this.hablitarPorcentajeFila = false;
+        this.habilitarPorcentajeFila = false;
         this.habilitarPorcentajeTipoS = false;
         let precioServicio = <PrecioServicio>{};
           precioServicio.Id = pa.Id;
@@ -230,7 +230,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
     let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
     if (event.checked) {
       arrayServicios.forEach(a => {
-        this.hablitarPorcentajeFila = true;
+        this.habilitarPorcentajeFila = true;
         this.habilitarPorcentajeTipoS = true;
         let precioServicio = <PrecioServicio>{};
         if (a.PrecioServicio[checkbox] != null) {
@@ -257,7 +257,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
         this.preciosSeleccionados = [];
         this.porcentajesServicios = [];
         this.habilitarPorcentajeTipoS = false;
-        this.hablitarPorcentajeFila = false;
+        this.habilitarPorcentajeFila = false;
       } else {
         arrayServicios.forEach(ser => {
           this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ser.PrecioServicio[checkbox] != undefined && ser.PrecioServicio[checkbox].Id == p.Id), 1);
@@ -321,7 +321,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   }
 
   habilitarPorcentaje(servicio: Servicio) {
-    if (this.hablitarPorcentajeFila == false){
+    if (this.habilitarPorcentajeFila == false){
       return false;
     } 
     else {
@@ -345,7 +345,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
     let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
 
     if (checkbox.checked) {
-      this.hablitarPorcentajeFila = true;
+      this.habilitarPorcentajeFila = true;
       let precioServicio = <PrecioServicio>{};
       precioServicio.Id = servicio.PrecioServicio[index].Id;
       precioServicio.IdServicio = servicio.PrecioServicio[index].IdServicio;

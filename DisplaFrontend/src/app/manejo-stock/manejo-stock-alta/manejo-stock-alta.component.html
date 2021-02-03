@@ -28,7 +28,7 @@
                                     {{ l.Id }} - {{l.Nombre}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-error *ngIf="inputLente.invalid">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="inputLente.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
                     </div>
 
@@ -40,7 +40,7 @@
                                 (blur)="this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')"
                                 (input)="compararLimiteGrilla(index, 'esferico')" 
                                 required>
-                            <mat-error *ngIf="esferico.invalid">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="esferico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>       
                         <p class="msjError" *ngIf="msjLimiteEsferico[index]">
                             La medida no se encuentra dentro de los límites.</p>
@@ -52,7 +52,7 @@
                                 name="cilindrico{{index}}" #cilindrico="ngModel"
                                 (blur)="validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico')" (keypress)="_keyPress($event)"
                                 (input)="compararLimiteGrilla(index, 'cilindrico')" required>
-                            <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="cilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
                         <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p>
                         <p class="msjError" *ngIf="msjLimiteCilindrico[index]">
@@ -62,7 +62,7 @@
                     <mat-form-field>
                         <input matInput placeholder="Stock" type="number" [(ngModel)]="cargarStock[index].Stock"
                             id="stock{{index}}" name="stock{{index}}" #stock="ngModel" required>
-                        <mat-error *ngIf="stock.invalid">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="stock.hasError('required')">Este campo es obligatorio.</mat-error>
                     </mat-form-field>
 
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimoStock()"

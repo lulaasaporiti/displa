@@ -9,7 +9,7 @@
             <mat-form-field>
                 <input matInput placeholder="Cantidad de 0 a {{data.venta.CantidadVendida}}" [(ngModel)]="cantidadRestante" name="cantidad"
                     #cantidad="ngModel" required>
-                <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="cantidad.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

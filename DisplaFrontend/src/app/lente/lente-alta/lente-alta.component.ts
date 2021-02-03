@@ -28,7 +28,7 @@ export class LenteAltaComponent {
     private lenteService: LenteService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService,
-    private validacionLenteService: ValidacionLenteService
+    public validacionLenteService: ValidacionLenteService
   ) {
     this.loadingSpinnerService.show();
     this.lenteService.getCodigoLente().subscribe(result => {

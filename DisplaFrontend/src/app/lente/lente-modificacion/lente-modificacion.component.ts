@@ -30,7 +30,7 @@ export class LenteModificacionComponent {
     private lenteService: LenteService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService,
-    private validacionLenteService: ValidacionLenteService
+    public validacionLenteService: ValidacionLenteService
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number;

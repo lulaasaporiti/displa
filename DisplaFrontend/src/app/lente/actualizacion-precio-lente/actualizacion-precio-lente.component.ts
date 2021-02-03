@@ -29,7 +29,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   checkedPorcentajeTodos: boolean = false;
   recargaPagina = false;
   habilitarPorcentajeTodos = false;
-  hablitarPorcentajeFila = false;
+  habilitarPorcentajeFila = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -109,7 +109,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     if (event.checked) {
       this.dataSource.data.forEach(lente => {
       this.habilitarPorcentajeTodos = true;
-      this.hablitarPorcentajeFila = false;
+      this.habilitarPorcentajeFila = false;
         if (lente.PrecioLente != null) {
           lente.PrecioLente.forEach(precio => {
             let precioLente = <PrecioLente>{};
@@ -167,7 +167,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     // console.log(lente);
     if (checkbox.checked) {
       lente.PrecioLente.forEach(pl => {
-       this.hablitarPorcentajeFila = true;
+       this.habilitarPorcentajeFila = true;
         let precioLente = <PrecioLente>{};
         precioLente.Id = pl.Precio[index].Id;
         precioLente.IdLente = lente.Id;
@@ -194,7 +194,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (event.checked == true) {
     this.habilitarPorcentajeTodos = true;
-    this.hablitarPorcentajeFila = false;
+    this.habilitarPorcentajeFila = false;
       this.dataSource.data.forEach(l => {
         l.PrecioLente.forEach(pl => {
           pl.Precio.forEach(p => {
@@ -215,7 +215,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       })
     }
     else {
-      this.hablitarPorcentajeFila = true;
+      this.habilitarPorcentajeFila = true;
       this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesLentes = [];
@@ -246,7 +246,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   }
 
   habilitarPorcentaje(lente: any) {
-    if(this.hablitarPorcentajeFila == false) {
+    if(this.habilitarPorcentajeFila == false) {
       return false
     }
     else{ 

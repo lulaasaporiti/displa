@@ -10,7 +10,7 @@
             <mat-form-field fxFlex="50">
                 <input matInput placeholder="Nombre" [(ngModel)]="modelArticuloVario.Nombre" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
                 <mat-select placeholder="Tipo de servicio" [(ngModel)]="modelArticuloVario.IdTipoArticulo" name="tipo"
@@ -19,7 +19,7 @@
                         {{ ta.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="tipo.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="tipo.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
        
@@ -28,17 +28,17 @@
             <mat-form-field fxFlex="25">
                 <input matInput placeholder="Stock mínimo" [(ngModel)]="modelArticuloVario.StockMinimo" name="stockMinimo"
                     #stockMinimo="ngModel" required>
-                <mat-error *ngIf="stockMinimo.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="stockMinimo.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="25">
                 <input matInput placeholder="Stock actual" [(ngModel)]="modelArticuloVario.StockActual" name="stockActual"
                     #stockActual="ngModel" required>
-                <mat-error *ngIf="stockActual.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="stockActual.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
                 <input matInput placeholder="Precio costo" [(ngModel)]="modelArticuloVario.PrecioCosto" name="precioCosto"
                     #precioCosto="ngModel" required>
-                <mat-error *ngIf="precioCosto.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="precioCosto.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
 
         </div>
@@ -47,7 +47,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Utilidad %" [(ngModel)]="modelArticuloVario.PorcentajeUtilidad" name="porcentajeUtilidad"
                     #porcentajeUtilidad="ngModel" required>
-                <mat-error *ngIf="porcentajeUtilidad.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="porcentajeUtilidad.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

@@ -15,7 +15,7 @@
                         {{ c.Id }} - {{c.Optica}}
                     </mat-option>
                 </mat-autocomplete>
-                <mat-error *ngIf="clientesControl.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="clientesControl.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
         <div mat-dialog-content fxLayout="row">

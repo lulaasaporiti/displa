@@ -15,6 +15,6 @@ export interface Lente {
     IngresosBrutos: number,
     Borrado: boolean
     PrecioLente: PrecioLente[],
-    RecargoLente: RecargoLente[]
-
+    RecargoLente: RecargoLente[],
+    IVA: number
 }

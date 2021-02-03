@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Usuario } from '../../model/usuario';
 import { ChangePasswordView } from '../../model/changePasswordView';
 import { AccountService } from 'src/services/account.service';
 import { SessionService } from 'src/services/session.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-change-password',

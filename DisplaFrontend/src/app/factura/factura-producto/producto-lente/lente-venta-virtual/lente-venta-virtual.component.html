@@ -22,7 +22,7 @@
                 <input matInput placeholder="Precio unitario" [(ngModel)]="modelVentaVirtual.Monto" id="monto"
                     name="monto" (keyup.enter)="tabInventado($event, 'cantidad')" #monto="ngModel"
                     pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required>
-                <mat-error *ngIf="monto.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="monto.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
 
             <div fxLayout="column">
@@ -31,7 +31,7 @@
                         (keyup.enter)="tabInventado($event, 'seleccionar')" #cantidad="ngModel"
                         (keypress)="_keyPress($event)" [(ngModel)]="modelVentaVirtual.CantidadVendida" name="cantidad"
                         required>
-                    <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
+                    <mat-error *ngIf="cantidad.hasError('required')">Este campo es obligatorio.</mat-error>
                 </mat-form-field>
                 <p class="msjError" *ngIf="modelVentaVirtual.CantidadVendida > data.limite">
                     La cantidad vendida supera el límite.</p>

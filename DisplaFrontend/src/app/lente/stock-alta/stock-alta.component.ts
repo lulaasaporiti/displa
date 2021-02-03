@@ -19,7 +19,7 @@ export class StockAltaComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<StockAltaComponent>,
     private stockLenteService: StockLenteService,
-    private validacionLenteService: ValidacionLenteService,
+    public validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.agregarStock();
   }

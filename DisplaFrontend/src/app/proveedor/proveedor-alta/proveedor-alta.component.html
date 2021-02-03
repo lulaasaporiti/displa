@@ -9,7 +9,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Nombre" [(ngModel)]="data.modelProveedor.Nombre" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -17,7 +17,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="CUIT" [(ngModel)]="data.modelProveedor.Cuit" name="cuit"
                     #cuit="ngModel" required>
-                <mat-error *ngIf="cuit.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="cuit.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

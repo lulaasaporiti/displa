@@ -9,13 +9,13 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Porcentaje" [(ngModel)]="data.Porcentaje" (keypress)="_keyPress($event)" name="porcentaje"
                     #porcentaje="ngModel" required>
-                <mat-error *ngIf="porcentaje.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="porcentaje.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input matInput placeholder="Lista"[(ngModel)]="data.Lista" (keypress)="_keyPress($event)" name="lista" #lista="ngModel" required>
-                <mat-error *ngIf="porcentaje.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="porcentaje.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

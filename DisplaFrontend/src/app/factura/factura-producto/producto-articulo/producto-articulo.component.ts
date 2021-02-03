@@ -11,6 +11,8 @@ import { TipoArticuloService } from 'src/services/tipo.articulo.service';
 import { TipoArticulo } from 'src/app/model/tipoArticulo';
 import { SessionService } from 'src/services/session.service';
 import { VentaVirtual } from 'src/app/model/ventaVirtual';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({
   selector: 'app-producto-articulo',

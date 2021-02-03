@@ -22,7 +22,7 @@
                                 (blur)="this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')"
                                 (input)="compararLimiteGrilla(index, 'esferico')" 
                                 required>
-                            <mat-error *ngIf="esferico.invalid">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="esferico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>       
                         <p class="msjError" *ngIf="msjLimiteEsferico[index]">
                             La medida no se encuentra dentro de los límites.</p>
@@ -34,9 +34,9 @@
                                 name="cilindrico{{index}}" #cilindrico="ngModel"
                                 (blur)="validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico')" (keypress)="_keyPress($event)"
                                 (input)="compararLimiteGrilla(index, 'cilindrico')" required>
-                            <mat-error *ngIf="cilindrico.invalid">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="cilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
-                        <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p>
+                        <p class="msjError" *ngIf="this.validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p>
                         <p class="msjError" *ngIf="msjLimiteCilindrico[index]">
                             La medida no se encuentra dentro de los límites.
                         </p>

@@ -11,7 +11,7 @@
                 name="fecha" #fecha="ngModel" readonly required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="fecha.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="fecha.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -27,7 +27,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Precio" [(ngModel)]="data.modelMovimientoInsumo.Precio" name="precio"
                     #precio="ngModel" required>
-                <mat-error *ngIf="precio.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="precio.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -35,7 +35,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Base" [(ngModel)]="data.modelMovimientoInsumo.Base" name="base"
                     #base="ngModel" required>
-                <mat-error *ngIf="base.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="base.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -43,7 +43,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Adición" [(ngModel)]="data.modelMovimientoInsumo.Adicion" name="adicion"
                     #adicion="ngModel" required>
-                <mat-error *ngIf="adicion.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="adicion.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -55,7 +55,7 @@
                         {{ u.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="ubicacion.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="ubicacion.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

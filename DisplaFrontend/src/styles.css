@@ -10,9 +10,8 @@ body { margin: 0;
 
 @font-face {
     font-family: Chalet London;
-    src: url(assets/fonts/ChaletLondonNineteenEighty.ttf) format("truetype");
+    src: url(/assets/fonts/ChaletLondonNineteenEighty.ttf) format("truetype");
 }
-
 
 /* ///// TEXTO OI ///// */
 

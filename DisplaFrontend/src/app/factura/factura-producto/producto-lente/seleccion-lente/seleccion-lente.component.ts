@@ -49,7 +49,7 @@ export class SeleccionLenteComponent implements OnInit {
     private lenteService: LenteService,
     private clienteService: ClienteService,
     private servicioService: ServicioService,
-    private validacionLenteService: ValidacionLenteService,
+    public validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       let cargarGraduacion= <ComprobanteItemLente>{};
       cargarGraduacion.MedidaEsferico = 0;

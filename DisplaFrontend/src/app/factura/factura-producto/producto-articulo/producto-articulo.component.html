@@ -18,13 +18,13 @@
                         {{t.Id}} - {{ t.Nombre }}
                     </mat-option>
                 </mat-autocomplete>
-                <mat-error *ngIf="tipoArticulosControl.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="tipoArticulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="30" *ngIf="data.utilizaSobre">
                 <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" #sobre="ngModel"
                     (keyup.enter)="tabInventado($event, 'articulos')" [(ngModel)]="modelComprobanteItem.NumeroSobre"
                     name="sobre" required>
-                <mat-error *ngIf="sobre.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
@@ -42,7 +42,7 @@
                     <mat-option *ngFor="let a of articulos" [value]="a"
                         (onSelectionChange)="articulosSeleccionados($event)">{{a.Id}} - {{a.Nombre}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="articulosControl.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="articulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -56,14 +56,14 @@
                 <input matInput placeholder="Precio unitario" id="precio{{i}}" [(ngModel)]="data.comprobantesItems[i].Monto"
                     name="precio{{i}}" #precio="ngModel" pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required
                     [disabled]="preciosIsNull != undefined && preciosIsNull[data.comprobantesItems[i]?.IdArticulo] != null">
-                <mat-error *ngIf="precio.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="precio.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="11">
                 <input matInput placeholder="Cantidad" id="cantidad{{i}}"
                     (keyup.enter)="tabInventado($event, 'precioVirtual'+i)" #cantidad="ngModel"
                     (keypress)="_keyPress($event)" [(ngModel)]="data.comprobantesItems[i].Cantidad" name="cantidad{{i}}"
                     required>
-                <mat-error *ngIf="cantidad.invalid">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="cantidad.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="20">
                 <input matInput placeholder="Precio virtual" id="precioVirtual{{i}}"

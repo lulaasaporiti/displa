@@ -22,8 +22,8 @@ export class LenteListadoComponent implements OnInit {
   dataSource = new MatTableDataSource<Lente>();
   traerVigentes: boolean = true;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
   
   constructor(
@@ -34,14 +34,14 @@ export class LenteListadoComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
     this.loadLentePage();
     this.searchElement.nativeElement.focus();
   }
 
   ngAfterViewInit() {
     this.searchElement.nativeElement.focus();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(filterValue: string) {

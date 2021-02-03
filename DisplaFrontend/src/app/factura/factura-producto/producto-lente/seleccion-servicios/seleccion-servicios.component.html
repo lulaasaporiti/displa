@@ -42,14 +42,15 @@
       </mat-tree-node>
     </div> -->
 
-    <mat-tree-node *matTreeNodeDef="let node; when: expandable" matTreeNodePadding>
-      <button mat-icon-button *ngIf="node.expandable" matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
+    <!-- <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding> -->
+    <mat-tree-node *matTreeNodeDef="let node;" matTreeNodePadding>
+      <button mat-icon-button *ngIf="treeControl.isExpanded(node)" matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.item">
         <mat-icon class="mat-icon-rtl-mirror">
           {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
         </mat-icon>
         {{node.item.item}}
       </button>
-      <mat-checkbox *ngIf="!node.expandable" [checked]="this.serviciosSeleccionados.indexOf(node.item.item) > -1" (change)="onClicked(node.item.item)" [disabled]="deshabilitarCheck(node.item.item)">
+      <mat-checkbox *ngIf="!treeControl.isExpanded(node)" [checked]="this.serviciosSeleccionados.indexOf(node.item.item) > -1" (change)="onClicked(node.item.item)" [disabled]="deshabilitarCheck(node.item.item)">
         {{node.item.item['Nombre']}} - Precio {{node.item.item['PrecioServicio'][0].Precio}}
       </mat-checkbox>
 

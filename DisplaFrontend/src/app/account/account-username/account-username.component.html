@@ -1,7 +1,7 @@
 <form #userNameForm="ngForm">
   <mat-form-field fxFill>
       <input matInput placeholder="Usuario" [ngModel]=username id="userName" name="userName" #userName required/>
-      <mat-error *ngIf="userName.invalid">Este campo es obligatorio.</mat-error>
+      <mat-error *ngIf="userName.hasError('required')">Este campo es obligatorio.</mat-error>
   </mat-form-field>
 </form>
 

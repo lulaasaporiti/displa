@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit, EventEmitter, Input, Output, SimpleChanges, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-resumen-lente',

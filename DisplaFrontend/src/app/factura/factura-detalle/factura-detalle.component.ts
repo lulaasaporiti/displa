@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { Cliente } from 'src/app/model/Cliente';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { ComprobanteCliente } from 'src/app/model/comprobanteCliente';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';
 import { combineLatest } from 'rxjs';
@@ -11,6 +10,8 @@ import { ComprobanteClienteService } from 'src/services/comprobanteCliente.servi
 import { RemitoService } from 'src/services/remito.service';
 import { Parametro } from 'src/app/model/parametro';
 import { Remito } from 'src/app/model/remito';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class FacturaDetalleComponent implements OnInit {
   comprobantesItems: ComprobanteItem[] = [];
   ventasVirtuales: VentaVirtual[] = [];
   // displayedColumnsFooter: string[]= ['Subtotal']
-  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe', 'Borrar'];
+  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe'];
   dataSource = new MatTableDataSource<any>();
   key;
   bloquearF = false;
