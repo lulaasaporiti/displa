@@ -20,6 +20,27 @@ export class DetalleArticuloComponent {
     private loadingSpinnerService: LoadingSpinnerService 
   ){ }
 
+  applyFilter(event){
+  }
 
 
+  applyFilterAvanzados(event, campo: string) {
+    console.log(event)
+    if (campo == 'todos'){
+      // this.clientesControl.setValue("");
+      // this.todo = this.clientesControl.value == "";
+      // // this.traerTodos(event);
+    }
+    if (campo == 'cliente'){
+      // console.log(this.cliente)
+      // this.todo = (this.cliente == "");
+      // this.changeDetector.detectChanges();
+      // console.log("entra a cliente")
+      // console.log(this.todo)
+      // this.dataSource.data = this.original.filter(s => s.IdCliente == event.value.Id);
+    }
+    if (event.toString() == ""){
+      // this.dataSource.data = this.original;
+    }
+  }
 }

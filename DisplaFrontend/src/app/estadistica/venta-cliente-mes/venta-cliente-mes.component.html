@@ -28,24 +28,28 @@
 
         <div mat-dialog-content fxLayout="row" fxLayoutGap="2vw"
             style="font-size: small; line-height: 38px !important;">
-            <!-- <mat-form-field fxFlex="25">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde"
-                    #desde="ngModel"  readonly>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <input matInput [matDatepicker]="dob">
-                <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
-                <mat-datepicker #dob startView="multi-year" (yearSelected)="handleYearSelected($event)"
-                    (monthSelected)="handleMonthSelected($event)">
-                </mat-datepicker>
-
-            </mat-form-field> -->
             <mat-form-field fxFlex="25">
-                <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta"
-                    #hasta="ngModel" readonly>
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
+                <mat-label>Desde</mat-label>
+                <input matInput [matDatepicker]="dp" [formControl]="since">
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp
+                                startView="multi-year"
+                                (yearSelected)="chosenYearHandler($event, 'desde')"
+                                (monthSelected)="chosenMonthHandler($event, dp, 'desde')"
+                                panelClass="example-month-picker">
+                </mat-datepicker>
+              </mat-form-field>
+              <mat-form-field fxFlex="25">
+                <mat-label>Hasta</mat-label>
+                <input matInput [matDatepicker]="dp2" [formControl]="today" [min]="since" >
+                <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                <mat-datepicker #dp2
+                                startView="multi-year"
+                                (yearSelected)="chosenYearHandler($event,'hasta')"
+                                (monthSelected)="chosenMonthHandler($event, dp2, 'hasta')"
+                                panelClass="example-month-picker">
+                </mat-datepicker>
+              </mat-form-field>
             <div fxLayoutAlign="start center">
                 <mat-slide-toggle color="accent" #unifica id="unifica" name="unifica" [checked]="analogo">Unifica con
                     analogo

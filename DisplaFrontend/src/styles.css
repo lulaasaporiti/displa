@@ -47,6 +47,7 @@ p {
 
 .titulo{
   font-family: "Chalet London" !important;
+  font-weight: bold !important;
 } 
 
 /* /////////////////// */
@@ -293,11 +294,11 @@ max-width: 1000px;
   }
   .toast-success {
     background-color: #88bf48 !important;
-    background-image: url("./assets/icons/check_outline.svg") !important;
+    background-image: url("src/assets/icons/check_outline.svg") !important;
   }
   .toast-error {
     background-color: #e74c3c !important;
-    background-image: url("./assets/icons/error_outline.svg") !important;
+    background-image: url("src/assets/icons/error_outline.svg") !important;
     color: white !important;
   }
   .toast-info {

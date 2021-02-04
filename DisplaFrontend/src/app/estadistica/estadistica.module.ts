@@ -7,6 +7,8 @@ import { VentaClienteMesComponent } from './venta-cliente-mes/venta-cliente-mes.
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { DetalleArticuloComponent } from './detalle-articulo/detalle-articulo.component';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+import { MatNativeDateModule } from '@angular/material/core';
 // import { MomentDateModule } from '@angular/material-moment-adapter';
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
@@ -17,7 +19,8 @@ import { DetalleArticuloComponent } from './detalle-articulo/detalle-articulo.co
         CommonModule,
         MaterialModule,
         EstadisticaRoutingModule,
-        // MomentDateModule,
+        MomentDateModule,
+        MatNativeDateModule,
         LoadingSpinnerModule
     ]
 })

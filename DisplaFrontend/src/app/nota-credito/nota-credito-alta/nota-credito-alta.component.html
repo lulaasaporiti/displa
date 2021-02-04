@@ -12,7 +12,7 @@
           </mat-expansion-panel-header>
           <p class="titulo">Datos cliente</p>
           <h5 class="texto-explicativo" *ngIf="modelCliente.Bloqueado"> El cliente se encuentra bloqueado{{ modelCliente.ClienteBloqueo.length > 0 ? ' por ' + modelCliente.ClienteBloqueo[modelCliente.ClienteBloqueo.length - 1].Motivo.toLowerCase() : '' }}. </h5>
-          <h5 class="texto-remitos" *ngIf="remitos.length > 0"> {{ getCantidadProductos() + ' productos pendientes de facturar.' }} </h5>
+          <!-- <h5 class="texto-remitos" *ngIf="remitos.length > 0"> {{ getCantidadProductos() + ' productos pendientes de facturar.' }} </h5> -->
           <div fxLayout="column" style="margin: 12px auto;">
             <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
               <mat-form-field fxFlex='35' fxLayout="column">
@@ -108,7 +108,7 @@
           <div style="font-weight: bold; font-size: medium;" mat-subheader>Productos</div>
           <mat-list #shoes fxLayout="row">
             <mat-list-item *ngFor="let p of productos">
-              <button mat-button (keypress)="myScript($event)">
+              <button mat-button>
                 {{p}}
               </button>
             </mat-list-item>
@@ -188,12 +188,8 @@
               <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA
                 RI:</label>
               <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
-              <label *ngIf="remitos.length > 0" style="font-weight: bold;">Total remitos:</label>
-              <label *ngIf="remitos.length > 0"> {{getTotalRemito()}}</label>
               <label style="font-weight: bold;">Total:</label>
               <label> {{getTotales()}}</label>
-              <label style="font-weight: bold; color: darkred;">Total con remitos: </label>
-              <label>{{(+getTotales() + +getTotalRemito())}}</label>
             </div>
           </td>
         </ng-container>
@@ -215,7 +211,7 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
       <button mat-raised-button id="cancelar" (click)="cancelar()">Cancelar</button>
-      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= getTotales() || bloquearF == false"
+      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= +(getTotales()) || bloquearF == false"
         id="finalizar" (click)="altaComprobanteCliente()">Finalizar</button>
     </div>
   <!-- </form> -->

@@ -1,4 +1,5 @@
 import { CategoriaIVA } from './categoriaIva';
+import { ClienteBloqueo } from './clienteBloqueo';
 import { CondicionVenta } from './condicionVenta';
 import { Ficha } from './ficha';
 import { Localidad } from './localidad';
@@ -27,7 +28,8 @@ export interface Cliente {
 
     IdCategoriaIvaNavigation: CategoriaIVA,
     IdCondicionVentaNavigation: CondicionVenta,
-    IdLocalidadNavigation: Localidad;
-    Ficha: Ficha[];
+    IdLocalidadNavigation: Localidad,
+    Ficha: Ficha[],
+    ClienteBloqueo: ClienteBloqueo[],
     // PrecioEspecialArticuloCliente: PrecioEspecialArticuloCliente
 }

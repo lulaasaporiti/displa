@@ -7,6 +7,7 @@ import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 import { Servicio } from 'src/app/model/servicio';
 import { SessionService } from 'src/services/session.service';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
+import {SelectionModel} from '@angular/cdk/collections';
 
 export class TipoServicio {
   children: TipoServicio[];
@@ -18,7 +19,7 @@ export class TipoServicio {
 export class TodoItemFlatNode {
   item: TipoServicio;
   level: number;
-  expandable: boolean;
+  public expandable: boolean;
 }
 
 
@@ -51,7 +52,6 @@ export class ChecklistDatabase {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
     const data = this.buildFileTree(tipoServicios,0);
-    // console.log(data)
 
     // Notify the change.
     this.dataChange.next(data);
@@ -130,7 +130,9 @@ export class SeleccionServiciosComponent implements OnInit{
 
   getLevel = (node: TodoItemFlatNode) => node.level;
 
-  isExpandable = (node: TodoItemFlatNode) => node.expandable;
+  isExpandable = (node: TodoItemFlatNode) => node.expandable ;
+
+  hasChild = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.expandable;
 
   getChildren = (node: TipoServicio): any[] => node.children;
 
@@ -158,7 +160,6 @@ export class SeleccionServiciosComponent implements OnInit{
     }
     if (changes.selectedCalibrados != undefined && changes.selectedCalibrados.currentValue != undefined) {
       this.comprobanteItemServicios = changes.selectedCalibrados.currentValue;
-      // console.log(this.comprobanteItemServicios)
     }
     if (changes.selectedIndex != undefined && changes.selectedIndex.currentValue >= 0) {
       this.comprobanteItemServicios = changes.selectedCalibrados.currentValue.splice(changes.selectedIndex.currentValue, 1);

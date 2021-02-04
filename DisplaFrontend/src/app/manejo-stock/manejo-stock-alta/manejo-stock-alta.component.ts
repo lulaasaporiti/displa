@@ -32,7 +32,7 @@ export class ManejoStockAltaComponent implements OnInit {
   constructor(
     private lenteService: LenteService,
     private stockLenteService: StockLenteService,
-    private validacionLenteService: ValidacionLenteService
+    public validacionLenteService: ValidacionLenteService
 
   ) {
     this.agregarStock();
@@ -57,6 +57,10 @@ export class ManejoStockAltaComponent implements OnInit {
     if (event != undefined) {
       this.cargarStock[index].IdLente = event.Id
     }
+  }
+
+  onNoClick(): void {
+    // this.dialogRef.close(false);
   }
 
   filterLente(nombre: any): Lente[] {

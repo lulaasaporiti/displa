@@ -108,7 +108,7 @@
           <div style="font-weight: bold; font-size: medium;" mat-subheader>Productos</div>
           <mat-list #shoes fxLayout="row">
             <mat-list-item *ngFor="let p of productos">
-              <button mat-button (keypress)="myScript($event)">
+              <button mat-button>
                 {{p}}
               </button>
             </mat-list-item>
@@ -215,7 +215,7 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
       <button mat-raised-button id="cancelar" (click)="cancelar()">Cancelar</button>
-      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= getTotales() || bloquearF == false"
+      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= +(getTotales()) || bloquearF == false"
         id="finalizar" (click)="altaComprobanteCliente()">Finalizar</button>
     </div>
   <!-- </form> -->

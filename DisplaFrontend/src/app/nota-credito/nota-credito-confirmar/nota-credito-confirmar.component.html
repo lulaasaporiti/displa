@@ -1,14 +1,13 @@
 <form #modalForm="ngForm">
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-            <p class="dialog-title">¿Desea emitir remito o factura?</p>
+            <p class="dialog-title">¿Desea emitir la nota de crédito?</p>
         </div>
 
+       
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-            <button mat-raised-button color="primary"
-            mat-dialog-close="0">Remito</button>
-            <button mat-raised-button color="primary"
-                mat-dialog-close="1">Factura</button>
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Confirmar</button>
         </div>
     </div>
 </form>

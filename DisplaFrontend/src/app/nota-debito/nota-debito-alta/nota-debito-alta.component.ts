@@ -199,7 +199,7 @@ export class NotaDebitoComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private segment: ActivatedRoute,
-    private remitoService: RemitoService,
+    // private remitoService: RemitoService,
     private sessionService: SessionService,
     private clienteService: ClienteService,
     private changeDetector: ChangeDetectorRef,
@@ -217,12 +217,12 @@ export class NotaDebitoComponent implements OnInit {
         this.clienteService.getById(this.id),
         this.clienteService.getDiasPlazo(this.id),
         this.parametroService.getParametro(),
-        this.remitoService.getRemitosPendientesCliente(this.id)
+        // this.remitoService.getRemitosPendientesCliente(this.id)
       )
         .subscribe(result => {
           this.modelCliente = result[0];
           this.parametro = result[2];
-          this.remitos = result[3];
+          // this.remitos = result[3];
           this.modelComprobante.IdCliente = this.id;
           this.modelComprobante.ComprobanteItem = [];
           this.modelComprobante.VentaVirtual = [];
@@ -345,28 +345,28 @@ export class NotaDebitoComponent implements OnInit {
     } 
   }
 
-  getTotalRemito() {
-    let totalAux = 0;
-    if (this.remitos != undefined && this.remitos.length > 0) {
-      this.remitos.forEach(r => {
-        r.ComprobanteItem.forEach(co => {
-          totalAux = totalAux + co.Monto;
-        });
-      });
-    }
-    this.totalRemitos = totalAux;
-    return this.totalRemitos.toFixed(2);
-  }
+  // getTotalRemito() {
+  //   let totalAux = 0;
+  //   if (this.remitos != undefined && this.remitos.length > 0) {
+  //     this.remitos.forEach(r => {
+  //       r.ComprobanteItem.forEach(co => {
+  //         totalAux = totalAux + co.Monto;
+  //       });
+  //     });
+  //   }
+  //   this.totalRemitos = totalAux;
+  //   return this.totalRemitos.toFixed(2);
+  // }
 
-  getCantidadProductos() {
-    let cantidadAux = 0;
-    if (this.remitos != undefined && this.remitos.length > 0) {
-      this.remitos.forEach(r => {
-        cantidadAux = cantidadAux + r.ComprobanteItem.length;
-      });
-      return cantidadAux;
-    }
-  }
+  // getCantidadProductos() {
+  //   let cantidadAux = 0;
+  //   if (this.remitos != undefined && this.remitos.length > 0) {
+  //     this.remitos.forEach(r => {
+  //       cantidadAux = cantidadAux + r.ComprobanteItem.length;
+  //     });
+  //     return cantidadAux;
+  //   }
+  // }
 
   validaciones(row){
     if (row.IdComprobanteItemNavigation != undefined && row.IdComprobanteItemNavigation.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto == 0 && !row.Descripcion.includes('V.Virt +')) 
@@ -499,7 +499,8 @@ export class NotaDebitoComponent implements OnInit {
       // height:'350px'
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 1) {
+      if (result != undefined && result != false)  {
+        console.log(result)
         this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
           data => {
             this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
@@ -510,17 +511,6 @@ export class NotaDebitoComponent implements OnInit {
             this.sessionService.showError("La nota de débito no se agregó.");
           }
         );
-      }
-      if (result == 0) {
-        this.remitoService.saveOrUpdateRemito(this.modelComprobante).subscribe(
-          data => {
-            this.router.navigateByUrl('/Home');
-            this.sessionService.showSuccess("El remito se agregó correctamente.");
-          },
-          error => {
-            this.sessionService.showError("El remito no se agregó.");
-          }
-        ); 
       }
     })
   }

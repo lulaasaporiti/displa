@@ -4,6 +4,7 @@ import { CuentaBancaria } from './cuentaBancaria';
 export interface Recibo {
     Id: number,
     Numero: number,
+    Montototal: number,
     MontoEfectivo: number,
     MontoCheque: number,
     MontoInterdeposito: number,
