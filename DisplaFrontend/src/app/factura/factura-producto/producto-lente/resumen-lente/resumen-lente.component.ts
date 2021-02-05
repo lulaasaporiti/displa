@@ -11,6 +11,7 @@ export class ResumenLenteComponent implements OnInit {
   @Input() selectedRecargo: any[];
   @Input() selectedServicio: any[];
   @Input() selectedIndex: any[];
+  @Input() selectedIndexServicio: any[];
 
 
   dataSource = new MatTableDataSource<any>();
@@ -28,19 +29,24 @@ export class ResumenLenteComponent implements OnInit {
    }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
     if (changes.selectedRecargo != undefined && changes.selectedRecargo.currentValue != undefined) {
       this.modelRecargo = changes.selectedRecargo.currentValue;
     }
-    if (changes.selectedServicio != undefined && changes.selectedServicio.currentValue.length > 0) {
+    if (changes.selectedServicio != undefined) {
       this.modelServicio = changes.selectedServicio.currentValue;
       // console.log(this.modelServicio)
     }
     if (changes.selectedIndex != undefined && changes.selectedIndex.currentValue >= 0) {
       this.modelServicio = this.modelServicio.splice(changes.selectedIndex.currentValue, 1);
-      // console.log(this.modelServicio)
+      console.log("model servicio resumen")
+      console.log(this.modelServicio)
+    }
+    if (changes.selectedIndexServicio != undefined && changes.selectedIndexServicio.currentValue >= 0) {
+      this.modelServicio = this.modelServicio.splice(changes.selectedIndexServicio.currentValue, 1);
     }
   }
 

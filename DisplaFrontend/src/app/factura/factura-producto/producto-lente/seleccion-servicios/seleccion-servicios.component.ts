@@ -107,6 +107,7 @@ export class SeleccionServiciosComponent implements OnInit{
   serviciosSeleccionados: Servicio[] = []; 
   comprobanteItemServicios: ComprobanteItemServicio[] = [];
   @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>();
+  @Output() selectedIndiceServicio = new EventEmitter<number>();
 
   treeControl: FlatTreeControl<TodoItemFlatNode>;
 
@@ -158,14 +159,16 @@ export class SeleccionServiciosComponent implements OnInit{
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
-    if (changes.selectedCalibrados != undefined && changes.selectedCalibrados.currentValue != undefined) {
+    if (changes.selectedCalibrados != undefined) {
+      // && changes.selectedCalibrados.currentValue != undefined
       this.comprobanteItemServicios = changes.selectedCalibrados.currentValue;
     }
     if (changes.selectedIndex != undefined && changes.selectedIndex.currentValue >= 0) {
-      this.comprobanteItemServicios = changes.selectedCalibrados.currentValue.splice(changes.selectedIndex.currentValue, 1);
-
+      let comprobanteItemServicio = <ComprobanteItemServicio>{};
+      comprobanteItemServicio.IdServicio = this.serviciosSeleccionados[0].Id;
+      comprobanteItemServicio.IdServicioNavigation = this.serviciosSeleccionados[0];
+      this.comprobanteItemServicios[0] = comprobanteItemServicio;
     }
-    console.log(this.comprobanteItemServicios)
   }
 
   deshabilitarCheck(option) {
@@ -182,7 +185,13 @@ export class SeleccionServiciosComponent implements OnInit{
   }
 
   comprobanteItemServiciosSelected() {
+    console.log("entra a emittear");
+    console.log(this.comprobanteItemServicios)
     this.selectedServiciosComprobanteItem.emit(this.comprobanteItemServicios);
+  }
+
+  indiceServicioSelected(i) {
+    this.selectedIndiceServicio.emit(i);
   }
 
   onClicked(option) {
@@ -193,11 +202,17 @@ export class SeleccionServiciosComponent implements OnInit{
     if (!incluye) {
       this.serviciosSeleccionados.push(option);
       this.comprobanteItemServicios.push(comprobanteItemServicio);
+      this.comprobanteItemServiciosSelected();
     } else {
+      console.log("indice del seg servicio")
+      console.log(this.comprobanteItemServicios)
+      console.log(comprobanteItemServicio.IdServicio)
+      console.log(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio))
+      this.indiceServicioSelected(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio));
       this.serviciosSeleccionados = this.serviciosSeleccionados.splice(this.serviciosSeleccionados.findIndex(s => s != option), 1);
       this.comprobanteItemServicios = this.comprobanteItemServicios.splice(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio), 1);
+      // this.comprobanteItemServiciosSelected();
     }
-    this.comprobanteItemServiciosSelected();
     if (this.serviciosSeleccionados.length == 2) 
       this.sessionService.showInfo("Recuerde que se pueden seleccionar hasta dos servicios");
   }
