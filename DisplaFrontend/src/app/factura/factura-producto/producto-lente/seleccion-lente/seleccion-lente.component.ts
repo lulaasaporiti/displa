@@ -22,7 +22,7 @@ import { MatSelect } from '@angular/material/select';
 export class SeleccionLenteComponent implements OnInit {
   @Output() selectedComprobanteItemLente = new EventEmitter<any[]>(); 
   @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>();
-  @Output() selectedIndice = new EventEmitter<number>();
+  @Output() selectedIndiceCalibrados = new EventEmitter<number>();
 
   
   lentes: Lente[];
@@ -182,19 +182,11 @@ export class SeleccionLenteComponent implements OnInit {
       comprobanteItem.IdServicioNavigation = event.value;
       if (!this.serviciosLente.includes(comprobanteItem))
         this.serviciosLente.push(comprobanteItem);
-      this.comprobanteItemServicioSelected();
-      
-      // this.serviciosLente.push(comprobanteItem);
-      //   // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
+      this.comprobanteItemServicioSelected();      
     }
     else {
       let i = this.serviciosLente.findIndex(s => s.IdServicioNavigation.DescripcionFactura.startsWith('CAL '));
-      this.indiceServicioSelected(i);
-      // console.log(this.serviciosLente.splice(this.serviciosLente.findIndex(s => s.IdServicioNavigation.DescripcionFactura.startsWith('CAL '), 1)))
-      //   let i = this.serviciosLente.findIndex(ci => ci.IdServicio == event.source.value.Id);
-      //   this.serviciosLente.splice(i, 1);
-      //   // this.selectedServiciosComprobanteItem.emit(this.serviciosLente);
-
+      this.indiceCalibradoSelected(i);
     }
   }
 
@@ -269,8 +261,8 @@ export class SeleccionLenteComponent implements OnInit {
     this.selectedServiciosComprobanteItem.emit(serviciosCloned);
   }
 
-  indiceServicioSelected(i) {
-    this.selectedIndice.emit(i);
+  indiceCalibradoSelected(i) {
+    this.selectedIndiceCalibrados.emit(i);
   }
 
   compararLimiteGrilla(index, tipoGraduacion) {

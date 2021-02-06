@@ -12,8 +12,8 @@ export class ProductoLenteComponent implements OnInit {
   modelComprobanteItemLente: any[] = [];
   comprobanteItemRecargos: any[] = [];
   comprobanteItemServicios: any[] = [];
-  indiceServicio: number = -1;
-  indiceServicio2: number = -1;
+  indiceCalibrado: number = -1;
+  idServicio: number;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -74,12 +74,12 @@ export class ProductoLenteComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  indiceServicioSelected(i: number) {
-    this.indiceServicio = i;
+  indiceCalibradoSelected(i: number) {
+    this.indiceCalibrado = i;
   }
 
-  indiceServicioSelected2(i: number) {
-    this.indiceServicio2 = i;
+  idServicioSelected(i: number) {
+    this.idServicio = i;
   }
 
   tabInventado(event: KeyboardEvent, idElement) {

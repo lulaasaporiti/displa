@@ -2,7 +2,7 @@
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Seleccione el lente y graduación</ng-template>
-        <app-seleccion-lente (selectedComprobanteItemLente)="listaComprobanteItemEvento($event)" (selectedServiciosComprobanteItem)="listaServiciosComprobanteItemEvento($event)" (selectedIndice)="indiceServicioSelected($event)"></app-seleccion-lente>
+        <app-seleccion-lente (selectedComprobanteItemLente)="listaComprobanteItemEvento($event)" (selectedServiciosComprobanteItem)="listaServiciosComprobanteItemEvento($event)" (selectedIndiceCalibrados)="indiceCalibradoSelected($event)"></app-seleccion-lente>
         <div>
           <button mat-button (click)="onNoClick()">Cancelar</button>
           <button mat-button matStepperNext id="siguiente1" [disabled]="modelComprobanteItemLente.length == 0">Siguiente</button>
@@ -12,7 +12,7 @@
     <mat-step [stepControl]="secondFormGroup" [optional]>
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Seleccione servicios</ng-template>
-        <app-seleccion-servicios (selectedServiciosComprobanteItem)="listaServiciosComprobanteItemEvento($event)" [selectedLente]="modelComprobanteItemLente" [selectedCalibrados]="serviciosLente" [selectedIndex]="indiceServicio" (selectedIndiceServicio)="indiceServicioSelected2($event)"></app-seleccion-servicios>
+        <app-seleccion-servicios (selectedServiciosComprobanteItem)="listaServiciosComprobanteItemEvento($event)" [selectedLente]="modelComprobanteItemLente" [selectedCalibrados]="serviciosLente" [selectedIndiceCalibrados]="indiceCalibrado" (selectedIdServicio)="idServicioSelected($event)"></app-seleccion-servicios>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
           <button mat-button matStepperNext id="siguiente2">Siguiente</button>
@@ -32,7 +32,7 @@
     <mat-step>
       <form [formGroup]="fourthFormGroup">
         <ng-template matStepLabel>Resumen lente</ng-template>
-        <app-resumen-lente [selectedLente]="modelComprobanteItemLente" [selectedServicio]="comprobanteItemServicios"  [selectedRecargo]="comprobanteItemRecargos" [selectedIndex]="indiceServicio" [selectedIndexServicio]="indiceServicio"></app-resumen-lente>
+        <app-resumen-lente [selectedLente]="modelComprobanteItemLente" [selectedServicio]="comprobanteItemServicios"  [selectedRecargo]="comprobanteItemRecargos" [selectedIndiceCalibrados]="indiceCalibrado" [selectedIdServicio]="idServicio"></app-resumen-lente>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
           <button mat-raised-button color="primary" id="seleccionar"

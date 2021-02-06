@@ -10,8 +10,8 @@ export class ResumenLenteComponent implements OnInit {
   @Input() selectedLente: any[];
   @Input() selectedRecargo: any[];
   @Input() selectedServicio: any[];
-  @Input() selectedIndex: any[];
-  @Input() selectedIndexServicio: any[];
+  @Input() selectedIndiceCalibrados: any[];
+  @Input() selectedIdServicio: any[];
 
 
   dataSource = new MatTableDataSource<any>();
@@ -29,7 +29,7 @@ export class ResumenLenteComponent implements OnInit {
    }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
+    console.log(this.modelServicio)
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
@@ -38,20 +38,17 @@ export class ResumenLenteComponent implements OnInit {
     }
     if (changes.selectedServicio != undefined) {
       this.modelServicio = changes.selectedServicio.currentValue;
-      // console.log(this.modelServicio)
     }
-    if (changes.selectedIndex != undefined && changes.selectedIndex.currentValue >= 0) {
-      this.modelServicio = this.modelServicio.splice(changes.selectedIndex.currentValue, 1);
-      console.log("model servicio resumen")
-      console.log(this.modelServicio)
+    if (changes.selectedIndiceCalibrados != undefined && changes.selectedIndiceCalibrados.currentValue >= 0) {
+      this.modelServicio.splice(changes.selectedIndiceCalibrados.currentValue, 1);
     }
-    if (changes.selectedIndexServicio != undefined && changes.selectedIndexServicio.currentValue >= 0) {
-      this.modelServicio = this.modelServicio.splice(changes.selectedIndexServicio.currentValue, 1);
+    if (changes.selectedIdServicio != undefined && changes.selectedIdServicio.currentValue >= 0) {
+      console.log("selectidSERvicio")
+      console.log(changes.selectedIdServicio.currentValue)
+      let i = this.modelServicio.findIndex(s => s.IdServicio == changes.selectedIdServicio.currentValue);
+      this.modelServicio.splice(i, 1);
+      console.log(i)
     }
-  }
-
-  ngAfterViewInit() {
-
   }
   
   _keyPress(event: any) {

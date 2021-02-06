@@ -7,7 +7,6 @@ import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 import { Servicio } from 'src/app/model/servicio';
 import { SessionService } from 'src/services/session.service';
 import { TipoServicioService } from 'src/services/tipo.servicio.service';
-import {SelectionModel} from '@angular/cdk/collections';
 
 export class TipoServicio {
   children: TipoServicio[];
@@ -80,14 +79,6 @@ export class ChecklistDatabase {
       return accumulator.concat(node);
     }, []);
   }
-
-  // tabInventado(event: KeyboardEvent, idElement)
-  // {
-  //   if (event.code == "Enter") {
-  //     event.preventDefault();
-  //     document.getElementById(idElement).focus();
-  //   }
-  // }
 }
 
 /**
@@ -102,12 +93,12 @@ export class ChecklistDatabase {
 export class SeleccionServiciosComponent implements OnInit{
   @Input() selectedLente: any[];
   @Input() selectedCalibrados: any[];
-  @Input() selectedIndex: any[];
+  @Input() selectedIndiceCalibrados: any[];
   modelLente: any[] = [];
   serviciosSeleccionados: Servicio[] = []; 
   comprobanteItemServicios: ComprobanteItemServicio[] = [];
   @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>();
-  @Output() selectedIndiceServicio = new EventEmitter<number>();
+  @Output() selectedIdServicio = new EventEmitter<number>();
 
   treeControl: FlatTreeControl<TodoItemFlatNode>;
 
@@ -159,11 +150,13 @@ export class SeleccionServiciosComponent implements OnInit{
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
-    if (changes.selectedCalibrados != undefined) {
-      // && changes.selectedCalibrados.currentValue != undefined
-      this.comprobanteItemServicios = changes.selectedCalibrados.currentValue;
-    }
-    if (changes.selectedIndex != undefined && changes.selectedIndex.currentValue >= 0) {
+    // if (changes.selectedCalibrados != undefined &&  changes.selectedCalibrados.currentValue.length > 0) {
+    //   console.log("entra")
+    //   console.log(changes.selectedCalibrados.currentValue)
+    //   this.serviciosSeleccionados = changes.selectedCalibrados.currentValue;
+    //   console.log(this.serviciosSeleccionados)
+    // }
+    if (changes.selectedIndexCalibrados != undefined && changes.selectedIndexCalibrados.currentValue >= 0) {
       let comprobanteItemServicio = <ComprobanteItemServicio>{};
       comprobanteItemServicio.IdServicio = this.serviciosSeleccionados[0].Id;
       comprobanteItemServicio.IdServicioNavigation = this.serviciosSeleccionados[0];
@@ -173,7 +166,6 @@ export class SeleccionServiciosComponent implements OnInit{
 
   deshabilitarCheck(option) {
     let optionEsta = this.comprobanteItemServicios.find(cs => cs.IdServicio == option.Id);
-    // console.log(this.comprobanteItemServicios.length)
     if (this.comprobanteItemServicios.length >= 2) {
       if (optionEsta) {
         return false;
@@ -185,16 +177,15 @@ export class SeleccionServiciosComponent implements OnInit{
   }
 
   comprobanteItemServiciosSelected() {
-    console.log("entra a emittear");
-    console.log(this.comprobanteItemServicios)
     this.selectedServiciosComprobanteItem.emit(this.comprobanteItemServicios);
   }
 
-  indiceServicioSelected(i) {
-    this.selectedIndiceServicio.emit(i);
+  idServicioSelected(i) {
+    this.selectedIdServicio.emit(i);
   }
 
   onClicked(option) {
+    console.log(this.comprobanteItemServicios)
     let incluye = this.serviciosSeleccionados.includes(option);
     let comprobanteItemServicio = <ComprobanteItemServicio>{};
     comprobanteItemServicio.IdServicio = option.Id;
@@ -204,13 +195,10 @@ export class SeleccionServiciosComponent implements OnInit{
       this.comprobanteItemServicios.push(comprobanteItemServicio);
       this.comprobanteItemServiciosSelected();
     } else {
-      console.log("indice del seg servicio")
-      console.log(this.comprobanteItemServicios)
-      console.log(comprobanteItemServicio.IdServicio)
-      console.log(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio))
-      this.indiceServicioSelected(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio));
+      // console.log(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio))
+      this.idServicioSelected(comprobanteItemServicio.IdServicio);
       this.serviciosSeleccionados = this.serviciosSeleccionados.splice(this.serviciosSeleccionados.findIndex(s => s != option), 1);
-      this.comprobanteItemServicios = this.comprobanteItemServicios.splice(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio), 1);
+      // this.comprobanteItemServicios = this.comprobanteItemServicios.splice(this.comprobanteItemServicios.findIndex(cs => cs.IdServicio != comprobanteItemServicio.IdServicio), 1);
       // this.comprobanteItemServiciosSelected();
     }
     if (this.serviciosSeleccionados.length == 2) 
