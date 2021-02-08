@@ -213,13 +213,12 @@ export class NotaCreditoComponent implements OnInit {
     });
     if (this.id) {
       this.loadingSpinnerService.show();
-      combineLatest(
+      combineLatest([
         this.clienteService.getById(this.id),
         this.clienteService.getDiasPlazo(this.id),
         this.parametroService.getParametro(),
         // this.remitoService.getRemitosPendientesCliente(this.id)
-      )
-        .subscribe(result => {
+      ]).subscribe(result => {
           this.modelCliente = result[0];
           this.parametro = result[2];
           // this.remitos = result[3];
@@ -499,12 +498,15 @@ export class NotaCreditoComponent implements OnInit {
       // height:'350px'
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined && result != false)  {
+      if (result != undefined && result != false) {
         this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
           data => {
-            this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
-            this.router.navigateByUrl('/Home');
-            this.sessionService.showSuccess("La nota de crédito se agregó correctamente.");
+            if (data != null) {
+              this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
+              this.router.navigateByUrl('/Home');
+              this.sessionService.showSuccess("La nota de crédito se agregó correctamente.");
+            } else
+              this.sessionService.showError("La nota de crédito no se agregó.");
           },
           error => {
             this.sessionService.showError("La nota de crédito no se agregó.");

@@ -59,7 +59,7 @@ export class ProductoLenteComponent implements OnInit {
   listaServiciosComprobanteItemEvento(model: ComprobanteItemServicio[]) {
     if (model.length > 0) {
       model.forEach(element => {
-        if (!this.serviciosLente.includes(element))
+        if (this.serviciosLente.find(c => c.IdServicio == element.IdServicio) == undefined)
           this.serviciosLente.push(element)
       });
       this.comprobanteItemServicios = model;

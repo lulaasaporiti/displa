@@ -180,7 +180,7 @@ export class SeleccionLenteComponent implements OnInit {
       let comprobanteItem = <ComprobanteItemServicio>{}
       comprobanteItem.IdServicio = event.value.Id;
       comprobanteItem.IdServicioNavigation = event.value;
-      if (!this.serviciosLente.includes(comprobanteItem))
+      if (this.serviciosLente.find(c => c.IdServicio == comprobanteItem.IdServicio) == undefined)
         this.serviciosLente.push(comprobanteItem);
       this.comprobanteItemServicioSelected();      
     }

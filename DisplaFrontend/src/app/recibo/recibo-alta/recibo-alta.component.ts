@@ -10,6 +10,7 @@ import { CuentaBancaria } from 'src/app/model/cuentaBancaria';
 import { CuentaBancariaService } from 'src/services/cuenta.bancaria.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { ParametroService } from 'src/services/parametro.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class ReciboAltaComponent {
 
   constructor(
     private clienteService: ClienteService,
+    private parametroService: ParametroService,
     public dialogRef: MatDialogRef<ReciboAltaComponent>,
     private cuentaBancariaService: CuentaBancariaService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -40,11 +42,10 @@ export class ReciboAltaComponent {
   }
 
   ngOnInit() {
-    combineLatest(
+    combineLatest([
       this.clienteService.getClientesVigentesList(),
       this.cuentaBancariaService.getCuentaBancariasList(),
-    )
-      .subscribe(r => {
+    ]).subscribe(r => {
         this.clientes = r[0];
         this.filteredClientes = this.clientesControl.valueChanges
           .pipe(

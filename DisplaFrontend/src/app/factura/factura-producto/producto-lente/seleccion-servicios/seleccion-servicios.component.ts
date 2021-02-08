@@ -146,16 +146,13 @@ export class SeleccionServiciosComponent implements OnInit{
 
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
-    // if (changes.selectedCalibrados != undefined &&  changes.selectedCalibrados.currentValue.length > 0) {
-    //   console.log("entra")
-    //   console.log(changes.selectedCalibrados.currentValue)
-    //   this.serviciosSeleccionados = changes.selectedCalibrados.currentValue;
-    //   console.log(this.serviciosSeleccionados)
-    // }
+    if (changes.selectedCalibrados != undefined && changes.selectedCalibrados.currentValue.length > 0) {
+      this.serviciosSeleccionados[0] = this.selectedCalibrados[0].IdServicioNavigation;
+      this.comprobanteItemServicios = this.selectedCalibrados;
+    }
     if (changes.selectedIndexCalibrados != undefined && changes.selectedIndexCalibrados.currentValue >= 0) {
       let comprobanteItemServicio = <ComprobanteItemServicio>{};
       comprobanteItemServicio.IdServicio = this.serviciosSeleccionados[0].Id;
@@ -185,7 +182,8 @@ export class SeleccionServiciosComponent implements OnInit{
   }
 
   onClicked(option) {
-    console.log(this.comprobanteItemServicios)
+    this.serviciosSeleccionados[0] = this.selectedCalibrados[0].IdServicioNavigation;
+    this.comprobanteItemServicios = this.selectedCalibrados;
     let incluye = this.serviciosSeleccionados.includes(option);
     let comprobanteItemServicio = <ComprobanteItemServicio>{};
     comprobanteItemServicio.IdServicio = option.Id;

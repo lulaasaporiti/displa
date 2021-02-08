@@ -213,13 +213,12 @@ export class FacturaAltaComponent implements OnInit {
     });
     if (this.id) {
       this.loadingSpinnerService.show();
-      combineLatest(
+      combineLatest([
         this.clienteService.getById(this.id),
         this.clienteService.getDiasPlazo(this.id),
         this.parametroService.getParametro(),
         this.remitoService.getRemitosPendientesCliente(this.id)
-      )
-        .subscribe(result => {
+      ]).subscribe(result => {
           this.modelCliente = result[0];
           this.parametro = result[2];
           this.remitos = result[3];
@@ -236,7 +235,6 @@ export class FacturaAltaComponent implements OnInit {
             this.modelComprobante.Letra = 'A'
             this.modelComprobante.Numero = this.parametro.NumeroComprobanteA;
             this.parametro.NumeroComprobanteA++;
-
           }
           this.plazoActual = +result[1];
           this.loadingSpinnerService.hide();
@@ -304,11 +302,20 @@ export class FacturaAltaComponent implements OnInit {
         })
         this.dataSource.data = this.dataSource.data.concat(item);
         this.modelComprobante.ComprobanteItem.push(item);
+        if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+          this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+        }
+        if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+          this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+        }
         if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
           this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
         else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
-          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos")
+          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
         }
+          else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+            this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
+          }
         else {
           this.sessionService.showSuccess("Los productos se agregaron correctamente");
         }
@@ -326,6 +333,23 @@ export class FacturaAltaComponent implements OnInit {
     // item.Descripcion = venta.IdLenteNavigation.DescripcionFactura;
     this.dataSource.data = this.dataSource.data.concat(item);
     this.modelComprobante.VentaVirtual.push(item);
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
+      this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
+    }
+      else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+        this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
+      }
+    else {
+      this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    }
   }
 
 
@@ -421,10 +445,22 @@ export class FacturaAltaComponent implements OnInit {
         p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
         this.modelComprobante.ComprobanteItem.push(p);
         this.dataSource.data = this.dataSource.data.concat(p);
+        if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+          this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+        }
+        if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+          this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+        }
         if (p.Monto > this.parametro.MontoMaximoProductosDiferentes)
-        this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+          this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+        else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
+        }
+          else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+            this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
+          }
         else {
-        this.sessionService.showSuccess("Los productos se agregaron correctamente");
+          this.sessionService.showSuccess("Los productos se agregaron correctamente");
         }
       }
       this.changeDetector.detectChanges();
@@ -439,11 +475,20 @@ export class FacturaAltaComponent implements OnInit {
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.modelComprobante.ComprobanteItem.push(producto);
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
     if (producto.Monto > this.parametro.MontoMaximoProductosDiferentes)
       this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
     else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
-      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos")   
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
     }
+      else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+        this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
+      }
     else {
       this.sessionService.showSuccess("Los productos se agregaron correctamente");
     }
@@ -502,9 +547,12 @@ export class FacturaAltaComponent implements OnInit {
       if (result == 1) {
         this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
           data => {
-            this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
-            this.router.navigateByUrl('/Home');
-            this.sessionService.showSuccess("La factura se agregó correctamente.");
+            if (data != null) {
+              this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
+              this.router.navigateByUrl('/Home');
+              this.sessionService.showSuccess("La factura se agregó correctamente.");
+            } else
+              this.sessionService.showError("La factura no se agregó.");
           },
           error => {
             this.sessionService.showError("La factura no se agregó.");

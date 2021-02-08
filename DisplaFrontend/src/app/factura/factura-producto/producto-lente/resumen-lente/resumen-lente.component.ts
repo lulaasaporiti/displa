@@ -29,7 +29,7 @@ export class ResumenLenteComponent implements OnInit {
    }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.modelServicio)
+    // console.log(this.modelServicio)
     if (changes.selectedLente != undefined && changes.selectedLente.currentValue.length > 0) {
       this.modelLente = changes.selectedLente.currentValue;
     }
@@ -43,11 +43,11 @@ export class ResumenLenteComponent implements OnInit {
       this.modelServicio.splice(changes.selectedIndiceCalibrados.currentValue, 1);
     }
     if (changes.selectedIdServicio != undefined && changes.selectedIdServicio.currentValue >= 0) {
-      console.log("selectidSERvicio")
-      console.log(changes.selectedIdServicio.currentValue)
+      // console.log("selectidSERvicio")
+      // console.log(changes.selectedIdServicio.currentValue)
       let i = this.modelServicio.findIndex(s => s.IdServicio == changes.selectedIdServicio.currentValue);
       this.modelServicio.splice(i, 1);
-      console.log(i)
+      // console.log(i)
     }
   }
   

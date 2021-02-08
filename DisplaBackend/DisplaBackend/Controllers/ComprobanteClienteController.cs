@@ -38,18 +38,18 @@ namespace DisplaBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveOrUpdate([FromBody]ComprobanteCliente comprobanteCliente)
+        public async Task<ComprobanteCliente> SaveOrUpdate([FromBody]ComprobanteCliente comprobanteCliente)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return null;
             }
             //int idAsignacion = Convert.ToInt32(model.GetValue("idAsignacion").Value<string>());
 
             //var aux = model.GetValue("nombre").ToString();
             //ComprobanteCliente comprobanteCliente = JsonConvert.DeserializeObject<ComprobanteCliente>(aux);
 
-            return Ok(await _comprobanteClienteService.SaveOrUpdate(comprobanteCliente));
+            return await _comprobanteClienteService.SaveOrUpdate(comprobanteCliente);
             
         }
     
