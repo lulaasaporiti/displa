@@ -42,12 +42,12 @@ export class LenteModificacionComponent {
           this.modelLente = l;
           this.modelPrecio = this.modelLente.PrecioLente;
           this.modelRecargo = this.modelLente.RecargoLente;
-          console.log(this.modelPrecio)
-          console.log(this.modelLente)
+          // console.log(this.modelPrecio)
+          // console.log(this.modelLente)
           this.loadingSpinnerService.hide();
         });
     }
-    console.log(this.msjLimiteEsferico)
+    // console.log(this.msjLimiteEsferico)
   }
 
   cancelar() {

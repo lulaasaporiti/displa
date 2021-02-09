@@ -1,9 +1,9 @@
 import { Component, HostListener, Inject, OnInit, QueryList, ViewChild } from '@angular/core';
 import { FormControl, NgControl } from '@angular/forms';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
-import { Directive, ElementRef, Input } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { ClienteService } from 'src/services/cliente.service';
 import { ArticuloVario } from 'src/app/model/articuloVario';
 import { ComprobanteItem } from 'src/app/model/comprobanteItem';

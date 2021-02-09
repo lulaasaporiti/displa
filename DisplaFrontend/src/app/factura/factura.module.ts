@@ -19,7 +19,6 @@ import { LenteVentaVirtualComponent } from './factura-producto/producto-lente/le
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ResumenLenteComponent } from './factura-producto/producto-lente/resumen-lente/resumen-lente.component';
 import { FacturaDetalleComponent } from './factura-detalle/factura-detalle.component';
-import { BusquedaItemFacturadoComponent } from './busqueda-item-facturado/busqueda-item-facturado.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
@@ -28,10 +27,10 @@ import { MatListModule } from '@angular/material/list';
 
 @NgModule({
     entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, 
-        ProductoDescuentoComponent, FacturaConfirmarComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent, BusquedaItemFacturadoComponent ],
+        ProductoDescuentoComponent, FacturaConfirmarComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
     declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, SeleccionLenteComponent, 
         ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, FacturaConfirmarComponent, FacturaDetalleComponent,
-        ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent, BusquedaItemFacturadoComponent ],
+        ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
     imports: [
         CommonModule,
         MaterialModule,

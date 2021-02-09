@@ -65,11 +65,11 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
 
   loadPrecioLentePage() {
     this.loadingSpinnerService.show();
-    combineLatest(
+    combineLatest([
       this.lenteService.getLentesVigentesAgrupadosList(),
       (this.traerActivos == true) ? this.clienteService.getClientesActivosList() : this.clienteService.getClientesList(),
       this.clienteService.getListaAsignacionLente()
-    )
+    ])
       .subscribe(result => {
         this.dataSource.data = result[1];
         var maxCantPrecio = 0;
@@ -172,6 +172,10 @@ export class AsignacionPrecioClienteLenteComponent implements OnInit {
           return true;
       } 
     }
+  }
+
+  cancelar(){
+    this.router.navigateByUrl('Home')
   }
 
   guardarPrecios() {

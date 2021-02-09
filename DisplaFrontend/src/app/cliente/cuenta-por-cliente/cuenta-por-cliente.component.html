@@ -21,13 +21,13 @@
                   <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
                   [matAutocomplete]="auto" required>
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="traerCuentaCliente(c, 'cliente')">
+                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="traerCuentaCliente(c)">
                           {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                       </mat-option>
                   </mat-autocomplete>
               </mat-form-field> 
               <mat-form-field>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel" (blur)="traerCuentaCliente('', 'desde')" readonly>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel" (blur)="traerCuentaCliente('desde')" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
@@ -72,7 +72,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill (click)="verComprobante(row.Id, row.IdTipoComprobante)"></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

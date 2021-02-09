@@ -52,10 +52,10 @@ export class GrillaComponent {
       // console.log(params['id'])
       this.idLente = +params['id'];
     });
-    combineLatest(
+    combineLatest([
       this.lenteService.getById(this.idLente),
       this.stockLenteService.getStockLenteList(this.idLente)
-    ).subscribe(r => {
+    ]).subscribe(r => {
       this.lente = r[0]
       // console.log(this.lente)
       this.stock = r[1];
@@ -66,10 +66,10 @@ export class GrillaComponent {
       else idLimiteIzquierda = 3;
       if (combinacion[1] == '- +') idLimiteDerecha = 2;
       else idLimiteDerecha = 4;
-      combineLatest(
+      combineLatest([
         this.limitesGrillaService.getById(idLimiteIzquierda),
         this.limitesGrillaService.getById(idLimiteDerecha)
-      ).subscribe(result => {
+      ]).subscribe(result => {
         this.limiteGrillaIzquierda = result[0];
         this.limiteGrillaDerecha = result[1];
 

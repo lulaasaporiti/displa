@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { Cliente } from 'src/app/model/cliente';
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
+import { FacturaDetalleComponent } from 'src/app/factura/factura-detalle/factura-detalle.component';
 // import { add, subtract } from 'add-subtract-date';
 
 
@@ -44,7 +45,7 @@ export class CuentaPorClienteComponent implements OnInit {
     private comprobanteService: ComprobanteClienteService) { }
 
   ngOnInit() {
-    this.since = new Date(new Date().setDate(this.today.getDate()-30));
+    this.since = new Date(new Date().setDate(this.today.getDate() - 30));
     // this.since = new Date(this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
@@ -70,9 +71,9 @@ export class CuentaPorClienteComponent implements OnInit {
 
   traerCuentaCliente(event) {
     this.loadingSpinnerService.show();
-    this.comprobanteService.getCuentaPorCliente(event.Id , this.since.toDateString())
+    this.comprobanteService.getCuentaPorCliente(event.Id, this.since.toDateString())
       .subscribe(cc => {
-        console.log(cc);
+        console.log(cc)
         this.dataSource.data = cc;
         // this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.loadingSpinnerService.hide();
@@ -93,6 +94,30 @@ export class CuentaPorClienteComponent implements OnInit {
         cliente.Id.toString().indexOf(s) !== -1 || cliente.Optica.toLowerCase().indexOf(s.toLowerCase()) !== -1);
     } else {
       return [];
+    }
+  }
+
+  verComprobante(idComprobante: number, idTipoComprobante: number) {
+    switch (idTipoComprobante) {
+      case 1: {
+        let url = `Factura/Detalle?id=${idComprobante}`
+        window.open(url, '_blank');
+        break;
+      }
+      case 3: {
+        let url = `NotaDebito/Detalle?id=${idComprobante}`
+        window.open(url, '_blank');
+        break;
+      }
+      case 2: {
+        let url = `NotaCredito/Detalle?id=${idComprobante}`
+        window.open(url, '_blank');
+        break;
+      }
+      default: {
+        //statements; 
+        break;
+      }
     }
   }
 }

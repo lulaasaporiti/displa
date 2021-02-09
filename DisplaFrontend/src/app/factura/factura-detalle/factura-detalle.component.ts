@@ -50,10 +50,10 @@ export class FacturaDetalleComponent implements OnInit {
     });
     if (this.id) {
       this.loadingSpinnerService.show();
-      combineLatest(
+      combineLatest([
         this.remitoService.getRemitosPendientesCliente(this.id),
         this.comprobanteClienteService.getById(this.id)
-      )
+      ])
         .subscribe(result => {
           this.remitos = result[0];
           this.modelComprobante = result[1];

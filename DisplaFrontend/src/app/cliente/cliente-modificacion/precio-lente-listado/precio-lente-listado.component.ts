@@ -74,10 +74,10 @@ export class PrecioLenteListadoComponent implements OnInit {
 
   loadPrecioLentePage() {
     this.loadingSpinnerService.show()
-    combineLatest(
+    combineLatest([
       this.lenteService.getLentesVigentesAgrupadosList(),
       this.clienteService.getPreciosLentesCliente(this.idCliente)
-    )
+    ])
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.preciosSeleccionados = r[1];

@@ -63,9 +63,9 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
 
   loadPrecioLentePage() {
     this.loadingSpinnerService.show()
-    combineLatest(
+    combineLatest([
       this.lenteService.getLentesVigentesAgrupadosList(),
-    )
+    ])
       .subscribe(r => {
         this.dataSource.data = r[0];
         var maxCantPrecio = 0;

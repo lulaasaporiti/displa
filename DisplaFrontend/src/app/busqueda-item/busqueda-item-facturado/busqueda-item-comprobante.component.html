@@ -1,0 +1,68 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <p class="dialog-title">Búsqueda de un ítem facturado</p>
+        </div>
+
+        <div fxLayoutGap="2vw" mat-dialog-content fxLayout="row">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel"  readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta="ngModel"  readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div fxLayoutGap="4vw" mat-dialog-content fxLayout="row" >
+            <mat-button-toggle-group name="items">
+              <mat-button-toggle [value]="true" id="lentes">
+                Lentes
+              </mat-button-toggle>
+              <mat-button-toggle [value]="false" id="articulos"  (click)="traerArticulos()">
+                Artículos
+              </mat-button-toggle>
+              <mat-button-toggle [value]="false" id="libres">
+                Libres
+              </mat-button-toggle>
+            </mat-button-toggle-group>         
+          </div>
+
+
+          <div mat-dialog-content fxLayout="row" fxLayoutGap="15px" *ngIf="mostrarArticulos == true">
+            <mat-form-field fxFlex>
+                <input type="text" placeholder="Tipo artículo" aria-label="Tipo artículo" matInput
+                    [formControl]="tipoArticulosControl" [matAutocomplete]="auto" name="tipo"
+                    (blur)="setIdTipoArticulo(this.tipoArticulosControl)" [(ngModel)]="modelTipoArticulo.Nombre"
+                    (keyup.enter)="tabInventado($event, 'sobre')" required>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTipoArticulo" required>
+                    <mat-option *ngFor="let t of filteredTipoArticulos | async" [value]="t"
+                        (onSelectionChange)="tipoArticuloChange($event)">
+                        {{t.Id}} - {{ t.Nombre }}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="tipoArticulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <input type="text" placeholder="Artículo" aria-label="Artículo" matInput
+                  [formControl]="articulosControl" [matAutocomplete]="auto2" name="arti"
+                  (blur)="setIdArticulo(this.articulosControl)" [(ngModel)]="modelArticulo.Nombre"
+                  (keyup.enter)="tabInventado($event, 'sobre')" required>
+              <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayArticulo" required>
+                  <mat-option *ngFor="let a of filteredArticulos | async" [value]="a">
+                      {{a.Id}} - {{ a.Nombre }}
+                  </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="articulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
+          </mat-form-field>
+        </div>
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+          <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary"
+                [mat-dialog-close]="data">Buscar</button>
+        </div>
+    </div>
+</form>

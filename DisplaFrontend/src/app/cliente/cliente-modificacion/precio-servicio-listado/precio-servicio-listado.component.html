@@ -28,7 +28,7 @@
       <th mat-header-cell *matHeaderCellDef fxFlex="10"> DESCUENTO </th>
       <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center">
         <mat-form-field style="width: 50px;">
-          <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorDescuentoTipo(row.Id)" (blur)="descuentoTipoServicio($event.target.value, row.Id)" [disabled]="!habilitarDescuentoTipo(row.Id)">
+          <input matInput (keypress)="_keyPress($event)" [value]="valorDescuentoTipo(row.Id)" (blur)="descuentoTipoServicio($event.target.value, row.Id)" [disabled]="!habilitarDescuentoTipo(row.Id)">
         </mat-form-field>
       </td>
     </ng-container>
@@ -61,7 +61,7 @@
               <th mat-header-cell *matHeaderCellDef fxFlex="12"> PRECIO ESPECIAL </th>
               <td mat-cell *matCellDef="let row" fxFlex="12" fxLayoutAlign="start center">
                 <mat-form-field style="width: 50px;">
-                  <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorPrecioEspecial(row.Id)"
+                  <input matInput (keypress)="_keyPress($event)" [value]="valorPrecioEspecial(row.Id)"
                     (blur)="precioEspecial($event.target.value, row.Id)">
                 </mat-form-field>
               </td>
@@ -71,7 +71,7 @@
               <th mat-header-cell *matHeaderCellDef fxFlex="10"> DESCUENTO </th>
               <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center">
                 <mat-form-field style="width: 50px;">
-                  <input matInput name="row{{i}}" (keypress)="_keyPress($event)" [value]="valorDescuento(row.Id)"
+                  <input matInput (keypress)="_keyPress($event)" [value]="valorDescuento(row.Id)"
                     (blur)="descuentoServicio($event.target.value, row.Id)" [disabled]="!habilitarDescuento(row)">
                 </mat-form-field>
               </td>

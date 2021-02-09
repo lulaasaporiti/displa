@@ -43,11 +43,11 @@ export class MovimientoInternoAltaComponent {
   }
 
   ngOnInit() {
-    combineLatest(
+    combineLatest([
       this.clienteService.getClientesVigentesList(),
       this.tipoComprobanteService.getTiposComprobantesList(),
       this.proveedorService.getProveedoresVigentesList(),
-    )
+    ])
       .subscribe(r => {
         this.clientes = r[0];
         this.filteredClientes = this.clientesControl.valueChanges

@@ -30,7 +30,8 @@ export class BusquedaCajaComponent implements OnInit {
   dataSource = new MatTableDataSource<Caja>();
   tiposBlock: TipoBlock[];
   ubicaciones: Ubicacion[];
-
+  panelOpenState = false;
+  
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
@@ -45,10 +46,10 @@ export class BusquedaCajaComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
-    combineLatest(
+    combineLatest([
       this.ubicacionService.getUbicacionesVigentesList(),
       this.tipoBlockService.getTiposBlocksVigentesList()
-    ).subscribe(r => {
+    ]).subscribe(r => {
       this.ubicaciones = r[0];
       this.tiposBlock = r[1];
     });

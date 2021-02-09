@@ -8,7 +8,6 @@ import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.s
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { PrecioServicio } from 'src/app/model/precioServicio';
 import { ClienteService } from 'src/services/cliente.service';
 
 
@@ -64,11 +63,11 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
 
   loadPrecioServicioPage() {
     this.loadingSpinnerService.show();
-    combineLatest(
+    combineLatest([
       this.servicioService.getServiciosPrecios(),
       (this.traerActivos == true) ? this.clienteService.getClientesActivosList() : this.clienteService.getClientesList(),
       this.clienteService.getListaAsignacionServicio()
-    )
+    ])
       .subscribe(result => {
         this.dataSource.data = result[1];
         console.log(this.dataSource.data)
@@ -176,6 +175,9 @@ export class AsignacionPrecioClienteServicioComponent implements OnInit {
     }
   }
 
+  cancelar(){
+    this.router.navigateByUrl('Home')
+  }
 
   guardarPrecios() {
     this.loadingSpinnerService.show();

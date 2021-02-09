@@ -15,13 +15,13 @@ import { ModificacionParametrosComponent } from './modificacion-parametros/modif
 import { SobreAltaComponent } from '../sobre/sobre-alta/sobre-alta.component';
 import { SobreService } from 'src/services/sobre.service';
 import { ParametroService } from 'src/services/parametro.service';
-import { BusquedaItemFacturadoComponent } from '../factura/busqueda-item-facturado/busqueda-item-facturado.component';
 import { ReciboAltaComponent } from '../recibo/recibo-alta/recibo-alta.component';
 import { ReciboService } from 'src/services/recibo.service';
 import { MovimientoInternoAltaComponent } from '../movimiento-interno/movimiento-interno-alta/movimiento-interno-alta.component';
 import { MovimientoInternoService } from 'src/services/movimiento.interno.service';
 import { VentaClienteMesComponent } from '../estadistica/venta-cliente-mes/venta-cliente-mes.component';
 import { MatDialog } from '@angular/material/dialog';
+import { BusquedaItemComprobanteComponent } from '../busqueda-item/busqueda-item-facturado/busqueda-item-comprobante.component';
 
 @Component({
   selector: 'app-header',
@@ -89,7 +89,7 @@ export class HeaderComponent {
 
   openDialogBusquedaItem(): void {
     let idCliente;
-    const dialogRef = this.dialog.open(BusquedaItemFacturadoComponent, {
+    const dialogRef = this.dialog.open(BusquedaItemComprobanteComponent, {
       data: { idCliente: idCliente },
       width: '600px'
     })

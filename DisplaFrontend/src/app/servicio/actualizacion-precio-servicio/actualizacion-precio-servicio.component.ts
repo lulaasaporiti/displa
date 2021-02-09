@@ -90,10 +90,10 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
 
   loadPrecioServicioPage() {
     this.loadingSpinnerService.show()
-    combineLatest(
+    combineLatest([
       this.servicioService.getServiciosPrecios(),
       this.tipoServicioService.getTiposServicioConServiciosList(),
-    )
+    ])
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.dataSourceTipo.data = r[1];

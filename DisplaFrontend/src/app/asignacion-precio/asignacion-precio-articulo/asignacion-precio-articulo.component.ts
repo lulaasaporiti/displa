@@ -64,11 +64,11 @@ export class AsignacionPrecioClienteArticuloComponent implements OnInit {
 
   loadPrecioArticuloPage() {
     this.loadingSpinnerService.show();
-    combineLatest(
+    combineLatest([
       this.articuloService.getArticulosVariosPrecios(),
       (this.traerActivos == true) ? this.clienteService.getClientesActivosList() : this.clienteService.getClientesList(),
       this.clienteService.getListaAsignacionArticulo()
-    )
+    ])
       .subscribe(result => {
         this.dataSource.data = result[1];
         var maxCantPrecio = 0;
@@ -171,6 +171,10 @@ export class AsignacionPrecioClienteArticuloComponent implements OnInit {
           return true;
       } 
     }
+  }
+
+  cancelar(){
+    this.router.navigateByUrl('Home')
   }
 
   guardarPrecios() {

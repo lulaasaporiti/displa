@@ -55,11 +55,11 @@ export class InformacionModificacionComponent implements OnInit {
 
   ngOnInit() {
     this.loadingSpinnerService.show();
-    combineLatest(
+    combineLatest([
       this.localidadService.getLocalidadesVigentesList(),
       this.categoriaIvaService.getCategoriaIVAVigentesList(),
       this.condicionVentaService.getCondicionVentaVigentesList()
-    ).subscribe(result => {
+    ]).subscribe(result => {
       this.localidades = result[0];
       this.filteredLocalidades = this.localidadesControl.valueChanges
         .pipe(

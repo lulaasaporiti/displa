@@ -23,10 +23,10 @@ export class ValidacionLenteService {
         else idLimiteIzquierda = 3;
         if (combinacion[1] == '- +') idLimiteDerecha = 2;
         else idLimiteDerecha = 4;
-        combineLatest(
+        combineLatest([
             this.limitesGrillaService.getById(idLimiteIzquierda),
             this.limitesGrillaService.getById(idLimiteDerecha)
-        ).subscribe(result => {
+        ]).subscribe(result => {
             this.limiteGrillaIzquierda = result[0];
             this.limiteGrillaDerecha = result[1];
         });

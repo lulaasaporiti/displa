@@ -100,11 +100,11 @@ export class PrecioServicioListadoComponent implements OnInit {
 
   loadPrecioServicioPage() {
     this.loadingSpinnerService.show()
-    combineLatest(
+    combineLatest([
       this.servicioService.getServiciosPrecios(),
       this.tipoServicioService.getTiposServicioConServiciosList(),
       this.clienteService.getPreciosServiciosCliente(this.idCliente)
-    )
+    ])
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.dataSourceTipo.data = r[1];
