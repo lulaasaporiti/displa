@@ -61,8 +61,7 @@
         </div>
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
           <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary"
-                [mat-dialog-close]="data">Buscar</button>
+            <button mat-raised-button color="primary" (click)="buscar()">Buscar</button>
         </div>
     </div>
 </form>

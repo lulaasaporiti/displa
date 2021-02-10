@@ -74,8 +74,8 @@ export class ClienteListadoComponent implements OnInit {
   @ViewChild('search', { static: true }) searchElement: ElementRef;
 
   constructor(
-    public dialog: MatDialog,
     private router: Router,
+    public dialog: MatDialog,
     private clienteService: ClienteService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) { }

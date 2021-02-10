@@ -38,13 +38,18 @@ export class ComprobanteClienteService {
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
-    
-
     getCuentaPorCliente(idCliente, fecha): Observable<any> {
         return this.mainService.get(`ComprobanteCliente/GetCuentaPorCliente`, {
             idCliente: idCliente,
             fecha: fecha
         });
     }
-    
+
+    buscarItemComprobante(idLente, idArticulo, libre){
+        return this.mainService.get(`ComprobanteCliente/BuscarItem`, {
+            idLente: idLente,
+            idArticulo: idArticulo,
+            libre: libre
+        });
+    }
 }

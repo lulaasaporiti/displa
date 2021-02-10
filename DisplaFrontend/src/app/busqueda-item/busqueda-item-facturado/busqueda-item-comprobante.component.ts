@@ -9,6 +9,8 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { ArticuloVario } from 'src/app/model/articuloVario';
 import { argv0 } from 'process';
+import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +20,10 @@ import { argv0 } from 'process';
 })
 export class BusquedaItemComprobanteComponent implements OnInit {
   today = new Date();
-  since;
+  since = new Date();
+  idLente = 0;
+  idArticulo = 0;
+  libre = "";
   tipoArticulos: TipoArticulo[];
   tipoArticulosControl = new FormControl();
   filteredTipoArticulos: Observable<TipoArticulo[]>;
@@ -30,6 +35,7 @@ export class BusquedaItemComprobanteComponent implements OnInit {
   filteredArticulos: Observable<ArticuloVario[]>;
 
   constructor(
+    private router: Router,
     private articuloService: ArticuloVarioService,
     private tipoArticuloService: TipoArticuloService,
     public dialogRef: MatDialogRef<BusquedaItemComprobanteComponent>,
@@ -40,6 +46,11 @@ export class BusquedaItemComprobanteComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close(false);
+  }
+
+  buscar(): void {
+    this.dialogRef.close(true);
+    this.router.navigateByUrl('ResultadoBusqueda/Listado?idLente=' + this.idLente + '&idArticulo=' +  this.idArticulo + '&libre=' + this.libre + '&desde=' + this.since + '&hasta=' + this.today);
   }
 
   _keyPress(event: any) {
@@ -66,7 +77,9 @@ export class BusquedaItemComprobanteComponent implements OnInit {
   }
 
   setIdArticulo(control) {
+    console.log(control)
     if (control.value != null) {
+      this.idArticulo = control.value.Id;
     }
   }
 

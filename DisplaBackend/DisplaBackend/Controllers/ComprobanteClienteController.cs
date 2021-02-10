@@ -84,6 +84,12 @@ namespace DisplaBackend.Controllers
             return _comprobanteClienteService.GetCuentaPorCliente(idCliente, fecha);
         }
 
+        [HttpGet, Route("BuscarItem")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarItem(int idLente, int idArticulo, string libre)
+        {
+            return _comprobanteClienteService.BuscarItem(idLente, idArticulo, libre);
+        }
     }
 
 

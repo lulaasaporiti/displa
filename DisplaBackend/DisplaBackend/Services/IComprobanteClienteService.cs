@@ -14,6 +14,7 @@ namespace DisplaBackend.Services
         bool Delete(ComprobanteCliente comprobanteCliente);
         ComprobanteCliente GetById(int idComprobanteCliente);
         List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha);
+        List<ComprobanteCliente> BuscarItem(int idLente, int idArticulo, string libre);
     }
 
     public class ComprobanteClienteService : IComprobanteClienteService
@@ -59,6 +60,11 @@ namespace DisplaBackend.Services
         public List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha)
         {
             return _comprobanteClienteDAO.GetCuentaPorCliente(idCliente, fecha);
+        }
+
+        public List<ComprobanteCliente> BuscarItem(int idLente, int idArticulo, string libre)
+        {
+            return _comprobanteClienteDAO.BuscarItem(idLente, idArticulo, libre);
         }
     }
 

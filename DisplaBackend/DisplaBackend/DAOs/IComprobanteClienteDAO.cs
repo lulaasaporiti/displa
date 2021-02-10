@@ -15,7 +15,7 @@ namespace DisplaBackend.DAOs
         bool Delete(ComprobanteCliente comprobanteCliente);
         ComprobanteCliente GetById(int idComprobanteCliente);
         List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha);
-
+        List<ComprobanteCliente> BuscarItem(int idLente, int idArticulo, string libre);
     }
 
     public class ComprobanteClienteDAO : IComprobanteClienteDAO
@@ -204,6 +204,35 @@ namespace DisplaBackend.DAOs
         public List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha)
         {
             return _context.ComprobanteCliente.Include(c => c.IdTipoComprobanteNavigation).Where(cc => cc.IdCliente == idCliente && cc.Fecha > fecha).ToList();
+        }
+
+        public List<ComprobanteCliente> BuscarItem(int idLente, int idArticulo, string libre)
+        {
+            if (idLente > 0) {
+                return _context.ComprobanteCliente
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdClienteNavigation)
+                    .Where(cc => cc.ComprobanteItem.Any(ci => ci.ComprobanteItemLente.Any(cl => cl.IdLente == idLente)))
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList();
+            }
+            if (idArticulo > 0) {
+                return _context.ComprobanteCliente
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdClienteNavigation)
+                    .Where(cc => cc.ComprobanteItem.Any(ci => ci.IdArticulo == idArticulo))
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList();
+            }
+            if (libre != null) {
+                return _context.ComprobanteCliente
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdClienteNavigation)
+                    .Where(cc => cc.ComprobanteItem.Any(ci => ci.Descripcion.Contains(libre)))
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList();
+            }
+            return null;
         }
     }
 }
