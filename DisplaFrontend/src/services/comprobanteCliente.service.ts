@@ -45,11 +45,13 @@ export class ComprobanteClienteService {
         });
     }
 
-    buscarItemComprobante(idLente, idArticulo, libre){
+    buscarItemComprobante(idLente, idArticulo, libre, desde, hasta){
         return this.mainService.get(`ComprobanteCliente/BuscarItem`, {
             idLente: idLente,
             idArticulo: idArticulo,
-            libre: libre
+            libre: libre,
+            desde: desde,
+            hasta: hasta
         });
     }
 }

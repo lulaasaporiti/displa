@@ -18,6 +18,8 @@ export class ResultadoBusquedaComponent implements OnInit {
   idLente;
   idArticulo;
   libre;
+  desde;
+  hasta;
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -27,26 +29,30 @@ export class ResultadoBusquedaComponent implements OnInit {
   constructor(
     private router: Router,
     private segment: ActivatedRoute,
-    private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService,
     private comprobanteService: ComprobanteClienteService) {
       this.segment.queryParams.subscribe((params: Params) => {
         this.idLente = +params['idLente']; 
         this.idArticulo = +params['idArticulo']; 
-        this.libre = params['libre']; 
+        this.libre = params['libre'];
+        this.desde = params['desde'];
+        this.hasta = params['hasta'];
       });
     }
 
   ngOnInit() {
     // this.searchElement.nativeElement.focus();
+    this.loadingSpinnerService.show();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.loadingSpinnerService.show();
-    this.comprobanteService.buscarItemComprobante(this.idLente, this.idArticulo, this.libre)
+    this.comprobanteService.buscarItemComprobante(this.idLente, this.idArticulo, this.libre, this.desde, this.hasta)
       .subscribe(r => {
-        console.log(r)
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
+            console.log(r)
+            this.dataSource.data = r;
+            this.loadingSpinnerService.hide();
+            this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                return false;
+            };       
       });
   }
 
@@ -55,10 +61,11 @@ export class ResultadoBusquedaComponent implements OnInit {
   }
 
 
-  verComprobante(idComprobante: number, idTipoComprobante: number) {
+  verComprobante(idComprobante: number, idTipoComprobante: number, idComprobanteItem: number) {
+    console.log("entro")
     switch (idTipoComprobante) {
       case 1: {
-        let url = `Factura/Detalle?id=${idComprobante}`
+        let url = `Factura/Detalle?id=${idComprobante}&idItem=${idComprobanteItem}`
         window.open(url, '_blank');
         break;
       }

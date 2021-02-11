@@ -25,6 +25,7 @@ export class FacturaDetalleComponent implements OnInit {
   remitos: Remito [] = [];
   totalRemitos;
   private id: number = 0;
+  idComprobanteItem: number = 0;
   panelOpenState = false;
   comprobantesItems: ComprobanteItem[] = [];
   ventasVirtuales: VentaVirtual[] = [];
@@ -47,6 +48,8 @@ export class FacturaDetalleComponent implements OnInit {
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number;
+      this.idComprobanteItem = +params['idItem']; // (+) converts string 'id' to a number;
+      console.log(this.idComprobanteItem)
     });
     if (this.id) {
       this.loadingSpinnerService.show();

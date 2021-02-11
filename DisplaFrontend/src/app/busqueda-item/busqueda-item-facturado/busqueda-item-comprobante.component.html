@@ -1,67 +1,122 @@
 <form #modalForm="ngForm">
-    <div class="dialog-content">
-        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-            <p class="dialog-title">Búsqueda de un ítem facturado</p>
+  <div class="dialog-content" fxLayout="column" fxLayoutGap="15px">
+    <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+      <p class="dialog-title">Búsqueda de un ítem facturado</p>
+    </div>
+
+    <div fxLayoutGap="2vw" mat-dialog-content fxLayout="row">
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel"
+          readonly>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta="ngModel"
+          readonly>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div fxLayoutGap="4vw" mat-dialog-content fxLayout="row">
+      <mat-button-toggle-group name="items">
+        <mat-button-toggle [value]="true" id="lentes" (click)="traerLentes()">
+          Lentes
+        </mat-button-toggle>
+        <mat-button-toggle [value]="false" id="articulos" (click)="traerArticulos()">
+          Artículos
+        </mat-button-toggle>
+        <mat-button-toggle [value]="false" id="libres" (click)="mostrarLibre()">
+          Libres
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div *ngIf="mostrarLentes">
+      <div mat-dialog-content fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex="50">
+          <input type="text" placeholder="Lente" aria-label="Lente" [(ngModel)]="modelLente.Nombre" matInput
+            [formControl]="lentesControl" [matAutocomplete]="auto" name="lente" id="lente"
+            (blur)="setIdLente(this.lentesControl);">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
+            <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
+              {{ l.Id }} - {{l.Nombre}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field fxFlex="50">
+          <input type="text" placeholder="Texto en factura" aria-label="Texto en factura"  matInput disabled>
+        </mat-form-field>
+      </div>
+
+      <div mat-dialog-content fxLayout="row" fxLayoutGap="10px">
+        <div fxLayout="column">
+          <mat-form-field fxFlex="50">
+            <input type="text" placeholder="Medida esférico" matInput autocomplete="off" [(ngModel)]="esferico"
+              id="esferi" name="esferi" #esferi="ngModel" required (keypress)="_keyPress($event)">
+            <mat-error *ngIf="esferi.invalid">Este campo es obligatorio</mat-error>
+          </mat-form-field>
+          <!-- (blur)="this.validacionLenteService.divisionMedida(modelLente, modelLente.MedidaEsferico)" -->
+          <!-- (input)="compararLimiteGrilla(0, 'esferico')" -->
+          <!-- <p class="msjError" *ngIf="msjLimiteEsferico[0]">
+          La medida no se encuentra dentro de los límites.</p> -->
         </div>
 
-        <div fxLayoutGap="2vw" mat-dialog-content fxLayout="row">
-            <mat-form-field>
-              <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel"  readonly>
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta="ngModel"  readonly>
-              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
-          </div>
-
-          <div fxLayoutGap="4vw" mat-dialog-content fxLayout="row" >
-            <mat-button-toggle-group name="items">
-              <mat-button-toggle [value]="true" id="lentes">
-                Lentes
-              </mat-button-toggle>
-              <mat-button-toggle [value]="false" id="articulos"  (click)="traerArticulos()">
-                Artículos
-              </mat-button-toggle>
-              <mat-button-toggle [value]="false" id="libres">
-                Libres
-              </mat-button-toggle>
-            </mat-button-toggle-group>         
-          </div>
-
-
-          <div mat-dialog-content fxLayout="row" fxLayoutGap="15px" *ngIf="mostrarArticulos == true">
-            <mat-form-field fxFlex>
-                <input type="text" placeholder="Tipo artículo" aria-label="Tipo artículo" matInput
-                    [formControl]="tipoArticulosControl" [matAutocomplete]="auto" name="tipo"
-                    (blur)="setIdTipoArticulo(this.tipoArticulosControl)" [(ngModel)]="modelTipoArticulo.Nombre"
-                    (keyup.enter)="tabInventado($event, 'sobre')" required>
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTipoArticulo" required>
-                    <mat-option *ngFor="let t of filteredTipoArticulos | async" [value]="t"
-                        (onSelectionChange)="tipoArticuloChange($event)">
-                        {{t.Id}} - {{ t.Nombre }}
-                    </mat-option>
-                </mat-autocomplete>
-                <mat-error *ngIf="tipoArticulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
-            <mat-form-field fxFlex>
-              <input type="text" placeholder="Artículo" aria-label="Artículo" matInput
-                  [formControl]="articulosControl" [matAutocomplete]="auto2" name="arti"
-                  (blur)="setIdArticulo(this.articulosControl)" [(ngModel)]="modelArticulo.Nombre"
-                  (keyup.enter)="tabInventado($event, 'sobre')" required>
-              <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayArticulo" required>
-                  <mat-option *ngFor="let a of filteredArticulos | async" [value]="a">
-                      {{a.Id}} - {{ a.Nombre }}
-                  </mat-option>
-              </mat-autocomplete>
-              <mat-error *ngIf="articulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
+        <div fxLayout="column">
+          <mat-form-field fxFlex="50">
+            <input type="text" placeholder="Medida cilindríco" matInput autocomplete="off" [(ngModel)]="cilindrico"
+              id="cilin" name="cilin" #cilin="ngModel" (keypress)="_keyPress($event)" required>
+            <mat-error *ngIf="cilin.invalid">Este campo es obligatorio</mat-error>
           </mat-form-field>
         </div>
-        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-          <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" (click)="buscar()">Buscar</button>
-        </div>
+
+        <!-- <p class="msjError"
+          *ngIf="validacionLenteService.compararGraduacion(modelComprobanteItemLente[0], modelComprobanteItemLente[0].IdLenteNavigation)">
+          La medida no respeta el signo de la lente.</p> -->
+        <!-- <p class="msjError" *ngIf="msjLimiteCilindrico[0]">
+          La medida no se encuentra dentro de los límites.</p> -->
+        <!-- (blur)="this.validacionLenteService.divisionMedida(modelLente, modelLente.MedidaCilindrico)" -->
+      </div>
     </div>
+
+    <div mat-dialog-content fxLayout="row" fxLayoutGap="15px" *ngIf="mostrarArticulos">
+      <mat-form-field fxFlex>
+        <input type="text" placeholder="Tipo artículo" aria-label="Tipo artículo" matInput
+          [formControl]="tipoArticulosControl" [matAutocomplete]="auto" name="tipo"
+          (blur)="setIdTipoArticulo(this.tipoArticulosControl)" [(ngModel)]="modelTipoArticulo.Nombre" required>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTipoArticulo" required>
+          <mat-option *ngFor="let t of filteredTipoArticulos | async" [value]="t"
+            (onSelectionChange)="tipoArticuloChange($event)">
+            {{t.Id}} - {{ t.Nombre }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="tipoArticulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <input type="text" placeholder="Artículo" aria-label="Artículo" matInput [formControl]="articulosControl"
+          [matAutocomplete]="auto2" name="arti" (blur)="setIdArticulo(this.articulosControl)"
+          [(ngModel)]="modelArticulo.Nombre" required>
+        <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayArticulo" required>
+          <mat-option *ngFor="let a of filteredArticulos | async" [value]="a">
+            {{a.Id}} - {{ a.Nombre }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="articulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-content fxLayout="row" fxLayoutGap="15px" *ngIf="mostrarLibres">
+      <mat-form-field fxFill>
+        <input matInput placeholder="Descripcion" id="descripcion" name="descripcion" [(ngModel)]="libre"
+          #descripcion="ngModel" required>
+        <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+      <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+      <button mat-raised-button color="primary" (click)="buscar()">Buscar</button>
+    </div>
+  </div>
 </form>

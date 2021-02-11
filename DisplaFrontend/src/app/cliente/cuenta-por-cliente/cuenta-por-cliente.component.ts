@@ -38,9 +38,7 @@ export class CuentaPorClienteComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
     private clienteService: ClienteService,
-    private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService,
     private comprobanteService: ComprobanteClienteService) { }
 
@@ -73,7 +71,6 @@ export class CuentaPorClienteComponent implements OnInit {
     this.loadingSpinnerService.show();
     this.comprobanteService.getCuentaPorCliente(event.Id, this.since.toDateString())
       .subscribe(cc => {
-        console.log(cc)
         this.dataSource.data = cc;
         // this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.loadingSpinnerService.hide();

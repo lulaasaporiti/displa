@@ -13,7 +13,7 @@ import { AccountService } from 'src/services/account.service';
   styleUrls: ['./account-login.component.css']
 })
 export class AccountLoginComponent implements OnInit {
-
+  isDarkTheme;
   usuario = <LoginView>{};
   hidePassword = true;
 

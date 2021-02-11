@@ -86,9 +86,9 @@ namespace DisplaBackend.Controllers
 
         [HttpGet, Route("BuscarItem")]
         [EnableCors("DisplaAPIPolicy")]
-        public object BuscarItem(int idLente, int idArticulo, string libre)
+        public object BuscarItem(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta)
         {
-            return _comprobanteClienteService.BuscarItem(idLente, idArticulo, libre);
+            return _comprobanteClienteService.BuscarItem(idLente, idArticulo, libre, desde, hasta);
         }
     }
 

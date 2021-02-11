@@ -8,9 +8,9 @@ import { startWith, map } from 'rxjs/operators';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { ArticuloVario } from 'src/app/model/articuloVario';
-import { argv0 } from 'process';
-import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
 import { Router } from '@angular/router';
+import { Lente } from 'src/app/model/lente';
+import { LenteService } from 'src/services/lente.service';
 
 
 @Component({
@@ -23,20 +23,29 @@ export class BusquedaItemComprobanteComponent implements OnInit {
   since = new Date();
   idLente = 0;
   idArticulo = 0;
+  esferico;
+  cilindrico;
   libre = "";
   tipoArticulos: TipoArticulo[];
   tipoArticulosControl = new FormControl();
   filteredTipoArticulos: Observable<TipoArticulo[]>;
   mostrarArticulos: boolean = false;
+  mostrarLibres: boolean = false;
+  mostrarLentes: boolean = false;
   modelTipoArticulo = <TipoArticulo>{};
   modelArticulo = <ArticuloVario>{};
+  modelLente = <Lente>{};
   articulos: ArticuloVario[] = [];
   articulosControl = new FormControl();
   filteredArticulos: Observable<ArticuloVario[]>;
+  lentes: Lente[];
+  lentesControl = new FormControl();
+  filteredLentes: Observable<Lente[]>;
 
   constructor(
     private router: Router,
     private articuloService: ArticuloVarioService,
+    private lenteService: LenteService,
     private tipoArticuloService: TipoArticuloService,
     public dialogRef: MatDialogRef<BusquedaItemComprobanteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -50,7 +59,7 @@ export class BusquedaItemComprobanteComponent implements OnInit {
 
   buscar(): void {
     this.dialogRef.close(true);
-    this.router.navigateByUrl('ResultadoBusqueda/Listado?idLente=' + this.idLente + '&idArticulo=' +  this.idArticulo + '&libre=' + this.libre + '&desde=' + this.since + '&hasta=' + this.today);
+    this.router.navigateByUrl('ResultadoBusqueda/Listado?idLente=' + this.idLente + '&idArticulo=' +  this.idArticulo + '&libre=' + this.libre + '&desde=' + this.since.toDateString() + '&hasta=' + this.today.toDateString());
   }
 
   _keyPress(event: any) {
@@ -76,17 +85,48 @@ export class BusquedaItemComprobanteComponent implements OnInit {
     return a ? a.Id + ' - ' + a.Nombre : undefined;
   }
 
+  displayLente(l?: Lente): string | undefined {
+    return l ? l.Id + ' - ' + l.Nombre : undefined;
+  }
+
+  setIdLente(control) {
+    if (control.value != null) {
+    }
+  }
+
+
+  filterLente(nombre: any): Lente[] {
+    if (nombre.length >= 0) {
+      var s: string;
+      try {
+        s = nombre.toLowerCase();
+      }
+      catch (ex) {
+        s = nombre.nombre.toLowerCase();
+      }
+      return this.lentes.filter(lente =>
+        lente.Id.toString().indexOf(s) !== -1 || lente.Nombre.toLowerCase().indexOf(s.toLowerCase()) !== -1);
+    } else {
+      return [];
+    }
+  }
+
   setIdArticulo(control) {
-    console.log(control)
     if (control.value != null) {
       this.idArticulo = control.value.Id;
     }
   }
 
+  mostrarLibre(){
+    this.mostrarLibres = true;
+    this.mostrarLentes = false;
+    this.mostrarArticulos = false;
+  }
+
+
   traerArticulos(){
     this.tipoArticuloService.getTiposArticuloConArticulosList().subscribe(r => {
       this.tipoArticulos = r;
-      // this.modelComprobanteItem.IdArticuloNavigation = <ArticuloVario>{};
       this.filteredTipoArticulos = this.tipoArticulosControl.valueChanges
         .pipe(
           startWith(''),
@@ -94,7 +134,25 @@ export class BusquedaItemComprobanteComponent implements OnInit {
         );
     });
     this.mostrarArticulos = true;
+    this.mostrarLentes = false;
+    this.mostrarLibres = false;
   }
+
+  traerLentes(){
+    this.lenteService.getLentesVigentesList().subscribe(r => {
+      this.lentes = r;
+      this.filteredLentes = this.lentesControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(val => this.filterLente(val))
+        );
+    });
+    this.mostrarLentes = true;
+    this.mostrarArticulos = false;
+    this.mostrarLibres = false;
+  }
+
+
 
   filterTipoArticulo(nombre: any): TipoArticulo[] {
     if (nombre.length >= 0) {
@@ -142,12 +200,4 @@ export class BusquedaItemComprobanteComponent implements OnInit {
     }
   }
 
-
-  tabInventado(event: KeyboardEvent, idElement)
-  {
-    if (event.code == "Enter") {
-      event.preventDefault();
-      document.getElementById(idElement).focus();
-    }
-  }
 }

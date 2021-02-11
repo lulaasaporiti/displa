@@ -139,7 +139,7 @@ export class HeaderComponent {
   openDialogVentaClienteMes(): void {
     const dialogRef = this.dialog.open(VentaClienteMesComponent, {
       data: {  },
-      width: '650px'
+      width: '750px'
     })
     // dialogRef.afterClosed().subscribe(result => {
     //   if (result != undefined && result != false) {
