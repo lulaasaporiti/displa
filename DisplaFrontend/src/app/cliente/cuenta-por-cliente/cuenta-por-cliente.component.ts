@@ -5,14 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ClienteService } from 'src/services/cliente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
-import { SessionService } from 'src/services/session.service';
-import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { Cliente } from 'src/app/model/cliente';
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
-import { FacturaDetalleComponent } from 'src/app/factura/factura-detalle/factura-detalle.component';
 // import { add, subtract } from 'add-subtract-date';
 
 
@@ -71,6 +68,7 @@ export class CuentaPorClienteComponent implements OnInit {
     this.loadingSpinnerService.show();
     this.comprobanteService.getCuentaPorCliente(event.Id, this.since.toDateString())
       .subscribe(cc => {
+        console.log(cc)
         this.dataSource.data = cc;
         // this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.loadingSpinnerService.hide();

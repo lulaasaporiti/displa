@@ -70,12 +70,12 @@ export class ResultadoBusquedaComponent implements OnInit {
         break;
       }
       case 3: {
-        let url = `NotaDebito/Detalle?id=${idComprobante}`
+        let url = `NotaDebito/Detalle?id=${idComprobante}&idItem=${idComprobanteItem}`
         window.open(url, '_blank');
         break;
       }
       case 2: {
-        let url = `NotaCredito/Detalle?id=${idComprobante}`
+        let url = `NotaCredito/Detalle?id=${idComprobante}&idItem=${idComprobanteItem}`
         window.open(url, '_blank');
         break;
       }

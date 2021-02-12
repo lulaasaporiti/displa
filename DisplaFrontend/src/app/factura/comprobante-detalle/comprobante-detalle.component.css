@@ -9,6 +9,10 @@ mat-paginator{
   font-size: 14px;
 }
 
+.panel-credito-debito {
+  background-color:darksalmon;
+}
+
 .menu-agregar{
   padding: 8px 0;
 }

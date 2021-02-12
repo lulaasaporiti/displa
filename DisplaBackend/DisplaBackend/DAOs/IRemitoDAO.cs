@@ -55,7 +55,7 @@ namespace DisplaBackend.DAOs
                     {
                         if (c.IdArticuloNavigation != null)
                         {
-                            //c.IdArticuloNavigation.StockActual = c.IdArticuloNavigation.StockActual - c.Cantidad;
+                            c.IdArticuloNavigation.StockActual = c.IdArticuloNavigation.StockActual - c.Cantidad;
                             _context.ArticuloVario.Update(c.IdArticuloNavigation);
                         }
                         c.IdServicioNavigation = null;

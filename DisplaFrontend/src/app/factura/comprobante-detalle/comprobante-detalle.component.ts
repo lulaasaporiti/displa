@@ -15,11 +15,11 @@ import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
-  selector: 'app-factura-detalle',
-  templateUrl: './factura-detalle.component.html',
-  styleUrls: ['./factura-detalle.component.css']
+  selector: 'app-comprobante-detalle',
+  templateUrl: './comprobante-detalle.component.html',
+  styleUrls: ['./comprobante-detalle.component.css']
 })
-export class FacturaDetalleComponent implements OnInit {
+export class ComprobanteDetalleComponent implements OnInit {
   modelCliente = <Cliente>{};
   parametro = <Parametro>{};
   remitos: Remito [] = [];
@@ -35,6 +35,7 @@ export class FacturaDetalleComponent implements OnInit {
   key;
   bloquearF = false;
   modelComprobante = <ComprobanteCliente>{};
+  tipoComprobante;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -51,6 +52,9 @@ export class FacturaDetalleComponent implements OnInit {
       this.idComprobanteItem = +params['idItem']; // (+) converts string 'id' to a number;
       console.log(this.idComprobanteItem)
     });
+    console.log(this.router.url.split('/')[length-2])
+    this.tipoComprobante = this.router.url.split('/')[0];
+
     if (this.id) {
       this.loadingSpinnerService.show();
       combineLatest([
@@ -99,6 +103,14 @@ export class FacturaDetalleComponent implements OnInit {
       this.modelComprobante.SubtotalFactura = 0;
       this.modelComprobante.MontoTotal = 0;
     } 
+  }
+
+  comprobante(){
+    console.log(this.tipoComprobante)
+    if (this.tipoComprobante == "Factura")
+      return '';
+    else
+      return 'panel-credito-debito';
   }
 
   getTotalRemito() {

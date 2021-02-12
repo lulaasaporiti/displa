@@ -4,15 +4,13 @@
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-accordion fxFill>
         <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header [ngClass]="comprobante()">
             <mat-panel-title>
               <h4 class="titulo" fxFlex>{{modelCliente.Id}} - Óptica {{modelCliente.Optica}}</h4>
               <h4 class="titulo" fxFlexOffset="10">Factura</h4>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <p class="titulo">Datos factura</p>
-          
-
           <div fxLayout="column" style="margin: 12px auto;">
             <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
               <mat-form-field fxFlex='25' fxLayout="column">

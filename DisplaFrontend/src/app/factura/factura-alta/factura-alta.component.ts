@@ -501,7 +501,23 @@ export class FacturaAltaComponent implements OnInit {
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.modelComprobante.ComprobanteItem.push(producto);
-    this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (producto.Monto > this.parametro.MontoMaximoProductosDiferentes)
+      this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
+    }
+      else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+        this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
+      }
+    else {
+      this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    }
   }
 
   rowBorrarProductos(row: any): void {
