@@ -14,6 +14,7 @@ namespace DisplaBackend.DAOs
         Task<bool> SaveOrUpdate(Remito remito);
         bool Delete(Remito remito);
         Remito GetById(int idRemito);
+        List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
 
     }
 
@@ -118,7 +119,8 @@ namespace DisplaBackend.DAOs
 
         public Remito GetById(int idRemito)
         {
-            return _context.Remito.FirstOrDefault(u => u.Id == idRemito);
+            return _context.Remito.Include(r => r.IdClienteNavigation)
+                .Include(r => r.IdUsuarioNavigation).Include(r => r.ComprobanteItem).FirstOrDefault(u => u.Id == idRemito);
         }
 
         public bool Delete(Remito remito)
@@ -133,6 +135,62 @@ namespace DisplaBackend.DAOs
             {
                 throw e;
             }
+        }
+
+        public List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta)
+        {
+            if (idLente > 0)
+            {
+                return _context.Remito
+                    .Include(r => r.IdClienteNavigation)
+                    .Include(r => r.ComprobanteItem)
+                    .Where(re => re.Fecha >= desde && re.Fecha <= hasta.AddDays(1) && re.FechaAnulado == null && re.FechaFactura == null && 
+                    re.ComprobanteItem.Any(ci => ci.ComprobanteItemLente.Any(cl => cl.IdLente == idLente)))
+                   .Select(ca => new {
+                       Id = ca.Id,
+                       Fecha = ca.Fecha,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.ComprobanteItemLente.Any(cil => cil.IdLente == idLente)).Select(c => c.Id),
+                       Producto = ca.ComprobanteItem.Where(ci => ci.ComprobanteItemLente.Any(cil => cil.IdLente == idLente)).Select(c => c.Descripcion)
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            if (idArticulo > 0)
+            {
+                return _context.Remito
+                    .Include(r => r.IdClienteNavigation)
+                    .Include(r => r.ComprobanteItem)
+                    .Where(re => re.Fecha >= desde && re.Fecha <= hasta.AddDays(1) && re.FechaAnulado == null && re.FechaFactura == null &&
+                    re.ComprobanteItem.Any(ci => ci.IdArticulo == idArticulo))
+                    .Select(ca => new {
+                        Id = ca.Id,
+                        Fecha = ca.Fecha,
+                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                        IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.IdArticulo == idArticulo).Select(c => c.Id),
+                        Producto = ca.ComprobanteItem.Where(ci => ci.IdArticulo == idArticulo).Select(a => a.IdArticuloNavigation.Nombre)
+                    })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            if (libre != null)
+            {
+                return _context.Remito
+                    .Include(r => r.IdClienteNavigation)
+                    .Include(r => r.ComprobanteItem)
+                    .Where(re => re.Fecha >= desde && re.Fecha <= hasta.AddDays(1) && re.FechaAnulado == null && re.FechaFactura == null &&
+                    re.ComprobanteItem.Any(ci => ci.Descripcion.Contains(libre)))
+                    .Select(ca => new {
+                        Id = ca.Id,
+                        Fecha = ca.Fecha,
+                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                        IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.Descripcion.Contains(libre)).Select(c => c.Id),
+                        Producto = ca.ComprobanteItem.Where(ci => ci.Descripcion.Contains(libre)).Select(c => c.Descripcion)
+                    })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            return null;
         }
     }
 }

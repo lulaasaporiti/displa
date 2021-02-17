@@ -4,34 +4,24 @@
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-accordion fxFill>
         <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-          <mat-expansion-panel-header [ngClass]="comprobante()">
+          <mat-expansion-panel-header>
             <mat-panel-title>
               <h4 class="titulo" fxFlex>{{modelCliente.Id}} - Óptica {{modelCliente.Optica}}</h4>
-              <h4  *ngIf="tipoComprobante == 'Factura'" class="titulo" fxFlexOffset="10">Factura</h4>
-              <h4 *ngIf="tipoComprobante == 'NotaCredito'" class="titulo" fxFlexOffset="10">Nota de crédito</h4>
-              <h4  *ngIf="tipoComprobante == 'NotaDebito'" class="titulo" fxFlexOffset="10">Nota de débito</h4>
+              <h4 class="titulo" fxFlexOffset="10">Remito</h4>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <p class="titulo">Datos comprobante</p>
+          <p class="titulo">Datos del remito</p>
           <div fxLayout="column" style="margin: 12px auto;">
             <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
               <mat-form-field fxFlex='25' fxLayout="column">
-                <input matInput placeholder="Factura" [ngModel]="modelComprobante.Letra" name="letra" #letra="ngModel" disabled>
-              </mat-form-field>
-              <mat-form-field fxFlex='25' fxLayout="column">
-                <input matInput placeholder="Número" [ngModel]="modelComprobante.Numero" name="numero" #numero="ngModel" disabled>
-              </mat-form-field>
-              <mat-form-field fxFlex='25' fxLayout="column">
-                <input matInput placeholder="Fecha" [ngModel]="modelComprobante.Fecha | date:'dd/MM/yyyy'" name="fecha"
+                <input matInput placeholder="Fecha" [ngModel]="modelRemito.Fecha | date:'dd/MM/yyyy'" name="fecha"
                   #fecha="ngModel" disabled>
               </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
               <mat-form-field fxFlex='25' fxLayout="column">
-                <input matInput placeholder="Estado" value="No anulable" name="estado" #estado disabled>
+                <input matInput placeholder="Estado" value="{{modelRemito.FechaAnulado != null ? 'Anulado' : 'No anulado' }}" name="estado" #estado disabled>
               </mat-form-field>
               <mat-form-field fxFlex='25' fxLayout="column">
-                <input matInput placeholder="Usuario" [ngModel]="modelComprobante.IdUsuarioNavigation?.UserName" name="usuario" #usuario="ngModel" disabled>
+                <input matInput placeholder="Usuario" [ngModel]="modelRemito.IdUsuarioNavigation?.UserName" name="usuario" #usuario="ngModel" disabled>
               </mat-form-field>
             </div>
           </div>
@@ -106,19 +96,15 @@
         <ng-container matColumnDef="footer">
           <td mat-footer-cell *matFooterCellDef id="footers" [style.display]="'none'">
             <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px">
-              <label style="font-weight: bold;">Subtotal:</label>
-              <label> {{getSubtotales()}}</label>
-              <label style="font-weight: bold;">Subtotal con descuento:</label>
-              <label> {{ getSubtotalConDescuento() }}</label>
-              <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA
+              <!-- <label style="font-weight: bold;" *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina">IVA
                 RI:</label>
-              <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label>
+              <label *ngIf="modelCliente.IdCategoriaIvaNavigation?.Discrimina"> {{ getMontoIVA() }}</label> -->
               <label *ngIf="remitos.length > 0" style="font-weight: bold;">Total remitos:</label>
               <label *ngIf="remitos.length > 0"> {{getTotalRemito()}}</label>
-              <label style="font-weight: bold;">Total:</label>
-              <label> {{getTotales()}}</label>
-              <label style="font-weight: bold; color: darkred;">Total con remitos: </label>
-              <label>{{(+getTotales() + +getTotalRemito())}}</label>
+              <!-- <label style="font-weight: bold;">Total:</label>
+              <label> {{getTotales()}}</label> -->
+              <!-- <label style="font-weight: bold; color: darkred;">Total con remitos: </label>
+              <label>{{(+getTotales() + +getTotalRemito())}}</label> -->
             </div>
           </td>
         </ng-container>
@@ -130,12 +116,12 @@
       <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
     </div>
 
-    <div mat-dialog-content fxLayout="row" *ngIf="modelComprobante.Observaciones != undefined">
+    <!-- <div mat-dialog-content fxLayout="row" *ngIf="modelRemito.Observaciones != undefined">
       <mat-form-field fxFill>
-          <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" [(ngModel)]="modelComprobante.Observaciones"
+          <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" [(ngModel)]="modelRemito.Observaciones"
               name="obs" #obs cols="2" rows="4" disabled></textarea>
       </mat-form-field>
-  </div>
+  </div> -->
 
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">

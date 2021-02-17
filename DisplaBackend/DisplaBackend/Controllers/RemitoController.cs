@@ -71,6 +71,20 @@ namespace DisplaBackend.Controllers
             return Ok(_remitoService.Delete(remito));
         }
 
+        [HttpGet("{id}")]
+        public object GetById([FromRoute]int id)
+        {
+            return _remitoService.GetById(id);
+        }
+
+
+        [HttpGet, Route("BuscarItemRemito")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta)
+        {
+            return _remitoService.BuscarItemRemito(idLente, idArticulo, libre, desde, hasta);
+        }
+
     }
 
 

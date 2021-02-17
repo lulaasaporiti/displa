@@ -72,6 +72,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -391,7 +392,7 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
-                    .HasColumnType("date");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.FechaAnulado)
                     .HasColumnName("fechaAnulado")
@@ -1206,15 +1207,15 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
-                    .HasColumnType("date");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.FechaAnulado)
                     .HasColumnName("fechaAnulado")
-                    .HasColumnType("date");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.FechaFactura)
                     .HasColumnName("fechaFactura")
-                    .HasColumnType("date");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 

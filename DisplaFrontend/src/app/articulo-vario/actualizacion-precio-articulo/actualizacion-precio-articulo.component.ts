@@ -4,7 +4,6 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { PrecioArticuloCliente } from 'src/app/model/precioArticuloCliente';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';

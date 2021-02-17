@@ -15,11 +15,11 @@ import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
-  selector: 'app-comprobante-detalle',
-  templateUrl: './comprobante-detalle.component.html',
-  styleUrls: ['./comprobante-detalle.component.css']
+  selector: 'app-remito-detalle',
+  templateUrl: './remito-detalle.component.html',
+  styleUrls: ['./remito-detalle.component.css']
 })
-export class ComprobanteDetalleComponent implements OnInit {
+export class RemitoDetalleComponent implements OnInit {
   modelCliente = <Cliente>{};
   parametro = <Parametro>{};
   remitos: Remito [] = [];
@@ -34,7 +34,7 @@ export class ComprobanteDetalleComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
   key;
   bloquearF = false;
-  modelComprobante = <ComprobanteCliente>{};
+  modelRemito = <Remito>{};
   tipoComprobante;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -45,30 +45,27 @@ export class ComprobanteDetalleComponent implements OnInit {
     private segment: ActivatedRoute,
     private remitoService: RemitoService,
     private loadingSpinnerService: LoadingSpinnerService,
-    private comprobanteClienteService: ComprobanteClienteService
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number;
       this.idComprobanteItem = +params['idItem']; // (+) converts string 'id' to a number;
-      console.log(this.idComprobanteItem)
     });
     this.tipoComprobante = this.router.url.split('/')[this.router.url.split('/').length-2]
     if (this.id) {
       this.loadingSpinnerService.show();
       combineLatest([
-        this.remitoService.getRemitosPendientesCliente(this.id),
-        this.comprobanteClienteService.getById(this.id)
+        this.remitoService.getById(this.id)
       ])
         .subscribe(result => {
-          this.remitos = result[0];
-          this.modelComprobante = result[1];
-          this.modelCliente = this.modelComprobante.IdClienteNavigation;
-          this.dataSource.data = this.modelComprobante.ComprobanteItem;
-          if (this.modelComprobante.VentaVirtual != []) {
-            this.modelComprobante.VentaVirtual.forEach(vv => {
-              this.dataSource.data = this.dataSource.data.concat(vv);
-            });
-          }
+          this.modelRemito = result[0];
+          console.log(this.modelRemito)
+          this.modelCliente = this.modelRemito.IdClienteNavigation;
+          this.dataSource.data = this.modelRemito.ComprobanteItem;
+          // if (this.modelRemito.VentaVirtual != []) {
+          //   this.modelRemito.VentaVirtual.forEach(vv => {
+          //     this.dataSource.data = this.dataSource.data.concat(vv);
+          //   });
+          // }
           this.loadingSpinnerService.hide();
         });
     }
@@ -87,21 +84,21 @@ export class ComprobanteDetalleComponent implements OnInit {
     window.close();
   }
 
-  getSubtotales() {
-    if (this.dataSource.data.length > 0 || this.remitos.length > 0) {
-      document.getElementById('footers').style.display = 'block';
-      this.modelComprobante.SubtotalFactura = 0;
-      this.dataSource.data.forEach(to => {
-        this.modelComprobante.SubtotalFactura = (+to.Monto + this.modelComprobante.SubtotalFactura);
-      })
-      return this.modelComprobante.SubtotalFactura;
-    }
-    else {
-      document.getElementById('footers').style.display = 'none';
-      this.modelComprobante.SubtotalFactura = 0;
-      this.modelComprobante.MontoTotal = 0;
-    } 
-  }
+  // getSubtotales() {
+  //   if (this.dataSource.data.length > 0 || this.remitos.length > 0) {
+  //     document.getElementById('footers').style.display = 'block';
+  //     this.modelComprobante.SubtotalFactura = 0;
+  //     this.dataSource.data.forEach(to => {
+  //       this.modelComprobante.SubtotalFactura = (+to.Monto + this.modelComprobante.SubtotalFactura);
+  //     })
+  //     return this.modelRemito.SubtotalFactura;
+  //   }
+  //   else {
+  //     document.getElementById('footers').style.display = 'none';
+  //     this.modelRemito.SubtotalFactura = 0;
+  //     this.modelRemito.MontoTotal = 0;
+  //   } 
+  // }
 
   comprobante(){
     if (this.tipoComprobante == "Factura")
@@ -139,28 +136,28 @@ export class ComprobanteDetalleComponent implements OnInit {
   }
 
 
-  getSubtotalConDescuento() {
-    let subtotal = 0;
-    this.dataSource.data.forEach(to => {
-      if (to.Descripcion != undefined && to.Descripcion.endsWith("VIRTUAL") || to.CantidadVendida != undefined) {
-        subtotal = subtotal + to.Monto;
-      }
-      else {
-        subtotal = subtotal + (to.Monto - (to.Monto * this.modelCliente.PorcentajeDescuentoGeneral) / 100);
-      }
-    })
-    return subtotal.toFixed(2);
-  }
+  // getSubtotalConDescuento() {
+  //   let subtotal = 0;
+  //   this.dataSource.data.forEach(to => {
+  //     if (to.Descripcion != undefined && to.Descripcion.endsWith("VIRTUAL") || to.CantidadVendida != undefined) {
+  //       subtotal = subtotal + to.Monto;
+  //     }
+  //     else {
+  //       subtotal = subtotal + (to.Monto - (to.Monto * this.modelCliente.PorcentajeDescuentoGeneral) / 100);
+  //     }
+  //   })
+  //   return subtotal.toFixed(2);
+  // }
 
-  getMontoIVA() {
-    return (+this.getSubtotalConDescuento() * 0.21).toFixed(2);
-  }
+  // getMontoIVA() {
+  //   return (+this.getSubtotalConDescuento() * 0.21).toFixed(2);
+  // }
 
-  getTotales() {
-    if (this.modelCliente.IdCategoriaIvaNavigation != undefined && this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
-      return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento()).toFixed(2);
-    else
-      return ((
-        this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21)).toFixed(2);
-  }
+  // getTotales() {
+  //   if (this.modelCliente.IdCategoriaIvaNavigation != undefined && this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
+  //     return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento()).toFixed(2);
+  //   else
+  //     return ((
+  //       this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21)).toFixed(2);
+  // }
  }

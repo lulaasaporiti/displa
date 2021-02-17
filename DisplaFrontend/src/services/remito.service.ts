@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { MainService } from './main.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,8 +11,12 @@ export class RemitoService {
 
     private baseUrl = environment.BASE_USER_ENDPOINT + 'Remito';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private mainService: MainService) { }
 
+    getById(id: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
+    
     getRemitosPendientesCliente(idCliente: number): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetRemitosPendientesCliente?idCliente=${idCliente}`);
     }
@@ -30,5 +35,15 @@ export class RemitoService {
 
     deleteRemito(id: number): Observable<any> {
         return this.http.delete(`${this.baseUrl}/${id}`);
+    }
+
+    buscarItemRemito(idLente, idArticulo, libre, desde, hasta){
+        return this.mainService.get(`Remito/BuscarItemRemito`, {
+            idLente: idLente,
+            idArticulo: idArticulo,
+            libre: libre,
+            desde: desde,
+            hasta: hasta
+        });
     }
 }

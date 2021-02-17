@@ -71,6 +71,7 @@ namespace DisplaBackend.DAOs
                             articulo.StockActual = articulo.StockActual - c.Cantidad;
                             _context.Entry(articulo).State = EntityState.Modified;
                         }
+                        c.IdServicioNavigation.IdTipoServicioNavigation = null;
                         c.IdServicioNavigation = null;
 
                         if (c.ComprobanteItemLente.Count > 0)
@@ -214,7 +215,7 @@ namespace DisplaBackend.DAOs
                     .Include(c => c.IdTipoComprobanteNavigation)
                     .Include(c => c.IdClienteNavigation)
                     .Include(c => c.ComprobanteItem)
-                    .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta && cc.ComprobanteItem.Any(ci => ci.ComprobanteItemLente.Any(cl => cl.IdLente == idLente)))
+                    .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta.AddDays(1) && cc.ComprobanteItem.Any(ci => ci.ComprobanteItemLente.Any(cl => cl.IdLente == idLente)))
                    .Select(ca => new {
                        Id = ca.Id,
                        IdTipoComprobante = ca.IdTipoComprobante,
@@ -223,7 +224,8 @@ namespace DisplaBackend.DAOs
                        Letra = ca.Letra,
                        Numero = ca.Numero,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                       IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.ComprobanteItemLente.Any(cil => cil.IdLente == idLente)).Select(c => c.Id)
+                       IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.ComprobanteItemLente.Any(cil => cil.IdLente == idLente)).Select(c => c.Id),
+                       Producto = ca.ComprobanteItem.Where(ci => ci.ComprobanteItemLente.Any(cil => cil.IdLente == idLente)).Select(c => c.Descripcion)
                    })
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
@@ -233,7 +235,7 @@ namespace DisplaBackend.DAOs
                     .Include(c => c.IdTipoComprobanteNavigation)
                     .Include(c => c.IdClienteNavigation)
                     .Include(c => c.ComprobanteItem)
-                    .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta && cc.ComprobanteItem.Any(ci => ci.IdArticulo == idArticulo))
+                    .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta.AddDays(1) && cc.ComprobanteItem.Any(ci => ci.IdArticulo == idArticulo))
                     .Select(ca => new {
                         Id = ca.Id,
                         IdTipoComprobante = ca.IdTipoComprobante,
@@ -242,7 +244,8 @@ namespace DisplaBackend.DAOs
                         Letra = ca.Letra,
                         Numero = ca.Numero,
                         IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                        IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.IdArticulo == idArticulo).Select(c => c.Id)
+                        IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.IdArticulo == idArticulo).Select(c => c.Id),
+                        Producto = ca.ComprobanteItem.Where(ci => ci.IdArticulo == idArticulo).Select(a => a.IdArticuloNavigation.Nombre)
                     })
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
@@ -252,7 +255,7 @@ namespace DisplaBackend.DAOs
                     .Include(c => c.IdTipoComprobanteNavigation)
                     .Include(c => c.IdClienteNavigation)
                     .Include(c => c.ComprobanteItem)
-                    .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta && cc.ComprobanteItem.Any(ci => ci.Descripcion.Contains(libre)))
+                    .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta.AddDays(1) && cc.ComprobanteItem.Any(ci => ci.Descripcion.Contains(libre)))
                     .Select(ca => new {
                         Id = ca.Id,
                         IdTipoComprobante = ca.IdTipoComprobante,
@@ -261,7 +264,8 @@ namespace DisplaBackend.DAOs
                         Letra = ca.Letra,
                         Numero = ca.Numero,
                         IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                        IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.Descripcion.Contains(libre)).Select(c => c.Id)
+                        IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.Descripcion.Contains(libre)).Select(c => c.Id),
+                        Producto = ca.ComprobanteItem.Where(ci => ci.Descripcion.Contains(libre)).Select(c => c.Descripcion)
                     })
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();

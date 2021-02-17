@@ -33,7 +33,6 @@ export class ValidacionLenteService {
     }
 
     compararLimiteGrilla(lente, medida, tipoGraduacion) {
-        console.log(medida)
         if (lente != undefined) {
             let combinacion = lente.Combinacion.split("  / ");
             if ((this.limiteGrillaDerecha == undefined && this.limiteGrillaIzquierda == undefined) || combinacion[0] != this.limiteGrillaIzquierda.Combinacion) {
@@ -80,6 +79,26 @@ export class ValidacionLenteService {
 
             } else {
                 lente.MedidaCilindrico = (+medida / 100).toFixed(2);
+            }
+        }
+    }
+
+    conversionMedidas(graduacionCilindrico, medidaEsferico, medidaCilindrico) {
+        if (graduacionCilindrico) {
+            medidaCilindrico= Math.abs(medidaCilindrico);
+            if (medidaEsferico < 0) {
+               medidaEsferico = medidaEsferico - medidaCilindrico;
+            }
+            else {
+               medidaEsferico = medidaEsferico + medidaCilindrico;
+            }
+        }
+        else {
+            if (medidaCilindrico > 0) {
+                // medEsferico:= medEsferico + medCilindrico;
+                medidaCilindrico= -1 * medidaCilindrico;
+            }
+            else {
             }
         }
     }

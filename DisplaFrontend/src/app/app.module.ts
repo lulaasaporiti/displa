@@ -58,6 +58,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BusquedaItemModule } from './busqueda-item/busqueda-item.module';
+import { RemitoModule } from './remito/remito.module';
 
 
 
@@ -116,6 +117,7 @@ import { BusquedaItemModule } from './busqueda-item/busqueda-item.module';
     ProveedorModule,
     ProvinciaModule,
     ReciboModule,
+    RemitoModule,
     ServicioModule,
     SobreModule,
     TarjetaCreditoModule,

@@ -4,23 +4,20 @@
       <p class="dialog-title">Búsqueda de un ítem facturado</p>
     </div>
 
-    <div fxLayoutGap="2vw" mat-dialog-content fxLayout="row">
-      <mat-form-field>
+    <div fxLayoutGap="2vw" fxLayout="row">
+      <mat-form-field fxFlex="22">
         <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde" #desde="ngModel"
           readonly>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field fxFlex="22">
         <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta" #hasta="ngModel"
           readonly>
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
-    </div>
-
-    <div fxLayoutGap="4vw" mat-dialog-content fxLayout="row">
-      <mat-button-toggle-group name="items">
+      <mat-button-toggle-group name="items" style="font-size: small; line-height: 38px !important;">
         <mat-button-toggle [value]="true" id="lentes" (click)="traerLentes()">
           Lentes
         </mat-button-toggle>
@@ -50,7 +47,7 @@
         </mat-form-field>
       </div>
 
-      <div mat-dialog-content fxLayout="row" fxLayoutGap="10px">
+      <div mat-dialog-content fxLayout="row" fxFill fxLayoutGap="15px">
         <div fxLayout="column">
           <mat-form-field fxFlex="50">
             <input type="text" placeholder="Medida esférico" matInput autocomplete="off" [(ngModel)]="esferico"

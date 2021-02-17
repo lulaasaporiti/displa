@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace DisplaBackend.Services
         Task<bool> SaveOrUpdate(Remito remito);
         bool Delete(Remito remito);
         Remito GetById(int idRemito);
+        List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
     }
 
     public class RemitoService : IRemitoService
@@ -47,6 +49,11 @@ namespace DisplaBackend.Services
         public Remito GetById(int idRemito)
         {
             return _remitoDAO.GetById(idRemito);
+        }
+
+        public List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta)
+        {
+            return _remitoDAO.BuscarItemRemito(idLente, idArticulo, libre, desde, hasta);
         }
 
     }

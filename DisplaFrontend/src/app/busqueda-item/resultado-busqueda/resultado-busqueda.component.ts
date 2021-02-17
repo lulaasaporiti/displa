@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
-import { SessionService } from 'src/services/session.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
+import { RemitoService } from 'src/services/remito.service';
+import { combineLatest } from 'rxjs';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class ResultadoBusquedaComponent implements OnInit {
   libre;
   desde;
   hasta;
+  producto;
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -29,6 +31,7 @@ export class ResultadoBusquedaComponent implements OnInit {
   constructor(
     private router: Router,
     private segment: ActivatedRoute,
+    private remitoService: RemitoService,
     private loadingSpinnerService: LoadingSpinnerService,
     private comprobanteService: ComprobanteClienteService) {
       this.segment.queryParams.subscribe((params: Params) => {
@@ -43,12 +46,20 @@ export class ResultadoBusquedaComponent implements OnInit {
   ngOnInit() {
     // this.searchElement.nativeElement.focus();
     this.loadingSpinnerService.show();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.comprobanteService.buscarItemComprobante(this.idLente, this.idArticulo, this.libre, this.desde, this.hasta)
+    combineLatest([
+    this.comprobanteService.buscarItemComprobante(this.idLente, this.idArticulo, this.libre, this.desde, this.hasta),
+    this.remitoService.buscarItemRemito(this.idLente, this.idArticulo, this.libre, this.desde, this.hasta),
+    ])
       .subscribe(r => {
-            console.log(r)
-            this.dataSource.data = r;
+            this.dataSource.data = r[0];
+            this.dataSource.data = this.dataSource.data.concat(r[1]);
+            this.producto = this.dataSource?.data[0].Producto;
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+            const sortState: Sort = {active: 'Fecha', direction: 'asc'};
+            this.sort.active = sortState.active;
+            this.sort.direction = sortState.direction;
+            this.sort.sortChange.emit(sortState);
             this.loadingSpinnerService.hide();
             this.router.routeReuseStrategy.shouldReuseRoute = function () {
                 return false;
@@ -61,21 +72,25 @@ export class ResultadoBusquedaComponent implements OnInit {
   }
 
 
-  verComprobante(idComprobante: number, idTipoComprobante: number, idComprobanteItem: number) {
-    console.log("entro")
+  verComprobante(id: number, idTipoComprobante: number, idComprobanteItem: number) {
     switch (idTipoComprobante) {
       case 1: {
-        let url = `Factura/Detalle?id=${idComprobante}&idItem=${idComprobanteItem}`
+        let url = `Factura/Detalle?id=${id}&idItem=${idComprobanteItem}`
         window.open(url, '_blank');
         break;
       }
       case 3: {
-        let url = `NotaDebito/Detalle?id=${idComprobante}&idItem=${idComprobanteItem}`
+        let url = `NotaDebito/Detalle?id=${id}&idItem=${idComprobanteItem}`
         window.open(url, '_blank');
         break;
       }
       case 2: {
-        let url = `NotaCredito/Detalle?id=${idComprobante}&idItem=${idComprobanteItem}`
+        let url = `NotaCredito/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        window.open(url, '_blank');
+        break;
+      }
+      case undefined: {
+        let url = `Remito/Detalle?id=${id}&idItem=${idComprobanteItem}`
         window.open(url, '_blank');
         break;
       }

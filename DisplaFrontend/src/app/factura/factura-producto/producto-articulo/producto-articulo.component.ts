@@ -95,6 +95,10 @@ export class ProductoArticuloComponent implements OnInit {
     }
   }
 
+  lala(event) {
+    console.log(event) 
+ }
+
   setIdArticulo(control) {
     if (control.value != null) {
       this.modelComprobanteItem.IdArticulo = control.value.Id;
