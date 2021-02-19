@@ -7,6 +7,7 @@ namespace DisplaBackend.Models
     {
         public Banco()
         {
+            Cheque = new HashSet<Cheque>();
             CuentaBancaria = new HashSet<CuentaBancaria>();
             TarjetaCredito = new HashSet<TarjetaCredito>();
         }
@@ -17,6 +18,7 @@ namespace DisplaBackend.Models
         public string Direccion { get; set; }
         public bool? Borrado { get; set; }
 
+        public virtual ICollection<Cheque> Cheque { get; set; }
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual ICollection<TarjetaCredito> TarjetaCredito { get; set; }
     }

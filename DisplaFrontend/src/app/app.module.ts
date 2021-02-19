@@ -59,6 +59,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BusquedaItemModule } from './busqueda-item/busqueda-item.module';
 import { RemitoModule } from './remito/remito.module';
+import { ChequeModule } from './cheque/cheque.module';
 
 
 
@@ -96,6 +97,7 @@ import { RemitoModule } from './remito/remito.module';
     BlockModule,
     BusquedaItemModule,
     CategoriaIVAModule,
+    ChequeModule,
     ClienteModule,
     CondicionVentaModule,
     EstadisticaModule,

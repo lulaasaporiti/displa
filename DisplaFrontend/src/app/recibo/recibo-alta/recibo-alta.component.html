@@ -18,11 +18,11 @@
                 <mat-error *ngIf="clientesControl.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
-            
-        <div mat-dialog-content  fxLayout="row">
+
+        <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" [(ngModel)]="modelRecibo.Observaciones"
-                    name="obs" #obs cols="2" rows="1"></textarea>
+                <textarea matInput id="obs" placeholder="Observaciones" id="observaciones"
+                    [(ngModel)]="modelRecibo.Observaciones" name="obs" #obs cols="2" rows="1"></textarea>
             </mat-form-field>
         </div>
 
@@ -37,48 +37,53 @@
                     #montoC="ngModel" required>
                 <mat-error *ngIf="montoC.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
-            <mat-form-field fxFlex="30">
-                <input matInput placeholder="Monto total" [(ngModel)]="modelRecibo.Montototal" name="montoT"
-                    #montoT="ngModel" required>
-                <mat-error *ngIf="montoT.hasError('required')">Este campo es obligatorio.</mat-error>
+            <button mat-button style="height: 40px;" (click)="verCheques()">Ver cheques</button>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Número interdeposito" [(ngModel)]="modelRecibo.NroInterdeposito"
+                    name="numero" #numero="ngModel" required>
+                <mat-error *ngIf="numero.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Monto interdeposito" [(ngModel)]="modelRecibo.MontoInterdeposito"
+                    name="montoInter" #montoInter="ngModel" required>
+                <mat-error *ngIf="montoInter.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
         <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
             <mat-form-field fxFlex="50">
-                <input matInput placeholder="Número interdeposito" [(ngModel)]="modelRecibo.NroInterdeposito" name="numero"
-                    #numero="ngModel" required>
-                <mat-error *ngIf="numero.hasError('required')">Este campo es obligatorio.</mat-error>
-            </mat-form-field>   
+                <input type="text" placeholder="Cuenta bancaria" aria-label="Cuenta bancaria" matInput
+                    [formControl]="cuentasControl" [matAutocomplete]="auto"
+                    [(ngModel)]="modelRecibo.IdCuentaBancariaNavigation" name="cuenta"
+                    (blur)="setIdCuentaBancaria(this.cuentasControl)" required>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCuentas">
+                    <mat-option *ngFor="let cue of filteredCuentas | async" [value]="cue"
+                        (onSelectionChange)="bancoCuenta($event)">
+                        {{ cue.Numero }}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="cuentasControl.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
             <mat-form-field fxFlex="50">
-                <input matInput placeholder="Monto interdeposito" [(ngModel)]="modelRecibo.MontoInterdeposito" name="montoInter"
-                    #montoInter="ngModel" required>
-                <mat-error *ngIf="montoInter.hasError('required')">Este campo es obligatorio.</mat-error>
-            </mat-form-field>   
+                <input matInput placeholder="Banco" [(ngModel)]="banco" name="banco" disabled>
+            </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
-            <mat-form-field fxFlex="50">
-                <input type="text" placeholder="Cuenta bancaria" aria-label="Cuenta bancaria" matInput [formControl]="cuentasControl"
-                [matAutocomplete]="auto" [(ngModel)]="modelRecibo.IdCuentaBancariaNavigation" name="cuenta" (blur)="setIdCuentaBancaria(this.cuentasControl)"
-                required>
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCuentas">
-                <mat-option *ngFor="let cue of filteredCuentas | async" [value]="cue" (onSelectionChange)="bancoCuenta($event)">
-                    {{ cue.Numero }} 
-                </mat-option>
-            </mat-autocomplete>
-                <mat-error *ngIf="cuentasControl.hasError('required')">Este campo es obligatorio.</mat-error>
-            </mat-form-field>   
-            <mat-form-field fxFlex="50">
-                <input matInput placeholder="Banco" [(ngModel)]="banco" name="banco"
-                    disabled>
-            </mat-form-field>   
+        <div mat-dialog-content fxLayoutAlign="end center" fxLayout="row">
+            <mat-form-field fxFlex="30">
+                <input matInput placeholder="Monto total" [(ngModel)]="modelRecibo.Montototal" name="montoT"
+                    #montoT="ngModel" disabled>
+                <mat-error *ngIf="montoT.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="modelRecibo"
-                cdkFocusInitial>Agregar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="modelRecibo" cdkFocusInitial>Agregar</button>
         </div>
     </div>
 

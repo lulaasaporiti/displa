@@ -44,3 +44,5 @@ export class VentaVirtualMovimientosComponent implements OnInit {
     window.open(url, '_blank');
   }
 }
+
+

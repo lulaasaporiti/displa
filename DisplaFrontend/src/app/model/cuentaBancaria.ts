@@ -5,5 +5,6 @@ export interface CuentaBancaria {
     Numero: string,
     SaldoInicial: number,
     FechaApertura: Date,
+    IdBanco: number,
     IdBancoNavigation: Banco
 }

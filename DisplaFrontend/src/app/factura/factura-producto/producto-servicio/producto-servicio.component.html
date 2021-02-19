@@ -31,8 +31,7 @@
             <mat-form-field fxFill>
                 <mat-label>Servicios</mat-label>
                 <mat-select [formControl]="serviciosControl" name="servicios" id="servicios" multiple #ser
-                    (keyup.enter)="tabInventado($event, 'cantidad0')"
-                    (keydown.enter)="$event.stopImmediatePropagation()" required>
+                    (keyup)="tabInventado($event, 'cantidad0')" required>
                     <mat-select-trigger>
                         {{(!ser.empty) ? ser.value[0].Id : ''}} - {{(!ser.empty)  ? ser.value[0].Nombre : ''}}
                         <span *ngIf="ser.value?.length > 1" class="example-additional-selection">

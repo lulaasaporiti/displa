@@ -78,13 +78,18 @@ export class ProductoServicioComponent implements OnInit {
   tabInventado(event: KeyboardEvent, idElement) {
     if (event.code == "Enter") {
       event.preventDefault();
-      if (idElement == 'cantidad0') {
-        this.ser.close();
-        this.traerPrecio();
-      }
+      // event.stopImmediatePropagation();
       if (idElement.startsWith("cantidad")){
         if (+idElement.split("cantidad")[1] == this.data.comprobantesItems.length)
           idElement = 'seleccionar';
+      }
+      if (idElement != 'cantidad0')
+        document.getElementById(idElement).focus();
+    }
+    if (event.code == "ArrowRight") {
+      if (idElement == 'cantidad0') {
+        this.ser.close();
+        this.traerPrecio();
       }
       document.getElementById(idElement).focus();
     }

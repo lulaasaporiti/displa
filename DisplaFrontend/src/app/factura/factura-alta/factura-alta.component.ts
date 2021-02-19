@@ -443,8 +443,10 @@ export class FacturaAltaComponent implements OnInit {
         this.sessionService.showSuccess("Los productos se agregaron correctamente");
       } else {
         p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
-        this.modelComprobante.ComprobanteItem.push(p);
         this.dataSource.data = this.dataSource.data.concat(p);
+        p.IdArticuloNavigation = null;
+        p.IdServicioNavigation = null;
+        this.modelComprobante.ComprobanteItem.push(p);
         if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
           this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
         }

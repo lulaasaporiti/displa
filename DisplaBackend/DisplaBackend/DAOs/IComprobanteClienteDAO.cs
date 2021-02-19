@@ -71,7 +71,6 @@ namespace DisplaBackend.DAOs
                             articulo.StockActual = articulo.StockActual - c.Cantidad;
                             _context.Entry(articulo).State = EntityState.Modified;
                         }
-                        c.IdServicioNavigation.IdTipoServicioNavigation = null;
                         c.IdServicioNavigation = null;
 
                         if (c.ComprobanteItemLente.Count > 0)
@@ -86,7 +85,6 @@ namespace DisplaBackend.DAOs
                                 }
                             }
                         }
-                        ///////HAY QUE SUMAR LA CANTIDAD ENTREGADA EN LA VENTA VIRTUAL
                         if (c.EntregaVentaVirtual == true) {
                             List<VentaVirtual> ventas;
                             if (c.IdArticulo != null)

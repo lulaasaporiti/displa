@@ -83,13 +83,17 @@ export class ProductoArticuloComponent implements OnInit {
     if (event.code == "Enter") {
       event.preventDefault();
       // event.stopImmediatePropagation();
-      if (idElement == 'cantidad0') {
-        this.ar.close();
-        this.traerPrecio();
-      }
       if (idElement.startsWith("cantidad")){
         if (+idElement.split("cantidad")[1] == this.data.comprobantesItems.length)
           idElement = 'seleccionar';
+      }
+      if (idElement != 'cantidad0')
+        document.getElementById(idElement).focus();
+    }
+    if (event.code == "ArrowRight") {
+      if (idElement == 'cantidad0') {
+        this.ar.close();
+        this.traerPrecio();
       }
       document.getElementById(idElement).focus();
     }

@@ -7,6 +7,7 @@ namespace DisplaBackend.Models
     {
         public Cliente()
         {
+            Cheque = new HashSet<Cheque>();
             ClienteBloqueo = new HashSet<ClienteBloqueo>();
             ComprobanteCliente = new HashSet<ComprobanteCliente>();
             Ficha = new HashSet<Ficha>();
@@ -41,6 +42,7 @@ namespace DisplaBackend.Models
         public virtual CategoriaIva IdCategoriaIvaNavigation { get; set; }
         public virtual CondicionVenta IdCondicionVentaNavigation { get; set; }
         public virtual Localidad IdLocalidadNavigation { get; set; }
+        public virtual ICollection<Cheque> Cheque { get; set; }
         public virtual ICollection<ClienteBloqueo> ClienteBloqueo { get; set; }
         public virtual ICollection<ComprobanteCliente> ComprobanteCliente { get; set; }
         public virtual ICollection<Ficha> Ficha { get; set; }

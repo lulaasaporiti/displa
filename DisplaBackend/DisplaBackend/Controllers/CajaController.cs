@@ -26,7 +26,7 @@ namespace DisplaBackend.Controllers
 
         [HttpGet, Route("GetCajas")]
         [EnableCors("DisplaAPIPolicy")]
-        public object GetTiposBlock()
+        public object GetCajas()
         {
             return _cajaService.GetCajas();
         }

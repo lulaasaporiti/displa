@@ -180,9 +180,20 @@
                     <a mat-menu-item class="button-list" routerLink="Provincia/Listado">Provincias</a>
                     <a mat-menu-item class="button-list" routerLink="TipoComprobante/Listado">Tipos de comprobantes</a>
                 </mat-menu>
-                <a mat-button routerLink="Banco/Listado" class="button-list" fxLayout="row">
-                    Banco
-                </a>
+                <button mat-button class="button-list" [matMenuTriggerFor]="menuBanco">Banco</button>
+                <mat-menu fxLayoutAlign="start center" #menuBanco="matMenu">
+                    <a mat-menu-item class="button-list" routerLink="Banco/Listado">Listado</a>
+                    <a mat-menu-item class="button-list" routerLink="">Cuentas bancarias</a>
+                    <a mat-menu-item class="button-list" routerLink="">Movimientos internos</a>
+                    <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuCheques">Cheques</button>
+                    <a mat-menu-item class="button-list" routerLink="">Traslado de fondos</a>
+                    <a mat-menu-item class="button-list" routerLink="">Tipos de comprobantes</a>
+                </mat-menu>
+                <mat-menu fxLayoutAlign="start center" #menuCheques="matMenu">
+                    <a mat-menu-item class="button-list" routerLink="">Cartera de cheques</a>
+                    <a mat-menu-item class="button-list" routerLink="">Cheques ventas</a>
+                    <a mat-menu-item class="button-list" routerLink="">Cheques emitidos por Displa</a>
+                </mat-menu>
                 <a mat-button routerLink="Usuario/Listado" class="button-list" fxLayout="row">
                     Usuarios
                 </a>

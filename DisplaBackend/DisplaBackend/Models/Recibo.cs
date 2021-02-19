@@ -5,6 +5,12 @@ namespace DisplaBackend.Models
 {
     public partial class Recibo
     {
+        public Recibo()
+        {
+            Cheque = new HashSet<Cheque>();
+            OperacionBancaria = new HashSet<OperacionBancaria>();
+        }
+
         public int Id { get; set; }
         public int IdCliente { get; set; }
         public DateTime Fecha { get; set; }
@@ -17,5 +23,7 @@ namespace DisplaBackend.Models
 
         public virtual Cliente IdClienteNavigation { get; set; }
         public virtual CuentaBancaria IdCuentaBancariaNavigation { get; set; }
+        public virtual ICollection<Cheque> Cheque { get; set; }
+        public virtual ICollection<OperacionBancaria> OperacionBancaria { get; set; }
     }
 }

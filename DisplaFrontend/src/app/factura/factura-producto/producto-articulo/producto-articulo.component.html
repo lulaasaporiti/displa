@@ -29,10 +29,9 @@
         </div>
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFill>
-                <!-- <mat-label>Articulos</mat-label> -->
-                <mat-select [formControl]="articulosControl" name="articulos" id="articulos" multiple #ar
-                    (keyup.enter)="tabInventado($event, 'cantidad0')" placeholder="Artículos"
-                    (keydown.enter)="$event.preventDefault();" required>
+                <!-- (keyup.enter)="tabInventado($event, 'cantidad0')" (keydown.enter)="$event.preventDefault();"  <mat-label>Articulos</mat-label> -->
+                <mat-select [formControl]="articulosControl" name="articulos" id="articulos" multiple #ar placeholder="Artículos"
+                    (keyup)="tabInventado($event, 'cantidad0')" required>
                     <mat-select-trigger>
                         {{(!ar.empty) ? ar.value[0].Id : ''}} - {{(!ar.empty)  ? ar.value[0].Nombre : ''}}
                         <span *ngIf="ar.value?.length > 1" class="example-additional-selection">

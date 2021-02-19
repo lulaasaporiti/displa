@@ -27,6 +27,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<Block> Block { get; set; }
         public virtual DbSet<Caja> Caja { get; set; }
         public virtual DbSet<CategoriaIva> CategoriaIva { get; set; }
+        public virtual DbSet<Cheque> Cheque { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<ClienteBloqueo> ClienteBloqueo { get; set; }
         public virtual DbSet<ComprobanteCliente> ComprobanteCliente { get; set; }
@@ -46,6 +47,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual DbSet<MovimientoInsumo> MovimientoInsumo { get; set; }
         public virtual DbSet<MovimientoInterno> MovimientoInterno { get; set; }
+        public virtual DbSet<OperacionBancaria> OperacionBancaria { get; set; }
         public virtual DbSet<Parametros> Parametros { get; set; }
         public virtual DbSet<PrecioArticulo> PrecioArticulo { get; set; }
         public virtual DbSet<PrecioArticuloCliente> PrecioArticuloCliente { get; set; }
@@ -282,6 +284,63 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.SobreTasa).HasColumnName("sobreTasa");
 
                 entity.Property(e => e.Tasa).HasColumnName("tasa");
+            });
+
+            modelBuilder.Entity<Cheque>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FechaAlta)
+                    .HasColumnName("fechaAlta")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FechaAnulado)
+                    .HasColumnName("fechaAnulado")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdBanco).HasColumnName("idBanco");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.IdOperacionBancaria).HasColumnName("idOperacionBancaria");
+
+                entity.Property(e => e.IdRecibo).HasColumnName("idRecibo");
+
+                entity.Property(e => e.Importe)
+                    .HasColumnName("importe")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.MotivoAnulado)
+                    .HasColumnName("motivoAnulado")
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.Numero).HasColumnName("numero");
+
+                entity.HasOne(d => d.IdBancoNavigation)
+                    .WithMany(p => p.Cheque)
+                    .HasForeignKey(d => d.IdBanco)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Cheque_Banco");
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.Cheque)
+                    .HasForeignKey(d => d.IdCliente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Cheque_Cliente");
+
+                entity.HasOne(d => d.IdOperacionBancariaNavigation)
+                    .WithMany(p => p.Cheque)
+                    .HasForeignKey(d => d.IdOperacionBancaria)
+                    .HasConstraintName("FK_Cheque_OperacionBancaria");
+
+                entity.HasOne(d => d.IdReciboNavigation)
+                    .WithMany(p => p.Cheque)
+                    .HasForeignKey(d => d.IdRecibo)
+                    .HasConstraintName("FK_Cheque_Recibo");
             });
 
             modelBuilder.Entity<Cliente>(entity =>
@@ -890,6 +949,48 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.Observaciones)
                     .HasColumnName("observaciones")
                     .HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<OperacionBancaria>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DepositaCheque).HasColumnName("depositaCheque");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.EmiteCheque).HasColumnName("emiteCheque");
+
+                entity.Property(e => e.Entrada)
+                    .IsRequired()
+                    .HasColumnName("entrada")
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdCuentaBancaria).HasColumnName("idCuentaBancaria");
+
+                entity.Property(e => e.IdRecibo).HasColumnName("idRecibo");
+
+                entity.Property(e => e.Monto)
+                    .HasColumnName("monto")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.IdCuentaBancariaNavigation)
+                    .WithMany(p => p.OperacionBancaria)
+                    .HasForeignKey(d => d.IdCuentaBancaria)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OperacionBancaria_CuentaBancaria");
+
+                entity.HasOne(d => d.IdReciboNavigation)
+                    .WithMany(p => p.OperacionBancaria)
+                    .HasForeignKey(d => d.IdRecibo)
+                    .HasConstraintName("FK_OperacionBancaria_Recibo");
             });
 
             modelBuilder.Entity<Parametros>(entity =>

@@ -100,9 +100,12 @@ export class SeleccionLenteComponent implements OnInit {
     }
     if (event.code == "Enter") {
       event.preventDefault();
-      document.getElementById(idElement).focus();
+      setTimeout(()=>{ // this will make the execution after the above boolean has changed
+        document.getElementById(idElement).focus();
+      },0); 
       if(idElement == "remove"){
         document.getElementById(idElement).style.backgroundColor="#e0e0e0";
+        document.getElementById("remove-button").focus();
       }
     }
   }
@@ -110,12 +113,12 @@ export class SeleccionLenteComponent implements OnInit {
   flechita(event: KeyboardEvent, idElement)
   {
     if (event.code == "ArrowLeft") {
-      document.getElementById(idElement).focus();
+      document.getElementById("done-button").focus();
       document.getElementById(idElement).style.backgroundColor="#e0e0e0";
       document.getElementById("remove").style.backgroundColor="transparent";
     }    
     if (event.code == "ArrowRight") {
-      document.getElementById(idElement).focus();
+      document.getElementById("remove-button").focus();
       document.getElementById(idElement).style.backgroundColor="#e0e0e0";
       document.getElementById("done").style.backgroundColor="transparent";
     }    

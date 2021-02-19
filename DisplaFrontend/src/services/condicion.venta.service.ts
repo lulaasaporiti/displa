@@ -20,8 +20,8 @@ export class CondicionVentaService {
         return this.http.get(`${this.baseUrl}/GetCondicionesVentaVigentes`);
     }
     
-    saveOrUpdateCondicionVenta(categoriaIVA: Object): Observable<object> {
-        return this.http.post(`${this.baseUrl}/`, categoriaIVA);
+    saveOrUpdateCondicionVenta(condicionVenta: Object): Observable<object> {
+        return this.http.post(`${this.baseUrl}/`, condicionVenta);
     }
 
     updateCondicionVenta(id: number, value: any): Observable<object> {

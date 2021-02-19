@@ -98,7 +98,8 @@ export class HeaderComponent {
   openDialogAltaRecibo(): void {
     const dialogRef = this.dialog.open(ReciboAltaComponent, {
       data: {  },
-      width: '650px'
+      width: '650px',
+      height: '600px'
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {

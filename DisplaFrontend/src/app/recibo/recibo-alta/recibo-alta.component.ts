@@ -118,4 +118,9 @@ export class ReciboAltaComponent {
       this.dialogRef.close(this.data);
   }
 
+  verCheques(){
+    let url = `ChequeCartera/Listado`
+    window.open(url, '_blank');
+  }
+
 }
