@@ -1,0 +1,49 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
+            <p class="dialog-title">Agregar cuenta bancaria</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Número" [(ngModel)]="data.modelCuentaBancaria.Numero" name="numero"
+                    #numero="ngModel" (keyup.enter)="onEnter();" required>
+                <mat-error *ngIf="numero.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <mat-select placeholder="Banco" [(ngModel)]="data.modelCuentaBancaria.IdBanco" name="banco"
+                    #banco="ngModel" required>
+                    <mat-option *ngFor="let b of bancos" [value]="b.Id">
+                        {{ b.Id }} - {{ b.Nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="banco.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Saldo inicial" [(ngModel)]="data.modelCuentaBancaria.SaldoInicial"
+                    name="inicial" #inicial="ngModel" pattern="[0-9]*.[0-9]" required>
+            </mat-form-field>
+            <mat-error *ngIf="inicial.errors?.pattern">El formato del número es inválido.</mat-error>
+            <mat-form-field fxFlex="50">
+                <input matInput [matDatepicker]="picker1" [(ngModel)]="data.modelCuentaBancaria.FechaApertura"
+                    placeholder="Fecha de apertura" name="fechache" #fechache="ngModel" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="data">Agregar</button>
+        </div>
+    </div>
+
+</form>

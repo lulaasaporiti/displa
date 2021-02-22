@@ -14,6 +14,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(CuentaBancaria cuenta);
         bool Delete(CuentaBancaria cuenta);
         CuentaBancaria GetById(int idCuentaBancaria);
+        bool GetNumero(string numero);
 
     }
 
@@ -32,6 +33,20 @@ namespace DisplaBackend.DAOs
             return _context.CuentaBancaria.Include(cu => cu.IdBancoNavigation)
                 .ToList();
         }
+
+        public bool GetNumero(string numero)
+        {
+            if (_context.CuentaBancaria.FirstOrDefault(cu => cu.Numero == numero) != null)
+            {
+                return true;       
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
 
         public List<CuentaBancaria> GetCuentasBancariasVigentes()
         {

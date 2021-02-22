@@ -60,6 +60,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BusquedaItemModule } from './busqueda-item/busqueda-item.module';
 import { RemitoModule } from './remito/remito.module';
 import { ChequeModule } from './cheque/cheque.module';
+import { CuentaBancariaModule } from './cuenta-bancaria/cuenta-bancaria.module';
 
 
 
@@ -100,6 +101,7 @@ import { ChequeModule } from './cheque/cheque.module';
     ChequeModule,
     ClienteModule,
     CondicionVentaModule,
+    CuentaBancariaModule,
     EstadisticaModule,
     FacturaModule,
     GastoModule,

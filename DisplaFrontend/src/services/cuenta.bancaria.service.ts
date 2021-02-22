@@ -16,6 +16,10 @@ export class CuentaBancariaService {
         return this.http.get(`${this.baseUrl}/GetCuentasBancarias`);
     }
     
+    getNumero(value: any): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetNumero`, value);
+    }
+
     getCuentaBancariasVigentesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetCuentasBancariasVigentes`);
     }

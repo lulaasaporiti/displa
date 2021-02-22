@@ -30,6 +30,13 @@ namespace DisplaBackend.Controllers
             return _cuentaBancariaService.GetCuentasBancarias();
         }
 
+        [HttpGet, Route("GetNumero")]
+        [EnableCors("DisplaAPIPolicy")]
+        public bool GetNumero(string numero)
+        {
+            return _cuentaBancariaService.GetNumero(numero);
+        }
+
         [HttpGet, Route("GetCuentasBancariasVigentes")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetCuentasBancariasVigentes()

@@ -29,6 +29,8 @@ namespace DisplaBackend.DAOs
         public List<Cheque> GetChequesCartera()
         {
             return _context.Cheque
+                .Include(c => c.IdBancoNavigation)
+                .Include(c => c.IdClienteNavigation)
                 .Where(c => c.FechaAnulado == null)
                 .OrderBy(c => c.Fecha)
                 .ToList();
@@ -40,6 +42,8 @@ namespace DisplaBackend.DAOs
             {
                 if (cheque.Id == 0)
                 {
+                    cheque.IdCliente = cheque.IdClienteNavigation.Id;
+                    cheque.IdClienteNavigation = null;
                     cheque = _context.Add(cheque).Entity;
                 }
                 else

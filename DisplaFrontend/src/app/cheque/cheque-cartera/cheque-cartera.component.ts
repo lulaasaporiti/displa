@@ -67,18 +67,19 @@ export class ChequeCarteraComponent implements OnInit {
     let cheque = <Cheque>{};
     const dialogRef = this.dialog.open(ChequeAltaComponent, {
       width: '550px',
-      data: { modelCategoriaIva: cheque }
+      data: { modelCheque: cheque }
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log(cheque)
       if (result != undefined && result != false) {
         this.chequeService.saveOrUpdateCheque(cheque).subscribe(
           data => {
-            this.sessionService.showSuccess("La categoría IVA se ha agregado correctamente.");
+            this.sessionService.showSuccess("El cheque se ha agregado correctamente.");
             this.loadChequePage();
           },
           error => {
             // console.log(error)
-            this.sessionService.showError("La categoría IVA no se agregó.");
+            this.sessionService.showError("El cheque no se agregó.");
           }
         );
       }

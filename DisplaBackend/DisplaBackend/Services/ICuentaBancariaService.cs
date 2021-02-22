@@ -12,6 +12,7 @@ namespace DisplaBackend.Services
         bool SaveOrUpdate(CuentaBancaria cuenta);
         bool Delete(CuentaBancaria cuenta);
         CuentaBancaria GetById(int idCuentaBancaria);
+        bool GetNumero(string numero);
     }
 
     public class CuentaBancariaService : ICuentaBancariaService
@@ -26,6 +27,11 @@ namespace DisplaBackend.Services
         public List<CuentaBancaria> GetCuentasBancarias()
         {
             return _cuentaBancariaDAO.GetCuentasBancarias();
+        }
+
+        public bool GetNumero(string numero)
+        {
+            return _cuentaBancariaDAO.GetNumero(numero);
         }
 
         public List<CuentaBancaria> GetCuentasBancariasVigentes()
