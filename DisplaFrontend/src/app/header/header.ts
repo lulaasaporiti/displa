@@ -22,6 +22,7 @@ import { MovimientoInternoService } from 'src/services/movimiento.interno.servic
 import { VentaClienteMesComponent } from '../estadistica/venta-cliente-mes/venta-cliente-mes.component';
 import { MatDialog } from '@angular/material/dialog';
 import { BusquedaItemComprobanteComponent } from '../busqueda-item/busqueda-item-facturado/busqueda-item-comprobante.component';
+import { MovimientoInternoBancoAltaComponent } from '../movimiento-interno-banco/movimiento-interno-banco-alta/movimiento-interno-banco-alta.component';
 
 @Component({
   selector: 'app-header',
@@ -133,6 +134,27 @@ export class HeaderComponent {
             this.sessionService.showError("El movimiento interno no se agregó.");
           }
         );
+      }
+    })
+  }
+
+  openDialogAltaMovimientoInternoBanco(): void {
+    const dialogRef = this.dialog.open(MovimientoInternoBancoAltaComponent, {
+      data: { },
+      width: '650px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        console.log(result)
+        // this.loadingSpinnerService.show();
+        // this.movimientoInternoService.saveOrUpdateMovimientoInterno(result).subscribe(
+        //   data => {
+        //     this.sessionService.showSuccess("El movimiento interno se agregó correctamente.");
+        //   },
+        //   error => {
+        //     this.sessionService.showError("El movimiento interno no se agregó.");
+        //   }
+        // );
       }
     })
   }

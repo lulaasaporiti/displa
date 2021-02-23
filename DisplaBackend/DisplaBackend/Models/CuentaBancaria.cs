@@ -16,6 +16,7 @@ namespace DisplaBackend.Models
         public decimal? SaldoInicial { get; set; }
         public DateTime FechaApertura { get; set; }
         public int IdBanco { get; set; }
+        public bool? Borrado { get; set; }
 
         public virtual Banco IdBancoNavigation { get; set; }
         public virtual ICollection<OperacionBancaria> OperacionBancaria { get; set; }

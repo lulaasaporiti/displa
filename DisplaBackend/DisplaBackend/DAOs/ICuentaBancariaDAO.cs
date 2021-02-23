@@ -14,7 +14,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(CuentaBancaria cuenta);
         bool Delete(CuentaBancaria cuenta);
         CuentaBancaria GetById(int idCuentaBancaria);
-        bool GetNumero(string numero);
+        bool GetNumero(string numero, int id);
 
     }
 
@@ -34,11 +34,11 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public bool GetNumero(string numero)
+        public bool GetNumero(string numero, int id)
         {
-            if (_context.CuentaBancaria.FirstOrDefault(cu => cu.Numero == numero) != null)
+            if (_context.CuentaBancaria.FirstOrDefault(cu => cu.Numero == numero && cu.Id != id) != null)
             {
-                return true;       
+                return true;
             }
             else
             {
@@ -51,6 +51,8 @@ namespace DisplaBackend.DAOs
         public List<CuentaBancaria> GetCuentasBancariasVigentes()
         {
             return _context.CuentaBancaria
+                .Include(cu => cu.IdBancoNavigation)
+                .Where(c => c.Borrado != true)
                 .ToList();
         }
 
@@ -85,6 +87,7 @@ namespace DisplaBackend.DAOs
         {
             try
             {
+                cuenta.Borrado = !cuenta.Borrado;
                 cuenta = _context.CuentaBancaria.Update(cuenta).Entity;
                 return _context.SaveChanges() >= 1;
 

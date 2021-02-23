@@ -32,9 +32,9 @@ namespace DisplaBackend.Controllers
 
         [HttpGet, Route("GetNumero")]
         [EnableCors("DisplaAPIPolicy")]
-        public bool GetNumero(string numero)
+        public bool GetNumero(string numero, int id)
         {
-            return _cuentaBancariaService.GetNumero(numero);
+            return _cuentaBancariaService.GetNumero(numero, id);
         }
 
         [HttpGet, Route("GetCuentasBancariasVigentes")]

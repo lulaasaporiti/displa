@@ -4,6 +4,7 @@ import { Banco } from 'src/app/model/Banco';
 import { BancoService } from 'src/services/banco.service';
 import { combineLatest } from 'rxjs';
 import { CuentaBancariaService } from 'src/services/cuenta.bancaria.service';
+import { SessionService } from 'src/services/session.service';
 
 @Component({
   selector: 'app-cuenta-bancaria-alta',
@@ -12,10 +13,11 @@ import { CuentaBancariaService } from 'src/services/cuenta.bancaria.service';
 })
 export class CuentaBancariaAltaComponent {
   bancos: Banco[] = [];
-
-
+  existeNumero;
+  
   constructor(
     private bancoService: BancoService,
+    private sessionService: SessionService,
     private cuentaBancariaService: CuentaBancariaService,
     public dialogRef: MatDialogRef<CuentaBancariaAltaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -32,11 +34,13 @@ export class CuentaBancariaAltaComponent {
   }
 
 
-  validarNumero(numero: string){
-    this.cuentaBancariaService.getNumero(numero)
+  validarNumero(numero: string, id: number){
+    this.cuentaBancariaService.getNumero(numero, id)
     .subscribe(r => {
-      console.log(r)
-
+      this.existeNumero = r;
+      if (this.existeNumero) 
+        this.sessionService.showWarning("Ya existe esa cuenta bancaria");
+        // hay que ver si se puede repetir por banco
     });
   }
 

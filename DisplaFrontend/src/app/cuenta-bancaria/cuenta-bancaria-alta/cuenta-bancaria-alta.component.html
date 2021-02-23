@@ -8,7 +8,7 @@
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input matInput placeholder="Número" [(ngModel)]="data.modelCuentaBancaria.Numero" name="numero"
-                    #numero="ngModel" (keyup.enter)="onEnter();" required (blur)="validarNumero(data.modelCuentaBancaria.Numero)">
+                    #numero="ngModel" (keyup.enter)="onEnter();" required (blur)="validarNumero(data.modelCuentaBancaria.Numero, data.modelCuentaBancaria.Id)">
                 <mat-error *ngIf="numero.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
@@ -28,20 +28,22 @@
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFlex="50">
                 <input matInput placeholder="Saldo inicial" [(ngModel)]="data.modelCuentaBancaria.SaldoInicial"
-                    name="inicial" #inicial="ngModel" pattern="[0-9]*.[0-9]" required>
+                    name="inicial" #inicial="ngModel" required>
+                <mat-error *ngIf="inicial.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
-            <mat-error *ngIf="inicial.errors?.pattern">El formato del número es inválido.</mat-error>
             <mat-form-field fxFlex="50">
-                <input matInput [matDatepicker]="picker1" [(ngModel)]="data.modelCuentaBancaria.Fecha"
-                    placeholder="Fecha de apertura" name="fechache" #fechache="ngModel" readonly>
+                <input matInput [matDatepicker]="picker1" [(ngModel)]="data.modelCuentaBancaria.FechaApertura"
+                    placeholder="Fecha de apertura" name="fecha" #fecha="ngModel" readonly required>
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-error *ngIf="fecha.hasError('required')">Este campo es obligatorio.</mat-error>
+
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || existeNumero"
                 [mat-dialog-close]="data">Agregar</button>
         </div>
     </div>

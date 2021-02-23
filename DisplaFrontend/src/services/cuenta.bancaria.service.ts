@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { MainService } from './main.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,14 +11,17 @@ export class CuentaBancariaService {
 
     private baseUrl = environment.BASE_USER_ENDPOINT + 'CuentaBancaria';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private mainService: MainService) { }
 
     getCuentaBancariasList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetCuentasBancarias`);
     }
     
-    getNumero(value: any): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetNumero`, value);
+    getNumero(numero: any, id: any): Observable<any> {
+        return this.mainService.get(`CuentaBancaria/GetNumero`, {
+            numero: numero,
+            id: id
+        });
     }
 
     getCuentaBancariasVigentesList(): Observable<any> {

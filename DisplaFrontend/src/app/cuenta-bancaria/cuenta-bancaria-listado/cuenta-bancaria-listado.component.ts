@@ -19,7 +19,7 @@ import { CuentaBancariaModificacionComponent } from '../cuenta-bancaria-modifica
 })
 export class CuentaBancariaListadoComponent implements OnInit {
 
-  displayedColumns: string[] = ['Numero', 'SaldoInicial', 'FechaApertura', 'Banco', 'Opciones'];
+  displayedColumns: string[] = ['Numero', 'SaldoInicial', 'FechaApertura', 'Banco', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<CuentaBancaria>();
   traerVigentes: boolean = true;
 
@@ -48,16 +48,29 @@ export class CuentaBancariaListadoComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  
+  cambiarListado() {
+    this.traerVigentes = !this.traerVigentes;
+    this.loadCuentaBancariaPage();
+  }
 
   loadCuentaBancariaPage() {
     this.loadingSpinnerService.show()
+    if (this.traerVigentes == true) {
+      this.cuentaBancariaService.getCuentaBancariasVigentesList()
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
+    } else {
       this.cuentaBancariaService.getCuentaBancariasList()
         .subscribe(r => {
           this.dataSource.data = r;
           this.loadingSpinnerService.hide();
         })
-   
+    }
   }
+
   agregarCuentaBancaria(): void {
     let cuenta = <CuentaBancaria>{};
     const dialogRef = this.dialog.open(CuentaBancariaAltaComponent, {

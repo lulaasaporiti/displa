@@ -74,7 +74,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -668,6 +667,10 @@ namespace DisplaBackend.Models
             modelBuilder.Entity<CuentaBancaria>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Borrado)
+                    .HasColumnName("borrado")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.FechaApertura)
                     .HasColumnName("fechaApertura")
