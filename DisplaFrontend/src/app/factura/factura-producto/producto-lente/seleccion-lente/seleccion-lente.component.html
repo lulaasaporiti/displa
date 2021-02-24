@@ -4,7 +4,7 @@
             <mat-form-field fxFill>
                 <input type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
                     [matAutocomplete]="auto" name="lente" id="lente" (blur)="setIdLente(this.lentesControl);"
-                    (keyup.enter)="tabInventado($event, 'esferico0')">
+                    (keyup.enter)="tabInventado($event, 'esferico0')" required>
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
                     <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
                         {{ l.Id }} - {{l.Nombre}}

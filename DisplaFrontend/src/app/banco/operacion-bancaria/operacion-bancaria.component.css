@@ -12,5 +12,9 @@
 }
 
 .mat-dialog-content {
-    height: 65px;
+    height: 80px;
 }
+
+.agregar-graduacion{
+    padding-bottom: 16px;
+  }

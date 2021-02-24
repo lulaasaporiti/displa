@@ -42,6 +42,7 @@ h4{
 p {
   font-size:14px;
   margin: 0;
+  margin-bottom: 0 !important;
   color:#333;
 }
 
@@ -155,6 +156,7 @@ max-width: 1000px;
   text-decoration: none !important;
 }
 
+
   /* Responsive Styles */
   @media screen and (max-width: 767px) {
 
@@ -173,7 +175,9 @@ max-width: 1000px;
     }
     
     p {
-        margin: 0;
+        margin: 0 !important;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
     }
     
     .spacer {

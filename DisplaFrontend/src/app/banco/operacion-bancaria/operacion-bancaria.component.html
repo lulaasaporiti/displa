@@ -1,0 +1,90 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
+            <p class="dialog-title">Operaciones en cuentas bancarias</p>
+        </div>
+
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="modelOperacion.Fecha"
+                    name="fecha" #fecha="ngModel" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input type="text" placeholder="Cuenta bancaria" aria-label="Cuenta bancaria" matInput
+                    [formControl]="cuentasControl" [matAutocomplete]="auto"
+                    [(ngModel)]="modelOperacion.IdCuentaBancariaNavigation" name="cuenta"
+                    (blur)="setIdCuentaBancaria(this.cuentasControl)" required>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCuentas">
+                    <mat-option *ngFor="let cue of filteredCuentas | async" [value]="cue"
+                        (onSelectionChange)="bancoCuenta($event)">
+                        {{ cue.Numero }}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="cuentasControl.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Banco" [(ngModel)]="banco" name="banco" disabled>
+            </mat-form-field>
+        </div>
+
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Descripcion" [(ngModel)]="modelOperacion.Descripcion" name="descripcion"
+                    #descripcion="ngModel" required>
+                <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Monto" [(ngModel)]="modelOperacion.Monto" name="monto" #monto="ngModel"
+                    required>
+                <mat-error *ngIf="monto.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="2vw">
+            <div fxLayout="column" fxLayoutAlign="start start" class="agregar-graduacion">
+                <p style="font-size: small;">Tipo movimiento</p>
+                <mat-button-toggle-group [(ngModel)]="modelOperacion.Entrada" name="tipoMovimiento">
+                    <mat-button-toggle [value]="true" id="entrada">
+                        Entrada
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="false" id="salida">
+                        Salida
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <div fxLayoutAlign="center center" fxLayoutGap="2vw" >
+                <mat-slide-toggle color="accent" [(ngModel)]="modelOperacion.DepositaCheque" id="deposita"
+                    name="deposita">
+                    Deposita
+                    cheque
+                </mat-slide-toggle>
+                <mat-slide-toggle color="accent" [(ngModel)]="modelOperacion.EmiteCheque" id="emite" name="emite">Cheque
+                    emitido
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+        <!-- <div mat-dialog-content fxLayout="row"  fxLayoutGap="15px">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Número cheque" [(ngModel)]="modelOperacion.NumeroCheque" name="numero"
+                    #numero="ngModel" pattern="[0-9]*.?[0-9]?" required>
+            </mat-form-field>
+            <mat-error *ngIf="numero.errors?.pattern">El formato del número es inválido.</mat-error>
+        </div> -->
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="modelOperacion" cdkFocusInitial>Agregar</button>
+        </div>
+    </div>
+
+</form>

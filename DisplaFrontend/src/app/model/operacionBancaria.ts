@@ -1,4 +1,3 @@
-import { Banco } from "./Banco";
 import { CuentaBancaria } from "./cuentaBancaria";
 import { Recibo } from "./recibo";
 

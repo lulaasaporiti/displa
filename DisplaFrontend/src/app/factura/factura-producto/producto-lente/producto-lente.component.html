@@ -9,7 +9,7 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" [optional]>
+    <mat-step [stepControl]="secondFormGroup" [optional]="true">
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Seleccione servicios</ng-template>
         <app-seleccion-servicios (selectedServiciosComprobanteItem)="listaServiciosComprobanteItemEvento($event)" [selectedLente]="modelComprobanteItemLente" [selectedCalibrados]="serviciosLente" [selectedIndiceCalibrados]="indiceCalibrado" (selectedIdServicio)="idServicioSelected($event)"></app-seleccion-servicios>
@@ -19,7 +19,7 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="thirdFormGroup" [optional]>
+    <mat-step [stepControl]="thirdFormGroup" [optional]="true">
       <form [formGroup]="thirdFormGroup">
         <ng-template matStepLabel>Seleccione tratamientos</ng-template>
         <app-seleccion-recargos (selectedRecargosComprobanteItem)="listaRecargosComprobanteItemEvento($event)"  [selectedLente]="modelComprobanteItemLente"></app-seleccion-recargos>
@@ -35,7 +35,7 @@
         <app-resumen-lente [selectedLente]="modelComprobanteItemLente" [selectedServicio]="comprobanteItemServicios"  [selectedRecargo]="comprobanteItemRecargos" [selectedIndiceCalibrados]="indiceCalibrado" [selectedIdServicio]="idServicio"></app-resumen-lente>
         <div>
           <button mat-button matStepperPrevious>Anterior</button>
-          <button mat-raised-button color="primary" id="seleccionar"
+          <button mat-raised-button color="primary" id="seleccionar" [disabled]="modelComprobanteItemLente.length == 0"
         [mat-dialog-close]="true">Confirmar</button>
         </div>
       </form>

@@ -15,7 +15,6 @@ import { AuthorizeRoleGuard } from 'src/guards/authorizeRole-guard';
 import { httpInterceptorProviders } from 'src/interceptors';
 import { TipoBlockModule } from './tipo-block/tipo-block.module';
 import { BlockModule } from './block/block.module';
-import { HeaderComponent } from './header/header';
 import { HomeComponent } from './home/home';
 import { UbicacionModule } from './ubicacion/ubicacion.module';
 import { MovimientoBlockModule } from './movimiento-block/movimiento-block.module';
@@ -61,7 +60,7 @@ import { BusquedaItemModule } from './busqueda-item/busqueda-item.module';
 import { RemitoModule } from './remito/remito.module';
 import { ChequeModule } from './cheque/cheque.module';
 import { CuentaBancariaModule } from './cuenta-bancaria/cuenta-bancaria.module';
-import { MovimientoInternoBancoModule } from './movimiento-interno-banco/movimiento-interno-banco.module';
+import { HeaderComponent } from './header/header';
 
 
 
@@ -116,7 +115,6 @@ import { MovimientoInternoBancoModule } from './movimiento-interno-banco/movimie
     MovimientoBlockModule,
     MovimientoInsumoModule,
     MovimientoInternoModule,
-    MovimientoInternoBancoModule,
     NgxMatSelectSearchModule,
     NotaCreditoModule,
     NotaDebitoModule,

@@ -9,11 +9,11 @@
   <mat-divider fxFlexOffset="2"></mat-divider>
 
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="6px" class="menu-agregar">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px">
       <button mat-mini-fab class="buttonFixed" color="primary" (click)="agregarLente()">
         <mat-icon svgIcon="add"></mat-icon>
       </button>
-      <p>Agregar</p>
+      <p style="margin-bottom: 0px !important;">Agregar</p>
     </div>
     
     <a mat-button *ngIf="traerVigentes" class="footer-list" routerLink="." (click)="cambiarListado()">Mostrar todos</a>

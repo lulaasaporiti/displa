@@ -89,7 +89,7 @@
                 <mat-menu fxLayoutAlign="start center" #menuContabilidad="matMenu">
                     <a mat-menu-item class="button-list" (click)="openDialogAltaMovimientoInterno('cliente');">Movimientos internos</a>
                     <a mat-menu-item class="button-list">Consultar pedido</a>
-                    <a mat-menu-item class="button-list">Consultar de remitos anulados</a>
+                    <a mat-menu-item class="button-list">Consulta de remitos anulados</a>
                     <a mat-menu-item class="button-list">Anulación/consulta de comprobante</a>
                     <a mat-menu-item class="button-list" routerLink="VentaVirtual/Listado">Consulta de ventas virtuales</a>
                     <a mat-menu-item class="button-list">IVA ventas</a>
@@ -116,7 +116,7 @@
                     <a mat-menu-item class="button-list">Cantidad de lentes vendidos</a>
                     <a mat-menu-item class="button-list" routerLink="Estadistica/DetalleArticulo">Detalle artículos varios</a>
                     <a mat-menu-item class="button-list">Ventas de artículos varios</a>
-                    <a mat-menu-item class="button-list">¿Quién dejó de comprar?</a>
+                    <a mat-menu-item class="button-list" (click)="openDialogDejoDeComprar()">¿Quién dejó de comprar?</a>
                     <a mat-menu-item class="button-list">Rubros vendidos por clientes</a>
                     <a mat-menu-item class="button-list" (click)="openDialogVentaClienteMes()">Ventas por mes</a>
                 </mat-menu>
@@ -184,10 +184,10 @@
                 <mat-menu fxLayoutAlign="start center" #menuBanco="matMenu">
                     <a mat-menu-item class="button-list" routerLink="Banco/Listado">Listado</a>
                     <a mat-menu-item class="button-list" routerLink="CuentaBancaria/Listado">Cuentas bancarias</a>
+                    <a mat-menu-item class="button-list" (click)="openDialogoOperacionesCuentas();"> Operaciones en cuentas bancarias</a>
                     <a mat-menu-item class="button-list" (click)="openDialogAltaMovimientoInternoBanco();">Movimientos internos</a>
                     <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuCheques">Cheques</button>
-                    <a mat-menu-item class="button-list" routerLink="">Traslado de fondos</a>
-                    <a mat-menu-item class="button-list" routerLink="">Tipos de comprobantes</a>
+                    <a mat-menu-item class="button-list"(click)="openDialogTrasladoFondos();">Traslado de fondos</a>
                 </mat-menu>
                 <mat-menu fxLayoutAlign="start center" #menuCheques="matMenu">
                     <a mat-menu-item class="button-list" routerLink="ChequeCartera/Listado">Cartera de cheques</a>
