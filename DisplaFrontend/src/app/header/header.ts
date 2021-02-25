@@ -26,6 +26,7 @@ import { MovimientoInternoBancoAltaComponent } from '../banco/movimiento-interno
 import { TrasladoFondoComponent } from '../banco/traslado-fondo/traslado-fondo.component';
 import { OperacionCuentaBancariaComponent } from '../banco/operacion-bancaria/operacion-bancaria.component';
 import { DejoComprarComponent } from '../estadistica/dejo-comprar/dejo-comprar.component';
+import { CristalesVendidosComponent } from '../estadistica/cristales-vendidos/cristales-vendidos.component';
 
 @Component({
   selector: 'app-header',
@@ -200,6 +201,26 @@ export class HeaderComponent {
 
   openDialogDejoDeComprar(): void {
     const dialogRef = this.dialog.open(DejoComprarComponent, {
+      data: {  },
+      width: '650px'
+    })
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result != undefined && result != false) {
+    //     this.loadingSpinnerService.show();
+    //     this.movimientoInternoService.saveOrUpdateMovimientoInterno(result).subscribe(
+    //       data => {
+    //         this.sessionService.showSuccess("El movimiento interno se agregó correctamente.");
+    //       },
+    //       error => {
+    //         this.sessionService.showError("El movimiento interno no se agregó.");
+    //       }
+    //     );
+    //   }
+    // })
+  }
+
+  openDialogCristalesVendidos(): void {
+    const dialogRef = this.dialog.open(CristalesVendidosComponent, {
       data: {  },
       width: '750px'
     })

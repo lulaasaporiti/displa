@@ -84,8 +84,8 @@ export class ValidacionLenteService {
     }
 
     conversionMedidas(graduacionCilindrico, medidaEsferico, medidaCilindrico) {
-        if (graduacionCilindrico) {
-            medidaCilindrico= Math.abs(medidaCilindrico);
+        if (graduacionCilindrico) { //graduacion cilindrica positiva
+            medidaCilindrico = Math.abs(medidaCilindrico);
             if (medidaEsferico < 0) {
                medidaEsferico = medidaEsferico - medidaCilindrico;
             }
@@ -93,14 +93,15 @@ export class ValidacionLenteService {
                medidaEsferico = medidaEsferico + medidaCilindrico;
             }
         }
-        else {
-            if (medidaCilindrico > 0) {
-                // medEsferico:= medEsferico + medCilindrico;
-                medidaCilindrico= -1 * medidaCilindrico;
+        else { //graduacion cilindrica negativa
+            if (medidaEsferico > 0) {
+                medidaCilindrico = (-1 * medidaCilindrico).toFixed(3);
+                medidaEsferico = (medidaEsferico + medidaCilindrico).toFixed(3);
             }
             else {
             }
         }
+        return medidaEsferico.toString() + medidaCilindrico.toString()
     }
 
 }

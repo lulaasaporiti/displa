@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LenteService } from 'src/services/lente.service';
 import { Lente } from 'src/app/model/lente';
 import { FormControl } from '@angular/forms';
@@ -17,8 +17,8 @@ export class LenteSeleccionComponent implements OnInit {
   filteredLentes: Observable<Lente[]>;
 
   constructor(
-    public dialogRef: MatDialogRef<LenteSeleccionComponent>,
     private lenteService: LenteService,
+    public dialogRef: MatDialogRef<LenteSeleccionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -27,13 +27,13 @@ export class LenteSeleccionComponent implements OnInit {
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
       this.filteredLentes = this.lentesControl.valueChanges
-      .pipe(
-        startWith(''),
-        // map(value => typeof value === 'string' ? value : value.Nombre),
-        map(val => this.filterLente(val))
+        .pipe(
+          startWith(''),
+          // map(value => typeof value === 'string' ? value : value.Nombre),
+          map(val => this.filterLente(val))
 
-        // map(Nombre => Nombre ? this._filter(Nombre) : this.lentes.slice())
-      );
+          // map(Nombre => Nombre ? this._filter(Nombre) : this.lentes.slice())
+        );
     });
   }
 
@@ -60,19 +60,18 @@ export class LenteSeleccionComponent implements OnInit {
   }
 
   filterLente(nombre: any): Lente[] {
-  if (nombre.length >= 0) {
+    if (nombre.length >= 0) {
       var s: string;
       try {
-          s = nombre.toLowerCase();
+        s = nombre.toLowerCase();
       }
       catch (ex) {
-          s = nombre.nombre.toLowerCase();
+        s = nombre.nombre.toLowerCase();
       }
       return this.lentes.filter(lente =>
-          lente.Id.toString().indexOf(s) !== -1 || lente.Nombre.toLowerCase().indexOf(s.toLowerCase()) !== -1);
-  } else {
+        lente.Id.toString().indexOf(s) !== -1 || lente.Nombre.toLowerCase().indexOf(s.toLowerCase()) !== -1);
+    } else {
       return [];
+    }
   }
-}
-
 }

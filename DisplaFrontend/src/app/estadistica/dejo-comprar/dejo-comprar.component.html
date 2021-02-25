@@ -2,75 +2,56 @@
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
             <mat-icon color="primary" style="font-size:30px" svgIcon="estadistica"></mat-icon>
-            <p class="dialog-title">¿Quién dejo de comprar?</p>
+            <p class="dialog-title">¿Quién dejó de comprar?</p>
+        </div>
+
+        <div fxLayout="row">
+            <label style="margin-top: 17px !important">Periodo 1</label>
+            <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4">
+
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Desde" [(ngModel)]="desde1"
+                        #fechaDesde1="ngModel" name="fechaDesde1" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker2" placeholder="Hasta" [(ngModel)]="hasta1"
+                        name="fechaHasta1" #fechaHasta1="ngModel" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </div>
         </div>
 
 
-        <div mat-dialog-content fxLayout="row" fxLayoutGap="2vw"
-            style="font-size: small; line-height: 38px !important;">
-            <label>Periodo 1</label>
-            <mat-form-field fxFlex="25">
-                <mat-label>Desde</mat-label>
-                <input matInput [matDatepicker]="dp" [formControl]="since">
-                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                <mat-datepicker #dp
-                                startView="multi-year"
-                                (yearSelected)="chosenYearHandler($event, 'desde')"
-                                (monthSelected)="chosenMonthHandler($event, dp, 'desde')"
-                                panelClass="example-month-picker">
-                </mat-datepicker>
-              </mat-form-field>
-              <mat-form-field fxFlex="25">
-                <mat-label>Hasta</mat-label>
-                <input matInput [matDatepicker]="dp2" [formControl]="today" [min]="since" >
-                <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-                <mat-datepicker #dp2
-                                startView="multi-year"
-                                (yearSelected)="chosenYearHandler($event,'hasta')"
-                                (monthSelected)="chosenMonthHandler($event, dp2, 'hasta')"
-                                panelClass="example-month-picker">
-                </mat-datepicker>
-              </mat-form-field>  
-        </div>
-
-        
-        <div mat-dialog-content fxLayout="row" fxLayoutGap="2vw"
-            style="font-size: small; line-height: 38px !important;">
-            <label>Periodo 2</label>
-            <mat-form-field fxFlex="25">
-                <mat-label>Desde</mat-label>
-                <input matInput [matDatepicker]="dp3" [formControl]="since">
-                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                <mat-datepicker #dp2
-                                startView="multi-year"
-                                (yearSelected)="chosenYearHandler($event, 'desde')"
-                                (monthSelected)="chosenMonthHandler($event, dp3, 'desde')"
-                                panelClass="example-month-picker">
-                </mat-datepicker>
-              </mat-form-field>
-              <mat-form-field fxFlex="25">
-                <mat-label>Hasta</mat-label>
-                <input matInput [matDatepicker]="dp4" [formControl]="today" [min]="since" >
-                <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
-                <mat-datepicker #dp4
-                                startView="multi-year"
-                                (yearSelected)="chosenYearHandler($event,'hasta')"
-                                (monthSelected)="chosenMonthHandler($event, dp4, 'hasta')"
-                                panelClass="example-month-picker">
-                </mat-datepicker>
-              </mat-form-field>  
+        <div fxLayout="row">
+            <label style="margin-top: 17px !important">Periodo 2</label>
+            <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker3" placeholder="Desde" [(ngModel)]="desde2"
+                        #fechaDesde2="ngModel" name="fechaDesde2" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker4" placeholder="Hasta" [(ngModel)]="hasta2"
+                        name="fechaHasta2" #fechaHasta2="ngModel" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                    <mat-datepicker #picker4></mat-datepicker>
+                </mat-form-field>
+            </div>
         </div>
 
         <div fxLayoutAlign="start center">
             <mat-slide-toggle color="accent" #unifica id="unifica" name="unifica" [checked]="analogo">Unifica con
-                analogo
+                análogo
             </mat-slide-toggle>
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" 
-                [mat-dialog-close]="data">Aceptar</button>
+            <button mat-raised-button color="primary" [mat-dialog-close]="data">Aceptar</button>
         </div>
     </div>
 </form>

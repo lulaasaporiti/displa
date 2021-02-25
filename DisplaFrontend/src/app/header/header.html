@@ -109,15 +109,15 @@
 
                 <button mat-button class="button-menu" [matMenuTriggerFor]="menuEstadisticas">Estadísticas ventas</button>
                 <mat-menu fxLayoutAlign="start center" #menuEstadisticas="matMenu">
-                    <a mat-menu-item class="button-list">Ranking de facturación</a>
+                    <!-- <a mat-menu-item class="button-list">Ranking de facturación</a>
                     <a mat-menu-item class="button-list">Artículos por rubro</a>
                     <a mat-menu-item class="button-list">Cristales por clase</a>
-                    <a mat-menu-item class="button-list">Totales por periodo</a>
-                    <a mat-menu-item class="button-list">Cantidad de lentes vendidos</a>
+                    <a mat-menu-item class="button-list">Totales por periodo</a> -->
+                    <a mat-menu-item class="button-list" (click)="openDialogCristalesVendidos()">Cantidad de lentes vendidos</a>
                     <a mat-menu-item class="button-list" routerLink="Estadistica/DetalleArticulo">Detalle artículos varios</a>
-                    <a mat-menu-item class="button-list">Ventas de artículos varios</a>
+                    <!-- <a mat-menu-item class="button-list">Ventas de artículos varios</a> -->
                     <a mat-menu-item class="button-list" (click)="openDialogDejoDeComprar()">¿Quién dejó de comprar?</a>
-                    <a mat-menu-item class="button-list">Rubros vendidos por clientes</a>
+                    <!-- <a mat-menu-item class="button-list">Rubros vendidos por clientes</a> -->
                     <a mat-menu-item class="button-list" (click)="openDialogVentaClienteMes()">Ventas por mes</a>
                 </mat-menu>
 

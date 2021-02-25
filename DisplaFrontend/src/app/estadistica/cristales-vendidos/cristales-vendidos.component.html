@@ -1,0 +1,57 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content" fxLayout="column" fxLayoutGap="6px">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="estadistica"></mat-icon>
+            <p class="dialog-title">Cantidad de lentes vendidos</p>
+        </div>
+
+        <div mat-dialog-content>
+            <mat-form-field fxFill>
+                <input type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
+                    [matAutocomplete]="auto" name="lente">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
+                    <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
+                        {{ l.Id }} - {{l.Nombre}} - Combinación {{l.Combinacion}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <div fxLayoutAlign="start center">
+            <mat-slide-toggle color="accent" #unifica id="unifica" name="unifica" [checked]="analogo">Unifica con
+                análogo
+            </mat-slide-toggle>
+        </div>
+
+        <div fxLayout="row">
+            <mat-form-field fxFill>
+                <mat-select placeholder="Formato a mostrar" name="formato" id="formato" #formato
+                    (selectionChange)="formatoAMostrar($event.value)">
+                    <mat-option value="1">Cantidad</mat-option>
+                    <mat-option value="2">Porcentaje</mat-option>
+                    <mat-option value="3">Distribución cantidad</mat-option>
+                    <mat-option value="4">Distribución cantidad (descuenta stock)</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="2vw">
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="Desde" [(ngModel)]="desde" #fechaDesde="ngModel"
+                    name="fechaDesde" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker2" placeholder="Hasta" [(ngModel)]="hasta" name="fechaHasta"
+                    #fechaHasta="ngModel" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [mat-dialog-close]="data">Aceptar</button>
+        </div>
+    </div>
+</form>
