@@ -37,6 +37,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<ComprobanteItemServicio> ComprobanteItemServicio { get; set; }
         public virtual DbSet<CondicionVenta> CondicionVenta { get; set; }
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
+        public virtual DbSet<EstadoCheque> EstadoCheque { get; set; }
         public virtual DbSet<Ficha> Ficha { get; set; }
         public virtual DbSet<Gasto> Gasto { get; set; }
         public virtual DbSet<Insumo> Insumo { get; set; }
@@ -69,6 +70,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoComprobante> TipoComprobante { get; set; }
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
+        public virtual DbSet<TrasladoFondo> TrasladoFondo { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
@@ -305,6 +307,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 
+                entity.Property(e => e.IdEstado).HasColumnName("idEstado");
+
                 entity.Property(e => e.IdOperacionBancaria).HasColumnName("idOperacionBancaria");
 
                 entity.Property(e => e.IdRecibo).HasColumnName("idRecibo");
@@ -330,6 +334,11 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdCliente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Cheque_Cliente");
+
+                entity.HasOne(d => d.IdEstadoNavigation)
+                    .WithMany(p => p.Cheque)
+                    .HasForeignKey(d => d.IdEstado)
+                    .HasConstraintName("FK_Cheque_EstadoCheque");
 
                 entity.HasOne(d => d.IdOperacionBancariaNavigation)
                     .WithMany(p => p.Cheque)
@@ -692,6 +701,18 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdBanco)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CuentaBancaria_Banco");
+            });
+
+            modelBuilder.Entity<EstadoCheque>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(150);
             });
 
             modelBuilder.Entity<Ficha>(entity =>
@@ -1515,6 +1536,40 @@ namespace DisplaBackend.Models
                     .IsRequired()
                     .HasColumnName("nombre")
                     .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<TrasladoFondo>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdCuentaDestino).HasColumnName("idCuentaDestino");
+
+                entity.Property(e => e.IdCuentaOrigen).HasColumnName("idCuentaOrigen");
+
+                entity.Property(e => e.Monto)
+                    .HasColumnName("monto")
+                    .HasColumnType("decimal(18, 2)");
+
+                entity.HasOne(d => d.IdCuentaDestinoNavigation)
+                    .WithMany(p => p.TrasladoFondoIdCuentaDestinoNavigation)
+                    .HasForeignKey(d => d.IdCuentaDestino)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TrasladoFondo_CuentaBancariaDestino");
+
+                entity.HasOne(d => d.IdCuentaOrigenNavigation)
+                    .WithMany(p => p.TrasladoFondoIdCuentaOrigenNavigation)
+                    .HasForeignKey(d => d.IdCuentaOrigen)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TrasladoFondo_CuentaBancariaOrigen");
             });
 
             modelBuilder.Entity<Ubicacion>(entity =>

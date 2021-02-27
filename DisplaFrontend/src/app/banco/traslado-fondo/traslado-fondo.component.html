@@ -2,14 +2,14 @@
     <div class="dialog-content">
         <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
             <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
-            <p class="dialog-title">Alta movimiento interno banco</p>
+            <p class="dialog-title">Traslado de fondos</p>
         </div>
 
 
         <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
             <mat-form-field fxFlex="50">
                 <input matInput [matDatepicker]="picker" placeholder="Fecha"
-                    [(ngModel)]="modelMovimientoInternoBanco.Fecha" name="fecha" #fecha="ngModel" readonly>
+                    [(ngModel)]="modelTraslado.Fecha" name="fecha" #fecha="ngModel" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
@@ -19,8 +19,8 @@
             <mat-form-field fxFlex="50">
                 <input type="text" placeholder="Cuenta bancaria origen" aria-label="Cuenta bancaria" matInput
                     [formControl]="cuentasControl" [matAutocomplete]="auto"
-                    [(ngModel)]="modelMovimientoInternoBanco.IdCuentaBancariaNavigation" name="cuenta"
-                    (blur)="setIdCuentaBancaria(this.cuentasControl)" required>
+                    [(ngModel)]="modelTraslado.IdCuentaOrigenNavigation" name="cuenta"
+                    (blur)="setIdCuentaBancariaOrigen(this.cuentasControl)" required>
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCuentas">
                     <mat-option *ngFor="let cue of filteredCuentas | async" [value]="cue"
                         (onSelectionChange)="bancoCuenta($event)">
@@ -37,47 +37,40 @@
         <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
             <mat-form-field fxFlex="50">
                 <input type="text" placeholder="Cuenta bancaria destino" aria-label="Cuenta bancaria" matInput
-                    [formControl]="cuentasControl" [matAutocomplete]="auto"
-                    [(ngModel)]="modelMovimientoInternoBanco.IdCuentaBancariaNavigation" name="cuenta"
-                    (blur)="setIdCuentaBancaria(this.cuentasControl)" required>
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCuentas">
+                    [formControl]="cuentasControl" [matAutocomplete]="auto2"
+                    [(ngModel)]="modelTraslado.IdCuentaDestinoNavigation" name="cuenta"
+                    (blur)="setIdCuentaBancariaDestino(this.cuentasControl)" required>
+                <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayCuentas">
                     <mat-option *ngFor="let cue of filteredCuentas | async" [value]="cue"
-                        (onSelectionChange)="bancoCuenta($event)">
+                        (onSelectionChange)="bancoCuentaDestino($event)">
                         {{ cue.Numero }}
                     </mat-option>
                 </mat-autocomplete>
                 <mat-error *ngIf="cuentasControl.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
-                <input matInput placeholder="Banco" [(ngModel)]="banco" name="banco" disabled>
+                <input matInput placeholder="Banco" [(ngModel)]="banco2" name="banco2" disabled>
             </mat-form-field>
         </div>
 
 
         <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
             <mat-form-field fxFlex="50">
-                <input matInput placeholder="Descripcion" [(ngModel)]="modelMovimientoInternoBanco.Descripcion"
+                <input matInput placeholder="Descripcion" [(ngModel)]="modelTraslado.Descripcion"
                     name="descripcion" #descripcion="ngModel" required>
                 <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
-                <input matInput placeholder="Monto" [(ngModel)]="modelMovimientoInternoBanco.Monto" name="monto"
+                <input matInput placeholder="Monto" [(ngModel)]="modelTraslado.Monto" name="monto"
                     #monto="ngModel" required>
                 <mat-error *ngIf="monto.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
-        <!-- <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row" style="font-size: small; line-height: 38px !important;">
-            <mat-button-toggle-group  >
-                
-            </mat-button-toggle-group>
-        </div> -->
-
-
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
-                [mat-dialog-close]="modelMovimientoInternoBanco" cdkFocusInitial>Agregar</button>
+                [mat-dialog-close]="modelTraslado" cdkFocusInitial>Realizar</button>
         </div>
     </div>
 

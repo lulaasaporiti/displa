@@ -3,10 +3,10 @@ import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { OperacionBancaria } from 'src/app/model/operacionBancaria';
 import { CuentaBancaria } from 'src/app/model/cuentaBancaria';
 import { CuentaBancariaService } from 'src/services/cuenta.bancaria.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { TrasladoFondo } from 'src/app/model/trasladoFondo';
 
 
 @Component({
@@ -15,8 +15,9 @@ import { MatOptionSelectionChange } from '@angular/material/core';
   styleUrls: ['./traslado-fondo.component.css']
 })
 export class TrasladoFondoComponent {
-  modelMovimientoInternoBanco = <OperacionBancaria>{};
+  modelTraslado = <TrasladoFondo>{};
   banco = null;
+  banco2 = null;
   cuentas: CuentaBancaria[];
 
   cuentasControl = new FormControl();
@@ -35,8 +36,6 @@ export class TrasladoFondoComponent {
   }
 
   ngOnInit() {
-    this.modelMovimientoInternoBanco.Fecha = new Date();
-    this.modelMovimientoInternoBanco.Entrada = true;
     this.cuentaBancariaService.getCuentaBancariasVigentesList()
       .subscribe(r => {
         this.cuentas = r;
@@ -68,17 +67,25 @@ export class TrasladoFondoComponent {
     }
   }
 
-  setIdCuentaBancaria(control) {
-    if (control.value != null) this.modelMovimientoInternoBanco.IdCuentaBancaria = control.value.Id;
+  setIdCuentaBancariaOrigen(control) {
+    if (control.value != null) this.modelTraslado.IdCuentaOrigen = control.value.Id;
+  }
+
+  setIdCuentaBancariaDestino(control) {
+    if (control.value != null) this.modelTraslado.IdCuentaDestino = control.value.Id;
   }
 
   bancoCuenta(event: MatOptionSelectionChange) {
     this.banco = event.source.value.IdBancoNavigation.Nombre;
   }
 
+  bancoCuentaDestino(event: MatOptionSelectionChange) {
+    this.banco2 = event.source.value.IdBancoNavigation.Nombre;
+  }
+
   onEnter(): void {
-    if (this.modelMovimientoInternoBanco.Monto != undefined)
-      this.dialogRef.close(this.modelMovimientoInternoBanco);
+    if (this.modelTraslado.Monto != undefined)
+      this.dialogRef.close(this.modelTraslado);
   }
 
 }

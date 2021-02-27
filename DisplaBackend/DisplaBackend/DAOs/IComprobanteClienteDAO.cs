@@ -167,7 +167,6 @@ namespace DisplaBackend.DAOs
                 }
                 await _context.SaveChangesAsync();
                 return comprobanteCliente;
-
             }
             catch (Exception e)
             {

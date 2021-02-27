@@ -35,8 +35,8 @@ export class CuentaBancariaModificacionComponent {
       });
   }
 
-  validarNumero(numero: string, id: number) {
-    this.cuentaBancariaService.getNumero(numero, id)
+  validarNumero(numero: string, id: number, idBanco: number) {
+    this.cuentaBancariaService.getNumero(numero, id, idBanco)
       .subscribe(r => {
         this.existeNumero = r;
         if (this.existeNumero)

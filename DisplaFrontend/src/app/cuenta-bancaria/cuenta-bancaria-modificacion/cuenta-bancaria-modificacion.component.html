@@ -8,7 +8,7 @@
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input matInput placeholder="Número" [(ngModel)]="data.modelCuentaBancaria.Numero" name="numero"
-                    #numero="ngModel" (keyup.enter)="onEnter();" required (blur)="validarNumero(data.modelCuentaBancaria.Numero, data.modelCuentaBancaria.Id)">
+                    #numero="ngModel" (keyup.enter)="onEnter();" required>
                 <mat-error *ngIf="numero.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
         </div>
@@ -17,7 +17,7 @@
             <mat-form-field fxFlex="50">
                 <mat-select placeholder="Banco" [(ngModel)]="data.modelCuentaBancaria.IdBanco" name="banco"
                     #banco="ngModel" required>
-                    <mat-option *ngFor="let b of bancos" [value]="b.Id">
+                    <mat-option *ngFor="let b of bancos" [value]="b.Id" (blur)="validarNumero(data.modelCuentaBancaria.Numero, data.modelCuentaBancaria.Id, data.modelCuentaBancaria.IdBanco)">
                         {{ b.Id }} - {{ b.Nombre }}
                     </mat-option>
                 </mat-select>

@@ -17,10 +17,11 @@ export class CuentaBancariaService {
         return this.http.get(`${this.baseUrl}/GetCuentasBancarias`);
     }
     
-    getNumero(numero: any, id: any): Observable<any> {
+    getNumero(numero: any, id: any, idBanco: any): Observable<any> {
         return this.mainService.get(`CuentaBancaria/GetNumero`, {
             numero: numero,
-            id: id
+            id: id,
+            idBanco: idBanco
         });
     }
 
@@ -28,8 +29,8 @@ export class CuentaBancariaService {
         return this.http.get(`${this.baseUrl}/GetCuentasBancariasVigentes`);
     }
     
-    saveOrUpdateCuentaBancaria(recibo: Object): Observable<object> {
-        return this.http.post(`${this.baseUrl}/`, recibo);
+    saveOrUpdateCuentaBancaria(cuenta: Object): Observable<object> {
+        return this.http.post(`${this.baseUrl}/`, cuenta);
     }
 
     updateCuentaBancaria(id: number, value: any): Observable<object> {

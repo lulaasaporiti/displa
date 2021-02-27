@@ -37,6 +37,8 @@ export class OperacionCuentaBancariaComponent {
   ngOnInit() {
     this.modelOperacion.Fecha = new Date();
     this.modelOperacion.Entrada = true;
+    this.modelOperacion.DepositaCheque = false;
+    this.modelOperacion.EmiteCheque = false;
     this.cuentaBancariaService.getCuentaBancariasVigentesList()
       .subscribe(r => {
         this.cuentas = r;

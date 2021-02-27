@@ -220,6 +220,8 @@ namespace DisplaBackend
             services.AddScoped<IMovimientoInsumoDAO, MovimientoInsumoDAO>();
             services.AddScoped<IMovimientoInternoService, MovimientoInternoService>();
             services.AddScoped<IMovimientoInternoDAO, MovimientoInternoDAO>();
+            services.AddScoped<IOperacionBancariaService, OperacionBancariaService>();
+            services.AddScoped<IOperacionBancariaDAO, OperacionBancariaDAO>();
             services.AddScoped<IParametroService, ParametroService>();
             services.AddScoped<IParametroDAO, ParametroDAO>();
             services.AddScoped<IProveedorService, ProveedorService>();
@@ -248,6 +250,8 @@ namespace DisplaBackend
             services.AddScoped<ITipoInsumoDAO, TipoInsumoDAO>();
             services.AddScoped<ITipoServicioService, TipoServicioService>();
             services.AddScoped<ITipoServicioDAO, TipoServicioDAO>();
+            services.AddScoped<ITrasladoFondoService, TrasladoFondoService>();
+            services.AddScoped<ITrasladoFondoDAO, TrasladoFondoDAO>();
             services.AddScoped<IUbicacionService, UbicacionService>();
             services.AddScoped<IUbicacionDAO, UbicacionDAO>();
             services.AddScoped<IVentaVirtualService, VentaVirtualService>();

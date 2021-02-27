@@ -27,6 +27,8 @@ import { TrasladoFondoComponent } from '../banco/traslado-fondo/traslado-fondo.c
 import { OperacionCuentaBancariaComponent } from '../banco/operacion-bancaria/operacion-bancaria.component';
 import { DejoComprarComponent } from '../estadistica/dejo-comprar/dejo-comprar.component';
 import { CristalesVendidosComponent } from '../estadistica/cristales-vendidos/cristales-vendidos.component';
+import { OperacionBancariaService } from 'src/services/operacion.bancaria.service';
+import { TrasladoFondoService } from 'src/services/traslado.fondo..service';
 
 @Component({
   selector: 'app-header',
@@ -48,8 +50,10 @@ export class HeaderComponent {
     private servicioService: ServicioService,
     private parametroService: ParametroService,
     private articuloService: ArticuloVarioService,
+    private trasladoFondoService: TrasladoFondoService,
     private loadingSpinnerService: LoadingSpinnerService,
     private movimientoInternoService: MovimientoInternoService,
+    private operacionBancariaService: OperacionBancariaService,
     ){
   }
 
@@ -105,12 +109,47 @@ export class HeaderComponent {
       data: { },
       width: '600px'
     })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        console.log(result)
+        this.loadingSpinnerService.show();
+        this.trasladoFondoService.saveOrUpdateTrasladoFondo(result).subscribe(
+          data => {
+            if (data != null)
+              this.sessionService.showSuccess("El traslado se realizó correctamente.");
+            else 
+              this.sessionService.showError("El traslado no se realizó.");
+          },
+          error => {
+            this.sessionService.showError("El traslado no se realizó.");
+          }
+        );
+        this.loadingSpinnerService.hide();
+      }
+    })
   }
 
   openDialogoOperacionesCuentas(): void {
     const dialogRef = this.dialog.open(OperacionCuentaBancariaComponent, {
       data: { },
       width: '600px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        console.log(result)
+        this.loadingSpinnerService.show();
+        this.operacionBancariaService.saveOrUpdateOperacionBancaria(result).subscribe(
+          data => {
+            if (data != null)
+              this.sessionService.showSuccess("La operación se agregó correctamente.");
+            else 
+              this.sessionService.showError("La operación no se agregó.");
+          },
+          error => {
+            this.sessionService.showError("La operación no se agregó.");
+          }
+        );
+      }
     })
   }
 
@@ -165,15 +204,18 @@ export class HeaderComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
         console.log(result)
-        // this.loadingSpinnerService.show();
-        // this.movimientoInternoService.saveOrUpdateMovimientoInterno(result).subscribe(
-        //   data => {
-        //     this.sessionService.showSuccess("El movimiento interno se agregó correctamente.");
-        //   },
-        //   error => {
-        //     this.sessionService.showError("El movimiento interno no se agregó.");
-        //   }
-        // );
+        this.loadingSpinnerService.show();
+        this.operacionBancariaService.saveOrUpdateOperacionBancaria(result).subscribe(
+          data => {
+            if (data != null)
+              this.sessionService.showSuccess("La operación se agregó correctamente.");
+            else 
+              this.sessionService.showError("La operación no se agregó.");
+          },
+          error => {
+            this.sessionService.showError("La operación no se agregó.");
+          }
+        );
       }
     })
   }

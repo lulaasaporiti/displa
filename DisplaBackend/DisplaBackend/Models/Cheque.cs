@@ -16,9 +16,11 @@ namespace DisplaBackend.Models
         public string MotivoAnulado { get; set; }
         public int IdCliente { get; set; }
         public int? IdOperacionBancaria { get; set; }
+        public int? IdEstado { get; set; }
 
         public virtual Banco IdBancoNavigation { get; set; }
         public virtual Cliente IdClienteNavigation { get; set; }
+        public virtual EstadoCheque IdEstadoNavigation { get; set; }
         public virtual OperacionBancaria IdOperacionBancariaNavigation { get; set; }
         public virtual Recibo IdReciboNavigation { get; set; }
     }
