@@ -91,7 +91,12 @@ export class HeaderComponent {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
-        this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
+        this.router.navigateByUrl('Account/Login').then(
+          () => {
+            this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
+            this.loadingSpinnerService.hide();
+            window.scrollTo(0, 0);
+          });
       }
     })
   }

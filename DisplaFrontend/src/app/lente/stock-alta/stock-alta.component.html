@@ -29,14 +29,14 @@
                     </div>
                     <div fxLayout="column">
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Medida cilindríco" autocomplete="off"
+                            <input matInput placeholder="Medida cilíndrico" autocomplete="off"
                                 [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
                                 name="cilindrico{{index}}" #cilindrico="ngModel"
-                                (blur)="validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico')" (keypress)="_keyPress($event)"
+                                (blur)="validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico'); cambiarSigno(index)"  (keypress)="_keyPress($event)"
                                 (input)="compararLimiteGrilla(index, 'cilindrico')" required>
                             <mat-error *ngIf="cilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
-                        <p class="msjError" *ngIf="this.validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p>
+                        <!-- <p class="msjError" *ngIf="this.validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p> -->
                         <p class="msjError" *ngIf="msjLimiteCilindrico[index]">
                             La medida no se encuentra dentro de los límites.
                         </p>

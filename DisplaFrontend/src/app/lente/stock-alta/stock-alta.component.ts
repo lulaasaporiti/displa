@@ -25,7 +25,7 @@ export class StockAltaComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    console.log(this.data)
   }
 
   onNoClick(): void {
@@ -92,4 +92,16 @@ export class StockAltaComponent implements OnInit {
       this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
     }
   }
+
+  cambiarSigno(i) {
+
+    if (this.data.lente.GraduacionesCilindricas == '-') {
+      this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico
+    }
+    else {
+      this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico
+    }
+  }
+
+  
 }

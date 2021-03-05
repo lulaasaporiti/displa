@@ -73,13 +73,19 @@ export class ValidacionLenteService {
     }
 
     divisionMedida(lente, medida, tipoGraduacion) {
-        if (medida != undefined || !medida.includes('.')) {
-            if (tipoGraduacion == 'esferico') {
-                lente.MedidaEsferico = (+medida / 100).toFixed(2);
+        
+        if (medida != undefined || medida != null) {
 
-            } else {
-                lente.MedidaCilindrico = (+medida / 100).toFixed(2);
-            }
+            
+            if (!medida.includes('.')) {
+
+                if (tipoGraduacion == 'esferico') {
+                    lente.MedidaEsferico = (+medida / 100).toFixed(2);
+    
+                } else {
+                    lente.MedidaCilindrico = (+medida / 100).toFixed(2);
+                }
+            }  
         }
     }
 

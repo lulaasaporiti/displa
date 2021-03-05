@@ -283,4 +283,8 @@ export class GrillaComponent {
         // window.location.reload();
       });
   }
+
+  scrollToTop() {
+    window.scrollTo(0,0)
+}
 }

@@ -94,6 +94,10 @@ export class AppComponent {
       'estadistica',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/leaderboard-24px.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      'arrow_up',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/keyboard_arrow_up-white-24dp.svg')
+    );
     
     // this.matIconRegistry.addSvgIcon(
     //   'error_outline',
