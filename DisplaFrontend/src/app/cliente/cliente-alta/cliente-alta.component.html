@@ -19,12 +19,14 @@
                             <input matInput placeholder="Responsable" [(ngModel)]="modelCliente.Responsable"
                                 name="responsable" #responsable="ngModel">
                         </mat-form-field>
-
+                        
                         <mat-form-field fxFlex='25' fxLayout="column">
-                            <input matInput placeholder="CUIT" [(ngModel)]="modelCliente.Cuit" name="cuit"
+                            <input matInput placeholder="CUIT" [(ngModel)]="modelCliente.Cuit" name="cuit" (blur)="validarCuit()"
                                 #cuit="ngModel" required>
                             <mat-error *ngIf="cuit.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="!cuitValido"> El CUIT ingresado no es válido.</mat-error>
                         </mat-form-field>
+                        <!-- <p class="msgError" *ngIf="!cuitValido"> El CUIT ingresado no es válido.</p> -->
                     </div>
 
                     <div fxLayout="row" fxLayoutGap="2vw">
