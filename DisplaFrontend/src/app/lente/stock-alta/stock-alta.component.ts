@@ -15,6 +15,8 @@ export class StockAltaComponent implements OnInit {
   msjCilindrico: boolean[] = [];
   msjLimiteEsferico: boolean[] = [];
   msjLimiteCilindrico: boolean[] = [];
+  msjCantidad: boolean[] = [];
+
 
   constructor(
     public dialogRef: MatDialogRef<StockAltaComponent>,
@@ -93,8 +95,11 @@ export class StockAltaComponent implements OnInit {
     }
   }
 
-  cambiarSigno(i) {
+  validarCantidad(index) {
+      this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock)
+  }
 
+  cambiarSigno(i) {
     if (this.data.lente.GraduacionesCilindricas == '-') {
       this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico
     }

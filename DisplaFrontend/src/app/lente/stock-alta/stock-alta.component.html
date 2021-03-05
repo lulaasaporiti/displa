@@ -4,7 +4,7 @@
             <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
             <p class="dialog-title">Agregar stock {{data.descripcion}}</p>
         </div>
-        
+
         <div fxLayout="row" fxLayoutAlign="start center">
             <p>Stock</p>
             <button mat-icon-button color="accent" matTooltip="Agregar stock" (click)="agregarStock()">
@@ -13,17 +13,17 @@
         </div>
         <div fxLayout="row" fxFill>
             <div>
-                <div fxLayout="row" fxLayoutGap="1vw" (change)="updateStateStock()" *ngFor="let s of cargarStock; let index = index">
+                <div fxLayout="row" fxLayoutGap="1vw" (change)="updateStateStock()"
+                    *ngFor="let s of cargarStock; let index = index">
                     <div fxLayout="column">
                         <mat-form-field fxFlex="50">
                             <input matInput placeholder="Medida esférico" autocomplete="off"
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel" (keypress)="_keyPress($event)"
                                 (blur)="this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')"
-                                (input)="compararLimiteGrilla(index, 'esferico')" 
-                                required>
+                                (input)="compararLimiteGrilla(index, 'esferico')" required>
                             <mat-error *ngIf="esferico.hasError('required')">Este campo es obligatorio.</mat-error>
-                        </mat-form-field>       
+                        </mat-form-field>
                         <p class="msjError" *ngIf="msjLimiteEsferico[index]">
                             La medida no se encuentra dentro de los límites.</p>
                     </div>
@@ -32,8 +32,9 @@
                             <input matInput placeholder="Medida cilíndrico" autocomplete="off"
                                 [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
                                 name="cilindrico{{index}}" #cilindrico="ngModel"
-                                (blur)="validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico'); cambiarSigno(index)"  (keypress)="_keyPress($event)"
-                                (input)="compararLimiteGrilla(index, 'cilindrico')" required>
+                                (blur)="validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico'); cambiarSigno(index)"
+                                (keypress)="_keyPress($event)" (input)="compararLimiteGrilla(index, 'cilindrico')"
+                                required>
                             <mat-error *ngIf="cilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
                         <!-- <p class="msjError" *ngIf="this.validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p> -->
@@ -41,11 +42,14 @@
                             La medida no se encuentra dentro de los límites.
                         </p>
                     </div>
-                    <mat-form-field>
-                        <input matInput placeholder="Stock" type="number" [(ngModel)]="cargarStock[index].Stock"
-                            id="stock{{index}}" name="stock{{index}}" #stock="ngModel" required>
-                        <mat-error *ngIf="stock.invalid">Este campo es obligatorio</mat-error>
-                    </mat-form-field>
+                    <div fxLayout="column">
+                        <mat-form-field>
+                            <input matInput placeholder="Stock" type="number" [(ngModel)]="cargarStock[index].Stock" (blur)="validarCantidad(index)"
+                                id="stock{{index}}" name="stock{{index}}" #stock="ngModel" required>
+                            <mat-error *ngIf="stock.invalid">Este campo es obligatorio</mat-error>
+                        </mat-form-field>
+                        <p class="msjError" *ngIf="msjCantidad[index]">La cantidad no es múltiplo de 0.5.</p>
+                    </div>
 
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimoStock()"
                         [disabled]="cargarStock.length < 1" color="accent">
@@ -56,7 +60,8 @@
         </div>
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || cargarStock.length == 0 || msjLimiteCilindrico.includes(true) || msjLimiteEsferico.includes(true)"
+            <button mat-raised-button color="primary"
+                [disabled]="!modalForm.form.valid || cargarStock.length == 0 || msjLimiteCilindrico.includes(true) || msjLimiteEsferico.includes(true) || msjCantidad.includes(true)"
                 (click)="agregarNuevoStock()">Agregar</button>
         </div>
     </div>

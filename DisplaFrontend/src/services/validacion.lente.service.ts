@@ -73,12 +73,9 @@ export class ValidacionLenteService {
     }
 
     divisionMedida(lente, medida, tipoGraduacion) {
-        
+        console.log(medida)
         if (medida != undefined || medida != null) {
-
-            
-            if (!medida.includes('.')) {
-
+            if (!medida.toString().includes('.')) {
                 if (tipoGraduacion == 'esferico') {
                     lente.MedidaEsferico = (+medida / 100).toFixed(2);
     
@@ -88,6 +85,13 @@ export class ValidacionLenteService {
             }  
         }
     }
+
+    divisionCantidad(cantidad) {
+        if (cantidad != undefined || cantidad != null) {
+            return (+cantidad % 0.50) != 0;
+        }
+    }
+
 
     conversionMedidas(graduacionCilindrico, medidaEsferico, medidaCilindrico) {
         if (graduacionCilindrico) { //graduacion cilindrica positiva
