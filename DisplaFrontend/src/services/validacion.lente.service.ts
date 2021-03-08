@@ -49,10 +49,11 @@ export class ValidacionLenteService {
                 }
             }
             else {
-                if ((+medida / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
-                    return ((+medida / 100) % 0.25) != 0;
+                if ((+medida <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
+                    return (+medida % 0.25) != 0;
                 }
                 else {
+                    console.log("else")
                     return true;
                 }
             }
@@ -73,7 +74,6 @@ export class ValidacionLenteService {
     }
 
     divisionMedida(lente, medida, tipoGraduacion) {
-        console.log(medida)
         if (medida != undefined || medida != null) {
             if (!medida.toString().includes('.')) {
                 if (tipoGraduacion == 'esferico') {

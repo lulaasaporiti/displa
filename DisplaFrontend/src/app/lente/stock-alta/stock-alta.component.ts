@@ -27,7 +27,6 @@ export class StockAltaComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data)
   }
 
   onNoClick(): void {
@@ -36,7 +35,7 @@ export class StockAltaComponent implements OnInit {
 
   agregarStock() {
     let item = <StockLente>{};
-    item.IdLente = this.data.modelStock[0].IdLente;
+    item.IdLente = this.data.lente.Id;
     item.IdLenteNavigation = this.data.lente;
     this.cargarStock.push(item);
     this.msjCilindrico.push(false);
@@ -100,11 +99,11 @@ export class StockAltaComponent implements OnInit {
   }
 
   cambiarSigno(i) {
-    if (this.data.lente.GraduacionesCilindricas == '-') {
-      this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico
+    if (this.data.lente.GraduacionesCilindricas == '-' && this.cargarStock[i].MedidaCilindrico != undefined) {
+      this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico.toString()
     }
     else {
-      this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico
+      this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico.toString()
     }
   }
 

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ResetPasswordView } from '../../model/resetPasswordView';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { SessionService } from 'src/services/session.service';
 import { AccountService } from 'src/services/account.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 // import { MailView } from '../model/mail';
 
 @Component({
@@ -14,21 +15,23 @@ export class ResetPasswordComponent {
   reset = <ResetPasswordView>{};
   hidePassword = true;
   message: boolean;
-  // mail = <MailView>{};
   hideConfirmPassword = true;
   msgErrorPass: boolean = false;
   msgErrorFormato: boolean = false;
 
-  constructor(private segment: ActivatedRoute,
+  constructor(public dialogRef: MatDialogRef<ResetPasswordComponent>,
     private accountService: AccountService,
     private sessionService: SessionService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router) {
-    if (this.sessionService.isAuthenticated()) {
-      this.router.navigateByUrl('/Liquidacion/Operativos');
-    }
-    this.segment.queryParams.subscribe((params: Params) => {
-      this.reset.Code = params['code'];
-    });
+      this.reset.UserName = data.user;
+    this.accountService.forgotPassword(data.user).subscribe(result => {
+      this.reset.Code = result;
+      console.log(result)
+    }); 
+    // this.segment.queryParams.subscribe((params: Params) => {
+    //   this.reset.Code = params['code'];
+    // });
   }
 
   resetPassword() {
@@ -39,13 +42,19 @@ export class ResetPasswordComponent {
         } else {
           this.sessionService.showError("No se pudo restablecer la contreseña. Intente nuevamente")
         }
-        this.router.navigateByUrl('/Account/Login');
+        this.router.navigateByUrl('/Usuario/Listado');
       }
     );
   }
 
+  
+  onNoClick(): void {
+    this.dialogRef.close(false);
+  }
+
+
   onBlurPassVerification(e: Event, pass: string, passVerification: string) {
-    this.msgErrorFormato = (pass.length >= 6) ? false : true;
+    this.msgErrorFormato = (pass != "" && pass.length >= 6) ? false : true;
     this.msgErrorPass = (pass == passVerification || pass == "" || passVerification == "") ? false : true;
   }
 }

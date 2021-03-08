@@ -21,7 +21,7 @@
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel" (keypress)="_keyPress($event)"
                                 (blur)="this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')"
-                                (input)="compararLimiteGrilla(index, 'esferico')" required>
+                                (changes)="compararLimiteGrilla(index, 'esferico')" required>
                             <mat-error *ngIf="esferico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
                         <p class="msjError" *ngIf="msjLimiteEsferico[index]">
@@ -32,8 +32,8 @@
                             <input matInput placeholder="Medida cilíndrico" autocomplete="off"
                                 [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
                                 name="cilindrico{{index}}" #cilindrico="ngModel"
-                                (blur)="validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico'); cambiarSigno(index)"
-                                (keypress)="_keyPress($event)" (input)="compararLimiteGrilla(index, 'cilindrico')"
+                                (blur)="cambiarSigno(index); validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico');"
+                                (keypress)="_keyPress($event)" (changes)="compararLimiteGrilla(index, 'cilindrico')"
                                 required>
                             <mat-error *ngIf="cilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
