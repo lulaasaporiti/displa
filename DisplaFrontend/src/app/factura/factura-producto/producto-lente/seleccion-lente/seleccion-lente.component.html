@@ -83,8 +83,9 @@
                         La medida no se encuentra dentro de los límites.</p>
                 </div>
                 <!-- <mat-form-field fxFlex="45"> -->
-                <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimaGraduacion(1)"
-                    [disabled]="modelComprobanteItemLente.length < 1" color="accent">
+                <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear"
+                    (click)="eliminarUltimaGraduacion(1)" [disabled]="modelComprobanteItemLente.length < 1"
+                    color="accent">
                     <mat-icon>close</mat-icon>
                 </button>
                 <!-- </mat-form-field> -->
@@ -104,14 +105,16 @@
                     <mat-form-field>
                         <input matInput placeholder="Cantidad" id="cantidad0"
                             (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
-                            (keypress)="_keyPress($event)"
+                            (keypress)="_keyPress($event)" pattern="[0-9]*.?[5]?"
                             (blur)="this.validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)"
                             [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
                         <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="cantidad0.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
                     </mat-form-field>
-                    <p class="msjError"
+
+                    <!-- <p class="msjError"
                         *ngIf="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)">
-                        La cantidad no es múltiplo de 0.5.</p>
+                        La cantidad no es múltiplo de 0.5.</p> -->
                 </div>
 
                 <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
@@ -125,26 +128,24 @@
 
 
             <!-- ///////////////////////  PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
-            <div mat-dialog-content fxLayoutGap="10px" *ngIf="modelComprobanteItemLente.length == 2" fxFlex="45" style="height: 101px;">
+            <div mat-dialog-content *ngIf="modelComprobanteItemLente.length == 2" fxFlex="45"
+                style="height: 101px;">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Precio unitario" [(ngModel)]="modelComprobanteItemLente[1].Precio"
                         id="precio1" name="precio1" #precio1 pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)"
                         disabled>
                 </mat-form-field>
                 <div fxLayout="column">
-                    <mat-form-field fxFlex="45">
+                    <mat-form-field fxFlex="50">
                         <input matInput placeholder="Cantidad" id="cantidad1"
-                            (keyup.enter)="tabInventado($event, 'calibrado')" #cantidad1="ngModel"
-                            (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItemLente[1].Cantidad"
-                            name="cantidad1" required>
+                            (keyup.enter)="comprobanteItemLenteSelected(); tabInventado($event, 'calibrado')"
+                            #cantidad1="ngModel" (keypress)="_keyPress($event)" pattern="[0-9]*.?[5]?"
+                            [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1" required>
                         <mat-error *ngIf="cantidad1.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="cantidad1.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
                     </mat-form-field>
-                    <p class="msjError"
-                        *ngIf="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)">
-                        La cantidad no es múltiplo de 0.5.</p>
                 </div>
             </div>
-
             <!-- /////////////////////// FIN PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
         </div>
 

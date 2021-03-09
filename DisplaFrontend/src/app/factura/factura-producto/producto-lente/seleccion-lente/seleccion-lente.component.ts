@@ -23,7 +23,7 @@ export class SeleccionLenteComponent implements OnInit {
   @Output() selectedComprobanteItemLente = new EventEmitter<any[]>(); 
   @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>();
   @Output() selectedIndiceCalibrados = new EventEmitter<number>();
-
+  // @Output() disableButton: boolean
   
   lentes: Lente[];
   lentesControl = new FormControl();
@@ -42,6 +42,7 @@ export class SeleccionLenteComponent implements OnInit {
   // filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
   deshabilitar: boolean = true;
   serviciosLente: ComprobanteItemServicio[] = []
+  disableButton: boolean
 
  _onDestroy = new Subject<void>();
   @ViewChild('multiSelect', { static: true }) multiSelect: MatSelect;
@@ -59,6 +60,7 @@ export class SeleccionLenteComponent implements OnInit {
 
 
   ngOnInit() {
+    this.disableButton = false
     this.getCalibrados();
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
@@ -175,17 +177,15 @@ export class SeleccionLenteComponent implements OnInit {
       })
   }
 
-  serviciosSeleccionados(event: FormControl
-    // event: MatOptionSelectionChange
-  ) {
+  serviciosSeleccionados(event: FormControl) {
     if (event.value != null && event.value != "") {
-      // if (event.source.selected == true) {
       let comprobanteItem = <ComprobanteItemServicio>{}
       comprobanteItem.IdServicio = event.value.Id;
       comprobanteItem.IdServicioNavigation = event.value;
-      if (this.serviciosLente.find(c => c.IdServicio == comprobanteItem.IdServicio) == undefined)
+      if (this.serviciosLente.find(c => c.IdServicio == comprobanteItem.IdServicio) == undefined) {
         this.serviciosLente.push(comprobanteItem);
-      this.comprobanteItemServicioSelected();      
+        this.comprobanteItemServicioSelected();
+      }
     }
     else {
       let i = this.serviciosLente.findIndex(s => s.IdServicioNavigation.DescripcionFactura.startsWith('CAL '));
@@ -204,6 +204,7 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   eliminarUltimaGraduacion(i) {
+    this.modelComprobanteItemLente[0].Cantidad = this.modelComprobanteItemLente[0].Cantidad + this.modelComprobanteItemLente[1].Cantidad;
     this.modelComprobanteItemLente.splice(+i, 1);
   }
 
@@ -260,6 +261,7 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   comprobanteItemServicioSelected() {
+    console.log(this.modelComprobanteItemLente)
     let serviciosCloned = JSON.parse(JSON.stringify(this.serviciosLente));
     this.selectedServiciosComprobanteItem.emit(serviciosCloned);
   }
