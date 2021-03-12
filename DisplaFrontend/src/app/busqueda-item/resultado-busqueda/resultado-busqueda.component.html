@@ -2,16 +2,16 @@
   <app-loading-spinner></app-loading-spinner>
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
     <div fxLayout="column">
-    <h4 fxLayout="column" class="titulo" fxFlex>Resultado búsqueda</h4>
-    <h5 fxLayout="column" fxFlex>Desde {{desde | date:"dd/MM/yyyy"}} hasta {{hasta | date:"dd/MM/yyyy"}}</h5>
-    <h5 fxLayout="column" fxFlex>Producto buscado {{producto}}</h5>
+    <h4 fxLayout="column" class="titulo" fxFlex>Resultados</h4>
+    <h5 fxLayout="column" fxFlex>{{producto}}</h5>
+    <h5 fxLayout="column" fxFlex>Período: {{desde | date:"dd/MM/yyyy"}} - {{hasta | date:"dd/MM/yyyy"}}</h5>
   </div>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador" fxFlexOffset="35">
       <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus" placeholder="Buscar">
     </mat-form-field>
   </div>
 
-  <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+  <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla" [hidden]="dataSource.data.length === 0">
     <ng-container matColumnDef="Tipo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10"> TIPO  </th>
       <td mat-cell *matCellDef="let row"  fxFlex="10" fxLayoutAlign="start center"> {{row.IdTipoComprobanteNavigation != undefined ? row.IdTipoComprobanteNavigation : 'Remito'}}
@@ -53,5 +53,14 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill (click)="verComprobante(row.Id, row.IdTipoComprobante, row.IdComprobanteItem)"></tr>
   </table>
-  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+    <mat-paginator *ngIf="dataSource.data.length != 0" #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+  
 </div>
+
+ <!-- mensajes sin resultados -->
+ <div fxLayout="row" class="mensaje-inicial" fxLayoutAlign="center center" [hidden]="dataSource.data.length > 0">
+  <div fxFill fxLayout="column" fxLayoutAlign="center center">
+
+    <h1 class="poppins" style="color:#a6a4a4;">No se encontraron resultados para su búsqueda.</h1>
+  </div>
+ </div>

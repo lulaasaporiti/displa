@@ -356,7 +356,7 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
       }
 
     } else {
-      // this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => servicio.PrecioServicio[index] != undefined && p.IdServicio == servicio.Id && p.Id != servicio.PrecioServicio[index].Id), 1);
+      this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => servicio.PrecioServicio[index] != undefined && p.IdServicio == servicio.Id && p.Id != servicio.PrecioServicio[index].Id), 1);
       if (this.porcentajesServicios.length > 0)
         this.porcentajesServicios.splice(this.porcentajesServicios.findIndex(p => servicio.PrecioServicio[index] != undefined && p.IdPrecio == servicio.PrecioServicio[index].Id), 1);
     }

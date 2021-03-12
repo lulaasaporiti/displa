@@ -3,7 +3,7 @@
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
-                    [matAutocomplete]="auto" name="lente" id="lente" (blur)="setIdLente(this.lentesControl);"
+                    [matAutocomplete]="auto" name="lente" id="lente" (blur)="setIdLente(lentesControl);"
                     (keyup.enter)="tabInventado($event, 'esferico0')" required>
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
                     <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
@@ -22,7 +22,7 @@
                             [(ngModel)]="modelComprobanteItemLente[0].MedidaEsferico" id="esferico0" name="esferico0"
                             #esferico0="ngModel" required (keypress)="_keyPress($event)"
                             (keyup.enter)="tabInventado($event, 'cilindrico0')"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaEsferico, 'esferico')"
+                            (blur)="validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaEsferico, 'esferico')"
                             (input)="compararLimiteGrilla(0, 'esferico')" [disabled]="deshabilitar">
                         <mat-error *ngIf="esferico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
@@ -32,12 +32,11 @@
 
                 <div fxLayout="column">
                     <mat-form-field>
-                        <input type="text" placeholder="Medida cilindríco" matInput autocomplete="off"
-                            [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico" id="cilindrico0"
-                            (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0" #cilindrico0="ngModel"
-                            (keypress)="_keyPress($event)" required [disabled]="deshabilitar"
-                            (input)="compararLimiteGrilla(0, 'cilindrico')"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico'); traerPrecio(0)">
+                        <input type="text" placeholder="Medida cilindríco" matInput autocomplete="off" required [disabled]="deshabilitar"
+                            [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico" id="cilindrico0" #cilindrico0="ngModel"
+                            (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0"                              
+                            (blur)="cambiarSigno(0); validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico'); traerPrecio(0); compararLimiteGrilla(0, 'cilindrico');"
+                            (keypress)="_keyPress($event)" >
                         <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <!-- <p class="msjError"
@@ -58,8 +57,8 @@
                             [(ngModel)]="modelComprobanteItemLente[1].MedidaEsferico" id="esferico1" name="esferico1"
                             #esferico1="ngModel" required (keypress)="_keyPress($event)"
                             (keyup.enter)="tabInventado($event, 'cilindrico1')"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaEsferico, 'esferico')"
-                            (input)="compararLimiteGrilla(1, 'esferico')">
+                            (blur)="validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaEsferico, 'esferico')"
+                            (changes)="compararLimiteGrilla(1, 'esferico')">
                         <mat-error *ngIf="esferico1.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <p class="msjError" *ngIf="msjLimiteEsferico[1]">
@@ -72,8 +71,8 @@
                             [(ngModel)]="modelComprobanteItemLente[1].MedidaCilindrico" id="cilindrico1"
                             (blur)="traerPrecio(1)" (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1"
                             #cilindrico1="ngModel" (keypress)="_keyPress($event)" required
-                            (input)="compararLimiteGrilla(1, 'cilindrico')"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')">
+                            (blur)="cambiarSigno(1); validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')"
+                            (changes)="compararLimiteGrilla(1, 'cilindrico')">
                         <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <!-- <p class="msjError"
@@ -106,7 +105,7 @@
                         <input matInput placeholder="Cantidad" id="cantidad0"
                             (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
                             (keypress)="_keyPress($event)" pattern="[0-9]*.?[5]?"
-                            (blur)="this.validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)"
+                            (blur)="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)"
                             [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
                         <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
                         <mat-error *ngIf="cantidad0.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>

@@ -22,7 +22,9 @@ export class CristalesVendidosComponent implements OnInit {
   analogo: boolean;
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
-
+  mostrarCantidad = false;
+  cantidad = 0;
+  
   constructor(
     private lenteService: LenteService,
     private clienteService: ClienteService,
@@ -33,7 +35,7 @@ export class CristalesVendidosComponent implements OnInit {
 
 
   ngOnInit() {
-    this.desde = new Date(this.hasta.getFullYear()-1, this.hasta.getMonth(), this.hasta.getDate())
+    this.desde = new Date(this.hasta.getFullYear() - 1, this.hasta.getMonth(), this.hasta.getDate())
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
       this.filteredLentes = this.lentesControl.valueChanges
@@ -45,7 +47,7 @@ export class CristalesVendidosComponent implements OnInit {
   }
 
   displayLente(l?: Lente): string | undefined {
-    return l ? l.Id + ' - ' + l.Nombre + ' - Combinación ' +  l.Combinacion: undefined;
+    return l ? l.Id + ' - ' + l.Nombre + ' - Combinación ' + l.Combinacion : undefined;
   }
 
   onNoClick(): void {
@@ -68,15 +70,29 @@ export class CristalesVendidosComponent implements OnInit {
     }
   }
 
-  formatoAMostrar(formato){
-    console.log(formato)
+  formatoAMostrar(formato) {
     switch (+formato) {
-      case 4:
-        console.log("cambia fechas 2 meses")
-        this.desde = this.hasta;
-        this.hasta = new Date(this.desde.getFullYear(), this.desde.getMonth()+3, this.desde.getDate());
+      case 1:
+        this.hasta = new Date();
+        this.desde = new Date(this.hasta.getFullYear(), this.hasta.getMonth() - 3, this.hasta.getDate())
+        this.mostrarCantidad = false;
         break;
-    
+      case 2:
+        this.hasta = new Date();
+        this.desde = new Date(this.hasta.getFullYear(), this.hasta.getMonth() - 3, this.hasta.getDate())
+        this.mostrarCantidad = false;
+        break;
+      case 3:
+        this.hasta = new Date();
+        this.desde = new Date(this.hasta.getFullYear(), this.hasta.getMonth() - 3, this.hasta.getDate())
+        this.cantidad = 0;
+        this.mostrarCantidad = true;
+        break;
+      case 4:
+        this.desde = this.hasta;
+        this.hasta = new Date(this.desde.getFullYear(), this.desde.getMonth() + 3, this.desde.getDate());
+        this.mostrarCantidad = false;
+        break;
       default:
         break;
     }

@@ -135,10 +135,19 @@ export class ManejoStockAltaComponent implements OnInit {
 
   compararLimiteGrilla(index, tipoGraduacion) {
     if (tipoGraduacion == 'esferico') {
-      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')
+      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
     }
     else {
-      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index], this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+    }
+  }
+
+  cambiarSigno(i) {
+    if (this.cargarStock[i].IdLenteNavigation.GraduacionesCilindricas == '-' && this.cargarStock[i].MedidaCilindrico != undefined) {
+      this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico.toString()
+    }
+    else {
+      this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico.toString()
     }
   }
 }

@@ -261,7 +261,6 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   comprobanteItemServicioSelected() {
-    console.log(this.modelComprobanteItemLente)
     let serviciosCloned = JSON.parse(JSON.stringify(this.serviciosLente));
     this.selectedServiciosComprobanteItem.emit(serviciosCloned);
   }
@@ -271,11 +270,23 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   compararLimiteGrilla(index, tipoGraduacion) {
+    console.log("enrta")
     if (tipoGraduacion == 'esferico') {
       this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaEsferico, 'esferico')
     }
     else {
       this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaCilindrico, 'cilindrico')
+      console.log("msjvarianle", this.msjLimiteCilindrico[index])
+    }
+    // this.comprobanteItemLenteSelected()
+  }
+
+  cambiarSigno(i) {
+    if (this.modelComprobanteItemLente[0].IdLenteNavigation.GraduacionesCilindricas == '-' && this.modelComprobanteItemLente[i].MedidaCilindrico != undefined) {
+      this.modelComprobanteItemLente[0].MedidaCilindrico = -this.modelComprobanteItemLente[i].MedidaCilindrico.toString()
+    }
+    else {
+      this.modelComprobanteItemLente[i].MedidaCilindrico = +this.modelComprobanteItemLente[i].MedidaCilindrico.toString()
     }
   }
 }

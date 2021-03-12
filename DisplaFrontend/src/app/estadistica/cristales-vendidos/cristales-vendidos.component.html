@@ -49,6 +49,12 @@
             </mat-form-field>
         </div>
 
+        <div fxLayout="row" *ngIf="mostrarCantidad">
+            <mat-form-field >
+                <input matInput type="number" placeholder="Cantidad" [(ngModel)]="cantidad" #cantidadReporte="ngModel" name="cantidadReporte" >
+            </mat-form-field>
+        </div>
+
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary" [mat-dialog-close]="data">Aceptar</button>

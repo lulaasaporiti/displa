@@ -269,7 +269,8 @@ export class HeaderComponent {
   openDialogCristalesVendidos(): void {
     const dialogRef = this.dialog.open(CristalesVendidosComponent, {
       data: {  },
-      width: '750px'
+      height: '500px',
+      width: '650px'
     })
     // dialogRef.afterClosed().subscribe(result => {
     //   if (result != undefined && result != false) {
