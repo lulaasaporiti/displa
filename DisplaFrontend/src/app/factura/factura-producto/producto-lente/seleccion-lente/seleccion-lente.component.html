@@ -3,7 +3,7 @@
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
                 <input type="text" placeholder="Lente" aria-label="Lente" matInput [formControl]="lentesControl"
-                    [matAutocomplete]="auto" name="lente" id="lente" (blur)="setIdLente(this.lentesControl);"
+                    [matAutocomplete]="auto" name="lente" id="lente" (blur)="setIdLente(lentesControl);"
                     (keyup.enter)="tabInventado($event, 'esferico0')" required>
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
                     <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
@@ -12,7 +12,7 @@
                 </mat-autocomplete>
             </mat-form-field>
         </div>
-        
+
         <!-- ///////////////////////  PRIMERA GRADUACION  ////////////////////////////// -->
         <div mat-dialog-content fxLayout="row" fxLayoutGap="12px">
             <div mat-dialog-content fxLayoutGap="15px" fxLayout="row">
@@ -22,9 +22,8 @@
                             [(ngModel)]="modelComprobanteItemLente[0].MedidaEsferico" id="esferico0" name="esferico0"
                             #esferico0="ngModel" required (keypress)="_keyPress($event)"
                             (keyup.enter)="tabInventado($event, 'cilindrico0')"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaEsferico, 'esferico')"
-                            (input)="compararLimiteGrilla(0, 'esferico')"
-                            [disabled]="deshabilitar">
+                            (blur)="validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaEsferico, 'esferico')"
+                            (input)="compararLimiteGrilla(0, 'esferico')" [disabled]="deshabilitar">
                         <mat-error *ngIf="esferico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <p class="msjError" *ngIf="msjLimiteEsferico[0]">
@@ -33,12 +32,11 @@
 
                 <div fxLayout="column">
                     <mat-form-field>
-                        <input type="text" placeholder="Medida cilindríco" matInput autocomplete="off"
-                            [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico" id="cilindrico0" 
-                            (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0"
-                            #cilindrico0="ngModel" (keypress)="_keyPress($event)" required [disabled]="deshabilitar"
-                            (input)="compararLimiteGrilla(0, 'cilindrico')"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico'); traerPrecio(0)">
+                        <input type="text" placeholder="Medida cilindríco" matInput autocomplete="off" required [disabled]="deshabilitar"
+                            [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico" id="cilindrico0" #cilindrico0="ngModel"
+                            (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0"                              
+                            (blur)="cambiarSigno(0); validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico'); traerPrecio(0); compararLimiteGrilla(0, 'cilindrico');"
+                            (keypress)="_keyPress($event)" >
                         <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <!-- <p class="msjError"
@@ -59,8 +57,8 @@
                             [(ngModel)]="modelComprobanteItemLente[1].MedidaEsferico" id="esferico1" name="esferico1"
                             #esferico1="ngModel" required (keypress)="_keyPress($event)"
                             (keyup.enter)="tabInventado($event, 'cilindrico1')"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaEsferico, 'esferico')"
-                            (input)="compararLimiteGrilla(1, 'esferico')">
+                            (blur)="validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaEsferico, 'esferico')"
+                            (changes)="compararLimiteGrilla(1, 'esferico')">
                         <mat-error *ngIf="esferico1.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <p class="msjError" *ngIf="msjLimiteEsferico[1]">
@@ -73,8 +71,8 @@
                             [(ngModel)]="modelComprobanteItemLente[1].MedidaCilindrico" id="cilindrico1"
                             (blur)="traerPrecio(1)" (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1"
                             #cilindrico1="ngModel" (keypress)="_keyPress($event)" required
-                            (input)="compararLimiteGrilla(1, 'cilindrico')"
-                            (blur)="this.validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')">
+                            (blur)="cambiarSigno(1); validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')"
+                            (changes)="compararLimiteGrilla(1, 'cilindrico')">
                         <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <!-- <p class="msjError"
@@ -84,8 +82,9 @@
                         La medida no se encuentra dentro de los límites.</p>
                 </div>
                 <!-- <mat-form-field fxFlex="45"> -->
-                <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimaGraduacion(1)"
-                    [disabled]="modelComprobanteItemLente.length < 1" color="accent">
+                <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear"
+                    (click)="eliminarUltimaGraduacion(1)" [disabled]="modelComprobanteItemLente.length < 1"
+                    color="accent">
                     <mat-icon>close</mat-icon>
                 </button>
                 <!-- </mat-form-field> -->
@@ -93,22 +92,29 @@
             <!-- /////////////////////// FIN SEGUNDA GRADUACION  ////////////////////////////// -->
 
         </div>
-        <div mat-dialog-content fxLayout="row" fxLayoutGap="10px">
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="10px" style="height: 101px;">
             <!-- ///////////////////////  PRECIO PRIMERA GRADUACION  ////////////////////////////// -->
-            <div mat-dialog-content fxLayoutGap="10px" fxFlex="55">
+            <div mat-dialog-content fxLayoutGap="10px" fxFlex="55" style="height: 101px;">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Precio unitario" id="precio"
                         [(ngModel)]="modelComprobanteItemLente[0].Precio" id="precio0" name="precio0" #precio0
                         pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" disabled>
                 </mat-form-field>
+                <div fxLayout="column" fxFlex="30">
+                    <mat-form-field>
+                        <input matInput placeholder="Cantidad" id="cantidad0"
+                            (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
+                            (keypress)="_keyPress($event)" pattern="[0-9]*.?[5]?"
+                            (blur)="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)"
+                            [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
+                        <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="cantidad0.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
+                    </mat-form-field>
 
-                <mat-form-field fxFlex="30">
-                    <input matInput placeholder="Cantidad" id="cantidad0" (keyup.enter)="tabInventado($event, 'sobre')"
-                        #cantidad0="ngModel" (keypress)="_keyPress($event)"
-                        [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
-                    <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
-
-                </mat-form-field>
+                    <!-- <p class="msjError"
+                        *ngIf="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)">
+                        La cantidad no es múltiplo de 0.5.</p> -->
+                </div>
 
                 <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
                     <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
@@ -121,28 +127,33 @@
 
 
             <!-- ///////////////////////  PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
-            <div mat-dialog-content fxLayoutGap="10px" *ngIf="modelComprobanteItemLente.length == 2" fxFlex="45">
+            <div mat-dialog-content *ngIf="modelComprobanteItemLente.length == 2" fxFlex="45"
+                style="height: 101px;">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Precio unitario" [(ngModel)]="modelComprobanteItemLente[1].Precio"
                         id="precio1" name="precio1" #precio1 pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)"
                         disabled>
                 </mat-form-field>
-                <mat-form-field fxFlex="45">
-                    <input matInput placeholder="Cantidad" id="cantidad1" (keyup.enter)="tabInventado($event, 'calibrado')" 
-                        #cantidad1="ngModel" (keypress)="_keyPress($event)"
-                        [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1" required>
-                    <mat-error *ngIf="cantidad1.hasError('required')">Este campo es obligatorio.</mat-error>
-                </mat-form-field>
+                <div fxLayout="column">
+                    <mat-form-field fxFlex="50">
+                        <input matInput placeholder="Cantidad" id="cantidad1"
+                            (keyup.enter)="comprobanteItemLenteSelected(); tabInventado($event, 'calibrado')"
+                            #cantidad1="ngModel" (keypress)="_keyPress($event)" pattern="[0-9]*.?[5]?"
+                            [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1" required>
+                        <mat-error *ngIf="cantidad1.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="cantidad1.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
+                    </mat-form-field>
+                </div>
             </div>
             <!-- /////////////////////// FIN PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
         </div>
-        
+
         <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2"
             class="agregar-graduacion">
             <p style="font-size: small;">Agregar otra graduación</p>
             <mat-button-toggle-group fxFlexOffset="2">
                 <mat-button-toggle id="done" (keyup)="flechita($event, 'remove')"
-                    (keyup.enter)="agregarGraduacion(); tabInventado($event, 'esferico1')" >
+                    (keyup.enter)="agregarGraduacion(); tabInventado($event, 'esferico1')">
                     <mat-icon>done</mat-icon>
                 </mat-button-toggle>
                 <mat-button-toggle id="remove" (keyup)="flechita($event, 'done')"
@@ -153,9 +164,9 @@
         </div>
         <div mat-dialog-content fxLayout="row" fxLayoutGap="15px">
             <mat-form-field fxFill>
-                <input type="text" placeholder="Calibrados" aria-label="calibrados" matInput [formControl]="serviciosControl"
-                    [matAutocomplete]="autoCal" name="calibrado" id="calibrado" (blur)="serviciosSeleccionados(serviciosControl)"
-                    (keyup.enter)="comprobanteItemLenteSelected()">
+                <input type="text" placeholder="Calibrados" aria-label="calibrados" matInput
+                    [formControl]="serviciosControl" [matAutocomplete]="autoCal" name="calibrado" id="calibrado"
+                    (blur)="serviciosSeleccionados(serviciosControl)" (keyup.enter)="comprobanteItemLenteSelected()">
                 <mat-autocomplete #autoCal="matAutocomplete" [displayWith]="displayServicio">
                     <mat-option *ngFor="let s of filteredServicios | async" [value]="s">
                         {{ s.Id }} - {{s.Nombre}} - Precio {{s.PrecioServicio[0].Precio}}

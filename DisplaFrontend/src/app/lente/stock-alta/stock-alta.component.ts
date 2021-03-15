@@ -15,6 +15,8 @@ export class StockAltaComponent implements OnInit {
   msjCilindrico: boolean[] = [];
   msjLimiteEsferico: boolean[] = [];
   msjLimiteCilindrico: boolean[] = [];
+  msjCantidad: boolean[] = [];
+
 
   constructor(
     public dialogRef: MatDialogRef<StockAltaComponent>,
@@ -25,7 +27,6 @@ export class StockAltaComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data)
   }
 
   onNoClick(): void {
@@ -34,7 +35,7 @@ export class StockAltaComponent implements OnInit {
 
   agregarStock() {
     let item = <StockLente>{};
-    item.IdLente = this.data.modelStock[0].IdLente;
+    item.IdLente = this.data.lente.Id;
     item.IdLenteNavigation = this.data.lente;
     this.cargarStock.push(item);
     this.msjCilindrico.push(false);
@@ -93,13 +94,16 @@ export class StockAltaComponent implements OnInit {
     }
   }
 
-  cambiarSigno(i) {
+  validarCantidad(index) {
+      this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock)
+  }
 
-    if (this.data.lente.GraduacionesCilindricas == '-') {
-      this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico
+  cambiarSigno(i) {
+    if (this.data.lente.GraduacionesCilindricas == '-' && this.cargarStock[i].MedidaCilindrico != undefined) {
+      this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico.toString()
     }
     else {
-      this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico
+      this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico.toString()
     }
   }
 

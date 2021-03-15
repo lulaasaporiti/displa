@@ -2,6 +2,8 @@ import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-producto-lente',
@@ -20,11 +22,13 @@ export class ProductoLenteComponent implements OnInit {
   fourthFormGroup: FormGroup;
   isOptional = true;
   serviciosLente: ComprobanteItemServicio[] = [];
+  deshabilitarBoton = false;
   // @Output() selectedServicio = new EventEmitter<any[]>();
   constructor(
     public dialogRef: MatDialogRef<ProductoLenteComponent>,
     private _formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
+    private validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.data.item.ComprobanteItemServicio = [];
   }
@@ -50,9 +54,11 @@ export class ProductoLenteComponent implements OnInit {
   }
 
   listaComprobanteItemEvento(model: any[]) {
+    this.modelComprobanteItemLente = [];
     this.modelComprobanteItemLente = model;
     this.data.item.ComprobanteItemLente = model;
     this.changeDetector.detectChanges();
+    this.chequearValidaciones();
     document.getElementById("siguiente1").focus();
   }
 
@@ -80,6 +86,27 @@ export class ProductoLenteComponent implements OnInit {
 
   idServicioSelected(i: number) {
     this.idServicio = i;
+  }
+
+  chequearValidaciones(){
+    console.log(this.modelComprobanteItemLente);
+    console.log("esferico 0", this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaEsferico, 'esferico'))
+    console.log("cilindrico 0", this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico'))
+    console.log("cantidad 0", this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[0].Cantidad))
+    if (this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaEsferico*100, 'esferico') 
+    || this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico')
+    || this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[0].Cantidad)) 
+      this.deshabilitarBoton = true;
+    else 
+      this.deshabilitarBoton = false;
+    if (this.modelComprobanteItemLente.length > 1) {
+      if (this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[1].MedidaEsferico, 'esferico') 
+      || this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')
+      || this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[1].Cantidad)) 
+        this.deshabilitarBoton = true;
+      else 
+        this.deshabilitarBoton = false;
+    }
   }
 
   tabInventado(event: KeyboardEvent, idElement) {

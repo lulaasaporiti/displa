@@ -33,6 +33,7 @@ export class ValidacionLenteService {
     }
 
     compararLimiteGrilla(lente, medida, tipoGraduacion) {
+        console.log(lente)
         if (lente != undefined) {
             let combinacion = lente.Combinacion.split("  / ");
             if ((this.limiteGrillaDerecha == undefined && this.limiteGrillaIzquierda == undefined) || combinacion[0] != this.limiteGrillaIzquierda.Combinacion) {
@@ -49,10 +50,15 @@ export class ValidacionLenteService {
                 }
             }
             else {
-                if ((+medida / 100 <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
-                    return ((+medida / 100) % 0.25) != 0;
+                console.log(medida)
+                if ((+medida <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
+                    console.log("if")
+                    console.log(((+medida) % 0.25) != 0)
+                    return (+medida % 0.25) != 0;
                 }
                 else {
+                    console.log("else")
+
                     return true;
                 }
             }
@@ -73,12 +79,10 @@ export class ValidacionLenteService {
     }
 
     divisionMedida(lente, medida, tipoGraduacion) {
-        
         if (medida != undefined || medida != null) {
-
-            
-            if (!medida.includes('.')) {
-
+            console.log(medida)
+            console.log(!medida.toString().includes('.'))
+            if (!medida.toString().includes('.')) {
                 if (tipoGraduacion == 'esferico') {
                     lente.MedidaEsferico = (+medida / 100).toFixed(2);
     
@@ -88,6 +92,13 @@ export class ValidacionLenteService {
             }  
         }
     }
+
+    divisionCantidad(cantidad) {
+        if (cantidad != undefined || cantidad != null) {
+            return (+cantidad % 0.50) != 0;
+        }
+    }
+
 
     conversionMedidas(graduacionCilindrico, medidaEsferico, medidaCilindrico) {
         if (graduacionCilindrico) { //graduacion cilindrica positiva

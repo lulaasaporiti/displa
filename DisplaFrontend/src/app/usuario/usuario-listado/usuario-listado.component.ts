@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import { ResetPasswordComponent } from 'src/app/account/reset-password/reset-password.component';
 
 
 
@@ -79,16 +80,29 @@ export class UsuarioListadoComponent implements OnInit {
     
   }
 
-  openDialogEditUserPass() {
-    let dialogRefUser = this.dialog.open(ChangePasswordComponent, {
+  openDialogEditUserPass(idUserEdit, userName) {
+  //   if (this.idUser == idUserEdit) {
+  //   let dialogRefUser = this.dialog.open(ChangePasswordComponent, {
+  //     width: '400px',
+  //     height: '375px',
+  //     data: { user: this.sessionService.getPayload()["sub"] }
+  //   });
+  //   dialogRefUser.afterClosed().subscribe(result => {
+  //     if (result != undefined && result != false) {
+  //     } 
+  //   });
+  // } else {
+    let dialogRefUser = this.dialog.open(ResetPasswordComponent, {
       width: '400px',
-      data: { user: this.sessionService.getPayload()["sub"] }
+      height: '375px',
+      data: { user: userName }
     });
     dialogRefUser.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
       } 
     });
-  }
+  // }
+}
 
   agregarUsuario(): void {
     let usuario = <RegisterView>{};
