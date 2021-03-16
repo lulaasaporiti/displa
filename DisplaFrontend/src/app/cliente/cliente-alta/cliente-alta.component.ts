@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { LocalidadService } from 'src/services/localidad.service';
 import { Localidad } from 'src/app/model/localidad';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
