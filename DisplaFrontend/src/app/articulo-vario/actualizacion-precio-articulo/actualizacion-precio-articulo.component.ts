@@ -75,8 +75,8 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       filterValue = filterValue.trim();
       filterValue = filterValue.toLowerCase();
       // this.dataSourceTipo.filter = filterValue;
-      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue) || i.IdTipoArticulo.toString().toLowerCase().includes(filterValue) 
-      || i.Id.toString().toLowerCase().includes(filterValue));
+      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue) || i.IdTipoArticulo.toString().toLowerCase().includes(filterValue)
+        || i.Id.toString().toLowerCase().includes(filterValue));
       if (nombreFilter != undefined) {
         nombreFilter.forEach(a => {
           if (tiposArticulos.findIndex(t => t.Id == a.IdTipoArticulo) == -1)
@@ -94,7 +94,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     combineLatest([
       this.articuloService.getArticulosVariosPrecios(),
       this.tipoArticuloService.getTiposArticuloConArticulosList(),
-      ])
+    ])
       .subscribe(r => {
         this.dataSource.data = r[0];
         this.dataSourceTipo.data = r[1];
@@ -124,10 +124,10 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   }
 
   tablaArticulos(idTipoArticulo, nombreArticulo) {
-    if(nombreArticulo != '') { 
+    if (nombreArticulo != '') {
       this.dataSourceArticulo.data = this.dataSource.data.filter(na => na.IdTipoArticulo == idTipoArticulo && na.Nombre.toLowerCase().includes(nombreArticulo));
     }
-    else 
+    else
       this.dataSourceArticulo.data = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
   }
 
@@ -168,9 +168,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
             this.preciosSeleccionados.push(precioArticulo);
           }
         }
-        if(tienePorcentaje){
+        if (tienePorcentaje) {
           this.porcentajeArticulo(+tienePorcentaje, precioArticulo.IdArticulo)
-         }
+        }
       });
     } else {
       if (this.preciosSeleccionados.length == this.dataSource.data.length) {
@@ -179,8 +179,11 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
         this.porcentajesArticulos = [];
       } else {
         this.dataSource.data.forEach(ar => {
-          this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ar.PrecioArticulo[index] != undefined && ar.PrecioArticulo[index].Id == p.Id && ar.Id == p.IdArticulo), 1);
-          if (this.porcentajesArticulos.length > 0) 
+          let indice = this.preciosSeleccionados.findIndex(p => ar.PrecioArticulo[index] != undefined && ar.PrecioArticulo[index].Id == p.Id)
+          if (indice != -1) {
+            this.preciosSeleccionados.splice(indice, 1)
+          }
+          if (this.porcentajesArticulos.length > 0)
             this.porcentajesArticulos.splice(this.porcentajesArticulos.findIndex(p => p.IdPrecio == ar.PrecioArticulo[index].Id), 1);
         });
       }
@@ -198,16 +201,16 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       this.habilitarPorcentajeTipoA = false;
       this.dataSource.data.forEach(ar => {
         ar.PrecioArticulo.forEach(pa => {
-        let precioArticulo = <PrecioArticulo>{};
+          let precioArticulo = <PrecioArticulo>{};
           precioArticulo.Id = pa.Id;
           precioArticulo.IdArticulo = pa.IdArticulo;
           precioArticulo.IdArticuloNavigation = pa.IdArticuloNavigation;
           this.preciosSeleccionados.push(precioArticulo);
-        }); 
-        
-        if(tienePorcentaje) {
+        });
+
+        if (tienePorcentaje) {
           this.porcentajeArticulo(+tienePorcentaje, ar.Id)
-        }   
+        }
       })
     }
     else {
@@ -222,7 +225,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     if (this.preciosSeleccionados.length > 0 && tienePorcentaje) {
       this.preciosSeleccionados.forEach(pa => {
         if (!this.porcentajesArticulos.some(p => p.IdPrecio == pa.Id))
-          this.porcentajesArticulos.push({IdPrecio: pa.Id, Porcentaje: +tienePorcentaje});
+          this.porcentajesArticulos.push({ IdPrecio: pa.Id, Porcentaje: +tienePorcentaje });
       })
       // console.log(this.porcentajesArticulos)
     }
@@ -235,9 +238,8 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
     if (event.checked) {
       arrayArticulos.forEach(a => {
-        let incluye = this.preciosSeleccionados.find(p => p.Id == a.PrecioArticulo[index].Id);
+        let incluye = this.preciosSeleccionados.find(p => a.PrecioArticulo[index] != undefined && p.Id == a.PrecioArticulo[index].Id);
         let precioArticulo = <PrecioArticulo>{};
-        console.log(incluye)
         if (incluye == undefined) {
           if (a.PrecioArticulo[index] != null) {
             this.habilitarPorcentajeTipoA = true;
@@ -257,9 +259,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
             this.preciosSeleccionados.push(precioArticulo);
           }
         }
-        if(tienePorcentaje) {
+        if (tienePorcentaje) {
           this.porcentajeArticulo(+tienePorcentaje, a.Id)
-        }   
+        }
       });
     } else {
       if (this.preciosSeleccionados.length == this.dataSource.data.length) {
@@ -267,10 +269,11 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
         this.habilitarPorcentajeTipoA = false;
         this.habilitarPorcentajeFila = false;
       } else {
-        console.log(arrayArticulos)
-        console.log("precios seleccionados", this.preciosSeleccionados)
         arrayArticulos.forEach(ar => {
-          this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ar.PrecioArticulo[index] != undefined && ar.PrecioArticulo[index].Id == p.Id), 1);
+          let indice = this.preciosSeleccionados.findIndex(p => ar.PrecioArticulo[index] != undefined && ar.PrecioArticulo[index].Id == p.Id)
+          if (indice != -1) {
+            this.preciosSeleccionados.splice(indice, 1)
+          }
           if (this.porcentajesArticulos.length > 0)
             this.porcentajesArticulos.splice(this.porcentajesArticulos.findIndex(p => ar.PrecioArticulo[index] != undefined && p.IdPrecio == ar.PrecioArticulo[index].Id), 1);
         });
@@ -279,17 +282,6 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     if (event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
-    // let index = [];
-    // this.dataSource.data.forEach(a => {
-    //   if (this.preciosSeleccionados.length > 0) {
-    //     let precio = this.preciosSeleccionados.filter(p => p.IdArticulo == a.Id);
-    //     if (precio.length > 0) {
-    //       var i = a.PrecioArticulo.findIndex(pa => pa.Id == precio[0].Id)
-    //       if (!index.includes(i))
-    //         index.push(i);
-    //     }
-    //   }
-    // });
   }
 
   chequear(idPrecio: any) {
@@ -301,13 +293,13 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     let cantidadSeleccionados = 0;
     let arrayTipoArticulo = this.dataSource.data.filter(ar => ar.IdTipoArticulo == idTipoArticulo)
     arrayTipoArticulo.forEach(a => {
-      if (a.PrecioArticulo != null) {      
-            if (a.PrecioArticulo[event] != undefined) { 
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[event].Id && p.IdArticulo == a.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
+      if (a.PrecioArticulo != null) {
+        if (a.PrecioArticulo[event] != undefined) {
+          cantidadPreciosTotales = cantidadPreciosTotales + 1;
+          if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[event].Id && p.IdArticulo == a.Id)) {
+            cantidadSeleccionados = cantidadSeleccionados + 1;
           }
+        }
       }
     });
     return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
@@ -318,20 +310,20 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     let cantidadSeleccionados = 0;
     let arrayTipoArticulo = this.dataSource.data.filter(ar => ar.IdTipoArticulo == idTipoArticulo)
     arrayTipoArticulo.forEach(a => {
-      if (a.PrecioArticulo != null) {      
-            if (a.PrecioArticulo[event] != undefined) { 
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[event].Id && p.IdArticulo == a.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
+      if (a.PrecioArticulo != null) {
+        if (a.PrecioArticulo[event] != undefined) {
+          cantidadPreciosTotales = cantidadPreciosTotales + 1;
+          if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[event].Id && p.IdArticulo == a.Id)) {
+            cantidadSeleccionados = cantidadSeleccionados + 1;
           }
+        }
       }
     });
     return cantidadSeleccionados < cantidadPreciosTotales && cantidadSeleccionados > 0;
   }
 
   habilitarPorcentaje(articulo: ArticuloVario) {
-    if(this.habilitarPorcentajeFila == false) {
+    if (this.habilitarPorcentajeFila == false) {
       return false
     }
     else {
@@ -340,20 +332,20 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   }
 
   habilitarPorcentajeTipo(idTipoArticulo: number) {
-    if(this.habilitarPorcentajeTipoA == false) {
+    if (this.habilitarPorcentajeTipoA == false) {
       return false
     }
     else {
-    let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdArticuloNavigation != undefined && element.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
-    let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
-    return arrayPreciosArticulos.length >= arrayArticulos.length;
-   }
+      let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdArticuloNavigation != undefined && element.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
+      let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
+      return arrayPreciosArticulos.length >= arrayArticulos.length;
+    }
   }
 
-  onClicked(articulo: ArticuloVario, checkbox) {
+  onClicked(articulo: ArticuloVario, checkbox, indexFila) {
     let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
     let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
-    
+
     if (checkbox.checked) {
       this.habilitarPorcentajeFila = true;
       let precioServicio = <PrecioArticulo>{};
@@ -366,44 +358,44 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       }
 
     } else {
-      console.log("precio", this.preciosSeleccionados.find(p => articulo.PrecioArticulo[index] != undefined && p.IdArticulo == articulo.Id && p.Id == articulo.PrecioArticulo[index].Id))
-      console.log("indice precio a borrar", this.preciosSeleccionados.findIndex(p => articulo.PrecioArticulo[index] != undefined && p.IdArticulo == articulo.Id && p.Id == articulo.PrecioArticulo[index].Id))
-      console.log("precios seleccionados", this.preciosSeleccionados)
       this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => articulo.PrecioArticulo[index] != undefined && p.IdArticulo == articulo.Id && p.Id == articulo.PrecioArticulo[index].Id), 1);
-      if (this.porcentajesArticulos.length > 0)
+      if (this.porcentajesArticulos.length > 0) {
         this.porcentajesArticulos.splice(this.porcentajesArticulos.findIndex(p => articulo.PrecioArticulo[index] != undefined && p.IdPrecio == articulo.PrecioArticulo[index].Id), 1);
-      console.log(this.porcentajesArticulos,"porcentajes articulos")
+      }
     }
-    console.log("precios seleccionados fin metodo", this.preciosSeleccionados)
   }
 
   porcentajeTipoArticulo(porcentaje, idTipoArticulo: number) {
     let preciosArticulos = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
     preciosArticulos.forEach(p => {
-      this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
+      this.porcentajesArticulos.push({ IdPrecio: p.Id, IdPrecioNavigation: p, Porcentaje: +porcentaje });
     });
   }
 
 
   porcentajeArticulo(porcentaje, idArticulo: number) {
     let preciosArticulos = this.preciosSeleccionados.filter(p => p.IdArticulo == idArticulo);
-    preciosArticulos.forEach(p => {
-      if (!this.porcentajesArticulos.some(pa => pa.IdPrecio == p.Id))
-        this.porcentajesArticulos.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
-    });
+    if (porcentaje != "") {
+      preciosArticulos.forEach(p => {
+        if (!this.porcentajesArticulos.some(pa => pa.IdPrecio == p.Id))
+          this.porcentajesArticulos.push({ IdPrecio: p.Id, IdPrecioNavigation: p, Porcentaje: +porcentaje });
+      });
+    } else { 
+      this.porcentajesArticulos = this.porcentajesArticulos.filter(p => p.IdPrecioNavigation.IdArticulo != idArticulo);
+    }
   }
 
   indeterminateCheckbox(i) {
     let cantidadPreciosTotales = 0;
     let cantidadSeleccionados = 0;
     this.dataSource.data.forEach(a => {
-      if (a.PrecioArticulo != null) {      
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (a.PrecioArticulo[i] != undefined) { 
-            if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[i].Id && p.IdArticulo == a.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
+      if (a.PrecioArticulo != null) {
+        cantidadPreciosTotales = cantidadPreciosTotales + 1;
+        if (a.PrecioArticulo[i] != undefined) {
+          if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[i].Id && p.IdArticulo == a.Id)) {
+            cantidadSeleccionados = cantidadSeleccionados + 1;
           }
+        }
       }
     });
     return cantidadSeleccionados < cantidadPreciosTotales && cantidadSeleccionados > 0;
@@ -413,13 +405,13 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     let cantidadPreciosTotales = 0;
     let cantidadSeleccionados = 0;
     this.dataSource.data.forEach(a => {
-      if (a.PrecioArticulo != null) {    
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (a.PrecioArticulo[i] != undefined) {  
-            if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[i].Id && p.IdArticulo == a.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
+      if (a.PrecioArticulo != null) {
+        cantidadPreciosTotales = cantidadPreciosTotales + 1;
+        if (a.PrecioArticulo[i] != undefined) {
+          if (this.preciosSeleccionados.some(p => p.Id == a.PrecioArticulo[i].Id && p.IdArticulo == a.Id)) {
+            cantidadSeleccionados = cantidadSeleccionados + 1;
           }
+        }
       }
     });
     return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
@@ -429,19 +421,19 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     this.recargaPagina = true;
     this.checkedPorcentajeTodos = false;
     this.articuloService.saveActualizacionPrecio(this.porcentajesArticulos)
-    .subscribe(result => {
-      if (result) {
-        this.loadPrecioArticuloPage();
-        this.sessionService.showSuccess("Los precios se cargaron correctamente.");
-      } else
-        this.sessionService.showError("Los precios no se cargaron.");
-    }
-    );
+      .subscribe(result => {
+        if (result) {
+          this.loadPrecioArticuloPage();
+          this.sessionService.showSuccess("Los precios se cargaron correctamente.");
+        } else
+          this.sessionService.showError("Los precios no se cargaron.");
+      }
+      );
   }
 
   modificacionPrecioArticuloVario(event): void {
     const dialogRef = this.dialog.open(ModificacionPrecioArticuloVarioComponent, {
-      data: {idArticulo: event, },
+      data: { idArticulo: event, },
       width: '800px',
       height: '600px'
     })
@@ -461,5 +453,13 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       }
     }
     );
-   }
+  }
+
+  devolverValorPorcentaje(idArticulo){
+    let porcentaje = this.porcentajesArticulos.find(p => p.IdPrecioNavigation.IdArticulo == idArticulo);
+    if (porcentaje != undefined)
+      return this.porcentajesArticulos.find(p => p.IdPrecioNavigation.IdArticulo == idArticulo).Porcentaje;
+    else
+      return "";
+  }
 }
