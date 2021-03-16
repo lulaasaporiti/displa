@@ -19,7 +19,8 @@
   <table mat-table [dataSource]="dataSourceTipo" matSort fxFlexOffset="3" class="tabla" multiTemplateDataRows>
     <ng-container matColumnDef="Nombre">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> NOMBRE </th>
-      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Nombre}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Nombre}} 
+        </td>
     </ng-container>
 
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
@@ -37,7 +38,7 @@
       <th mat-header-cell *matHeaderCellDef fxFlex="11"> PORCENTAJE </th>
       <td mat-cell *matCellDef="let row" fxFlex="11" fxLayoutAlign="start center">
         <mat-form-field style="width: 50px;">
-          <input matInput (keypress)="_keyPress($event)" [disabled]="!habilitarPorcentajeTipo(row.Id) && !habilitarPorcentajeTipoS"
+          <input matInput (keypress)="_keyPress($event)" [disabled]="!habilitarPorcentajeTipo(row.Id)"
             (blur)="porcentajeTipoServicio($event.target.value, row.Id)">
         </mat-form-field>
       </td>
@@ -53,9 +54,10 @@
             *ngIf="row == expandedElement">
             <ng-container matColumnDef="NombreServicio">
               <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> NOMBRE ARTICULO </th>
-              <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
-                <a (click)="modificacionPrecioServicio(row.Id)" style="cursor: pointer;" class="link"> {{row.Nombre}} </a> 
-                </td>
+              <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> 
+                <a (click)="modificacionPrecioServicio(row.Id)" style="cursor: pointer;" class="link"> {{row.Nombre}}
+                </a>  
+               </td>
             </ng-container>
 
             <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.columnDef">
@@ -70,10 +72,10 @@
 
             <ng-container matColumnDef="PorcentajeServicio">
               <th mat-header-cell *matHeaderCellDef fxFlex="11"> PORCENTAJE </th>
-              <td mat-cell *matCellDef="let row" fxFlex="11" fxLayoutAlign="start center">
+              <td mat-cell *matCellDef="let row; let i = index" fxFlex="11" fxLayoutAlign="start center">
                 <mat-form-field style="width: 50px;">
-                  <input matInput (keypress)="_keyPress($event)" [disabled]="!habilitarPorcentaje(row) && !habilitarPorcentajeFila"
-                    (blur)="porcentajeServicio($event.target.value, row.Id)">
+                  <input matInput (keypress)="_keyPress($event)" [disabled]="!habilitarPorcentaje(row)"
+                    (blur)="porcentajeServicio($event.target.value, row.Id)" value="{{devolverValorPorcentaje(row.Id)}}">
                 </mat-form-field>
               </td>
             </ng-container>

@@ -332,17 +332,17 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
   }
 
   habilitarPorcentajeTipo(idTipoArticulo: number) {
-    if (this.habilitarPorcentajeTipoA == false) {
-      return false
+    if (this.habilitarPorcentajeTodos == true) {
+      return false;
     }
     else {
       let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdArticuloNavigation != undefined && element.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
       let arrayArticulos = this.dataSource.data.filter(a => a.IdTipoArticulo == idTipoArticulo);
-      return arrayPreciosArticulos.length >= arrayArticulos.length;
+      return arrayPreciosArticulos.length == arrayArticulos.length;
     }
   }
 
-  onClicked(articulo: ArticuloVario, checkbox, indexFila) {
+  onClicked(articulo: ArticuloVario, checkbox) {
     let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
     let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
 
@@ -367,9 +367,13 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
 
   porcentajeTipoArticulo(porcentaje, idTipoArticulo: number) {
     let preciosArticulos = this.preciosSeleccionados.filter(p => p.IdArticuloNavigation.IdTipoArticulo == idTipoArticulo);
-    preciosArticulos.forEach(p => {
-      this.porcentajesArticulos.push({ IdPrecio: p.Id, IdPrecioNavigation: p, Porcentaje: +porcentaje });
-    });
+    if (porcentaje != "") {
+      preciosArticulos.forEach(p => {
+        this.porcentajesArticulos.push({ IdPrecio: p.Id, IdPrecioNavigation: p, Porcentaje: +porcentaje });
+      });
+    } else {
+      this.porcentajesArticulos = this.porcentajesArticulos.filter(p => p.IdPrecioNavigation.IdArticuloNavigation.IdTipoArticulo != idTipoArticulo);
+    }
   }
 
 

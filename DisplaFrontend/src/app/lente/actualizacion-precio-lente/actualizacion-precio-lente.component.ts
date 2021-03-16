@@ -38,9 +38,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
     private lenteService: LenteService,
-    private segment: ActivatedRoute,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) {
   }
@@ -215,7 +213,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       })
     }
     else {
-      this.habilitarPorcentajeFila = true;
+      this.habilitarPorcentajeFila = false;
       this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesLentes = [];

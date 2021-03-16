@@ -74,8 +74,9 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
       let tiposServicios: TipoServicio[] = [];
       filterValue = filterValue.trim();
       filterValue = filterValue.toLowerCase();
-      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue)|| i.IdTipoServicio.toString().toLowerCase().includes(filterValue) 
-      || i.Id.toString().toLowerCase().includes(filterValue));
+      // this.dataSourceTipo.filter = filterValue;
+      var nombreFilter = this.dataSource.data.filter(i => i.Nombre.toLowerCase().includes(filterValue) || i.IdTipoServicio.toString().toLowerCase().includes(filterValue)
+        || i.Id.toString().toLowerCase().includes(filterValue));
       if (nombreFilter != undefined) {
         nombreFilter.forEach(a => {
           if (tiposServicios.findIndex(t => t.Id == a.IdTipoServicio) == -1)
@@ -123,10 +124,10 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   }
 
   tablaServicios(idTipoServicio, nombreServicio) {
-    if(nombreServicio != '') { 
+    if (nombreServicio != '') {
       this.dataSourceServicio.data = this.dataSource.data.filter(na => na.IdTipoServicio == idTipoServicio && na.Nombre.toLowerCase().includes(nombreServicio));
     }
-    else 
+    else
       this.dataSourceServicio.data = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
   }
 
@@ -140,17 +141,21 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   }
 
   onClickedTodos(event) {
-    let checkbox = +event.source.name.split("checkbox")[1];
+    let index = +event.source.name.split("checkbox")[1];
     let mostrarMensaje = false;
-    var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+    let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+
     if (event.checked) {
       this.dataSource.data.forEach(ar => {
         this.habilitarPorcentajeTodos = true;
+        this.habilitarPorcentajeFila = false;
+        this.habilitarPorcentajeTipoS = false;
         let precioServicio = <PrecioServicio>{};
-        if (ar.PrecioServicio[checkbox] != null) {
-          precioServicio.Id = ar.PrecioServicio[checkbox].Id;
-          precioServicio.IdServicio = ar.PrecioServicio[checkbox].IdServicio;
-          precioServicio.IdServicioNavigation = ar.PrecioServicio[checkbox].IdServicioNavigation;
+        let incluye = this.preciosSeleccionados.find(p => ar.PrecioServicio[index] != undefined && p.Id == ar.PrecioServicio[index].Id);
+        if (ar.PrecioServicio[index] != null && incluye == undefined) {
+          precioServicio.Id = ar.PrecioServicio[index].Id;
+          precioServicio.IdServicio = ar.PrecioServicio[index].IdServicio;
+          precioServicio.IdServicioNavigation = ar.PrecioServicio[index].IdServicioNavigation;
           this.preciosSeleccionados.push(precioServicio);
         }
         else {
@@ -163,20 +168,23 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
             this.preciosSeleccionados.push(precioServicio);
           }
         }
-        if(tienePorcentaje){
+        if (tienePorcentaje) {
           this.porcentajeServicio(+tienePorcentaje, precioServicio.IdServicio)
         }
       });
     } else {
       if (this.preciosSeleccionados.length == this.dataSource.data.length) {
+        this.habilitarPorcentajeTodos = false;
         this.preciosSeleccionados = [];
         this.porcentajesServicios = [];
-        this.habilitarPorcentajeTodos = false;
       } else {
         this.dataSource.data.forEach(ar => {
-          this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ar.PrecioServicio[checkbox] != undefined && ar.PrecioServicio[checkbox].Id == p.Id && ar.Id == p.IdServicio), 1);
+          let indice = this.preciosSeleccionados.findIndex(p => ar.PrecioServicio[index] != undefined && ar.PrecioServicio[index].Id == p.Id)
+          if (indice != -1) {
+            this.preciosSeleccionados.splice(indice, 1)
+          }
           if (this.porcentajesServicios.length > 0)
-            this.porcentajesServicios.splice(this.porcentajesServicios.findIndex(p => p.IdPrecio == ar.PrecioServicio[checkbox].Id), 1);
+            this.porcentajesServicios.splice(this.porcentajesServicios.findIndex(p => p.IdPrecio == ar.PrecioServicio[index].Id), 1);
         });
       }
     }
@@ -186,58 +194,61 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   }
 
   onClickedPorcentajeTodos(event) {
-    var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+    let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (event.checked == true) {
+      this.habilitarPorcentajeTodos = true;
+      this.habilitarPorcentajeFila = false;
+      this.habilitarPorcentajeTipoS = false;
       this.dataSource.data.forEach(ar => {
         ar.PrecioServicio.forEach(pa => {
-        this.habilitarPorcentajeTodos = true;
-        this.habilitarPorcentajeFila = false;
-        this.habilitarPorcentajeTipoS = false;
-        let precioServicio = <PrecioServicio>{};
+          let precioServicio = <PrecioServicio>{};
           precioServicio.Id = pa.Id;
           precioServicio.IdServicio = pa.IdServicio;
           precioServicio.IdServicioNavigation = pa.IdServicioNavigation;
           this.preciosSeleccionados.push(precioServicio);
-        }); 
-        
-        if(tienePorcentaje) {
+        });
+
+        if (tienePorcentaje) {
           this.porcentajeServicio(+tienePorcentaje, ar.Id)
-        }   
+        }
       })
-      
     }
     else {
+      this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesServicios = [];
-      this.habilitarPorcentajeTodos = false;
     }
   }
 
   recorrerPrecios() {
-    var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
+    let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (this.preciosSeleccionados.length > 0 && tienePorcentaje) {
       this.preciosSeleccionados.forEach(pa => {
         if (!this.porcentajesServicios.some(p => p.IdPrecio == pa.Id))
-          this.porcentajesServicios.push({IdPrecio: pa.Id, Porcentaje: +tienePorcentaje});
+          this.porcentajesServicios.push({ IdPrecio: pa.Id, Porcentaje: +tienePorcentaje });
       })
+      // console.log(this.porcentajesServicios)
     }
   }
 
   onClickedTodosTipo(event, idTipoServicio) {
-    let checkbox = +event.source.name.split("checkbox")[1];
+    let index = +event.source.name.split("checkbox")[1];
     let mostrarMensaje = false;
     let tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
     if (event.checked) {
       arrayServicios.forEach(a => {
-        this.habilitarPorcentajeFila = true;
-        this.habilitarPorcentajeTipoS = true;
+        let incluye = this.preciosSeleccionados.find(p => a.PrecioServicio[index] != undefined && p.Id == a.PrecioServicio[index].Id);
         let precioServicio = <PrecioServicio>{};
-        if (a.PrecioServicio[checkbox] != null) {
-          precioServicio.Id = a.PrecioServicio[checkbox].Id;
-          precioServicio.IdServicio = a.PrecioServicio[checkbox].IdServicio;
-          precioServicio.IdServicioNavigation = a.PrecioServicio[checkbox].IdServicioNavigation;
-          this.preciosSeleccionados.push(precioServicio);
+        if (incluye == undefined) {
+          if (a.PrecioServicio[index] != null) {
+            this.habilitarPorcentajeTipoS = true;
+            this.habilitarPorcentajeFila = true;
+            precioServicio.Id = a.PrecioServicio[index].Id;
+            precioServicio.IdServicio = a.PrecioServicio[index].IdServicio;
+            precioServicio.IdServicioNavigation = a.PrecioServicio[index].IdServicioNavigation;
+            this.preciosSeleccionados.push(precioServicio);
+          }
         } else {
           let incluye = this.preciosSeleccionados.find(p => p.Id == a.PrecioServicio[0].Id);
           if (!incluye) {
@@ -255,31 +266,22 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
     } else {
       if (this.preciosSeleccionados.length == this.dataSource.data.length) {
         this.preciosSeleccionados = [];
-        this.porcentajesServicios = [];
         this.habilitarPorcentajeTipoS = false;
         this.habilitarPorcentajeFila = false;
       } else {
-        arrayServicios.forEach(ser => {
-          this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => ser.PrecioServicio[checkbox] != undefined && ser.PrecioServicio[checkbox].Id == p.Id), 1);
+        arrayServicios.forEach(ar => {
+          let indice = this.preciosSeleccionados.findIndex(p => ar.PrecioServicio[index] != undefined && ar.PrecioServicio[index].Id == p.Id)
+          if (indice != -1) {
+            this.preciosSeleccionados.splice(indice, 1)
+          }
           if (this.porcentajesServicios.length > 0)
-            this.porcentajesServicios.splice(this.porcentajesServicios.findIndex(p => ser.PrecioServicio[checkbox] != undefined && p.IdPrecio == ser.PrecioServicio[checkbox].Id), 1);
+            this.porcentajesServicios.splice(this.porcentajesServicios.findIndex(p => ar.PrecioServicio[index] != undefined && p.IdPrecio == ar.PrecioServicio[index].Id), 1);
         });
       }
     }
     if (event.checked && mostrarMensaje) {
       this.sessionService.showInfo("Existen artículos que no tienen este número de precio, se seleccionará el primero");
     }
-    // var index = [];
-    // this.dataSource.data.forEach(a => {
-    //   if (this.preciosSeleccionados.length > 0) {
-    //     var precio = this.preciosSeleccionados.filter(p => p.IdServicio == a.Id);
-    //     if (precio.length > 0) {
-    //       var i = a.PrecioServicio.findIndex(pa => pa.Id == precio[0].Id)
-    //       if (!index.includes(i))
-    //         index.push(i);
-    //     }
-    //   }
-    // });
   }
 
   chequear(idPrecio: any) {
@@ -289,15 +291,15 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   chequearTipo(event, idTipoServicio: any) {
     let cantidadPreciosTotales = 0;
     let cantidadSeleccionados = 0;
-    let arrayTipoServicio = this.dataSource.data.filter(ser => ser.IdTipoServicio == idTipoServicio)
-    arrayTipoServicio.forEach(s => {
-      if (s.PrecioServicio != null) {      
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (s.PrecioServicio[event] != undefined) { 
-            if (this.preciosSeleccionados.some(p => p.Id == s.PrecioServicio[event].Id && p.IdServicio == s.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
+    let arrayTipoServicio = this.dataSource.data.filter(ar => ar.IdTipoServicio == idTipoServicio)
+    arrayTipoServicio.forEach(a => {
+      if (a.PrecioServicio != null) {
+        if (a.PrecioServicio[event] != undefined) {
+          cantidadPreciosTotales = cantidadPreciosTotales + 1;
+          if (this.preciosSeleccionados.some(p => p.Id == a.PrecioServicio[event].Id && p.IdServicio == a.Id)) {
+            cantidadSeleccionados = cantidadSeleccionados + 1;
           }
+        }
       }
     });
     return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
@@ -306,37 +308,37 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   indeterminateTipo(event, idTipoServicio: any) {
     let cantidadPreciosTotales = 0;
     let cantidadSeleccionados = 0;
-    let arrayTipoServicio = this.dataSource.data.filter(ser => ser.IdTipoServicio == idTipoServicio)
-    arrayTipoServicio.forEach(s => {
-      if (s.PrecioServicio != null) {      
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (s.PrecioServicio[event] != undefined) { 
-            if (this.preciosSeleccionados.some(p => p.Id == s.PrecioServicio[event].Id && p.IdServicio == s.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
+    let arrayTipoServicio = this.dataSource.data.filter(ar => ar.IdTipoServicio == idTipoServicio)
+    arrayTipoServicio.forEach(a => {
+      if (a.PrecioServicio != null) {
+        if (a.PrecioServicio[event] != undefined) {
+          cantidadPreciosTotales = cantidadPreciosTotales + 1;
+          if (this.preciosSeleccionados.some(p => p.Id == a.PrecioServicio[event].Id && p.IdServicio == a.Id)) {
+            cantidadSeleccionados = cantidadSeleccionados + 1;
           }
+        }
       }
     });
     return cantidadSeleccionados < cantidadPreciosTotales && cantidadSeleccionados > 0;
   }
 
   habilitarPorcentaje(servicio: Servicio) {
-    if (this.habilitarPorcentajeFila == false){
-      return false;
-    } 
+    if (this.habilitarPorcentajeFila == false) {
+      return false
+    }
     else {
       return this.preciosSeleccionados.some(p => servicio.PrecioServicio.some(part => part.Id == p.Id));
     }
   }
 
   habilitarPorcentajeTipo(idTipoServicio: number) {
-    if (this.habilitarPorcentajeTipoS == false) {
+    if (this.habilitarPorcentajeTodos == true) {
       return false;
     }
     else {
       let arrayPreciosServicios = this.preciosSeleccionados.filter(element => element.IdServicioNavigation != undefined && element.IdServicioNavigation.IdTipoServicio == idTipoServicio);
       let arrayServicios = this.dataSource.data.filter(a => a.IdTipoServicio == idTipoServicio);
-      return arrayPreciosServicios.length >= arrayServicios.length;
+      return arrayPreciosServicios.length == arrayServicios.length;
     }
   }
 
@@ -356,39 +358,48 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
       }
 
     } else {
-      this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => servicio.PrecioServicio[index] != undefined && p.IdServicio == servicio.Id && p.Id != servicio.PrecioServicio[index].Id), 1);
-      if (this.porcentajesServicios.length > 0)
+      this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => servicio.PrecioServicio[index] != undefined && p.IdServicio == servicio.Id && p.Id == servicio.PrecioServicio[index].Id), 1);
+      if (this.porcentajesServicios.length > 0) {
         this.porcentajesServicios.splice(this.porcentajesServicios.findIndex(p => servicio.PrecioServicio[index] != undefined && p.IdPrecio == servicio.PrecioServicio[index].Id), 1);
+      }
     }
   }
 
   porcentajeTipoServicio(porcentaje, idTipoServicio: number) {
     let preciosServicios = this.preciosSeleccionados.filter(p => p.IdServicioNavigation.IdTipoServicio == idTipoServicio);
-    preciosServicios.forEach(p => {
-      this.porcentajesServicios.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
-    });
+    if (porcentaje != "") {
+      preciosServicios.forEach(p => {
+        this.porcentajesServicios.push({ IdPrecio: p.Id, IdPrecioNavigation: p, Porcentaje: +porcentaje });
+      });
+    } else {
+      this.porcentajesServicios = this.porcentajesServicios.filter(p => p.IdPrecioNavigation.IdServicioNavigation.IdTipoServicio != idTipoServicio);
+    }
   }
 
 
   porcentajeServicio(porcentaje, idServicio: number) {
     let preciosServicios = this.preciosSeleccionados.filter(p => p.IdServicio == idServicio);
-    preciosServicios.forEach(p => {
-      if (!this.porcentajesServicios.some(pa => pa.IdPrecio == p.Id))
-        this.porcentajesServicios.push({IdPrecio: p.Id, Porcentaje: +porcentaje});
-    });
+    if (porcentaje != "") {
+      preciosServicios.forEach(p => {
+        if (!this.porcentajesServicios.some(pa => pa.IdPrecio == p.Id))
+          this.porcentajesServicios.push({ IdPrecio: p.Id, IdPrecioNavigation: p, Porcentaje: +porcentaje });
+      });
+    } else { 
+      this.porcentajesServicios = this.porcentajesServicios.filter(p => p.IdPrecioNavigation.IdServicio != idServicio);
+    }
   }
 
   indeterminateCheckbox(i) {
     let cantidadPreciosTotales = 0;
     let cantidadSeleccionados = 0;
-    this.dataSource.data.forEach(s => {
-      if (s.PrecioServicio != null) {      
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (s.PrecioServicio[i] != undefined) { 
-            if (this.preciosSeleccionados.some(p => p.Id == s.PrecioServicio[i].Id && p.IdServicio == s.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
+    this.dataSource.data.forEach(a => {
+      if (a.PrecioServicio != null) {
+        cantidadPreciosTotales = cantidadPreciosTotales + 1;
+        if (a.PrecioServicio[i] != undefined) {
+          if (this.preciosSeleccionados.some(p => p.Id == a.PrecioServicio[i].Id && p.IdServicio == a.Id)) {
+            cantidadSeleccionados = cantidadSeleccionados + 1;
           }
+        }
       }
     });
     return cantidadSeleccionados < cantidadPreciosTotales && cantidadSeleccionados > 0;
@@ -397,14 +408,14 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
   checkedCheckbox(i) {
     let cantidadPreciosTotales = 0;
     let cantidadSeleccionados = 0;
-    this.dataSource.data.forEach(s => {
-      if (s.PrecioServicio != null) {    
-            cantidadPreciosTotales = cantidadPreciosTotales + 1;
-            if (s.PrecioServicio[i] != undefined) {  
-            if (this.preciosSeleccionados.some(p => p.Id == s.PrecioServicio[i].Id && p.IdServicio == s.Id)) {
-              cantidadSeleccionados = cantidadSeleccionados + 1;
-            }
+    this.dataSource.data.forEach(a => {
+      if (a.PrecioServicio != null) {
+        cantidadPreciosTotales = cantidadPreciosTotales + 1;
+        if (a.PrecioServicio[i] != undefined) {
+          if (this.preciosSeleccionados.some(p => p.Id == a.PrecioServicio[i].Id && p.IdServicio == a.Id)) {
+            cantidadSeleccionados = cantidadSeleccionados + 1;
           }
+        }
       }
     });
     return cantidadSeleccionados == cantidadPreciosTotales && cantidadSeleccionados > 0;
@@ -414,19 +425,19 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
     this.recargaPagina = true;
     this.checkedPorcentajeTodos = false;
     this.servicioService.saveActualizacionPrecio(this.porcentajesServicios)
-    .subscribe(result => {
-      if (result) {
-        this.loadPrecioServicioPage();
-        this.sessionService.showSuccess("Los precios se cargaron correctamente.");
-      } else
-        this.sessionService.showError("Los precios no se cargaron.");
-    }
-    );
+      .subscribe(result => {
+        if (result) {
+          this.loadPrecioServicioPage();
+          this.sessionService.showSuccess("Los precios se cargaron correctamente.");
+        } else
+          this.sessionService.showError("Los precios no se cargaron.");
+      }
+      );
   }
 
   modificacionPrecioServicio(event): void {
     const dialogRef = this.dialog.open(ModificacionPrecioServicioComponent, {
-      data: {idServicio: event, },
+      data: { idServicio: event, },
       width: '800px',
       height: '600px'
     })
@@ -446,5 +457,13 @@ export class ActualizacionPrecioServicioComponent implements OnInit {
       }
     }
     );
-   }
+  }
+
+  devolverValorPorcentaje(idServicio){
+    let porcentaje = this.porcentajesServicios.find(p => p.IdPrecioNavigation.IdServicio == idServicio);
+    if (porcentaje != undefined)
+      return this.porcentajesServicios.find(p => p.IdPrecioNavigation.IdServicio == idServicio).Porcentaje;
+    else
+      return "";
+  }
 }

@@ -38,7 +38,7 @@
       <th mat-header-cell *matHeaderCellDef fxFlex="11"> PORCENTAJE </th>
       <td mat-cell *matCellDef="let row" fxFlex="11" fxLayoutAlign="start center">
         <mat-form-field style="width: 50px;">
-          <input matInput (keypress)="_keyPress($event)" [disabled]="!habilitarPorcentajeTipo(row.Id) && !habilitarPorcentajeTipoA"
+          <input matInput (keypress)="_keyPress($event)" [disabled]="!habilitarPorcentajeTipo(row.Id)"
             (blur)="porcentajeTipoArticulo($event.target.value, row.Id)">
         </mat-form-field>
       </td>
@@ -65,7 +65,7 @@
               </th>
               <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center">
                 <mat-checkbox *ngIf="row.PrecioArticulo[i] != null" name="checkbox{{i}}"
-                  [checked]="chequear(row.PrecioArticulo[i].Id)" (change)="onClicked(row, $event, i)">
+                  [checked]="chequear(row.PrecioArticulo[i].Id)" (change)="onClicked(row, $event)">
                   {{row.PrecioArticulo[i].Precio}} </mat-checkbox>
               </td>
             </ng-container>
@@ -74,7 +74,7 @@
               <th mat-header-cell *matHeaderCellDef fxFlex="11"> PORCENTAJE </th>
               <td mat-cell *matCellDef="let row; let i = index" fxFlex="11" fxLayoutAlign="start center">
                 <mat-form-field style="width: 50px;">
-                  <input matInput (keypress)="_keyPress($event)" disabled="preciosSeleccionados.find(p => p.IdArticulo == row.Id) != undefined"
+                  <input matInput (keypress)="_keyPress($event)" [disabled]="!habilitarPorcentaje(row)"
                     (blur)="porcentajeArticulo($event.target.value, row.Id)" value="{{devolverValorPorcentaje(row.Id)}}">
                 </mat-form-field>
               </td>
