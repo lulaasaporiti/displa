@@ -243,12 +243,24 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     return this.preciosSeleccionados.find(element => element.Id == idPrecio);
   }
 
-  habilitarPorcentaje(lente: any) {
-    if(this.habilitarPorcentajeFila == false) {
-      return false
+  // Esta función se usaba antes para habilitar el porcentaje, la dejo por las dudas.
+  // habilitarPorcentaje(lente: any) {
+  //   if(this.habilitarPorcentajeFila == false) {
+  //     return false
+  //   }
+  //   else{ 
+  //     return this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.Id)));
+  //   }
+  // }
+
+  habilitarPorcentajeTipo(idTipoLente: number) {
+    if (this.habilitarPorcentajeTodos == true) {
+      return false;
     }
-    else{ 
-      return this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.Id)));
+    else {
+      let arrayPreciosArticulos = this.preciosSeleccionados.filter(element => element.IdLenteNavigation != undefined && element.IdLenteNavigation.Id == idTipoLente);
+      let arrayArticulos = this.dataSource.data.filter(a => a.IdLenteNavigation == idTipoLente);
+      return arrayPreciosArticulos.length == arrayArticulos.length;
     }
   }
 

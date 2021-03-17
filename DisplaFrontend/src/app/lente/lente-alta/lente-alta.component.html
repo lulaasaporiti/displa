@@ -92,8 +92,8 @@
                                 (input)="compararLimiteGrilla(i, 'esferico')">
                             <mat-error *ngIf="inputEsferico.invalid">Este campo es obligatorio</mat-error>
                         </mat-form-field>
-                        <p class="msjError" *ngIf="msjLimiteEsferico[i]">
-                            La medida no se encuentra dentro de los límites.</p>
+                        <p class="msjError" style="margin:0; position: absolute; margin-top:45px" *ngIf="msjLimiteEsferico[i]">
+                            La medida no se encuentra dentro<br> de los límites.</p>
                     </div>
                     <div fxLayout="column">
                         <mat-form-field>
@@ -106,22 +106,23 @@
                         </mat-form-field>
                         <!-- <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(modelPrecio[i], modelLente)">La medida
                             no respeta el signo de la lente.</p> -->
-                        <p class="msjError" *ngIf="msjLimiteCilindrico[i]">
-                            La medida no se encuentra dentro de los límites.
+                        <p class="msjError" style="margin:0; position: absolute; margin-top:45px" *ngIf="msjLimiteCilindrico[i]">
+                            La medida no se encuentra dentro<br> de los límites.
                         </p>
                     </div>
                     <mat-form-field>
                         <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel"
                             pattern="[0-9]+(\.[0-9][0-9]?)?" [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}"
                             required>
-                        <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="inputPrecio.hasError('required')">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="inputPrecio.hasError('pattern')">Formato inválido</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
                         <input type="text" placeholder="Precio costo par" matInput #inputPrecioPar="ngModel"
                             pattern="[0-9]+(\.[0-9][0-9]?)?" [(ngModel)]="p.CostoPar" id="precioPar{{i}}"
                             name="precioPar{{i}}">
-                        <!-- <mat-error *ngIf="inputPrecioPar.invalid">Este campo es obligatorio</mat-error> -->
+                        <mat-error *ngIf="inputPrecioPar.invalid">Formato inválido</mat-error>
                     </mat-form-field>
 
                     <button mat-icon-button matSuffix matTooltip="Agregar precio al rango" (click)="agregarPrecio(i)">
