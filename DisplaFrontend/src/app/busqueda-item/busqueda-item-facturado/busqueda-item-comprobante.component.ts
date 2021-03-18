@@ -11,6 +11,8 @@ import { ArticuloVario } from 'src/app/model/articuloVario';
 import { Router } from '@angular/router';
 import { Lente } from 'src/app/model/lente';
 import { LenteService } from 'src/services/lente.service';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
+import { StockLente } from 'src/app/model/stockLente';
 
 
 @Component({
@@ -35,6 +37,7 @@ export class BusquedaItemComprobanteComponent implements OnInit {
   modelTipoArticulo = <TipoArticulo>{};
   modelArticulo = <ArticuloVario>{};
   modelLente = <Lente>{};
+  stockLente = <StockLente>{};
   articulos: ArticuloVario[] = [];
   articulosControl = new FormControl();
   filteredArticulos: Observable<ArticuloVario[]>;
@@ -44,9 +47,10 @@ export class BusquedaItemComprobanteComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private articuloService: ArticuloVarioService,
     private lenteService: LenteService,
+    private articuloService: ArticuloVarioService,
     private tipoArticuloService: TipoArticuloService,
+    public validacionLenteService: ValidacionLenteService,
     public dialogRef: MatDialogRef<BusquedaItemComprobanteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
@@ -91,6 +95,9 @@ export class BusquedaItemComprobanteComponent implements OnInit {
 
   setIdLente(control) {
     if (control.value != null) {
+      this.modelLente = control.value;
+      this.stockLente.IdLenteNavigation = this.modelLente;
+      this.stockLente.IdLente = this.modelLente.Id;
     }
   }
 
@@ -200,4 +207,23 @@ export class BusquedaItemComprobanteComponent implements OnInit {
     }
   }
 
+  cambiarSigno() {
+    if (this.modelLente.GraduacionesCilindricas == '-' && this.stockLente.MedidaCilindrico != undefined) {
+      this.stockLente.MedidaCilindrico = -this.stockLente.MedidaCilindrico.toString()
+    }
+    else {
+      this.stockLente.MedidaCilindrico = +this.stockLente.MedidaCilindrico.toString()
+    }
+  }
+
+  convertirMedidas(){
+    if (this.stockLente.MedidaCilindrico != undefined)
+      this.validacionLenteService.divisionMedida(this.stockLente, this.stockLente.MedidaCilindrico, 'cilindrico')
+    if (this.stockLente.MedidaEsferico != undefined)
+      this.validacionLenteService.divisionMedida(this.stockLente, this.stockLente.MedidaEsferico, 'esferico')
+    if (this.stockLente.MedidaEsferico != undefined && this.stockLente.MedidaCilindrico != undefined){
+      this.libre = this.validacionLenteService.conversionMedidas(this.stockLente.MedidaEsferico, this.stockLente.MedidaCilindrico);
+    }
+    console.log(this.libre, "libre vuelta")
+  }
 }
