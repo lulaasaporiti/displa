@@ -129,10 +129,10 @@ export class LenteAltaComponent {
       this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaEsferico, 'esferico')
     }
     else {
-      if (this.modelLente.GraduacionesCilindricas == '-')
-        this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, -this.modelPrecio[index].MedidaCilindrico, 'cilindrico')
-      else
+      // if (this.modelLente.GraduacionesCilindricas == '-')
         this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaCilindrico, 'cilindrico')
+      // else
+      //   this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaCilindrico, 'cilindrico')
     }
   }
 }

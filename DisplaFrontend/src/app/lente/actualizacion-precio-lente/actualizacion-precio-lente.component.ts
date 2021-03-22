@@ -34,6 +34,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
+  @ViewChild('porcentaje', { static: true }) porcentajeElement: ElementRef;
+
 
 
   constructor(
@@ -216,6 +218,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesLentes = [];
+      this.porcentajeElement.nativeElement.value = "";
     }
   }
 

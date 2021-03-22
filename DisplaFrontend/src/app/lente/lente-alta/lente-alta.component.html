@@ -100,13 +100,13 @@
                             <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel"
                                 autocomplete="off" [(ngModel)]="p.MedidaCilindrico" id="cilindrico{{i}}"
                                 name="cilindrico{{i}}" required (keypress)="_keyPress($event)"
-                                (blur)="this.validacionLenteService.divisionMedida(modelPrecio[i], modelPrecio[i].MedidaCilindrico, 'cilindrico')"
-                                (keypress)="_keyPress($event)" (input)="compararLimiteGrilla(i, 'cilindrico')">
+                                (blur)="this.validacionLenteService.divisionMedida(modelPrecio[i], modelPrecio[i].MedidaCilindrico, 'cilindrico'); compararLimiteGrilla(i, 'cilindrico')"
+                                (keypress)="_keyPress($event)">
                             <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
                         </mat-form-field>
                         <!-- <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(modelPrecio[i], modelLente)">La medida
                             no respeta el signo de la lente.</p> -->
-                        <p class="msjError" style="margin:0; position: absolute; margin-top:45px" *ngIf="msjLimiteCilindrico[i]">
+                        <p class="msjError" style="margin:0; position: absolute; margin-top:45px" *ngIf="msjLimiteCilindrico[i] && !inputCilindrico.invalid">
                             La medida no se encuentra dentro<br> de los límites.
                         </p>
                     </div>

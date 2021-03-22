@@ -73,11 +73,13 @@ export class GrillaComponent {
         this.limiteGrillaIzquierda = result[0];
         this.limiteGrillaDerecha = result[1];
 
+        this.arraySuperiorIzquierdo.push("Esférico Positivo")
+        this.arraySuperiorDerecho.push("Esférico Negativo")
+
         for (let index = this.limiteGrillaIzquierda.LimiteInferiorEsferico; index <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico; index = index + 0.25) {
           this.arrayLateralIzquierdo.push(index)
         }
         // console.log(this.arrayLateralIzquierdo);
-        this.arraySuperiorIzquierdo.push("Esférico Positivo")
         if (this.limiteGrillaIzquierda.Combinacion == '+ +') {
           for (let index = this.limiteGrillaIzquierda.LimiteInferiorCilindrico; index <= this.limiteGrillaIzquierda.LimiteSuperiorCilindrico; index = index + 0.25) {
             this.arraySuperiorIzquierdo.push(index.toString())
@@ -87,7 +89,6 @@ export class GrillaComponent {
             this.arraySuperiorIzquierdo.push(index.toString())
           }
         }
-
 
         for (let index = this.limiteGrillaDerecha.LimiteSuperiorEsferico; index >= this.limiteGrillaDerecha.LimiteInferiorEsferico; index = index - 0.25) {
           this.arrayLateralDerecho.push(index)
@@ -117,17 +118,16 @@ export class GrillaComponent {
             }
           })
         })
-        this.columnsIzquierda.push({ columnDef: 'Esférico Positivo', header: 'Esférico Positivo', cell: (fila: any, columna: any) => "lala" });
+        // this.columnsIzquierda.push({ columnDef: 'Esférico Positivo', header: 'Esférico Positivo', cell: (fila: any, columna: any) => "lala" });
 
         this.grillaIzquierda[0][0] = "Esférico Positivo";
         // console.table(this.grillaIzquierda)
-        console.log(this.columnsIzquierda)
         for (let j = 0; j <= this.grillaIzquierda[0].length - 1; j++) {
-          this.columnsIzquierda.push({ columnDef: this.grillaIzquierda[0][j], header: this.grillaIzquierda[0][j], cell: (fila: any, columna: any) => `${fila}` });
+          if (this.grillaIzquierda[0][j] != undefined)
+            this.columnsIzquierda.push({ columnDef: this.grillaIzquierda[0][j], header: this.grillaIzquierda[0][j], cell: (fila: any, columna: any) => `${fila}` });
         }
-        this.columnsIzquierda.splice(1,1);
-        // this.grillaIzquierda.splice(0, 1)
-        console.log(this.grillaIzquierda)
+        // this.columnsIzquierda.splice(1, 1);
+        this.grillaIzquierda.splice(0, 1);
         this.grillaIzquierda.splice(this.grillaIzquierda.length - 1, 1)
         this.dataSourceIzquierda = new MatTableDataSource([]);
         this.dataSourceIzquierda.data = this.grillaIzquierda;
@@ -147,7 +147,7 @@ export class GrillaComponent {
           })
         })
 
-        this.grillaDerecha[0][0] = "0";
+        this.grillaDerecha[0][0] = "Esférico Negativo";
         for (let j = 0; j <= this.grillaDerecha[0].length - 1; j++) {
           this.columnsDerecha.push({ columnDef: this.grillaDerecha[0][j], header: this.grillaDerecha[0][j], cell: (fila: any, columna: any) => `${fila}` });
         }

@@ -49,10 +49,14 @@ export class ValidacionLenteService {
                 }
             }
             else {
+                console.log(this.limiteGrillaDerecha.LimiteSuperiorCilindrico, "lim sup cil")
                 if ((+medida <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
-                    return (+medida % 0.25) != 0;
+                    console.log("entra if", +medida)
+                    console.log(+medida * -1 % 0.25)
+                    return (+medida * -1 % 0.25) != 0;
                 }
                 else {
+                    console.log("entra else")
                     return true;
                 }
             }
