@@ -13,6 +13,10 @@
     <div fxLayout="column">
       <mat-checkbox fxFlex='17' class="radio-group" name="precios" id="precios" [(ngModel)]="checkedPorcentajeTodos" (change)="onClickedPorcentajeTodos($event)">Aplicar porcentaje a todos los precios</mat-checkbox>
     </div>
+    <div fxLayout="row" fxLayoutAlign="end end" class="alinearDerecha">
+      <button mat-raised-button color="primary" [disabled]="porcentajesServicios.length == 0"
+        (click)="guardarPrecios()">Guardar precios</button>
+    </div>
   </div>
   <mat-divider fxFlexOffset="2"></mat-divider>
 
@@ -96,8 +100,10 @@
 
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
-  <div fxLayout="row" fxLayoutAlign="end end" style="margin-bottom: 2px;">
-    <button mat-raised-button color="primary" [disabled]="porcentajesServicios.length == 0"
-      (click)="guardarPrecios()">Guardar precios</button>
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="6px" class="menu-agregar">
+    <button mat-fab class="buttonToTop" color="primary" (click)="scrollToTop()">
+      <mat-icon svgIcon="arrow_up"></mat-icon>
+    </button>
   </div>
 </div>

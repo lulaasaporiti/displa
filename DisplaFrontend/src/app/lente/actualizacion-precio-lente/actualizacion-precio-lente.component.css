@@ -82,3 +82,16 @@ td.mat-cell:last-of-type{
   font-weight: bold;
   text-decoration: black;
 }
+
+.buttonToTop {
+  z-index: 30;
+  position: fixed !important;
+  bottom: 3px;
+  right: 3px;
+  margin-bottom: 60px !important;
+  margin-right: 30px !important;
+}
+
+.alinearDerecha {
+  margin-left: auto;
+}

@@ -100,6 +100,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
         this.dataSourceTipo.data = r[1];
         this.originalTipo = JSON.parse(JSON.stringify(r[1]));
         this.preciosSeleccionados = [];
+        this.porcentajesArticulos = [];
         (<HTMLInputElement>document.getElementById("porcentaje")).value = '';
 
         var maxCantPrecio = 0;
@@ -465,5 +466,9 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
       return this.porcentajesArticulos.find(p => p.IdPrecioNavigation.IdArticulo == idArticulo).Porcentaje;
     else
       return "";
+  }
+
+  scrollToTop() {
+    window.scrollTo(0,0)
   }
 }
