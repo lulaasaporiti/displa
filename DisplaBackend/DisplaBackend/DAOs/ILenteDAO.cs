@@ -179,6 +179,7 @@ namespace DisplaBackend.DAOs
                         //if (lente.GraduacionesCilindricas == '-'.ToString()) {
                         //    p.MedidaCilindrico = 0 - p.MedidaCilindrico;
                         //}
+                        p.MedidaCilindrico = Math.Abs(p.MedidaCilindrico);
                         _context.PrecioLente.Add(p);
                     });
 
@@ -209,6 +210,7 @@ namespace DisplaBackend.DAOs
                                 //{
                                 //    p.MedidaCilindrico = 0 - p.MedidaCilindrico;
                                 //}
+                                p.MedidaCilindrico = Math.Abs(p.MedidaCilindrico);
                                 _context.PrecioLente.Add(p);
                             }
                             else
@@ -220,6 +222,7 @@ namespace DisplaBackend.DAOs
                                     //{
                                     //    p.MedidaCilindrico = 0 - p.MedidaCilindrico;
                                     //}
+                                    p.MedidaCilindrico = Math.Abs(p.MedidaCilindrico);
                                     _context.PrecioLente.Update(p);
                                 }
                             }
@@ -324,7 +327,8 @@ namespace DisplaBackend.DAOs
             }
         }
 
-        public PrecioLente GetPrecioMinimo(int idLente) {
+        public PrecioLente GetPrecioMinimo(int idLente)
+        {
             return _context.PrecioLente.Where(p => p.IdLente == idLente).OrderBy(p => p.MedidaCilindrico).ThenBy(p => p.MedidaEsferico).FirstOrDefault();
         }
 
@@ -337,5 +341,5 @@ namespace DisplaBackend.DAOs
         }
     }
 
-   
+
 }

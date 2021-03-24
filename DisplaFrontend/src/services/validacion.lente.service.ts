@@ -49,7 +49,9 @@ export class ValidacionLenteService {
                 }
             }
             else {
+                console.log(+medida)
                 console.log(this.limiteGrillaDerecha.LimiteSuperiorCilindrico, "lim sup cil")
+                console.log(this.limiteGrillaDerecha.LimiteInferiorCilindrico, "lim inf cil")
                 if ((+medida <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
                     console.log("entra if", +medida)
                     console.log(+medida * -1 % 0.25)

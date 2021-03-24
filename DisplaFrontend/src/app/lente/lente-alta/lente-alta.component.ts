@@ -116,7 +116,7 @@ export class LenteAltaComponent {
   }
 
   _keyPress(event: any) {
-    const pattern = /[0-9-]/;
+    const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
@@ -129,10 +129,10 @@ export class LenteAltaComponent {
       this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaEsferico, 'esferico')
     }
     else {
-      // if (this.modelLente.GraduacionesCilindricas == '-')
+      if (this.modelLente.GraduacionesCilindricas == '-')
+        this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, -this.modelPrecio[index].MedidaCilindrico, 'cilindrico')
+      else
         this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaCilindrico, 'cilindrico')
-      // else
-      //   this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.modelPrecio[index].MedidaCilindrico, 'cilindrico')
     }
   }
 }
