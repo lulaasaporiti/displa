@@ -38,6 +38,7 @@ export class StockAltaComponent implements OnInit {
     item.IdLente = this.data.lente.Id;
     item.IdLenteNavigation = this.data.lente;
     this.cargarStock.push(item);
+    this.validacionLenteService.getLimitesGrilla(item.IdLenteNavigation)
     this.msjCilindrico.push(false);
     this.msjLimiteEsferico.push(false);
     this.msjLimiteCilindrico.push(false);
@@ -77,7 +78,17 @@ export class StockAltaComponent implements OnInit {
   }
 
   _keyPress(event: any) {
-    const pattern = /[0-9-]/;
+    let pattern = /[0-9-]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  // Esto es exclusivamente para el caso de que la graduación sea positiva
+  __keyPress(event: any) {
+    let pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
@@ -95,15 +106,22 @@ export class StockAltaComponent implements OnInit {
   }
 
   validarCantidad(index) {
-      this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock)
+    this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock)
   }
 
   cambiarSigno(i) {
     if (this.data.lente.GraduacionesCilindricas == '-' && this.cargarStock[i].MedidaCilindrico != undefined) {
-      this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico.toString()
+      if (this.cargarStock[i].MedidaCilindrico >= 0) {        
+        this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');
+      }
     }
     else {
-      this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico.toString()
+      console.log(this.cargarStock[i].MedidaCilindrico)
+      if (this.cargarStock[i].MedidaCilindrico != undefined) {
+        // this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');
+      }
     }
   }
 

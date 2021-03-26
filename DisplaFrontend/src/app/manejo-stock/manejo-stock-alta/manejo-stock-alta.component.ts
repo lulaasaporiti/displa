@@ -25,6 +25,7 @@ export class ManejoStockAltaComponent implements OnInit {
   lentes: Lente[] = [];
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
+  msjCantidad: boolean[] = [];
 
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
@@ -55,7 +56,9 @@ export class ManejoStockAltaComponent implements OnInit {
 
   setIdLente(event, index) {
     if (event != undefined) {
-      this.cargarStock[index].IdLente = event.Id
+      this.cargarStock[index].IdLente = event.Id;
+      this.cargarStock[index].IdLenteNavigation = event;
+      this.validacionLenteService.getLimitesGrilla(this.cargarStock[index].IdLenteNavigation)
     }
   }
 
@@ -105,6 +108,10 @@ export class ManejoStockAltaComponent implements OnInit {
     this.updateStateStock();
   }
 
+  validarCantidad(index) {
+    this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock)
+  }
+  
   stockSelected() {
     this.updateStateStock();
   }
@@ -144,10 +151,17 @@ export class ManejoStockAltaComponent implements OnInit {
 
   cambiarSigno(i) {
     if (this.cargarStock[i].IdLenteNavigation.GraduacionesCilindricas == '-' && this.cargarStock[i].MedidaCilindrico != undefined) {
-      this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico.toString()
+      if (this.cargarStock[i].MedidaCilindrico >= 0) {        
+        this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');
+      }
     }
     else {
-      this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico.toString()
+      console.log(this.cargarStock[i].MedidaCilindrico)
+      if (this.cargarStock[i].MedidaCilindrico != undefined) {
+        // this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');
+      }
     }
   }
 }

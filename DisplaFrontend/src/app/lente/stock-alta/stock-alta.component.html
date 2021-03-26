@@ -17,31 +17,43 @@
                     *ngFor="let s of cargarStock; let index = index">
                     <div fxLayout="column">
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Medida esférico" autocomplete="off"
+                            <input matInput placeholder="Medida esférico" autocomplete="off" required type="text" 
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel" (keypress)="_keyPress($event)"
-                                (blur)="this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')"
-                                (changes)="compararLimiteGrilla(index, 'esferico')" required>
+                                (blur)="compararLimiteGrilla(index, 'esferico'); this.validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaEsferico, 'esferico');">
                             <mat-error *ngIf="esferico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
                         <p class="msjError" *ngIf="msjLimiteEsferico[index]">
                             La medida no se encuentra dentro de los límites.</p>
                     </div>
-                    <div fxLayout="column">
+                    <div fxLayout="column" *ngIf="this.data.lente.GraduacionesCilindricas == '-'; else bloqueoNegativo">
                         <mat-form-field fxFlex="50">
-                            <input matInput placeholder="Medida cilíndrico" autocomplete="off"
-                                [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
-                                name="cilindrico{{index}}" #cilindrico="ngModel"
-                                (blur)="cambiarSigno(index); validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico');"
-                                (keypress)="_keyPress($event)" (changes)="compararLimiteGrilla(index, 'cilindrico')"
-                                required>
-                            <mat-error *ngIf="cilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel"
+                                autocomplete="off" [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
+                                name="cilindrico{{index}}" required (keypress)="_keyPress($event)"
+                                (blur)="cambiarSigno(index); compararLimiteGrilla(index, 'cilindrico')"
+                                (keypress)="_keyPress($event)">
+                            <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
                         </mat-form-field>
-                        <!-- <p class="msjError" *ngIf="this.validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p> -->
                         <p class="msjError" *ngIf="msjLimiteCilindrico[index]">
                             La medida no se encuentra dentro de los límites.
                         </p>
                     </div>
+                    <ng-template #bloqueoNegativo>
+                        <div fxLayout="column" >
+                            <mat-form-field fxFlex="50">
+                                <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel"
+                                    autocomplete="off" [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
+                                    name="cilindrico{{index}}" required (keypress)="_keyPress($event)"
+                                    (blur)="cambiarSigno(index); compararLimiteGrilla(index, 'cilindrico')"
+                                    (keypress)="_keyPress($event)">
+                                <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
+                            </mat-form-field>
+                            <p class="msjError" *ngIf="msjLimiteCilindrico[index]">
+                                La medida no se encuentra dentro de los límites.
+                            </p>
+                        </div>
+                    </ng-template>
                     <div fxLayout="column">
                         <mat-form-field>
                             <input matInput placeholder="Stock" type="number" [(ngModel)]="cargarStock[index].Stock" (blur)="validarCantidad(index)"

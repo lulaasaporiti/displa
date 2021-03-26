@@ -113,6 +113,7 @@ export class LenteAltaComponent {
     let combinacion = this.modelLente.Combinacion.split("  / ");
     if (combinacion[0] == '+ +') this.modelLente.GraduacionesCilindricas = '+';
     if (combinacion[0] == '+ -') this.modelLente.GraduacionesCilindricas = '-';
+    this.validacionLenteService.getLimitesGrilla(this.modelLente)
   }
 
   _keyPress(event: any) {
