@@ -96,12 +96,14 @@ export class StockAltaComponent implements OnInit {
     }
   }
 
-  compararLimiteGrilla(index, tipoGraduacion) {
-    if (tipoGraduacion == 'esferico') {
-      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
-    }
-    else {
-      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+  compararLimiteGrilla(input, index, tipoGraduacion) {
+    if (!input.includes('.')) {
+      if (tipoGraduacion == 'esferico') {
+        this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+      }
+      else {
+        this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+      }
     }
   }
 
@@ -117,7 +119,6 @@ export class StockAltaComponent implements OnInit {
       }
     }
     else {
-      console.log(this.cargarStock[i].MedidaCilindrico)
       if (this.cargarStock[i].MedidaCilindrico != undefined) {
         // this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico;
         this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');

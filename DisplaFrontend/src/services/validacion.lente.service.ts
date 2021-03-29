@@ -40,9 +40,9 @@ export class ValidacionLenteService {
             }
         }
         if (medida != undefined) {
-            console.log(+medida)
-            console.log(this.limiteGrillaDerecha.LimiteSuperiorEsferico, "lim sup esf")
-            console.log(this.limiteGrillaDerecha.LimiteInferiorEsferico, "lim inf esf")
+            // console.log(+medida)
+            // console.log(this.limiteGrillaIzquierda.LimiteSuperiorEsferico, "lim sup esf")
+            // console.log(this.limiteGrillaDerecha.LimiteInferiorEsferico, "lim inf esf")
             if (tipoGraduacion == 'esferico') {
                 if ((+medida / 100 <= this.limiteGrillaIzquierda.LimiteSuperiorEsferico) && (+medida / 100 >= this.limiteGrillaDerecha.LimiteInferiorEsferico)) {
                     return ((+medida / 100) % 0.25) != 0;
@@ -56,8 +56,8 @@ export class ValidacionLenteService {
                 console.log(this.limiteGrillaDerecha.LimiteSuperiorCilindrico, "lim sup cil")
                 console.log(this.limiteGrillaDerecha.LimiteInferiorCilindrico, "lim inf cil")
                 if ((+medida <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
-                    console.log("entra if", +medida)
-                    console.log(+medida * -1 % 0.25)
+                    // console.log("entra if", +medida)
+                    // console.log(+medida * -1 % 0.25)
                     return (+medida * -1 % 0.25) != 0;
                 }
                 else {

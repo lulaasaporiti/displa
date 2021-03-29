@@ -140,12 +140,32 @@ export class ManejoStockAltaComponent implements OnInit {
     }
   }
 
-  compararLimiteGrilla(index, tipoGraduacion) {
-    if (tipoGraduacion == 'esferico') {
-      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+  _keyPressCilindrico(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
     }
-    else {
-      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+  }
+
+  _keyPressStock(event: any) {
+    const pattern = /[0-9.]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  compararLimiteGrilla(input, index, tipoGraduacion) {
+    if (!input.includes('.')) {
+      if (tipoGraduacion == 'esferico') {
+        this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+      }
+      else {
+        this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+      }
     }
   }
 
@@ -157,7 +177,6 @@ export class ManejoStockAltaComponent implements OnInit {
       }
     }
     else {
-      console.log(this.cargarStock[i].MedidaCilindrico)
       if (this.cargarStock[i].MedidaCilindrico != undefined) {
         // this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico;
         this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');

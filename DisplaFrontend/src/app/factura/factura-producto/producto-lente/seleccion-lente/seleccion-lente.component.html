@@ -35,8 +35,8 @@
                         <input type="text" placeholder="Medida cilindríco" matInput autocomplete="off" required [disabled]="deshabilitar"
                             [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico" id="cilindrico0" #cilindrico0="ngModel"
                             (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0"                              
-                            (blur)="cambiarSigno(0); validacionLenteService.divisionMedida(modelComprobanteItemLente[0], modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico'); traerPrecio(0); compararLimiteGrilla(0, 'cilindrico');"
-                            (keypress)="_keyPress($event)" >
+                            (blur)="cambiarSigno(0)"
+                            (keypress)="_keyPressCilindrico($event)" >
                         <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <!-- <p class="msjError"
@@ -67,11 +67,11 @@
 
                 <div fxLayout="column">
                     <mat-form-field>
-                        <input type="text" placeholder="Medida cilindríco" matInput autocomplete="off"
+                        <input type="text" placeholder="Medida cilíndrico" matInput autocomplete="off"
                             [(ngModel)]="modelComprobanteItemLente[1].MedidaCilindrico" id="cilindrico1"
                             (blur)="traerPrecio(1)" (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1"
-                            #cilindrico1="ngModel" (keypress)="_keyPress($event)" required
-                            (blur)="cambiarSigno(1); validacionLenteService.divisionMedida(modelComprobanteItemLente[1], modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')"
+                            #cilindrico1="ngModel" (keypress)="_keyPressCilindrico($event)" required
+                            (blur)="cambiarSigno(1)"
                             (changes)="compararLimiteGrilla(1, 'cilindrico')">
                         <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>

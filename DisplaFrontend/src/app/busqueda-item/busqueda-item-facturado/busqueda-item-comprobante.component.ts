@@ -45,6 +45,9 @@ export class BusquedaItemComprobanteComponent implements OnInit {
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
 
+  msjLimiteEsferico = false;
+  msjLimiteCilindrico = false;
+
   constructor(
     private router: Router,
     private lenteService: LenteService,
@@ -75,6 +78,15 @@ export class BusquedaItemComprobanteComponent implements OnInit {
     }
   }
 
+  _keyPressCilindrico(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {{}
+      event.preventDefault();
+    }
+  }
+
   displayTipoArticulo(t?: TipoArticulo): string | undefined {
     return t ? t.Id + ' - ' + t.Nombre : undefined;
   }
@@ -98,6 +110,7 @@ export class BusquedaItemComprobanteComponent implements OnInit {
       this.modelLente = control.value;
       this.stockLente.IdLenteNavigation = this.modelLente;
       this.stockLente.IdLente = this.modelLente.Id;
+      this.validacionLenteService.getLimitesGrilla(this.modelLente)
     }
   }
 
@@ -209,21 +222,37 @@ export class BusquedaItemComprobanteComponent implements OnInit {
 
   cambiarSigno() {
     if (this.modelLente.GraduacionesCilindricas == '-' && this.stockLente.MedidaCilindrico != undefined) {
-      this.stockLente.MedidaCilindrico = -this.stockLente.MedidaCilindrico.toString()
+      if (this.stockLente.MedidaCilindrico >= 0) {        
+        this.stockLente.MedidaCilindrico = -this.stockLente.MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.stockLente, this.stockLente.MedidaCilindrico, 'cilindrico');
+      }
     }
     else {
-      this.stockLente.MedidaCilindrico = +this.stockLente.MedidaCilindrico.toString()
+      if (this.stockLente.MedidaCilindrico != undefined) {
+        // this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.stockLente, this.stockLente.MedidaCilindrico, 'cilindrico');
+      }
+    }
+  }
+
+  compararLimiteGrilla(input, tipoGraduacion) {
+    if (!input.includes('.')) {
+      if (tipoGraduacion == 'esferico') {
+        this.msjLimiteEsferico = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.stockLente.MedidaEsferico, 'esferico')
+      }
+      else {
+        this.msjLimiteCilindrico = this.validacionLenteService.compararLimiteGrilla(this.modelLente, this.stockLente.MedidaCilindrico, 'cilindrico')
+      }
     }
   }
 
   convertirMedidas(){
-    if (this.stockLente.MedidaCilindrico != undefined)
-      this.validacionLenteService.divisionMedida(this.stockLente, this.stockLente.MedidaCilindrico, 'cilindrico')
-    if (this.stockLente.MedidaEsferico != undefined)
-      this.validacionLenteService.divisionMedida(this.stockLente, this.stockLente.MedidaEsferico, 'esferico')
+    // if (this.stockLente.MedidaCilindrico != undefined)
+      // this.validacionLenteService.divisionMedida(this.stockLente, this.stockLente.MedidaCilindrico, 'cilindrico')
+    // if (this.stockLente.MedidaEsferico != undefined)
+      // this.validacionLenteService.divisionMedida(this.stockLente, this.stockLente.MedidaEsferico, 'esferico')
     if (this.stockLente.MedidaEsferico != undefined && this.stockLente.MedidaCilindrico != undefined){
       this.libre = this.validacionLenteService.conversionMedidas(this.stockLente.MedidaEsferico, this.stockLente.MedidaCilindrico);
     }
-    console.log(this.libre, "libre vuelta")
   }
 }

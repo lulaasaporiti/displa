@@ -17,4 +17,11 @@
 
 .agregar-graduacion{
     padding-bottom: 16px;
-  }
+}
+
+.mat-button-toggle-group {
+    margin-top: 10px;
+    height: 32px;
+    align-items: center;
+    font-size: small;
+}

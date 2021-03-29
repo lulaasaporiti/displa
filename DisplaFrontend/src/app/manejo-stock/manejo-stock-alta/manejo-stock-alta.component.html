@@ -38,7 +38,7 @@
                             <input matInput placeholder="Medida esférico" autocomplete="off" required type="text"
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel" (keypress)="_keyPress($event)"
-                                (blur)="compararLimiteGrilla(index, 'esferico'); this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')">
+                                (blur)="compararLimiteGrilla($event.target.value, index, 'esferico'); this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')">
                             <mat-error *ngIf="esferico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
                         <p class="msjError" *ngIf="msjLimiteEsferico[index]">
@@ -49,8 +49,8 @@
                             <input matInput placeholder="Medida cilíndrico" autocomplete="off" type="text"
                                 [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
                                 name="cilindrico{{index}}" #cilindrico="ngModel" required
-                                (blur)="cambiarSigno(index); compararLimiteGrilla(index, 'cilindrico')"
-                                (keypress)="_keyPress($event)">
+                                (blur)="cambiarSigno(index); compararLimiteGrilla($event.target.value, index, 'cilindrico')"
+                                (keypress)="_keyPressCilindrico($event)">
                             <mat-error *ngIf="cilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
                         <!-- <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p> -->
@@ -61,8 +61,8 @@
                     <div fxLayout="column">
 
                         <mat-form-field>
-                            <input matInput placeholder="Stock" type="number" [(ngModel)]="cargarStock[index].Stock"
-                                (blur)="validarCantidad(index)" id="stock{{index}}" name="stock{{index}}"
+                            <input matInput placeholder="Stock" type="text" [(ngModel)]="cargarStock[index].Stock"
+                                (blur)="validarCantidad(index)" id="stock{{index}}" name="stock{{index}}" (keypress)="_keyPressStock($event)"
                                 #stock="ngModel" required>
                             <mat-error *ngIf="stock.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>

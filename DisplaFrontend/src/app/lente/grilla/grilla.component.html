@@ -24,7 +24,7 @@
         <div *ngIf="i == 0" style="font-size: 11px !important;" fxLayoutAlign="space-around center">
           +{{ row[i] | number:'1.2-2'}}
           <mat-form-field style="width: 50px;">
-            <input matInput value="{{getTotalFila(row)}}" name="fila" (keypress)="_keyPress($event)">
+            <input matInput value="{{getTotalFila(row)}}" name="fila" (keypress)="_keyPress($event)" >
           </mat-form-field>
         </div>
         <mat-form-field style="width: 50px;" *ngIf="i != 0">

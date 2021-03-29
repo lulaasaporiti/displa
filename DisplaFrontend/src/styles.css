@@ -326,3 +326,11 @@ max-width: 1000px;
   }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-button-toggle-group {
+  margin-top: 10px;
+  height: 32px;
+  align-items: center;
+  font-size: small;
+}
