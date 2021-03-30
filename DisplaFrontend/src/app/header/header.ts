@@ -29,6 +29,8 @@ import { DejoComprarComponent } from '../estadistica/dejo-comprar/dejo-comprar.c
 import { CristalesVendidosComponent } from '../estadistica/cristales-vendidos/cristales-vendidos.component';
 import { OperacionBancariaService } from 'src/services/operacion.bancaria.service';
 import { TrasladoFondoService } from 'src/services/traslado.fondo..service';
+import { MovimientoCajaAltaComponent } from '../caja/movimiento-caja-alta/movimiento-caja-alta.component';
+import { MovimientoCajaDiariaAltaComponent } from '../caja/movimiento-caja-diaria-alta/movimiento-caja-diaria-alta.component';
 
 @Component({
   selector: 'app-header',
@@ -221,6 +223,54 @@ export class HeaderComponent {
             this.sessionService.showError("La operación no se agregó.");
           }
         );
+      }
+    })
+  }
+
+  openDialogAltaMovimientoCaja(): void {
+    const dialogRef = this.dialog.open(MovimientoCajaAltaComponent, {
+      data: { },
+      width: '650px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        console.log(result)
+        // this.loadingSpinnerService.show();
+        // this.operacionBancariaService.saveOrUpdateOperacionBancaria(result).subscribe(
+        //   data => {
+        //     if (data != null)
+        //       this.sessionService.showSuccess("La operación se agregó correctamente.");
+        //     else 
+        //       this.sessionService.showError("La operación no se agregó.");
+        //   },
+        //   error => {
+        //     this.sessionService.showError("La operación no se agregó.");
+        //   }
+        // );
+      }
+    })
+  }
+
+  openDialogAltaMovimientoCajaDiaria(): void {
+    const dialogRef = this.dialog.open(MovimientoCajaDiariaAltaComponent, {
+      data: { },
+      width: '650px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        console.log(result)
+        // this.loadingSpinnerService.show();
+        // this.operacionBancariaService.saveOrUpdateOperacionBancaria(result).subscribe(
+        //   data => {
+        //     if (data != null)
+        //       this.sessionService.showSuccess("La operación se agregó correctamente.");
+        //     else 
+        //       this.sessionService.showError("La operación no se agregó.");
+        //   },
+        //   error => {
+        //     this.sessionService.showError("La operación no se agregó.");
+        //   }
+        // );
       }
     })
   }

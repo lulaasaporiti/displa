@@ -61,6 +61,7 @@ import { RemitoModule } from './remito/remito.module';
 import { ChequeModule } from './cheque/cheque.module';
 import { CuentaBancariaModule } from './cuenta-bancaria/cuenta-bancaria.module';
 import { HeaderComponent } from './header/header';
+import { CajaModule } from './caja/caja.module';
 
 
 
@@ -97,6 +98,7 @@ import { HeaderComponent } from './header/header';
     BancoModule,
     BlockModule,
     BusquedaItemModule,
+    CajaModule,
     CategoriaIVAModule,
     ChequeModule,
     ClienteModule,
