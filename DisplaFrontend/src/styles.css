@@ -319,5 +319,18 @@ max-width: 1000px;
     background-color: #000000;
     opacity: 0.4;
   }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-button-toggle-group {
+  margin-top: 10px;
+  height: 32px;
+  align-items: center;
+  font-size: small;
+}

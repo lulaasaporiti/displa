@@ -7,22 +7,23 @@
         <mat-divider fxFlexOffset="2"></mat-divider>
         <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="start center">
             <p>Stock</p>
-            <button mat-icon-button color="accent" matTooltip="Agregar stock" (click)="agregarStock()">
+            <button mat-icon-button color="accent" matTooltip="Agregar stock" (click)="agregarStock()" type="button">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
         <mat-divider fxFlexOffset="2"></mat-divider>
 
-        <div fxLayout="row" fxFlexOffset="2"  fxFill>
+        <div fxLayout="row" fxFlexOffset="2" fxFill>
             <div fxFill>
                 <div fxLayout="row" fxLayoutGap="1vw" fxFill (change)="updateStateStock()"
                     *ngFor="let s of cargarStock; let index = index">
                     <div fxLayout="column" style="width: 1000px;">
                         <mat-form-field>
-                            <input type="text" placeholder="Lente"  aria-label="Lente" matInput #inputLente="ngModel" required autofocus="autofocus"
-                                (keyup)="filterLenteOnUp(inputLente.value)" [(ngModel)]="cargarStock[index].IdLenteNavigation" id="lente{{index}}" 
-                                [matAutocomplete]="auto" name="lente{{index}}" (blur)="setIdLente(cargarStock[index].IdLenteNavigation, index)">
-                            <!-- (keyup.enter)="setIdLente(this.lentesControl, this.data);" -->
+                            <input type="text" placeholder="Lente" aria-label="Lente" matInput #inputLente="ngModel"
+                                required autofocus="autofocus" (keyup)="filterLenteOnUp(inputLente.value)"
+                                [(ngModel)]="cargarStock[index].IdLenteNavigation" id="lente{{index}}"
+                                [matAutocomplete]="auto" name="lente{{index}}"
+                                (blur)="setIdLente(cargarStock[index].IdLenteNavigation, index)">
                             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLente">
                                 <mat-option *ngFor="let l of filteredLentes | async" [value]="l">
                                     {{ l.Id }} - {{l.Nombre}}
@@ -34,39 +35,42 @@
 
                     <div fxLayout="column">
                         <mat-form-field>
-                            <input matInput placeholder="Medida esférico" autocomplete="off"
+                            <input matInput placeholder="Medida esférico" autocomplete="off" required type="text"
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel" (keypress)="_keyPress($event)"
-                                (blur)="this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')"
-                                (input)="compararLimiteGrilla(index, 'esferico')" 
-                                required>
+                                (blur)="compararLimiteGrilla($event.target.value, index, 'esferico'); this.validacionLenteService.divisionMedida(cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')">
                             <mat-error *ngIf="esferico.hasError('required')">Este campo es obligatorio.</mat-error>
-                        </mat-form-field>       
+                        </mat-form-field>
                         <p class="msjError" *ngIf="msjLimiteEsferico[index]">
                             La medida no se encuentra dentro de los límites.</p>
                     </div>
                     <div fxLayout="column">
                         <mat-form-field>
-                            <input matInput placeholder="Medida cilindríco" autocomplete="off"
+                            <input matInput placeholder="Medida cilíndrico" autocomplete="off" type="text"
                                 [(ngModel)]="cargarStock[index].MedidaCilindrico" id="cilindrico{{index}}"
-                                name="cilindrico{{index}}" #cilindrico="ngModel"
-                                (blur)="validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaCilindrico, 'cilindrico')" (keypress)="_keyPress($event)"
-                                (input)="compararLimiteGrilla(index, 'cilindrico')" required>
+                                name="cilindrico{{index}}" #cilindrico="ngModel" required
+                                (blur)="cambiarSigno(index); compararLimiteGrilla($event.target.value, index, 'cilindrico')"
+                                (keypress)="_keyPressCilindrico($event)">
                             <mat-error *ngIf="cilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
-                        <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p>
+                        <!-- <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(cargarStock[index], cargarStock[index].IdLenteNavigation)">La medida no respeta el signo de la lente.</p> -->
                         <p class="msjError" *ngIf="msjLimiteCilindrico[index]">
                             La medida no se encuentra dentro de los límites.
                         </p>
                     </div>
-                    <mat-form-field>
-                        <input matInput placeholder="Stock" type="number" [(ngModel)]="cargarStock[index].Stock"
-                            id="stock{{index}}" name="stock{{index}}" #stock="ngModel" required>
-                        <mat-error *ngIf="stock.hasError('required')">Este campo es obligatorio.</mat-error>
-                    </mat-form-field>
+                    <div fxLayout="column">
+
+                        <mat-form-field>
+                            <input matInput placeholder="Stock" type="text" [(ngModel)]="cargarStock[index].Stock"
+                                (blur)="validarCantidad(index)" id="stock{{index}}" name="stock{{index}}" (keypress)="_keyPressStock($event)"
+                                #stock="ngModel" required>
+                            <mat-error *ngIf="stock.hasError('required')">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
+                        <p class="msjError" *ngIf="msjCantidad[index]">La cantidad no es múltiplo de 0.5.</p>
+                    </div>
 
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimoStock()"
-                        [disabled]="cargarStock.length < 1" color="accent">
+                        type="button" [disabled]="cargarStock.length < 1" color="accent">
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
@@ -74,7 +78,8 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid || cargarStock.length == 0 || msjLimiteCilindrico.includes(true) || msjLimiteEsferico.includes(true)"
+            <button mat-raised-button color="primary"
+                [disabled]="!modalForm.form.valid || cargarStock.length == 0 || msjLimiteCilindrico.includes(true) || msjLimiteEsferico.includes(true)"
                 (click)="agregarNuevoStock()">Agregar</button>
         </div>
     </div>

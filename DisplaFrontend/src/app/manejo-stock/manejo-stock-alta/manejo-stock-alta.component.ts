@@ -25,6 +25,7 @@ export class ManejoStockAltaComponent implements OnInit {
   lentes: Lente[] = [];
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
+  msjCantidad: boolean[] = [];
 
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
@@ -55,7 +56,9 @@ export class ManejoStockAltaComponent implements OnInit {
 
   setIdLente(event, index) {
     if (event != undefined) {
-      this.cargarStock[index].IdLente = event.Id
+      this.cargarStock[index].IdLente = event.Id;
+      this.cargarStock[index].IdLenteNavigation = event;
+      this.validacionLenteService.getLimitesGrilla(this.cargarStock[index].IdLenteNavigation)
     }
   }
 
@@ -105,6 +108,10 @@ export class ManejoStockAltaComponent implements OnInit {
     this.updateStateStock();
   }
 
+  validarCantidad(index) {
+    this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock)
+  }
+  
   stockSelected() {
     this.updateStateStock();
   }
@@ -133,12 +140,47 @@ export class ManejoStockAltaComponent implements OnInit {
     }
   }
 
-  compararLimiteGrilla(index, tipoGraduacion) {
-    if (tipoGraduacion == 'esferico') {
-      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index], this.cargarStock[index].MedidaEsferico, 'esferico')
+  _keyPressCilindrico(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  _keyPressStock(event: any) {
+    const pattern = /[0-9.]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  compararLimiteGrilla(input, index, tipoGraduacion) {
+    if (!input.includes('.')) {
+      if (tipoGraduacion == 'esferico') {
+        this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+      }
+      else {
+        this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+      }
+    }
+  }
+
+  cambiarSigno(i) {
+    if (this.cargarStock[i].IdLenteNavigation.GraduacionesCilindricas == '-' && this.cargarStock[i].MedidaCilindrico != undefined) {
+      if (this.cargarStock[i].MedidaCilindrico >= 0) {        
+        this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');
+      }
     }
     else {
-      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index], this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+      if (this.cargarStock[i].MedidaCilindrico != undefined) {
+        // this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');
+      }
     }
   }
 }

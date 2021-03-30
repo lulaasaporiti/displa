@@ -23,7 +23,7 @@ export class SeleccionLenteComponent implements OnInit {
   @Output() selectedComprobanteItemLente = new EventEmitter<any[]>(); 
   @Output() selectedServiciosComprobanteItem = new EventEmitter<any[]>();
   @Output() selectedIndiceCalibrados = new EventEmitter<number>();
-
+  // @Output() disableButton: boolean
   
   lentes: Lente[];
   lentesControl = new FormControl();
@@ -42,6 +42,7 @@ export class SeleccionLenteComponent implements OnInit {
   // filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
   deshabilitar: boolean = true;
   serviciosLente: ComprobanteItemServicio[] = []
+  disableButton: boolean
 
  _onDestroy = new Subject<void>();
   @ViewChild('multiSelect', { static: true }) multiSelect: MatSelect;
@@ -59,6 +60,7 @@ export class SeleccionLenteComponent implements OnInit {
 
 
   ngOnInit() {
+    this.disableButton = false
     this.getCalibrados();
     this.lenteService.getLentesVigentesList().subscribe(r => {
       this.lentes = r;
@@ -85,7 +87,16 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   _keyPress(event: any) {
-    const pattern = /[0-9-,.]/;
+    const pattern = /[0-9-]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {{}
+      event.preventDefault();
+    }
+  }
+
+  _keyPressCilindrico(event: any) {
+    const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {{}
@@ -127,7 +138,8 @@ export class SeleccionLenteComponent implements OnInit {
   setIdLente(control) {
     if (control.value != null) {
       this.modelComprobanteItemLente[0].IdLente = control.value.Id;
-      this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;      
+      this.modelComprobanteItemLente[0].IdLenteNavigation = control.value;
+      this.validacionLenteService.getLimitesGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation)
     }
   }
 
@@ -175,17 +187,15 @@ export class SeleccionLenteComponent implements OnInit {
       })
   }
 
-  serviciosSeleccionados(event: FormControl
-    // event: MatOptionSelectionChange
-  ) {
+  serviciosSeleccionados(event: FormControl) {
     if (event.value != null && event.value != "") {
-      // if (event.source.selected == true) {
       let comprobanteItem = <ComprobanteItemServicio>{}
       comprobanteItem.IdServicio = event.value.Id;
       comprobanteItem.IdServicioNavigation = event.value;
-      if (this.serviciosLente.find(c => c.IdServicio == comprobanteItem.IdServicio) == undefined)
+      if (this.serviciosLente.find(c => c.IdServicio == comprobanteItem.IdServicio) == undefined) {
         this.serviciosLente.push(comprobanteItem);
-      this.comprobanteItemServicioSelected();      
+        this.comprobanteItemServicioSelected();
+      }
     }
     else {
       let i = this.serviciosLente.findIndex(s => s.IdServicioNavigation.DescripcionFactura.startsWith('CAL '));
@@ -204,6 +214,7 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   eliminarUltimaGraduacion(i) {
+    this.modelComprobanteItemLente[0].Cantidad = this.modelComprobanteItemLente[0].Cantidad + this.modelComprobanteItemLente[1].Cantidad;
     this.modelComprobanteItemLente.splice(+i, 1);
   }
 
@@ -274,6 +285,23 @@ export class SeleccionLenteComponent implements OnInit {
     }
     else {
       this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaCilindrico, 'cilindrico')
+      console.log("msjvarianle", this.msjLimiteCilindrico[index])
+    }
+    // this.comprobanteItemLenteSelected()
+  }
+
+  cambiarSigno(i) {
+    if (this.modelComprobanteItemLente[0].IdLenteNavigation.GraduacionesCilindricas == '-' && this.modelComprobanteItemLente[i].MedidaCilindrico != undefined) {
+      if (this.modelComprobanteItemLente[i].MedidaCilindrico >= 0) {        
+        this.modelComprobanteItemLente[i].MedidaCilindrico = -this.modelComprobanteItemLente[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.modelComprobanteItemLente[i], this.modelComprobanteItemLente[i].MedidaCilindrico, 'cilindrico');
+      }
+    }
+    else {
+      if (this.modelComprobanteItemLente[i].MedidaCilindrico != undefined) {
+        // this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.modelComprobanteItemLente[i], this.modelComprobanteItemLente[i].MedidaCilindrico, 'cilindrico');
+      }
     }
   }
 }

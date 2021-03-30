@@ -15,10 +15,11 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="CUIT" [(ngModel)]="data.modelProveedor.Cuit" name="cuit"
+                <input matInput placeholder="CUIT" [(ngModel)]="data.modelProveedor.Cuit" name="cuit" (input)="validarCuit()"
                     #cuit="ngModel" required>
                 <mat-error *ngIf="cuit.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
+            <p class="msgError" *ngIf="!cuitValido" style="margin: 0;position:absolute;margin-top:45px"> El CUIT ingresado no es válido.</p>
         </div>
 
         <div mat-dialog-content fxLayout="row">

@@ -15,6 +15,8 @@ export class StockAltaComponent implements OnInit {
   msjCilindrico: boolean[] = [];
   msjLimiteEsferico: boolean[] = [];
   msjLimiteCilindrico: boolean[] = [];
+  msjCantidad: boolean[] = [];
+
 
   constructor(
     public dialogRef: MatDialogRef<StockAltaComponent>,
@@ -25,7 +27,6 @@ export class StockAltaComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   onNoClick(): void {
@@ -34,9 +35,10 @@ export class StockAltaComponent implements OnInit {
 
   agregarStock() {
     let item = <StockLente>{};
-    item.IdLente = this.data.modelStock[0].IdLente;
+    item.IdLente = this.data.lente.Id;
     item.IdLenteNavigation = this.data.lente;
     this.cargarStock.push(item);
+    this.validacionLenteService.getLimitesGrilla(item.IdLenteNavigation)
     this.msjCilindrico.push(false);
     this.msjLimiteEsferico.push(false);
     this.msjLimiteCilindrico.push(false);
@@ -77,7 +79,7 @@ export class StockAltaComponent implements OnInit {
   }
 
   _keyPress(event: any) {
-    const pattern = /[0-9-]/;
+    let pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (!pattern.test(inputChar)) {
@@ -85,12 +87,45 @@ export class StockAltaComponent implements OnInit {
     }
   }
 
-  compararLimiteGrilla(index, tipoGraduacion) {
-    if (tipoGraduacion == 'esferico') {
-      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
-    }
-    else {
-      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+  // Esto es exclusivamente para el caso de que la graduación sea positiva
+  __keyPress(event: any) {
+    let pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
     }
   }
+
+  compararLimiteGrilla(input, index, tipoGraduacion) {
+    if (!input.includes('.')) {
+      if (tipoGraduacion == 'esferico') {
+        this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaEsferico, 'esferico')
+      }
+      else {
+        this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.cargarStock[index].IdLenteNavigation, this.cargarStock[index].MedidaCilindrico, 'cilindrico')
+      }
+    }
+  }
+
+  validarCantidad(index) {
+    this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock)
+  }
+
+  cambiarSigno(i) {
+    if (this.data.lente.GraduacionesCilindricas == '-' && this.cargarStock[i].MedidaCilindrico != undefined) {
+      if (this.cargarStock[i].MedidaCilindrico >= 0) {        
+        this.cargarStock[i].MedidaCilindrico = -this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');
+      }
+    }
+    else {
+      if (this.cargarStock[i].MedidaCilindrico != undefined) {
+        // this.cargarStock[i].MedidaCilindrico = +this.cargarStock[i].MedidaCilindrico;
+        this.validacionLenteService.divisionMedida(this.cargarStock[i], this.cargarStock[i].MedidaCilindrico, 'cilindrico');
+      }
+    }
+  }
+
+  
 }

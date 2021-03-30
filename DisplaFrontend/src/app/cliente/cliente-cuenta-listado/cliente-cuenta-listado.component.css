@@ -54,5 +54,9 @@ td.mat-cell:last-of-type{
   padding-right: 0px;
 }
 
-
-
+.mat-button-toggle-group {
+  margin-top: 10px;
+  height: 32px;
+  align-items: center;
+  font-size: small;
+}

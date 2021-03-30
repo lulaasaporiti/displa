@@ -34,13 +34,13 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('search', { static: true }) searchElement: ElementRef;
+  @ViewChild('porcentaje', { static: true }) porcentajeElement: ElementRef;
+
 
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
     private lenteService: LenteService,
-    private segment: ActivatedRoute,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) {
   }
@@ -71,6 +71,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
         var maxCantPrecio = 0;
         var index = [];
         this.preciosSeleccionados = [];
+        this.porcentajesLentes = [];
         (<HTMLInputElement>document.getElementById("porcentaje")).value = '';
 
         this.dataSource.data.forEach(a => {
@@ -108,8 +109,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     let checkbox = +event.source.name.split("checkbox")[1];
     if (event.checked) {
       this.dataSource.data.forEach(lente => {
-      this.habilitarPorcentajeTodos = true;
-      this.habilitarPorcentajeFila = false;
+        // this.habilitarPorcentajeTodos = true;
+        this.habilitarPorcentajeFila = true;
         if (lente.PrecioLente != null) {
           lente.PrecioLente.forEach(precio => {
             let precioLente = <PrecioLente>{};
@@ -157,17 +158,13 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     if (mostrarMensaje && event.checked) {
       this.sessionService.showInfo("Existen lentes que no tienen este número de precio, se seleccionará el primero");
     }
-    // console.log(this.porcentajesLentes)
-    // console.log(this.preciosSeleccionados)
   }
 
   onClicked(lente, checkbox) {
     let index = +checkbox.source.name.split("checkbox")[1];  //indice checkbox de la fila
-    // console.log(index)
-    // console.log(lente);
     if (checkbox.checked) {
       lente.PrecioLente.forEach(pl => {
-       this.habilitarPorcentajeFila = true;
+        this.habilitarPorcentajeFila = true;
         let precioLente = <PrecioLente>{};
         precioLente.Id = pl.Precio[index].Id;
         precioLente.IdLente = lente.Id;
@@ -183,8 +180,10 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       if (this.preciosSeleccionados.length > 0) {
         lente.PrecioLente.forEach(pl => {
           this.preciosSeleccionados.splice(this.preciosSeleccionados.findIndex(p => p.IdLente == lente.Id && p.Id == pl.Precio[index].Id), 1);
-          if (this.porcentajesLentes.length > 0)
+          if (this.porcentajesLentes.length > 0) {
             this.porcentajesLentes.splice(this.porcentajesLentes.findIndex(p => p.IdPrecio == pl.Precio[index].Id), 1);
+          }
+
         })
       }
     }
@@ -193,8 +192,8 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   onClickedPorcentajeTodos(event) {
     var tienePorcentaje = (<HTMLInputElement>document.getElementById("porcentaje")).value;
     if (event.checked == true) {
-    this.habilitarPorcentajeTodos = true;
-    this.habilitarPorcentajeFila = false;
+      this.habilitarPorcentajeTodos = true;
+      this.habilitarPorcentajeFila = false;
       this.dataSource.data.forEach(l => {
         l.PrecioLente.forEach(pl => {
           pl.Precio.forEach(p => {
@@ -215,10 +214,11 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       })
     }
     else {
-      this.habilitarPorcentajeFila = true;
+      this.habilitarPorcentajeFila = false;
       this.habilitarPorcentajeTodos = false;
       this.preciosSeleccionados = [];
       this.porcentajesLentes = [];
+      this.porcentajeElement.nativeElement.value = "";
     }
   }
 
@@ -246,10 +246,10 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
   }
 
   habilitarPorcentaje(lente: any) {
-    if(this.habilitarPorcentajeFila == false) {
+    if (this.habilitarPorcentajeFila == false) {
       return false
     }
-    else{ 
+    else {
       return this.preciosSeleccionados.some(pls => lente.PrecioLente.some(plente => plente.Precio.some(p => p.Id == pls.Id)));
     }
   }
@@ -258,7 +258,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
     let preciosLentes = this.preciosSeleccionados.filter(p => p.IdLente == idLente);
     preciosLentes.forEach(p => {
       if (!this.porcentajesLentes.some(pa => pa.IdPrecio == p.Id))
-        this.porcentajesLentes.push({ IdPrecio: p.Id, Porcentaje: +porcentaje });
+        this.porcentajesLentes.push({ IdPrecio: p.Id, IdPrecioNavigation: p, Porcentaje: +porcentaje });
     });
   }
 
@@ -288,7 +288,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       if (l.PrecioLente != null) {
         l.PrecioLente.forEach(pl => {
           if (pl.Precio[i] != undefined) {
-          cantidadPreciosTotales = cantidadPreciosTotales + 1;
+            cantidadPreciosTotales = cantidadPreciosTotales + 1;
             if (this.preciosSeleccionados.some(p => p.Id == pl.Precio[i].Id && p.IdLente == pl.IdLente && p.MedidaEsferico == pl.MedidaEsferico
               && p.MedidaCilindrico == pl.MedidaCilindrico)) {
               cantidadSeleccionados = cantidadSeleccionados + 1;
@@ -316,7 +316,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
 
   modificacionPrecioLente(event): void {
     const dialogRef = this.dialog.open(ModificacionPrecioLenteComponent, {
-      data: {idLente: event, },
+      data: { idLente: event, },
       width: '800px',
       height: '600px'
     })
@@ -329,12 +329,25 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
             this.sessionService.showSuccess("Los precios se han modificado correctamente");
           },
           error => {
-            // console.log(error)
             this.sessionService.showError("Los precios no se modificaron.");
           }
         );
       }
     }
     );
-   }
+  }
+
+  devolverValorPorcentaje(idLente) {
+    if (idLente != undefined) {
+      let porcentaje = this.porcentajesLentes.find(p => p.IdPrecioNavigation != undefined && p.IdPrecioNavigation.IdLente == idLente);
+      if (porcentaje != undefined)
+        return this.porcentajesLentes.find(p => p.IdPrecioNavigation.IdLente == idLente).Porcentaje;
+      else
+        return "";
+    }
+  }
+
+  scrollToTop() {
+    window.scrollTo(0,0)
+  }
 }

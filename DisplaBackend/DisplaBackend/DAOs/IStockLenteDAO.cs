@@ -36,7 +36,8 @@ namespace DisplaBackend.DAOs
             {
                 foreach (var stock in stocksLente)
                 {
-                    if(stock.Id == 0)
+                    stock.IdLenteNavigation = null;
+                    if (stock.Id == 0)
                     {
                         stock.IdLenteNavigation = null;
                         _context.Add(stock);

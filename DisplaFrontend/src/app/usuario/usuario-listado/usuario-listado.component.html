@@ -35,12 +35,14 @@
         <ng-container matColumnDef="Username">
             <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="22">USUARIO</th>
             <td mat-cell *matCellDef="let row" fxFlex="22" fxLayoutAlign="start center">
-                <a style="cursor: pointer;" *ngIf="idUser == 1 || idUser == 2" class="link" (click)="openDialogEditUserPass();">
+               <div *ngIf="idUser == 1 || idUser == 5; else regUser">
+                <a style="cursor: pointer;"  class="link" (click)="openDialogEditUserPass(row.Id, row.UserName);">
                     {{row.UserName}}
                 </a>
-                <!-- <div *ngIf="row.Id != idUser">
+            </div> 
+                <ng-template #regUser>
                     {{row.UserName}}
-                </div> -->
+                </ng-template>
             </td>
         </ng-container>
 

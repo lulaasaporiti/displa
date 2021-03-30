@@ -16,6 +16,7 @@ export class ProveedorAltaComponent implements OnInit {
   localidadesControl = new FormControl();
   
   filteredLocalidades: Observable<Localidad[]>;
+  cuitValido = true;
 
   constructor(
     public dialogRef: MatDialogRef<ProveedorAltaComponent>,
@@ -40,6 +41,32 @@ export class ProveedorAltaComponent implements OnInit {
 
   displayLocalidad(l?: Localidad): string | undefined {
     return l ? l.Nombre + ' - ' + l.Cp : undefined;
+  }
+
+  //Cuando se ingresa un cuit se valida si es válido. En caso de que lo sea, comprueba
+  //si ya existe registrado en la base de datos.
+  validarCuit() {
+    this.cuitValido = true;
+    if (this.data.modelProveedor.Cuit != '' && this.data.modelProveedor.Cuit != undefined)
+      if (this.data.modelProveedor.Cuit.length == 11) {
+        let longitud = this.data.modelProveedor.Cuit.length;
+        let acumulado = 0;
+        let digitoVerificacion = parseInt(this.data.modelProveedor.Cuit.charAt(this.data.modelProveedor.Cuit.length - 1), 10);
+        for (let x = 0; x < longitud - 1; x++) {
+          let nro = parseInt(this.data.modelProveedor.Cuit.charAt(9 - x), 10);
+          acumulado += (nro * (2 + (x % 6)));
+        }
+
+        let verificacion = 11 - (acumulado % 11);
+        if (verificacion == 11) {
+          verificacion = 0
+        }
+
+        this.cuitValido = (verificacion == digitoVerificacion);
+      }
+      else {
+        this.cuitValido = false;
+      }
   }
 
   private _filter(Nombre: string): Localidad[] {

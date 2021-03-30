@@ -343,11 +343,11 @@ namespace DisplaBackend.Controllers
                 //await _emailSender.SendEmailAsync(model, "Cambiar contraseña",
                 //   $"Por favor cambie su contraseña ingresando en: <a href='{callbackUrl}'>link</a>");
 
-                dynamic result = new JObject();
-                result.email = user.Email;
-                result.code = code;
+                //dynamic result = new JObject();
+                //result.email = user.Email;
+                //result.code = code;
 
-                return Json(result);
+                return Json(code);
             }
 
             // If we got this far, something failed, redisplay form

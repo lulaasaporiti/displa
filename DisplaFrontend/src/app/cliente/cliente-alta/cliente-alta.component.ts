@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { LocalidadService } from 'src/services/localidad.service';
 import { Localidad } from 'src/app/model/localidad';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
@@ -26,6 +26,7 @@ export class ClienteAltaComponent implements OnInit {
   filteredLocalidades: Observable<Localidad[]>;
   condicionesVenta: CondicionVenta[];
   categoriasIva: CategoriaIVA[];
+  cuitValido = true;
 
   constructor(
     private router: Router,
@@ -97,6 +98,31 @@ export class ClienteAltaComponent implements OnInit {
     this.router.navigateByUrl('Cliente/Listado')
   }
 
+  //Cuando se ingresa un cuit se valida si es válido. En caso de que lo sea, comprueba
+  //si ya existe registrado en la base de datos.
+  validarCuit() {
+    this.cuitValido = true;
+    if (this.modelCliente.Cuit != '' && this.modelCliente.Cuit != undefined)
+      if (this.modelCliente.Cuit.length == 11) {
+        let longitud = this.modelCliente.Cuit.length;
+        let acumulado = 0;
+        let digitoVerificacion = parseInt(this.modelCliente.Cuit.charAt(this.modelCliente.Cuit.length - 1), 10);
+        for (let x = 0; x < longitud - 1; x++) {
+          let nro = parseInt(this.modelCliente.Cuit.charAt(9 - x), 10);
+          acumulado += (nro * (2 + (x % 6)));
+        }
+
+        let verificacion = 11 - (acumulado % 11);
+        if (verificacion == 11) {
+          verificacion = 0
+        }
+
+        this.cuitValido = (verificacion == digitoVerificacion);
+      }
+      else {
+        this.cuitValido = false;
+      }
+  }
 
   altaCliente(){
     this.clienteService.saveOrUpdateCliente(this.modelCliente).subscribe(
