@@ -38,6 +38,7 @@ export class TrasladoFondoComponent {
   ngOnInit() {
     this.cuentaBancariaService.getCuentaBancariasVigentesList()
       .subscribe(r => {
+        this.modelTraslado.Fecha = new Date();
         this.cuentas = r;
         this.filteredCuentas = this.cuentasControl.valueChanges
           .pipe(

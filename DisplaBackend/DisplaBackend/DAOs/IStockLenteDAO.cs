@@ -38,10 +38,12 @@ namespace DisplaBackend.DAOs
                 {
                     if(stock.Id == 0)
                     {
+                        stock.IdLenteNavigation = null;
                         _context.Add(stock);
                     }
                     else
                     {
+                        stock.IdLenteNavigation = null;
                         _context.Update(stock);
                     }
                 }

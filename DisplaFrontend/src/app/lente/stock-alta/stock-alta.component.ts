@@ -66,6 +66,7 @@ export class StockAltaComponent implements OnInit {
       let machearStock = this.data.modelStock.find(s => s.MedidaCilindrico == +cs.MedidaCilindrico && s.MedidaEsferico == +cs.MedidaEsferico)
       if (machearStock != null) {
         cs.Id = machearStock.Id;
+        cs.Stock = cs.Stock + machearStock.Stock;
       }
     });
     this.stockLenteService.saveOrUpdateStockLente(this.cargarStock)
