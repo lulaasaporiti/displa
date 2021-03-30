@@ -151,9 +151,17 @@
                 <a mat-button routerLink="TarjetaCredito/Listado" class="button-list" fxLayout="row">
                     Tarjetas de crédito
                 </a>
-                <a mat-button class="button-list" fxLayout="row">
-                    Caja
-                </a>
+                <button mat-button class="button-list" [matMenuTriggerFor]="menuCaja">Caja</button>
+                <mat-menu fxLayoutAlign="start center" #menuCaja="matMenu">
+                    <button mat-menu-item class="button-list" (click)="openDialogAltaMovimientoCaja();">E/S manual</button>
+                    <a mat-menu-item class="button-list" routerLink="">Consulta de movimientos</a>
+                    <a mat-menu-item class="button-list" routerLink="">Listado</a>
+                    <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuPlantilla">Plantilla diaria</button>
+                </mat-menu>
+                <mat-menu fxLayoutAlign="start center" #menuPlantilla="matMenu">
+                    <button mat-menu-item class="button-list" (click)="openDialogAltaMovimientoCaja();">E/S manual</button>
+                    <button mat-menu-item class="button-list">Listado por período</button>
+                </mat-menu>
                 <button mat-button class="button-list" [matMenuTriggerFor]="menuDatos">Datos de referencia</button>
                 <mat-menu fxLayoutAlign="start center" #menuDatos="matMenu">
                     <button mat-menu-item class="button-list"

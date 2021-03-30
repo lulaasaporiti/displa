@@ -1,0 +1,67 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon>
+            <p class="dialog-title">Alta movimiento caja</p>
+        </div>
+
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="modelMovimientoCaja.Fecha"
+                    name="fecha" #fecha="ngModel" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Descripcion" [(ngModel)]="modelMovimientoCaja.Descripcion"
+                    name="descripcion" #descripcion="ngModel" required>
+                <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Monto" [(ngModel)]="modelMovimientoCaja.Monto" name="monto"
+                    #monto="ngModel" required>
+                <mat-error *ngIf="monto.hasError('required')">Este campo es obligatorio.</mat-error>
+            </mat-form-field>
+        </div>
+
+
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="30px">
+            <div fxLayout="column" fxLayoutAlign="start start" class="agregar-graduacion">
+                <p style="font-size: small;">Tipo movimiento</p>
+                <mat-button-toggle-group [(ngModel)]="modelMovimientoCaja.Entrada" name="tipoMovimiento">
+                    <mat-button-toggle [value]="true" id="entrada">
+                        Entrada
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="false" id="salida">
+                        Salida
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+
+            <div fxLayout="column" fxLayoutAlign="start start" class="agregar-graduacion">
+                <p style="font-size: small;">Pago</p>
+                <mat-button-toggle-group [(ngModel)]="modelMovimientoCaja.Efectivo" name="pago">
+                    <mat-button-toggle [value]="true" id="efectivo">
+                        Efectivo
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="false" id="cheque">
+                        Cheque
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid"
+                [mat-dialog-close]="modelMovimientoCaja" cdkFocusInitial>Agregar</button>
+        </div>
+    </div>
+
+</form>
