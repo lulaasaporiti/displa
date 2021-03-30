@@ -46,6 +46,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<LimitesGrilla> LimitesGrilla { get; set; }
         public virtual DbSet<Localidad> Localidad { get; set; }
         public virtual DbSet<MovimientoBlock> MovimientoBlock { get; set; }
+        public virtual DbSet<MovimientoCaja> MovimientoCaja { get; set; }
         public virtual DbSet<MovimientoInsumo> MovimientoInsumo { get; set; }
         public virtual DbSet<MovimientoInterno> MovimientoInterno { get; set; }
         public virtual DbSet<OperacionBancaria> OperacionBancaria { get; set; }
@@ -75,6 +76,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -912,6 +914,36 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovimientoBlock_AspNetUsers");
+            });
+
+            modelBuilder.Entity<MovimientoCaja>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.Efectivo).HasColumnName("efectivo");
+
+                entity.Property(e => e.Entrada).HasColumnName("entrada");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.FechaAnulado)
+                    .HasColumnName("fechaAnulado")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdRecibo).HasColumnName("idRecibo");
+
+                entity.Property(e => e.IdReciboProveedor).HasColumnName("idReciboProveedor");
+
+                entity.Property(e => e.Monto)
+                    .HasColumnName("monto")
+                    .HasColumnType("decimal(10, 2)");
             });
 
             modelBuilder.Entity<MovimientoInsumo>(entity =>
