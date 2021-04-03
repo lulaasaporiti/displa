@@ -60,3 +60,7 @@ mat-paginator{
     margin-bottom: 60px !important;
     margin-right: 30px !important;
 }
+
+.mat-table-sticky {
+  background: white;
+}

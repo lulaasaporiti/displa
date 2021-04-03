@@ -119,6 +119,8 @@ export class GrillaComponent {
           })
         })
         this.columnsIzquierda.push({ columnDef: 'Esférico Positivo', header: 'Esférico Positivo', cell: (fila: any, columna: any) => "lala" });
+        this.columnsDerecha.push({ columnDef: 'Esférico Negativo', header: 'Esférico Negativo', cell: (fila: any, columna: any) => "lala" });
+
 
         // this.grillaIzquierda[0][0] = "Esférico Positivo";
         // console.table(this.grillaIzquierda)
@@ -148,15 +150,15 @@ export class GrillaComponent {
           })
         })
 
-        this.grillaDerecha[0][0] = "Esférico Negativo";
+        // this.grillaDerecha[0][0] = "Esférico Negativo";
         for (let j = 0; j <= this.grillaDerecha[0].length - 1; j++) {
-          this.columnsDerecha.push({ columnDef: this.grillaDerecha[0][j], header: this.grillaDerecha[0][j], cell: (fila: any, columna: any) => `${fila}` });
+          if (this.grillaDerecha[0][j] != undefined)
+            this.columnsDerecha.push({ columnDef: this.grillaDerecha[0][j], header: this.grillaDerecha[0][j], cell: (fila: any, columna: any) => `${fila}` });
         }
-        console.log(this.grillaIzquierda, "grilla izq")
-        console.log(this.columnsIzquierda, "col izq")
-        console.log(this.arraySuperiorIzquierdo,"arraysupizq")
+
         this.grillaDerecha.splice(0, 1)
         this.grillaDerecha.splice(this.grillaDerecha.length - 1, 1)
+        this.arraySuperiorDerecho.splice(0, 1);
         this.dataSourceDerecha = new MatTableDataSource([]);
         this.dataSourceDerecha.data = this.grillaDerecha;
         this.combinacionGraduacion();

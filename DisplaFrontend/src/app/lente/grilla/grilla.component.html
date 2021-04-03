@@ -23,14 +23,14 @@
       <td mat-cell *matCellDef="let row">
         <div *ngIf="column.header == 0" style="font-size: 11px !important;" fxLayoutAlign="space-around center">
           <mat-form-field style="width: 50px;">
-            <input matInput value="{{row[i]}}" name="row{{i}}"
-              (blur)="sumarStockIzquierda($event.target.value, row[0], i);" (keypress)="_keyPress($event)">
+            <input matInput value="{{row[1]}}" name="row{{1}}"
+              (blur)="sumarStockIzquierda($event.target.value, row[0], 0);" (keypress)="_keyPress($event)"> 
           </mat-form-field>
           +{{ row[0] | number:'1.2-2'}}
         </div>
         <mat-form-field style="width: 50px;" *ngIf="i > 1">
           <input matInput value="{{row[i]}}" name="row{{i}}"
-            (blur)="sumarStockIzquierda($event.target.value, row[0], i);" (keypress)="_keyPress($event)">
+            (blur)="sumarStockIzquierda($event.target.value, row[0], i - 1);" (keypress)="_keyPress($event)">
         </mat-form-field>
       </td>
       <td mat-footer-cell *matFooterCellDef style="font-size: 11px !important;"> {{getTotalIzquierda(i)}} </td>
@@ -52,16 +52,19 @@
   <table mat-table fxFill [dataSource]="dataSourceDerecha" fxFlexOffset="3" class="tabla">
     <ng-container *ngFor="let column of columnsDerecha; let i = index" [matColumnDef]="column.columnDef">
       <th mat-header-cell *matHeaderCellDef> 
-        {{ (column.header == 'Esférico Negativo' && column.header != undefined) ?  'Esférico Negativo' : (column.header | number:'1.2-2')}}</th>
+        {{ (column.header == '0') ?  'Esférico Negativo' : (column.header | number:'1.2-2')}}</th>
       <td mat-cell *matCellDef="let row">
-        <div *ngIf="i == 0" style="font-size: 11px !important;" fxLayoutAlign="space-around center">
-          {{ row[i] | number:'1.2-2'}}
-        <mat-form-field style="width: 50px;">
+        <div *ngIf="column.header == 0" style="font-size: 11px !important;" fxLayoutAlign="space-around center">
+          <mat-form-field style="width: 50px;">
+            <input matInput value="{{row[1]}}" name="row{{1}}" (blur)="sumarStockDerecha($event.target.value, row[0], 0);" (keypress)="_keyPress($event)">
+          </mat-form-field>          
+          {{ row[0] | number:'1.2-2'}}
+        <!-- <mat-form-field style="width: 50px;">
           <input matInput value="{{getTotalFila(row)}}" name="fila" (keypress)="_keyPress($event)">
-        </mat-form-field>
+        </mat-form-field> -->
       </div>
-        <mat-form-field style="width: 50px;" *ngIf="i != 0">
-          <input matInput value="{{row[i]}}" name="row{{i}}" (blur)="sumarStockDerecha($event.target.value, row[0], i);"
+        <mat-form-field style="width: 50px;" *ngIf="i > 1">
+          <input matInput value="{{row[i]}}" name="row{{i}}" (blur)="sumarStockDerecha($event.target.value, row[0], i - 1);"
             (keypress)="_keyPress($event)">
         </mat-form-field>
       </td>
