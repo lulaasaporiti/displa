@@ -89,6 +89,8 @@ namespace DisplaBackend.DAOs
                     Mail = c.Mail,
                     Bloqueado = c.Bloqueado,
                     Borrado = c.Borrado,
+                    IdCategoriaIvaNavigation = c.IdCategoriaIvaNavigation,
+                    IdCondicionVentaNavigation = c.IdCondicionVentaNavigation
                 })
                 .ToList();
             return clientes;
@@ -118,6 +120,8 @@ namespace DisplaBackend.DAOs
                     Mail = c.Mail,
                     Bloqueado = c.Bloqueado,
                     Borrado = c.Borrado,
+                    IdCategoriaIvaNavigation = c.IdCategoriaIvaNavigation,
+                    IdCondicionVentaNavigation = c.IdCondicionVentaNavigation
                 })
                 .ToList();
             return clientes;

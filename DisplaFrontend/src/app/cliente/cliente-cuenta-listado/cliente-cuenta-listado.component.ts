@@ -5,11 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ClienteService } from 'src/services/cliente.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
-import { SessionService } from 'src/services/session.service';
-import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { merge, Observable } from 'rxjs';
+import { ExportacionService } from 'src/services/exportacion.service';
 
 
 @Component({
@@ -72,10 +71,9 @@ export class ClienteCuentaListadoComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
     private clienteService: ClienteService,
-    private sessionService: SessionService,
     private changeDetector: ChangeDetectorRef,
+    private exportacionService: ExportacionService,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
@@ -120,20 +118,20 @@ export class ClienteCuentaListadoComponent implements OnInit {
   }
 
   traerManuales(event) {
-    document.getElementById("bloqueados").style.backgroundColor="transparent";
-    document.getElementById("nobloqueados").style.backgroundColor="transparent";
+    document.getElementById("bloqueados").style.backgroundColor = "transparent";
+    document.getElementById("nobloqueados").style.backgroundColor = "transparent";
     if (!event.checked) {
       this.todo = false;
       this.dataSource.data = this.original.filter(d => d.Bloqueado == true && d.BloqueoManual == true)
     } else {
-      this.todo = true;  
+      this.todo = true;
       this.dataSource.data = this.original.filter(d => d.BloqueoManual == false);
     }
   }
 
   traerTodos(event) {
-    document.getElementById("bloqueados").style.backgroundColor="transparent";
-    document.getElementById("nobloqueados").style.backgroundColor="transparent";
+    document.getElementById("bloqueados").style.backgroundColor = "transparent";
+    document.getElementById("nobloqueados").style.backgroundColor = "transparent";
     if (!event.checked) {
       this.todo = event.checked;
       this.manual = false;
@@ -145,15 +143,14 @@ export class ClienteCuentaListadoComponent implements OnInit {
     }
   }
 
-  applyFilterAvanzados(filtro: number, campo: string){
-    console.log(filtro)
-    if (campo == 'diferencia'){
-      this.dataSource.data = this.dataSource.data.filter(d => d.Saldo >= filtro)   
+  applyFilterAvanzados(filtro: number, campo: string) {
+    if (campo == 'diferencia') {
+      this.dataSource.data = this.dataSource.data.filter(d => d.Saldo >= filtro)
     }
-    if (campo == 'dias'){
-      this.dataSource.data = this.dataSource.data.filter(d => d.DiasExcedido >= filtro)   
+    if (campo == 'dias') {
+      this.dataSource.data = this.dataSource.data.filter(d => d.DiasExcedido >= filtro)
     }
-    if (filtro.toString() == ""){
+    if (filtro.toString() == "") {
       this.dataSource.data = this.original;
 
     }
@@ -189,4 +186,22 @@ export class ClienteCuentaListadoComponent implements OnInit {
     });
   }
 
+  public exportar(): void {
+    this.loadingSpinnerService.show();
+    let excel = JSON.parse(JSON.stringify(this.original));
+    excel.forEach(element => {
+      element["Codigo"] = element.Id;
+      delete element.Id;
+      element["Fecha"] = element.Fecha != undefined ? new Date(Date.parse(element.Fecha.toString())).toLocaleDateString() : '';
+      element["Bloqueado"] = element.Bloqueado == "FALSO" ? 'No' : 'Si';
+      element["Borrado"] = element.Borrado == "FALSO" ? 'No' : 'Si';
+      element["Monto excedido"] = element.MontoExcedido;
+      delete element.MontoExcedido;
+      element["Dias excedido"] = element.DiasExcedido
+      delete element.DiasExcedido;
+      element["BloqueoManual"] = element.BloqueoManual == "FALSO" ? 'No' : 'Si';
+    });
+    this.exportacionService.exportAsExcelFile(excel, "Listado cuentas corrientes");
+    this.loadingSpinnerService.hide();
+  }
 }

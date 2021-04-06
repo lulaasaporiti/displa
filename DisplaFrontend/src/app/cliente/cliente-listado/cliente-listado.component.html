@@ -124,4 +124,7 @@
     <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" fxFill></tr>
   </table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+  <div fxLayoutAlign="start space-between">
+    <button mat-raised-button (click)="exportar()">Exportar</button>
+  </div>
 </div>

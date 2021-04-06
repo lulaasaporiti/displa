@@ -62,6 +62,7 @@ import { ChequeModule } from './cheque/cheque.module';
 import { CuentaBancariaModule } from './cuenta-bancaria/cuenta-bancaria.module';
 import { HeaderComponent } from './header/header';
 import { CajaModule } from './caja/caja.module';
+import { ExportacionService } from 'src/services/exportacion.service';
 
 
 
@@ -139,6 +140,7 @@ import { CajaModule } from './caja/caja.module';
   providers: [
     LoggedInGuard,
     AuthorizeRoleGuard,
+    ExportacionService,
     httpInterceptorProviders,
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntLabelProvider },
     { provide: MAT_DATE_LOCALE, useValue: 'es-AR' },

@@ -27,7 +27,7 @@ import { MatButtonToggleModule} from '@angular/material/button-toggle';
 @NgModule({
     entryComponents: [ClienteBajaComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
     declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, InformacionModificacionComponent, InformacionDetalleComponent,
-        PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent ,PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, CuentaPorClienteComponent,
+        PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent, PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, CuentaPorClienteComponent,
         FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
     imports: [
         CommonModule,

@@ -13,6 +13,7 @@ import { Observable, merge } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ClienteBloqueoManualComponent } from '../cliente-bloqueo-manual/cliente-bloqueo-manual.component';
+import { ExportacionService } from 'src/services/exportacion.service';
 
 
 @Component({
@@ -78,6 +79,7 @@ export class ClienteListadoComponent implements OnInit {
     public dialog: MatDialog,
     private clienteService: ClienteService,
     private sessionService: SessionService,
+    private exportacionService: ExportacionService,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
@@ -135,6 +137,7 @@ export class ClienteListadoComponent implements OnInit {
       this.clienteService.getClientesActivosList()
         .subscribe(r => {
           this.dataSource.data = r;
+          console.log(r)
           this.loadingSpinnerService.hide();
         })
     } else {
@@ -199,5 +202,36 @@ export class ClienteListadoComponent implements OnInit {
 
   detalleCliente(id: number) {
     this.router.navigateByUrl('Cliente/Detalle?id=' + id);
+  }
+
+  public exportar(): void {
+    this.loadingSpinnerService.show();
+    let excel = JSON.parse(JSON.stringify(this.dataSource.data));
+    excel.forEach(element => {
+      element["Codigo"] = element.Id;
+      delete element.Id;
+    //   element["Fecha"] = element.Fecha != undefined ? new Date(Date.parse(element.Fecha.toString())).toLocaleDateString() : '';
+      element["Bloqueado"] = element.Bloqueado == "FALSO" ? 'No' : 'Si';
+      element["UtilizaSobre"] = element.UtilizaSobre == "FALSO" ? 'No' : 'Si';
+      element["Borrado"] = element.Borrado == "FALSO" ? 'No' : 'Si';
+      delete element.Cheque;
+      delete element.ClienteBloqueo;
+      delete element.ComprobanteCliente;
+      delete element.Ficha;
+      delete element.PrecioArticuloCliente;
+      delete element.PrecioLenteCliente;
+      delete element.PrecioServicioCliente;
+      delete element.Recibo;
+      delete element.Remito;
+      delete element.Sobre;
+      element["Categoría IVA"] = element.IdCategoriaIvaNavigation.Descripcion;
+      element["Condición venta"] = element.IdCondicionVentaNavigation.Descripcion;
+      delete element.IdCategoriaIvaNavigation;
+      delete element.IdCategoriaIva;
+      delete element.IdCondicionVentaNavigation;
+      delete element.IdCondicionVenta;
+    });
+    this.exportacionService.exportAsExcelFile(excel, "Listado clientes");
+    this.loadingSpinnerService.hide();
   }
 }

@@ -12,6 +12,7 @@ import { SessionService } from 'src/services/session.service';
 import { VentaVirtual } from 'src/app/model/ventaVirtual';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
 
 @Component({
   selector: 'app-producto-servicio',
@@ -33,11 +34,11 @@ export class ProductoServicioComponent implements OnInit {
 
   
   constructor(
-    public dialogRef: MatDialogRef<ProductoServicioComponent>,
-    private servicioService: ServicioService,
-    private tipoServicioService: TipoServicioService,
     private sessionService: SessionService,
     private clienteService: ClienteService,
+    private servicioService: ServicioService,
+    private tipoServicioService: TipoServicioService,
+    public dialogRef: MatDialogRef<ProductoServicioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -66,10 +67,18 @@ export class ProductoServicioComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  _keyPress(event: any) {
-    const pattern = /[0-9-]/;
+  _keyPressSobre(event: any) {
+    const pattern = /[0-9]/;
     let inputChar = String.fromCharCode(event.charCode);
 
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  _keyPress(event: any) {
+    const pattern = /[0-9.]/;
+    let inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     }

@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { Cliente } from 'src/app/model/cliente';
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
+import { ExportacionService } from 'src/services/exportacion.service';
 // import { add, subtract } from 'add-subtract-date';
 
 
@@ -36,6 +37,7 @@ export class CuentaPorClienteComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private clienteService: ClienteService,
+    private exportacionService: ExportacionService,
     private loadingSpinnerService: LoadingSpinnerService,
     private comprobanteService: ComprobanteClienteService) { }
 
@@ -65,8 +67,15 @@ export class CuentaPorClienteComponent implements OnInit {
   }
 
   traerCuentaCliente(event) {
+    console.log("entra");
+
+    console.log(this.since.toDateString())
     this.loadingSpinnerService.show();
-    this.comprobanteService.getCuentaPorCliente(event.Id, this.since.toDateString())
+    if (event != "desde")
+      this.modelCliente = event;
+    console.log(this.modelCliente)
+
+    this.comprobanteService.getCuentaPorCliente(this.modelCliente.Id, this.since.toDateString())
       .subscribe(cc => {
         console.log(cc)
         this.dataSource.data = cc;
@@ -115,4 +124,31 @@ export class CuentaPorClienteComponent implements OnInit {
       }
     }
   }
+
+  public exportar(): void {
+    this.loadingSpinnerService.show();
+    let excel = JSON.parse(JSON.stringify(this.dataSource.data));
+    excel.forEach(element => {
+      element["Codigo"] = element.IdCliente;
+      delete element.IdCliente;
+      element["Fecha"] = new Date(Date.parse(element.Fecha.toString())).toLocaleDateString();
+      element["Numero comprobante"] = element["Numero"];
+      element["Tipo comprobante"] = element.IdTipoComprobanteNavigation.Descripcion;
+      delete element.Id;
+      delete element.ComprobanteItem;
+      delete element.IdUsuario;
+      delete element.Numero;
+      delete element.VentaVirtual;
+      delete element.VentaVirtualMovimientos;
+      delete element.IdTipoComprobanteNavigation;
+      delete element.Sucursal;
+      element["Debe"] = (element.IdTipoComprobante == 1 || element.IdTipoComprobante == 3) ? element.MontoTotal  : '  ';
+      element["Haber"] = (element.IdTipoComprobante == 2) ? element.MontoTotal  : '  ';
+      element["Saldo"] = "";
+      delete element.IdTipoComprobante;
+      delete element.MontoTotal;
+    });
+    this.exportacionService.exportAsExcelFile(excel, "Cuenta del cliente " + this.modelCliente.Optica);
+    this.loadingSpinnerService.hide();
+}
 }

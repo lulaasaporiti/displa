@@ -21,8 +21,9 @@
 
             <mat-form-field fxFlex="50">
                 <input matInput placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'seleccionar')" (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItem.Cantidad" 
-                #cantidad="ngModel" name="cantidad" required>
+                #cantidad="ngModel" name="cantidad" pattern="[0-9]*.?[5]?" required>
                 <mat-error *ngIf="cantidad.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="cantidad.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
             </mat-form-field>
         
     </div>
