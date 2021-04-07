@@ -23,6 +23,8 @@ import { FichaAltaComponent } from './cliente-modificacion/ficha/ficha-alta/fich
 import { ClienteBloqueoManualComponent } from './cliente-bloqueo-manual/cliente-bloqueo-manual.component';
 import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
 import { MatButtonToggleModule} from '@angular/material/button-toggle';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 
 @NgModule({
     entryComponents: [ClienteBajaComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
@@ -35,7 +37,8 @@ import { MatButtonToggleModule} from '@angular/material/button-toggle';
         DragDropModule,
         MatButtonToggleModule,
         ClienteRoutingModule,
-        LoadingSpinnerModule
+        LoadingSpinnerModule,
+        CKEditorModule
     ]
 })
 export class ClienteModule { }

@@ -8,12 +8,14 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field style="width: 201px;">
-        <textarea matInput placeholder="Descripción" rows="4" cols="54" [(ngModel)]="data.modelFicha.Descripcion"
+      <!-- <mat-form-field style="width: 201px;"> -->
+        <!-- <ckeditor [editor]="Editor" data="<p>Hello, world!</p>"></ckeditor> -->
+        <ckeditor [(ngModel)]="data.modelFicha.Descripcion" id="editor" [editor]="Editor" name="descripcion" #descripcion="ngModel"></ckeditor>
+        <!-- <textarea matInput placeholder="Descripción" rows="4" cols="54" [(ngModel)]="data.modelFicha.Descripcion"
           name="descripcion" #descripcion="ngModel" required>
-        </textarea>
-        <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
-      </mat-form-field>
+        </textarea> -->
+        <!-- <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error> -->
+      <!-- </mat-form-field> -->
     </div>
 
 

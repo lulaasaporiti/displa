@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-
+import * as ClassicEditor from '@ckeditor/ckeditor5-angular';
 
 @Component({
   selector: 'app-ficha',
@@ -17,7 +17,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./ficha.component.css'],
 })
 export class FichaComponent implements OnInit {
-
+  
+  public Editor = ClassicEditor;
   idCliente: number;
   
   displayedColumns: string[] = ['Fecha', 'Descripcion', 'Borrar'];
@@ -75,7 +76,9 @@ export class FichaComponent implements OnInit {
     let modelFicha = <Ficha>{};
     modelFicha.IdCliente = this.idCliente;  
     const dialogRef = this.dialog.open(FichaAltaComponent, {
-      data: { modelFicha: modelFicha }
+      data: { modelFicha: modelFicha },
+      width: '800px',
+      height: '500px'
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {

@@ -11,3 +11,8 @@
 .dialog-botones{
   margin-top: 20px !important;
 }
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 250px !important;
+  min-width: 650px !important;
+}

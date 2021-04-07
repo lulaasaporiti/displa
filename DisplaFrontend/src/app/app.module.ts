@@ -62,7 +62,7 @@ import { ChequeModule } from './cheque/cheque.module';
 import { CuentaBancariaModule } from './cuenta-bancaria/cuenta-bancaria.module';
 import { HeaderComponent } from './header/header';
 import { CajaModule } from './caja/caja.module';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 
@@ -134,7 +134,8 @@ import { CajaModule } from './caja/caja.module';
     TipoServicioModule,
     UbicacionModule,
     UsuarioModule,
-    VentaVirtualModule
+    VentaVirtualModule,
+    CKEditorModule 
   ],
   providers: [
     LoggedInGuard,
