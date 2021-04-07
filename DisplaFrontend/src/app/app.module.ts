@@ -63,6 +63,8 @@ import { CuentaBancariaModule } from './cuenta-bancaria/cuenta-bancaria.module';
 import { HeaderComponent } from './header/header';
 import { CajaModule } from './caja/caja.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ExportacionService } from 'src/services/exportacion.service';
+
 
 
 
@@ -140,6 +142,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
   providers: [
     LoggedInGuard,
     AuthorizeRoleGuard,
+    ExportacionService,
     httpInterceptorProviders,
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntLabelProvider },
     { provide: MAT_DATE_LOCALE, useValue: 'es-AR' },

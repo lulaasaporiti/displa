@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -23,9 +24,4 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   },
-  "compilerOptions": {
-    "allowJs": true,
-    "target": "es2015"
-    // other options
-}
 }

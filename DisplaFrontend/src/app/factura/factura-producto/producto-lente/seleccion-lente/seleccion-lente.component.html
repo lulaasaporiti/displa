@@ -101,11 +101,11 @@
                         pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" disabled>
                 </mat-form-field>
                 <div fxLayout="column" fxFlex="30">
+                    <!-- (blur)="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)" -->
                     <mat-form-field>
                         <input matInput placeholder="Cantidad" id="cantidad0"
                             (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
                             (keypress)="_keyPress($event)" pattern="[0-9]*.?[5]?"
-                            (blur)="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)"
                             [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
                         <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
                         <mat-error *ngIf="cantidad0.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>

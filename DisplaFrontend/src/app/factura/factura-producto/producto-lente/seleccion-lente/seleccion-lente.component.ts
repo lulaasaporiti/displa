@@ -104,6 +104,15 @@ export class SeleccionLenteComponent implements OnInit {
     }
   }
 
+  _keyPressCantidad(event: any) {
+    const pattern = /[0-9.]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {{}
+      event.preventDefault();
+    }
+  }
+
   tabInventado(event: KeyboardEvent, idElement)
   {
     if (idElement == "esferico0") {

@@ -21,7 +21,7 @@
                 <mat-error *ngIf="tipoServiciosControl.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="30" *ngIf="data.utilizaSobre">
-                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" #sobre="ngModel"
+                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPressSobre($event)" #sobre="ngModel"
                     (keyup.enter)="tabInventado($event, 'servicios')" [(ngModel)]="modelComprobanteItem.NumeroSobre"
                     name="sobre" required>
                 <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
@@ -33,7 +33,7 @@
                 <mat-select [formControl]="serviciosControl" name="servicios" id="servicios" multiple #ser
                     (keyup)="tabInventado($event, 'cantidad0')" required>
                     <mat-select-trigger>
-                        {{(!ser.empty) ? ser.value[0].Id : ''}} - {{(!ser.empty)  ? ser.value[0].Nombre : ''}}
+                        {{(!ser.empty) ? ser.value[0].Id : ''}} - {{(!ser.empty) ? ser.value[0].Nombre : ''}}
                         <span *ngIf="ser.value?.length > 1" class="example-additional-selection">
                             (+{{ser.value.length - 1}} {{ser.value?.length === 2 ? 'servicio' : 'más'}})
                         </span>
@@ -45,24 +45,27 @@
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px" *ngFor="let c of data.comprobantesItems; let i = index">
+        <div mat-dialog-content fxLayout="row" fxLayoutGap="15px"
+            *ngFor="let c of data.comprobantesItems; let i = index">
             <mat-form-field fxFlex="49">
                 <input matInput placeholder="Servicio" id="servicio{{i}}"
                     value="{{data.comprobantesItems[i].IdServicio}} - {{data.comprobantesItems[i].IdServicioNavigation.Nombre}}"
                     name="servicio{{i}}" disabled>
             </mat-form-field>
             <mat-form-field fxFlex="20">
-                <input matInput placeholder="Precio unitario" id="precio{{i}}" [(ngModel)]="data.comprobantesItems[i].Monto"
-                    name="precio{{i}}" #precio="ngModel" pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)"
-                    required [disabled]="preciosIsNull != undefined && preciosIsNull[data.comprobantesItems[i].IdServicio] != null">
+                <input matInput placeholder="Precio unitario" id="precio{{i}}"
+                    [(ngModel)]="data.comprobantesItems[i].Monto" name="precio{{i}}" #precio="ngModel"
+                    pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" required
+                    [disabled]="preciosIsNull != undefined && preciosIsNull[data.comprobantesItems[i].IdServicio] != null">
                 <mat-error *ngIf="precio.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="11">
                 <input matInput placeholder="Cantidad" id="cantidad{{i}}"
-                    (keyup.enter)="tabInventado($event, 'precioVirtual'+i)" #cantidad="ngModel"
+                    (keyup.enter)="tabInventado($event, 'precioVirtual'+i)" #cantidad="ngModel" pattern="[0-9]*.?[5]?"
                     (keypress)="_keyPress($event)" [(ngModel)]="data.comprobantesItems[i].Cantidad" name="cantidad{{i}}"
                     required>
                 <mat-error *ngIf="cantidad.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="cantidad.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="20">
                 <input matInput placeholder="Precio virtual" id="precioVirtual{{i}}"
@@ -73,8 +76,9 @@
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid  || data.comprobantesItems.length == 0 || serviciosControl.invalid" id="seleccionar"
-                [mat-dialog-close]="true">Seleccionar</button>
+            <button mat-raised-button color="primary"
+                [disabled]="!modalForm.form.valid  || data.comprobantesItems.length == 0 || serviciosControl.invalid"
+                id="seleccionar" [mat-dialog-close]="true">Seleccionar</button>
         </div>
     </div>
 </form>

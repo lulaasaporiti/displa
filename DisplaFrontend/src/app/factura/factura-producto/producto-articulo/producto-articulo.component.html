@@ -21,7 +21,7 @@
                 <mat-error *ngIf="tipoArticulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="30" *ngIf="data.utilizaSobre">
-                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)" #sobre="ngModel"
+                <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPressSobre($event)" #sobre="ngModel"
                     (keyup.enter)="tabInventado($event, 'articulos')" [(ngModel)]="modelComprobanteItem.NumeroSobre"
                     name="sobre" required>
                 <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
@@ -57,12 +57,13 @@
                     [disabled]="preciosIsNull != undefined && preciosIsNull[data.comprobantesItems[i]?.IdArticulo] != null">
                 <mat-error *ngIf="precio.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
+            <!-- (blur)="validacionLenteService.divisionCantidad(data.comprobantesItems[i].Cantidad)" -->
             <mat-form-field fxFlex="11">
                 <input matInput placeholder="Cantidad" id="cantidad{{i}}"
-                    (keyup.enter)="tabInventado($event, 'precioVirtual'+i)" #cantidad="ngModel"
-                    (keypress)="_keyPress($event)" [(ngModel)]="data.comprobantesItems[i].Cantidad" name="cantidad{{i}}"
-                    required>
+                    (keyup.enter)="tabInventado($event, 'precioVirtual'+i)" #cantidad="ngModel" pattern="[0-9]*.?[5]?"
+                    (keypress)="_keyPress($event)" [(ngModel)]="data.comprobantesItems[i].Cantidad" name="cantidad{{i}}" required>
                 <mat-error *ngIf="cantidad.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="cantidad.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="20">
                 <input matInput placeholder="Precio virtual" id="precioVirtual{{i}}"
