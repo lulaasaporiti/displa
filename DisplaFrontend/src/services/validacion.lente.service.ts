@@ -101,42 +101,13 @@ export class ValidacionLenteService {
     }
 
     conversionMedidas(medidaEsferico, medidaCilindrico) {
-        console.log(medidaEsferico, "como llega esferico")
-        console.log(medidaCilindrico, "como llega cilindrico")
         if (+medidaEsferico == 0 && +medidaCilindrico == 0) {
             return "000";
         }
         else {
-            //     if (graduacionCilindrico) { //graduacion cilindrica positiva
-            //         medidaEsferico = medidaEsferico + medidaCilindrico;
-            //         medidaCilindrico = Math.abs(medidaCilindrico);
-            //     }
-            //     else { //graduacion cilindrica negativa
             medidaEsferico = (+medidaEsferico * 100 + +medidaCilindrico * 100).toString();
             medidaCilindrico = ((Math.abs(+medidaCilindrico) < 1) ? '0' : '') + (-1 * +medidaCilindrico * 100).toString() 
-            console.log(medidaEsferico, "como termina esferico")
-            console.log(medidaCilindrico, "como termina cilindrico")
         }
         return ((medidaEsferico == '0') ? '000' : (!medidaEsferico.startsWith('-') ? '+' : '') + medidaEsferico) + (medidaCilindrico != '00' ? (!medidaCilindrico.startsWith('-') ? '+' : '') + medidaCilindrico : '')
     }
 }
-
-// Procedure Invertir(CilindricoPositivo:boolean; var medEsferico, medCilindrico: real);
-// begin
-//  if CilindricoPositivo then
-//  begin
-//     if medCilindrico < 0 then
-//     begin
-//       medEsferico:= medEsferico+medCilindrico;
-//       medCilindrico:=abs(medCilindrico);
-//     end;
-//  end
-//  else
-//    begin
-//         if medCilindrico > 0 then
-//         begin
-//            medEsferico:=medEsferico+medCilindrico;
-//            medCilindrico:= -1 * medCilindrico;
-//         end;
-//    end;
-// end;

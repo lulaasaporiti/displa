@@ -27,6 +27,8 @@ import { VentaVirtualService } from 'src/services/venta.virtual.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
+import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/overlay/overlay-directives';
 
 
 @Component({
@@ -206,6 +208,7 @@ export class FacturaAltaComponent implements OnInit {
     private parametroService: ParametroService,
     private ventaVirtualService: VentaVirtualService,
     private loadingSpinnerService: LoadingSpinnerService,
+    private validacionLenteService: ValidacionLenteService,
     private comprobanteClienteService: ComprobanteClienteService
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
@@ -255,6 +258,7 @@ export class FacturaAltaComponent implements OnInit {
 
 
   cargarLente(producto) {
+    console.log(producto, "producto")
     let item = <ComprobanteItem>{};
     let montoLentes = 0;
     item.ComprobanteItemLente = [];
@@ -300,8 +304,12 @@ export class FacturaAltaComponent implements OnInit {
         producto.ComprobanteItemServicio.forEach(s => {////servicios lente
           s.Monto = s.IdServicioNavigation.PrecioServicio[0].Precio;
         })
-        this.dataSource.data = this.dataSource.data.concat(item);
         this.modelComprobante.ComprobanteItem.push(item);
+        item.ComprobanteItemLente.forEach(p => {
+          p.ConversionMedidas = this.validacionLenteService.conversionMedidas(p.MedidaEsferico, p.MedidaCilindrico);
+        })
+        this.dataSource.data = this.dataSource.data.concat(item);
+
         if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
           this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
         }
@@ -568,19 +576,19 @@ export class FacturaAltaComponent implements OnInit {
           this.modelComprobante.ComprobanteItem = aux.splice(0, this.parametro.CantidadProductoDiferentes);
           console.log(this.modelComprobante.ComprobanteItem)
           console.log(aux)
-          // this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
-            // data => {
-            //   if (data != null) {
-            //     this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
-            //     this.router.navigateByUrl('/Home');
-            //     this.sessionService.showSuccess("La factura se agregó correctamente.");
-            //   } else
-            //     this.sessionService.showError("La factura no se agregó.");
-            // },
-            // error => {
-            //   this.sessionService.showError("La factura no se agregó.");
-            // }
-          // );
+          this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
+            data => {
+              if (data != null) {
+                this.parametroService.saveOrUpdateParametro(this.parametro).subscribe();
+                this.router.navigateByUrl('/Home');
+                this.sessionService.showSuccess("La factura se agregó correctamente.");
+              } else
+                this.sessionService.showError("La factura no se agregó.");
+            },
+            error => {
+              this.sessionService.showError("La factura no se agregó.");
+            }
+          );
         }
       }
       if (result == 0) {

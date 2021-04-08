@@ -288,13 +288,15 @@ export class SeleccionLenteComponent implements OnInit {
     this.selectedIndiceCalibrados.emit(i);
   }
 
-  compararLimiteGrilla(index, tipoGraduacion) {
-    if (tipoGraduacion == 'esferico') {
-      this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaEsferico, 'esferico')
-    }
-    else {
-      this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaCilindrico, 'cilindrico')
-      console.log("msjvarianle", this.msjLimiteCilindrico[index])
+  compararLimiteGrilla(input, index, tipoGraduacion) {
+    if (!input.includes('.')) {
+      if (tipoGraduacion == 'esferico') {
+        this.msjLimiteEsferico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaEsferico, 'esferico')
+      }
+      else {
+        this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaCilindrico, 'cilindrico')
+        console.log("msjvarianle", this.msjLimiteCilindrico[index])
+      }
     }
     // this.comprobanteItemLenteSelected()
   }

@@ -89,10 +89,6 @@ export class ProductoLenteComponent implements OnInit {
   }
 
   chequearValidaciones(){
-    console.log(this.modelComprobanteItemLente);
-    console.log("esferico 0", this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaEsferico, 'esferico'))
-    console.log("cilindrico 0", this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico'))
-    console.log("cantidad 0", this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[0].Cantidad))
     if (this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaEsferico*100, 'esferico') 
     || this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico')
     || this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[0].Cantidad)) 
@@ -100,6 +96,7 @@ export class ProductoLenteComponent implements OnInit {
     else 
       this.deshabilitarBoton = false;
     if (this.modelComprobanteItemLente.length > 1) {
+      console.log(this.modelComprobanteItemLente)
       if (this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[1].MedidaEsferico, 'esferico') 
       || this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')
       || this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[1].Cantidad)) 

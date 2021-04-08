@@ -10,5 +10,6 @@ export interface ComprobanteItemLente {
   Cantidad: number,
   MedidaEsferico: number,
   MedidaCilindrico: number,
-  Precio: number
+  Precio: number,
+  ConversionMedidas: string
 }
