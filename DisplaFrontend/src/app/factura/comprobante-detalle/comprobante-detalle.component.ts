@@ -30,7 +30,7 @@ export class ComprobanteDetalleComponent implements OnInit {
   comprobantesItems: ComprobanteItem[] = [];
   ventasVirtuales: VentaVirtual[] = [];
   // displayedColumnsFooter: string[]= ['Subtotal']
-  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe'];
+  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico / Cilindrico', 'Recargo', 'Importe'];
   dataSource = new MatTableDataSource<any>();
   key;
   bloquearF = false;

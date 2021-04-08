@@ -45,7 +45,7 @@ export class FacturaAltaComponent implements OnInit {
   comprobantesItems: ComprobanteItem[] = [];
   ventasVirtuales: VentaVirtual[] = [];
   // displayedColumnsFooter: string[]= ['Subtotal']
-  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico', 'Cilindrico', 'Recargo', 'Importe', 'Borrar'];
+  displayedColumns: string[] = ['Cantidad', 'Sobre', 'Descripcion', 'Esferico / Cilindrico', 'Recargo', 'Importe', 'Borrar'];
   productos: string[] = ['Lentes (F1)', 'Varios (F3)', 'Servicios (F4)', 'Libres (F5)', 'Descuento (F6)', 'Totales (F7)'];
   dataSource = new MatTableDataSource<any>();
   key;

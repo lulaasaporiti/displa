@@ -52,16 +52,16 @@ export class ValidacionLenteService {
                 }
             }
             else {
-                console.log(+medida)
-                console.log(this.limiteGrillaDerecha.LimiteSuperiorCilindrico, "lim sup cil")
-                console.log(this.limiteGrillaDerecha.LimiteInferiorCilindrico, "lim inf cil")
+                // console.log(+medida)
+                // console.log(this.limiteGrillaDerecha.LimiteSuperiorCilindrico, "lim sup cil")
+                // console.log(this.limiteGrillaDerecha.LimiteInferiorCilindrico, "lim inf cil")
                 if ((+medida <= this.limiteGrillaDerecha.LimiteSuperiorCilindrico) && (+medida >= this.limiteGrillaDerecha.LimiteInferiorCilindrico)) {
                     // console.log("entra if", +medida)
                     // console.log(+medida * -1 % 0.25)
                     return (+medida * -1 % 0.25) != 0;
                 }
                 else {
-                    console.log("entra else")
+                    // console.log("entra else")
                     return true;
                 }
             }
@@ -101,8 +101,8 @@ export class ValidacionLenteService {
     }
 
     conversionMedidas(medidaEsferico, medidaCilindrico) {
-        console.log(medidaEsferico, "como llega")
-        console.log(medidaCilindrico, "como llega")
+        console.log(medidaEsferico, "como llega esferico")
+        console.log(medidaCilindrico, "como llega cilindrico")
         if (+medidaEsferico == 0 && +medidaCilindrico == 0) {
             return "000";
         }
@@ -113,11 +113,11 @@ export class ValidacionLenteService {
             //     }
             //     else { //graduacion cilindrica negativa
             medidaEsferico = (+medidaEsferico * 100 + +medidaCilindrico * 100).toString();
-            medidaCilindrico = (-1 * +medidaCilindrico * 100).toString();
-            console.log(medidaEsferico, "como termina")
-            console.log(medidaCilindrico, "como termina")
+            medidaCilindrico = ((Math.abs(+medidaCilindrico) < 1) ? '0' : '') + (-1 * +medidaCilindrico * 100).toString() 
+            console.log(medidaEsferico, "como termina esferico")
+            console.log(medidaCilindrico, "como termina cilindrico")
         }
-        return (!medidaEsferico.startsWith('-') ? '+' : '') + medidaEsferico + (!medidaCilindrico.startsWith('-') ? '+' : '') + medidaCilindrico
+        return ((medidaEsferico == '0') ? '000' : (!medidaEsferico.startsWith('-') ? '+' : '') + medidaEsferico) + (medidaCilindrico != '00' ? (!medidaCilindrico.startsWith('-') ? '+' : '') + medidaCilindrico : '')
     }
 }
 

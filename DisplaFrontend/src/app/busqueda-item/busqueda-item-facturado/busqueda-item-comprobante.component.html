@@ -51,8 +51,8 @@
         <div fxLayout="column">
           <mat-form-field fxFlex="50">
             <input type="text" placeholder="Medida esférico" matInput autocomplete="off" [(ngModel)]="stockLente.MedidaEsferico"
-              id="esferi" name="esferi" #esferi="ngModel" required (keypress)="_keyPress($event)" (change)="convertirMedidas()" 
-              (blur)="compararLimiteGrilla($event.target.value, 'esferico'); this.validacionLenteService.divisionMedida(stockLente, stockLente.MedidaEsferico, 'esferico');">
+              id="esferi" name="esferi" #esferi="ngModel" required (keypress)="_keyPress($event)" 
+              (blur)="compararLimiteGrilla($event.target.value, 'esferico'); this.validacionLenteService.divisionMedida(stockLente, stockLente.MedidaEsferico, 'esferico'); convertirMedidas()">
             <mat-error *ngIf="esferi.invalid">Este campo es obligatorio</mat-error>
           </mat-form-field>
           <p class="msjError" *ngIf="msjLimiteEsferico">
@@ -62,8 +62,8 @@
         <div fxLayout="column">
           <mat-form-field fxFlex="50">
             <input type="text" placeholder="Medida cilíndrico" matInput autocomplete="off" [(ngModel)]="stockLente.MedidaCilindrico" 
-              id="cilin" name="cilin" #cilin="ngModel" (keypress)="_keyPressCilindrico($event)" required (change)="convertirMedidas()"
-              (blur)="cambiarSigno(); compararLimiteGrilla($event.target.value, 'cilindrico')">
+              id="cilin" name="cilin" #cilin="ngModel" (keypress)="_keyPressCilindrico($event)" required 
+              (blur)="cambiarSigno(); compararLimiteGrilla($event.target.value, 'cilindrico'); convertirMedidas()">
             <mat-error *ngIf="cilin.invalid">Este campo es obligatorio</mat-error>
           </mat-form-field>
           <p class="msjError" *ngIf="msjLimiteCilindrico">
@@ -109,7 +109,7 @@
 
     <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
       <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-      <button mat-raised-button color="primary" (click)="buscar()">Buscar</button>
+      <button mat-raised-button color="primary" (click)="buscar()" [disabled]="msjLimiteEsferico || msjLimiteCilindrico">Buscar</button>
     </div>
   </div>
 </form>

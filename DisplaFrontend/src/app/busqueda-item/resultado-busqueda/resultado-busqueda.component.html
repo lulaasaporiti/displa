@@ -53,12 +53,12 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill (click)="verComprobante(row.Id, row.IdTipoComprobante, row.IdComprobanteItem)"></tr>
   </table>
-    <mat-paginator *ngIf="dataSource.data.length != 0" #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+    <mat-paginator [ngStyle]="{display: dataSource.data.length > 0 ? 'block' : 'none'}" #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
   
 </div>
 
  <!-- mensajes sin resultados -->
- <div fxLayout="row" class="mensaje-inicial" fxLayoutAlign="center center" [hidden]="dataSource.data.length > 0">
+ <div fxLayout="row" class="mensaje-inicial" fxLayoutAlign="center center" *ngIf="dataSource.data.length === 0">
   <div fxFill fxLayout="column" fxLayoutAlign="center center">
 
     <h1 class="poppins" style="color:#a6a4a4;">No se encontraron resultados para su búsqueda.</h1>
