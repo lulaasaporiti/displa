@@ -1,5 +1,5 @@
 <div class="content">
-  <!-- <app-loading-spinner></app-loading-spinner> -->
+  <app-loading-spinner></app-loading-spinner>
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
     <h4 fxLayout="column" class="titulo" fxFlex>Consulta de sobres</h4>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
@@ -9,7 +9,7 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="start center">
     <mat-accordion fxFill>
-      <mat-expansion-panel [expanded]="false" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h5 class="titulo" fxFlex>Filtros</h5>
@@ -21,15 +21,15 @@
             <div fxLayoutAlign="start center" fxLayoutGap="2vw">
               <mat-form-field fxFill>
                 <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
-                  [matAutocomplete]="auto" name="cli" [(ngModel)]="cliente" (blur)="applyFilterAvanzados(this.clientesControl, 'cliente')">
+                  [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                  <mat-option *ngFor="let c of filteredClientes | async" [value]="c">
+                  <mat-option *ngFor="let c of filteredClientes | async" [value]="c"
+                    (onSelectionChange)="applyFilterAvanzados($event, 'cliente')">
                     {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
-              <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo"
-                (click)="applyFilterAvanzados(todos, 'todos')">Todos los clientes
+              <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo" (click)="applyFilterAvanzados(todos, 'todos')">Todos los clientes
               </mat-slide-toggle>
             </div>
           </div>
@@ -52,7 +52,7 @@
                 (keyup)="applyFilterAvanzados($event.target.value, 'sobre')">
             </mat-form-field>
           </div>
-          <button mat-raised-button color="primary" (click)="buscarSobres()">Buscar</button>
+          <!-- <button mat-raised-button color="primary" (click)="buscarSobres()">Buscar</button> -->
         </div>
       </mat-expansion-panel>
     </mat-accordion>

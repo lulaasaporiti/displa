@@ -27,7 +27,6 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./venta-virtual-listado.component.css']
 })
 export class VentaVirtualListadoComponent implements OnInit {
-  panelOpenState = false;
   today = new Date();
   since: Date;
   original: any[] = [];
@@ -72,6 +71,7 @@ export class VentaVirtualListadoComponent implements OnInit {
             startWith(''),
             map(val => this.filterCliente(val))
           );
+        this.loadingSpinnerService.hide();
       });
   }
 
@@ -83,15 +83,7 @@ export class VentaVirtualListadoComponent implements OnInit {
     return c ? c.Id + ' - ' + c.Optica + ' - ' + c.Responsable : undefined;
   }
 
-  traerVentasCliente(event) {
-    this.loadingSpinnerService.show();
-    this.ventaVirtualService.getVentasVirtualesCliente(event.source.value.Id)
-      .subscribe(vc => {
-        this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-        this.original = vc;
-        this.loadingSpinnerService.hide();
-      })
-  }
+
 
   modificarCantidad(venta: VentaVirtual, event) {
     event.stopPropagation();
@@ -158,9 +150,13 @@ export class VentaVirtualListadoComponent implements OnInit {
   traerTodos(event) {
     this.loadingSpinnerService.show();
     if (!event.checked) {
-      this.ventaVirtualService.getVentasVirtualesList().subscribe(cv => {
-        this.dataSource.data = cv.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-        this.original = cv;
+      this.ventaVirtualService.getVentasVirtualesList().subscribe(vc => {
+        if (this.pendientes)
+          this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
+        else {
+          this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        }
+        this.original = vc;
         this.loadingSpinnerService.hide();
       })
     } else {
@@ -171,19 +167,33 @@ export class VentaVirtualListadoComponent implements OnInit {
   }
 
   entregasPendientes(event) {
+    console.log(this.clientesControl.value)
     this.loadingSpinnerService.show();
     if (!event.checked) {
-      this.ventaVirtualService.getEntregasPendientes().subscribe(cv => {
+      //AGREGAR QUE FILTRE POR TODOS, ID = 0
+      this.ventaVirtualService.getEntregasPendientes(this.clientesControl.value.Id).subscribe(cv => {
         this.dataSource.data = cv.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.original = cv;
         this.loadingSpinnerService.hide();
       })
     } else {
-      this.pendientes = event.checked;
       this.original = [];
       this.dataSource.data = [];
       this.loadingSpinnerService.hide();
     }
+  }
+
+    traerVentasCliente(event) {
+    this.loadingSpinnerService.show();
+    this.ventaVirtualService.getVentasVirtualesCliente(event.source.value.Id)
+      .subscribe(vc => {
+        if (this.pendientes)
+          this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
+        else 
+          this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        this.original = vc;
+        this.loadingSpinnerService.hide();
+      })
   }
 
   applyFilterAvanzados(event, campo: string) {
@@ -194,12 +204,15 @@ export class VentaVirtualListadoComponent implements OnInit {
       this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
     }
     if (campo == 'pendientes'){
+      this.pendientes = !event._checked;
       this.entregasPendientes(event);
     }
     if (campo == 'todos'){
+      this.clientesControl.setValue("");
       this.traerTodos(event);
     }
     if (campo == 'cliente'){
+      this.todo = false;
       this.traerVentasCliente(event);
     }
     // if (filtro.toString() == ""){

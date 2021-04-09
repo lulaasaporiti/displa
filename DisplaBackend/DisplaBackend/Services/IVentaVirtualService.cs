@@ -12,7 +12,7 @@ namespace DisplaBackend.Services
         bool Delete(VentaVirtual ventaVirtual);
         VentaVirtual GetById(int idVentaVirtual);
         List<VentaVirtual> GetVentasVirtualesCliente(int idCliente);
-        List<VentaVirtual> GetEntregasPendientes();
+        List<VentaVirtual> GetEntregasPendientes(int idCliente);
         bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos);
         decimal GetLentesConVentaVirtual(int idCliente, int idLente);
         decimal GetArticulosConVentaVirtual(int idCliente, int idArticulo);
@@ -33,9 +33,9 @@ namespace DisplaBackend.Services
             return _ventaVirtualDAO.GetVentasVirtuales();
         }
 
-        public List<VentaVirtual> GetEntregasPendientes()
+        public List<VentaVirtual> GetEntregasPendientes(int idCliente)
         {
-            return _ventaVirtualDAO.GetEntregasPendientes();
+            return _ventaVirtualDAO.GetEntregasPendientes(idCliente);
         }
 
 

@@ -32,12 +32,11 @@ export class SobreService {
     }
 
     getSobresConsulta(idCliente, fechaDesde, fechaHasta): Observable<any> {
-        console.log("entro")
-        return this.mainService.get(`Sobre/GetSobresConsulta`, 
-        new HttpParams()
-        .set('idCliente', idCliente)
-        .set('fechaDesde', fechaDesde)
-        .set('fechaHasta',fechaHasta)
+        return this.mainService.get(`Sobre/GetSobresConsulta`,
+            new HttpParams()
+                .set('idCliente', idCliente)
+                .set('fechaDesde', fechaDesde)
+                .set('fechaHasta', fechaHasta)
         )
     }
 }

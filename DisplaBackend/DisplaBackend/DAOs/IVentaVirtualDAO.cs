@@ -14,7 +14,7 @@ namespace DisplaBackend.DAOs
         bool Delete(VentaVirtual ventaVirtual);
         VentaVirtual GetById(int idVentaVirtual);
         List<VentaVirtual> GetVentasVirtualesCliente(int idCliente);
-        List<VentaVirtual> GetEntregasPendientes();
+        List<VentaVirtual> GetEntregasPendientes(int idCliente);
         bool SaveOrUpdateMovimiento(VentaVirtualMovimientos ventaVirtualMovimientos);
         decimal GetLentesConVentaVirtual(int idCliente, int idLente);
         decimal GetArticulosConVentaVirtual(int idCliente, int idArticulo);
@@ -40,7 +40,7 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public List<VentaVirtual> GetEntregasPendientes()
+        public List<VentaVirtual> GetEntregasPendientes(int idCliente)
         {
             return _context.VentaVirtual
                 .Include(v => v.IdComprobanteNavigation.IdTipoComprobanteNavigation)

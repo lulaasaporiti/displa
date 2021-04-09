@@ -21,12 +21,11 @@ import { startWith, map } from 'rxjs/operators';
   styleUrls: ['./sobre-consulta.component.css']
 })
 export class SobreConsultaComponent implements OnInit {
-  panelOpenState = false;
   today = new Date();
   original: any[] = [];
   since: Date;
   cliente;
-  todo: boolean = false;
+  todo: boolean = true;
   displayedColumns: string[] = ['Optica','Sobre','Entrada', 'Salida', 'NumeroComprobante','Observaciones'];
   dataSource = new MatTableDataSource<Sobre>();
   clientes: Cliente[];
@@ -59,29 +58,24 @@ export class SobreConsultaComponent implements OnInit {
             startWith(''),
             map(val => this.filterCliente(val))
           );
+          this.loadingSpinnerService.hide();
       });
-    this.loadSobrePage();
   }
 
   ngAfterViewInit() {
     this.searchElement.nativeElement.focus();
   }
 
-
-  loadSobrePage() {
-    this.loadingSpinnerService.show();
-   
-  }
-
   buscarSobres() {
-  this.sobreService.getSobresConsulta(this.cliente.Id, this.since.toDateString(), this.today.toDateString())
-  .subscribe(r => {
-    this.dataSource.data = r;
-    this.original = r;
-    // this.todo = true;
-    this.loadingSpinnerService.hide();
-  })
-}
+    this.loadingSpinnerService.show();
+    this.sobreService.getSobresConsulta((this.cliente != undefined) ? this.cliente.Id : 0, this.since.toDateString(), this.today.toDateString())
+      .subscribe(r => {
+        this.dataSource.data = r;
+        this.original = r;
+        // this.todo = true;
+        this.loadingSpinnerService.hide();
+      })
+  }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -107,32 +101,30 @@ export class SobreConsultaComponent implements OnInit {
     return c ? c.Id + ' - ' + c.Optica + ' - ' + c.Responsable : '';
   }
 
-  traerTodos(event) {
-    if (!event.checked) {
-         this.dataSource.data = this.original;
-    } else {
-      this.todo = event.checked;
-      this.dataSource.data = [];
-    }
-  }
-
 
   applyFilterAvanzados(event, campo: string) {
-    console.log(event)
     if (campo == 'todos'){
       this.clientesControl.setValue("");
-      this.todo = this.clientesControl.value == "";
+      this.cliente = undefined;
+      this.todo = event.checked;
       // this.traerTodos(event);
+      this.buscarSobres()
+    }
+    if (campo == 'desde'){
+      this.buscarSobres()
+    }
+    if (campo == 'hasta'){
+      this.buscarSobres()
     }
     if (campo == 'sobre'){
       this.dataSource.data = this.original.filter(s => s.Numero == +event);
     }
     if (campo == 'cliente'){
-      console.log(this.cliente)
       this.todo = (this.cliente == "");
+      this.cliente = event.source.value;
       this.changeDetector.detectChanges();
-      console.log("entra a cliente")
-      console.log(this.todo)
+      this.buscarSobres()
+      // this.buscarSobresCliente(event)
       // this.dataSource.data = this.original.filter(s => s.IdCliente == event.value.Id);
     }
     if (event.toString() == ""){

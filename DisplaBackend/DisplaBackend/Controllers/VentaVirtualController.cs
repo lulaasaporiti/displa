@@ -33,9 +33,9 @@ namespace DisplaBackend.Controllers
 
         [HttpGet, Route("GetEntregasPendientes")]
         [EnableCors("DisplaAPIPolicy")]
-        public object GetEntregasPendientes()
+        public object GetEntregasPendientes(int idCliente)
         {
-            return _ventaVirtualService.GetEntregasPendientes();
+            return _ventaVirtualService.GetEntregasPendientes(idCliente);
         }
 
         [HttpPost]

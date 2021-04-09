@@ -17,8 +17,11 @@ export class VentaVirtualService {
         return this.http.get(`${this.baseUrl}/GetVentasVirtuales`);
     }
 
-    getEntregasPendientes(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/GetEntregasPendientes`);
+    getEntregasPendientes(idCliente): Observable<any> {
+        console.log(idCliente)
+        return this.mainService.get(`VentaVirtual/GetEntregasPendientes`, {    
+            idCliente: idCliente,
+            });
     }
     
     saveOrUpdateVentaVirtual(ventaVirtual: Object): Observable<object> {
