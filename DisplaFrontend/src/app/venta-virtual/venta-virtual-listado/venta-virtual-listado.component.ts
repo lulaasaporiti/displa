@@ -8,7 +8,6 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Cliente } from 'src/app/model/cliente';
 import { startWith, map } from 'rxjs/operators';
-// import { add, subtract } from 'add-subtract-date';
 import { VentaVirtualService } from 'src/services/venta.virtual.service';
 import { VentaVirtualModificacionComponent } from '../venta-virtual-modificacion/venta-virtual-modificacion.component';
 import { VentaVirtualMovimientosComponent } from '../venta-virtual-movimientos/venta-virtual-movimientos.component';
@@ -45,7 +44,6 @@ export class VentaVirtualListadoComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
     private clienteService: ClienteService,
     private sessionService: SessionService,
     private parametroService: ParametroService,
@@ -55,7 +53,7 @@ export class VentaVirtualListadoComponent implements OnInit {
   ngOnInit() {
     this.since = new Date(new Date().setDate(this.today.getDate()-30));
     // this.since = new Date(this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
-    this.todo = true;
+    this.todo = false;
     this.pendientes = true;
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
@@ -132,16 +130,20 @@ export class VentaVirtualListadoComponent implements OnInit {
   }
 
   filterCliente(nombre: any): Cliente[] {
-    if (nombre.length >= 0) {
-      var s: string;
-      try {
-        s = nombre.toLowerCase();
+    if (nombre != undefined) {
+      if (nombre.length >= 0) {
+        var s: string;
+        try {
+          s = nombre.toLowerCase();
+        }
+        catch (ex) {
+          s = nombre.nombre.toLowerCase();
+        }
+        return this.clientes.filter(cliente =>
+          cliente.Id.toString().indexOf(s) !== -1 || cliente.Optica.toLowerCase().indexOf(s.toLowerCase()) !== -1);
+      } else {
+        return [];
       }
-      catch (ex) {
-        s = nombre.nombre.toLowerCase();
-      }
-      return this.clientes.filter(cliente =>
-        cliente.Id.toString().indexOf(s) !== -1 || cliente.Optica.toLowerCase().indexOf(s.toLowerCase()) !== -1);
     } else {
       return [];
     }
@@ -157,6 +159,7 @@ export class VentaVirtualListadoComponent implements OnInit {
           this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         }
         this.original = vc;
+        console.log(this.original)
         this.loadingSpinnerService.hide();
       })
     } else {
@@ -167,29 +170,25 @@ export class VentaVirtualListadoComponent implements OnInit {
   }
 
   entregasPendientes(event) {
-    console.log(this.clientesControl.value)
     this.loadingSpinnerService.show();
     if (!event.checked) {
-      //AGREGAR QUE FILTRE POR TODOS, ID = 0
-      this.ventaVirtualService.getEntregasPendientes(this.clientesControl.value.Id).subscribe(cv => {
+      this.ventaVirtualService.getEntregasPendientes((this.clientesControl.value != undefined) ? this.clientesControl.value.Id : 0).subscribe(cv => {
         this.dataSource.data = cv.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-        this.original = cv;
         this.loadingSpinnerService.hide();
       })
     } else {
-      this.original = [];
-      this.dataSource.data = [];
+      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
       this.loadingSpinnerService.hide();
     }
   }
 
-    traerVentasCliente(event) {
+  traerVentasCliente(event) {
     this.loadingSpinnerService.show();
     this.ventaVirtualService.getVentasVirtualesCliente(event.source.value.Id)
       .subscribe(vc => {
         if (this.pendientes)
           this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
-        else 
+        else
           this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.original = vc;
         this.loadingSpinnerService.hide();
@@ -198,17 +197,23 @@ export class VentaVirtualListadoComponent implements OnInit {
 
   applyFilterAvanzados(event, campo: string) {
     if (campo == 'desde'){
-      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+      if (this.pendientes) 
+        this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
+      else 
+        this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
     }
     if (campo == 'hasta'){
-      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+      if (this.pendientes) 
+        this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
+      else
+        this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
     }
     if (campo == 'pendientes'){
       this.pendientes = !event._checked;
       this.entregasPendientes(event);
     }
     if (campo == 'todos'){
-      this.clientesControl.setValue("");
+      this.clientesControl.setValue(undefined);
       this.traerTodos(event);
     }
     if (campo == 'cliente'){

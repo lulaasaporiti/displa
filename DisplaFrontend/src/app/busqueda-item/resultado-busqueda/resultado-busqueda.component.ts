@@ -64,7 +64,6 @@ export class ResultadoBusquedaComponent implements OnInit {
     combineLatest([
       this.comprobanteService.buscarItemComprobante(this.idLente, this.idArticulo, this.libre, this.desde, this.hasta),
       this.remitoService.buscarItemRemito(this.idLente, this.idArticulo, this.libre, this.desde, this.hasta),
-
     ])
       .subscribe(r => {
         this.dataSource.data = r[0];

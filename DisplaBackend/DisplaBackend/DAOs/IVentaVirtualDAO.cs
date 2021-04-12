@@ -42,12 +42,24 @@ namespace DisplaBackend.DAOs
 
         public List<VentaVirtual> GetEntregasPendientes(int idCliente)
         {
-            return _context.VentaVirtual
+            if (idCliente > 0)
+            {
+                return _context.VentaVirtual
+                .Include(v => v.IdComprobanteNavigation.IdTipoComprobanteNavigation)
+                .Include(v => v.IdComprobanteNavigation)
+                .ThenInclude(vc => vc.IdClienteNavigation)
+                .Where(v => v.CantidadVendida > v.CantidadEntregada && v.IdComprobanteNavigation.IdCliente == idCliente)
+                .ToList();
+            } else
+            {
+                return _context.VentaVirtual
                 .Include(v => v.IdComprobanteNavigation.IdTipoComprobanteNavigation)
                 .Include(v => v.IdComprobanteNavigation)
                 .ThenInclude(vc => vc.IdClienteNavigation)
                 .Where(v => v.CantidadVendida > v.CantidadEntregada)
                 .ToList();
+            }
+                
         }
 
 

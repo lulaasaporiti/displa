@@ -149,6 +149,7 @@ namespace DisplaBackend.DAOs
                    .Select(ca => new {
                        Id = ca.Id,
                        Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
                        IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.ComprobanteItemLente.Any(cil => cil.IdLente == idLente)).Select(c => c.Id),
                        Producto = ca.ComprobanteItem.Where(ci => ci.ComprobanteItemLente.Any(cil => cil.IdLente == idLente)).Select(c => c.Descripcion)
@@ -166,6 +167,7 @@ namespace DisplaBackend.DAOs
                     .Select(ca => new {
                         Id = ca.Id,
                         Fecha = ca.Fecha,
+                        FechaAnulado = ca.FechaAnulado,
                         IdClienteNavigation = ca.IdClienteNavigation.Optica,
                         IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.IdArticulo == idArticulo).Select(c => c.Id),
                         Producto = ca.ComprobanteItem.Where(ci => ci.IdArticulo == idArticulo).Select(a => a.IdArticuloNavigation.Nombre)
@@ -183,6 +185,7 @@ namespace DisplaBackend.DAOs
                     .Select(ca => new {
                         Id = ca.Id,
                         Fecha = ca.Fecha,
+                        FechaAnulado = ca.FechaAnulado,
                         IdClienteNavigation = ca.IdClienteNavigation.Optica,
                         IdComprobanteItem = ca.ComprobanteItem.Where(ci => ci.Descripcion.Contains(libre)).Select(c => c.Id),
                         Producto = ca.ComprobanteItem.Where(ci => ci.Descripcion.Contains(libre)).Select(c => c.Descripcion)
