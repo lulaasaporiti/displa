@@ -29,6 +29,7 @@ namespace DisplaBackend.DAOs
         public List<MovimientoInsumo> GetMovimientosInsumo(int idInsumo)
         {
             return _context.MovimientoInsumo
+                .Include(mi => mi.IdUsuarioNavigation)
                 .Where(mi => mi.IdInsumo == idInsumo) 
                 .ToList();
         }
@@ -37,15 +38,7 @@ namespace DisplaBackend.DAOs
         {
             try
             {
-                if (movimientoInsumo.Id == 0)
-                {
-                    movimientoInsumo = _context.Add(movimientoInsumo).Entity;
-                }
-                else
-                {
-                    movimientoInsumo = _context.MovimientoInsumo.Update(movimientoInsumo).Entity;
-
-                }
+                movimientoInsumo = _context.Add(movimientoInsumo).Entity;
                 return _context.SaveChanges() >= 1;
 
             }

@@ -72,6 +72,14 @@ namespace DisplaBackend.Controllers
             return Ok(_insumoService.Delete(insumo));
         }
 
+        [HttpGet("{id}")]
+        //[EnableCors("DisplaAPIPolicy")]
+        public object GetById([FromRoute] int id)
+        {
+            return _insumoService.GetById(id);
+        }
+
+
     }
 
 

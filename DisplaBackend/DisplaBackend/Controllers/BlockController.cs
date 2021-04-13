@@ -72,6 +72,14 @@ namespace DisplaBackend.Controllers
             return Ok(_blockService.Delete(block));
         }
 
+        [HttpGet("{id}")]
+        //[EnableCors("DisplaAPIPolicy")]
+        public object GetById([FromRoute] int id)
+        {
+            return _blockService.GetById(id);
+        }
+
+
     }
 
 

@@ -91,11 +91,10 @@
             <!-- ///////////////////////  PRECIO PRIMERA GRADUACION  ////////////////////////////// -->
             <div mat-dialog-content fxLayoutGap="10px" fxFlex="55" style="height: 101px;">
                 <mat-form-field fxFlex="50">
-                    <input matInput placeholder="Precio unitario" id="precio"
-                        [(ngModel)]="modelComprobanteItemLente[0].Precio" id="precio0" name="precio0" #precio0
-                        pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)" disabled>
+                    <input matInput placeholder="Precio unitario" id="precio" id="precio0" name="precio0" #precio0 disabled
+                        [(ngModel)]="modelComprobanteItemLente[0].Precio">
                 </mat-form-field>
-                <div fxLayout="column" fxFlex="30">
+                <div fxLayout="column" fxFlex="30" *ngIf="modelComprobanteItemLente[0].IdLenteNavigation != undefined && modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado; else cantidadNoFraccionado">
                     <!-- (blur)="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)" -->
                     <mat-form-field>
                         <input matInput placeholder="Cantidad" id="cantidad0"
@@ -103,20 +102,44 @@
                             (keypress)="_keyPressCantidad($event)" pattern="[0-9]*.?[5]?"
                             [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
                         <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
-                        <mat-error *ngIf="cantidad0.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
+                        <!-- <mat-error *ngIf="cantidad0.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error> -->
                     </mat-form-field>
+                    <p class="msjError" *ngIf="cantidad0.errors?.pattern && modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado">La cantidad no es múltiplo de 0.5.</p>
 
                     <!-- <p class="msjError"
                         *ngIf="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)">
                         La cantidad no es múltiplo de 0.5.</p> -->
                 </div>
+                <ng-template #cantidadNoFraccionado>
+                    <div fxLayout="column" fxFlex="30">
+                        <mat-form-field>
+                            <input matInput placeholder="Cantidad" id="cantidad0"
+                                (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
+                                (keypress)="_keyPressCantidad($event)" pattern="[0-9]*"
+                                [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
+                            <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
+                        </mat-form-field>
+                        <p class="msjError" *ngIf="cantidad0.errors?.pattern && !modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado">La cantidad debe ser entero.</p>
+                    </div>
+                </ng-template>
 
-                <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
-                    <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
-                        (keyup.enter)="tabInventado($event, 'remove')" #sobre="ngModel"
-                        [(ngModel)]="modelComprobanteItemLente[0].Sobre" name="sobre" required>
-                    <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
-                </mat-form-field>
+                <div *ngIf="modelComprobanteItemLente[0].IdLenteNavigation != undefined && modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado; else sobreNoFraccionado">
+                    <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
+                        <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
+                            (keyup.enter)="tabInventado($event, 'remove')" #sobre="ngModel"
+                            [(ngModel)]="modelComprobanteItemLente[0].Sobre" name="sobre" required>
+                        <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <ng-template #sobreNoFraccionado>
+                    <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
+                        <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
+                            (keyup.enter)="tabInventado($event, 'calibrado')" #sobre="ngModel"
+                            [(ngModel)]="modelComprobanteItemLente[0].Sobre" name="sobre" required>
+                        <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
+                    </mat-form-field>
+                </ng-template>
             </div>
             <!-- ///////////////////////  FIN PRECIO PRIMERA GRADUACION  ////////////////////////////// -->
 
@@ -126,14 +149,13 @@
                 style="height: 101px;">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Precio unitario" [(ngModel)]="modelComprobanteItemLente[1].Precio"
-                        id="precio1" name="precio1" #precio1 pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)"
-                        disabled>
+                        id="precio1" name="precio1" #precio1 disabled>
                 </mat-form-field>
                 <div fxLayout="column">
                     <mat-form-field fxFlex="50">
                         <input matInput placeholder="Cantidad" id="cantidad1"
                             (keyup.enter)="comprobanteItemLenteSelected(); tabInventado($event, 'calibrado')"
-                            #cantidad1="ngModel" (keypress)="_keyPress($event)" pattern="[0-9]*.?[5]?"
+                            #cantidad1="ngModel" (keypress)="_keyPressCantidad($event)" pattern="[0-9]*.?[5]?"
                             [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1" required>
                         <mat-error *ngIf="cantidad1.hasError('required')">Este campo es obligatorio.</mat-error>
                         <mat-error *ngIf="cantidad1.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
@@ -143,7 +165,7 @@
             <!-- /////////////////////// FIN PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
         </div>
 
-        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2"
+        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="modelComprobanteItemLente.length < 2 && (modelComprobanteItemLente[0].IdLenteNavigation != undefined && modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado)"
             class="agregar-graduacion">
             <p style="font-size: small;">Agregar otra graduación</p>
             <mat-button-toggle-group fxFlexOffset="2">

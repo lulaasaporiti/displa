@@ -25,37 +25,10 @@
 
         <div mat-dialog-content fxLayout="row">
             <mat-form-field fxFill>
-                <input matInput placeholder="Precio" [(ngModel)]="data.modelMovimientoInsumo.Precio" name="precio"
-                    #precio="ngModel" required>
-                <mat-error *ngIf="precio.hasError('required')">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
-        </div>
-
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Base" [(ngModel)]="data.modelMovimientoInsumo.Base" name="base"
-                    #base="ngModel" required>
-                <mat-error *ngIf="base.hasError('required')">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
-        </div>
-
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <input matInput placeholder="Adición" [(ngModel)]="data.modelMovimientoInsumo.Adicion" name="adicion"
-                    #adicion="ngModel" required>
-                <mat-error *ngIf="adicion.hasError('required')">Este campo es obligatorio.</mat-error>
-            </mat-form-field>
-        </div>
-
-        <div mat-dialog-content fxLayout="row">
-            <mat-form-field fxFill>
-                <mat-select placeholder="Ubicacion" [(ngModel)]="data.modelMovimientoInsumo.IdUbicacion" name="ubicacion"
-                    #ubicacion="ngModel" required>
-                    <mat-option *ngFor="let u of ubicaciones" [value]="u.Id">
-                        {{ u.Nombre }}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="ubicacion.hasError('required')">Este campo es obligatorio.</mat-error>
+                <input matInput placeholder="Cantidad" [(ngModel)]="data.modelMovimientoInsumo.Cantidad" name="cantidad"
+                    #cantidad="ngModel" pattern="[0-9]*.?[5]?" required>
+                <mat-error *ngIf="cantidad.hasError('required')">Este campo es obligatorio.</mat-error>
+                <p class="msjError" *ngIf="cantidad.errors?.pattern">La cantidad no es múltiplo de 0.5.</p>
             </mat-form-field>
         </div>
 

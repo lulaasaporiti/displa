@@ -54,6 +54,7 @@ namespace DisplaBackend.DAOs
                     Borrado = l.Borrado,
                     GraduacionesCilindricas = l.GraduacionesCilindricas,
                     Combinacion = l.Combinacion,
+                    Fraccionado = l.Fraccionado,
                     PrecioLente = l.PrecioLente
                         .Where(p => p.PrecioLenteCliente.Where(pc => pc.Especial == true).Count() == 0)
                         .Select(p => new PrecioLente { Id = p.Id, Precio = p.Precio, IdLente = p.IdLente, PrecioLenteCliente = p.PrecioLenteCliente, MedidaCilindrico = p.MedidaCilindrico, MedidaEsferico = p.MedidaEsferico })

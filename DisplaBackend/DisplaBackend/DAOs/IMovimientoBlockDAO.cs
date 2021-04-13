@@ -29,6 +29,7 @@ namespace DisplaBackend.DAOs
         public List<MovimientoBlock> GetMovimientosBlock(int idBlock)
         {
             return _context.MovimientoBlock
+                .Include(mi => mi.IdUsuarioNavigation)
                 .Where(mb => mb.IdBlock == idBlock) 
                 .ToList();
         }

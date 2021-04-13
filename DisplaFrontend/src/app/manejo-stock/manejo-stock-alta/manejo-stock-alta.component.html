@@ -66,7 +66,8 @@
                                 #stock="ngModel" required>
                             <mat-error *ngIf="stock.hasError('required')">Este campo es obligatorio.</mat-error>
                         </mat-form-field>
-                        <p class="msjError" *ngIf="msjCantidad[index]">La cantidad no es múltiplo de 0.5.</p>
+                        <p class="msjError" *ngIf="msjCantidad[index] && cargarStock[index].IdLenteNavigation.Fraccionado">El stock no es múltiplo de 0.5.</p>
+                        <p class="msjError" *ngIf="msjCantidad[index] && !cargarStock[index].IdLenteNavigation.Fraccionado">El stock debe ser entero.</p>
                     </div>
 
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarUltimoStock()"

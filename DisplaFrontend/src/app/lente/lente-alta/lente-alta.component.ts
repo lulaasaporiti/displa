@@ -33,6 +33,7 @@ export class LenteAltaComponent {
     this.loadingSpinnerService.show();
     this.lenteService.getCodigoLente().subscribe(result => {
       this.modelLente.Id = result;
+      this.modelLente.Fraccionado = true;
       this.loadingSpinnerService.hide();
     });
   }

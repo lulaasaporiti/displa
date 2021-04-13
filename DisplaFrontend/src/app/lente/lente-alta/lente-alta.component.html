@@ -34,18 +34,22 @@
                 <mat-error *ngIf="combinacion.invalid">Este campo es obligatorio</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex='17'>
+            <mat-form-field fxFlex='15'>
                 <input matInput placeholder="Ingresos brutos" [(ngModel)]="modelLente.IngresosBrutos"
                     name="ingresosBrutos" #ingresosBrutos="ngModel">
             </mat-form-field>
 
-            <mat-form-field fxFlex='17'>
+            <mat-form-field fxFlex='15'>
                 <input matInput placeholder="Porcentaje IVA" [(ngModel)]="modelLente.IVA"
                     name="iva" #iva="ngModel">
             </mat-form-field>
 
-            <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
+            <mat-checkbox fxFlex='15' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
                 #mediosPares="ngModel">Medios pares
+            </mat-checkbox>
+
+            <mat-checkbox fxFlex='15' class="radio-group" [(ngModel)]="modelLente.Fraccionado" name="fraccionado"
+                #fraccionado="ngModel">Se vende fraccionado
             </mat-checkbox>
         </div>
 

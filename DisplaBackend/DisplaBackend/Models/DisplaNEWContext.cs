@@ -723,8 +723,7 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Descripcion)
                     .IsRequired()
-                    .HasColumnName("descripcion")
-                    .HasMaxLength(500);
+                    .HasColumnName("descripcion");
 
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
@@ -810,6 +809,11 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.FechaCreacion)
                     .HasColumnName("fechaCreacion")
                     .HasColumnType("date");
+
+                entity.Property(e => e.Fraccionado)
+                    .IsRequired()
+                    .HasColumnName("fraccionado")
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.GraduacionesCilindricas)
                     .HasColumnName("graduacionesCilindricas")

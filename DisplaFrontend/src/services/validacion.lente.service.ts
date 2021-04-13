@@ -94,9 +94,12 @@ export class ValidacionLenteService {
         }
     }
 
-    divisionCantidad(cantidad) {
+    divisionCantidad(cantidad, fraccionado) {
         if (cantidad != undefined || cantidad != null) {
-            return (+cantidad % 0.50) != 0;
+            if (fraccionado == true)
+                return (+cantidad % 0.50) != 0;
+            else 
+                return (+cantidad % 1) != 0;
         }
     }
 

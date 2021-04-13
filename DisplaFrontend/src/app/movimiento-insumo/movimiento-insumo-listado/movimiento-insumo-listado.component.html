@@ -1,9 +1,15 @@
 <div class="content">
   <app-loading-spinner></app-loading-spinner>
+
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-    <h4 fxLayout="column" class="titulo" fxFlex>Movimientos de Insumo</h4>
-    <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
-      <input matInput (keyup)="applyFilter($event.target.value)" #search placeholder="Buscar">
+    <div fxLayout="column">
+      <h4 fxLayout="column" class="titulo" fxFlex>Movimientos de insumo</h4>
+      <h5 fxLayout="column" fxFlex>{{insumo.Id}} - {{insumo.Nombre}}</h5>
+      <h5 fxLayout="column" fxFlex>Stock actual: {{insumo.StockActual}}</h5>
+    </div>
+    <mat-form-field fxLayout="column" fxFlex="40" class="buscador" fxFlexOffset="35">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus"
+        placeholder="Buscar">
     </mat-form-field>
   </div>
   <mat-divider fxFlexOffset="2"></mat-divider>
@@ -18,36 +24,22 @@
   <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
     <ng-container matColumnDef="TipoMovimiento">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="60"> TIPO MOVIMIENTO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="80" fxLayoutAlign="start center"> {{row.TipoMovimiento}} </td>
+      <td mat-cell *matCellDef="let row" fxFlex="60" fxLayoutAlign="start center"> {{row.TipoMovimiento}} </td>
     </ng-container>
 
     <ng-container matColumnDef="Fecha">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> FECHA </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Fecha}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="14"> FECHA </th>
+      <td mat-cell *matCellDef="let row" fxFlex="14" fxLayoutAlign="start center"> {{row.Fecha | date:"dd/MM/yyyy"}} </td>
     </ng-container>
 
     <ng-container matColumnDef="Cantidad">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> CANTIDAD </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Cantidad}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="13"> CANTIDAD </th>
+      <td mat-cell *matCellDef="let row" fxFlex="13" fxLayoutAlign="start center"> {{row.Cantidad}} </td>
     </ng-container>
 
     <ng-container matColumnDef="Usuario">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> USUARIO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.IdUsuarioNavigation.UserName}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Opciones">
-      <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="end">
-        <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar">
-          <!-- (click)="modificarMovimientoInsumo(row)" -->
-          <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Eliminar" [matTooltipPosition]="'above'" aria-label="Eliminar">
-          <!-- (click)="eliminarMovimientoInsumo(row)" -->
-          <mat-icon svgIcon="delete_outline" class="tabla_icono"></mat-icon>
-        </button>
-      </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="13"> USUARIO </th>
+      <td mat-cell *matCellDef="let row" fxFlex="13" fxLayoutAlign="start center"> {{row.IdUsuarioNavigation.UserName}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>

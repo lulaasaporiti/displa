@@ -25,6 +25,7 @@ namespace DisplaBackend.Models
         public double? IngresosBrutos { get; set; }
         public bool Borrado { get; set; }
         public decimal? Iva { get; set; }
+        public bool? Fraccionado { get; set; }
 
         public virtual ICollection<ComprobanteItemLente> ComprobanteItemLente { get; set; }
         public virtual ICollection<PrecioLente> PrecioLente { get; set; }

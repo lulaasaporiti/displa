@@ -32,4 +32,8 @@ export class InsumoService {
         console.log(id)
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
+
+    getById(id: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
 }

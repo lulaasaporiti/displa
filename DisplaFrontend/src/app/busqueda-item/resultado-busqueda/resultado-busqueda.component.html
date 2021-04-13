@@ -2,12 +2,13 @@
   <app-loading-spinner></app-loading-spinner>
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
     <div fxLayout="column">
-    <h4 fxLayout="column" class="titulo" fxFlex>Resultados</h4>
-    <h5 fxLayout="column" fxFlex>{{producto}}</h5>
-    <h5 fxLayout="column" fxFlex>Período: {{desde | date:"dd/MM/yyyy"}} - {{hasta | date:"dd/MM/yyyy"}}</h5>
-  </div>
+      <h4 fxLayout="column" class="titulo" fxFlex>Resultados</h4>
+      <h5 fxLayout="column" fxFlex>{{producto}}</h5>
+      <h5 fxLayout="column" fxFlex>Período: {{desde | date:"dd/MM/yyyy"}} - {{hasta | date:"dd/MM/yyyy"}}</h5>
+    </div>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador" fxFlexOffset="35">
-      <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus" placeholder="Buscar">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus"
+        placeholder="Buscar">
     </mat-form-field>
   </div>
 

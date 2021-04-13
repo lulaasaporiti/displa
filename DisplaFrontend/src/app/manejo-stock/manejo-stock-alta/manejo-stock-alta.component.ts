@@ -109,7 +109,7 @@ export class ManejoStockAltaComponent implements OnInit {
   }
 
   validarCantidad(index) {
-    this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock)
+    this.msjCantidad[index] = this.validacionLenteService.divisionCantidad(this.cargarStock[index].Stock, this.cargarStock[index].IdLenteNavigation.Fraccionado)
   }
   
   stockSelected() {

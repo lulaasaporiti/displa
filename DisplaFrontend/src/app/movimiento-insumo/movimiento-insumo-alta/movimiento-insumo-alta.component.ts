@@ -15,7 +15,6 @@ export class MovimientoInsumoAltaComponent {
     public dialogRef: MatDialogRef<MovimientoInsumoAltaComponent>,
     private ubicacionService: UbicacionService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-
   }
 
   ngOnInit() {

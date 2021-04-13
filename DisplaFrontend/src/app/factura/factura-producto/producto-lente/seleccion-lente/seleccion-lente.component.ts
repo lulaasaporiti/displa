@@ -223,7 +223,7 @@ export class SeleccionLenteComponent implements OnInit {
   }
 
   eliminarUltimaGraduacion(i) {
-    this.modelComprobanteItemLente[0].Cantidad = this.modelComprobanteItemLente[0].Cantidad + this.modelComprobanteItemLente[1].Cantidad;
+    this.modelComprobanteItemLente[0].Cantidad = +this.modelComprobanteItemLente[0].Cantidad + +this.modelComprobanteItemLente[1].Cantidad;
     this.modelComprobanteItemLente.splice(+i, 1);
   }
 
@@ -295,7 +295,6 @@ export class SeleccionLenteComponent implements OnInit {
       }
       else {
         this.msjLimiteCilindrico[index] = this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[index].MedidaCilindrico, 'cilindrico')
-        console.log("msjvarianle", this.msjLimiteCilindrico[index])
       }
     }
     // this.comprobanteItemLenteSelected()

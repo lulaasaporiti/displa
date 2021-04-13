@@ -33,15 +33,7 @@ export class BlockService {
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
-    //   getCustomersList(): Observable<any> {
-    //     return this.http.get(`${this.baseUrl}/`);
-    //   }
-
-    //   getCustomersByAge(age: number): Observable<any> {
-    //     return this.http.get(`${this.baseUrl}/age/${age}/`);
-    //   }
-
-    //   deleteAll(): Observable<any> {
-    //     return this.http.delete(`${this.baseUrl}/`);
-    //   }
+    getById(id: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
 }

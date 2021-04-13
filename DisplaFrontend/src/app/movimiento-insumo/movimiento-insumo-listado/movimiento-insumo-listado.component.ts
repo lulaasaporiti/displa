@@ -9,6 +9,9 @@ import { MovimientoInsumoService } from 'src/services/movimiento.insumo.service'
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
 import { SessionService } from 'src/services/session.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { InsumoService } from 'src/services/insumo.service';
+import { Insumo } from 'src/app/model/insumo';
+import { combineLatest } from 'rxjs';
 
 
 @Component({
@@ -18,10 +21,11 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class MovimientoInsumoListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['TipoMovimiento', 'Fecha', 'Cantidad', 'Usuario', 'Opciones'];
+  displayedColumns: string[] = ['TipoMovimiento', 'Fecha', 'Cantidad', 'Usuario'];
   dataSource = new MatTableDataSource<MovimientoInsumo>();
 
   idInsumo: number;
+  insumo = <Insumo>{};
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -31,12 +35,16 @@ export class MovimientoInsumoListadoComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private segment: ActivatedRoute,
+    private insumoService: InsumoService,
     private movimientoInsumoService: MovimientoInsumoService,
     private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService) { 
 
       this.segment.queryParams.subscribe((params: Params) => {
         this.idInsumo = params['idInsumo'];
+        this.insumoService.getById(this.idInsumo).subscribe(r => {
+          this.insumo = r;
+        });
       });
     }
 
@@ -57,9 +65,13 @@ export class MovimientoInsumoListadoComponent implements OnInit {
 
   loadMovimientoInsumoPage() {
     this.loadingSpinnerService.show()
-    this.movimientoInsumoService.getMovimientoInsumoList(this.idInsumo)
+    combineLatest([
+      this.movimientoInsumoService.getMovimientoInsumoList(this.idInsumo),
+      this.insumoService.getById(this.idInsumo)
+    ])
       .subscribe(r => {
-        this.dataSource.data = r;
+        this.dataSource.data = r[0];
+        this.insumo = r[1]
         this.loadingSpinnerService.hide();
       })
   }
@@ -67,6 +79,7 @@ export class MovimientoInsumoListadoComponent implements OnInit {
   agregarMovimientoInsumo(): void {
     let movimientoInsumo = <MovimientoInsumo>{};
     movimientoInsumo.IdInsumo = this.idInsumo;
+    // movimientoInsumo.IdInsumoNavigation = this.insumo;
     movimientoInsumo.IdUsuario = this.sessionService.getPayload()['idUser'];
     const dialogRef = this.dialog.open(MovimientoInsumoAltaComponent, {
       width: '550px',

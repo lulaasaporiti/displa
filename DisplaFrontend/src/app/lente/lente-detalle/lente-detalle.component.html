@@ -29,19 +29,23 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field fxFlex='17'>
+        <mat-form-field fxFlex='15'>
             <input matInput placeholder="Ingresos brutos" [(ngModel)]="modelLente.IngresosBrutos" name="ingresosBrutos"
                 #ingresosBrutos="ngModel" disabled>
         </mat-form-field>
 
-        <mat-form-field fxFlex='17'>
+        <mat-form-field fxFlex='15'>
             <input matInput placeholder="Porcentaje IVA" [(ngModel)]="modelLente.IVA"
                 name="iva" #iva="ngModel" disabled>
         </mat-form-field>
 
-        <mat-checkbox fxFlex='17' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
+        <mat-checkbox fxFlex='15' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
             #mediosPares="ngModel" disabled>Medios pares
         </mat-checkbox>
+
+        <mat-checkbox fxFlex='15' class="radio-group" [(ngModel)]="modelLente.Fraccionado" name="fraccionado"
+                #fraccionado="ngModel" disabled>Se vende fraccionado
+            </mat-checkbox>
     </div>
 
     <div fxLayout="row" style="margin-top: 20px;" fxLayoutGap="2vw">
