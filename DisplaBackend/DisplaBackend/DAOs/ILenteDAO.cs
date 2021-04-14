@@ -127,9 +127,9 @@ namespace DisplaBackend.DAOs
                         var precio = new PrecioLente();
                         var aux = p.Precio;
 
-                        if (p.Precio.Length >= lista)
+                        if (p.Precio.Length >= lista)//si el numero de "lista" ya esta generado
                         {
-                            if (p.Precio[lista - 1] != null)
+                            if (p.Precio[lista - 1] != null) // si tiene el precio para ese numero de lista para actualizar el que ya esta
                             {
                                 precio.Id = p.Precio[lista - 1].Id;
                             }

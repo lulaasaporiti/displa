@@ -58,7 +58,7 @@
         </div>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button type="button" (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary" [disabled]="!clientesControl.valid"
                 [mat-dialog-close]="data">Aceptar</button>
         </div>

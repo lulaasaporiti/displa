@@ -6,7 +6,7 @@
 
        
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-            <button mat-raised-button [mat-dialog-close]="false" (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button [mat-dialog-close]="false" type="button" (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Confirmar</button>
         </div>
     </div>

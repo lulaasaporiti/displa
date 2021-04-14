@@ -22,13 +22,14 @@ import { ComprobanteDetalleComponent } from './comprobante-detalle/comprobante-d
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
+import { AnulacionComprobanteComponent } from './anulacion-comprobante/anulacion-comprobante.component';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     entryComponents: [ ClienteSeleccionComponent, ProductoLenteComponent, ProductoArticuloComponent, ProductoLibreComponent, 
         ProductoDescuentoComponent, FacturaConfirmarComponent, ProductoServicioComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
-    declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, SeleccionLenteComponent, 
+    declarations: [ ClienteSeleccionComponent, FacturaAltaComponent, ProductoLenteComponent, SeleccionLenteComponent, AnulacionComprobanteComponent,
         ProductoArticuloComponent, ProductoLibreComponent, ProductoDescuentoComponent, FacturaConfirmarComponent, ComprobanteDetalleComponent,
         ProductoServicioComponent, SeleccionServiciosComponent, SeleccionRecargosComponent, FacturaFichaComponent, LenteVentaVirtualComponent, ResumenLenteComponent ],
     imports: [

@@ -69,6 +69,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoArticulo> TipoArticulo { get; set; }
         public virtual DbSet<TipoBlock> TipoBlock { get; set; }
         public virtual DbSet<TipoComprobante> TipoComprobante { get; set; }
+        public virtual DbSet<TipoDescuento> TipoDescuento { get; set; }
         public virtual DbSet<TipoInsumo> TipoInsumo { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<TrasladoFondo> TrasladoFondo { get; set; }
@@ -76,7 +77,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1544,6 +1544,22 @@ namespace DisplaBackend.Models
                     .IsRequired()
                     .HasColumnName("descripcion")
                     .HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<TipoDescuento>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Borrado).HasColumnName("borrado");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.Porcentaje)
+                    .HasColumnName("porcentaje")
+                    .HasColumnType("decimal(5, 2)");
             });
 
             modelBuilder.Entity<TipoInsumo>(entity =>

@@ -1,0 +1,29 @@
+<form #modalForm="ngForm">
+
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="font-size:30px" svgIcon="edit"></mat-icon>
+            <p class="dialog-title">Editar tipo de descuento</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Descripcion" [(ngModel)]="data.modelTipoDescuento.Descripcion" name="descripcion"
+                    #descripcion="ngModel" (keyup.enter)="onEnter();" required>
+                <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input matInput placeholder="Porcentaje" [(ngModel)]="data.modelTipoDescuento.Porcentaje"
+                    name="porcentaje" #porcentaje="ngModel" (keyup.enter)="onEnter();">
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button type="button" (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="!modalForm.form.valid" [mat-dialog-close]="data">Guardar</button>
+        </div>
+    </div>
+</form>

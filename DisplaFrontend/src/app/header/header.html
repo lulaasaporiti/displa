@@ -90,7 +90,7 @@
                     <a mat-menu-item class="button-list" (click)="openDialogAltaMovimientoInterno('cliente');">Movimientos internos</a>
                     <a mat-menu-item class="button-list">Consultar pedido</a>
                     <a mat-menu-item class="button-list">Consulta de remitos anulados</a>
-                    <a mat-menu-item class="button-list">Anulación/consulta de comprobantes</a>
+                    <a mat-menu-item class="button-list" routerLink="AnulacionComprobante">Anulación/consulta de comprobantes</a>
                     <a mat-menu-item class="button-list" routerLink="VentaVirtual/Listado">Consulta de ventas virtuales</a>
                     <a mat-menu-item class="button-list">IVA ventas</a>
                     <a mat-menu-item class="button-list">Ingresos brutos</a>
@@ -132,7 +132,6 @@
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Estadisticas</a>
                     <a mat-menu-item class="button-list">Cálculo de retenciones</a>
                     <a mat-menu-item class="button-list">Informe de retenciones</a>
-                    <a mat-menu-item class="button-list">Tipos de descuento</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuComprobantes="matMenu">
@@ -188,6 +187,7 @@
                     <a mat-menu-item class="button-list" routerLink="Localidad/Listado">Localidades</a>
                     <a mat-menu-item class="button-list" routerLink="Provincia/Listado">Provincias</a>
                     <a mat-menu-item class="button-list" routerLink="TipoComprobante/Listado">Tipos de comprobantes</a>
+                    <a mat-menu-item class="button-list" routerLink="TipoDescuento/Listado">Tipos de descuento</a>
                 </mat-menu>
                 <button mat-button class="button-list" [matMenuTriggerFor]="menuBanco">Banco</button>
                 <mat-menu fxLayoutAlign="start center" #menuBanco="matMenu">

@@ -70,7 +70,7 @@
             </div>
         </div>
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
-            <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button type="button" (click)="onNoClick()">Cancelar</button>
             <button mat-raised-button color="primary"
                 [disabled]="!modalForm.form.valid || cargarStock.length == 0 || msjLimiteCilindrico.includes(true) || msjLimiteEsferico.includes(true) || msjCantidad.includes(true)"
                 (click)="agregarNuevoStock()">Agregar</button>

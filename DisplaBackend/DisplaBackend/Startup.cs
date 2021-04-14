@@ -246,6 +246,8 @@ namespace DisplaBackend
             services.AddScoped<ITipoBlockDAO, TipoBlockDAO>();
             services.AddScoped<ITipoComprobanteService, TipoComprobanteService>();
             services.AddScoped<ITipoComprobanteDAO, TipoComprobanteDAO>();
+            services.AddScoped<ITipoDescuentoService, TipoDescuentoService>();
+            services.AddScoped<ITipoDescuentoDAO, TipoDescuentoDAO>();
             services.AddScoped<ITipoInsumoService, TipoInsumoService>();
             services.AddScoped<ITipoInsumoDAO, TipoInsumoDAO>();
             services.AddScoped<ITipoServicioService, TipoServicioService>();

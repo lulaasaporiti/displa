@@ -64,6 +64,7 @@ import { HeaderComponent } from './header/header';
 import { CajaModule } from './caja/caja.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ExportacionService } from 'src/services/exportacion.service';
+import { TipoDescuentoModule } from './tipo-descuento/tipo-descuento.module';
 
 
 
@@ -131,6 +132,7 @@ import { ExportacionService } from 'src/services/exportacion.service';
     TarjetaCreditoModule,
     TipoArticuloModule,
     TipoBlockModule,
+    TipoDescuentoModule,
     TipoInsumoModule,
     TipoComprobanteModule,
     TipoServicioModule,
