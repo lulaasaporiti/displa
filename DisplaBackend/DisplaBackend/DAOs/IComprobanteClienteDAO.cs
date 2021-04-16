@@ -16,6 +16,7 @@ namespace DisplaBackend.DAOs
         ComprobanteCliente GetById(int idComprobanteCliente);
         List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha);
         List<dynamic> BuscarItem(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
+        List<dynamic> BuscarComprobante(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class ComprobanteClienteDAO : IComprobanteClienteDAO
@@ -77,7 +78,7 @@ namespace DisplaBackend.DAOs
                         {
                             foreach (var cl in c.ComprobanteItemLente)
                             {
-                               StockLente lente = _context.StockLente.FirstOrDefault(st => st.IdLente == cl.IdLente && st.MedidaCilindrico == cl.MedidaCilindrico && st.MedidaEsferico == cl.MedidaEsferico);
+                                StockLente lente = _context.StockLente.FirstOrDefault(st => st.IdLente == cl.IdLente && st.MedidaCilindrico == cl.MedidaCilindrico && st.MedidaEsferico == cl.MedidaEsferico);
                                 if (lente != null)
                                 {
                                     lente.Stock = lente.Stock - cl.Cantidad;
@@ -85,14 +86,16 @@ namespace DisplaBackend.DAOs
                                 }
                             }
                         }
-                        if (c.EntregaVentaVirtual == true) {
+                        if (c.EntregaVentaVirtual == true)
+                        {
                             List<VentaVirtual> ventas;
                             if (c.IdArticulo != null)
                                 ventas = _context.VentaVirtual.Where(v => v.IdArticulo == c.IdArticulo && v.IdComprobanteNavigation.IdCliente == comprobanteCliente.IdCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
                             else
                                 ventas = _context.VentaVirtual.Where(v => v.IdLente == c.ComprobanteItemLente.ElementAt(0).IdLente && v.IdComprobanteNavigation.IdCliente == comprobanteCliente.IdCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
                             decimal cantidadItem = c.Cantidad;
-                            ventas.ForEach(v => {
+                            ventas.ForEach(v =>
+                            {
                                 if (cantidadItem > 0)
                                 {
                                     if (cantidadItem < (v.CantidadVendida - v.CantidadEntregada))
@@ -127,7 +130,8 @@ namespace DisplaBackend.DAOs
                     }
                     var servicios = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemServicio);
                     var recargos = comprobanteCliente.ComprobanteItem.Select(c => c.ComprobanteItemRecargo);
-                    if (servicios.Count() > 0) {
+                    if (servicios.Count() > 0)
+                    {
                         foreach (var s in servicios.ElementAt(0).ToArray())
                         {
                             s.IdServicioNavigation = null;
@@ -150,7 +154,8 @@ namespace DisplaBackend.DAOs
                     //comprobanteCliente = _context.Add(comprobanteCliente).Entity;
                     if (remitos.Count > 0)
                     {
-                        remitos.ForEach(r => {
+                        remitos.ForEach(r =>
+                        {
                             r.FechaFactura = comprobanteCliente.Fecha;
                             foreach (var c in r.ComprobanteItem)
                             {
@@ -213,7 +218,8 @@ namespace DisplaBackend.DAOs
                     .Include(c => c.IdClienteNavigation)
                     .Include(c => c.ComprobanteItem)
                     .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta.AddDays(1) && cc.ComprobanteItem.Any(ci => ci.ComprobanteItemLente.Any(cl => cl.IdLente == idLente)))
-                   .Select(ca => new {
+                   .Select(ca => new
+                   {
                        Id = ca.Id,
                        IdTipoComprobante = ca.IdTipoComprobante,
                        IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
@@ -228,13 +234,15 @@ namespace DisplaBackend.DAOs
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
             }
-            if (idArticulo > 0) {
+            if (idArticulo > 0)
+            {
                 return _context.ComprobanteCliente
                     .Include(c => c.IdTipoComprobanteNavigation)
                     .Include(c => c.IdClienteNavigation)
                     .Include(c => c.ComprobanteItem)
                     .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta.AddDays(1) && cc.ComprobanteItem.Any(ci => ci.IdArticulo == idArticulo))
-                    .Select(ca => new {
+                    .Select(ca => new
+                    {
                         Id = ca.Id,
                         IdTipoComprobante = ca.IdTipoComprobante,
                         IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
@@ -249,13 +257,15 @@ namespace DisplaBackend.DAOs
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
             }
-            if (libre != null) {
+            if (libre != null)
+            {
                 return _context.ComprobanteCliente
                     .Include(c => c.IdTipoComprobanteNavigation)
                     .Include(c => c.IdClienteNavigation)
                     .Include(c => c.ComprobanteItem)
                     .Where(cc => cc.Fecha >= desde && cc.Fecha <= hasta.AddDays(1) && cc.ComprobanteItem.Any(ci => ci.Descripcion.Contains(libre)))
-                    .Select(ca => new {
+                    .Select(ca => new
+                    {
                         Id = ca.Id,
                         IdTipoComprobante = ca.IdTipoComprobante,
                         IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
@@ -271,6 +281,53 @@ namespace DisplaBackend.DAOs
                     .ToList<dynamic>();
             }
             return null;
+        }
+        public List<dynamic> BuscarComprobante(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            if (idCliente > 0)
+            {
+                return _context.ComprobanteCliente
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdClienteNavigation)
+                    .Include(c => c.ComprobanteItem)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && idCliente == cc.IdCliente)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       IdTipoComprobante = ca.IdTipoComprobante,
+                       IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
+                       Letra = ca.Letra,
+                       Numero = ca.Numero,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            else
+            {
+                return _context.ComprobanteCliente
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdClienteNavigation)
+                    .Include(c => c.ComprobanteItem)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1))
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       IdTipoComprobante = ca.IdTipoComprobante,
+                       IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
+                       Letra = ca.Letra,
+                       Numero = ca.Numero,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = ca.MontoTotal
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+
         }
     }
 }

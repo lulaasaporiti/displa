@@ -15,6 +15,7 @@ namespace DisplaBackend.Services
         ComprobanteCliente GetById(int idComprobanteCliente);
         List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha);
         List<dynamic> BuscarItem(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
+        List<dynamic> BuscarComprobante(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class ComprobanteClienteService : IComprobanteClienteService
@@ -65,6 +66,11 @@ namespace DisplaBackend.Services
         public List<dynamic> BuscarItem(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta)
         {
             return _comprobanteClienteDAO.BuscarItem(idLente, idArticulo, libre, desde, hasta);
+        }
+
+        public List<dynamic> BuscarComprobante(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _comprobanteClienteDAO.BuscarComprobante(idCliente, fechaDesde, fechaHasta);
         }
     }
 

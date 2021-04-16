@@ -90,6 +90,14 @@ namespace DisplaBackend.Controllers
         {
             return _comprobanteClienteService.BuscarItem(idLente, idArticulo, libre, desde, hasta);
         }
+
+
+        [HttpGet, Route("BuscarComprobante")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarComprobante(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _comprobanteClienteService.BuscarComprobante(idCliente, fechaDesde, fechaHasta);
+        }
     }
 
 

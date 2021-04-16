@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Cliente } from 'src/app/model/cliente';
 import { startWith, map } from 'rxjs/operators';
-import { VentaVirtualService } from 'src/services/venta.virtual.service';
+import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
 import { ParametroService } from 'src/services/parametro.service';
 import { Parametro } from 'src/app/model/parametro';
 import { VentaVirtualMovimientos } from 'src/app/model/ventaVirtualMovimiento';
@@ -39,6 +39,7 @@ export class AnulacionComprobanteComponent implements OnInit {
   remito: boolean;
   recibo: boolean;
   parametro = <Parametro>{};
+  clienteId: number
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -49,7 +50,7 @@ export class AnulacionComprobanteComponent implements OnInit {
     private clienteService: ClienteService,
     private sessionService: SessionService,
     private parametroService: ParametroService,
-    private ventaVirtualService: VentaVirtualService,
+    private comprobanteClienteService: ComprobanteClienteService,
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
@@ -106,76 +107,72 @@ export class AnulacionComprobanteComponent implements OnInit {
     }
   }
 
-  traerTodos(event) {
+  traerTodos() {
     this.loadingSpinnerService.show();
-    if (!event.checked) {
-      this.ventaVirtualService.getVentasVirtualesList().subscribe(vc => {
-        if (this.pendientes)
-          this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
-        else {
-          this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-        }
+    
+    if (!this.todo) {
+      this.comprobanteClienteService.getBusquedaComprobante(0, this.since.toDateString(), this.today.toDateString()).subscribe(vc => {
+        // if (this.pendientes)
+        //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
+        // else {
+        //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        // }
         this.original = vc;
-        console.log(this.original)
+        this.dataSource.data = this.original
         this.loadingSpinnerService.hide();
       })
     } else {
-      this.todo = event.checked;
+      // this.todo = event.checked;
       this.dataSource.data = [];
       this.loadingSpinnerService.hide();
     }
   }
 
-  entregasPendientes(event) {
+  traerCliente() {
     this.loadingSpinnerService.show();
-    if (!event.checked) {
-      this.ventaVirtualService.getEntregasPendientes((this.clientesControl.value != undefined) ? this.clientesControl.value.Id : 0).subscribe(cv => {
-        this.dataSource.data = cv.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-        this.loadingSpinnerService.hide();
-      })
-    } else {
-      this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-      this.loadingSpinnerService.hide();
-    }
-  }
-
-  traerVentasCliente(event) {
-    this.loadingSpinnerService.show();
-    this.ventaVirtualService.getVentasVirtualesCliente(event.source.value.Id)
+    this.comprobanteClienteService.getBusquedaComprobante(this.clienteId, this.since.toDateString(), this.today.toDateString())
       .subscribe(vc => {
-        if (this.pendientes)
-          this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
-        else
-          this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        // if (this.pendientes)
+        //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
+        // else
+        //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.original = vc;
+        this.dataSource.data = this.original
         this.loadingSpinnerService.hide();
       })
   }
 
   applyFilterAvanzados(event, campo: string) {
     if (campo == 'desde'){
-      if (this.pendientes) 
-        this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
+      if (this.todo)
+        this.traerTodos()
+        // this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.Fecha.toString())) >= this.since && new Date(Date.parse(v.Fecha.toString())) <= this.today);
       else 
-        this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        this.traerCliente()
+        // this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
     }
     if (campo == 'hasta'){
-      if (this.pendientes) 
-        this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
+      if (this.todo) 
+        this.traerTodos()
+        // this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
       else
-        this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
+        this.traerCliente()
+        // this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
     }
-    if (campo == 'pendientes'){
-      this.pendientes = !event._checked;
-      this.entregasPendientes(event);
-    }
+    // if (campo == 'pendientes'){
+    //   this.pendientes = !event._checked;
+    //   this.entregasPendientes(event);
+    // }
     if (campo == 'todos'){
       this.clientesControl.setValue(undefined);
-      this.traerTodos(event);
+      this.todo = event.checked
+      this.traerTodos();
     }
     if (campo == 'cliente'){
+      
+      this.clienteId = event.source.value.Id
       this.todo = false;
-      this.traerVentasCliente(event);
+      this.traerCliente();
     }
     // if (filtro.toString() == ""){
     //   this.dataSource.data = this.original;

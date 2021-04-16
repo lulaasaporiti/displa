@@ -54,4 +54,12 @@ export class ComprobanteClienteService {
             hasta: hasta
         });
     }
+
+    getBusquedaComprobante(idCliente, fechaDesde, fechaHasta): Observable<any> {
+        return this.mainService.get(`ComprobanteCliente/BuscarComprobante`, {
+            idCliente: idCliente,
+            fechaDesde: fechaDesde,
+            fechaHasta: fechaHasta
+        });
+    }
 }
