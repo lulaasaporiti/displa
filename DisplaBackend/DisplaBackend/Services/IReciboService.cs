@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace DisplaBackend.Services
         bool SaveOrUpdate(Recibo recibo);
         bool Delete(Recibo recibo);
         Recibo GetById(int idRecibo);
+        List<dynamic> BuscarRecibo(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class ReciboService : IReciboService
@@ -49,6 +51,9 @@ namespace DisplaBackend.Services
             return _reciboDAO.GetById(idRecibo);
         }
 
+        public List<dynamic> BuscarRecibo(int idCliente, DateTime fechaDesde, DateTime fechaHasta) {
+            return _reciboDAO.BuscarRecibo(idCliente, fechaDesde, fechaHasta);
+        }
     }
 
 }

@@ -5,7 +5,7 @@ import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.s
 import { SessionService } from 'src/services/session.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { Cliente } from 'src/app/model/cliente';
 import { startWith, map } from 'rxjs/operators';
 import { ComprobanteClienteService } from 'src/services/comprobanteCliente.service';
@@ -16,6 +16,8 @@ import { VentaVirtual } from 'src/app/model/ventaVirtual';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import { RemitoService } from 'src/services/remito.service';
+import { ReciboService } from 'src/services/recibo.service';
 
 
 @Component({
@@ -47,8 +49,11 @@ export class AnulacionComprobanteComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private remitoService: RemitoService,
+    private reciboService: ReciboService,
     private clienteService: ClienteService,
     private sessionService: SessionService,
+    private changeDetector: ChangeDetectorRef,
     private parametroService: ParametroService,
     private comprobanteClienteService: ComprobanteClienteService,
     private loadingSpinnerService: LoadingSpinnerService) { }
@@ -109,34 +114,45 @@ export class AnulacionComprobanteComponent implements OnInit {
 
   traerTodos() {
     this.loadingSpinnerService.show();
-    
     if (!this.todo) {
-      this.comprobanteClienteService.getBusquedaComprobante(0, this.since.toDateString(), this.today.toDateString()).subscribe(vc => {
+      console.log("entra al if")
+      combineLatest([
+        this.comprobanteClienteService.getBusquedaComprobante(0, this.since.toDateString(), this.today.toDateString()),
+        this.reciboService.buscarRecibo(0, this.since.toDateString(), this.today.toDateString()),
+        this.remitoService.buscarRemito(0, this.since.toDateString(), this.today.toDateString())
+      
+      ]).subscribe(vc => {
         // if (this.pendientes)
         //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
         // else {
         //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         // }
-        this.original = vc;
+        this.original = (vc[0].concat(vc[1])).concat(vc[2]);
         this.dataSource.data = this.original
         this.loadingSpinnerService.hide();
+        this.todo = true;
       })
     } else {
-      // this.todo = event.checked;
       this.dataSource.data = [];
       this.loadingSpinnerService.hide();
+      this.todo = false;
     }
   }
 
   traerCliente() {
     this.loadingSpinnerService.show();
-    this.comprobanteClienteService.getBusquedaComprobante(this.clienteId, this.since.toDateString(), this.today.toDateString())
-      .subscribe(vc => {
+    this.todo = false;
+
+    combineLatest([
+      this.comprobanteClienteService.getBusquedaComprobante(this.clienteId, this.since.toDateString(), this.today.toDateString()),
+      this.reciboService.buscarRecibo(this.clienteId, this.since.toDateString(), this.today.toDateString()),
+      this.remitoService.buscarRemito(this.clienteId, this.since.toDateString(), this.today.toDateString())
+    ]).subscribe(vc => {
         // if (this.pendientes)
         //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
         // else
         //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-        this.original = vc;
+        this.original = (vc[0].concat(vc[1])).concat(vc[2]);
         this.dataSource.data = this.original
         this.loadingSpinnerService.hide();
       })
@@ -146,18 +162,14 @@ export class AnulacionComprobanteComponent implements OnInit {
     if (campo == 'desde'){
       if (this.todo)
         this.traerTodos()
-        // this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.Fecha.toString())) >= this.since && new Date(Date.parse(v.Fecha.toString())) <= this.today);
       else 
         this.traerCliente()
-        // this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
     }
     if (campo == 'hasta'){
       if (this.todo) 
         this.traerTodos()
-        // this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
       else
         this.traerCliente()
-        // this.dataSource.data = this.original.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
     }
     // if (campo == 'pendientes'){
     //   this.pendientes = !event._checked;
@@ -169,9 +181,10 @@ export class AnulacionComprobanteComponent implements OnInit {
       this.traerTodos();
     }
     if (campo == 'cliente'){
-      
       this.clienteId = event.source.value.Id
-      this.todo = false;
+      // console.log(document.getElementById('todos'))
+      // document.getElementById('todos').setAttribute('checked', 'false');
+      // this.changeDetector.detectChanges();
       this.traerCliente();
     }
     // if (filtro.toString() == ""){

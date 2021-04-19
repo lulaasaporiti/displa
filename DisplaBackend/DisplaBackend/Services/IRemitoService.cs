@@ -14,6 +14,7 @@ namespace DisplaBackend.Services
         bool Delete(Remito remito);
         Remito GetById(int idRemito);
         List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
+        List<dynamic> BuscarRemito(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class RemitoService : IRemitoService
@@ -56,6 +57,9 @@ namespace DisplaBackend.Services
             return _remitoDAO.BuscarItemRemito(idLente, idArticulo, libre, desde, hasta);
         }
 
+        public List<dynamic> BuscarRemito(int idCliente, DateTime fechaDesde, DateTime fechaHasta) {
+            return _remitoDAO.BuscarRemito(idCliente, fechaDesde, fechaHasta);
+        }
     }
 
 }

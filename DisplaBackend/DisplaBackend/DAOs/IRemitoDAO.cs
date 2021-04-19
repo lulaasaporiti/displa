@@ -15,7 +15,7 @@ namespace DisplaBackend.DAOs
         bool Delete(Remito remito);
         Remito GetById(int idRemito);
         List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
-
+        List<dynamic> BuscarRemito(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class RemitoDAO : IRemitoDAO
@@ -194,6 +194,46 @@ namespace DisplaBackend.DAOs
                     .ToList<dynamic>();
             }
             return null;
+        }
+
+        public List<dynamic> BuscarRemito(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            if (idCliente > 0)
+            {
+                return _context.Remito
+                    .Include(c => c.IdClienteNavigation)
+                    .Include(c => c.ComprobanteItem)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && idCliente == cc.IdCliente)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
+                       //Numero = ca.Numero,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto)
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            else
+            {
+                return _context.Remito
+                    .Include(c => c.IdClienteNavigation)
+                    .Include(c => c.ComprobanteItem)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1))
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
+                       //Numero = ca.Numero,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto)
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
         }
     }
 }

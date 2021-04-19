@@ -71,6 +71,12 @@ namespace DisplaBackend.Controllers
             return Ok(_reciboService.Delete(recibo));
         }
 
+        [HttpGet, Route("BuscarRecibo")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarRecibo(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _reciboService.BuscarRecibo(idCliente, fechaDesde, fechaHasta);
+        }
     }
 
 

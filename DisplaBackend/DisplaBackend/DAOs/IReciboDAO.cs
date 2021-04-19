@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DisplaBackend.DAOs
 {
@@ -14,7 +13,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(Recibo recibo);
         bool Delete(Recibo recibo);
         Recibo GetById(int idRecibo);
-
+        List<dynamic> BuscarRecibo(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class ReciboDAO : IReciboDAO
@@ -81,6 +80,44 @@ namespace DisplaBackend.DAOs
             catch (DbUpdateException e)
             {
                 throw e;
+            }
+        }
+
+        public List<dynamic> BuscarRecibo(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            if (idCliente > 0)
+            {
+                return _context.Recibo
+                    .Include(c => c.IdClienteNavigation)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && idCliente == cc.IdCliente)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
+                       Numero = ca.Numero,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = ca.MontoCheque + ca.MontoEfectivo + ca.MontoInterdeposito
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            else
+            {
+                return _context.Recibo
+                    .Include(c => c.IdClienteNavigation)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1))
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
+                       Numero = ca.Numero,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = ca.MontoCheque + ca.MontoEfectivo + ca.MontoInterdeposito
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
             }
         }
     }

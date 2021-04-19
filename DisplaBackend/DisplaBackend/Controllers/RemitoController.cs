@@ -85,6 +85,13 @@ namespace DisplaBackend.Controllers
             return _remitoService.BuscarItemRemito(idLente, idArticulo, libre, desde, hasta);
         }
 
+        [HttpGet, Route("BuscarRemito")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarRemito(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _remitoService.BuscarRemito(idCliente, fechaDesde, fechaHasta);
+        }
+
     }
 
 

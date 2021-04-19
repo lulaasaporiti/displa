@@ -282,6 +282,7 @@ namespace DisplaBackend.DAOs
             }
             return null;
         }
+
         public List<dynamic> BuscarComprobante(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
         {
             if (idCliente > 0)
@@ -300,7 +301,8 @@ namespace DisplaBackend.DAOs
                        FechaAnulado = ca.FechaAnulado,
                        Letra = ca.Letra,
                        Numero = ca.Numero,
-                       IdClienteNavigation = ca.IdClienteNavigation.Optica
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = ca.MontoTotal
                    })
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
@@ -327,7 +329,6 @@ namespace DisplaBackend.DAOs
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
             }
-
         }
     }
 }

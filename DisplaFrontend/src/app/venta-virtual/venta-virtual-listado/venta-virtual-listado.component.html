@@ -21,12 +21,13 @@
                   <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
                       [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" (onSelectionChange)="applyFilterAvanzados($event, 'cliente')">
+                      <mat-option *ngFor="let c of filteredClientes | async" [value]="c" 
+                      (onSelectionChange)="applyFilterAvanzados($event, 'cliente')">
                           {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                       </mat-option>
                   </mat-autocomplete>
               </mat-form-field>
-              <mat-slide-toggle color="accent" #todos id="todos" name="todos" [checked]="todo" (click)="applyFilterAvanzados(todos, 'todos')">Todos los clientes
+              <mat-slide-toggle color="accent" #todos="ngModel" id="todos" name="todos" [ngModel]="todo" (click)="applyFilterAvanzados(todos, 'todos')">Todos los clientes
               </mat-slide-toggle>
               </div>
             </div>

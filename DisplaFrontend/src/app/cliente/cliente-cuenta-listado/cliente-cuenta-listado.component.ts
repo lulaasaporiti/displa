@@ -102,6 +102,8 @@ export class ClienteCuentaListadoComponent implements OnInit {
 
   traerDesbloqueados() {
     this.dataSource.data = this.original;
+    document.getElementById("nobloqueados").style.backgroundColor="#e0e0e0";
+    document.getElementById("bloqueados").style.backgroundColor = "transparent";
     this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == false)
     this.todo = false;
     this.manual = false;
@@ -111,6 +113,8 @@ export class ClienteCuentaListadoComponent implements OnInit {
 
   traerBloqueados() {
     this.dataSource.data = this.original;
+    document.getElementById("bloqueados").style.backgroundColor="#e0e0e0";
+    document.getElementById("nobloqueados").style.backgroundColor = "transparent";
     this.dataSource.data = this.dataSource.data.filter(d => d.Bloqueado == true)
     this.todo = false;
     this.manual = false;
@@ -120,26 +124,34 @@ export class ClienteCuentaListadoComponent implements OnInit {
   traerManuales(event) {
     document.getElementById("bloqueados").style.backgroundColor = "transparent";
     document.getElementById("nobloqueados").style.backgroundColor = "transparent";
-    if (!event.checked) {
-      this.todo = false;
-      this.dataSource.data = this.original.filter(d => d.Bloqueado == true && d.BloqueoManual == true)
+    if (!event.model) {
+      if (this.todo)
+        this.dataSource.data = this.original
+      else
+        this.dataSource.data = this.original.filter(d => d.Bloqueado == true && d.BloqueoManual == true)
     } else {
-      this.todo = true;
-      this.dataSource.data = this.original.filter(d => d.BloqueoManual == false);
+      if (this.todo)
+        this.dataSource.data = this.original.filter(d => d.BloqueoManual == false);
+      else 
+        this.dataSource.data = [];
     }
   }
 
   traerTodos(event) {
     document.getElementById("bloqueados").style.backgroundColor = "transparent";
     document.getElementById("nobloqueados").style.backgroundColor = "transparent";
-    if (!event.checked) {
-      this.todo = event.checked;
-      this.manual = false;
-      this.dataSource.data = this.original;
+    if (!event.model) {
+      // this.todo = event.checked;
+      if (this.manual)
+        this.dataSource.data = this.original;
+      else
+        this.dataSource.data = this.original.filter(d => d.BloqueoManual == false);
     } else {
-      this.todo = event.checked;
-      this.manual = false;
-      this.dataSource.data = [];
+      // this.todo = event.checked;
+      if (this.manual)
+        this.dataSource.data = this.original.filter(d => d.Bloqueado == true && d.BloqueoManual == true)
+      else 
+        this.dataSource.data = [];
     }
   }
 

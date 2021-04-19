@@ -56,6 +56,7 @@ export class ComprobanteClienteService {
     }
 
     getBusquedaComprobante(idCliente, fechaDesde, fechaHasta): Observable<any> {
+        console.log(fechaDesde, "desde comprobante")
         return this.mainService.get(`ComprobanteCliente/BuscarComprobante`, {
             idCliente: idCliente,
             fechaDesde: fechaDesde,

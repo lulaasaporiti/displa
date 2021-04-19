@@ -465,7 +465,7 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.FechaAnulado)
                     .HasColumnName("fechaAnulado")
-                    .HasColumnType("date");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 
@@ -1324,7 +1324,11 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
-                    .HasColumnType("date");
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FechaAnulado)
+                    .HasColumnName("fechaAnulado")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 
@@ -1332,19 +1336,28 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.MontoCheque)
                     .HasColumnName("montoCheque")
-                    .HasColumnType("decimal(10, 2)");
+                    .HasColumnType("decimal(10, 2)")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.MontoEfectivo)
                     .HasColumnName("montoEfectivo")
-                    .HasColumnType("decimal(10, 2)");
+                    .HasColumnType("decimal(10, 2)")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.MontoInterdeposito)
                     .HasColumnName("montoInterdeposito")
-                    .HasColumnType("decimal(10, 2)");
+                    .HasColumnType("decimal(10, 2)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.MotivoAnulado)
+                    .HasColumnName("motivoAnulado")
+                    .HasMaxLength(150);
 
                 entity.Property(e => e.NroInterdeposito)
                     .HasColumnName("nroInterdeposito")
                     .HasMaxLength(200);
+
+                entity.Property(e => e.Numero).HasColumnName("numero");
 
                 entity.Property(e => e.Observaciones)
                     .HasColumnName("observaciones")
