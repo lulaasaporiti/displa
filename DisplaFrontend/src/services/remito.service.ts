@@ -48,8 +48,6 @@ export class RemitoService {
     }
 
     buscarRemito(idCliente, desde, hasta){
-        console.log(desde, "desde remito")
-
         return this.mainService.get(`Remito/BuscarRemito`, {
             idCliente: idCliente,
             fechaDesde: desde,

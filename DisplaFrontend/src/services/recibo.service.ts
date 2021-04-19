@@ -34,7 +34,6 @@ export class ReciboService {
     }
 
     buscarRecibo(idCliente, desde, hasta){
-        console.log(desde, "desde recibo")
         return this.mainService.get(`Recibo/BuscarRecibo`, {
             idCliente: idCliente,
             fechaDesde: desde,

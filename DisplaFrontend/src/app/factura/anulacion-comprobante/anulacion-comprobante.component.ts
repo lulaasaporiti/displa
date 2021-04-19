@@ -59,7 +59,7 @@ export class AnulacionComprobanteComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService) { }
 
   ngOnInit() {
-    this.since = new Date(new Date().setDate(this.today.getDate()-30));
+    this.since = new Date(new Date().setDate(this.today.getDate() - 30));
     // this.since = new Date(this.today.getFullYear(), this.today.getMonth()-1, this.today.getDate());
     this.todo = false;
     this.anulado = false;
@@ -69,7 +69,7 @@ export class AnulacionComprobanteComponent implements OnInit {
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.parametroService.getParametro().subscribe(result => { 
+    this.parametroService.getParametro().subscribe(result => {
       this.parametro = result;
     });
     this.clienteService.getClientesVigentesList()
@@ -115,27 +115,18 @@ export class AnulacionComprobanteComponent implements OnInit {
   traerTodos() {
     this.loadingSpinnerService.show();
     if (!this.todo) {
-      console.log("entra al if")
       combineLatest([
         this.comprobanteClienteService.getBusquedaComprobante(0, this.since.toDateString(), this.today.toDateString()),
         this.reciboService.buscarRecibo(0, this.since.toDateString(), this.today.toDateString()),
         this.remitoService.buscarRemito(0, this.since.toDateString(), this.today.toDateString())
-      
       ]).subscribe(vc => {
-        // if (this.pendientes)
-        //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
-        // else {
-        //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-        // }
         this.original = (vc[0].concat(vc[1])).concat(vc[2]);
         this.dataSource.data = this.original
         this.loadingSpinnerService.hide();
-        this.todo = true;
       })
     } else {
       this.dataSource.data = [];
       this.loadingSpinnerService.hide();
-      this.todo = false;
     }
   }
 
@@ -148,48 +139,95 @@ export class AnulacionComprobanteComponent implements OnInit {
       this.reciboService.buscarRecibo(this.clienteId, this.since.toDateString(), this.today.toDateString()),
       this.remitoService.buscarRemito(this.clienteId, this.since.toDateString(), this.today.toDateString())
     ]).subscribe(vc => {
-        // if (this.pendientes)
-        //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today && v.CantidadVendida > v.CantidadEntregada);
-        // else
-        //   this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
-        this.original = (vc[0].concat(vc[1])).concat(vc[2]);
-        this.dataSource.data = this.original
-        this.loadingSpinnerService.hide();
-      })
+      this.original = (vc[0].concat(vc[1])).concat(vc[2]);
+      this.dataSource.data = this.original
+      console.log(this.original)
+      this.loadingSpinnerService.hide();
+    })
   }
 
   applyFilterAvanzados(event, campo: string) {
-    if (campo == 'desde'){
+    if (campo == 'desde') {
       if (this.todo)
-        this.traerTodos()
-      else 
-        this.traerCliente()
-    }
-    if (campo == 'hasta'){
-      if (this.todo) 
         this.traerTodos()
       else
         this.traerCliente()
     }
-    // if (campo == 'pendientes'){
-    //   this.pendientes = !event._checked;
-    //   this.entregasPendientes(event);
-    // }
-    if (campo == 'todos'){
+    if (campo == 'hasta') {
+      if (this.todo)
+        this.traerTodos()
+      else
+        this.traerCliente()
+    }
+    if (campo == 'todos') {
       this.clientesControl.setValue(undefined);
-      this.todo = event.checked
       this.traerTodos();
     }
-    if (campo == 'cliente'){
+    if (campo == 'cliente') {
       this.clienteId = event.source.value.Id
-      // console.log(document.getElementById('todos'))
-      // document.getElementById('todos').setAttribute('checked', 'false');
-      // this.changeDetector.detectChanges();
       this.traerCliente();
     }
-    // if (filtro.toString() == ""){
-    //   this.dataSource.data = this.original;
-    // }
+    if (campo == 'anulados') {
+      if (!this.anulado)
+        this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado != undefined)
+      else
+        this.dataSource.data = this.original
+
+      if (this.recibo && this.remito)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Remito' && d.FechaFactura != undefined && d.IdTipoComprobanteNavigation == 'Recibo')
+      else if (this.recibo)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Recibo')
+      else if (this.remito)
+      this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Remito' && d.FechaFactura != undefined)
+
+    }
+    if (campo == 'validos') {
+      if (!this.valido)
+        this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado == undefined)
+      else
+        this.dataSource.data = this.original
+      
+      if (this.recibo && this.remito)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Remito' && d.FechaFactura != undefined && d.IdTipoComprobanteNavigation == 'Recibo')
+      else if (this.recibo)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Recibo')
+      else if (this.remito)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Remito' && d.FechaFactura != undefined)
+    }
+    if (campo == 'remitos') {
+      if (!this.remito)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Remito' && d.FechaFactura != undefined)
+      else
+        this.dataSource.data = this.original
+
+      if (this.recibo && this.valido)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Recibo' && d.FechaAnulado == undefined)
+      else if (this.recibo && this.anulado)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Recibo' && d.FechaAnulado != undefined)
+      else if (this.recibo)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Recibo')
+      else if (this.valido)
+        this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado == undefined)
+      else if (this.anulado)
+        this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado != undefined)      
+    }
+    if (campo == 'recibos') {
+      if (!this.recibo)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Recibo')
+      else
+        this.dataSource.data = this.original
+
+      if (this.remito && this.valido)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Remito' && d.FechaFactura != undefined && d.FechaAnulado == undefined)
+      else if (this.remito && this.anulado)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Remito' && d.FechaFactura != undefined && d.FechaAnulado != undefined)
+      else if (this.remito)
+        this.dataSource.data = this.dataSource.data.filter(d => d.IdTipoComprobanteNavigation == 'Remito' && d.FechaFactura != undefined)
+      else if (this.valido)
+        this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado == undefined)
+      else if (this.anulado)
+        this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado != undefined)
+    }
   }
 }
 

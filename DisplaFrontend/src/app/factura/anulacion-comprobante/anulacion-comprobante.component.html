@@ -51,16 +51,16 @@
           </div>
           <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
             style="font-size: small; line-height: 38px !important;">
-            <mat-slide-toggle color="accent" #anulados id="anulados" name="anulados" [checked]="anulado"
-              (click)="applyFilterAvanzados(anulados, 'anulados')">Solo anulados
+            <mat-slide-toggle color="accent" #anulados="ngModel" id="anulados" name="anulados" [(ngModel)]="anulado"
+              (click)="applyFilterAvanzados(anulados, 'anulados')" [disabled]="valido">Solo anulados
             </mat-slide-toggle>
-            <mat-slide-toggle color="accent" #validos id="validos" name="validos" [checked]="valido"
-              (click)="applyFilterAvanzados(validos, 'validos')">Solo válidos
+            <mat-slide-toggle color="accent" #validos="ngModel" id="validos" name="validos" [(ngModel)]="valido"
+              (click)="applyFilterAvanzados(validos, 'validos')" [disabled]="anulado">Solo válidos
             </mat-slide-toggle>
-            <mat-slide-toggle color="accent" #remitos id="remitos" name="remitos" [checked]="remito"
+            <mat-slide-toggle color="accent" #remitos="ngModel" id="remitos" name="remitos" [(ngModel)]="remito"
               (click)="applyFilterAvanzados(remitos, 'remitos')">Incluir remitos facturados
             </mat-slide-toggle>
-            <mat-slide-toggle color="accent" #recibos id="recibos" name="recibos" [checked]="recibo"
+            <mat-slide-toggle color="accent" #recibos="ngModel" id="recibos" name="recibos" [(ngModel)]="recibo"
               (click)="applyFilterAvanzados(recibos, 'recibos')">Solo recibos
             </mat-slide-toggle>
           </div>
@@ -80,8 +80,7 @@
 
     <ng-container matColumnDef="Tipo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> TIPO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.IdTipoComprobanteNavigation !=
-        undefined ? row.IdTipoComprobanteNavigation : 'Remito'}}
+      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{ row.IdTipoComprobanteNavigation }}
       </td>
     </ng-container>
 

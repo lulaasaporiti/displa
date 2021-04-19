@@ -208,10 +208,12 @@ namespace DisplaBackend.DAOs
                    {
                        Id = ca.Id,
                        Fecha = ca.Fecha,
+                       FechaFactura = ca.FechaFactura,
                        FechaAnulado = ca.FechaAnulado,
                        //Numero = ca.Numero,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                       MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto)
+                       MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto),
+                       IdTipoComprobanteNavigation = "Remito"
                    })
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
@@ -226,10 +228,12 @@ namespace DisplaBackend.DAOs
                    {
                        Id = ca.Id,
                        Fecha = ca.Fecha,
+                       FechaFactura = ca.FechaFactura,
                        FechaAnulado = ca.FechaAnulado,
                        //Numero = ca.Numero,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                       MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto)
+                       MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto),
+                       IdTipoComprobanteNavigation = "Remito"
                    })
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();

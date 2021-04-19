@@ -97,7 +97,8 @@ namespace DisplaBackend.DAOs
                        FechaAnulado = ca.FechaAnulado,
                        Numero = ca.Numero,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                       MontoTotal = ca.MontoCheque + ca.MontoEfectivo + ca.MontoInterdeposito
+                       MontoTotal = ca.MontoCheque + ca.MontoEfectivo + ca.MontoInterdeposito,
+                       IdTipoComprobanteNavigation = "Recibo"
                    })
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
@@ -114,7 +115,8 @@ namespace DisplaBackend.DAOs
                        FechaAnulado = ca.FechaAnulado,
                        Numero = ca.Numero,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                       MontoTotal = ca.MontoCheque + ca.MontoEfectivo + ca.MontoInterdeposito
+                       MontoTotal = ca.MontoCheque + ca.MontoEfectivo + ca.MontoInterdeposito,
+                       IdTipoComprobanteNavigation = "Recibo"
                    })
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
