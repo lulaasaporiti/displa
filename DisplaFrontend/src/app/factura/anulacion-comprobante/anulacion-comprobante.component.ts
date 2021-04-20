@@ -18,6 +18,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { RemitoService } from 'src/services/remito.service';
 import { ReciboService } from 'src/services/recibo.service';
+import { ReciboDetalleComponent } from 'src/app/recibo/recibo-detalle/recibo-detalle.component';
 
 
 @Component({
@@ -133,7 +134,7 @@ export class AnulacionComprobanteComponent implements OnInit {
   traerCliente() {
     this.loadingSpinnerService.show();
     this.todo = false;
-
+    console.log(this.clienteId, "clienteid")
     combineLatest([
       this.comprobanteClienteService.getBusquedaComprobante(this.clienteId, this.since.toDateString(), this.today.toDateString()),
       this.reciboService.buscarRecibo(this.clienteId, this.since.toDateString(), this.today.toDateString()),
@@ -141,15 +142,17 @@ export class AnulacionComprobanteComponent implements OnInit {
     ]).subscribe(vc => {
       this.original = (vc[0].concat(vc[1])).concat(vc[2]);
       this.dataSource.data = this.original
-      console.log(this.original)
       this.loadingSpinnerService.hide();
     })
   }
 
   applyFilterAvanzados(event, campo: string) {
     if (campo == 'desde') {
-      if (this.todo)
+      console.log(this.todo, "todo")
+      if (this.todo){
         this.traerTodos()
+        console.log("entra al if this.todo")
+      }
       else
         this.traerCliente()
     }
@@ -161,6 +164,7 @@ export class AnulacionComprobanteComponent implements OnInit {
     }
     if (campo == 'todos') {
       this.clientesControl.setValue(undefined);
+      this.clienteId = undefined;
       this.traerTodos();
     }
     if (campo == 'cliente') {
@@ -227,6 +231,52 @@ export class AnulacionComprobanteComponent implements OnInit {
         this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado == undefined)
       else if (this.anulado)
         this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado != undefined)
+    }
+  }
+
+  verComprobante(id: number, idTipoComprobante: string, idComprobanteItem: number) {
+    console.log(idTipoComprobante)
+    switch (idTipoComprobante) {
+      case 'Factura': {
+        let url = `Factura/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        window.open(url, '_blank');
+        break;
+      }
+      case 'Nota débito': {
+        let url = `NotaDebito/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        window.open(url, '_blank');
+        break;
+      }
+      case 'Nota crédito': {
+        let url = `NotaCredito/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        window.open(url, '_blank');
+        break;
+      }
+      case 'Remito': {
+        let url = `Remito/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        window.open(url, '_blank');
+        break;
+      }
+      case 'Recibo': {
+          const dialogRef = this.dialog.open(ReciboDetalleComponent, {
+            data: { idRecibo: id },
+            width: '500px'
+          })
+          dialogRef.afterClosed().subscribe(result => {
+            if (result != undefined && result != false) {
+              // this.router.navigateByUrl('Account/Login').then(
+              //   () => {
+              //     this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
+              //     this.loadingSpinnerService.hide();
+              //     window.scrollTo(0, 0);
+              //   });
+            }
+          })
+        }
+      default: {
+        //statements; 
+        break;
+      }
     }
   }
 }

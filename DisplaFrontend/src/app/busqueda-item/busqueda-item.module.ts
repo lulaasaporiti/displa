@@ -10,7 +10,6 @@ import { MatListModule } from '@angular/material/list';
 import { BusquedaItemRoutingModule } from './busqueda-item-routing.module';
 import { ResultadoBusquedaComponent } from './resultado-busqueda/resultado-busqueda.component';
 
-// import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     entryComponents: [BusquedaItemComprobanteComponent ],

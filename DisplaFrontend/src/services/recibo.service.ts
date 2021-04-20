@@ -13,6 +13,10 @@ export class ReciboService {
 
     constructor(private http: HttpClient, private mainService: MainService) { }
 
+    getById(id: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
+
     getRecibosList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetRecibos`);
     }

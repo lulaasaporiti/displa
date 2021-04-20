@@ -74,9 +74,8 @@
 
         <div mat-dialog-content fxLayoutAlign="end center" fxLayout="row">
             <mat-form-field fxFlex="30">
-                <input matInput placeholder="Monto total" [(ngModel)]="modelRecibo.Montototal" name="montoT"
-                    #montoT="ngModel" disabled>
-                <mat-error *ngIf="montoT.hasError('required')">Este campo es obligatorio.</mat-error>
+                <input matInput placeholder="Monto total" value={{modelRecibo.MontoInterdeposito+modelRecibo.MontoCheque+modelRecibo.MontoEfectivo}} name="montoT"
+                    #montoT disabled>
             </mat-form-field>
         </div>
 

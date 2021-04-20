@@ -65,16 +65,19 @@ import { CajaModule } from './caja/caja.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ExportacionService } from 'src/services/exportacion.service';
 import { TipoDescuentoModule } from './tipo-descuento/tipo-descuento.module';
+import { AnulacionConfirmacionComponent } from './anulacion-confirmacion/anulacion-confirmacion.component';
 
 
 
 
 @NgModule({
+  entryComponents: [ AnulacionConfirmacionComponent ],
   declarations: [
     AppComponent,
     HeaderComponent,
     GrillaComponent,
     HomeComponent,
+    AnulacionConfirmacionComponent
     // FooterComponent
   ],
   imports: [

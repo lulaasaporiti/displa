@@ -98,7 +98,10 @@ export class AppComponent {
       'arrow_up',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/keyboard_arrow_up-white-24dp.svg')
     );
-    
+    this.matIconRegistry.addSvgIcon(
+      'info',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/info_black_24dp.svg')
+    );
     // this.matIconRegistry.addSvgIcon(
     //   'error_outline',
     //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/error_outline.svg')

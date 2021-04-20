@@ -66,7 +66,11 @@ namespace DisplaBackend.DAOs
 
         public Recibo GetById(int idRecibo)
         {
-            return _context.Recibo.FirstOrDefault(u => u.Id == idRecibo);
+            return _context.Recibo
+                .Include(r => r.IdClienteNavigation)
+                .Include(r => r.IdCuentaBancariaNavigation)
+                    .ThenInclude(c => c.IdBancoNavigation)
+                .FirstOrDefault(u => u.Id == idRecibo);
         }
 
         public bool Delete(Recibo recibo)

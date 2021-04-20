@@ -1,0 +1,68 @@
+<form #modalForm="ngForm">
+    <div class="dialog-content">
+        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+            <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="info"></mat-icon>
+            <p class="dialog-title">Detalle recibo</p>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <input type="text" placeholder="Cliente" aria-label="Cliente" matInput name="cliente" 
+                    required disabled value="{{modelRecibo.IdClienteNavigation?.Id + ' - ' + modelRecibo.IdClienteNavigation?.Optica + ' - ' + modelRecibo.IdClienteNavigation?.Responsable}}">
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFill>
+                <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" disabled
+                    [ngModel]="modelRecibo.Observaciones" name="obs" #obs cols="2" rows="1"></textarea>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Monto efectivo" [(ngModel)]="modelRecibo.MontoEfectivo" name="montoE" disabled
+                    #montoE="ngModel" required>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Monto cheque" [(ngModel)]="modelRecibo.MontoCheque" name="montoC"  disabled
+                    #montoC="ngModel" required>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Número interdeposito" [(ngModel)]="modelRecibo.NroInterdeposito" disabled
+                    name="numero" #numero="ngModel" required>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Monto interdeposito" [(ngModel)]="modelRecibo.MontoInterdeposito" disabled
+                    name="montoInter" #montoInter="ngModel" required>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+            <mat-form-field fxFlex="50">
+                <input type="text" placeholder="Cuenta bancaria" aria-label="Cuenta bancaria" matInput disabled
+                    value="{{modelRecibo.IdCuentaBancariaNavigation?.Numero}}" name="cuenta" required>
+            </mat-form-field>
+            <mat-form-field fxFlex="50">
+                <input matInput placeholder="Banco" value="{{modelRecibo.IdCuentaBancariaNavigation?.IdBancoNavigation?.Nombre}}" name="banco" disabled>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-content fxLayoutAlign="end center" fxLayout="row">
+            <mat-form-field fxFlex="30">
+                <input matInput placeholder="Monto total" value={{modelRecibo.MontoInterdeposito+modelRecibo.MontoCheque+modelRecibo.MontoEfectivo}} name="montoT"
+                    #montoT disabled>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+            <button mat-raised-button type="button" (click)="onNoClick()">Cancelar</button>
+            <button mat-raised-button color="primary" (click)="openDialogAnulacion()"
+                [mat-dialog-close]="modelRecibo">Anular recibo</button>
+        </div>
+    </div>
+
+</form>
