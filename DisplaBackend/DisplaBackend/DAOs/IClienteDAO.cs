@@ -219,7 +219,10 @@ namespace DisplaBackend.DAOs
             int mensajeAvisoBloqueo = 0;
             var cliente = _context.Cliente.Where(c => c.Id == idCliente).FirstOrDefault();
             ComprobanteCliente ultimoComprobante = _context.ComprobanteCliente.LastOrDefault(cc => cc.IdCliente == cliente.Id);
-            mensajeAvisoBloqueo = Convert.ToInt32((today - ultimoComprobante.Fecha).TotalDays);
+            if (ultimoComprobante != null)
+            {
+                mensajeAvisoBloqueo = Convert.ToInt32((today - ultimoComprobante.Fecha).TotalDays);
+            }
             return mensajeAvisoBloqueo;
 
         }

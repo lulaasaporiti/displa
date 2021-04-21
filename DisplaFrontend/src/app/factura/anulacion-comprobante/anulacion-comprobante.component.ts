@@ -134,7 +134,10 @@ export class AnulacionComprobanteComponent implements OnInit {
   traerCliente() {
     this.loadingSpinnerService.show();
     this.todo = false;
-    console.log(this.clienteId, "clienteid")
+    if (this.clienteId == null || this.clienteId == undefined) {
+      this.todo = true
+    }
+    // console.log(this.clienteId, "clienteid")
     combineLatest([
       this.comprobanteClienteService.getBusquedaComprobante(this.clienteId, this.since.toDateString(), this.today.toDateString()),
       this.reciboService.buscarRecibo(this.clienteId, this.since.toDateString(), this.today.toDateString()),
@@ -148,10 +151,10 @@ export class AnulacionComprobanteComponent implements OnInit {
 
   applyFilterAvanzados(event, campo: string) {
     if (campo == 'desde') {
-      console.log(this.todo, "todo")
+      // console.log(this.todo, "todo")
       if (this.todo){
         this.traerTodos()
-        console.log("entra al if this.todo")
+        // console.log("entra al if this.todo")
       }
       else
         this.traerCliente()
@@ -235,7 +238,7 @@ export class AnulacionComprobanteComponent implements OnInit {
   }
 
   verComprobante(id: number, idTipoComprobante: string, idComprobanteItem: number) {
-    console.log(idTipoComprobante)
+    // console.log(idTipoComprobante)
     switch (idTipoComprobante) {
       case 'Factura': {
         let url = `Factura/Detalle?id=${id}&idItem=${idComprobanteItem}`
@@ -263,13 +266,10 @@ export class AnulacionComprobanteComponent implements OnInit {
             width: '500px'
           })
           dialogRef.afterClosed().subscribe(result => {
+            console.log(result, "acá estoy retornando del cierre del recibo")
             if (result != undefined && result != false) {
-              // this.router.navigateByUrl('Account/Login').then(
-              //   () => {
-              //     this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
-              //     this.loadingSpinnerService.hide();
-              //     window.scrollTo(0, 0);
-              //   });
+              this.traerCliente()
+              this.resetFilters()
             }
           })
         }
@@ -278,6 +278,13 @@ export class AnulacionComprobanteComponent implements OnInit {
         break;
       }
     }
+  }
+
+  resetFilters() {
+    this.recibo = false
+    this.remito = false
+    this.anulado = false
+    this.valido = false
   }
 }
 

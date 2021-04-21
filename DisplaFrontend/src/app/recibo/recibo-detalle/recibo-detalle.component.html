@@ -1,8 +1,15 @@
 <form #modalForm="ngForm">
     <div class="dialog-content">
-        <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+        <div mat-dialog-title fxLayout="row" style="margin: 0;" fxLayoutGap="15px">
             <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="info"></mat-icon>
             <p class="dialog-title">Detalle recibo</p>
+            
+        </div>
+        <div mat-dialog-title fxLayout="row" style="margin: 0;" *ngIf="modelRecibo.FechaAnulado != undefined">
+            <p class="dialog-warning" style="margin:0;">El comprobante fue anulado el día {{modelRecibo.FechaAnulado | date:"dd/MM/yyyy HH:mm:ss"}}</p>
+        </div>
+        <div mat-dialog-title fxLayout="row" style="margin: 0; margin-bottom: 10px;" *ngIf="modelRecibo.FechaAnulado != undefined">
+            <p class="dialog-warning" style="margin:0;">El motivo de anulación fue: {{modelRecibo.MotivoAnulado}}</p>
         </div>
 
         <div mat-dialog-content fxLayout="row">
@@ -51,8 +58,8 @@
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayoutAlign="end center" fxLayout="row">
-            <mat-form-field fxFlex="30">
+        <div mat-dialog-content fxLayout="row">
+            <mat-form-field fxFlex="50">
                 <input matInput placeholder="Monto total" value={{modelRecibo.MontoInterdeposito+modelRecibo.MontoCheque+modelRecibo.MontoEfectivo}} name="montoT"
                     #montoT disabled>
             </mat-form-field>
@@ -60,8 +67,8 @@
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
             <button mat-raised-button type="button" (click)="onNoClick()">Cancelar</button>
-            <button mat-raised-button color="primary" (click)="openDialogAnulacion()"
-                [mat-dialog-close]="modelRecibo">Anular recibo</button>
+            <button *ngIf="modelRecibo.FechaAnulado == undefined" mat-raised-button color="primary" (click)="openDialogAnulacion()"
+                >Anular recibo</button>
         </div>
     </div>
 

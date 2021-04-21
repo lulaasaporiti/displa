@@ -42,7 +42,7 @@ export class ReciboDetalleComponent {
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.reciboService.getById(data.idRecibo).subscribe(r => {
         this.modelRecibo = r;
-        console.log(this.modelRecibo)
+        // console.log(this.modelRecibo)
       })
   }
 
@@ -141,17 +141,18 @@ export class ReciboDetalleComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
-        console.log(this.modelRecibo)
-        // this.reciboService.saveOrUpdateRecibo(this.modelRecibo).subscribe(
-        //   data => {
-        //     this.sessionService.showSuccess("El recibo se ha anulado correctamente.");
-        //   },
-        //   error => {
-        //     // console.log(error)
-        //     this.sessionService.showError("El recibo no se anuló.");
-        //   }
-        // );
+        this.reciboService.saveOrUpdateRecibo(result).subscribe(
+          data => {
+            this.sessionService.showSuccess("El recibo se ha anulado correctamente.");
+            this.dialogRef.close(true);
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("El recibo no se anuló.");
+          }
+        );
       }
+      
     });
   }
 }

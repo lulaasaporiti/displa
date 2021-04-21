@@ -11,8 +11,13 @@ export class AnulacionConfirmacionComponent {
   constructor( 
     public dialogRef: MatDialogRef<AnulacionConfirmacionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
+      data.model.MotivoAnulado = ''
     }
+
+  onYesClick(): void {
+    this.data.model.FechaAnulado = new Date()
+    this.dialogRef.close(this.data.model)
+  }
 
   
   onNoClick(): void {

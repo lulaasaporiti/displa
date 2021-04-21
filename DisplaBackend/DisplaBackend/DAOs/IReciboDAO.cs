@@ -52,6 +52,9 @@ namespace DisplaBackend.DAOs
                 }
                 else
                 {
+                    recibo.IdCuentaBancariaNavigation.IdBancoNavigation = null;
+                    recibo.IdClienteNavigation = null;
+                    recibo.IdCuentaBancariaNavigation = null;
                     recibo = _context.Recibo.Update(recibo).Entity;
 
                 }

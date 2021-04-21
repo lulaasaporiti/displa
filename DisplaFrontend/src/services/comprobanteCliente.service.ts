@@ -26,7 +26,6 @@ export class ComprobanteClienteService {
     }
     
     saveOrUpdateComprobanteCliente(comprobantecliente: Object): Observable<object> {
-        console.log("entro")
         return this.http.post(`${this.baseUrl}/`, comprobantecliente);
     }
 
@@ -56,7 +55,6 @@ export class ComprobanteClienteService {
     }
 
     getBusquedaComprobante(idCliente, fechaDesde, fechaHasta): Observable<any> {
-        console.log(fechaDesde, "desde comprobante")
         return this.mainService.get(`ComprobanteCliente/BuscarComprobante`, {
             idCliente: idCliente,
             fechaDesde: fechaDesde,

@@ -14,5 +14,7 @@ export interface Recibo {
     IdClienteNavigation: Cliente,
     Observaciones: string,
     IdCuentaBancaria: number,
-    IdCuentaBancariaNavigation: CuentaBancaria
+    IdCuentaBancariaNavigation: CuentaBancaria,
+    FechaAnulado: Date,
+    MotivoAnulado: string
 }
