@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,10 +9,7 @@ import { Router } from '@angular/router';
 export class HomeComponent {
     hide = false;
     
-    constructor(
-        public router: Router,
-        public dialog: MatDialog) {
-            // this.hide = !this.router.url.includes("Home");
+    constructor(public router: Router) {
     }
 
     

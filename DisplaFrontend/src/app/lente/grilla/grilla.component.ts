@@ -11,6 +11,7 @@ import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.s
 import { StockAltaComponent } from '../stock-alta/stock-alta.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
 
 
 @Component({
@@ -45,7 +46,7 @@ export class GrillaComponent {
     private lenteService: LenteService,
     private stockLenteService: StockLenteService,
     private limitesGrillaService: LimitesGrillaService,
-    private loadingSpinnerService: LoadingSpinnerService
+    private loadingSpinnerService: LoadingSpinnerService,
   ) {
     this.loadingSpinnerService.show();
     this.segment.queryParams.subscribe((params: Params) => {
