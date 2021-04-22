@@ -12,6 +12,9 @@ import { Parametro } from 'src/app/model/parametro';
 import { Remito } from 'src/app/model/remito';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { AnulacionConfirmacionComponent } from 'src/app/anulacion-confirmacion/anulacion-confirmacion.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SessionService } from 'src/services/session.service';
 
 
 @Component({
@@ -42,8 +45,10 @@ export class RemitoDetalleComponent implements OnInit {
 
   constructor(
     private router: Router,
+    public dialog: MatDialog,
     private segment: ActivatedRoute,
     private remitoService: RemitoService,
+    private sessionService: SessionService,
     private loadingSpinnerService: LoadingSpinnerService,
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
@@ -58,7 +63,7 @@ export class RemitoDetalleComponent implements OnInit {
       ])
         .subscribe(result => {
           this.modelRemito = result[0];
-          console.log(this.modelRemito)
+          console.log(this.modelRemito, "REMITO")
           this.modelCliente = this.modelRemito.IdClienteNavigation;
           this.dataSource.data = this.modelRemito.ComprobanteItem;
           // if (this.modelRemito.VentaVirtual != []) {
@@ -135,6 +140,26 @@ export class RemitoDetalleComponent implements OnInit {
       return 'conColor';
   }
 
+
+  openDialogAnulacion(){
+    const dialogRef = this.dialog.open(AnulacionConfirmacionComponent, {
+      width: '550px',
+      data: { model: this.modelRemito }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.remitoService.saveOrUpdateRemito(result).subscribe(
+          data => {
+            this.sessionService.showSuccess("El recibo se ha anulado correctamente.");
+          },
+          error => {
+            // console.log(error)
+            this.sessionService.showError("El recibo no se anuló.");
+          }
+        );
+      }
+    });
+  }
 
   // getSubtotalConDescuento() {
   //   let subtotal = 0;

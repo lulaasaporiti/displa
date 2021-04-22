@@ -151,10 +151,8 @@ export class AnulacionComprobanteComponent implements OnInit {
 
   applyFilterAvanzados(event, campo: string) {
     if (campo == 'desde') {
-      // console.log(this.todo, "todo")
       if (this.todo){
         this.traerTodos()
-        // console.log("entra al if this.todo")
       }
       else
         this.traerCliente()
@@ -241,32 +239,32 @@ export class AnulacionComprobanteComponent implements OnInit {
     // console.log(idTipoComprobante)
     switch (idTipoComprobante) {
       case 'Factura': {
-        let url = `Factura/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        let url = `Factura/Detalle?id=${id}`
         window.open(url, '_blank');
         break;
       }
       case 'Nota débito': {
-        let url = `NotaDebito/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        let url = `NotaDebito/Detalle?id=${id}`
         window.open(url, '_blank');
         break;
       }
       case 'Nota crédito': {
-        let url = `NotaCredito/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        let url = `NotaCredito/Detalle?id=${id}`
         window.open(url, '_blank');
         break;
       }
       case 'Remito': {
-        let url = `Remito/Detalle?id=${id}&idItem=${idComprobanteItem}`
+        let url = `Remito/Detalle?id=${id}`
         window.open(url, '_blank');
         break;
       }
       case 'Recibo': {
           const dialogRef = this.dialog.open(ReciboDetalleComponent, {
             data: { idRecibo: id },
-            width: '500px'
+            width: '500px',
+            height: '580px'
           })
           dialogRef.afterClosed().subscribe(result => {
-            console.log(result, "acá estoy retornando del cierre del recibo")
             if (result != undefined && result != false) {
               this.traerCliente()
               this.resetFilters()
@@ -287,51 +285,3 @@ export class AnulacionComprobanteComponent implements OnInit {
     this.valido = false
   }
 }
-
-
-
- // modificarCantidad(venta: VentaVirtual, event) {
-  //   event.stopPropagation();
-  //   let cantidadVentaAnterior = venta.CantidadVendida;
-  //   const dialogRef = this.dialog.open(VentaVirtualModificacionComponent, {
-  //     width: '550px',
-  //     data: { venta: venta, limite: this.parametro.LimiteVentaVirtual }
-  //   })
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result != undefined && result != false) {
-  //       venta.CantidadEntregada = venta.CantidadVendida - result;
-  //       this.ventaVirtualService.saveOrUpdateVentaVirtual(venta).subscribe(
-  //         data => {
-  //           let movimiento = <VentaVirtualMovimientos>{};
-  //           movimiento.IdVentaVirtual = venta.Id;
-  //           movimiento.Cantidad = +venta.CantidadVendida - cantidadVentaAnterior;
-  //           movimiento.Entrega = false;
-  //           movimiento.IdUsuario = +this.sessionService.getPayload()['idUser'];
-  //           this.ventaVirtualService.saveOrUpdateVentaVirtualMovimiento(movimiento).subscribe(
-  //             data => {
-  //               this.sessionService.showSuccess("La venta virtual se ha modificado correctamente");
-  //               // this.loadServicioPage();
-  //             },  
-  //             error => {
-  //               // console.log(error)
-  //               this.sessionService.showError("El movimiento de la venta virtual no se agregó.");
-  //             }
-  //           )
-  //         },
-  //         error => {
-  //           // console.log(error)
-  //           this.sessionService.showError("La venta virtual no se modificó.");
-  //         }
-  //       );
-  //     }
-  //   });
-  // }
-
-  // verMovimientos(idVenta, cliente, producto) {
-  //   const dialogRef = this.dialog.open(VentaVirtualMovimientosComponent, {
-  //     width: '600px',
-  //     height: '600px',
-  //     data: { idVenta: idVenta, cliente: cliente, producto: producto }
-  //   })
-  //   dialogRef.afterClosed().subscribe(result => { });
-  // }

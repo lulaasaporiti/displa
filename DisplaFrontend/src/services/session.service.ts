@@ -1,4 +1,5 @@
 import { Injectable, Output, EventEmitter, Directive } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 
@@ -23,6 +24,7 @@ export class SessionService {
 
 
   constructor(
+    private dialog: MatDialog,
     private toastr: ToastrService) {
   }
 
@@ -94,6 +96,7 @@ export class SessionService {
 
   isAuthenticated(): boolean {
     if (localStorage.getItem('token') === null) {
+      this.dialog.closeAll();
       return false;
     }
     else {

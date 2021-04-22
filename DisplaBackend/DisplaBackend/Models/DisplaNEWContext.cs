@@ -78,6 +78,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -1396,6 +1397,10 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.Property(e => e.Impreso).HasColumnName("impreso");
+
+                entity.Property(e => e.MotivoAnulado)
+                    .HasColumnName("motivoAnulado")
+                    .HasMaxLength(150);
 
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.Remito)

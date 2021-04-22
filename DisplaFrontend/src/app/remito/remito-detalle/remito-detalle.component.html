@@ -11,6 +11,12 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <p class="titulo">Datos del remito</p>
+          <div fxLayout="row" *ngIf="modelRemito.FechaAnulado != undefined">
+            <p class="texto-explicativo" style="margin:0;">El comprobante fue anulado el día {{modelRemito.FechaAnulado | date:"dd/MM/yyyy HH:mm:ss"}}</p>
+        </div>
+        <div fxLayout="row" style="margin-bottom: 10px;" *ngIf="modelRemito.FechaAnulado != undefined">
+            <p class="texto-explicativo" style="margin:0;">El motivo de anulación fue: {{modelRemito.MotivoAnulado}}</p>
+        </div>
           <div fxLayout="column" style="margin: 12px auto;">
             <div fxLayout="row" fxLayoutGap="2vw" style="margin-top: 2px;">
               <mat-form-field fxFlex='25' fxLayout="column">
@@ -126,6 +132,7 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
       <button mat-raised-button id="cancelar" (click)="cancelar()">Cancelar</button>
+      <button *ngIf="modelRemito.FechaAnulado == undefined && modelRemito.FechaFactura == undefined " mat-raised-button color="primary" (click)="openDialogAnulacion()">Anular remito</button>
       <button mat-raised-button id="reimprimir" >Reimprimir</button>
     </div>
   <!-- </form> -->

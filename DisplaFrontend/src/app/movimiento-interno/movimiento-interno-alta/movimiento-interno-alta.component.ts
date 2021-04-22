@@ -34,7 +34,6 @@ export class MovimientoInternoAltaComponent {
     public dialogRef: MatDialogRef<MovimientoInternoAltaComponent>,
     private tipoComprobanteService: TipoComprobanteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data)
   }
 
 

@@ -249,7 +249,7 @@ namespace DisplaBackend.Controllers
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
               claims,
-              expires: DateTime.UtcNow.AddMinutes(180),
+              expires: DateTime.UtcNow.AddMinutes(1),
               signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

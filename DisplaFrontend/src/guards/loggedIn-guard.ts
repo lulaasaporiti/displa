@@ -13,11 +13,11 @@ export class LoggedInGuard implements CanActivate {
 
   canActivate() {
     let isLoggedIn:boolean = false;
-    (this.sessionService.isAuthenticated()) ? isLoggedIn = true : this.router.navigateByUrl("Account/Login");
+    (this.sessionService.isAuthenticated()) ? isLoggedIn = true : this.router.navigateByUrl("Home");
     if (!isLoggedIn) this.sessionService.showWarning("Debe iniciar sesión para acceder al link."); {
-      this.dialog.closeAll();
+      // this.dialog.closeAll();
       return isLoggedIn
     }
-
+    // this.router.navigateByUrl("Account/Login")
   }
 }

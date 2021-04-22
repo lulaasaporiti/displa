@@ -12,7 +12,8 @@ export interface Remito {
     IdUsuario: number,
     IdClienteNavigation: Cliente,
     IdUsuarioNavigation: Usuario,
-
+    MotivoAnulado: string,
+    
     ComprobanteItem: ComprobanteItem[],
     VentaVirtual: VentaVirtual[]
 }
