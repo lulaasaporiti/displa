@@ -37,6 +37,22 @@ namespace DisplaBackend.Controllers
             return _comprobanteClienteService.GetComprobantesClienteVigentes();
         }
 
+        [HttpPost, Route("AltaComprobantes")]
+        public async Task<ComprobanteCliente> AltaComprobantes([FromBody] ComprobanteCliente comprobanteCliente)
+        {
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            //int idAsignacion = Convert.ToInt32(model.GetValue("idAsignacion").Value<string>());
+
+            //var aux = model.GetValue("nombre").ToString();
+            //ComprobanteCliente comprobanteCliente = JsonConvert.DeserializeObject<ComprobanteCliente>(aux);
+
+            return await _comprobanteClienteService.AltaComprobantes(comprobanteCliente);
+
+        }
+
         [HttpPost]
         public async Task<ComprobanteCliente> SaveOrUpdate([FromBody]ComprobanteCliente comprobanteCliente)
         {

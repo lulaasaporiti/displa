@@ -571,7 +571,7 @@ export class FacturaAltaComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result == 1) {
-        if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes) {
+        if (this.modelComprobante.ComprobanteItem.length <= this.parametro.CantidadProductoDiferentes) {
           let aux = this.modelComprobante.ComprobanteItem;
           this.modelComprobante.ComprobanteItem = aux.splice(0, this.parametro.CantidadProductoDiferentes);
           console.log(this.modelComprobante.ComprobanteItem)
@@ -590,6 +590,8 @@ export class FacturaAltaComponent implements OnInit {
             }
           );
         }
+        // else
+          //Llamar el método de carga múltiple
       }
       if (result == 0) {
         if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito) {
@@ -604,6 +606,8 @@ export class FacturaAltaComponent implements OnInit {
             }
           );
         }
+        // else
+        //   llamar método de carga múltiple
       }
     })
   }

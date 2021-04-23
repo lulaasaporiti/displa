@@ -12,6 +12,7 @@ namespace DisplaBackend.DAOs
         List<ComprobanteCliente> GetComprobantesCliente();
         List<ComprobanteCliente> GetComprobantesClienteVigentes();
         Task<ComprobanteCliente> SaveOrUpdate(ComprobanteCliente comprobanteCliente, List<Remito> remitos);
+        //Task<ComprobanteCliente> AltaComprobantes(ComprobanteCliente comprobanteCliente, List<Remito> remitos);
         bool Delete(ComprobanteCliente comprobanteCliente);
         ComprobanteCliente GetById(int idComprobanteCliente);
         List<ComprobanteCliente> GetCuentaPorCliente(int idCliente, DateTime fecha);
@@ -47,7 +48,12 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public async Task<ComprobanteCliente> SaveOrUpdate(ComprobanteCliente comprobanteCliente, List<Remito> remitos)
+        //public async Task<ComprobanteCliente> AltaComprobantes(ComprobanteCliente comprobanteCliente, List<Remito> remitos)
+        //{
+        //    // Chequear tipo de comprobante
+        //}
+
+            public async Task<ComprobanteCliente> SaveOrUpdate(ComprobanteCliente comprobanteCliente, List<Remito> remitos)
         {
             try
             {
