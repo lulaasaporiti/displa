@@ -10,8 +10,10 @@ export interface Remito {
     FechaAnulado: Date,
     IdCliente: number,
     IdUsuario: number,
+    IdUsuarioAnulacion: number,
     IdClienteNavigation: Cliente,
     IdUsuarioNavigation: Usuario,
+    IdUsuarioAnulacionNavigation: Usuario,
     MotivoAnulado: string,
     
     ComprobanteItem: ComprobanteItem[],

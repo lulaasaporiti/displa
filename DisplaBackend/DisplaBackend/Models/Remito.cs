@@ -18,8 +18,10 @@ namespace DisplaBackend.Models
         public int IdUsuario { get; set; }
         public bool Impreso { get; set; }
         public string MotivoAnulado { get; set; }
+        public int? IdUsuarioAnulacion { get; set; }
 
         public virtual Cliente IdClienteNavigation { get; set; }
+        public virtual AspNetUsers IdUsuarioAnulacionNavigation { get; set; }
         public virtual AspNetUsers IdUsuarioNavigation { get; set; }
         public virtual ICollection<ComprobanteItem> ComprobanteItem { get; set; }
     }

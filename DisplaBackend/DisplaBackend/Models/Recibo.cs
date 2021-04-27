@@ -23,9 +23,13 @@ namespace DisplaBackend.Models
         public string NroInterdeposito { get; set; }
         public DateTime? FechaAnulado { get; set; }
         public string MotivoAnulado { get; set; }
+        public int IdUsuario { get; set; }
+        public int? IdUsuarioAnulacion { get; set; }
 
         public virtual Cliente IdClienteNavigation { get; set; }
         public virtual CuentaBancaria IdCuentaBancariaNavigation { get; set; }
+        public virtual AspNetUsers IdUsuarioAnulacionNavigation { get; set; }
+        public virtual AspNetUsers IdUsuarioNavigation { get; set; }
         public virtual ICollection<Cheque> Cheque { get; set; }
         public virtual ICollection<OperacionBancaria> OperacionBancaria { get; set; }
     }

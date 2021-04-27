@@ -11,6 +11,7 @@ import { CuentaBancariaService } from 'src/services/cuenta.bancaria.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { ParametroService } from 'src/services/parametro.service';
+import { SessionService } from 'src/services/session.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { ParametroService } from 'src/services/parametro.service';
 })
 export class ReciboAltaComponent {
   modelRecibo = <Recibo>{};
-  banco= null;
+  banco = null;
   clientes: Cliente[];
   clientesControl = new FormControl();
   filteredClientes: Observable<Cliente[]>;
@@ -30,6 +31,7 @@ export class ReciboAltaComponent {
 
   constructor(
     private clienteService: ClienteService,
+    private sessionService: SessionService,
     private parametroService: ParametroService,
     public dialogRef: MatDialogRef<ReciboAltaComponent>,
     private cuentaBancariaService: CuentaBancariaService,
@@ -47,6 +49,7 @@ export class ReciboAltaComponent {
       this.cuentaBancariaService.getCuentaBancariasList(),
     ]).subscribe(r => {
         this.clientes = r[0];
+        this.modelRecibo.IdUsuario = +this.sessionService.getPayload()['idUser'];
         this.filteredClientes = this.clientesControl.valueChanges
           .pipe(
             startWith(''),

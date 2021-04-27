@@ -78,7 +78,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -1335,6 +1334,10 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdCuentaBancaria).HasColumnName("idCuentaBancaria");
 
+                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.Property(e => e.IdUsuarioAnulacion).HasColumnName("idUsuarioAnulacion");
+
                 entity.Property(e => e.MontoCheque)
                     .HasColumnName("montoCheque")
                     .HasColumnType("decimal(10, 2)")
@@ -1374,6 +1377,17 @@ namespace DisplaBackend.Models
                     .WithMany(p => p.Recibo)
                     .HasForeignKey(d => d.IdCuentaBancaria)
                     .HasConstraintName("FK_Recibo_CuentaBancaria");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.ReciboIdUsuarioNavigation)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Recibo_AspNetUsers");
+
+                entity.HasOne(d => d.IdUsuarioAnulacionNavigation)
+                    .WithMany(p => p.ReciboIdUsuarioAnulacionNavigation)
+                    .HasForeignKey(d => d.IdUsuarioAnulacion)
+                    .HasConstraintName("FK_Recibo_AspNetUsersAnulacion");
             });
 
             modelBuilder.Entity<Remito>(entity =>
@@ -1396,6 +1410,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
+                entity.Property(e => e.IdUsuarioAnulacion).HasColumnName("idUsuarioAnulacion");
+
                 entity.Property(e => e.Impreso).HasColumnName("impreso");
 
                 entity.Property(e => e.MotivoAnulado)
@@ -1409,10 +1425,15 @@ namespace DisplaBackend.Models
                     .HasConstraintName("FK_Remito_Cliente");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
-                    .WithMany(p => p.Remito)
+                    .WithMany(p => p.RemitoIdUsuarioNavigation)
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Remito_AspNetUsers");
+
+                entity.HasOne(d => d.IdUsuarioAnulacionNavigation)
+                    .WithMany(p => p.RemitoIdUsuarioAnulacionNavigation)
+                    .HasForeignKey(d => d.IdUsuarioAnulacion)
+                    .HasConstraintName("FK_Remito_AspNetUsersAnulacion");
             });
 
             modelBuilder.Entity<Servicio>(entity =>

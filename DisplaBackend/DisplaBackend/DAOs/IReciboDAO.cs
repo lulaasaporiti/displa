@@ -71,6 +71,8 @@ namespace DisplaBackend.DAOs
         {
             return _context.Recibo
                 .Include(r => r.IdClienteNavigation)
+                .Include(r => r.IdUsuarioNavigation)
+                .Include(r => r.IdUsuarioAnulacionNavigation)
                 .Include(r => r.IdCuentaBancariaNavigation)
                     .ThenInclude(c => c.IdBancoNavigation)
                 .FirstOrDefault(u => u.Id == idRecibo);

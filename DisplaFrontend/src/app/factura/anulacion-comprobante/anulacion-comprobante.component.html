@@ -52,16 +52,16 @@
           <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
             style="font-size: small; line-height: 38px !important;">
             <mat-slide-toggle color="accent" #anulados="ngModel" id="anulados" name="anulados" [(ngModel)]="anulado"
-              (click)="applyFilterAvanzados(anulados, 'anulados')" [disabled]="valido">Solo anulados
+              (click)="applyFilterAvanzados(anulados, 'anulados')" [disabled]="valido || dataSource.data.length === 0">Solo anulados
             </mat-slide-toggle>
             <mat-slide-toggle color="accent" #validos="ngModel" id="validos" name="validos" [(ngModel)]="valido"
-              (click)="applyFilterAvanzados(validos, 'validos')" [disabled]="anulado">Solo válidos
+              (click)="applyFilterAvanzados(validos, 'validos')" [disabled]="anulado || dataSource.data.length === 0">Solo válidos
             </mat-slide-toggle>
             <mat-slide-toggle color="accent" #remitos="ngModel" id="remitos" name="remitos" [(ngModel)]="remito"
-              (click)="applyFilterAvanzados(remitos, 'remitos')">Incluir remitos facturados
+              (click)="applyFilterAvanzados(remitos, 'remitos')" [disabled]="dataSource.data.length === 0">Incluir remitos facturados
             </mat-slide-toggle>
             <mat-slide-toggle color="accent" #recibos="ngModel" id="recibos" name="recibos" [(ngModel)]="recibo"
-              (click)="applyFilterAvanzados(recibos, 'recibos')">Solo recibos
+              (click)="applyFilterAvanzados(recibos, 'recibos')" [disabled]="dataSource.data.length === 0">Solo recibos
             </mat-slide-toggle>
           </div>
         </div>

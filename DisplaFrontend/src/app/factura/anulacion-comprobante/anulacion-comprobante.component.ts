@@ -261,7 +261,7 @@ export class AnulacionComprobanteComponent implements OnInit {
       case 'Recibo': {
           const dialogRef = this.dialog.open(ReciboDetalleComponent, {
             data: { idRecibo: id },
-            width: '500px',
+            width: '550px',
             height: '580px'
           })
           dialogRef.afterClosed().subscribe(result => {

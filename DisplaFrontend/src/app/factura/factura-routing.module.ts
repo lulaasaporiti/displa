@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       { path: 'Factura/Alta', component: FacturaAltaComponent },
       { path: 'Factura/Detalle', component: ComprobanteDetalleComponent },
-      { path: 'AnulacionComprobante', component: AnulacionComprobanteComponent }
+      { path: 'Comprobante/BusquedaAnulados', component: AnulacionComprobanteComponent }
     ]
   }
 ];

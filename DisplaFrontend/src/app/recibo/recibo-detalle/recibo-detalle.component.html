@@ -5,11 +5,14 @@
             <p class="dialog-title">Detalle recibo</p>
             
         </div>
-        <div mat-dialog-title fxLayout="row" style="margin: 0;" *ngIf="modelRecibo.FechaAnulado != undefined">
-            <p class="dialog-warning" style="margin:0;">El comprobante fue anulado el día {{modelRecibo.FechaAnulado | date:"dd/MM/yyyy HH:mm:ss"}}</p>
+        <div fxLayout="row" style="margin: 0;">
+            <p class="dialog-text">El recibo fue generado el día {{modelRecibo.Fecha | date:"dd/MM/yyyy HH:mm:ss"}} por {{modelRecibo.IdUsuarioNavigation.UserName}}</p>
         </div>
-        <div mat-dialog-title fxLayout="row" style="margin: 0; margin-bottom: 10px;" *ngIf="modelRecibo.FechaAnulado != undefined">
-            <p class="dialog-warning" style="margin:0;">El motivo de anulación fue: {{modelRecibo.MotivoAnulado}}</p>
+        <div fxLayout="row" style="margin: 1px;" *ngIf="modelRecibo.FechaAnulado != undefined">
+            <p class="dialog-warning">El recibo fue anulado el día {{modelRecibo.FechaAnulado | date:"dd/MM/yyyy HH:mm:ss"}} por {{modelRecibo.IdUsuarioAnulacionNavigation.UserName}}</p>
+        </div>
+        <div fxLayout="row" style="margin: 1px; margin-bottom: 10px;" *ngIf="modelRecibo.FechaAnulado != undefined">
+            <p class="dialog-warning">El motivo de anulación fue: {{modelRecibo.MotivoAnulado}}</p>
         </div>
 
         <div mat-dialog-content fxLayout="row">

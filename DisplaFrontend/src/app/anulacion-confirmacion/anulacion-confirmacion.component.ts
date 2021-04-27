@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SessionService } from 'src/services/session.service';
 
 @Component({
   selector: 'app-anulacion-confirmacion',
@@ -9,6 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class AnulacionConfirmacionComponent {
 
   constructor( 
+    private sessionService: SessionService,
     public dialogRef: MatDialogRef<AnulacionConfirmacionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       data.model.MotivoAnulado = ''
@@ -16,6 +18,7 @@ export class AnulacionConfirmacionComponent {
 
   onYesClick(): void {
     this.data.model.FechaAnulado = new Date()
+    this.data.model.IdUsuarioAnulacion = +this.sessionService.getPayload()['idUser'];
     this.dialogRef.close(this.data.model)
   }
 

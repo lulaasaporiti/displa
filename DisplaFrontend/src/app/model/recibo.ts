@@ -1,5 +1,6 @@
 import { Cliente } from './cliente';
 import { CuentaBancaria } from './cuentaBancaria';
+import { Usuario } from './usuario';
 
 export interface Recibo {
     Id: number,
@@ -16,5 +17,9 @@ export interface Recibo {
     IdCuentaBancaria: number,
     IdCuentaBancariaNavigation: CuentaBancaria,
     FechaAnulado: Date,
-    MotivoAnulado: string
+    MotivoAnulado: string,
+    IdUsuario: number,
+    IdUsuarioAnulacion: number,
+    IdUsuarioNavigation: Usuario,
+    IdUsuarioAnulacionNavigation: Usuario
 }

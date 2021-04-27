@@ -12,9 +12,9 @@
           </mat-expansion-panel-header>
           <p class="titulo">Datos del remito</p>
           <div fxLayout="row" *ngIf="modelRemito.FechaAnulado != undefined">
-            <p class="texto-explicativo" style="margin:0;">El comprobante fue anulado el día {{modelRemito.FechaAnulado | date:"dd/MM/yyyy HH:mm:ss"}}</p>
+            <p class="texto-explicativo" style="margin:0;">El remito fue anulado el día {{modelRemito.FechaAnulado | date:"dd/MM/yyyy HH:mm:ss"}}</p>
         </div>
-        <div fxLayout="row" style="margin-bottom: 10px;" *ngIf="modelRemito.FechaAnulado != undefined">
+        <div fxLayout="row" style="margin-bottom: 10px;" *ngIf="modelRemito.FechaAnulado != undefined && modelRemito.MotivoAnulado != undefined">
             <p class="texto-explicativo" style="margin:0;">El motivo de anulación fue: {{modelRemito.MotivoAnulado}}</p>
         </div>
           <div fxLayout="column" style="margin: 12px auto;">
@@ -27,7 +27,10 @@
                 <input matInput placeholder="Estado" value="{{modelRemito.FechaAnulado != null ? 'Anulado' : 'No anulado' }}" name="estado" #estado disabled>
               </mat-form-field>
               <mat-form-field fxFlex='25' fxLayout="column">
-                <input matInput placeholder="Usuario" [ngModel]="modelRemito.IdUsuarioNavigation?.UserName" name="usuario" #usuario="ngModel" disabled>
+                <input matInput placeholder="Generado por" [ngModel]="modelRemito.IdUsuarioNavigation?.UserName" name="usuario" #usuario="ngModel" disabled>
+              </mat-form-field>
+              <mat-form-field fxFlex='25' fxLayout="column" *ngIf="modelRemito.IdUsuarioAnulacionNavigation != undefined">
+                <input matInput placeholder="Anulado por" [ngModel]="modelRemito.IdUsuarioAnulacionNavigation?.UserName" name="usuario" #usuario="ngModel" disabled>
               </mat-form-field>
             </div>
           </div>

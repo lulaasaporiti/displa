@@ -17,7 +17,7 @@ export class AnulacionRemitoComponent implements OnInit {
   since = new Date();
   original: any[] = [];
   defaultSort: MatSort
-  displayedColumns = ['Cliente', 'FechaAnulado', 'Fecha', 'NumeroComprobante', 'Monto'];
+  displayedColumns = ['Cliente', 'NumeroComprobante', 'Fecha', 'FechaAnulado', 'Monto'];
   dataSource = new MatTableDataSource<any>();
   todo: boolean;
   generacion: boolean;
@@ -37,11 +37,11 @@ export class AnulacionRemitoComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.loadingSpinnerService.hide();
 
-  //   this.defaultSort: MatSort = {
-  //     id: 'defColumnName',
-  //     start: 'asc',
-  //     disableClear: true
-  // };
+    //   this.defaultSort: MatSort = {
+    //     id: 'defColumnName',
+    //     start: 'asc',
+    //     disableClear: true
+    // };
   }
 
   applyFilter(filterValue: string) {
@@ -53,6 +53,7 @@ export class AnulacionRemitoComponent implements OnInit {
     this.remitoService.buscarRemitosAnulados(this.since.toDateString(), this.today.toDateString()).subscribe(r => {
       this.original = r
       this.dataSource.data = this.original
+      console.log(this.original)
       this.loadingSpinnerService.hide();
     })
   }
@@ -64,8 +65,17 @@ export class AnulacionRemitoComponent implements OnInit {
 
   applyFilterGeneracion() {
     if (this.generacion) {
-      this.generacion = false
-      this.dataSource.data = this.original
+      // this.generacion = false
+      // this.dataSource.data = this.original
+      this.dataSource.data = this.original.sort((a: any, b: any) => {
+        if (a.Id > b.Id) {
+          return -1;
+        } else if (a.Id < b.Id) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     }
     else {
       this.anulacion = false
@@ -77,14 +87,23 @@ export class AnulacionRemitoComponent implements OnInit {
         } else {
           return 0;
         }
-    });
+      });
     }
   }
 
   applyFilterAnulacion() {
     if (this.anulacion) {
-      this.anulacion = false
-      this.dataSource.data = this.original
+      // this.anulacion = false
+      // this.dataSource.data = this.original
+      this.dataSource.data = this.original.sort((a: any, b: any) => {
+        if (a.Id > b.Id) {
+          return -1;
+        } else if (a.Id < b.Id) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     }
     else {
       this.generacion = false

@@ -13,7 +13,10 @@ namespace DisplaBackend.Models
             ComprobanteCliente = new HashSet<ComprobanteCliente>();
             MovimientoBlock = new HashSet<MovimientoBlock>();
             MovimientoInsumo = new HashSet<MovimientoInsumo>();
-            Remito = new HashSet<Remito>();
+            ReciboIdUsuarioAnulacionNavigation = new HashSet<Recibo>();
+            ReciboIdUsuarioNavigation = new HashSet<Recibo>();
+            RemitoIdUsuarioAnulacionNavigation = new HashSet<Remito>();
+            RemitoIdUsuarioNavigation = new HashSet<Remito>();
             Sobre = new HashSet<Sobre>();
             VentaVirtual = new HashSet<VentaVirtual>();
             VentaVirtualMovimientos = new HashSet<VentaVirtualMovimientos>();
@@ -44,7 +47,10 @@ namespace DisplaBackend.Models
         public virtual ICollection<ComprobanteCliente> ComprobanteCliente { get; set; }
         public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
-        public virtual ICollection<Remito> Remito { get; set; }
+        public virtual ICollection<Recibo> ReciboIdUsuarioAnulacionNavigation { get; set; }
+        public virtual ICollection<Recibo> ReciboIdUsuarioNavigation { get; set; }
+        public virtual ICollection<Remito> RemitoIdUsuarioAnulacionNavigation { get; set; }
+        public virtual ICollection<Remito> RemitoIdUsuarioNavigation { get; set; }
         public virtual ICollection<Sobre> Sobre { get; set; }
         public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
         public virtual ICollection<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }

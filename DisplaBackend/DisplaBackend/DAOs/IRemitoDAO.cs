@@ -120,8 +120,11 @@ namespace DisplaBackend.DAOs
 
         public Remito GetById(int idRemito)
         {
-            return _context.Remito.Include(r => r.IdClienteNavigation)
-                .Include(r => r.IdUsuarioNavigation).Include(r => r.ComprobanteItem).FirstOrDefault(u => u.Id == idRemito);
+            return _context.Remito
+                .Include(r => r.IdClienteNavigation)
+                .Include(r => r.IdUsuarioNavigation)
+                .Include(r => r.IdUsuarioAnulacionNavigation)
+                .Include(r => r.ComprobanteItem).FirstOrDefault(u => u.Id == idRemito);
         }
 
         public bool Delete(Remito remito)

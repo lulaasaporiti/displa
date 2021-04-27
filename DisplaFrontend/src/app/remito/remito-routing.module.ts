@@ -10,7 +10,7 @@ const routes: Routes = [
     path: '', canActivate: [LoggedInGuard],
     children: [
       {path: 'Remito/Detalle', component: RemitoDetalleComponent},
-      {path: 'Remito/Anulacion', component: AnulacionRemitoComponent}
+      {path: 'Remito/BusquedaAnulados', component: AnulacionRemitoComponent}
 
     ]
   }
