@@ -16,6 +16,7 @@ namespace DisplaBackend.DAOs
         Remito GetById(int idRemito);
         List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
         List<dynamic> BuscarRemito(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
+        List<dynamic> BuscarRemitosAnulados(DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class RemitoDAO : IRemitoDAO
@@ -238,6 +239,27 @@ namespace DisplaBackend.DAOs
                     .OrderByDescending(c => c.Fecha)
                     .ToList<dynamic>();
             }
+        }
+
+        public List<dynamic> BuscarRemitosAnulados(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _context.Remito
+                .Include(c => c.IdClienteNavigation)
+                .Include(c => c.ComprobanteItem)
+                .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && cc.FechaAnulado != null)
+               .Select(ca => new
+               {
+                   Id = ca.Id,
+                   Fecha = ca.Fecha,
+                   FechaFactura = ca.FechaFactura,
+                   FechaAnulado = ca.FechaAnulado,
+                   IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                   MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto),
+                   IdTipoComprobanteNavigation = "Remito"
+               })
+                .OrderByDescending(c => c.Fecha)
+                .ToList<dynamic>();
+
         }
     }
 }

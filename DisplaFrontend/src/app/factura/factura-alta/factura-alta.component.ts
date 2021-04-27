@@ -572,10 +572,8 @@ export class FacturaAltaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == 1) {
         if (this.modelComprobante.ComprobanteItem.length <= this.parametro.CantidadProductoDiferentes) {
-          let aux = this.modelComprobante.ComprobanteItem;
-          this.modelComprobante.ComprobanteItem = aux.splice(0, this.parametro.CantidadProductoDiferentes);
-          console.log(this.modelComprobante.ComprobanteItem)
-          console.log(aux)
+          // let aux = this.modelComprobante.ComprobanteItem;
+          // this.modelComprobante.ComprobanteItem = aux.splice(0, this.parametro.CantidadProductoDiferentes);
           this.comprobanteClienteService.saveOrUpdateComprobanteCliente(this.modelComprobante).subscribe(
             data => {
               if (data != null) {

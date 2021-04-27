@@ -45,8 +45,32 @@ namespace DisplaBackend.Services
         public async Task<ComprobanteCliente> AltaComprobantes(ComprobanteCliente comprobanteCliente)
         {
             List<Remito> remitos = _remitoDAO.GetRemitosPendientesCliente(comprobanteCliente.IdCliente);
+            Parametros parametros = _parametroDAO.GetParametro();
 
-            if (comprobanteCliente.ComprobanteItem.Count == )
+            // Si el comprobante entra 
+            if ((comprobanteCliente.ComprobanteItem.Count <= parametros.CantidadProductoDiferentes) && (comprobanteCliente.MontoTotal <= parametros.MontoMaximoComprobante))
+            {   
+                return await _comprobanteClienteDAO.SaveOrUpdate(comprobanteCliente, remitos);
+            }
+            else
+            {
+               await _comprobanteClienteDAO.AltaComprobantes(comprobanteCliente, remitos, parametros);
+            }
+            //max: 20
+            //comprobante con 50
+
+            //comprobanteCliente.ComprobanteItem.length = 50 / max
+
+
+
+            //aux comprobanteCliente = comprobanteCliente;
+            
+            //aux.ComprobanteItem = comprobanteCliente.Comprobanteitem.Take(20)
+            //Comprobantecliente.ComprobanteItem = comprobanteCliente.Comprobanteitem.Skip(20)
+            
+            //arreglodecomprobantes.append(aux)
+            
+            
             return await _comprobanteClienteDAO.SaveOrUpdate(comprobanteCliente, remitos);
 
         }

@@ -54,4 +54,11 @@ export class RemitoService {
             fechaHasta: hasta
         });
     }
+
+    buscarRemitosAnulados(desde, hasta){
+        return this.mainService.get(`Remito/BuscarRemitosAnulados`, {
+            fechaDesde: desde,
+            fechaHasta: hasta
+        });
+    }
 }

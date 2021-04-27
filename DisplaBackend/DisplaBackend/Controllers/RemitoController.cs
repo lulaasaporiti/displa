@@ -92,6 +92,13 @@ namespace DisplaBackend.Controllers
             return _remitoService.BuscarRemito(idCliente, fechaDesde, fechaHasta);
         }
 
+        [HttpGet, Route("BuscarRemitosAnulados")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarRemitosAnulados(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _remitoService.BuscarRemitosAnulados(fechaDesde, fechaHasta);
+        }
+
     }
 
 

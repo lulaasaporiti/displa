@@ -8,12 +8,14 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
 import { RemitoDetalleComponent } from './remito-detalle/remito-detalle.component';
+import { AnulacionRemitoComponent } from './anulacion-remito/anulacion-remito.component';
 
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
     entryComponents: [  ],
-    declarations: [ RemitoDetalleComponent ],
+    declarations: [ RemitoDetalleComponent,
+        AnulacionRemitoComponent ],
     imports: [
         CommonModule,
         MaterialModule,

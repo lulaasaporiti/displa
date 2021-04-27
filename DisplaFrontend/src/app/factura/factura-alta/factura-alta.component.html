@@ -210,7 +210,7 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">
       <button mat-raised-button id="cancelar" (click)="cancelar()">Cancelar</button>
-      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= +(getTotales()) || bloquearF == false"
+      <button mat-raised-button color="primary" [disabled]="dataSource.data.length == 0 || 0 >= +(getTotales()) || bloquearF == false || modelComprobante.MontoTotal > parametro.MontoMaximoComprobante"
         id="finalizar" (click)="altaComprobanteCliente()">Finalizar</button>
     </div>
   <!-- </form> -->
