@@ -81,8 +81,6 @@ export class VentaVirtualListadoComponent implements OnInit {
     return c ? c.Id + ' - ' + c.Optica + ' - ' + c.Responsable : undefined;
   }
 
-
-
   modificarCantidad(venta: VentaVirtual, event) {
     event.stopPropagation();
     let cantidadVentaAnterior = venta.CantidadVendida;

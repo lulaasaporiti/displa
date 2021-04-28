@@ -9,13 +9,11 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
 import { RemitoDetalleComponent } from './remito-detalle/remito-detalle.component';
 import { AnulacionRemitoComponent } from './anulacion-remito/anulacion-remito.component';
-
-// import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { ConsultaRemitoComponent } from './consulta-remito/consulta-remito.component';
 
 @NgModule({
     entryComponents: [  ],
-    declarations: [ RemitoDetalleComponent,
-        AnulacionRemitoComponent ],
+    declarations: [ RemitoDetalleComponent, AnulacionRemitoComponent, ConsultaRemitoComponent ],
     imports: [
         CommonModule,
         MaterialModule,
