@@ -31,6 +31,13 @@ namespace DisplaBackend.Controllers
             return _articuloVarioService.GetArticulosVarios();
         }
 
+        [HttpGet, Route("GetCantidadListas")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetCantidadListas()
+        {
+            return _articuloVarioService.GetCantidadListas();
+        }
+
         [HttpGet, Route("GetArticulosVariosVigentes")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetArticulosVariosVigentes()

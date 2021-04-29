@@ -22,6 +22,8 @@ namespace DisplaBackend.DAOs
         bool GenerarPrecioLista(int porcentaje, int lista);
         PrecioLente GetPrecioMinimo(int idLente);
         List<RecargoLente> GetRecargoLente(int idLente);
+
+        int GetCantidadListas();
     }
 
     public class LenteDAO : ILenteDAO
@@ -33,7 +35,15 @@ namespace DisplaBackend.DAOs
             _context = context;
         }
 
+        public int GetCantidadListas()
+        {
+                //Consultar si se incluye el precio especial
+            return 1;
 
+
+            //    .Max(val => val.PrecioServicio.Count());
+
+        }
         public List<Lente> GetLentes()
         {
             return _context.Lente

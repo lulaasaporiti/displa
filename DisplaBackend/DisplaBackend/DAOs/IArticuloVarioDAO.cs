@@ -19,6 +19,8 @@ namespace DisplaBackend.DAOs
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
         bool GenerarPrecioLista(int porcentaje, int lista);
 
+        int GetCantidadListas();
+
     }
 
     public class ArticuloVarioDAO : IArticuloVarioDAO
@@ -28,6 +30,12 @@ namespace DisplaBackend.DAOs
         public ArticuloVarioDAO(DisplaNEWContext context)
         {
             _context = context;
+        }
+
+        public int GetCantidadListas()
+        {
+            return _context.ArticuloVario
+                .Max(val => val.PrecioArticulo.Count());
         }
 
 

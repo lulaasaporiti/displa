@@ -20,6 +20,10 @@ export class LenteService {
         return this.http.get(`${this.baseUrl}/GetLentesVigentes`);
     }
 
+    getCantidadListas(): Observable<any>{
+        return this.http.get(`${this.baseUrl}/GetCantidadListas`)
+    }
+
     getLentesVigentesAgrupadosList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetLentesVigentesAgrupados`);
     }

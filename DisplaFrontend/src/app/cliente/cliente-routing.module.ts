@@ -7,6 +7,9 @@ import { InformacionModificacionComponent } from './cliente-modificacion/informa
 import { InformacionDetalleComponent } from './cliente-detalle/informacion-detalle/informacion-detalle.component';
 import { ClienteCuentaListadoComponent } from './cliente-cuenta-listado/cliente-cuenta-listado.component';
 import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
+import { ClienteBusquedaLista } from './cliente-busqueda-lista/cliente-busqueda-lista.component';
+
+
 
 const routes: Routes = [
   {
@@ -18,6 +21,7 @@ const routes: Routes = [
       {path: 'Cliente/Modificacion', component: InformacionModificacionComponent},
       {path: 'Cliente/Detalle', component: InformacionDetalleComponent},
       {path: 'Cliente/Cuenta', component: CuentaPorClienteComponent},
+      {path: 'Cliente/BusquedaLista', component: ClienteBusquedaLista}
 
     ]
   }

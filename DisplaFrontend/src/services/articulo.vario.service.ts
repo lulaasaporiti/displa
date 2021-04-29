@@ -16,6 +16,10 @@ export class ArticuloVarioService {
         return this.http.get(`${this.baseUrl}/GetArticulosVarios`);
     }
 
+    getCantidadListas(): Observable<any>{
+        return this.http.get(`${this.baseUrl}/GetCantidadListas`)
+    }
+
     getArticulosVariosVigentesList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetArticulosVariosVigentes`);
     }

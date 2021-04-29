@@ -19,6 +19,8 @@ namespace DisplaBackend.DAOs
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
         bool GenerarPrecioLista(int porcentaje, int lista);
         List<Servicio> GetCalibrados(int idCliente);
+
+        int GetCantidadListas();
     }
 
     public class ServicioDAO : IServicioDAO
@@ -30,7 +32,11 @@ namespace DisplaBackend.DAOs
             _context = context;
         }
 
-
+        public int GetCantidadListas()
+        {
+           return _context.Servicio
+                .Max(val => val.PrecioServicio.Count());
+        }
         public List<Servicio> GetServicios()
         {
             return _context.Servicio

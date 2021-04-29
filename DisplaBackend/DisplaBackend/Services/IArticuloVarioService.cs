@@ -16,6 +16,8 @@ namespace DisplaBackend.Services
         ArticuloVario GetById(int idArticuloVario);
         bool SaveActualizacionPrecio(JObject[] porcentajePrecios);
         bool GenerarPrecioLista(int porcentaje, int lista);
+
+        int GetCantidadListas();
     }
 
     public class ArticuloVarioService : IArticuloVarioService
@@ -32,6 +34,10 @@ namespace DisplaBackend.Services
             return _articuloVarioDAO.GetArticulosVarios();
         }
 
+        public int GetCantidadListas()
+        {
+            return _articuloVarioDAO.GetCantidadListas();
+        }
         public List<ArticuloVario> GetArticulosVariosVigentes()
         {
             return _articuloVarioDAO.GetArticulosVariosVigentes();

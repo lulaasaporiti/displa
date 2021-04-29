@@ -23,6 +23,13 @@ namespace DisplaBackend.Controllers
             _servicioService = servicioService;
         }
 
+        [HttpGet, Route("GetCantidadListas")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetCantidadListas()
+        {
+            return _servicioService.GetCantidadListas();
+        }
+
         [HttpGet("{id}")]
         //[EnableCors("DisplaAPIPolicy")]
         public object GetById([FromRoute] int id)

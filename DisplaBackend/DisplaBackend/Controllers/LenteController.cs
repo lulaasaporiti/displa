@@ -30,6 +30,13 @@ namespace DisplaBackend.Controllers
             return _lenteService.GetById(id);
         }
 
+        [HttpGet, Route("GetCantidadListas")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetCantidadListas()
+        {
+            return _lenteService.GetCantidadListas();
+        }
+
         [HttpGet, Route("GetLentes")]
         [EnableCors("DisplaAPIPolicy")]
         public object GetLentes()

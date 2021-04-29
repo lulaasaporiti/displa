@@ -24,13 +24,14 @@ import { ClienteBloqueoManualComponent } from './cliente-bloqueo-manual/cliente-
 import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
 import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ClienteBusquedaLista } from './cliente-busqueda-lista/cliente-busqueda-lista.component';
 
 
 @NgModule({
     entryComponents: [ClienteBajaComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
     declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, InformacionModificacionComponent, InformacionDetalleComponent,
         PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent, PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, CuentaPorClienteComponent,
-        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
+        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, FichaAltaComponent, ClienteBloqueoManualComponent, ClienteBusquedaLista],
     imports: [
         CommonModule,
         MaterialModule,

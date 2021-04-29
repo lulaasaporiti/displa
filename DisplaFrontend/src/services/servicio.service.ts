@@ -16,6 +16,10 @@ export class ServicioService {
         return this.http.get(`${this.baseUrl}/GetServicios`);
     }
 
+    getCantidadListas(): Observable<any>{
+        return this.http.get(`${this.baseUrl}/GetCantidadListas`)
+    }
+
     getCalibrados(idCliente): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetCalibrados?idCliente=${idCliente}`);
     }
