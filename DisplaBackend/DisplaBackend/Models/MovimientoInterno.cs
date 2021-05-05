@@ -14,5 +14,9 @@ namespace DisplaBackend.Models
         public int? IdProveedor { get; set; }
         public DateTime? FechaAnulacion { get; set; }
         public string MotivoAnulado { get; set; }
+
+        public virtual Cliente IdClienteNavigation { get; set; }
+        public virtual Proveedor IdProveedorNavigation { get; set; }
+        public virtual TipoComprobante IdTipoComprobanteNavigation { get; set; }
     }
 }

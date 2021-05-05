@@ -8,6 +8,7 @@ namespace DisplaBackend.Models
         public TipoComprobante()
         {
             ComprobanteCliente = new HashSet<ComprobanteCliente>();
+            MovimientoInterno = new HashSet<MovimientoInterno>();
         }
 
         public int Id { get; set; }
@@ -15,5 +16,6 @@ namespace DisplaBackend.Models
         public string Codigo { get; set; }
 
         public virtual ICollection<ComprobanteCliente> ComprobanteCliente { get; set; }
+        public virtual ICollection<MovimientoInterno> MovimientoInterno { get; set; }
     }
 }

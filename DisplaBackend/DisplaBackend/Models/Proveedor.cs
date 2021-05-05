@@ -5,6 +5,11 @@ namespace DisplaBackend.Models
 {
     public partial class Proveedor
     {
+        public Proveedor()
+        {
+            MovimientoInterno = new HashSet<MovimientoInterno>();
+        }
+
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Domicilio { get; set; }
@@ -16,5 +21,6 @@ namespace DisplaBackend.Models
         public string Cuit { get; set; }
 
         public virtual Localidad IdLocalidadNavigation { get; set; }
+        public virtual ICollection<MovimientoInterno> MovimientoInterno { get; set; }
     }
 }

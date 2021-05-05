@@ -216,7 +216,7 @@ namespace DisplaBackend.DAOs
                        FechaAnulado = ca.FechaAnulado,
                        //Numero = ca.Numero,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                       MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto),
+                       MontoTotal = 0 /*ca.ComprobanteItem.Sum(ci => ci.Monto)*/,
                        IdTipoComprobanteNavigation = "Remito"
                    })
                     .OrderByDescending(c => c.Fecha)
@@ -236,7 +236,7 @@ namespace DisplaBackend.DAOs
                        FechaAnulado = ca.FechaAnulado,
                        //Numero = ca.Numero,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
-                       MontoTotal = ca.ComprobanteItem.Sum(ci => ci.Monto),
+                       MontoTotal = 0 /*ca.ComprobanteItem.Sum(ci => ci.Monto)*/,
                        IdTipoComprobanteNavigation = "Remito"
                    })
                     .OrderByDescending(c => c.Fecha)

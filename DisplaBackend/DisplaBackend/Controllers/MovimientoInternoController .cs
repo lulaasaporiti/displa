@@ -71,6 +71,19 @@ namespace DisplaBackend.Controllers
             return Ok(_movimientoInternoService.Delete(movimientoInterno));
         }
 
+        [HttpGet("{id}")]
+        public object GetById([FromRoute]int id)
+        {
+            return _movimientoInternoService.GetById(id);
+        }
+
+        [HttpGet, Route("BuscarMovimiento")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _movimientoInternoService.BuscarMovimiento(idCliente, fechaDesde, fechaHasta);
+        }
+
     }
 
 

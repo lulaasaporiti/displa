@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace DisplaBackend.Services
         bool SaveOrUpdate(MovimientoInterno movimientoInterno);
         bool Delete(MovimientoInterno movimientoInterno);
         MovimientoInterno GetById(int idMovimientoInterno);
+        List<dynamic> BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class MovimientoInternoService : IMovimientoInternoService
@@ -47,6 +49,10 @@ namespace DisplaBackend.Services
         public MovimientoInterno GetById(int idMovimientoInterno)
         {
             return _movimientoInternoDAO.GetById(idMovimientoInterno);
+        }
+
+        public List<dynamic> BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta) {
+            return _movimientoInternoDAO.BuscarMovimiento(idCliente, fechaDesde, fechaHasta);
         }
 
     }

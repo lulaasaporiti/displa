@@ -1,0 +1,56 @@
+<div class="dialog-content">
+    <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
+        <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="info"></mat-icon>
+        <p class="dialog-title" *ngIf="data.tipo == 'cliente'">Detalle movimiento interno</p>
+        <p class="dialog-title" *ngIf="data.tipo == 'proveedor'">Detalle movimiento interno proveedor</p>
+    </div>
+
+    <div mat-dialog-content fxLayout="row" *ngIf="data.tipo == 'cliente'">
+        <mat-form-field fxFill>
+            <input type="text" placeholder="Cliente" aria-label="Cliente" matInput value="{{modelMovimientoInterno.IdClienteNavigation?.Id}} - {{modelMovimientoInterno.IdClienteNavigation?.Optica}} - {{modelMovimientoInterno.IdClienteNavigation?.Responsable}}" required disabled>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-content fxLayout="row" *ngIf="data.tipo == 'proveedor'">
+        <mat-form-field fxFill>
+            <input type="text" placeholder="Proveedor" aria-label="Proveedor" matInput name="proveedor" #proveedor="ngModel"
+                [ngModel]="modelMovimientoInterno.IdProveedorNavigation" required disabled>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+        <mat-form-field fxFlex="50">
+            <input matInput [matDatepicker]="picker" placeholder="Fecha" [ngModel]="modelMovimientoInterno.Fecha"
+                name="fecha" #fecha="ngModel" readonly disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex="50">
+            <textarea matInput id="obs" placeholder="Observaciones" id="observaciones" disabled
+                [ngModel]="modelMovimientoInterno.Observaciones" name="obs" #obs cols="2" rows="1"></textarea>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+        <mat-form-field fxFlex="50">
+            <input matInput placeholder="Monto" [ngModel]="modelMovimientoInterno.Monto" name="monto" 
+                #monto="ngModel" required  disabled>
+            <mat-error *ngIf="monto.hasError('required')">Este campo es obligatorio.</mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="50">
+            <mat-select placeholder="Tipo comprobante" [(ngModel)]="modelMovimientoInterno.IdTipoComprobante" 
+                name="tipo" #tipo="ngModel" required disabled>
+                <mat-option *ngFor="let tc of tipoComprobante" [value]="tc.Id">
+                    {{ tc.Descripcion }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="tipo.hasError('required')">Este campo es obligatorio.</mat-error>
+        </mat-form-field>
+    </div>
+
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
+        <button mat-raised-button type="button" (click)="onNoClick()">Cancelar</button>
+        <!-- <button mat-raised-button color="primary" [mat-dialog-close]="modelMovimientoInterno">Agregar</button> -->
+    </div>
+</div>

@@ -34,36 +34,32 @@
               </mat-button-toggle-group>
             </section>
           </div>
-          <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill *ngIf="busquedaLentes"
-            style="font-size: small; line-height: 38px !important;">
-            <h5 class="titulo" fxFlex>Seleccione las listas de lentes a excluir:</h5>
+          <h5 *ngIf="busquedaLentes" fxFlexOffset="2" style="font-size: small; line-height: 38px !important;" class="titulo">Seleccione las listas de lentes a excluir:</h5>
+          <div fxLayout="row" *ngIf="busquedaLentes" fxLayoutAlign="start center">
               <!-- Checkbox de listas de precio de lentes-->
-              <div>
+              <div *ngFor="let i of [].constructor(cantListasLentes); let j = index" fxLayout="column" style="margin-right: 20px;">
                 <section>
-                  <mat-checkbox>Lista {{ i + 1 }}</mat-checkbox>
+                  <mat-checkbox>Lista {{ j + 1 }}</mat-checkbox>
                 </section>
               </div>
           </div>
-          <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill *ngIf="busquedaArticulos"
-            style="font-size: small; line-height: 38px !important;">
-            <h5 class="titulo" fxFlex>Seleccione las listas de artículos a excluir:</h5>
+          <h5 *ngIf="busquedaArticulos" fxFlexOffset="2" style="font-size: small; line-height: 38px !important;" class="titulo">Seleccione las listas de artículos a excluir:</h5>
+          <div fxLayout="row" *ngIf="busquedaArticulos" fxLayoutAlign="start center">
               <!-- Checkbox de listas de precio de articulos-->
-              <div>
+              <div *ngFor="let i of [].constructor(cantListasArticulos); let j = index" fxLayout="column" style="margin-right: 20px;">
                 <section>
-                  <mat-checkbox >Lista {{ i + 1 }}</mat-checkbox>
+                  <mat-checkbox>Lista {{ j + 1 }}</mat-checkbox>
                 </section>
               </div>
           </div>
-          <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill *ngIf="busquedaServicios"
-            style="font-size: small; line-height: 38px !important;">
-            <h5 class="titulo" fxFlex>Seleccione las listas de servicios a excluir:</h5>
-              <!-- Checkbox de listas de precio de servicios-->
-              <div>
-                <section >
-                  <mat-checkbox>Lista {{ i + 1 }}</mat-checkbox>
+          <h5 *ngIf="busquedaServicios" fxFlexOffset="2" style="font-size: small; line-height: 38px !important;" class="titulo">Seleccione las listas de servicios a excluir:</h5>
+          <div fxLayout="row" *ngIf="busquedaServicios" fxLayoutAlign="start center">
+              <!-- Checkbox de listas de precio de lentes-->
+              <div *ngFor="let i of [].constructor(cantListasServicios); let j = index" fxLayout="column" style="margin-right: 20px;">
+                <section>
+                  <mat-checkbox>Lista {{ j + 1 }}</mat-checkbox>
                 </section>
               </div>
-              
           </div>
         </div>
       </mat-expansion-panel>

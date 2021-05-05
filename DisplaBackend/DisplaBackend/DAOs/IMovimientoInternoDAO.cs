@@ -14,7 +14,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(MovimientoInterno movimientoInterno);
         bool Delete(MovimientoInterno movimientoInterno);
         MovimientoInterno GetById(int idMovimientoInterno);
-
+        List<dynamic> BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
     }
 
     public class MovimientoInternoDAO : IMovimientoInternoDAO
@@ -63,7 +63,11 @@ namespace DisplaBackend.DAOs
 
         public MovimientoInterno GetById(int idMovimientoInterno)
         {
-            return _context.MovimientoInterno.FirstOrDefault(u => u.Id == idMovimientoInterno);
+            return _context.MovimientoInterno
+                .Include(m => m.IdTipoComprobanteNavigation)
+                .Include(m => m.IdClienteNavigation)
+                .Include(m => m.IdProveedorNavigation)
+                .FirstOrDefault(u => u.Id == idMovimientoInterno);
         }
 
         public bool Delete(MovimientoInterno movimientoInterno)
@@ -77,6 +81,48 @@ namespace DisplaBackend.DAOs
             catch (DbUpdateException e)
             {
                 throw e;
+            }
+        }
+
+        public List<dynamic> BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            if (idCliente > 0)
+            {
+                return _context.MovimientoInterno
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdClienteNavigation)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && idCliente == cc.IdCliente)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       IdTipoComprobante = ca.IdTipoComprobante,
+                       IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulacion,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = ca.Monto
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            else
+            {
+                return _context.MovimientoInterno
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdClienteNavigation)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && cc.IdCliente != null)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       IdTipoComprobante = ca.IdTipoComprobante,
+                       IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulacion,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = ca.Monto
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
             }
         }
     }

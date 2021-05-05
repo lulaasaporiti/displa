@@ -1009,6 +1009,22 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.Observaciones)
                     .HasColumnName("observaciones")
                     .HasMaxLength(500);
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.MovimientoInterno)
+                    .HasForeignKey(d => d.IdCliente)
+                    .HasConstraintName("FK_MovimientoInterno_Cliente");
+
+                entity.HasOne(d => d.IdProveedorNavigation)
+                    .WithMany(p => p.MovimientoInterno)
+                    .HasForeignKey(d => d.IdProveedor)
+                    .HasConstraintName("FK_MovimientoInterno_Proveedor");
+
+                entity.HasOne(d => d.IdTipoComprobanteNavigation)
+                    .WithMany(p => p.MovimientoInterno)
+                    .HasForeignKey(d => d.IdTipoComprobante)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MovimientoInterno_TipoComprobante");
             });
 
             modelBuilder.Entity<OperacionBancaria>(entity =>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { MainService } from './main.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,11 @@ export class MovimientoInternoService {
 
     private baseUrl = environment.BASE_USER_ENDPOINT + 'MovimientoInterno';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private mainService: MainService) { }
+
+    getById(id: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
 
     getMovimientoInternosList(): Observable<any> {
         return this.http.get(`${this.baseUrl}/GetMovimientoInternos`);
@@ -30,5 +35,13 @@ export class MovimientoInternoService {
 
     deleteMovimientoInterno(id: number): Observable<any> {
         return this.http.delete(`${this.baseUrl}/${id}`);
+    }
+
+    getBusquedaMovimiento(idCliente, fechaDesde, fechaHasta): Observable<any> {
+        return this.mainService.get(`MovimientoInterno/BuscarMovimiento`, {
+            idCliente: idCliente,
+            fechaDesde: fechaDesde,
+            fechaHasta: fechaHasta
+        });
     }
 }
