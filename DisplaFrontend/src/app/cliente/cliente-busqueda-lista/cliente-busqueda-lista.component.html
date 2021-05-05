@@ -37,46 +37,34 @@
           <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill *ngIf="busquedaLentes"
             style="font-size: small; line-height: 38px !important;">
             <h5 class="titulo" fxFlex>Seleccione las listas de lentes a excluir:</h5>
-              <!-- Checkbox de listas de precio -->
+              <!-- Checkbox de listas de precio de lentes-->
+              <div>
+                <section>
+                  <mat-checkbox>Lista {{ i + 1 }}</mat-checkbox>
+                </section>
+              </div>
           </div>
           <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill *ngIf="busquedaArticulos"
             style="font-size: small; line-height: 38px !important;">
             <h5 class="titulo" fxFlex>Seleccione las listas de artículos a excluir:</h5>
-              <!-- Checkbox de listas de precio -->
+              <!-- Checkbox de listas de precio de articulos-->
+              <div>
+                <section>
+                  <mat-checkbox >Lista {{ i + 1 }}</mat-checkbox>
+                </section>
+              </div>
           </div>
           <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill *ngIf="busquedaServicios"
             style="font-size: small; line-height: 38px !important;">
             <h5 class="titulo" fxFlex>Seleccione las listas de servicios a excluir:</h5>
-              <!-- Checkbox de listas de precio -->
+              <!-- Checkbox de listas de precio de servicios-->
+              <div>
+                <section >
+                  <mat-checkbox>Lista {{ i + 1 }}</mat-checkbox>
+                </section>
+              </div>
+              
           </div>
-
-          <!-- <ng-template #busquedaCliente>
-            <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
-              style="font-size: small; line-height: 38px !important;">
-              <mat-form-field fxFlex="70">
-                <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
-                  [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCliente">
-                  <mat-option *ngFor="let c of filteredClientes | async" [value]="c"
-                    (onSelectionChange)="asignarCliente($event)">
-                    {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-              <mat-form-field>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde"
-                  #desde="ngModel" (ngModelChange)="traerRemitos()" readonly>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-              <mat-form-field>
-                <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta"
-                  #hasta="ngModel" (ngModelChange)="traerRemitos()" readonly>
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-              </mat-form-field>
-            </div>
-          </ng-template> -->
         </div>
       </mat-expansion-panel>
     </mat-accordion>

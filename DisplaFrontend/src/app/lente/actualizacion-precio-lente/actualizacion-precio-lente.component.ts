@@ -67,6 +67,7 @@ export class ActualizacionPrecioLenteComponent implements OnInit {
       this.lenteService.getLentesVigentesAgrupadosList(),
     ])
       .subscribe(r => {
+        console.log(r[0])
         this.dataSource.data = r[0];
         var maxCantPrecio = 0;
         var index = [];

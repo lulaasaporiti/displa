@@ -14,6 +14,7 @@ import { combineLatest } from 'rxjs';
 import { ExportacionService } from 'src/services/exportacion.service';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { ServicioService } from 'src/services/servicio.service';
+import { LenteService } from 'src/services/lente.service';
 
 
 
@@ -30,6 +31,7 @@ export class ClienteBusquedaLista implements OnInit {
   busquedaServicios: boolean = false;
   cantListasArticulos: number
   cantListasServicios: number
+  cantListasLentes: number
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -43,17 +45,20 @@ export class ClienteBusquedaLista implements OnInit {
     private exportacionService: ExportacionService,
     private loadingSpinnerService: LoadingSpinnerService,
     private articuloVarioService: ArticuloVarioService,
-    private servicioService: ServicioService) { }
+    private servicioService: ServicioService,
+    private lenteService: LenteService) { }
 
   ngOnInit() {
 
     combineLatest([
       this.articuloVarioService.getCantidadListas(),
       this.servicioService.getCantidadListas(),
+      this.lenteService.getCantidadListas()
     ])
       .subscribe(result => { 
         this.cantListasArticulos = result[0];
-        this.cantListasServicios = result[1];
+        this.cantListasServicios = result[1];;
+        this.cantListasLentes = result[2]; 
     })
 
   }

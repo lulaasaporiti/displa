@@ -31,6 +31,7 @@ import { OperacionBancariaService } from 'src/services/operacion.bancaria.servic
 import { TrasladoFondoService } from 'src/services/traslado.fondo..service';
 import { MovimientoCajaAltaComponent } from '../caja/movimiento-caja-alta/movimiento-caja-alta.component';
 import { MovimientoCajaDiariaAltaComponent } from '../caja/movimiento-caja-diaria-alta/movimiento-caja-diaria-alta.component';
+import { PuestaEnCeroComponent } from '../lente/puesta-en-cero/puesta-en-cero.component';
 
 @Component({
   selector: 'app-header',
@@ -84,10 +85,27 @@ export class HeaderComponent {
     return isLogged;
 }
 
-
   openDialogLentes(): void {
     let idLente;
     const dialogRef = this.dialog.open(LenteSeleccionComponent, {
+      data: { idLente: idLente },
+      width: '500px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined && result != false) {
+        this.router.navigateByUrl('Account/Login').then(
+          () => {
+            this.router.navigateByUrl('Lente/Stock?id=' + result.idLente);
+            this.loadingSpinnerService.hide();
+            window.scrollTo(0, 0);
+          });
+      }
+    })
+  }
+
+  openDialogPuesta(): void {
+    let idLente;
+    const dialogRef = this.dialog.open(PuestaEnCeroComponent, {
       data: { idLente: idLente },
       width: '500px'
     })

@@ -37,13 +37,21 @@ namespace DisplaBackend.DAOs
 
         public int GetCantidadListas()
         {
-                //Consultar si se incluye el precio especial
-            return 1;
 
 
-            //    .Max(val => val.PrecioServicio.Count());
+            int lentes = _context.Lente
+                .Where(l => l.Borrado == false && l.PrecioLente.Count > 0)
+                .Max(l => l.PrecioLente
+                        .Where(p => p.PrecioLenteCliente.Where(pc => pc.Especial == true).Count() == 0)
+                        .Max(p => _context.PrecioLente.Where(pl => pl.IdLente == p.IdLente && pl.MedidaEsferico == p.MedidaEsferico
+                            && pl.MedidaCilindrico == p.MedidaCilindrico).Select(pl => pl.Precio).Count())
+            );
+
+            return lentes;
+
 
         }
+
         public List<Lente> GetLentes()
         {
             return _context.Lente

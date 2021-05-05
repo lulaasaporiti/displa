@@ -17,8 +17,8 @@
                 <mat-menu fxLayoutAlign="start center" #menuLentes="matMenu">
                     <a mat-menu-item class="button-list" routerLink="Lente/Listado">Listado de lentes</a>
                     <a mat-menu-item class="button-list">Stock actual</a>
-                    <a mat-menu-item class="button-list" routerLink="ManejoStock/Alta">Stock en uso</a>
-                    <a mat-menu-item class="button-list">Stock de depósito</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuStockEnUso">Stock en uso</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuDeposito">Stock depósito</a>
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuGestionPreciosLente">Gestión de
                         precios</a>
                 </mat-menu>
@@ -28,7 +28,6 @@
                     <a mat-menu-item class="button-list" routerLink="Busqueda/Listado">Búsqueda de cajas</a>
                     <a mat-menu-item class="button-list">Estadísticas</a>
                 </mat-menu>
-
 
                 <mat-menu fxLayoutAlign="start center" #menuArticulos="matMenu">
                     <a mat-menu-item class="button-list" routerLink="ArticuloVario/Listado">Listado de artículos</a>
@@ -40,6 +39,25 @@
                     <a mat-menu-item class="button-list" routerLink="Servicio/Listado">Listado de servicios</a>
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuGestionPreciosServicio">Gestión de
                         precios</a>
+                </mat-menu>
+
+                <mat-menu fxLayoutAlign="start center" #menuStockEnUso="matMenu">
+                    <a mat-menu-item class="button-list">Alta/Baja de stock por planilla</a>
+                    <a mat-menu-item class="button-list" (click)="openDialogLentes();">Consulta</a>
+                    <a mat-menu-item class="button-list" (click)="openDialogPuesta()">Puesta en 0</a>
+                    <a mat-menu-item class="button-list" routerLink="ManejoStock/Alta">Alta/Baja de stock tipo facturación</a>
+                </mat-menu>
+
+                <mat-menu fxLayoutAlign="start center" #menuDeposito="matMenu">
+                    <a mat-menu-item class="button-list">Creación</a>
+                    <a mat-menu-item class="button-list">Alta cristales</a>
+                    <a mat-menu-item class="button-list">Consulta cristales</a>
+                    <a mat-menu-item class="button-list">Mover a stock en uso</a>
+                    <a mat-menu-item class="button-list">Unir</a>
+                    <a mat-menu-item class="button-list">Números caja chica</a>
+                    <a mat-menu-item class="button-list">Consulta de movimientos</a>
+                    <a mat-menu-item class="button-list">Consulta números de cajas</a>
+                    <a mat-menu-item class="button-list">Modificación de datos</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuGestionPreciosLente="matMenu">

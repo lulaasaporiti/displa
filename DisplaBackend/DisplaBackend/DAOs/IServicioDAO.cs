@@ -35,7 +35,8 @@ namespace DisplaBackend.DAOs
         public int GetCantidadListas()
         {
            return _context.Servicio
-                .Max(val => val.PrecioServicio.Count());
+                .Where(serv => serv.Borrado == false && serv.PrecioServicio.Count > 0)
+                .Max(val => val.PrecioServicio.Where(p => p.PrecioServicioCliente.Where(pc => pc.Especial == true).Count() == 0).Count());
         }
         public List<Servicio> GetServicios()
         {
