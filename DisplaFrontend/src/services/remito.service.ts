@@ -37,6 +37,10 @@ export class RemitoService {
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
+    getNumeroRemito(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetLastCode`);
+    }
+
     buscarItemRemito(idLente, idArticulo, libre, desde, hasta){
         return this.mainService.get(`Remito/BuscarItemRemito`, {
             idLente: idLente,
@@ -52,6 +56,12 @@ export class RemitoService {
             idCliente: idCliente,
             fechaDesde: desde,
             fechaHasta: hasta
+        });
+    }
+
+    buscarRemitoPorNumero(numeroRemito){
+        return this.mainService.get(`Remito/BuscarRemitoPorNumero`, {
+            numeroRemito: numeroRemito,
         });
     }
 

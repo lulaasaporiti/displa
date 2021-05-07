@@ -38,7 +38,7 @@ import { BancoModule } from './banco/banco.module';
 import { TarjetaCreditoModule } from './tarjeta-credito/tarjeta-credito.module';
 import { LimiteGrillaModule } from './limite-grilla/limite-grilla.module';
 import { TipoComprobanteModule } from './tipo-comprobante/tipo-comprobante.module';
-import { ManejoStockModule } from './manejo-stock/manejo-stock.module';
+import { ManejoStockModule } from './stock/stock.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GastoModule } from './gasto/gasto.module';
 import { GestionPrecioModule } from './header/gestion-precio/gestion-precio.module';

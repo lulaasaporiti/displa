@@ -13,8 +13,10 @@ namespace DisplaBackend.Services
         Task<bool> SaveOrUpdate(Remito remito);
         bool Delete(Remito remito);
         Remito GetById(int idRemito);
+        int GetLastCode();
         List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
         List<dynamic> BuscarRemito(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
+        List<dynamic> BuscarRemitoPorNumero(int numeroRemito);
         List<dynamic> BuscarRemitosAnulados(DateTime fechaDesde, DateTime fechaHasta);
     }
 
@@ -30,6 +32,11 @@ namespace DisplaBackend.Services
         public List<Remito> GetRemitosPendientesCliente(int idCliente)
         {
             return _remitoDAO.GetRemitosPendientesCliente(idCliente);
+        }
+
+        public int GetLastCode()
+        {
+            return _remitoDAO.GetLastCode();
         }
 
         public List<Remito> GetRemitosVigentes()
@@ -65,6 +72,10 @@ namespace DisplaBackend.Services
         public List<dynamic> BuscarRemitosAnulados(DateTime fechaDesde, DateTime fechaHasta)
         {
             return _remitoDAO.BuscarRemitosAnulados(fechaDesde, fechaHasta);
+        }
+
+        public List<dynamic> BuscarRemitoPorNumero(int numeroRemito) {
+            return _remitoDAO.BuscarRemitoPorNumero(numeroRemito);
         }
     }
 

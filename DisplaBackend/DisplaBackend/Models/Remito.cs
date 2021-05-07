@@ -11,6 +11,7 @@ namespace DisplaBackend.Models
         }
 
         public int Id { get; set; }
+        public int Numero { get; set; }
         public DateTime Fecha { get; set; }
         public DateTime? FechaFactura { get; set; }
         public DateTime? FechaAnulado { get; set; }

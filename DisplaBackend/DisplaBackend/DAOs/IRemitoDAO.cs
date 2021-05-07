@@ -13,9 +13,11 @@ namespace DisplaBackend.DAOs
         List<Remito> GetRemitosVigentes();
         Task<bool> SaveOrUpdate(Remito remito);
         bool Delete(Remito remito);
+        int GetLastCode();
         Remito GetById(int idRemito);
         List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta);
         List<dynamic> BuscarRemito(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
+        List<dynamic> BuscarRemitoPorNumero(int numeroRemito);
         List<dynamic> BuscarRemitosAnulados(DateTime fechaDesde, DateTime fechaHasta);
     }
 
@@ -44,12 +46,17 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
+        public int GetLastCode()
+        {
+            return _context.Remito.Last().Numero;
+        }
         public async Task<bool> SaveOrUpdate(Remito remito)
         {
             try
             {
                 if (remito.Id == 0)
                 {
+                    remito.Numero = GetLastCode() + 1;
                     remito.Fecha = DateTime.Now;
                     remito.IdClienteNavigation = null;
                     //////////////agregar el navigation de lente en null cuando lo terminemos.//////////
@@ -139,6 +146,27 @@ namespace DisplaBackend.DAOs
             {
                 throw e;
             }
+        }
+
+
+        public List<dynamic> BuscarRemitoPorNumero(int numeroRemito) {
+            return _context.Remito
+                    .Include(c => c.IdClienteNavigation)
+                    .Include(c => c.ComprobanteItem)
+                    .Where(cc => cc.Numero == numeroRemito)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       Fecha = ca.Fecha,
+                       FechaFactura = ca.FechaFactura,
+                       FechaAnulado = ca.FechaAnulado,
+                       Numero = ca.Numero,
+                       IdClienteNavigation = ca.IdClienteNavigation.Optica,
+                       MontoTotal = 0 /*ca.ComprobanteItem.Sum(ci => ci.Monto)*/,
+                       IdTipoComprobanteNavigation = "Remito"
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
         }
 
         public List<dynamic> BuscarItemRemito(int idLente, int idArticulo, string libre, DateTime desde, DateTime hasta)
@@ -231,10 +259,10 @@ namespace DisplaBackend.DAOs
                    .Select(ca => new
                    {
                        Id = ca.Id,
+                       Numero = ca.Numero,
                        Fecha = ca.Fecha,
                        FechaFactura = ca.FechaFactura,
                        FechaAnulado = ca.FechaAnulado,
-                       //Numero = ca.Numero,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
                        MontoTotal = 0 /*ca.ComprobanteItem.Sum(ci => ci.Monto)*/,
                        IdTipoComprobanteNavigation = "Remito"
@@ -253,6 +281,7 @@ namespace DisplaBackend.DAOs
                .Select(ca => new
                {
                    Id = ca.Id,
+                   Numero = ca.Numero,
                    Fecha = ca.Fecha,
                    FechaFactura = ca.FechaFactura,
                    FechaAnulado = ca.FechaAnulado,

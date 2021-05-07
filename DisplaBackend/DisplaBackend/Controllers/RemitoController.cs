@@ -77,6 +77,12 @@ namespace DisplaBackend.Controllers
             return _remitoService.GetById(id);
         }
 
+        [HttpGet, Route("GetLastCode")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object GetLastCode()
+        {
+            return _remitoService.GetLastCode();
+        }
 
         [HttpGet, Route("BuscarItemRemito")]
         [EnableCors("DisplaAPIPolicy")]
@@ -99,6 +105,12 @@ namespace DisplaBackend.Controllers
             return _remitoService.BuscarRemitosAnulados(fechaDesde, fechaHasta);
         }
 
+        [HttpGet, Route("BuscarRemitoPorNumero")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarRemitoPorNumero(int numeroRemito)
+        {
+            return _remitoService.BuscarRemitoPorNumero(numeroRemito);
+        }
     }
 
 

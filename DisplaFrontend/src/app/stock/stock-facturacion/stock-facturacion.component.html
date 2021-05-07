@@ -2,7 +2,8 @@
     <div class="content">
         <!-- <app-loading-spinner></app-loading-spinner> -->
         <div fxLayout="row" fxLayoutAlign="start center">
-            <h4 fxLayout="column" class="titulo" fxFlex>Agregar stock</h4>
+            <h4 fxLayout="column" class="titulo" *ngIf="operacion == 'Alta'" fxFlex>Agregar stock</h4>
+            <h4 fxLayout="column" class="titulo" *ngIf="operacion == 'Baja'" fxFlex>Eliminar stock</h4>
         </div>
         <mat-divider fxFlexOffset="2"></mat-divider>
         <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="start center">

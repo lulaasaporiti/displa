@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-import { ManejoStockRoutingModule } from './manejo-stock-routing.module';
-import { ManejoStockAltaComponent } from './manejo-stock-alta/manejo-stock-alta.component';
-// import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { ManejoStockRoutingModule } from './stock-routing.module';
+import { StockFacturacionComponent } from './stock-facturacion/stock-facturacion.component';
 
 @NgModule({
     entryComponents: [ ],
-    declarations: [ ManejoStockAltaComponent ],
+    declarations: [ StockFacturacionComponent ],
     imports: [
         CommonModule,
         MaterialModule,

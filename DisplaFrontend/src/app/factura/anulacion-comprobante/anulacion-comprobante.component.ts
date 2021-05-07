@@ -241,7 +241,6 @@ export class AnulacionComprobanteComponent implements OnInit {
   }
 
   verComprobante(id: number, idTipoComprobante: string) {
-    console.log(idTipoComprobante)
     switch (idTipoComprobante) {
       case 'Factura': {
         let url = `Factura/Detalle?id=${id}`
@@ -276,8 +275,7 @@ export class AnulacionComprobanteComponent implements OnInit {
           }
         })
       }
-      case 'Débito interno': {
-        console.log("entra debito")
+      case 'Débito interno' || 'Crédito interno': {
         const dialogRef = this.dialog.open(MovimientoInternoDetalleComponent, {
           data: { idMovimiento: id, tipo: 'cliente' },
           width: '650px'
@@ -289,19 +287,19 @@ export class AnulacionComprobanteComponent implements OnInit {
           }
         })
       }
-      case 'Crédito interno': {
-        console.log("entra credito")
-        const dialogRef = this.dialog.open(MovimientoInternoDetalleComponent, {
-          data: { idMovimiento: id, tipo: 'cliente' },
-          width: '650px'
-        })
-        dialogRef.afterClosed().subscribe(result => {
-          if (result != undefined && result != false) {
-            this.traerCliente()
-            this.resetFilters()
-          }
-        })
-      }
+      // case 'Crédito interno': {
+      //   console.log("entra credito")
+      //   const dialogRef = this.dialog.open(MovimientoInternoDetalleComponent, {
+      //     data: { idMovimiento: id, tipo: 'cliente' },
+      //     width: '650px'
+      //   })
+      //   dialogRef.afterClosed().subscribe(result => {
+      //     if (result != undefined && result != false) {
+      //       this.traerCliente()
+      //       this.resetFilters()
+      //     }
+      //   })
+      // }
       default: {
         //statements; 
         break;

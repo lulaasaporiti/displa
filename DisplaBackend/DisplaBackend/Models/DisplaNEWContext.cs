@@ -1434,6 +1434,8 @@ namespace DisplaBackend.Models
                     .HasColumnName("motivoAnulado")
                     .HasMaxLength(150);
 
+                entity.Property(e => e.Numero).HasColumnName("numero");
+
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.Remito)
                     .HasForeignKey(d => d.IdCliente)

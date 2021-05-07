@@ -5,6 +5,7 @@ import { VentaVirtual } from "./ventaVirtual";
 
 export interface Remito {
     Id: number,
+    Numero: number,
     Fecha: Date,
     FechaFactura: Date,
     FechaAnulado: Date,

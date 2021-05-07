@@ -42,10 +42,12 @@
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuStockEnUso="matMenu">
-                    <a mat-menu-item class="button-list">Alta/Baja de stock por planilla</a>
+                    <a mat-menu-item class="button-list">Alta de stock por planilla</a>
+                    <a mat-menu-item class="button-list">Baja de stock por planilla</a>
                     <a mat-menu-item class="button-list" (click)="openDialogLentes();">Consulta</a>
                     <a mat-menu-item class="button-list" (click)="openDialogPuesta()">Puesta en 0</a>
-                    <a mat-menu-item class="button-list" routerLink="ManejoStock/Alta">Alta/Baja de stock tipo facturación</a>
+                    <a mat-menu-item class="button-list" routerLink="StockFacturacion/Alta">Alta de stock tipo facturación</a>
+                    <a mat-menu-item class="button-list" routerLink="StockFacturacion/Baja">Baja de stock tipo facturación</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuDeposito="matMenu">

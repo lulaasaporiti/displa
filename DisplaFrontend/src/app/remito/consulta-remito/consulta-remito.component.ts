@@ -28,6 +28,7 @@ export class ConsultaRemitoComponent implements OnInit {
   filteredClientes: Observable<Cliente[]>;
   busquedaNumero = true;
   clienteId: number;
+  numeroRemito: number;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -101,6 +102,23 @@ export class ConsultaRemitoComponent implements OnInit {
       console.table(this.dataSource.data)
       this.loadingSpinnerService.hide();
     })
+  }
+
+  traerRemitoPorNumero() {
+    this.loadingSpinnerService.show();
+    this.remitoService.buscarRemitoPorNumero(this.numeroRemito).subscribe(r => {
+      this.dataSource.data = r;
+      this.loadingSpinnerService.hide();
+    })
+  }
+
+  restablecerValores() {
+    this.numeroRemito = undefined;
+    this.clienteId = undefined;
+    this.clientesControl.setValue(undefined);
+    this.since = new Date();
+    this.today = new Date();
+    this.dataSource.data = [];
   }
 
   verComprobante(id: number) {

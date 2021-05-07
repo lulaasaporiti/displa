@@ -9,14 +9,15 @@ import { LenteService } from 'src/services/lente.service';
 import { startWith, map } from 'rxjs/operators';
 import { LimitesGrillaService } from 'src/services/limites.grilla.service';
 import { ValidacionLenteService } from 'src/services/validacion.lente.service';
+import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'app-manejo-stock-alta',
-  templateUrl: './manejo-stock-alta.component.html',
-  styleUrls: ['./manejo-stock-alta.component.css']
+  selector: 'app-stock-facturacion',
+  templateUrl: './stock-facturacion.component.html',
+  styleUrls: ['./stock-facturacion.component.css']
 })
-export class ManejoStockAltaComponent implements OnInit {
+export class StockFacturacionComponent implements OnInit {
   cargarStock: StockLente[] = [];
   selectedStock = new EventEmitter<StockLente[]>();
   msjCilindrico: boolean[] = [];
@@ -26,17 +27,21 @@ export class ManejoStockAltaComponent implements OnInit {
   lentesControl = new FormControl();
   filteredLentes: Observable<Lente[]>;
   msjCantidad: boolean[] = [];
-
+  operacion;
   limiteGrillaDerecha = <LimiteGrilla>{};
   limiteGrillaIzquierda = <LimiteGrilla>{};
 
   constructor(
+    private router: Router,
     private lenteService: LenteService,
     private stockLenteService: StockLenteService,
     public validacionLenteService: ValidacionLenteService
 
   ) {
     this.agregarStock();
+    let url = this.router.url.split('/');
+    this.operacion = url[url.length-1];
+    console.log(url[url.length-1])
   }
 
   ngOnInit() {

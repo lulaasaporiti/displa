@@ -592,7 +592,8 @@ export class FacturaAltaComponent implements OnInit {
           //Llamar el método de carga múltiple
       }
       if (result == 0) {
-        if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito) {
+        console.log(result)
+        // if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito) {
           let aux = this.modelComprobante.ComprobanteItem;
           this.remitoService.saveOrUpdateRemito(this.modelComprobante).subscribe(
             data => {
@@ -603,7 +604,7 @@ export class FacturaAltaComponent implements OnInit {
               this.sessionService.showError("El remito no se agregó.");
             }
           );
-        }
+        // }
         // else
         //   llamar método de carga múltiple
       }
