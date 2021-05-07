@@ -11,6 +11,7 @@ import { TipoComprobanteService } from 'src/services/tipo.comprobante.service';
 import { TipoComprobante } from 'src/app/model/tipoComprobante';
 import { Proveedor } from 'src/app/model/Proveedor';
 import { ProveedorService } from 'src/services/proveedor.service';
+import { SessionService } from 'src/services/session.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class MovimientoInternoAltaComponent {
   tipoComprobante: TipoComprobante[];
 
   constructor(
+    private sessionService: SessionService,
     private clienteService: ClienteService,
     private proveedorService: ProveedorService,
     public dialogRef: MatDialogRef<MovimientoInternoAltaComponent>,
@@ -49,6 +51,7 @@ export class MovimientoInternoAltaComponent {
     ])
       .subscribe(r => {
         this.clientes = r[0];
+        this.modelMovimientoInterno.IdUsuario = +this.sessionService.getPayload()['idUser'];
         this.filteredClientes = this.clientesControl.valueChanges
           .pipe(
             startWith(''),

@@ -212,9 +212,11 @@ export class HeaderComponent {
         this.movimientoInternoService.saveOrUpdateMovimientoInterno(result).subscribe(
           data => {
             this.sessionService.showSuccess("El movimiento interno se agregó correctamente.");
+            this.loadingSpinnerService.hide();
           },
           error => {
             this.sessionService.showError("El movimiento interno no se agregó.");
+            this.loadingSpinnerService.hide();
           }
         );
       }

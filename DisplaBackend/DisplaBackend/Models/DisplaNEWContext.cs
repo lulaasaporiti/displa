@@ -988,17 +988,21 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
-                    .HasColumnType("date");
+                    .HasColumnType("datetime");
 
-                entity.Property(e => e.FechaAnulacion)
-                    .HasColumnName("fechaAnulacion")
-                    .HasColumnType("date");
+                entity.Property(e => e.FechaAnulado)
+                    .HasColumnName("fechaAnulado")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 
                 entity.Property(e => e.IdProveedor).HasColumnName("idProveedor");
 
                 entity.Property(e => e.IdTipoComprobante).HasColumnName("idTipoComprobante");
+
+                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.Property(e => e.IdUsuarioAnulacion).HasColumnName("idUsuarioAnulacion");
 
                 entity.Property(e => e.Monto).HasColumnName("monto");
 
@@ -1025,6 +1029,16 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdTipoComprobante)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovimientoInterno_TipoComprobante");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.MovimientoInternoIdUsuarioNavigation)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .HasConstraintName("FK_MovimientoInterno_AspNetUsers");
+
+                entity.HasOne(d => d.IdUsuarioAnulacionNavigation)
+                    .WithMany(p => p.MovimientoInternoIdUsuarioAnulacionNavigation)
+                    .HasForeignKey(d => d.IdUsuarioAnulacion)
+                    .HasConstraintName("FK_MovimientoInterno_AspNetUsers1");
             });
 
             modelBuilder.Entity<OperacionBancaria>(entity =>

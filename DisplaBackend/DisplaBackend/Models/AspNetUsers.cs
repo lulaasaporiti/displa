@@ -13,6 +13,8 @@ namespace DisplaBackend.Models
             ComprobanteCliente = new HashSet<ComprobanteCliente>();
             MovimientoBlock = new HashSet<MovimientoBlock>();
             MovimientoInsumo = new HashSet<MovimientoInsumo>();
+            MovimientoInternoIdUsuarioAnulacionNavigation = new HashSet<MovimientoInterno>();
+            MovimientoInternoIdUsuarioNavigation = new HashSet<MovimientoInterno>();
             ReciboIdUsuarioAnulacionNavigation = new HashSet<Recibo>();
             ReciboIdUsuarioNavigation = new HashSet<Recibo>();
             RemitoIdUsuarioAnulacionNavigation = new HashSet<Remito>();
@@ -47,6 +49,8 @@ namespace DisplaBackend.Models
         public virtual ICollection<ComprobanteCliente> ComprobanteCliente { get; set; }
         public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
+        public virtual ICollection<MovimientoInterno> MovimientoInternoIdUsuarioAnulacionNavigation { get; set; }
+        public virtual ICollection<MovimientoInterno> MovimientoInternoIdUsuarioNavigation { get; set; }
         public virtual ICollection<Recibo> ReciboIdUsuarioAnulacionNavigation { get; set; }
         public virtual ICollection<Recibo> ReciboIdUsuarioNavigation { get; set; }
         public virtual ICollection<Remito> RemitoIdUsuarioAnulacionNavigation { get; set; }

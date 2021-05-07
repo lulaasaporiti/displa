@@ -241,6 +241,8 @@ export class AnulacionComprobanteComponent implements OnInit {
   }
 
   verComprobante(id: number, idTipoComprobante: string) {
+
+    console.log(idTipoComprobante, "id comprobante")
     switch (idTipoComprobante) {
       case 'Factura': {
         let url = `Factura/Detalle?id=${id}`
@@ -274,8 +276,11 @@ export class AnulacionComprobanteComponent implements OnInit {
             this.resetFilters()
           }
         })
+        break;
       }
-      case 'Débito interno' || 'Crédito interno': {
+      
+      case 'Débito interno': case 'Crédito interno': {
+        console.log('entra movimiento interno')
         const dialogRef = this.dialog.open(MovimientoInternoDetalleComponent, {
           data: { idMovimiento: id, tipo: 'cliente' },
           width: '650px'
@@ -286,20 +291,9 @@ export class AnulacionComprobanteComponent implements OnInit {
             this.resetFilters()
           }
         })
+        break;
       }
-      // case 'Crédito interno': {
-      //   console.log("entra credito")
-      //   const dialogRef = this.dialog.open(MovimientoInternoDetalleComponent, {
-      //     data: { idMovimiento: id, tipo: 'cliente' },
-      //     width: '650px'
-      //   })
-      //   dialogRef.afterClosed().subscribe(result => {
-      //     if (result != undefined && result != false) {
-      //       this.traerCliente()
-      //       this.resetFilters()
-      //     }
-      //   })
-      // }
+
       default: {
         //statements; 
         break;

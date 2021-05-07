@@ -45,6 +45,7 @@ namespace DisplaBackend.DAOs
             {
                 if (movimientoInterno.Id == 0)
                 {
+                    movimientoInterno.IdClienteNavigation = null;
                     movimientoInterno = _context.Add(movimientoInterno).Entity;
                 }
                 else
@@ -98,7 +99,7 @@ namespace DisplaBackend.DAOs
                        IdTipoComprobante = ca.IdTipoComprobante,
                        IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
                        Fecha = ca.Fecha,
-                       FechaAnulado = ca.FechaAnulacion,
+                       FechaAnulado = ca.FechaAnulado,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
                        MontoTotal = ca.Monto
                    })
@@ -117,7 +118,7 @@ namespace DisplaBackend.DAOs
                        IdTipoComprobante = ca.IdTipoComprobante,
                        IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
                        Fecha = ca.Fecha,
-                       FechaAnulado = ca.FechaAnulacion,
+                       FechaAnulado = ca.FechaAnulado,
                        IdClienteNavigation = ca.IdClienteNavigation.Optica,
                        MontoTotal = ca.Monto
                    })
