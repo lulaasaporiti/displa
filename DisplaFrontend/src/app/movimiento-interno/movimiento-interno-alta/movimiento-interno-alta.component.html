@@ -42,7 +42,7 @@
         <div fxLayoutGap="2vw" fxLayout="row">
             <mat-form-field fxFlex="50">
                 <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="modelMovimientoInterno.Fecha"
-                    name="fecha" #fecha="ngModel" readonly [disabled]="deshabilitarSeleccionar">
+                    name="fecha" #fecha="ngModel" readonly [disabled]="deshabilitarSeleccionar" (ngModelChange)="setearHora()">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>

@@ -42,7 +42,6 @@ export class ReciboDetalleComponent {
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.reciboService.getById(data.idRecibo).subscribe(r => {
         this.modelRecibo = r;
-        console.log(this.modelRecibo)
       })
   }
 
@@ -69,6 +68,7 @@ export class ReciboDetalleComponent {
             map(val => this.filterCuentas(val))
           );
       });
+
   }
 
   

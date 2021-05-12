@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ArticuloVarioService } from 'src/services/articulo.vario.service';
 import { LoadingSpinnerService } from 'src/app/loading-spinner/loading-spinner.service';
@@ -63,6 +63,7 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
     this.searchElement.nativeElement.focus();
     this.dataSourceTipo.paginator = this.paginator;
     this.dataSourceTipo.sort = this.sort;
+    this.dataSourceArticulo.sort = this.sort;
     this.loadPrecioArticuloPage();
   }
 
@@ -472,5 +473,22 @@ export class ActualizacionPrecioArticuloComponent implements OnInit {
 
   scrollToTop() {
     window.scrollTo(0,0)
+  }
+
+  sortData(sort: Sort, dataSource: MatTableDataSource<any>) {
+
+    if (!sort.active || sort.direction == '') {
+      return;
+    }
+    dataSource.data = dataSource.data.sort((a, b) => {
+      let isAsc = sort.direction == 'asc';
+      return this.compare(a.Nombre.trim().toLowerCase(), b.Nombre.trim().toLowerCase(), isAsc);      
+    });
+  }
+
+  compare(a, b, isAsc) {
+    if (a != null && b != null) {
+      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    }
   }
 }

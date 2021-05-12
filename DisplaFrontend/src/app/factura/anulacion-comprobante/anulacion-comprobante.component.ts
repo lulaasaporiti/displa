@@ -268,7 +268,8 @@ export class AnulacionComprobanteComponent implements OnInit {
         const dialogRef = this.dialog.open(ReciboDetalleComponent, {
           data: { idRecibo: id },
           width: '550px',
-          height: '580px'
+          height: '580px',
+          autoFocus: false
         })
         dialogRef.afterClosed().subscribe(result => {
           if (result != undefined && result != false) {

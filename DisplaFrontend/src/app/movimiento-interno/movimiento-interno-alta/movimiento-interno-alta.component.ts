@@ -132,4 +132,9 @@ export class MovimientoInternoAltaComponent {
       this.dialogRef.close(this.data);
   }
 
+  setearHora() {
+    let fecha = new Date()
+    this.modelMovimientoInterno.Fecha.setHours(fecha.getHours() - 3, fecha.getMinutes(), fecha.getSeconds())
+  }
+
 }
