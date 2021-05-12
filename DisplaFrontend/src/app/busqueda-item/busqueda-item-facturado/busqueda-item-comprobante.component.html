@@ -62,7 +62,7 @@
         <div fxLayout="column">
           <mat-form-field fxFlex="50">
             <input type="text" placeholder="Medida cilíndrico" matInput autocomplete="off" [(ngModel)]="stockLente.MedidaCilindrico" 
-              id="cilin" name="cilin" #cilin="ngModel" (keypress)="_keyPressCilindrico($event)" required 
+              id="cilin" name="cilin" #cilin="ngModel" (keypress)="_keyPress($event)" required 
               (blur)="cambiarSigno(); compararLimiteGrilla($event.target.value, 'cilindrico'); convertirMedidas()">
             <mat-error *ngIf="cilin.invalid">Este campo es obligatorio</mat-error>
           </mat-form-field>

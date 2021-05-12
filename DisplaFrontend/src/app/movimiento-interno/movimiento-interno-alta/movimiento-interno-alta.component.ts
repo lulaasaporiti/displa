@@ -28,6 +28,7 @@ export class MovimientoInternoAltaComponent {
   proveedoresControl = new FormControl();
   filteredProveedores: Observable<Proveedor[]>;
   tipoComprobante: TipoComprobante[];
+  deshabilitarSeleccionar = false;
 
   constructor(
     private sessionService: SessionService,
@@ -112,7 +113,17 @@ export class MovimientoInternoAltaComponent {
   }
 
   setIdCliente(control) {
-    if (control.value != null) this.modelMovimientoInterno.IdCliente = control.value.Id;
+    // if (control.value != null) this.modelMovimientoInterno.IdCliente = control.value.Id;
+
+    if (control.value != null) {
+      if (control.value.Bloqueado == true) {
+        this.deshabilitarSeleccionar = true;
+      }
+      else {
+        this.modelMovimientoInterno.IdCliente = control.value.Id;
+        this.deshabilitarSeleccionar = false;
+      }
+    }
   }
 
 

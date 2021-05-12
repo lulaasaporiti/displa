@@ -306,7 +306,7 @@ export class FacturaAltaComponent implements OnInit {
         })
         this.modelComprobante.ComprobanteItem.push(item);
         item.ComprobanteItemLente.forEach(p => {
-          p.ConversionMedidas = this.validacionLenteService.conversionMedidas(p.MedidaEsferico, p.MedidaCilindrico);
+          p.ConversionMedidas = this.validacionLenteService.conversionMedidas(p.MedidaEsferico, p.MedidaCilindrico, producto.ComprobanteItemLente[0].IdLenteNavigation);
         })
         this.dataSource.data = this.dataSource.data.concat(item);
 

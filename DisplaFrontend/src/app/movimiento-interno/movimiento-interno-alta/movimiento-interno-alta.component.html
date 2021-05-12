@@ -6,7 +6,7 @@
             <p class="dialog-title" *ngIf="data.tipo == 'proveedor'">Alta movimiento interno proveedor</p>
         </div>
 
-        <div mat-dialog-content fxLayout="row"  *ngIf="data.tipo == 'cliente'">
+        <div fxLayout="row"  *ngIf="data.tipo == 'cliente'">
             <mat-form-field fxFill>
                 <input type="text" placeholder="Cliente" aria-label="Cliente" matInput [formControl]="clientesControl"
                     [matAutocomplete]="auto1" name="cliente" (blur)="setIdCliente(this.clientesControl)"
@@ -20,7 +20,12 @@
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayout="row" *ngIf="data.tipo == 'proveedor'">
+        <div fxLayout="row">
+            <p class="msjError" *ngIf="deshabilitarSeleccionar">El cliente se encuentra bloqueado debe solicitar
+                <a style="cursor: pointer; font-style: italic;" class="link">permiso.</a></p>
+        </div>
+
+        <div fxLayout="row" *ngIf="data.tipo == 'proveedor'">
             <mat-form-field fxFill>
                 <input type="text" placeholder="Proveedor" aria-label="Proveedor" matInput [formControl]="proveedoresControl"
                     [matAutocomplete]="auto" name="proveedor" (blur)="setIdProveedor(this.proveedoresControl)"
@@ -34,28 +39,28 @@
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+        <div fxLayoutGap="2vw" fxLayout="row">
             <mat-form-field fxFlex="50">
                 <input matInput [matDatepicker]="picker" placeholder="Fecha" [(ngModel)]="modelMovimientoInterno.Fecha"
-                    name="fecha" #fecha="ngModel" readonly>
+                    name="fecha" #fecha="ngModel" readonly [disabled]="deshabilitarSeleccionar">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <mat-form-field fxFlex="50">
-                <textarea matInput id="obs" placeholder="Observaciones" id="observaciones"
+                <textarea matInput id="obs" placeholder="Observaciones" id="observaciones"  [disabled]="deshabilitarSeleccionar"
                     [(ngModel)]="modelMovimientoInterno.Observaciones" name="obs" #obs cols="2" rows="1"></textarea>
             </mat-form-field>
         </div>
 
-        <div mat-dialog-content fxLayoutGap="2vw" fxLayout="row">
+        <div fxLayoutGap="2vw" fxLayout="row">
             <mat-form-field fxFlex="50">
-                <input matInput type="number" placeholder="Monto " [(ngModel)]="modelMovimientoInterno.Monto" name="monto"
-                    #monto="ngModel" required>
+                <input matInput type="number" placeholder="Monto" [(ngModel)]="modelMovimientoInterno.Monto" name="monto"
+                    #monto="ngModel" required [disabled]="deshabilitarSeleccionar">
                 <mat-error *ngIf="monto.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
                 <mat-select placeholder="Tipo comprobante" [(ngModel)]="modelMovimientoInterno.IdTipoComprobante" name="tipo"
-                    #tipo="ngModel" required>
+                    #tipo="ngModel" required [disabled]="deshabilitarSeleccionar">
                     <mat-option *ngFor="let tc of tipoComprobante" [value]="tc.Id">
                         {{ tc.Descripcion }}
                     </mat-option>
