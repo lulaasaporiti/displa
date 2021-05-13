@@ -36,7 +36,7 @@
                             [(ngModel)]="modelComprobanteItemLente[0].MedidaCilindrico" id="cilindrico0" #cilindrico0="ngModel"
                             (keyup.enter)="tabInventado($event, 'cantidad0')" name="cilindrico0"                              
                             (blur)="cambiarSigno(0); compararLimiteGrilla($event.target.value, 0, 'cilindrico'); traerPrecio(0)"
-                            (keypress)="_keyPressCilindrico($event)" >
+                            (keypress)="_keyPress($event)" >
                         <mat-error *ngIf="cilindrico0.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>
                     <p class="msjError" *ngIf="msjLimiteCilindrico[0]">
@@ -66,7 +66,7 @@
                         <input type="text" placeholder="Medida cilíndrico" matInput autocomplete="off"
                             [(ngModel)]="modelComprobanteItemLente[1].MedidaCilindrico" id="cilindrico1"
                              (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1"
-                            #cilindrico1="ngModel" (keypress)="_keyPressCantidad($event)" required
+                            #cilindrico1="ngModel" (keypress)="_keyPress($event)" required
                             (blur)="cambiarSigno(1); compararLimiteGrilla($event.target.value, 1, 'cilindrico'); traerPrecio(1)">
                         <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio</mat-error>
                     </mat-form-field>

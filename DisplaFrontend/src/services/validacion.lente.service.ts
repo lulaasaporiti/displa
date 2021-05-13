@@ -18,7 +18,6 @@ export class ValidacionLenteService {
     getLimitesGrilla(lente) {
         let idLimiteDerecha;
         let idLimiteIzquierda;
-        console.log(lente)
         if (lente.Combinacion != undefined) {
             let combinacion = lente.Combinacion.split("  / ");
             if (combinacion[0] == '+ +') idLimiteIzquierda = 1;
@@ -138,6 +137,6 @@ export class ValidacionLenteService {
                 medidaCilindrico = ((Math.abs(+medidaCilindrico) < 1) ? '0' : '') + (-1 * +medidaCilindrico)
             } 
         }
-        return ((medidaEsferico == '0') ? '000' : (!medidaEsferico.toString().startsWith('-') ? '+' : '') + (+medidaEsferico * 100).toString()) + (medidaCilindrico != '00' ? (!medidaCilindrico.toString().startsWith('-') ? '+' : '') + (+medidaCilindrico * 100).toString() : '')
+        return ((medidaEsferico == '0') ? '000' : (!medidaEsferico.toString().startsWith('-') ? '+' : '') + (+medidaEsferico * 100).toString()) + (medidaCilindrico != '0.00' ? (!medidaCilindrico.toString().startsWith('-') ? '+' : '') + (+medidaCilindrico * 100).toString() : '')
     }
 }

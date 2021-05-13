@@ -222,7 +222,6 @@ export class BusquedaItemComprobanteComponent implements OnInit {
 
   cambiarSigno() {
     if (this.modelLente.GraduacionesCilindricas == '-' && this.stockLente.MedidaCilindrico != undefined) {
-      console.log(this.stockLente.MedidaCilindrico)
       // if (this.stockLente.MedidaCilindrico >= 0) {        
       //   this.stockLente.MedidaCilindrico = -this.stockLente.MedidaCilindrico;
       // }

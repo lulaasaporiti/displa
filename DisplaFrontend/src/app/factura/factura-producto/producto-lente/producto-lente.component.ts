@@ -30,7 +30,7 @@ export class ProductoLenteComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      this.data.item.ComprobanteItemServicio = [];
+    this.data.item.ComprobanteItemServicio = [];
   }
 
 
@@ -88,21 +88,25 @@ export class ProductoLenteComponent implements OnInit {
     this.idServicio = i;
   }
 
-  chequearValidaciones(){
-    if (this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaEsferico*100, 'esferico') 
-    || this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico')
-    || this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[0].Cantidad, this.modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado)) 
+  chequearValidaciones() {
+    if (this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaEsferico * 100, 'esferico')
+      || this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[0].MedidaCilindrico, 'cilindrico')
+      || this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[0].Cantidad, this.modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado)) {
       this.deshabilitarBoton = true;
-    else 
+    }
+    else {
+      document.getElementById('confirmar').focus();
       this.deshabilitarBoton = false;
+    }
     if (this.modelComprobanteItemLente.length > 1) {
-      console.log(this.modelComprobanteItemLente)
-      if (this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[1].MedidaEsferico, 'esferico') 
-      || this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')
-      || this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[1].Cantidad, this.modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado)) 
+      if (this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[1].MedidaEsferico * 100, 'esferico')
+        || this.validacionLenteService.compararLimiteGrilla(this.modelComprobanteItemLente[0].IdLenteNavigation, this.modelComprobanteItemLente[1].MedidaCilindrico, 'cilindrico')
+        || this.validacionLenteService.divisionCantidad(this.modelComprobanteItemLente[1].Cantidad, this.modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado)) {
         this.deshabilitarBoton = true;
-      else 
+      }
+      else {
         this.deshabilitarBoton = false;
+      }
     }
   }
 

@@ -305,11 +305,17 @@ export class FacturaAltaComponent implements OnInit {
           s.Monto = s.IdServicioNavigation.PrecioServicio[0].Precio;
         })
         this.modelComprobante.ComprobanteItem.push(item);
-        item.ComprobanteItemLente.forEach(p => {
-          p.ConversionMedidas = this.validacionLenteService.conversionMedidas(p.MedidaEsferico, p.MedidaCilindrico, producto.ComprobanteItemLente[0].IdLenteNavigation);
-        })
+        for (let i = 0; i < item.ComprobanteItemLente.length; i++) {
+          console.log(producto.ComprobanteItemLente[0].IdLenteNavigation.GraduacionesCilindricas)
+          item.ComprobanteItemLente[i].ConversionMedidas = this.validacionLenteService.conversionMedidas(item.ComprobanteItemLente[i].MedidaEsferico, item.ComprobanteItemLente[i].MedidaCilindrico, producto.ComprobanteItemLente[0].IdLenteNavigation);
+          if ((producto.ComprobanteItemLente[0].IdLenteNavigation.GraduacionesCilindricas == '-' && +item.ComprobanteItemLente[i].MedidaCilindrico > 0) || (producto.ComprobanteItemLente[0].IdLenteNavigation.GraduacionesCilindricas == '+' && +item.ComprobanteItemLente[i].MedidaCilindrico < 0)) {
+            console.log("entra a cambiar las medidas")
+            item.ComprobanteItemLente[i].MedidaEsferico = +item.ComprobanteItemLente[i].MedidaEsferico + +item.ComprobanteItemLente[i].MedidaCilindrico;
+            item.ComprobanteItemLente[i].MedidaCilindrico = +((Math.abs(+item.ComprobanteItemLente[i].MedidaCilindrico) < 1) ? '0' : '') + (-1 * +item.ComprobanteItemLente[i].MedidaCilindrico)
+          }
+        }
         this.dataSource.data = this.dataSource.data.concat(item);
-
+        console.log(producto.ComprobanteItemLente);
         if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
           this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
         }

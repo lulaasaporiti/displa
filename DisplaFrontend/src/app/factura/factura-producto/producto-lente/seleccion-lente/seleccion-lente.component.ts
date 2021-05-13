@@ -302,10 +302,10 @@ export class SeleccionLenteComponent implements OnInit {
 
   cambiarSigno(i) {
     if (this.modelComprobanteItemLente[0].IdLenteNavigation.GraduacionesCilindricas == '-' && this.modelComprobanteItemLente[i].MedidaCilindrico != undefined) {
-      if (this.modelComprobanteItemLente[i].MedidaCilindrico >= 0) {        
-        this.modelComprobanteItemLente[i].MedidaCilindrico = -this.modelComprobanteItemLente[i].MedidaCilindrico;
+      // if (this.modelComprobanteItemLente[i].MedidaCilindrico >= 0) {        
+      //   this.modelComprobanteItemLente[i].MedidaCilindrico = -this.modelComprobanteItemLente[i].MedidaCilindrico;
         this.validacionLenteService.divisionMedida(this.modelComprobanteItemLente[i], this.modelComprobanteItemLente[i].MedidaCilindrico, 'cilindrico');
-      }
+      // }
     }
     else {
       if (this.modelComprobanteItemLente[i].MedidaCilindrico != undefined) {
