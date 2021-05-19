@@ -70,6 +70,7 @@ namespace DisplaBackend.DAOs
                     Nombre = l.Nombre,
                     DescripcionFactura = l.DescripcionFactura,
                     Borrado = l.Borrado,
+                    Iva = l.Iva,
                     GraduacionesCilindricas = l.GraduacionesCilindricas,
                     Combinacion = l.Combinacion,
                     Fraccionado = l.Fraccionado,

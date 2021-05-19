@@ -19,13 +19,13 @@ namespace DisplaBackend.Models
         public int Numero { get; set; }
         public int Sucursal { get; set; }
         public string Letra { get; set; }
-        public int? TasaIva { get; set; }
-        public int? MontoIibb { get; set; }
-        public int? MontoTseh { get; set; }
-        public double MontoTotal { get; set; }
-        public double SubTotalFactura { get; set; }
-        public int? PorcentajeDtoGral { get; set; }
-        public double? MontoIvari { get; set; }
+        public decimal? TasaIva { get; set; }
+        public decimal? MontoIibb { get; set; }
+        public decimal? MontoTseh { get; set; }
+        public decimal MontoTotal { get; set; }
+        public decimal SubTotalFactura { get; set; }
+        public decimal? PorcentajeDtoGral { get; set; }
+        public decimal? MontoIvari { get; set; }
         public DateTime? FechaAnulado { get; set; }
         public int? IdUsuario { get; set; }
         public string Observaciones { get; set; }

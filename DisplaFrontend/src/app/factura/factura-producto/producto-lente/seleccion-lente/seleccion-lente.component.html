@@ -186,7 +186,7 @@
                     (blur)="serviciosSeleccionados(serviciosControl)" (keyup.enter)="comprobanteItemLenteSelected()">
                 <mat-autocomplete #autoCal="matAutocomplete" [displayWith]="displayServicio">
                     <mat-option *ngFor="let s of filteredServicios | async" [value]="s">
-                        {{ s.Id }} - {{s.Nombre}} - Precio {{s.PrecioServicio[0].Precio}}
+                        {{ s.Id }} - {{s.Nombre}} - Precio {{s.PrecioServicio[0]?.Precio}}
                     </mat-option>
                 </mat-autocomplete>
 

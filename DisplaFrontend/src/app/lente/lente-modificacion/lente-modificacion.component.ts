@@ -40,6 +40,7 @@ export class LenteModificacionComponent {
       this.lenteService.getById(this.id)
         .subscribe(l => {
           this.modelLente = l;
+          console.log(l)
           this.modelPrecio = this.modelLente.PrecioLente;
           this.modelRecargo = this.modelLente.RecargoLente;
           // console.log(this.modelPrecio)

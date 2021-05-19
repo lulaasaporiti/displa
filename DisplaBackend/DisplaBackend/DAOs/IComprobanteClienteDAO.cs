@@ -48,135 +48,155 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
+
+
         public async Task<ComprobanteCliente> AltaComprobantes(ComprobanteCliente comprobanteCliente, List<Remito> remitos, Parametros parametros)
         {
-            //try
-            //{
-            //    ComprobanteCliente comprobanteAuxiliar = comprobanteCliente;
-            //    int numeroComprobante = comprobanteCliente.Numero;
+            try
+            {
+                ComprobanteCliente comprobanteAuxiliar = comprobanteCliente;
+                int numeroComprobante = comprobanteCliente.Numero;
+                var clienteBBDD = _context.Cliente.Where(c => c.Id == comprobanteCliente.IdCliente).Include(c => c.IdCategoriaIvaNavigation).FirstOrDefault();
+                while (comprobanteCliente.ComprobanteItem.Count > 0)
+                {
+                    comprobanteAuxiliar.ComprobanteItem = (ICollection<ComprobanteItem>)comprobanteCliente.ComprobanteItem.Take(parametros.CantidadProductoDiferentes.Value);
+                    comprobanteAuxiliar.Numero = numeroComprobante;
 
-            //    while (comprobanteCliente.ComprobanteItem.Count > 0)
-            //    {
-            //        comprobanteAuxiliar.ComprobanteItem = (ICollection<ComprobanteItem>)comprobanteCliente.ComprobanteItem.Take(parametros.CantidadProductoDiferentes.Value);
-            //        comprobanteAuxiliar.Numero = numeroComprobante;
+                    decimal subtotal = 0;
 
-            //        // Subtotal: Subtotal con descuento: IVA RI: Total remitos: Total: Total con remitos:
+                    comprobanteAuxiliar.Fecha = DateTime.Now;
+                    comprobanteAuxiliar.Sucursal = 5;
+                    comprobanteAuxiliar = _context.Add(comprobanteAuxiliar).Entity;
+                    foreach (var c in comprobanteAuxiliar.ComprobanteItem.ToList())
+                    {
+                        if (c.Descripcion != null && c.Descripcion.EndsWith("VIRTUAL"))
+                        {
+                            subtotal = subtotal + c.Monto;
+                        }
+                        else
+                        {
+                            subtotal = subtotal + c.Monto;
+                        }
 
-            //        comprobanteAuxiliar.Fecha = DateTime.Now;
-            //        comprobanteAuxiliar.Sucursal = 5;
-            //        comprobanteAuxiliar = _context.Add(comprobanteAuxiliar).Entity;
-            //        foreach (var c in comprobanteAuxiliar.ComprobanteItem.ToList())
-            //        {
-            //            if (c.IdArticuloNavigation != null)
-            //            {
-            //                var articulo = c.IdArticuloNavigation;
-            //                c.IdArticuloNavigation = null;
-            //                articulo.StockActual = articulo.StockActual - c.Cantidad;
-            //                _context.Entry(articulo).State = EntityState.Modified;
-            //            }
-            //            c.IdServicioNavigation = null;
+                        if (c.IdArticuloNavigation != null)
+                        {
+                            var articulo = c.IdArticuloNavigation;
+                            c.IdArticuloNavigation = null;
+                            articulo.StockActual = articulo.StockActual - c.Cantidad;
+                            _context.Entry(articulo).State = EntityState.Modified;
+                        }
+                        c.IdServicioNavigation = null;
 
-            //            if (c.ComprobanteItemLente.Count > 0)
-            //            {
-            //                foreach (var cl in c.ComprobanteItemLente)
-            //                {
-            //                    StockLente lente = _context.StockLente.FirstOrDefault(st => st.IdLente == cl.IdLente && st.MedidaCilindrico == cl.MedidaCilindrico && st.MedidaEsferico == cl.MedidaEsferico);
-            //                    if (lente != null)
-            //                    {
-            //                        lente.Stock = lente.Stock - cl.Cantidad;
-            //                        _context.StockLente.Update(lente);
-            //                    }
-            //                }
-            //            }
-            //            if (c.EntregaVentaVirtual == true)
-            //            {
-            //                List<VentaVirtual> ventas;
-            //                if (c.IdArticulo != null)
-            //                    ventas = _context.VentaVirtual.Where(v => v.IdArticulo == c.IdArticulo && v.IdComprobanteNavigation.IdCliente == comprobanteAuxiliar.IdCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
-            //                else
-            //                    ventas = _context.VentaVirtual.Where(v => v.IdLente == c.ComprobanteItemLente.ElementAt(0).IdLente && v.IdComprobanteNavigation.IdCliente == comprobanteAuxiliar.IdCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
-            //                decimal cantidadItem = c.Cantidad;
-            //                ventas.ForEach(v =>
-            //                {
-            //                    if (cantidadItem > 0)
-            //                    {
-            //                        if (cantidadItem < (v.CantidadVendida - v.CantidadEntregada))
-            //                        {
-            //                            v.CantidadEntregada = v.CantidadEntregada + cantidadItem;
-            //                            _context.VentaVirtual.Update(v);
-            //                            VentaVirtualMovimientos movimiento = new VentaVirtualMovimientos();
-            //                            movimiento.Cantidad = cantidadItem;
-            //                            cantidadItem = 0;
-            //                            movimiento.Entrega = true;
-            //                            movimiento.IdComprobanteCliente = comprobanteAuxiliar.Id;
-            //                            movimiento.IdUsuario = comprobanteAuxiliar.IdUsuario.Value;
-            //                            movimiento.IdVentaVirtual = v.Id;
-            //                            _context.VentaVirtualMovimientos.Add(movimiento);
-            //                        }
-            //                        else
-            //                        {
-            //                            VentaVirtualMovimientos movimiento = new VentaVirtualMovimientos();
-            //                            movimiento.Cantidad = v.CantidadVendida - v.CantidadEntregada;
-            //                            cantidadItem = cantidadItem - movimiento.Cantidad.Value;
-            //                            v.CantidadEntregada = v.CantidadVendida;
-            //                            _context.VentaVirtual.Update(v);
-            //                            movimiento.Entrega = true;
-            //                            movimiento.IdComprobanteCliente = comprobanteAuxiliar.Id;
-            //                            movimiento.IdUsuario = comprobanteAuxiliar.IdUsuario.Value;
-            //                            movimiento.IdVentaVirtual = v.Id;
-            //                            _context.VentaVirtualMovimientos.Add(movimiento);
-            //                        }
-            //                    }
-            //                });
-            //            }
-            //        }
-            //        var servicios = comprobanteAuxiliar.ComprobanteItem.Select(c => c.ComprobanteItemServicio);
-            //        var recargos = comprobanteAuxiliar.ComprobanteItem.Select(c => c.ComprobanteItemRecargo);
-            //        if (servicios.Count() > 0)
-            //        {
-            //            foreach (var s in servicios.ElementAt(0).ToArray())
-            //            {
-            //                s.IdServicioNavigation = null;
-            //                _context.ComprobanteItemServicio.Add(s);
-            //            }
-            //        }
-            //        if (recargos.Count() > 0)
-            //        {
-            //            foreach (var r in recargos.ElementAt(0).ToArray())
-            //            {
-            //                r.IdRecargoNavigation = null;
-            //                _context.ComprobanteItemRecargo.Add(r);
-            //            }
-            //        }
-            //        foreach (var v in comprobanteAuxiliar.VentaVirtual.ToList())
-            //        {
-            //            v.IdArticuloNavigation = null;
-            //            v.IdServicioNavigation = null;
-            //        }
-            //        //comprobanteCliente = _context.Add(comprobanteCliente).Entity;
-            //        if (remitos.Count > 0)
-            //        {
-            //            remitos.ForEach(r =>
-            //            {
-            //                r.FechaFactura = comprobanteAuxiliar.Fecha;
-            //                foreach (var c in r.ComprobanteItem)
-            //                {
-            //                    c.IdComprobante = comprobanteAuxiliar.Id;
-            //                    _context.ComprobanteItem.Update(c);
-            //                }
-            //                _context.Remito.Update(r);
-            //            });
-            //        }
+                        if (c.ComprobanteItemLente.Count > 0)
+                        {
+                            foreach (var cl in c.ComprobanteItemLente)
+                            {
+                                StockLente lente = _context.StockLente.FirstOrDefault(st => st.IdLente == cl.IdLente && st.MedidaCilindrico == cl.MedidaCilindrico && st.MedidaEsferico == cl.MedidaEsferico);
+                                if (lente != null)
+                                {
+                                    lente.Stock = lente.Stock - cl.Cantidad;
+                                    _context.StockLente.Update(lente);
+                                }
+                            }
+                        }
+                        if (c.EntregaVentaVirtual == true)
+                        {
+                            List<VentaVirtual> ventas;
+                            if (c.IdArticulo != null)
+                                ventas = _context.VentaVirtual.Where(v => v.IdArticulo == c.IdArticulo && v.IdComprobanteNavigation.IdCliente == comprobanteAuxiliar.IdCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
+                            else
+                                ventas = _context.VentaVirtual.Where(v => v.IdLente == c.ComprobanteItemLente.ElementAt(0).IdLente && v.IdComprobanteNavigation.IdCliente == comprobanteAuxiliar.IdCliente && v.CantidadEntregada < v.CantidadVendida).ToList();
+                            decimal cantidadItem = c.Cantidad;
+                            ventas.ForEach(v =>
+                            {
+                                if (cantidadItem > 0)
+                                {
+                                    if (cantidadItem < (v.CantidadVendida - v.CantidadEntregada))
+                                    {
+                                        v.CantidadEntregada = v.CantidadEntregada + cantidadItem;
+                                        _context.VentaVirtual.Update(v);
+                                        VentaVirtualMovimientos movimiento = new VentaVirtualMovimientos();
+                                        movimiento.Cantidad = cantidadItem;
+                                        cantidadItem = 0;
+                                        movimiento.Entrega = true;
+                                        movimiento.IdComprobanteCliente = comprobanteAuxiliar.Id;
+                                        movimiento.IdUsuario = comprobanteAuxiliar.IdUsuario.Value;
+                                        movimiento.IdVentaVirtual = v.Id;
+                                        _context.VentaVirtualMovimientos.Add(movimiento);
+                                    }
+                                    else
+                                    {
+                                        VentaVirtualMovimientos movimiento = new VentaVirtualMovimientos();
+                                        movimiento.Cantidad = v.CantidadVendida - v.CantidadEntregada;
+                                        cantidadItem = cantidadItem - movimiento.Cantidad.Value;
+                                        v.CantidadEntregada = v.CantidadVendida;
+                                        _context.VentaVirtual.Update(v);
+                                        movimiento.Entrega = true;
+                                        movimiento.IdComprobanteCliente = comprobanteAuxiliar.Id;
+                                        movimiento.IdUsuario = comprobanteAuxiliar.IdUsuario.Value;
+                                        movimiento.IdVentaVirtual = v.Id;
+                                        _context.VentaVirtualMovimientos.Add(movimiento);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    var servicios = comprobanteAuxiliar.ComprobanteItem.Select(c => c.ComprobanteItemServicio);
+                    var recargos = comprobanteAuxiliar.ComprobanteItem.Select(c => c.ComprobanteItemRecargo);
+                    if (servicios.Count() > 0)
+                    {
+                        foreach (var s in servicios.ElementAt(0).ToArray())
+                        {
+                            s.IdServicioNavigation = null;
+                            _context.ComprobanteItemServicio.Add(s);
+                        }
+                    }
+                    if (recargos.Count() > 0)
+                    {
+                        foreach (var r in recargos.ElementAt(0).ToArray())
+                        {
+                            r.IdRecargoNavigation = null;
+                            _context.ComprobanteItemRecargo.Add(r);
+                        }
+                    }
+                    foreach (var v in comprobanteAuxiliar.VentaVirtual.ToList())
+                    {
+                        v.IdArticuloNavigation = null;
+                        v.IdServicioNavigation = null;
+                    }
+                    //comprobanteCliente = _context.Add(comprobanteCliente).Entity;
+                    if (remitos.Count > 0)
+                    {
+                        remitos.ForEach(r =>
+                        {
+                            r.FechaFactura = comprobanteAuxiliar.Fecha;
+                            foreach (var c in r.ComprobanteItem)
+                            {
+                                c.IdComprobante = comprobanteAuxiliar.Id;
+                                _context.ComprobanteItem.Update(c);
+                            }
+                            _context.Remito.Update(r);
+                        });
+                    }
 
-            //        numeroComprobante++;
-            //        comprobanteCliente.ComprobanteItem = (ICollection<ComprobanteItem>)comprobanteCliente.ComprobanteItem.Skip(parametros.CantidadProductoDiferentes.Value);
-            //    }
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (Exception e)
-            //{
-            //    return null;
-            //}
+                    if (clienteBBDD.IdCategoriaIvaNavigation.Discrimina == false)
+                    {
+                        comprobanteAuxiliar.MontoTotal = (comprobanteAuxiliar.SubTotalFactura * comprobanteAuxiliar.PorcentajeDtoGral.Value) / 100;
+                    }
+                    else
+                    {
+                        comprobanteAuxiliar.MontoIvari = ((comprobanteAuxiliar.SubTotalFactura * comprobanteAuxiliar.PorcentajeDtoGral.Value) / 100) * (comprobanteAuxiliar.TasaIva.Value / 100);
+                        comprobanteAuxiliar.MontoTotal = ((comprobanteAuxiliar.SubTotalFactura * comprobanteAuxiliar.PorcentajeDtoGral.Value) / 100) * (1 + (comprobanteAuxiliar.TasaIva.Value / 100));
+                    }
+                    numeroComprobante++;
+                    comprobanteCliente.ComprobanteItem = (ICollection<ComprobanteItem>)comprobanteCliente.ComprobanteItem.Skip(parametros.CantidadProductoDiferentes.Value);
+                }
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
             return null;
         }
 

@@ -284,9 +284,13 @@ namespace DisplaBackend.Models
                     .HasColumnName("recateg")
                     .HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.SobreTasa).HasColumnName("sobreTasa");
+                entity.Property(e => e.SobreTasa)
+                    .HasColumnName("sobreTasa")
+                    .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.Tasa).HasColumnName("tasa");
+                entity.Property(e => e.Tasa)
+                    .HasColumnName("tasa")
+                    .HasColumnType("decimal(10, 2)");
             });
 
             modelBuilder.Entity<Cheque>(entity =>
@@ -478,13 +482,21 @@ namespace DisplaBackend.Models
                     .HasColumnName("letra")
                     .HasMaxLength(5);
 
-                entity.Property(e => e.MontoIibb).HasColumnName("montoIIBB");
+                entity.Property(e => e.MontoIibb)
+                    .HasColumnName("montoIIBB")
+                    .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.MontoIvari).HasColumnName("montoIVARI");
+                entity.Property(e => e.MontoIvari)
+                    .HasColumnName("montoIVARI")
+                    .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.MontoTotal).HasColumnName("montoTotal");
+                entity.Property(e => e.MontoTotal)
+                    .HasColumnName("montoTotal")
+                    .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.MontoTseh).HasColumnName("montoTSEH");
+                entity.Property(e => e.MontoTseh)
+                    .HasColumnName("montoTSEH")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.Numero).HasColumnName("numero");
 
@@ -492,13 +504,19 @@ namespace DisplaBackend.Models
                     .HasColumnName("observaciones")
                     .HasMaxLength(2000);
 
-                entity.Property(e => e.PorcentajeDtoGral).HasColumnName("porcentajeDtoGral");
+                entity.Property(e => e.PorcentajeDtoGral)
+                    .HasColumnName("porcentajeDtoGral")
+                    .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.SubTotalFactura).HasColumnName("subTotalFactura");
+                entity.Property(e => e.SubTotalFactura)
+                    .HasColumnName("subTotalFactura")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.Sucursal).HasColumnName("sucursal");
 
-                entity.Property(e => e.TasaIva).HasColumnName("tasaIVA");
+                entity.Property(e => e.TasaIva)
+                    .HasColumnName("tasaIVA")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany(p => p.ComprobanteCliente)
