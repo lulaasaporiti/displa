@@ -75,8 +75,10 @@ namespace DisplaBackend.DAOs
                         }
                         else
                         {
-                            subtotal = subtotal + c.Monto;
+                            subtotal = subtotal + (c.Monto - (c.Monto * clienteBBDD.PorcentajeDescuentoGeneral.Value) / 100);
                         }
+
+                        //////// AGREGAR MONTO IVA SI TIENE PROPIO EL COMPROBANTE ITEM
 
                         if (c.IdArticuloNavigation != null)
                         {
@@ -99,6 +101,7 @@ namespace DisplaBackend.DAOs
                                 }
                             }
                         }
+
                         if (c.EntregaVentaVirtual == true)
                         {
                             List<VentaVirtual> ventas;
@@ -165,6 +168,9 @@ namespace DisplaBackend.DAOs
                         v.IdServicioNavigation = null;
                     }
                     //comprobanteCliente = _context.Add(comprobanteCliente).Entity;
+
+                    // HAY QUE CHEQUEAR QUE LA CANTIDAD DE RENGLONES DE LOS REMITOS NO SUPERE AL DEL COMPROBANTE, PARA ASIGNARLE EL ID DEL COMPROBANTE QUE CORRESPONDE 
+                    // AL COMPROBANTEITEM DEL REMITO
                     if (remitos.Count > 0)
                     {
                         remitos.ForEach(r =>
