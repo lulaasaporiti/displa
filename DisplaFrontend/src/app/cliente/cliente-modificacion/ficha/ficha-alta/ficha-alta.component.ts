@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '@ckeditor/ckeditor5-build-classic/build/translations/es';
 
 
 @Component({
@@ -21,15 +22,24 @@ export class FichaAltaComponent {
 
   ngOnInit() {
     ClassicEditor
-    .create( document.querySelector( '#editor' ), {
-      toolbar: [ 'bold', 'italic', 'link', 'undo', 'redo', 'numberedList', 'bulletedList' ]
-  } )
-  .catch( error => {
-      console.log( error );
-  } );;
-  
-    
-    console.log(this.Editor)
+      .create(document.querySelector('#editor'), {
+
+        language: {
+          // The UI will be English.
+          ui: 'es',
+
+          // But the content will be edited  Arabic.
+          content: 'es'
+        },
+
+        toolbar: ['bold', 'italic', 'link', 'undo', 'redo', 'numberedList', 'bulletedList'],
+
+      })
+      .then(editor => {
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   onNoClick(): void {

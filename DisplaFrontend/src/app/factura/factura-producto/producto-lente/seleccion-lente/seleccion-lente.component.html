@@ -89,7 +89,7 @@
         </div>
         <div mat-dialog-content fxLayout="row" fxLayoutGap="10px" style="height: 101px;">
             <!-- ///////////////////////  PRECIO PRIMERA GRADUACION  ////////////////////////////// -->
-            <div mat-dialog-content fxLayoutGap="10px" fxFlex="55" style="height: 101px;">
+            <div mat-dialog-content fxLayoutGap="10px" fxFlex="55" style="height: 101px; overflow: hidden !important;">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Precio unitario" id="precio" id="precio0" name="precio0" #precio0 disabled
                         [(ngModel)]="modelComprobanteItemLente[0].Precio">
@@ -124,7 +124,7 @@
                 </ng-template>
 
                 <div *ngIf="modelComprobanteItemLente[0].IdLenteNavigation != undefined && modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado; else sobreNoFraccionado">
-                    <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
+                    <mat-form-field fxFlex="25" *ngIf="data.utilizaSobre">
                         <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
                             (keyup.enter)="tabInventado($event, 'remove')" #sobre="ngModel"
                             [(ngModel)]="modelComprobanteItemLente[0].Sobre" name="sobre" required>
@@ -133,7 +133,7 @@
                 </div>
 
                 <ng-template #sobreNoFraccionado>
-                    <mat-form-field fxFlex="20" *ngIf="data.utilizaSobre">
+                    <mat-form-field fxFlex="25" *ngIf="data.utilizaSobre">
                         <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
                             (keyup.enter)="tabInventado($event, 'calibrado')" #sobre="ngModel"
                             [(ngModel)]="modelComprobanteItemLente[0].Sobre" name="sobre" required>
@@ -146,7 +146,7 @@
 
             <!-- ///////////////////////  PRECIO SEGUNDA GRADUACION  ////////////////////////////// -->
             <div mat-dialog-content *ngIf="modelComprobanteItemLente.length == 2" fxFlex="45"
-                style="height: 101px;">
+                style="height: 101px;  overflow: hidden !important;">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="Precio unitario" [(ngModel)]="modelComprobanteItemLente[1].Precio"
                         id="precio1" name="precio1" #precio1 disabled>

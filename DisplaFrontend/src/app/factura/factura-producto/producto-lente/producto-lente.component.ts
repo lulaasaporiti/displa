@@ -105,6 +105,7 @@ export class ProductoLenteComponent implements OnInit {
         this.deshabilitarBoton = true;
       }
       else {
+        document.getElementById('confirmar').focus();
         this.deshabilitarBoton = false;
       }
     }
