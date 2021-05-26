@@ -39,6 +39,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual DbSet<EstadoCheque> EstadoCheque { get; set; }
         public virtual DbSet<Ficha> Ficha { get; set; }
+        public virtual DbSet<Funcion> Funcion { get; set; }
         public virtual DbSet<Gasto> Gasto { get; set; }
         public virtual DbSet<Insumo> Insumo { get; set; }
         public virtual DbSet<InsumoProveedor> InsumoProveedor { get; set; }
@@ -74,10 +75,10 @@ namespace DisplaBackend.Models
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<TrasladoFondo> TrasladoFondo { get; set; }
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
+        public virtual DbSet<UsuarioFuncion> UsuarioFuncion { get; set; }
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
-        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -757,6 +758,23 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdCliente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Ficha_Cliente");
+            });
+
+            modelBuilder.Entity<Funcion>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.IdFuncionPadre).HasColumnName("idFuncionPadre");
+
+                entity.HasOne(d => d.IdFuncionPadreNavigation)
+                    .WithMany(p => p.InverseIdFuncionPadreNavigation)
+                    .HasForeignKey(d => d.IdFuncionPadre)
+                    .HasConstraintName("FK_Funcion_Funcion");
             });
 
             modelBuilder.Entity<Gasto>(entity =>
@@ -1735,6 +1753,27 @@ namespace DisplaBackend.Models
                     .IsRequired()
                     .HasColumnName("nombre")
                     .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<UsuarioFuncion>(entity =>
+            {
+                entity.HasKey(e => new { e.IdUsuario, e.IdFuncion });
+
+                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.Property(e => e.IdFuncion).HasColumnName("idFuncion");
+
+                entity.HasOne(d => d.IdFuncionNavigation)
+                    .WithMany(p => p.UsuarioFuncion)
+                    .HasForeignKey(d => d.IdFuncion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UsuarioFuncion_Funcion");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.UsuarioFuncion)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UsuarioFuncion_AspNetUsers");
             });
 
             modelBuilder.Entity<VentaVirtual>(entity =>

@@ -20,6 +20,7 @@ namespace DisplaBackend.Models
             RemitoIdUsuarioAnulacionNavigation = new HashSet<Remito>();
             RemitoIdUsuarioNavigation = new HashSet<Remito>();
             Sobre = new HashSet<Sobre>();
+            UsuarioFuncion = new HashSet<UsuarioFuncion>();
             VentaVirtual = new HashSet<VentaVirtual>();
             VentaVirtualMovimientos = new HashSet<VentaVirtualMovimientos>();
         }
@@ -56,6 +57,7 @@ namespace DisplaBackend.Models
         public virtual ICollection<Remito> RemitoIdUsuarioAnulacionNavigation { get; set; }
         public virtual ICollection<Remito> RemitoIdUsuarioNavigation { get; set; }
         public virtual ICollection<Sobre> Sobre { get; set; }
+        public virtual ICollection<UsuarioFuncion> UsuarioFuncion { get; set; }
         public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
         public virtual ICollection<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
     }
