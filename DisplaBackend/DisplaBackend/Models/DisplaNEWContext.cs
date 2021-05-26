@@ -77,7 +77,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtual> VentaVirtual { get; set; }
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
-
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1222,6 +1222,11 @@ namespace DisplaBackend.Models
                     .HasColumnName("medidaEsferico")
                     .HasColumnType("decimal(6, 2)");
 
+                entity.Property(e => e.Moneda)
+                    .IsRequired()
+                    .HasColumnName("moneda")
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.Precio)
                     .HasColumnName("precio")
                     .HasColumnType("decimal(10, 2)");
@@ -1675,6 +1680,10 @@ namespace DisplaBackend.Models
                 entity.Property(e => e.Borrado).HasColumnName("borrado");
 
                 entity.Property(e => e.IngresosBrutos).HasColumnName("ingresosBrutos");
+
+                entity.Property(e => e.Iva)
+                    .HasColumnName("IVA")
+                    .HasColumnType("decimal(4, 2)");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()

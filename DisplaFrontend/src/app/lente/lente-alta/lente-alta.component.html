@@ -127,6 +127,15 @@
                         <mat-error *ngIf="inputPrecioPar.invalid">Formato inválido</mat-error>
                     </mat-form-field>
 
+                    <mat-form-field>
+                        <mat-select placeholder="Moneda" [(ngModel)]="modelPrecio[i].Moneda" name="moneda"
+                            #moneda="ngModel" required>
+                            <mat-option value="$">$</mat-option>
+                            <mat-option value="USD">USD</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="moneda.hasError('required')">Este campo es obligatorio.</mat-error>
+                    </mat-form-field>
+
                     <button mat-icon-button matSuffix matTooltip="Agregar precio al rango" (click)="agregarPrecio(i)">
                         <mat-icon svgIcon="add"></mat-icon>
                     </button>

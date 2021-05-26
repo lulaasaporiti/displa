@@ -98,14 +98,12 @@
                             <input type="text" placeholder="Cilíndrico" matInput #inputCilindrico="ngModel"
                                 autocomplete="off" [(ngModel)]="p.MedidaCilindrico" id="cilindrico{{i}}"
                                 name="cilindrico{{i}}" required (keypress)="_keyPress($event)"
-                                (blur)="this.validacionLenteService.divisionMedida(modelPrecio[i], modelPrecio[i].MedidaCilindrico, 'cilindrico')"
-                                (keypress)="_keyPress($event)" (input)="compararLimiteGrilla(i, 'cilindrico')">
+                                (blur)="this.validacionLenteService.divisionMedida(modelPrecio[i], modelPrecio[i].MedidaCilindrico, 'cilindrico'); compararLimiteGrilla(i, 'cilindrico')"
+                                (keypress)="_keyPress($event)">
                             <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
                         </mat-form-field>
-                        <!-- <p class="msjError" *ngIf="validacionLenteService.compararGraduacion(modelPrecio[i], modelLente)">La medida
-                            no respeta el signo de la lente.</p> -->
-                        <p class="msjError" *ngIf="msjLimiteCilindrico[i]">
-                            La medida no se encuentra dentro de los límites.
+                        <p class="msjError" style="margin:0; position: absolute; margin-top:45px" *ngIf="msjLimiteCilindrico[i] && !inputCilindrico.invalid">
+                            La medida no se encuentra dentro<br> de los límites.
                         </p>
                     </div>
                     <mat-form-field>
@@ -118,6 +116,15 @@
                         <input type="text" placeholder="Precio costo par" matInput #inputPrecioPar="ngModel" pattern="[0-9]+(\.[0-9][0-9]?)?"
                             [(ngModel)]="p.CostoPar" id="precioPar{{i}}" name="precioPar{{i}}">
                         <!-- <mat-error *ngIf="inputPrecioPar.invalid">Este campo es obligatorio</mat-error> -->
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-select placeholder="Moneda" [(ngModel)]="modelPrecio[i].Moneda" name="moneda"
+                            #moneda="ngModel" required>
+                            <mat-option value="$">$</mat-option>
+                            <mat-option value="USD">USD</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="moneda.hasError('required')">Este campo es obligatorio.</mat-error>
                     </mat-form-field>
 
                     <button mat-icon-button matSuffix matTooltip="Agregar precio al rango" (click)="agregarPrecio(i)">

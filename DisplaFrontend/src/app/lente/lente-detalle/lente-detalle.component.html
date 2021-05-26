@@ -35,7 +35,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex='15'>
-            <input matInput placeholder="Porcentaje IVA" [(ngModel)]="modelLente.IVA"
+            <input matInput placeholder="Porcentaje IVA" [(ngModel)]="modelLente.Iva"
                 name="iva" #iva="ngModel" disabled>
         </mat-form-field>
 
@@ -87,6 +87,11 @@
                 <mat-form-field>
                     <input type="text" placeholder="Precio costo par" matInput #inputPrecioPar="ngModel"
                         [(ngModel)]="p.CostoPar" id="precioPar{{i}}" name="precioPar{{i}}" disabled>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input type="text" placeholder="Moneda" matInput #moneda="ngModel"
+                        [(ngModel)]="p.Moneda" id="Moneda{{i}}" name="moneda{{i}}" disabled>
                 </mat-form-field>
             </div>
         </div>

@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class TipoServicioListadoComponent implements OnInit {
   
-  displayedColumns: string[] = ['Nombre', 'IngresosBrutos', 'Borrado', 'Opciones'];
+  displayedColumns: string[] = ['Nombre', 'IngresosBrutos', 'Iva', 'Borrado', 'Opciones'];
   dataSource = new MatTableDataSource<TipoServicio>();
   traerVigentes: boolean = true;
 
