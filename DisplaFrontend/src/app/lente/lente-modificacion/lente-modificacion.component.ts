@@ -40,7 +40,6 @@ export class LenteModificacionComponent {
       this.lenteService.getById(this.id)
         .subscribe(l => {
           this.modelLente = l;
-          console.log(l)
           this.modelPrecio = this.modelLente.PrecioLente;
           this.modelRecargo = this.modelLente.RecargoLente;
           // console.log(this.modelPrecio)
@@ -58,11 +57,13 @@ export class LenteModificacionComponent {
   agregarRangoPrecio() {
     let item = <PrecioLente>{};
     item.IdLente = this.modelLente.Id;
+    item.Moneda = "$";
     this.modelPrecio.push(item);
   }
 
   agregarPrecio(i) {
     let item = <PrecioLente>{};
+    item.Moneda = "$";
     item.IdLente = this.modelLente.Id;
     item.MedidaEsferico = this.modelPrecio[i].MedidaEsferico;
     item.MedidaCilindrico = this.modelPrecio[i].MedidaCilindrico;

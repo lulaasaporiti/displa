@@ -45,12 +45,14 @@ export class LenteAltaComponent {
 
   agregarRangoPrecio() {
     let item = <PrecioLente>{};
+    item.Moneda = "$";
     item.IdLente = this.modelLente.Id;
     this.modelPrecio.push(item);
   }
 
   agregarPrecio(i) {
     let item = <PrecioLente>{};
+    item.Moneda = "$";
     item.IdLente = this.modelLente.Id;
     item.MedidaEsferico = this.modelPrecio[i].MedidaEsferico;
     item.MedidaCilindrico = this.modelPrecio[i].MedidaCilindrico;

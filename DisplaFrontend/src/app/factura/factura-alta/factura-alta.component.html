@@ -187,8 +187,8 @@
               <label *ngIf="remitos.length > 0"> {{getTotalRemito()}}</label>
               <label style="font-weight: bold;">Total:</label>
               <label> {{getTotales()}}</label>
-              <label style="font-weight: bold; color: darkred;">Total con remitos: </label>
-              <label>{{(+getTotales() + +getTotalRemito())}}</label>
+              <label style="font-weight: bold; color: darkred;" *ngIf="this.remitos.length > 0">Total con remitos: </label>
+              <label *ngIf="this.remitos.length > 0">{{(+getTotales() + +getTotalRemito())}}</label>
             </div>
           </td>
         </ng-container>

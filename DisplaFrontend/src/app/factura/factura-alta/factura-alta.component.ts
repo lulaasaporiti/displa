@@ -225,6 +225,8 @@ export class FacturaAltaComponent implements OnInit {
         this.modelCliente = result[0];
         this.parametro = result[2];
         this.remitos = result[3];
+
+        
         this.modelComprobante.IdCliente = this.id;
         this.modelComprobante.ComprobanteItem = [];
         this.modelComprobante.VentaVirtual = [];
@@ -239,6 +241,11 @@ export class FacturaAltaComponent implements OnInit {
           this.modelComprobante.Letra = 'A'
           this.modelComprobante.Numero = this.parametro.NumeroComprobanteA;
           this.parametro.NumeroComprobanteA++;
+        }
+        if (this.remitos.length > 0) {
+          this.remitos.forEach(r => {
+            this.modelComprobante.ComprobanteItem = this.modelComprobante.ComprobanteItem.concat(r.ComprobanteItem);
+          });
         }
         this.plazoActual = +result[1];
         this.loadingSpinnerService.hide();
@@ -340,18 +347,18 @@ export class FacturaAltaComponent implements OnInit {
         }
         this.dataSource.data = this.dataSource.data.concat(item);
         this.modelComprobante.ComprobanteItem.push(item);
-        if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+        if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
           this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
         }
-        if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+        if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
           this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
         }
         if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
           this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
-        else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+        else if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes) {
           this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
         }
-        else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+        else if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito) {
           this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
         }
         else {
@@ -366,23 +373,31 @@ export class FacturaAltaComponent implements OnInit {
     item.IdUsuario = +this.sessionService.getPayload()['idUser'];
     item.CantidadEntregada = 0;
     item.Descripcion = venta.IdLenteNavigation.Nombre + ' V. VIRTUAL';
+    console.log(venta)
+    let iva = venta.IdLenteNavigation.Iva;
     item.IdLenteNavigation = null;
     item.Monto = +item.Monto * +item.CantidadVendida;
+    if (iva != undefined) {
+      item.Descripcion = item.Descripcion + ' (IVA: ' + iva + '%)';
+      if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
+        item.Monto = Math.round(((item.Monto * +item.CantidadVendida) * (1 + (iva / 100)) + Number.EPSILON) * 100) / 100;
+      }
+    }
     // item.Descripcion = venta.IdLenteNavigation.DescripcionFactura;
     this.dataSource.data = this.dataSource.data.concat(item);
     this.modelComprobante.VentaVirtual.push(item);
-    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+    if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
       this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
     }
-    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+    if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
       this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
     }
     if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
       this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
-    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+    else if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes) {
       this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
     }
-    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+    else if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito) {
       this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
     }
     else {
@@ -457,12 +472,14 @@ export class FacturaAltaComponent implements OnInit {
     if (this.modelCliente.IdCategoriaIvaNavigation != undefined && this.modelCliente.IdCategoriaIvaNavigation.Discrimina != false) {
       let totalIva = 0;
       this.dataSource.data.forEach(p => {
-        if (p.IdArticuloNavigation != null && p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva != undefined) {
-          totalIva = totalIva + ((p.Monto - (p.Monto * this.modelCliente.PorcentajeDescuentoGeneral / 100)) * (p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva / 100));
+        if ((p.IdArticuloNavigation != null && p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva != undefined) ||
+          (p.IdServicioNavigation != null && p.IdServicioNavigation.IdTipoServicioNavigation.Iva != undefined)) {
+          totalIva = totalIva + ((p.Monto - (p.Monto * this.modelCliente.PorcentajeDescuentoGeneral / 100)) * 
+          ((p.IdArticuloNavigation != undefined ? p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva : p.IdServicioNavigation.IdTipoServicioNavigation.Iva) / 100));
         } else if (p.Descripcion.includes('IVA: ')) {
-          let iva = +p.Descripcion.split('IVA: ')[p.Descripcion.split('IVA: ').length-1].replace('%)','');
+          let iva = +p.Descripcion.split('IVA: ')[p.Descripcion.split('IVA: ').length - 1].replace('%)', '');
           totalIva = totalIva + ((p.Monto - (p.Monto * this.modelCliente.PorcentajeDescuentoGeneral / 100)) * (iva / 100));
-        } 
+        }
         else {
           totalIva = totalIva + ((p.Monto - (p.Monto * this.modelCliente.PorcentajeDescuentoGeneral / 100)) * (+this.modelComprobante.TasaIva / 100));
         }
@@ -485,7 +502,7 @@ export class FacturaAltaComponent implements OnInit {
 
   cargarArticuloServicio() {
     this.comprobantesItems.forEach(p => {
-      let iva = p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva;
+      let iva = (p.IdArticuloNavigation != undefined) ? p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva : (p.IdServicioNavigation != undefined) ? p.IdServicioNavigation.IdTipoServicioNavigation.Iva : undefined;
       let venta = this.ventasVirtuales.filter(v => (v.IdArticulo != undefined && v.IdArticulo == p.IdArticulo) || (v.IdServicio != undefined && v.IdServicio == p.IdServicio))[0];
       if (venta.Monto != undefined) {
         venta.CantidadVendida = p.Cantidad;

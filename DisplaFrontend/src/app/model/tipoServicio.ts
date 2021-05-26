@@ -2,5 +2,6 @@ export interface TipoServicio {
     Id: number,
     Nombre: string,
     IngresosBrutos: number,
-    Borrado: boolean
+    Borrado: boolean,
+    Iva: number
 }

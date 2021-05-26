@@ -29,7 +29,7 @@ namespace DisplaBackend.Models
         public bool UtilizaSobre { get; set; }
         public double MontoCredito { get; set; }
         public int? PlazoCredito { get; set; }
-        public double? PorcentajeDescuentoGeneral { get; set; }
+        public decimal? PorcentajeDescuentoGeneral { get; set; }
         public string Mail { get; set; }
         public int IdCondicionVenta { get; set; }
         public int? IdLocalidad { get; set; }

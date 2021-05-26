@@ -7,5 +7,6 @@ export interface PrecioLente {
     IdLenteNavigation: Lente,
     MedidaEsferico: number,
     MedidaCilindrico: number,
-    CostoPar: number
+    CostoPar: number,
+    Moneda: string,
 }
