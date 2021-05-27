@@ -204,6 +204,8 @@ namespace DisplaBackend
             services.AddScoped<ICuentaBancariaDAO, CuentaBancariaDAO>();
             services.AddScoped<IEstadisticaService, EstadisticaService>();
             services.AddScoped<IEstadisticaDAO, EstadisticaDAO>();
+            services.AddScoped<IFuncionService, FuncionService>();
+            services.AddScoped<IFuncionDAO, FuncionDAO>();
             services.AddScoped<IGastoService, GastoService>();
             services.AddScoped<IGastoDAO, GastoDAO>();
             services.AddScoped<IInsumoService, InsumoService>();
