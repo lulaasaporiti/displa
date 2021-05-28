@@ -26,7 +26,7 @@ import { UsuarioFuncionesComponent } from '../usuario-funcionalidades/usuario-fu
 export class UsuarioListadoComponent implements OnInit {
 
   idUser: number;
-  displayedColumns: string[] = ['Activo', 'Username', 'Nombre', 'Apellido', 'Roles', 'Opciones'];
+  displayedColumns: string[] = ['Activo', 'Username', 'Nombre', 'Apellido', 'Opciones'];
   dataSource = new MatTableDataSource<Usuario>();
   traerVigentes: boolean = true;
 
@@ -133,7 +133,7 @@ export class UsuarioListadoComponent implements OnInit {
     let dialogRef = this.dialog.open(UsuarioFuncionesComponent, {
       data: { modelUsuario: event },
       width: '965px',
-      height: '625px'
+      height: '85%'
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result != false && result != undefined) {

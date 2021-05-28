@@ -14,7 +14,6 @@ export class MovimientoBlockService {
     constructor(private http: HttpClient, private mainService: MainService) { }
 
     getMovimientoBlockList(id): Observable<any> {
-
         return this.http.get(`${this.baseUrl}/GetMovimientosBlock?id=${id}`);
 
     }

@@ -20,6 +20,7 @@ namespace DisplaBackend.Services
         void Edit(AspNetUsers user);
         Task<bool> Activated(int id);
         void SetDatosPersonales(RegisterViewModel user);
+        List<Funcion> GetFuncionesUsuario(int idUsuario);
     }
 
     public class AccountService : IAccountService
@@ -78,6 +79,10 @@ namespace DisplaBackend.Services
 
         public void SetDatosPersonales(RegisterViewModel user) {
             _accountDAO.SetDatosPersonales(user);
+        }
+
+        public List<Funcion> GetFuncionesUsuario(int idUsuario) {
+            return _accountDAO.GetFuncionesUsuario(idUsuario);
         }
     }
 }
