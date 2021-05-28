@@ -6,6 +6,7 @@
 .dialog-title{
   font-family: "Chalet London" !important;
   font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .dialog-botones{
@@ -15,4 +16,11 @@
 :host ::ng-deep .ck-editor__editable_inline {
   min-height: 250px !important;
   min-width: 650px !important;
+}
+
+.msgError {
+  color: #ff5722;
+  font-size: 75%;
+  margin-top: 25px !important;
+  margin-left: 14px !important;
 }

@@ -124,7 +124,7 @@
                     <a mat-menu-item class="button-list" routerLink="Cliente/Cuenta">Cuenta por cliente</a>
                     <a mat-menu-item class="button-list" routerLink="Cuentas/Listado">Listado de cuentas
                         corrientes</a>
-                    <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Clientes</a>
+                    <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Listado de clientes</a>
                 </mat-menu>
 
                 <button mat-button class="button-menu" [matMenuTriggerFor]="menuEstadisticas">Estadísticas ventas</button>
@@ -143,13 +143,13 @@
 
                 <button mat-button class="button-menu" [matMenuTriggerFor]="menuProveedores">Proveedores</button>
                 <mat-menu fxLayoutAlign="start center" #menuProveedores="matMenu">
-                    <a mat-menu-item class="button-list" routerLink="Proveedor/Listado">Listado</a>
+                    <a mat-menu-item class="button-list" routerLink="Proveedor/Listado">Listado de proveedores</a>
                     <a mat-menu-item class="button-list" routerLink="Gasto/Listado">Gastos</a>
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Comprobantes</a>
                     <a mat-menu-item class="button-list">IVA compras</a>
                     <a mat-menu-item class="button-list">Consulta de comprobantes</a>
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuCuentasProveedores">Cuentas corrientes</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Estadisticas</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Estadísticas</a>
                     <a mat-menu-item class="button-list">Cálculo de retenciones</a>
                     <a mat-menu-item class="button-list">Informe de retenciones</a>
                 </mat-menu>
