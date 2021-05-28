@@ -110,5 +110,9 @@ export class AppComponent {
     //   'error_outline',
     //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/error_outline.svg')
     // );
+    this.matIconRegistry.addSvgIcon(
+      'funciones_usuario',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/assignment_ind_black_24dp.svg')
+    );
   }
 }

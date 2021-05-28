@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ResetPasswordComponent } from 'src/app/account/reset-password/reset-password.component';
+import { UsuarioFuncionesComponent } from '../usuario-funcionalidades/usuario-funcionalidades.component';
 
 
 
@@ -128,13 +129,26 @@ export class UsuarioListadoComponent implements OnInit {
     );
   }
 
-
-
-  // activarUsuario = function (event: AuthUser) {
-  //   let dialogRef = this.dialog.open(UsuarioBajaComponent, {
-  //     data: { Id: event }
-  //   });
-  // }
+  openFunacionalidadesUsuario(event: any) {
+    let dialogRef = this.dialog.open(UsuarioFuncionesComponent, {
+      data: { modelUsuario: event },
+      width: '965px',
+      height: '625px'
+    });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result != false && result != undefined) {
+        // this.accountService.activated(event.Id).subscribe(x => {
+        //   if (x == true) {
+        //     this.sessionService.showSuccess("La operación se ha realizado correctamente");
+        //     this.loadUsuarioPage();
+        //   }
+        //   else
+        //     this.sessionService.showError("La operación no se realizó");
+        // })
+      }
+      // this.loadUsuarioPage();
+    });
+  }
 
   activarUsuario(event: any) {
     let dialogRef = this.dialog.open(UsuarioBajaComponent, {

@@ -11,9 +11,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { UsuarioFuncionesComponent } from './usuario-funcionalidades/usuario-funcionalidades.component';
 @NgModule({
-    entryComponents: [UsuarioAltaComponent, UsuarioModificacionComponent, UsuarioBajaComponent],
-    declarations: [UsuarioListadoComponent, UsuarioAltaComponent, UsuarioModificacionComponent, UsuarioBajaComponent],
+    entryComponents: [UsuarioAltaComponent, UsuarioModificacionComponent, UsuarioBajaComponent, UsuarioFuncionesComponent],
+    declarations: [UsuarioListadoComponent, UsuarioAltaComponent, UsuarioModificacionComponent, UsuarioBajaComponent, UsuarioFuncionesComponent],
     imports: [
         CommonModule,
         MaterialModule,

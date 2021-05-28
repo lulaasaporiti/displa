@@ -150,6 +150,7 @@
                     <a mat-menu-item class="button-list">Consulta de comprobantes</a>
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuCuentasProveedores">Cuentas corrientes</a>
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Estadísticas</a>
+                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuEstadisticasProveedores">Estadisticas</a>
                     <a mat-menu-item class="button-list">Cálculo de retenciones</a>
                     <a mat-menu-item class="button-list">Informe de retenciones</a>
                 </mat-menu>
@@ -167,6 +168,15 @@
                     <a mat-menu-item class="button-list">Saldos a la fecha</a>
                 </mat-menu>
 
+                <mat-menu fxLayoutAlign="start center" #menuEstadisticasProveedores="matMenu">
+                    <a mat-menu-item class="button-list">Compras entre fechas</a>
+                    <a mat-menu-item class="button-list">Gastos entre fechas</a>
+                    <a mat-menu-item class="button-list">Gastos por períodos</a>
+                    <a mat-menu-item class="button-list">Descuentos entre fechas</a>
+                    <a mat-menu-item class="button-list">Comparativa compras por mes/total</a>
+                    <a mat-menu-item class="button-list">Comparativa compras/pagos por mes/total</a>
+                </mat-menu>
+
                 <a mat-button routerLink="TarjetaCredito/Listado" class="button-list" fxLayout="row">
                     Tarjetas de crédito
                 </a>
@@ -174,7 +184,7 @@
                 <mat-menu fxLayoutAlign="start center" #menuCaja="matMenu">
                     <button mat-menu-item class="button-list" (click)="openDialogAltaMovimientoCaja();">E/S manual</button>
                     <a mat-menu-item class="button-list" routerLink="">Consulta de movimientos</a>
-                    <a mat-menu-item class="button-list" routerLink="">Listado</a>
+                    <a mat-menu-item class="button-list" routerLink="">Listado de caja</a>
                     <button mat-menu-item class="button-list" [matMenuTriggerFor]="menuPlantilla">Plantilla diaria</button>
                 </mat-menu>
                 <mat-menu fxLayoutAlign="start center" #menuPlantilla="matMenu">
@@ -211,7 +221,7 @@
                 </mat-menu>
                 <button mat-button class="button-list" [matMenuTriggerFor]="menuBanco">Banco</button>
                 <mat-menu fxLayoutAlign="start center" #menuBanco="matMenu">
-                    <a mat-menu-item class="button-list" routerLink="Banco/Listado">Listado</a>
+                    <a mat-menu-item class="button-list" routerLink="Banco/Listado">Listado de bancos</a>
                     <a mat-menu-item class="button-list" routerLink="CuentaBancaria/Listado">Cuentas bancarias</a>
                     <!-- <a mat-menu-item class="button-list" (click)="openDialogoOperacionesCuentas();"> Operaciones en cuentas bancarias</a> -->
                     <!-- <a mat-menu-item class="button-list" (click)="openDialogAltaMovimientoInternoBanco();">Movimientos internos</a> -->
