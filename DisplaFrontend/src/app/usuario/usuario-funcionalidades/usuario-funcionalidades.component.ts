@@ -55,6 +55,9 @@ export class UsuarioFuncionesComponent {
     public dialogRef: MatDialogRef<UsuarioFuncionesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {  
       console.log(data);
+      this.funcionService.getFuncionesAgrupadasList().subscribe(r => {
+        console.log(r)
+      });
       this.dataSource.data = TREE_DATA;
 
     }

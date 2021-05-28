@@ -11,6 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<Funcion> GetFunciones();
         Funcion GetById(int idFuncion);
+        List<dynamic> GetFuncionesArupadas();
     }
 
     public class FuncionDAO : IFuncionDAO
@@ -25,7 +26,8 @@ namespace DisplaBackend.DAOs
 
         public List<Funcion> GetFunciones()
         {
-            return _context.Funcion.Include(f => f.IdFuncionPadreNavigation).ToList();
+            return _context.Funcion.Include(f => f.IdFuncionPadreNavigation)
+                .ToList();
         }
 
         
@@ -34,5 +36,16 @@ namespace DisplaBackend.DAOs
             return _context.Funcion.FirstOrDefault(u => u.Id == idFuncion);
         }
 
+        public List<dynamic> GetFuncionesArupadas()
+        {
+            return _context.Funcion.Include(f => f.IdFuncionPadreNavigation)
+                .Select(f => new
+                {
+                    f,
+                    //f.UsuarioFuncion
+                })
+                .ToList<dynamic>();
+        }
+        
     }
 }

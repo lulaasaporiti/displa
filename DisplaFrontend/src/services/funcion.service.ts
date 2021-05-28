@@ -16,4 +16,8 @@ export class FuncionService {
         return this.http.get(`${this.baseUrl}/GetFunciones`);
     }
 
+    
+    getFuncionesAgrupadasList(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetFuncionesAgrupadas`);
+    }
 }

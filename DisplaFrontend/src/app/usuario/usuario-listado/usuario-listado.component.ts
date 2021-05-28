@@ -131,7 +131,9 @@ export class UsuarioListadoComponent implements OnInit {
 
   openFunacionalidadesUsuario(event: any) {
     let dialogRef = this.dialog.open(UsuarioFuncionesComponent, {
-      data: { modelUsuario: event }
+      data: { modelUsuario: event },
+      width: '965px',
+      height: '625px'
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result != false && result != undefined) {
