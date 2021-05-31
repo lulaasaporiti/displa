@@ -2,13 +2,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MainService } from './main.service';
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { LoginView } from "../app/model/loginView";
 import { ResetPasswordView } from "../app/model/resetPasswordView";
 import { ChangePasswordView } from "../app/model/changePasswordView";
 import { RegisterView } from '../app/model/registerView';
 import { Usuario, EditUsuarioDTO } from '../app/model/usuario';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class AccountService {
 
     private apiUrl = "Account/";
 
-    constructor(private mainService: MainService) { }
+    constructor(private mainService: MainService, private http: HttpClient) { }
 
     login(model: LoginView): Observable<any> {
         return this.mainService.post(this.apiUrl + "Login", model);
@@ -72,4 +73,9 @@ export class AccountService {
     delete(data): Observable<any> {
         return this.mainService.delete(this.apiUrl+'Delete?id='+data);
     }
+
+    getFuncionesUsuario(idUsuario) {
+        return this.http.get(environment.BASE_USER_ENDPOINT + this.apiUrl+'GetFuncionesUsuario/'+idUsuario);
+    }
+    
 }

@@ -34,7 +34,7 @@ namespace DisplaBackend.Controllers
         [EnableCors("DisplaAPIPolicy")]
         public object GetFuncionesArupadas()
         {
-            return _funcionService.GetFuncionesArupadas();
+            return _funcionService.GetFuncionesAgrupadas();
         }
     }
 }

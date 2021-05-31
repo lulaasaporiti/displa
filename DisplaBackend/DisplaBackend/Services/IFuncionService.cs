@@ -10,7 +10,7 @@ namespace DisplaBackend.Services
     {
         List<Funcion> GetFunciones();
         Funcion GetById(int idFuncion);
-        List<dynamic> GetFuncionesArupadas();
+        List<Funcion> GetFuncionesAgrupadas();
     }
 
     public class FuncionService : IFuncionService
@@ -32,9 +32,9 @@ namespace DisplaBackend.Services
             return _funcionDAO.GetById(idFuncion);
         }
         
-        public List<dynamic> GetFuncionesArupadas()
+        public List<Funcion> GetFuncionesAgrupadas()
         {
-            return _funcionDAO.GetFuncionesArupadas();
+            return _funcionDAO.GetFuncionesAgrupadas();
         }
     }
 

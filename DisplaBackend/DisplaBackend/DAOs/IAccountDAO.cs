@@ -21,6 +21,7 @@ namespace DisplaBackend.DAOs
         AspNetUsers GetUser(int id);
         Task<bool> Activated(int id);
         void SetDatosPersonales(RegisterViewModel user);
+        List<Funcion> GetFuncionesUsuario(int idUsuario);
     }
 
     public class AccountDAO : IAccountDAO
@@ -148,6 +149,10 @@ namespace DisplaBackend.DAOs
                 _context.Entry(usuario).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public List<Funcion> GetFuncionesUsuario(int idUsuario) {
+            return _context.UsuarioFuncion.Where(uf => uf.IdUsuario == idUsuario).Include(uf => uf.IdFuncionNavigation).Select(uf => uf.IdFuncionNavigation).ToList();
         }
 
     }

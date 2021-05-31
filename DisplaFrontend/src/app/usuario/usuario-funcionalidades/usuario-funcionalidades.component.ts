@@ -2,44 +2,11 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { combineLatest } from 'rxjs';
+import { Funcion } from 'src/app/model/funcion';
+import { AccountService } from 'src/services/account.service';
 import { FuncionService } from 'src/services/funcion.service';
 
-/**
- * Food data with nested structure.
- * Each node has a name and an optional list of children.
- */
- interface FoodNode {
-  name: string;
-  children?: FoodNode[];
-}
-
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Fruit',
-    children: [
-      {name: 'Apple'},
-      {name: 'Banana'},
-      {name: 'Fruit loops'},
-    ]
-  }, {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [
-          {name: 'Broccoli'},
-          {name: 'Brussels sprouts'},
-        ]
-      }, {
-        name: 'Orange',
-        children: [
-          {name: 'Pumpkins'},
-          {name: 'Carrots'},
-        ]
-      },
-    ]
-  },
-];
 
 @Component({
   selector: 'app-usuario-funcionalidades',
@@ -47,25 +14,40 @@ const TREE_DATA: FoodNode[] = [
   styleUrls: ['./usuario-funcionalidades.component.css']
 })
 export class UsuarioFuncionesComponent {
-  treeControl = new NestedTreeControl<FoodNode>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<FoodNode>();
+  treeControl = new NestedTreeControl<Funcion>(node => node.InverseIdFuncionPadreNavigation);
+  dataSource = new MatTreeNestedDataSource<Funcion>();
+  funcionesSeleccionadas: Funcion[] = [];
 
   constructor(
+    private accountService: AccountService,
     private funcionService: FuncionService,
     public dialogRef: MatDialogRef<UsuarioFuncionesComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {  
-      console.log(data);
-      this.funcionService.getFuncionesAgrupadasList().subscribe(r => {
-        console.log(r)
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      combineLatest([
+        this.funcionService.getFuncionesAgrupadasList(),
+        this.accountService.getFuncionesUsuario(data.modelUsuario.Id)
+      ])  
+      .subscribe(r => {
+        console.log(r[1])
+        this.dataSource.data = r[0];
       });
-      this.dataSource.data = TREE_DATA;
-
     }
 
     onNoClick(): void {        
         this.dialogRef.close(false);
     }
 
-  hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
+    onClicked(node: Funcion){
+      console.log(node)
+      console.log(this.funcionesSeleccionadas.includes(node))
+      if (!this.funcionesSeleccionadas.includes(node)) {
+        this.funcionesSeleccionadas.push(node);
+        this.funcionesSeleccionadas = this.funcionesSeleccionadas.concat(node.InverseIdFuncionPadreNavigation)
+      }
+
+      console.log(this.funcionesSeleccionadas)
+    }
+
+  hasChild = (_: number, node: Funcion) => !!node.InverseIdFuncionPadreNavigation && node.InverseIdFuncionPadreNavigation.length > 0;
 
 }
