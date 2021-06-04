@@ -1,10 +1,7 @@
-import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Inject, SimpleChange } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {FlatTreeControl} from '@angular/cdk/tree';
-import { combineLatest } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { Funcion } from 'src/app/model/funcion';
 import { AccountService } from 'src/services/account.service';
 import { FuncionService } from 'src/services/funcion.service';
@@ -36,16 +33,19 @@ export class UsuarioFuncionesComponent {
   treeControl = new FlatTreeControl<FuncionNode>(node => node.level, node => node.expandable);
   treeFlattener = new MatTreeFlattener(this._transformer, node => node.level, node => node.expandable, node => node.InverseIdFuncionPadreNavigation)
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  funcionesBBDD: Funcion[];
   // enabled = true;
 
   constructor(
-    private accountService: AccountService,
     private funcionService: FuncionService,
     public dialogRef: MatDialogRef<UsuarioFuncionesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.funcionService.getFuncionesAgrupadasList().subscribe(r => {
       this.dataSource.data = r
     });
+    this.funcionService.getFuncionesList().subscribe(r => {
+      this.funcionesBBDD = r;
+    })
   }
 
   onNoClick(): void {
@@ -53,13 +53,16 @@ export class UsuarioFuncionesComponent {
   }
 
   onClicked(node: Funcion) {
-
+    console.log(node, "nodo")
     // Si un padre tiene alguno de sus hijos chequeados, el padre tambien tiene que estarlo
-    console.log(node)
     if (!this.data.funciones.some(f => f.Id === node.Id)) {
       this.data.funciones.push(node);
-      if (node.IdFuncionPadre != undefined) {
-        this.data.funciones.push(node.IdFuncionPadreNavigation)
+      if (node.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.Id === node.IdFuncionPadre)) {
+        let padre = this.funcionesBBDD.find(f => f.Id === node.IdFuncionPadre);
+        this.data.funciones.push(padre);
+        if (padre.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.Id === padre.IdFuncionPadre)) {
+          this.data.funciones.push(this.funcionesBBDD.find(f => f.Id === padre.IdFuncionPadre));
+        }
       }
       if (node.InverseIdFuncionPadreNavigation != undefined) {
         node.InverseIdFuncionPadreNavigation.forEach(element => {
@@ -75,7 +78,7 @@ export class UsuarioFuncionesComponent {
         })
       }
     }
-
+    console.log(this.data.funciones)
   }
 
   checkChecked(node: Funcion) {

@@ -40,12 +40,6 @@ namespace DisplaBackend.DAOs
         {
             List<Funcion> funciones = _context.Funcion
                 .Include(f => f.InverseIdFuncionPadreNavigation)
-                .Include(f => f.IdFuncionPadreNavigation)
-                //.Select(f => new
-                //{
-                //    f,
-                //f.UsuarioFuncion
-                //})
                 .OrderBy(f => f.IdFuncionPadre)
                 .ToList();
 

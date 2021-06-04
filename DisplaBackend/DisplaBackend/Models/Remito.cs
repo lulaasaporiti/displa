@@ -8,6 +8,7 @@ namespace DisplaBackend.Models
         public Remito()
         {
             ComprobanteItem = new HashSet<ComprobanteItem>();
+            VentaVirtual = new HashSet<VentaVirtual>();
         }
 
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace DisplaBackend.Models
         public virtual AspNetUsers IdUsuarioAnulacionNavigation { get; set; }
         public virtual AspNetUsers IdUsuarioNavigation { get; set; }
         public virtual ICollection<ComprobanteItem> ComprobanteItem { get; set; }
+        public virtual ICollection<VentaVirtual> VentaVirtual { get; set; }
     }
 }

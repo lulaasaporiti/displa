@@ -1799,6 +1799,8 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdLente).HasColumnName("idLente");
 
+                entity.Property(e => e.IdRemito).HasColumnName("idRemito");
+
                 entity.Property(e => e.IdServicio).HasColumnName("idServicio");
 
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
@@ -1817,13 +1819,17 @@ namespace DisplaBackend.Models
                 entity.HasOne(d => d.IdComprobanteNavigation)
                     .WithMany(p => p.VentaVirtual)
                     .HasForeignKey(d => d.IdComprobante)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_VentaVirtual_ComprobanteCliente");
 
                 entity.HasOne(d => d.IdLenteNavigation)
                     .WithMany(p => p.VentaVirtual)
                     .HasForeignKey(d => d.IdLente)
                     .HasConstraintName("FK_VentaVirtual_Lente");
+
+                entity.HasOne(d => d.IdRemitoNavigation)
+                    .WithMany(p => p.VentaVirtual)
+                    .HasForeignKey(d => d.IdRemito)
+                    .HasConstraintName("FK_VentaVirtual_Remito");
 
                 entity.HasOne(d => d.IdServicioNavigation)
                     .WithMany(p => p.VentaVirtual)

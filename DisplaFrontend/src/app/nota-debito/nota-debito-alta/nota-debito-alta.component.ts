@@ -27,6 +27,7 @@ import { LenteVentaVirtualComponent } from 'src/app/factura/factura-producto/pro
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { ValidacionLenteService } from 'src/services/validacion.lente.service';
 
 
 @Component({
@@ -206,6 +207,7 @@ export class NotaDebitoComponent implements OnInit {
     private parametroService: ParametroService,
     private ventaVirtualService: VentaVirtualService,
     private loadingSpinnerService: LoadingSpinnerService,
+    private validacionLenteService: ValidacionLenteService,
     private comprobanteClienteService: ComprobanteClienteService
   ) {
     this.segment.queryParams.subscribe((params: Params) => {
@@ -225,6 +227,7 @@ export class NotaDebitoComponent implements OnInit {
           this.modelComprobante.IdCliente = this.id;
           this.modelComprobante.ComprobanteItem = [];
           this.modelComprobante.VentaVirtual = [];
+          this.modelComprobante.TasaIva = this.modelCliente.IdCategoriaIvaNavigation.Tasa;
           this.modelComprobante.IdTipoComprobante = 3;
           this.modelComprobante.IdUsuario = +this.sessionService.getPayload()['idUser'];
           if (this.modelCliente.IdCategoriaIva == 2) {
@@ -265,31 +268,56 @@ export class NotaDebitoComponent implements OnInit {
     item.Monto = 0;
     item.NumeroSobre = producto.ComprobanteItemLente[0].Sobre;
     item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura;
-    ////remplazar por venta virtual
+    let iva = producto.ComprobanteItemLente[0].IdLenteNavigation.Iva;
     this.ventaVirtualService.getLentesConVentaVirtual(this.id, producto.ComprobanteItemLente[0].IdLente)
       .subscribe(vl => {
         producto.ComprobanteItemLente.forEach(p => {
           let itemLente = <ComprobanteItemLente>{};
           itemLente.IdLente = p.IdLente;
           itemLente.Precio = p.Precio;
-          item.Cantidad = +item.Cantidad + +p.Cantidad;
-          if (vl == 0) 
-            item.Monto = +item.Monto + (p.Cantidad * p.Precio);
           itemLente.Cantidad = p.Cantidad;
           itemLente.MedidaCilindrico = p.MedidaCilindrico;
           itemLente.MedidaEsferico = p.MedidaEsferico;
+          item.Cantidad = +item.Cantidad + +p.Cantidad; //si vienen dos graduaciones la cantidad del item, no del itemLente
+          item.Monto = +item.Monto + (p.Cantidad * p.Precio);
           item.ComprobanteItemLente.push(itemLente);
         })
-        if (vl > 0) { //si el cliente tiene algun venta virtual
-          item.Monto = 0;
+        // if (vl == 0) { //si no tiene venta virtual
+          if (iva != undefined) { //si tiene iva propio el lente
+            item.Descripcion = item.Descripcion + ' (IVA: ' + iva + '%)';
+            if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
+              item.Monto = Math.round((item.Monto * (1 + (iva / 100)) + Number.EPSILON) * 100) / 100;
+            }
+            else {
+              item.Monto = Math.round(item.Monto * 100) / 100;
+            }
+          } else {
+            item.Monto = Math.round(item.Monto * 100) / 100;
+          }
+        // } 
+        if (vl > 0) { //si el cliente tiene algun venta virtual, le estoy haciendo una entrega con la nueva venta
           item.EntregaVentaVirtual = true;
-          let ventasVirtuales = this.dataSource.data.filter(v => v.EntregaVentaVirtual == true 
+          //filtro las ventas virtuales del mismo lente que generé en la factura para hacer la resta de la descripcion
+          let ventasVirtuales = this.dataSource.data.filter(v => v.EntregaVentaVirtual == true
             && (v.ComprobanteItemLente != [] && v.ComprobanteItemLente.find(cl => cl.IdLente == producto.ComprobanteItemLente[0].IdLente)))
+          //calculo en cantidadResta todas las ventas de la factura para ese lente
           let cantidadResta = item.Cantidad;
           ventasVirtuales.forEach(v => {
             cantidadResta = cantidadResta + v.Cantidad;
           });
-          item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura + ' (V.Virt +' + (vl - +cantidadResta) + ')';
+          console.log(vl, "vv restantes originales")
+          console.log(cantidadResta, "cantidad vendida en esta factura")
+          if (cantidadResta == vl) { 
+            item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura + ' (V.Virt +0)';
+            item.Monto = 0;
+          }
+          else if (cantidadResta < vl) { 
+            item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura + ' (V.Virt +' + (vl - +cantidadResta) + ')';
+            item.Monto = 0;
+          }
+          else {
+            //////// FALTA ACTUALIZAR EL PRECIO DEL LENTE QUE EXCEDE LA VENTA VIRTUAL ANTERIOR, YA QUE NO SE QUE PRECIO TENGO QUE ELEGIR
+          }
         }
         montoLentes = item.Monto;
         if (producto.ComprobanteItemRecargo != undefined) {/////recargos lente
@@ -301,12 +329,29 @@ export class NotaDebitoComponent implements OnInit {
         producto.ComprobanteItemServicio.forEach(s => {////servicios lente
           s.Monto = s.IdServicioNavigation.PrecioServicio[0].Precio;
         })
+        // this.modelComprobante.ComprobanteItem.push(item);
+        for (let i = 0; i < item.ComprobanteItemLente.length; i++) {
+          item.ComprobanteItemLente[i].ConversionMedidas = this.validacionLenteService.conversionMedidas(item.ComprobanteItemLente[i].MedidaEsferico, item.ComprobanteItemLente[i].MedidaCilindrico, producto.ComprobanteItemLente[0].IdLenteNavigation);
+          if ((producto.ComprobanteItemLente[0].IdLenteNavigation.GraduacionesCilindricas == '-' && +item.ComprobanteItemLente[i].MedidaCilindrico > 0) || (producto.ComprobanteItemLente[0].IdLenteNavigation.GraduacionesCilindricas == '+' && +item.ComprobanteItemLente[i].MedidaCilindrico < 0)) {
+            item.ComprobanteItemLente[i].MedidaEsferico = +item.ComprobanteItemLente[i].MedidaEsferico + +item.ComprobanteItemLente[i].MedidaCilindrico;
+            item.ComprobanteItemLente[i].MedidaCilindrico = +((Math.abs(+item.ComprobanteItemLente[i].MedidaCilindrico) < 1) ? '0' : '') + (-1 * +item.ComprobanteItemLente[i].MedidaCilindrico)
+          }
+        }
         this.dataSource.data = this.dataSource.data.concat(item);
         this.modelComprobante.ComprobanteItem.push(item);
+        if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+          this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+        }
+        if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+          this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+        }
         if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
           this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
-        else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
-          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos")
+        else if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes) {
+          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
+        }
+        else if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito) {
+          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
         }
         else {
           this.sessionService.showSuccess("Los productos se agregaron correctamente");
@@ -320,16 +365,41 @@ export class NotaDebitoComponent implements OnInit {
     item.IdUsuario = +this.sessionService.getPayload()['idUser'];
     item.CantidadEntregada = 0;
     item.Descripcion = venta.IdLenteNavigation.Nombre + ' V. VIRTUAL';
+    console.log(venta)
+    let iva = venta.IdLenteNavigation.Iva;
     item.IdLenteNavigation = null;
     item.Monto = +item.Monto * +item.CantidadVendida;
+    if (iva != undefined) {
+      item.Descripcion = item.Descripcion + ' (IVA: ' + iva + '%)';
+      if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
+        item.Monto = Math.round(((item.Monto * +item.CantidadVendida) * (1 + (iva / 100)) + Number.EPSILON) * 100) / 100;
+      }
+    }
     // item.Descripcion = venta.IdLenteNavigation.DescripcionFactura;
     this.dataSource.data = this.dataSource.data.concat(item);
     this.modelComprobante.VentaVirtual.push(item);
+    if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (item.Monto > this.parametro.MontoMaximoProductosDiferentes)
+      this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+    else if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentes) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
+    }
+    else if (this.modelComprobante.ComprobanteItem.length > this.parametro.CantidadProductoDiferentesRemito) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
+    }
+    else {
+      this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    }
   }
 
 
   getSubtotales() {
-    if (this.dataSource.data.length > 0 || this.remitos.length > 0) {
+    if (this.dataSource.data.length > 0) {
       document.getElementById('footers').style.display = 'block';
       this.modelComprobante.SubtotalFactura = 0;
       this.dataSource.data.forEach(to => {
@@ -343,29 +413,6 @@ export class NotaDebitoComponent implements OnInit {
       this.modelComprobante.MontoTotal = 0;
     } 
   }
-
-  // getTotalRemito() {
-  //   let totalAux = 0;
-  //   if (this.remitos != undefined && this.remitos.length > 0) {
-  //     this.remitos.forEach(r => {
-  //       r.ComprobanteItem.forEach(co => {
-  //         totalAux = totalAux + co.Monto;
-  //       });
-  //     });
-  //   }
-  //   this.totalRemitos = totalAux;
-  //   return this.totalRemitos.toFixed(2);
-  // }
-
-  // getCantidadProductos() {
-  //   let cantidadAux = 0;
-  //   if (this.remitos != undefined && this.remitos.length > 0) {
-  //     this.remitos.forEach(r => {
-  //       cantidadAux = cantidadAux + r.ComprobanteItem.length;
-  //     });
-  //     return cantidadAux;
-  //   }
-  // }
 
   validaciones(row){
     if (row.IdComprobanteItemNavigation != undefined && row.IdComprobanteItemNavigation.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto > this.parametro.MontoMaximoProductosDiferentes || row.Monto == 0 && !row.Descripcion.includes('V.Virt +')) 
@@ -391,19 +438,40 @@ export class NotaDebitoComponent implements OnInit {
   }
 
   getMontoIVA() {
-    return (+this.getSubtotalConDescuento() * 0.21).toFixed(2);
+    // return (+this.getSubtotalConDescuento() * 0.21).toFixed(2);
+    if (this.modelCliente.IdCategoriaIvaNavigation != undefined && this.modelCliente.IdCategoriaIvaNavigation.Discrimina != false) {
+      let totalIva = 0;
+      this.dataSource.data.forEach(p => {
+        if ((p.IdArticuloNavigation != null && p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva != undefined) ||
+          (p.IdServicioNavigation != null && p.IdServicioNavigation.IdTipoServicioNavigation.Iva != undefined)) {
+          totalIva = totalIva + ((p.Monto - (p.Monto * this.modelCliente.PorcentajeDescuentoGeneral / 100)) * 
+          ((p.IdArticuloNavigation != undefined ? p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva : p.IdServicioNavigation.IdTipoServicioNavigation.Iva) / 100));
+        } else if (p.Descripcion.includes('IVA: ')) {
+          let iva = +p.Descripcion.split('IVA: ')[p.Descripcion.split('IVA: ').length - 1].replace('%)', '');
+          totalIva = totalIva + ((p.Monto - (p.Monto * this.modelCliente.PorcentajeDescuentoGeneral / 100)) * (iva / 100));
+        }
+        else {
+          totalIva = totalIva + ((p.Monto - (p.Monto * this.modelCliente.PorcentajeDescuentoGeneral / 100)) * (+this.modelComprobante.TasaIva / 100));
+        }
+      });
+      return totalIva.toFixed(2);
+    } else {
+      return 0;
+    }
   }
 
   getTotales() {
-    if (this.modelCliente.IdCategoriaIvaNavigation != undefined && this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
-      return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento()).toFixed(2);
-    else
-      return ((
-        this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21)).toFixed(2);
+    return this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() + +this.getMontoIVA()
+    // if (this.modelCliente.IdCategoriaIvaNavigation != undefined && this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false)
+    //   return (this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento()).toFixed(2);
+    // else
+    //   return ((
+    //     this.modelComprobante.MontoTotal = +this.getSubtotalConDescuento() * 1.21)).toFixed(2);
   }
 
   cargarArticuloServicio() {
     this.comprobantesItems.forEach(p => {
+      let iva = (p.IdArticuloNavigation != undefined) ? p.IdArticuloNavigation.IdTipoArticuloNavigation.Iva : (p.IdServicioNavigation != undefined) ? p.IdServicioNavigation.IdTipoServicioNavigation.Iva : undefined;
       let venta = this.ventasVirtuales.filter(v => (v.IdArticulo != undefined && v.IdArticulo == p.IdArticulo) || (v.IdServicio != undefined && v.IdServicio == p.IdServicio))[0];
       if (venta.Monto != undefined) {
         venta.CantidadVendida = p.Cantidad;
@@ -413,17 +481,41 @@ export class NotaDebitoComponent implements OnInit {
         this.modelComprobante.VentaVirtual.push(venta);
         this.dataSource.data = this.dataSource.data.concat(venta);
         if (venta.Monto > this.parametro.MontoMaximoProductosDiferentes)
-        this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+          this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
         else
-        this.sessionService.showSuccess("Los productos se agregaron correctamente");
+          this.sessionService.showSuccess("Los productos se agregaron correctamente");
       } else {
-        p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
-        this.modelComprobante.ComprobanteItem.push(p);
+        if (iva != undefined) {
+          p.Descripcion = p.Descripcion + ' (IVA: ' + iva + '%)';
+          if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
+            p.Monto = Math.round(((p.Monto * +p.Cantidad) * (1 + (iva / 100)) + Number.EPSILON) * 100) / 100;
+          }
+          else {
+            p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
+          }
+        } else {
+          p.Monto = Math.round((p.Monto * +p.Cantidad) * 100) / 100;
+        }
         this.dataSource.data = this.dataSource.data.concat(p);
+        // p.IdArticuloNavigation = null;
+        // p.IdServicioNavigation = null;
+        this.modelComprobante.ComprobanteItem.push(p);
+        if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+          this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+        }
+        if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+          this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+        }
         if (p.Monto > this.parametro.MontoMaximoProductosDiferentes)
-        this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+          this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+        else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
+        }
+        else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+          this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
+        }
         else {
-        this.sessionService.showSuccess("Los productos se agregaron correctamente");
+          this.sessionService.showSuccess("Los productos se agregaron correctamente");
         }
       }
       this.changeDetector.detectChanges();
@@ -434,14 +526,23 @@ export class NotaDebitoComponent implements OnInit {
   cargarLibre(producto) {
     producto.Monto = ((producto.Monto * +producto.Cantidad) * 100) / 100;
     if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
-      producto.Monto = (producto.Monto * 1.21).toFixed(2);
+      producto.Monto = (producto.Monto * (1 + (+this.modelComprobante.TasaIva / 100))).toFixed(2);
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.modelComprobante.ComprobanteItem.push(producto);
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
     if (producto.Monto > this.parametro.MontoMaximoProductosDiferentes)
       this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
     else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
-      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos")   
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
+    }
+    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
     }
     else {
       this.sessionService.showSuccess("Los productos se agregaron correctamente");
@@ -455,8 +556,25 @@ export class NotaDebitoComponent implements OnInit {
     }
     this.dataSource.data = this.dataSource.data.concat(producto);
     this.modelComprobante.ComprobanteItem.push(producto);
-    this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito - 2 && +this.getTotales() == 0) {
+      this.sessionService.showWarning("Se esta por alcanzar la cantidad de productos permitidos con total en 0");
+    }
+    if (producto.Monto > this.parametro.MontoMaximoProductosDiferentes)
+      this.sessionService.showWarning("El producto agregado supera el monto máximo permitido");
+    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentes) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos");
+    }
+    else if (this.dataSource.data.length > this.parametro.CantidadProductoDiferentesRemito) {
+      this.sessionService.showWarning("Se alcanzó el limite de productos permitidos para un remito");
+    }
+    else {
+      this.sessionService.showSuccess("Los productos se agregaron correctamente");
+    }
   }
+
 
   rowBorrarProductos(row: any): void {
     this.dataSource.data = this.dataSource.data.filter(p => p != row);

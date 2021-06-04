@@ -225,8 +225,6 @@ export class FacturaAltaComponent implements OnInit {
         this.modelCliente = result[0];
         this.parametro = result[2];
         this.remitos = result[3];
-
-        
         this.modelComprobante.IdCliente = this.id;
         this.modelComprobante.ComprobanteItem = [];
         this.modelComprobante.VentaVirtual = [];
@@ -277,7 +275,6 @@ export class FacturaAltaComponent implements OnInit {
     item.NumeroSobre = producto.ComprobanteItemLente[0].Sobre;
     item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura;
     let iva = producto.ComprobanteItemLente[0].IdLenteNavigation.Iva;
-    ////remplazar por venta virtual
     this.ventaVirtualService.getLentesConVentaVirtual(this.id, producto.ComprobanteItemLente[0].IdLente)
       .subscribe(vl => {
         producto.ComprobanteItemLente.forEach(p => {
@@ -288,16 +285,11 @@ export class FacturaAltaComponent implements OnInit {
           itemLente.MedidaCilindrico = p.MedidaCilindrico;
           itemLente.MedidaEsferico = p.MedidaEsferico;
           item.Cantidad = +item.Cantidad + +p.Cantidad; //si vienen dos graduaciones la cantidad del item, no del itemLente
-          //si no tiene venta virtual
-          if (vl == 0) {
-            item.Monto = +item.Monto + (p.Cantidad * p.Precio);
-          }
+          item.Monto = +item.Monto + (p.Cantidad * p.Precio);
           item.ComprobanteItemLente.push(itemLente);
         })
-        //si no tiene venta virtual
-        if (vl == 0) {
-          //si tiene iva propio el lente
-          if (iva != undefined) {
+        // if (vl == 0) { //si no tiene venta virtual
+          if (iva != undefined) { //si tiene iva propio el lente
             item.Descripcion = item.Descripcion + ' (IVA: ' + iva + '%)';
             if (this.modelCliente.IdCategoriaIvaNavigation.Discrimina == false) {
               item.Monto = Math.round((item.Monto * (1 + (iva / 100)) + Number.EPSILON) * 100) / 100;
@@ -308,8 +300,8 @@ export class FacturaAltaComponent implements OnInit {
           } else {
             item.Monto = Math.round(item.Monto * 100) / 100;
           }
-        } else { //si el cliente tiene algun venta virtual, le estoy haciendo una entrega con la nueva venta
-          item.Monto = 0;
+        // } 
+        if (vl > 0) { //si el cliente tiene algun venta virtual, le estoy haciendo una entrega con la nueva venta
           item.EntregaVentaVirtual = true;
           //filtro las ventas virtuales del mismo lente que generé en la factura para hacer la resta de la descripcion
           let ventasVirtuales = this.dataSource.data.filter(v => v.EntregaVentaVirtual == true
@@ -319,12 +311,18 @@ export class FacturaAltaComponent implements OnInit {
           ventasVirtuales.forEach(v => {
             cantidadResta = cantidadResta + v.Cantidad;
           });
-          if (cantidadResta > vl) {
+          console.log(vl, "vv restantes originales")
+          console.log(cantidadResta, "cantidad vendida en esta factura")
+          if (cantidadResta == vl) { 
             item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura + ' (V.Virt +0)';
-            //////// FALTA ACTUALIZAR EL PRECIO DEL LENTE QUE EXCEDE LA VENTA VIRTUAL ANTERIOR, YA QUE NO SE QUE PRECIO TENGO QUE ELEGIR
+            item.Monto = 0;
+          }
+          else if (cantidadResta < vl) { 
+            item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura + ' (V.Virt +' + (vl - +cantidadResta) + ')';
+            item.Monto = 0;
           }
           else {
-            item.Descripcion = producto.ComprobanteItemLente[0].IdLenteNavigation.DescripcionFactura + ' (V.Virt +' + (vl - +cantidadResta) + ')';
+            //////// FALTA ACTUALIZAR EL PRECIO DEL LENTE QUE EXCEDE LA VENTA VIRTUAL ANTERIOR, YA QUE NO SE QUE PRECIO TENGO QUE ELEGIR
           }
         }
         montoLentes = item.Monto;
@@ -373,7 +371,6 @@ export class FacturaAltaComponent implements OnInit {
     item.IdUsuario = +this.sessionService.getPayload()['idUser'];
     item.CantidadEntregada = 0;
     item.Descripcion = venta.IdLenteNavigation.Nombre + ' V. VIRTUAL';
-    console.log(venta)
     let iva = venta.IdLenteNavigation.Iva;
     item.IdLenteNavigation = null;
     item.Monto = +item.Monto * +item.CantidadVendida;

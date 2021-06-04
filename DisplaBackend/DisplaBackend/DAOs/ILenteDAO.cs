@@ -105,11 +105,11 @@ namespace DisplaBackend.DAOs
                         .Select(p => new
                         {
                             Precio = _context.PrecioLente.Where(pl => pl.IdLente == p.Key.IdLente && pl.MedidaEsferico == p.Key.Esferico && pl.MedidaCilindrico == p.Key.Cilindrico)
-                                .OrderBy(pl => pl.Precio)
-                                .Select(pl => new { pl.Id, pl.Precio }).ToArray<dynamic>(),
+                                .OrderBy(pl => pl.Moneda).ThenBy(pl => pl.Precio)
+                                .Select(pl => new { pl.Id, pl.Precio, pl.Moneda }).ToArray<dynamic>(),
                             IdLente = p.Key.IdLente,
-                            Cilindrico = p.Key.Cilindrico,
-                            Esferico = p.Key.Esferico
+                            MedidaCilindrico = p.Key.Cilindrico,
+                            MedidaEsferico = p.Key.Esferico
                         })
                         .ToList<dynamic>()
                 })

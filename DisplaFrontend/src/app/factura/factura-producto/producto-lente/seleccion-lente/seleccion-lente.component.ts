@@ -13,6 +13,8 @@ import { Servicio } from 'src/app/model/servicio';
 import { ComprobanteItemServicio } from 'src/app/model/comprobanteItemServicio';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
+import { ParametroService } from 'src/services/parametro.service';
+import { Parametro } from 'src/app/model/parametro';
 
 @Component({
   selector: 'app-seleccion-lente',
@@ -41,8 +43,9 @@ export class SeleccionLenteComponent implements OnInit {
   bankMultiFilterCtrl: FormControl = new FormControl();
   // filteredServicios: ReplaySubject<Servicio[]> = new ReplaySubject<Servicio[]> ();
   deshabilitar: boolean = true;
-  serviciosLente: ComprobanteItemServicio[] = []
-  disableButton: boolean
+  serviciosLente: ComprobanteItemServicio[] = [];
+  disableButton: boolean;
+  parametro: Parametro;
 
  _onDestroy = new Subject<void>();
   @ViewChild('multiSelect', { static: true }) multiSelect: MatSelect;
@@ -50,12 +53,16 @@ export class SeleccionLenteComponent implements OnInit {
     private lenteService: LenteService,
     private clienteService: ClienteService,
     private servicioService: ServicioService,
+    private parametroService: ParametroService,
     public validacionLenteService: ValidacionLenteService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      let cargarGraduacion= <ComprobanteItemLente>{};
+      let cargarGraduacion = <ComprobanteItemLente>{};
       cargarGraduacion.MedidaEsferico = 0;
       cargarGraduacion.MedidaCilindrico = 0;
       this.modelComprobanteItemLente.push(cargarGraduacion);
+      this.parametroService.getParametro().subscribe(r => {
+        this.parametro = r;
+      });
   }
 
 
@@ -154,13 +161,18 @@ export class SeleccionLenteComponent implements OnInit {
 
   traerPrecio(i){
     this.clienteService.getPrecioLenteFactura(this.data.idCliente, this.modelComprobanteItemLente[+i].IdLente, this.modelComprobanteItemLente[+i].MedidaEsferico, this.modelComprobanteItemLente[+i].MedidaCilindrico)
-    .subscribe(result => {
-      this.mostrarPrecio = true;
-      this.modelComprobanteItemLente[+i].Precio = result;
-      if (i == 0){
-        this.modelComprobanteItemLente[0].Sobre = 0;
-        this.modelComprobanteItemLente[+i].Cantidad = 1;
-      }
+      .subscribe(result => {
+        console.log(result)
+        this.mostrarPrecio = true;
+        console.log(this.parametro)
+        if (result.Moneda == 'USD')
+          this.modelComprobanteItemLente[+i].Precio = result.Precio * this.parametro.Dolar;
+        else
+          this.modelComprobanteItemLente[+i].Precio = result.Precio;
+        if (i == 0) {
+          this.modelComprobanteItemLente[0].Sobre = 0;
+          this.modelComprobanteItemLente[+i].Cantidad = 1;
+        }
     })
   }
 
