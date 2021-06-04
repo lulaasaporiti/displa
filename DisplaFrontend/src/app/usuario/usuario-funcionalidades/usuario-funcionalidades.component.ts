@@ -1,11 +1,19 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, SimpleChange } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
+import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import {FlatTreeControl} from '@angular/cdk/tree';
 import { combineLatest } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { Funcion } from 'src/app/model/funcion';
 import { AccountService } from 'src/services/account.service';
 import { FuncionService } from 'src/services/funcion.service';
+
+interface FuncionNode {
+  expandable: boolean;
+  funcion: Funcion;
+  level: number;
+}
 
 
 @Component({
@@ -13,41 +21,76 @@ import { FuncionService } from 'src/services/funcion.service';
   templateUrl: './usuario-funcionalidades.component.html',
   styleUrls: ['./usuario-funcionalidades.component.css']
 })
+
+
 export class UsuarioFuncionesComponent {
-  treeControl = new NestedTreeControl<Funcion>(node => node.InverseIdFuncionPadreNavigation);
-  dataSource = new MatTreeNestedDataSource<Funcion>();
-  funcionesSeleccionadas: Funcion[] = [];
+
+  private _transformer = (node: Funcion, level: number) => {
+    return {
+      expandable: !!node.InverseIdFuncionPadreNavigation && node.InverseIdFuncionPadreNavigation.length > 0,
+      funcion: node,
+      level: level
+    };
+  }
+
+  treeControl = new FlatTreeControl<FuncionNode>(node => node.level, node => node.expandable);
+  treeFlattener = new MatTreeFlattener(this._transformer, node => node.level, node => node.expandable, node => node.InverseIdFuncionPadreNavigation)
+  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  // enabled = true;
 
   constructor(
     private accountService: AccountService,
     private funcionService: FuncionService,
     public dialogRef: MatDialogRef<UsuarioFuncionesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      combineLatest([
-        this.funcionService.getFuncionesAgrupadasList(),
-        this.accountService.getFuncionesUsuario(data.modelUsuario.Id)
-      ])  
-      .subscribe(r => {
-        console.log(r[1])
-        this.dataSource.data = r[0];
-      });
-    }
+    this.funcionService.getFuncionesAgrupadasList().subscribe(r => {
+      this.dataSource.data = r
+    });
+  }
 
-    onNoClick(): void {        
-        this.dialogRef.close(false);
-    }
+  onNoClick(): void {
+    this.dialogRef.close(false);
+  }
 
-    onClicked(node: Funcion){
-      console.log(node)
-      console.log(this.funcionesSeleccionadas.includes(node))
-      if (!this.funcionesSeleccionadas.includes(node)) {
-        this.funcionesSeleccionadas.push(node);
-        this.funcionesSeleccionadas = this.funcionesSeleccionadas.concat(node.InverseIdFuncionPadreNavigation)
+  onClicked(node: Funcion) {
+
+    // Si un padre tiene alguno de sus hijos chequeados, el padre tambien tiene que estarlo
+    console.log(node)
+    if (!this.data.funciones.some(f => f.Id === node.Id)) {
+      this.data.funciones.push(node);
+      if (node.IdFuncionPadre != undefined) {
+        this.data.funciones.push(node.IdFuncionPadreNavigation)
       }
-
-      console.log(this.funcionesSeleccionadas)
+      if (node.InverseIdFuncionPadreNavigation != undefined) {
+        node.InverseIdFuncionPadreNavigation.forEach(element => {
+          this.onClicked(element)
+        });
+      }
+    }
+    else {
+      this.data.funciones = this.data.funciones.filter(fs => fs.Id !== node.Id);
+      if (node.InverseIdFuncionPadreNavigation != undefined) {
+        node.InverseIdFuncionPadreNavigation.forEach(element => {
+          this.onClicked(element)
+        })
+      }
     }
 
-  hasChild = (_: number, node: Funcion) => !!node.InverseIdFuncionPadreNavigation && node.InverseIdFuncionPadreNavigation.length > 0;
+  }
+
+  checkChecked(node: Funcion) {
+
+    if (node != undefined) {
+      if (this.data.funciones.some(f => f.Id === node.Id))
+        return true
+      else {
+        return false
+      }
+    }
+    else
+      return false   
+  }
+
+  hasChild = (_: number, node: FuncionNode) => node.expandable;
 
 }

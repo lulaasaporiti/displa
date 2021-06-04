@@ -21,6 +21,8 @@ namespace DisplaBackend.Services
         Task<bool> Activated(int id);
         void SetDatosPersonales(RegisterViewModel user);
         List<Funcion> GetFuncionesUsuario(int idUsuario);
+
+        Task<bool> SaveFuncion(Funcion[] model, int id);
     }
 
     public class AccountService : IAccountService
@@ -83,6 +85,11 @@ namespace DisplaBackend.Services
 
         public List<Funcion> GetFuncionesUsuario(int idUsuario) {
             return _accountDAO.GetFuncionesUsuario(idUsuario);
+        }
+
+        public async Task<bool> SaveFuncion(Funcion[] model, int id)
+        {
+            return await _accountDAO.SaveFuncion(model, id);
         }
     }
 }

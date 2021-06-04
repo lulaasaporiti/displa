@@ -10,6 +10,7 @@ import { ChangePasswordView } from "../app/model/changePasswordView";
 import { RegisterView } from '../app/model/registerView';
 import { Usuario, EditUsuarioDTO } from '../app/model/usuario';
 import { environment } from 'src/environments/environment';
+import { Funcion } from 'src/app/model/funcion';
 
 
 @Injectable({
@@ -76,6 +77,10 @@ export class AccountService {
 
     getFuncionesUsuario(idUsuario) {
         return this.http.get(environment.BASE_USER_ENDPOINT + this.apiUrl+'GetFuncionesUsuario/'+idUsuario);
+    }
+
+    saveFuncion(model: Funcion, id: number): Observable<any> {
+        return this.http.put(environment.BASE_USER_ENDPOINT + this.apiUrl+'SaveFuncion/' + id, model);
     }
     
 }

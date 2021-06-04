@@ -429,5 +429,12 @@ namespace DisplaBackend.Controllers
         public IActionResult GetFuncionesUsuario(int idUsuario) {
             return Json(_accountService.GetFuncionesUsuario(idUsuario));
         }
+
+        [HttpPut("{id}"), Route("SaveFuncion")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SaveFuncion ([FromBody] Funcion[] model, int id)
+        {
+            return Ok(await _accountService.SaveFuncion(model, id));
+        }
     }
 }

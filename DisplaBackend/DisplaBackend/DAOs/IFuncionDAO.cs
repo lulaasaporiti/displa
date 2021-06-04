@@ -40,6 +40,7 @@ namespace DisplaBackend.DAOs
         {
             List<Funcion> funciones = _context.Funcion
                 .Include(f => f.InverseIdFuncionPadreNavigation)
+                .Include(f => f.IdFuncionPadreNavigation)
                 //.Select(f => new
                 //{
                 //    f,
@@ -51,7 +52,7 @@ namespace DisplaBackend.DAOs
             int cantidadFuncionesSinPadre = funciones.Count(f => f.IdFuncionPadre == null);
 
             return funciones.Take(cantidadFuncionesSinPadre).ToList();
-        }
+        }   
         
     }
 }

@@ -16,7 +16,6 @@ import { ResetPasswordComponent } from 'src/app/account/reset-password/reset-pas
 import { UsuarioFuncionesComponent } from '../usuario-funcionalidades/usuario-funcionalidades.component';
 
 
-
 @Component({
   selector: 'app-usuario-listado',
   templateUrl: './usuario-listado.component.html',
@@ -129,25 +128,32 @@ export class UsuarioListadoComponent implements OnInit {
     );
   }
 
-  openFunacionalidadesUsuario(event: any) {
-    let dialogRef = this.dialog.open(UsuarioFuncionesComponent, {
-      data: { modelUsuario: event },
-      width: '965px',
-      height: '85%'
-    });
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result != false && result != undefined) {
-        // this.accountService.activated(event.Id).subscribe(x => {
-        //   if (x == true) {
-        //     this.sessionService.showSuccess("La operación se ha realizado correctamente");
-        //     this.loadUsuarioPage();
-        //   }
-        //   else
-        //     this.sessionService.showError("La operación no se realizó");
-        // })
-      }
-      // this.loadUsuarioPage();
-    });
+  openFunacionalidadesUsuario(event: Usuario) {
+    this.accountService.getFuncionesUsuario(event.Id).subscribe(r => {
+      let funciones = r
+      let dialogRef = this.dialog.open(UsuarioFuncionesComponent, {
+        data: { 
+          modelUsuario: event,
+          funciones: funciones
+         },
+        width: '965px',
+        height: '85%'
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result != undefined) {
+          this.accountService.saveFuncion(result, event.Id).subscribe(r => {
+            console.log(r)
+            if (r == true) {
+              this.sessionService.showSuccess("La operación se ha realizado correctamente");
+            }
+            else {
+              this.sessionService.showError("La operación no se realizó");
+            } 
+          })
+        }    
+      });
+    })
+    
   }
 
   activarUsuario(event: any) {

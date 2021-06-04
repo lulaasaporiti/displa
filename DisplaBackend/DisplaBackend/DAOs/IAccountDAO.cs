@@ -22,6 +22,8 @@ namespace DisplaBackend.DAOs
         Task<bool> Activated(int id);
         void SetDatosPersonales(RegisterViewModel user);
         List<Funcion> GetFuncionesUsuario(int idUsuario);
+
+        Task<bool> SaveFuncion(Funcion[] model, int id);
     }
 
     public class AccountDAO : IAccountDAO
@@ -153,6 +155,39 @@ namespace DisplaBackend.DAOs
 
         public List<Funcion> GetFuncionesUsuario(int idUsuario) {
             return _context.UsuarioFuncion.Where(uf => uf.IdUsuario == idUsuario).Include(uf => uf.IdFuncionNavigation).Select(uf => uf.IdFuncionNavigation).ToList();
+        }
+
+        public async Task<bool> SaveFuncion(Funcion[] model, int id)
+        {
+            try
+            {
+                var funciones = _context.UsuarioFuncion.Where(uf => uf.IdUsuario == id).ToList();
+
+                if (funciones.Count() > 0)
+                {
+                    foreach (var funcion in funciones)
+                    {
+                        _context.UsuarioFuncion.Remove(funcion);
+                    }
+                }
+
+                foreach (var funcion in model)
+                {
+                   var ufuncion = new UsuarioFuncion();
+
+                    ufuncion.IdUsuario = id;
+                    ufuncion.IdFuncion = funcion.Id;
+
+                    _context.UsuarioFuncion.Add(ufuncion);
+                }
+
+                return await _context.SaveChangesAsync() > 1;
+            }
+       
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
     }
