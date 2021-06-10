@@ -53,15 +53,17 @@ export class UsuarioFuncionesComponent {
   }
 
   onClicked(node: Funcion) {
-    console.log(node, "nodo")
-    // Si un padre tiene alguno de sus hijos chequeados, el padre tambien tiene que estarlo
     if (!this.data.funciones.some(f => f.Id === node.Id)) {
       this.data.funciones.push(node);
       if (node.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.Id === node.IdFuncionPadre)) {
         let padre = this.funcionesBBDD.find(f => f.Id === node.IdFuncionPadre);
         this.data.funciones.push(padre);
         if (padre.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.Id === padre.IdFuncionPadre)) {
+          let abuelo = this.funcionesBBDD.find(f => f.Id === padre.IdFuncionPadre)
           this.data.funciones.push(this.funcionesBBDD.find(f => f.Id === padre.IdFuncionPadre));
+          if (abuelo.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.Id === abuelo.IdFuncionPadre)) {
+            this.data.funciones.push(this.funcionesBBDD.find(f => f.Id === abuelo.IdFuncionPadre))
+          }
         }
       }
       if (node.InverseIdFuncionPadreNavigation != undefined) {
@@ -70,14 +72,36 @@ export class UsuarioFuncionesComponent {
         });
       }
     }
-    else {
-      this.data.funciones = this.data.funciones.filter(fs => fs.Id !== node.Id);
-      if (node.InverseIdFuncionPadreNavigation != undefined) {
+    else {      
+      this.data.funciones = this.data.funciones.filter(fs => fs.Id != node.Id);
+
+      if (node.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.IdFuncionPadre == node.IdFuncionPadre) && node.InverseIdFuncionPadreNavigation.length === 0) {
+
+        let checkPrimerNivel = this.data.funciones.find(f => f.Id == node.IdFuncionPadre)
+        this.data.funciones = this.data.funciones.filter(fs => fs.Id != node.IdFuncionPadre)
+        
+        if (checkPrimerNivel != undefined && checkPrimerNivel.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.IdFuncionPadre == checkPrimerNivel.IdFuncionPadre)) {
+          let checkSegundoNivel = this.data.funciones.find(f => f.Id == checkPrimerNivel.IdFuncionPadre)
+          this.data.funciones = this.data.funciones.filter(fs => fs.Id != checkPrimerNivel.IdFuncionPadre)
+
+          if (checkSegundoNivel != undefined && checkSegundoNivel.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.IdFuncionPadre == checkSegundoNivel.IdFuncionPadre)) {
+            this.data.funciones = this.data.funciones.filter(fs => fs.Id != checkSegundoNivel.IdFuncionPadre)
+          }
+          else {
+            this.data.funciones = this.data.funciones.filter(fs => fs.Id != checkSegundoNivel.Id)
+          }
+        }
+        else {
+          this.data.funciones = this.data.funciones.filter(fs => fs.Id != checkPrimerNivel.Id)
+        }
+      }
+      else if (node.InverseIdFuncionPadreNavigation != undefined) {
         node.InverseIdFuncionPadreNavigation.forEach(element => {
           this.onClicked(element)
         })
       }
     }
+      
     console.log(this.data.funciones)
   }
 
