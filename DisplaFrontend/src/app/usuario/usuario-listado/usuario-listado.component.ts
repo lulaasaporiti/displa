@@ -55,7 +55,7 @@ export class UsuarioListadoComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
   cambiarListado() {
     this.traerVigentes = !this.traerVigentes;
     this.loadUsuarioPage();
@@ -66,32 +66,32 @@ export class UsuarioListadoComponent implements OnInit {
     this.loadingSpinnerService.show();
     if (this.traerVigentes == true) {
       this.accountService.getUsersActivosList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
     } else {
       this.accountService.getUsersList()
-      .subscribe(r => {
-        this.dataSource.data = r;
-        this.loadingSpinnerService.hide();
-      })
+        .subscribe(r => {
+          this.dataSource.data = r;
+          this.loadingSpinnerService.hide();
+        })
     }
-    
+
   }
 
   openDialogEditUserPass(idUserEdit, userName) {
-  //   if (this.idUser == idUserEdit) {
-  //   let dialogRefUser = this.dialog.open(ChangePasswordComponent, {
-  //     width: '400px',
-  //     height: '375px',
-  //     data: { user: this.sessionService.getPayload()["sub"] }
-  //   });
-  //   dialogRefUser.afterClosed().subscribe(result => {
-  //     if (result != undefined && result != false) {
-  //     } 
-  //   });
-  // } else {
+    //   if (this.idUser == idUserEdit) {
+    //   let dialogRefUser = this.dialog.open(ChangePasswordComponent, {
+    //     width: '400px',
+    //     height: '375px',
+    //     data: { user: this.sessionService.getPayload()["sub"] }
+    //   });
+    //   dialogRefUser.afterClosed().subscribe(result => {
+    //     if (result != undefined && result != false) {
+    //     } 
+    //   });
+    // } else {
     let dialogRefUser = this.dialog.open(ResetPasswordComponent, {
       width: '400px',
       height: '375px',
@@ -99,10 +99,10 @@ export class UsuarioListadoComponent implements OnInit {
     });
     dialogRefUser.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
-      } 
+      }
     });
-  // }
-}
+    // }
+  }
 
   agregarUsuario(): void {
     let usuario = <RegisterView>{};
@@ -128,32 +128,30 @@ export class UsuarioListadoComponent implements OnInit {
     );
   }
 
-  openFunacionalidadesUsuario(event: Usuario) {
+  openFuncionalidadesUsuario(event: Usuario) {
     this.accountService.getFuncionesUsuario(event.Id).subscribe(r => {
       let funciones = r
       let dialogRef = this.dialog.open(UsuarioFuncionesComponent, {
-        data: { 
+        data: {
           modelUsuario: event,
           funciones: funciones
-         },
+        },
         width: '965px',
         height: '85%'
       });
       dialogRef.afterClosed().subscribe((result) => {
-        if (result != undefined) {
+        if (result != undefined && result != false) {
           this.accountService.saveFuncion(result, event.Id).subscribe(r => {
-            console.log(r)
             if (r == true) {
               this.sessionService.showSuccess("La operación se ha realizado correctamente");
             }
             else {
               this.sessionService.showError("La operación no se realizó");
-            } 
+            }
           })
-        }    
+        }
       });
     })
-    
   }
 
   activarUsuario(event: any) {

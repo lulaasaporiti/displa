@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Funcion } from 'src/app/model/funcion';
-import { AccountService } from 'src/services/account.service';
 import { FuncionService } from 'src/services/funcion.service';
 
 interface FuncionNode {
@@ -73,49 +72,65 @@ export class UsuarioFuncionesComponent {
       }
     }
     else {
-      let funcionesBorrar = node.InverseIdFuncionPadreNavigation.length !== 0 ? node.InverseIdFuncionPadreNavigation : [];//inicializo con mis hijos o [] si no tengo
+
+      let funcionesBorrar: Funcion[] = []
       funcionesBorrar.push(node)
-      if (node.InverseIdFuncionPadreNavigation != undefined) { // si tengo hijos, agrego mis nietos
+
+      // BORRA HACIA ABAJO
+
+      // Si tiene hijos
+      if (node.InverseIdFuncionPadreNavigation.length > 0) {
+        // Agrega hijos
+        funcionesBorrar = funcionesBorrar.concat(node.InverseIdFuncionPadreNavigation)
+        // Agrega siguiente nivel
         node.InverseIdFuncionPadreNavigation.forEach(element => {
           funcionesBorrar = funcionesBorrar.concat(element.InverseIdFuncionPadreNavigation)
+          // Agrega último nivel
+          element.InverseIdFuncionPadreNavigation.forEach(f => {
+            funcionesBorrar = funcionesBorrar.concat(f.InverseIdFuncionPadreNavigation)
+          })
         })
       }
-      let funcionesAux = this.data.funciones.filter(fs => fs.Id != node.Id);
 
-      if (node.IdFuncionPadre != undefined && !funcionesAux.some(f => f.IdFuncionPadre == node.IdFuncionPadre) && node.InverseIdFuncionPadreNavigation.length === 0) {
-        let checkPrimerNivel = funcionesAux.find(f => f.Id == node.IdFuncionPadre)
-        funcionesAux = funcionesAux.filter(fs => fs.Id != node.IdFuncionPadre)
+      // BORRA HACIA ARRIBA
+      let listadoAux = this.data.funciones.filter(f => f.Id != node.Id)
 
-        if (checkPrimerNivel != undefined && checkPrimerNivel.IdFuncionPadre != undefined && !funcionesAux.some(f => f.IdFuncionPadre == checkPrimerNivel.IdFuncionPadre)) {
-          let checkSegundoNivel = funcionesAux.find(f => f.Id == checkPrimerNivel.IdFuncionPadre)
-          funcionesAux = funcionesAux.filter(fs => fs.Id != checkPrimerNivel.IdFuncionPadre)
+      // Si tengo un nodo en un nivel superior y no hay otros nodos en mi mismo nivel con el mismo padre
+      if (node.IdFuncionPadre != undefined && !listadoAux.some(f => f.IdFuncionPadre == node.IdFuncionPadre)) {
 
-          if (checkSegundoNivel != undefined && checkSegundoNivel.IdFuncionPadre != undefined && !funcionesAux.some(f => f.IdFuncionPadre == checkSegundoNivel.IdFuncionPadre)) {
-            funcionesAux = funcionesAux.filter(fs => fs.Id != checkSegundoNivel.IdFuncionPadre)
+        let primerNivel = listadoAux.find(f => f.Id == node.IdFuncionPadre)
+        // Filtro en el listado para perder lo que ya no necesito
+        listadoAux = listadoAux.filter(f => f.Id != node.IdFuncionPadre)
+        // Agrego el primer nivel de nodo padre a borrar
+        funcionesBorrar.push(primerNivel)
+
+        // Si el primer nivel tenía un nodo, tenía nodo a un nivel superior y este último no tiene otros nodos en el mismo nivel, lo agrego al listado de funciones a borrar
+        if (primerNivel != undefined && primerNivel.IdFuncionPadre != undefined && !listadoAux.some(f => f.IdFuncionPadre == primerNivel.IdFuncionPadre)) {
+
+          let segundoNivel = listadoAux.find(f => f.Id == primerNivel.IdFuncionPadre)
+          // Filtro en el listado para perder lo que ya no necesito
+          listadoAux = listadoAux.filter(f => f.Id != primerNivel.IdFuncionPadre)
+          // Agrego el segundo nivel de nodo padre a borrar
+
+          funcionesBorrar.push(segundoNivel)
+
+          // Si el segundo nivel tenía un nodo, tenía nodo a un nivel superior y este último no tiene otros nodos en el mismo nivel, lo agrego al listado de funciones a borrar
+          if (segundoNivel != undefined && segundoNivel.IdFuncionPadre != undefined && !listadoAux.some(f => f.IdFuncionPadre == segundoNivel.IdFuncionPadre)) {
+
+            let tercerNivel = listadoAux.find(f => f.Id == segundoNivel.IdFuncionPadre)
+            // Agrego el tercer nivel de nodo padre a borrar
+            funcionesBorrar.push(tercerNivel)
           }
-          else {
-            funcionesAux = funcionesAux.filter(fs => fs.Id != checkSegundoNivel.Id)
-            funcionesBorrar.push(checkSegundoNivel)
-          }
-        }
-        else if (checkPrimerNivel != undefined) {
-          funcionesAux = funcionesAux.filter(fs => fs.Id != checkPrimerNivel.Id)
-          funcionesBorrar.push(checkPrimerNivel)
         }
       }
-      // else if (node.InverseIdFuncionPadreNavigation != undefined) {
-      //   node.InverseIdFuncionPadreNavigation.forEach(element => {
-      //     this.onClicked(element)
-      //   })
-      // }
-      console.log(funcionesBorrar, "FUNCIONES A BORRAR")
 
       funcionesBorrar.forEach(fun => {
         this.data.funciones = this.data.funciones.filter(fs => fs.Id != fun.Id)
       });
-    }
 
-    console.log(this.data.funciones)
+      funcionesBorrar = []
+
+    }
   }
 
   checkChecked(node: Funcion) {

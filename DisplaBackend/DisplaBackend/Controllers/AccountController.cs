@@ -237,12 +237,12 @@ namespace DisplaBackend.Controllers
             var applicationUser = await _userManager.FindByNameAsync(usuario.UserName);
             // Get the roles for the user
             //var roles = await _userManager.GetRolesAsync(applicationUser);
-            var funciones = _accountService.GetFuncionesUsuario(usuario.Id);
+            //var funciones = _accountService.GetFuncionesUsuario(usuario.Id);
             var claims = new[] {
                 new Claim("idUser", usuario.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("funciones", JsonConvert.SerializeObject(funciones)),
+                //new Claim("funciones", JsonConvert.SerializeObject(funciones)),
                 new Claim("activo", usuario.Activo.ToString())
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));

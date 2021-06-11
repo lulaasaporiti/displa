@@ -2,6 +2,7 @@ import { Injectable, Output, EventEmitter, Directive } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
+import { Funcion } from 'src/app/model/funcion';
 
 @Directive()
 @Injectable({
@@ -11,12 +12,7 @@ export class SessionService {
 
   private tareasListSubject = new Subject<any>();
   titleString: string;
-  Admin: boolean;
-  SEPRIT: boolean;
-  Campo: boolean;
-  DirectorGeneral: boolean;
-  Administracion: boolean;
-  Coordinador: boolean;
+  funcionesUsuario: Funcion[]
   @Output() title: EventEmitter<any> = new EventEmitter();
   @Output() user: EventEmitter<any> = new EventEmitter();
 
@@ -30,15 +26,19 @@ export class SessionService {
 
   removeToken() {
     localStorage.removeItem("token");
-    this.Admin = false;
-    this.Administracion = false;
-    this.Campo = false;
-    this.Coordinador = false;
-    this.DirectorGeneral = false;
   }
 
   setTokenJWT(token: JSON) {
     localStorage.setItem('token', token['token']);
+  }
+
+  setFunciones(funciones) {
+    this.funcionesUsuario = funciones
+    console.log(this.funcionesUsuario)
+  }
+
+  getFuncionesUsuario() {
+    return this.funcionesUsuario
   }
 
   getPayload() {
@@ -119,60 +119,60 @@ export class SessionService {
     this.user.emit(this.getPayload()["roles"]);
   }
 
-  setRol() {
-    if (this.isAuthenticated()) {
-      this.getPayload()["roles"].split('"').forEach((rol: string) => {
-        switch (rol) {
-          case "Admin":
-            this.Admin = true;
-            break;
-          case "SEPRIT":
-            this.SEPRIT = true;
-            break;
-          case "Campo":
-            this.Campo = true;
-            break;
-          case "Director General":
-            this.DirectorGeneral = true;
-            break;
-          case "Administracion":
-            this.Administracion = true;
-            break;
-          case "Coordinador":
-            this.Coordinador = true;
-            break;
-        }
-      });
-    }
-  }
+  // setRol() {
+  //   if (this.isAuthenticated()) {
+  //     this.getPayload()["roles"].split('"').forEach((rol: string) => {
+  //       switch (rol) {
+  //         case "Admin":
+  //           this.Admin = true;
+  //           break;
+  //         case "SEPRIT":
+  //           this.SEPRIT = true;
+  //           break;
+  //         case "Campo":
+  //           this.Campo = true;
+  //           break;
+  //         case "Director General":
+  //           this.DirectorGeneral = true;
+  //           break;
+  //         case "Administracion":
+  //           this.Administracion = true;
+  //           break;
+  //         case "Coordinador":
+  //           this.Coordinador = true;
+  //           break;
+  //       }
+  //     });
+  //   }
+  // }
 
-  isAdmin(){
-    this.setRol();
-    return this.Admin;
-  }
+  // isAdmin(){
+  //   this.setRol();
+  //   return this.Admin;
+  // }
 
-  isAdministracion(){
-    this.setRol();
-    return this.Administracion;
-  }
+  // isAdministracion(){
+  //   this.setRol();
+  //   return this.Administracion;
+  // }
 
-  isCampo(){
-    this.setRol();
-    return this.Campo;
-  }
+  // isCampo(){
+  //   this.setRol();
+  //   return this.Campo;
+  // }
 
-  isSEPRIT(){
-    this.setRol();
-    return this.SEPRIT;
-  }
+  // isSEPRIT(){
+  //   this.setRol();
+  //   return this.SEPRIT;
+  // }
 
-  isDirectorGeneral(){
-    this.setRol();
-    return this.DirectorGeneral;
-  }
+  // isDirectorGeneral(){
+  //   this.setRol();
+  //   return this.DirectorGeneral;
+  // }
 
-  isCoordinador(){
-    this.setRol();
-    return this.Coordinador;
-  }
+  // isCoordinador(){
+  //   this.setRol();
+  //   return this.Coordinador;
+  // }
 }

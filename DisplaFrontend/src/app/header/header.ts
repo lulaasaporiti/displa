@@ -66,10 +66,14 @@ export class HeaderComponent {
       () => {
         this.sessionService.setTitle("Displa");
         this.sessionService.removeToken();
+        this.sessionService.setFunciones([]);
         this.sessionService.showSuccess("Ha cerrado sesión correctamente.")
         this.router.navigateByUrl('/Account/Login');
       }
     );
+  }
+
+  ngOnInit() {
   }
 
 

@@ -44,6 +44,10 @@ export class AccountLoginComponent implements OnInit {
       result => {
         this.sessionService.setTokenJWT(result);
         this.sessionService.setUsername();
+        this.accountService.getFuncionesUsuario(this.sessionService.getPayload()["idUser"]).subscribe(r => {
+          if (r != undefined)
+          this.sessionService.setFunciones(r)
+        })
       },
       error => this.sessionService.showError("Usuario y/o contraseña incorrecta."),
       () => {
