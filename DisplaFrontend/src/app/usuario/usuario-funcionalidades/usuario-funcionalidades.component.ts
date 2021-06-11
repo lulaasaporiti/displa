@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-import {FlatTreeControl} from '@angular/cdk/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { Funcion } from 'src/app/model/funcion';
 import { AccountService } from 'src/services/account.service';
 import { FuncionService } from 'src/services/funcion.service';
@@ -72,36 +72,49 @@ export class UsuarioFuncionesComponent {
         });
       }
     }
-    else {      
-      this.data.funciones = this.data.funciones.filter(fs => fs.Id != node.Id);
-
-      if (node.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.IdFuncionPadre == node.IdFuncionPadre) && node.InverseIdFuncionPadreNavigation.length === 0) {
-
-        let checkPrimerNivel = this.data.funciones.find(f => f.Id == node.IdFuncionPadre)
-        this.data.funciones = this.data.funciones.filter(fs => fs.Id != node.IdFuncionPadre)
-        
-        if (checkPrimerNivel != undefined && checkPrimerNivel.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.IdFuncionPadre == checkPrimerNivel.IdFuncionPadre)) {
-          let checkSegundoNivel = this.data.funciones.find(f => f.Id == checkPrimerNivel.IdFuncionPadre)
-          this.data.funciones = this.data.funciones.filter(fs => fs.Id != checkPrimerNivel.IdFuncionPadre)
-
-          if (checkSegundoNivel != undefined && checkSegundoNivel.IdFuncionPadre != undefined && !this.data.funciones.some(f => f.IdFuncionPadre == checkSegundoNivel.IdFuncionPadre)) {
-            this.data.funciones = this.data.funciones.filter(fs => fs.Id != checkSegundoNivel.IdFuncionPadre)
-          }
-          else {
-            this.data.funciones = this.data.funciones.filter(fs => fs.Id != checkSegundoNivel.Id)
-          }
-        }
-        else {
-          this.data.funciones = this.data.funciones.filter(fs => fs.Id != checkPrimerNivel.Id)
-        }
-      }
-      else if (node.InverseIdFuncionPadreNavigation != undefined) {
+    else {
+      let funcionesBorrar = node.InverseIdFuncionPadreNavigation.length !== 0 ? node.InverseIdFuncionPadreNavigation : [];//inicializo con mis hijos o [] si no tengo
+      funcionesBorrar.push(node)
+      if (node.InverseIdFuncionPadreNavigation != undefined) { // si tengo hijos, agrego mis nietos
         node.InverseIdFuncionPadreNavigation.forEach(element => {
-          this.onClicked(element)
+          funcionesBorrar = funcionesBorrar.concat(element.InverseIdFuncionPadreNavigation)
         })
       }
+      let funcionesAux = this.data.funciones.filter(fs => fs.Id != node.Id);
+
+      if (node.IdFuncionPadre != undefined && !funcionesAux.some(f => f.IdFuncionPadre == node.IdFuncionPadre) && node.InverseIdFuncionPadreNavigation.length === 0) {
+        let checkPrimerNivel = funcionesAux.find(f => f.Id == node.IdFuncionPadre)
+        funcionesAux = funcionesAux.filter(fs => fs.Id != node.IdFuncionPadre)
+
+        if (checkPrimerNivel != undefined && checkPrimerNivel.IdFuncionPadre != undefined && !funcionesAux.some(f => f.IdFuncionPadre == checkPrimerNivel.IdFuncionPadre)) {
+          let checkSegundoNivel = funcionesAux.find(f => f.Id == checkPrimerNivel.IdFuncionPadre)
+          funcionesAux = funcionesAux.filter(fs => fs.Id != checkPrimerNivel.IdFuncionPadre)
+
+          if (checkSegundoNivel != undefined && checkSegundoNivel.IdFuncionPadre != undefined && !funcionesAux.some(f => f.IdFuncionPadre == checkSegundoNivel.IdFuncionPadre)) {
+            funcionesAux = funcionesAux.filter(fs => fs.Id != checkSegundoNivel.IdFuncionPadre)
+          }
+          else {
+            funcionesAux = funcionesAux.filter(fs => fs.Id != checkSegundoNivel.Id)
+            funcionesBorrar.push(checkSegundoNivel)
+          }
+        }
+        else if (checkPrimerNivel != undefined) {
+          funcionesAux = funcionesAux.filter(fs => fs.Id != checkPrimerNivel.Id)
+          funcionesBorrar.push(checkPrimerNivel)
+        }
+      }
+      // else if (node.InverseIdFuncionPadreNavigation != undefined) {
+      //   node.InverseIdFuncionPadreNavigation.forEach(element => {
+      //     this.onClicked(element)
+      //   })
+      // }
+      console.log(funcionesBorrar, "FUNCIONES A BORRAR")
+
+      funcionesBorrar.forEach(fun => {
+        this.data.funciones = this.data.funciones.filter(fs => fs.Id != fun.Id)
+      });
     }
-      
+
     console.log(this.data.funciones)
   }
 
@@ -115,7 +128,7 @@ export class UsuarioFuncionesComponent {
       }
     }
     else
-      return false   
+      return false
   }
 
   hasChild = (_: number, node: FuncionNode) => node.expandable;
