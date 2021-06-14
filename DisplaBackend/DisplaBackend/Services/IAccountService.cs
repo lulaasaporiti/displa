@@ -21,6 +21,8 @@ namespace DisplaBackend.Services
         Task<bool> Activated(int id);
         void SetDatosPersonales(RegisterViewModel user);
         List<dynamic> GetFuncionesUsuario(int idUsuario);
+        List<int> GetFuncionesUsuarioToken(int idUsuario);
+
 
         Task<bool> SaveFuncion(Funcion[] model, int id);
     }
@@ -79,12 +81,19 @@ namespace DisplaBackend.Services
             return _accountDAO.Activated(id);
         }
 
-        public void SetDatosPersonales(RegisterViewModel user) {
+        public void SetDatosPersonales(RegisterViewModel user)
+        {
             _accountDAO.SetDatosPersonales(user);
         }
 
-        public List<dynamic> GetFuncionesUsuario(int idUsuario) {
+        public List<dynamic> GetFuncionesUsuario(int idUsuario)
+        {
             return _accountDAO.GetFuncionesUsuario(idUsuario);
+        }
+
+        public List<int> GetFuncionesUsuarioToken(int idUsuario)
+        {
+            return _accountDAO.GetFuncionesUsuarioToken(idUsuario);
         }
 
         public async Task<bool> SaveFuncion(Funcion[] model, int id)

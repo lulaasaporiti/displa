@@ -13,8 +13,11 @@ export class AuthorizeRoleGuard implements CanActivate {
     // this will be passed from the route config
     // on the data property
     const expectedRoles = route.data.expectedRoles;
+    // const tokenPayload = this.sessionService.getFuncionesUsuario();
+    // let rolesFromUser: string[] = JSON.parse(tokenPayload);
     const tokenPayload = this.sessionService.getPayload();
-    let rolesFromUser: string[] = JSON.parse(tokenPayload["roles"]);
+    let rolesFromUser: number[] = JSON.parse(tokenPayload["funciones"]);
+    
     let letMeIn: boolean = false;
     rolesFromUser.forEach(r => {
       //array.filter devuelve un array con los elementos que hubo match.

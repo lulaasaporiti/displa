@@ -12,7 +12,6 @@ export class SessionService {
 
   private tareasListSubject = new Subject<any>();
   titleString: string;
-  funcionesUsuario: Funcion[]
   @Output() title: EventEmitter<any> = new EventEmitter();
   @Output() user: EventEmitter<any> = new EventEmitter();
 
@@ -29,16 +28,14 @@ export class SessionService {
   }
 
   setTokenJWT(token: JSON) {
+    console.log(token)
     localStorage.setItem('token', token['token']);
   }
 
-  setFunciones(funciones) {
-    this.funcionesUsuario = funciones
-    console.log(this.funcionesUsuario)
-  }
 
-  getFuncionesUsuario() {
-    return this.funcionesUsuario
+  chequearFuncion(idFuncion){
+    let funciones = JSON.parse(this.getPayload()['funciones']);
+    return funciones.some(f => f === idFuncion)
   }
 
   getPayload() {

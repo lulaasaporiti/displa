@@ -22,6 +22,8 @@ namespace DisplaBackend.DAOs
         Task<bool> Activated(int id);
         void SetDatosPersonales(RegisterViewModel user);
         List<dynamic> GetFuncionesUsuario(int idUsuario);
+        List<int> GetFuncionesUsuarioToken(int idUsuario);
+
 
         Task<bool> SaveFuncion(Funcion[] model, int id);
     }
@@ -163,6 +165,12 @@ namespace DisplaBackend.DAOs
                     IdFuncionPadre = uf.IdFuncionNavigation.IdFuncionPadre
                 })
                 .ToList<dynamic>();
+        }
+
+        public List<int> GetFuncionesUsuarioToken(int idUsuario)
+        {
+            return _context.UsuarioFuncion.Where(uf => uf.IdUsuario == idUsuario)
+                .Select(uf => uf.IdFuncion).ToList<int>();
         }
 
         public async Task<bool> SaveFuncion(Funcion[] model, int id)

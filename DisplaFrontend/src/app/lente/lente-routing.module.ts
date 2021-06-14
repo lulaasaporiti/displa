@@ -7,12 +7,13 @@ import { LenteModificacionComponent } from './lente-modificacion/lente-modificac
 import { LenteDetalleComponent } from './lente-detalle/lente-detalle.component';
 import { GrillaComponent } from './grilla/grilla.component';
 import { ActualizacionPrecioLenteComponent } from './actualizacion-precio-lente/actualizacion-precio-lente.component';
+import { AuthorizeRoleGuard } from 'src/guards/authorizeRole-guard';
 
 const routes: Routes = [
   {
     path: '', canActivate: [LoggedInGuard],
     children: [
-      {path: 'Lente/Listado', component: LenteListadoComponent},
+      {path: 'Lente/Listado', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [17] }, component: LenteListadoComponent},
       {path: 'Lente/Alta', component: LenteAltaComponent},
       {path: 'Lente/Modificacion', component: LenteModificacionComponent},
       {path: 'Lente/Detalle', component: LenteDetalleComponent},

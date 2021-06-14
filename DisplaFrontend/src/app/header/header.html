@@ -5,162 +5,163 @@
                 <a mat-button fxLayoutAlign="start center" routerLink="Home" class="button-list" fxLayout="row">
                     <mat-icon svgIcon="logo_displa"></mat-icon>
                 </a>
-                <button mat-button class="button-list" [matMenuTriggerFor]="menuProductos">Productos</button>
+                <button mat-button class="button-list" *ngIf="chequearFuncionUsuario(1)" [matMenuTriggerFor]="menuProductos">Productos</button>
                 <mat-menu fxLayoutAlign="start center" #menuProductos="matMenu">
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuLentes">Lentes</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuArticulos">Artículos varios</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuServicios">Servicios</a>
-                    <a mat-menu-item class="button-list" routerLink="Insumo/Listado">Insumos</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuBlock">Blocks</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(12)" [matMenuTriggerFor]="menuLentes">Lentes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(13)" [matMenuTriggerFor]="menuArticulos">Artículos varios</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(14)" [matMenuTriggerFor]="menuServicios">Servicios</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(15)" routerLink="Insumo/Listado">Insumos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(16)" [matMenuTriggerFor]="menuBlock">Blocks</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuLentes="matMenu">
-                    <a mat-menu-item class="button-list" routerLink="Lente/Listado">Listado de lentes</a>
-                    <a mat-menu-item class="button-list">Stock actual</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuStockEnUso">Stock en uso</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuDeposito">Stock depósito</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuGestionPreciosLente">Gestión de
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(17)" routerLink="Lente/Listado">Listado de lentes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(18)">Stock actual</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(19)" [matMenuTriggerFor]="menuStockEnUso">Stock en uso</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(20)" [matMenuTriggerFor]="menuDeposito">Stock depósito</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(21)" [matMenuTriggerFor]="menuGestionPreciosLente">Gestión de
                         precios</a>
                 </mat-menu>
 
-                <mat-menu fxLayoutAlign="start center" #menuBlock="matMenu">
-                    <a mat-menu-item class="button-list" routerLink="Block/Listado">Listado de blocks</a>
-                    <a mat-menu-item class="button-list" routerLink="Busqueda/Listado">Búsqueda de cajas</a>
-                    <a mat-menu-item class="button-list">Estadísticas</a>
-                </mat-menu>
-
                 <mat-menu fxLayoutAlign="start center" #menuArticulos="matMenu">
-                    <a mat-menu-item class="button-list" routerLink="ArticuloVario/Listado">Listado de artículos</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuGestionPreciosArticulo">Gestión de
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(22)" routerLink="ArticuloVario/Listado">Listado de artículos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(23)"[matMenuTriggerFor]="menuGestionPreciosArticulo">Gestión de
                         precios</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuServicios="matMenu">
-                    <a mat-menu-item class="button-list" routerLink="Servicio/Listado">Listado de servicios</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuGestionPreciosServicio">Gestión de
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(24)" routerLink="Servicio/Listado">Listado de servicios</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(25)" [matMenuTriggerFor]="menuGestionPreciosServicio">Gestión de
                         precios</a>
                 </mat-menu>
 
+                <mat-menu fxLayoutAlign="start center" #menuBlock="matMenu">
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(26)" routerLink="Block/Listado">Listado de blocks</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(27)" routerLink="Busqueda/Listado">Búsqueda de cajas</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(28)">Estadísticas</a>
+                </mat-menu>
+
                 <mat-menu fxLayoutAlign="start center" #menuStockEnUso="matMenu">
-                    <a mat-menu-item class="button-list">Alta de stock por planilla</a>
-                    <a mat-menu-item class="button-list">Baja de stock por planilla</a>
-                    <a mat-menu-item class="button-list" (click)="openDialogLentes();">Consulta</a>
-                    <a mat-menu-item class="button-list" (click)="openDialogPuesta()">Puesta en 0</a>
-                    <a mat-menu-item class="button-list" routerLink="StockFacturacion/Alta">Alta de stock tipo facturación</a>
-                    <a mat-menu-item class="button-list" routerLink="StockFacturacion/Baja">Baja de stock tipo facturación</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(29)">Alta de stock por planilla</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(30)">Baja de stock por planilla</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(31)" (click)="openDialogLentes();">Consulta</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(32)" (click)="openDialogPuesta()">Puesta en 0</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(33)" routerLink="StockFacturacion/Alta">Alta de stock tipo facturación</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(34)" routerLink="StockFacturacion/Baja">Baja de stock tipo facturación</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuDeposito="matMenu">
-                    <a mat-menu-item class="button-list">Creación</a>
-                    <a mat-menu-item class="button-list">Alta cristales</a>
-                    <a mat-menu-item class="button-list">Consulta cristales</a>
-                    <a mat-menu-item class="button-list">Mover a stock en uso</a>
-                    <a mat-menu-item class="button-list">Unir</a>
-                    <a mat-menu-item class="button-list">Números caja chica</a>
-                    <a mat-menu-item class="button-list">Consulta de movimientos</a>
-                    <a mat-menu-item class="button-list">Consulta números de cajas</a>
-                    <a mat-menu-item class="button-list">Modificación de datos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(35)">Creación</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(36)">Alta cristales</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(37)">Consulta cristales</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(38)">Mover a stock en uso</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(39)">Unir</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(40)">Números caja chica</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(41)">Consulta de movimientos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(42)">Consulta números de cajas</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(43)">Modificación de datos</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuGestionPreciosLente="matMenu">
-                    <a mat-menu-item class="button-list" (click)="openModalPreciosLista('lente')">Generar precios desde
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(44)" (click)="openModalPreciosLista('lente')">Generar precios desde
                         lista 1</a>
-                    <a mat-menu-item class="button-list" routerLink="Lente/ActualizacionPrecio">Actualización de precios
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(45)" routerLink="Lente/ActualizacionPrecio">Actualización de precios
                         lista por lista</a>
                     <!-- <a mat-menu-item class="button-list">Modificación dinámica de precios</a> -->
                 </mat-menu>
 
 
                 <mat-menu fxLayoutAlign="start center" #menuGestionPreciosArticulo="matMenu">
-                    <a mat-menu-item class="button-list" (click)="openModalPreciosLista('articulo')">Generar precios
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(46)" (click)="openModalPreciosLista('articulo')">Generar precios
                         desde lista 1</a>
-                    <a mat-menu-item class="button-list" routerLink="ArticuloVario/ActualizacionPrecio">Actualización de
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(47)" routerLink="ArticuloVario/ActualizacionPrecio">Actualización de
                         precios lista por lista</a>
                     <!-- <a mat-menu-item class="button-list">Modificación dinámica de precios</a> -->
                 </mat-menu>
 
 
                 <mat-menu fxLayoutAlign="start center" #menuGestionPreciosServicio="matMenu">
-                    <a mat-menu-item class="button-list" (click)="openModalPreciosLista('servicio')">Generar precios
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(48)" (click)="openModalPreciosLista('servicio')">Generar precios
                         desde lista 1</a>
-                    <a mat-menu-item class="button-list" routerLink="Servicio/ActualizacionPrecio">Actualización de
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(49)" routerLink="Servicio/ActualizacionPrecio">Actualización de
                         precios lista por lista</a>
                     <!-- <a mat-menu-item class="button-list">Modificación dinámica de precios</a> -->
                 </mat-menu>
 
 
-                <button mat-button class="button-list" [matMenuTriggerFor]="menuVentas">Ventas</button>
+                <button mat-button class="button-list" *ngIf="chequearFuncionUsuario(2)" [matMenuTriggerFor]="menuVentas">Ventas</button>
                 <mat-menu fxLayoutAlign="start center" #menuVentas="matMenu">
-                    <a mat-menu-item class="button-list" (click)="openDialogClientes('factura');">Factura </a>
-                    <a mat-menu-item class="button-list" (click)="openDialogClientes('credito');">Nota de crédito</a>
-                    <a mat-menu-item class="button-list" (click)="openDialogClientes('debito');">Nota de débito</a>
-                    <a mat-menu-item class="button-list" (click)="openDialogAltaRecibo();">Recibo</a>
-                    <a mat-menu-item class="button-list">Impresión de remitos pendientes</a>
-                    <a mat-menu-item class="button-list" (click)="openDialogBusquedaItem();">Búsqueda de un item</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuSobre">Sobre</a>
-                    <a mat-menu-item class="button-list">Imprimir CAE pendientes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(50)" (click)="openDialogClientes('factura');">Factura </a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(51)" (click)="openDialogClientes('credito');">Nota de crédito</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(52)" (click)="openDialogClientes('debito');">Nota de débito</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(53)" (click)="openDialogAltaRecibo();">Recibo</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(54)" >Impresión de remitos pendientes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(55)" (click)="openDialogBusquedaItem();">Búsqueda de un item</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(56)" [matMenuTriggerFor]="menuSobre">Sobre</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(57)">Imprimir CAE pendientes</a>
                 </mat-menu>
+
                 <mat-menu fxLayoutAlign="start center" #menuSobre="matMenu">
-                    <a mat-menu-item class="button-list" (click)="openDialogAltaSobre();">Alta</a>
-                    <a mat-menu-item class="button-list" routerLink="Sobre/Consulta">Consulta</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(58)" (click)="openDialogAltaSobre();">Alta</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(59)" routerLink="Sobre/Consulta">Consulta</a>
                 </mat-menu>
 
-                <button mat-button class="button-list" [matMenuTriggerFor]="menuContabilidad">Contabilidad</button>
+                <button mat-button class="button-list" *ngIf="chequearFuncionUsuario(3)" [matMenuTriggerFor]="menuContabilidad">Contabilidad</button>
                 <mat-menu fxLayoutAlign="start center" #menuContabilidad="matMenu">
-                    <a mat-menu-item class="button-list" (click)="openDialogAltaMovimientoInterno('cliente');">Movimientos internos</a>
-                    <a mat-menu-item class="button-list" routerLink="Remito/Consulta">Consultar pedido</a> 
-                    <a mat-menu-item class="button-list" routerLink="Remito/BusquedaAnulados">Consulta de remitos anulados</a>
-                    <a mat-menu-item class="button-list" routerLink="Comprobante/BusquedaAnulados">Anulación/consulta de comprobantes</a>
-                    <a mat-menu-item class="button-list" routerLink="VentaVirtual/Listado">Consulta de ventas virtuales</a>
-                    <a mat-menu-item class="button-list">IVA ventas</a>
-                    <a mat-menu-item class="button-list">Ingresos brutos</a>
-                    <a mat-menu-item class="button-list">Valorización de stock</a>
-                    <a mat-menu-item class="button-list">Porcentajes de descuentos</a>
-                    <a mat-menu-item class="button-list" routerLink="Cliente/BusquedaLista">Consulta de clientes fuera de lista</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(60)" (click)="openDialogAltaMovimientoInterno('cliente');">Movimientos internos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(61)" routerLink="Remito/Consulta">Consultar pedido</a> 
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(62)" routerLink="Remito/BusquedaAnulados">Consulta de remitos anulados</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(63)" routerLink="Comprobante/BusquedaAnulados">Anulación/consulta de comprobantes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(64)" routerLink="VentaVirtual/Listado">Consulta de ventas virtuales</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(65)">IVA ventas</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(66)">Ingresos brutos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(67)">Valorización de stock</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(68)">Porcentajes de descuentos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(69)" routerLink="Cliente/BusquedaLista">Consulta de clientes fuera de lista</a>
                 </mat-menu>
 
-                <button mat-button class="button-menu" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
+                <button mat-button class="button-menu" *ngIf="chequearFuncionUsuario(4)" [matMenuTriggerFor]="menuClientes">Cuentas corrientes</button>
                 <mat-menu fxLayoutAlign="start center" #menuClientes="matMenu">
-                    <a mat-menu-item class="button-list" routerLink="Cliente/Cuenta">Cuenta por cliente</a>
-                    <a mat-menu-item class="button-list" routerLink="Cuentas/Listado">Listado de cuentas
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(70)" routerLink="Cliente/Cuenta">Cuenta por cliente</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(71)" routerLink="Cuentas/Listado">Listado de cuentas
                         corrientes</a>
-                    <a mat-menu-item class="button-list" routerLink="Cliente/Listado">Listado de clientes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(72)" routerLink="Cliente/Listado">Listado de clientes</a>
                 </mat-menu>
 
-                <button mat-button class="button-menu" [matMenuTriggerFor]="menuEstadisticas">Estadísticas ventas</button>
+                <button mat-button class="button-menu" *ngIf="chequearFuncionUsuario(5)" [matMenuTriggerFor]="menuEstadisticas">Estadísticas ventas</button>
                 <mat-menu fxLayoutAlign="start center" #menuEstadisticas="matMenu">
                     <!-- <a mat-menu-item class="button-list">Ranking de facturación</a>
                     <a mat-menu-item class="button-list">Artículos por rubro</a>
                     <a mat-menu-item class="button-list">Cristales por clase</a>
                     <a mat-menu-item class="button-list">Totales por periodo</a> -->
-                    <a mat-menu-item class="button-list" (click)="openDialogCristalesVendidos()">Cantidad de lentes vendidos</a>
-                    <a mat-menu-item class="button-list" routerLink="Estadistica/DetalleArticulo">Detalle artículos varios</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(73)" (click)="openDialogCristalesVendidos()">Cantidad de lentes vendidos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(74)" routerLink="Estadistica/DetalleArticulo">Detalle artículos varios</a>
                     <!-- <a mat-menu-item class="button-list">Ventas de artículos varios</a> -->
-                    <a mat-menu-item class="button-list" (click)="openDialogDejoDeComprar()">¿Quién dejó de comprar?</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(75)" (click)="openDialogDejoDeComprar()">¿Quién dejó de comprar?</a>
                     <!-- <a mat-menu-item class="button-list">Rubros vendidos por clientes</a> -->
-                    <a mat-menu-item class="button-list" (click)="openDialogVentaClienteMes()">Ventas por mes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(76)" (click)="openDialogVentaClienteMes()">Ventas por mes</a>
                 </mat-menu>
 
-                <button mat-button class="button-menu" [matMenuTriggerFor]="menuProveedores">Proveedores</button>
+                <button mat-button class="button-menu" *ngIf="chequearFuncionUsuario(6)" [matMenuTriggerFor]="menuProveedores">Proveedores</button>
                 <mat-menu fxLayoutAlign="start center" #menuProveedores="matMenu">
-                    <a mat-menu-item class="button-list" routerLink="Proveedor/Listado">Listado de proveedores</a>
-                    <a mat-menu-item class="button-list" routerLink="Gasto/Listado">Gastos</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Comprobantes</a>
-                    <a mat-menu-item class="button-list">IVA compras</a>
-                    <a mat-menu-item class="button-list">Consulta de comprobantes</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuCuentasProveedores">Cuentas corrientes</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuComprobantes">Estadísticas</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(77)" routerLink="Proveedor/Listado">Listado de proveedores</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(78)" routerLink="Gasto/Listado">Gastos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(79)" [matMenuTriggerFor]="menuComprobantes">Comprobantes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(80)">IVA compras</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(81)">Consulta de comprobantes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(82)" [matMenuTriggerFor]="menuCuentasProveedores">Cuentas corrientes</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(83)" [matMenuTriggerFor]="menuComprobantes">Estadísticas</a>
                     <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuEstadisticasProveedores">Estadisticas</a>
-                    <a mat-menu-item class="button-list">Cálculo de retenciones</a>
-                    <a mat-menu-item class="button-list">Informe de retenciones</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(84)">Cálculo de retenciones</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(85)">Informe de retenciones</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuComprobantes="matMenu">
-                    <a mat-menu-item class="button-list">Factura</a>
-                    <a mat-menu-item class="button-list">Nota de débito</a>
-                    <a mat-menu-item class="button-list">Nota de crédito</a>
-                    <a mat-menu-item class="button-list">Recibo</a>
-                    <a mat-menu-item class="button-list" (click)="openDialogAltaMovimientoInterno('proveedor');">Movimientos internos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(86)">Factura</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(87)">Nota de débito</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(88)" >Nota de crédito</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(89)">Recibo</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(90)" (click)="openDialogAltaMovimientoInterno('proveedor');">Movimientos internos</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuCuentasProveedores="matMenu">
@@ -177,10 +178,10 @@
                     <a mat-menu-item class="button-list">Comparativa compras/pagos por mes/total</a>
                 </mat-menu>
 
-                <a mat-button routerLink="TarjetaCredito/Listado" class="button-list" fxLayout="row">
+                <a mat-button routerLink="TarjetaCredito/Listado" class="button-list" *ngIf="chequearFuncionUsuario(7)" fxLayout="row">
                     Tarjetas de crédito
                 </a>
-                <button mat-button class="button-list" [matMenuTriggerFor]="menuCaja">Caja</button>
+                <button mat-button class="button-list" *ngIf="chequearFuncionUsuario(8)" [matMenuTriggerFor]="menuCaja">Caja</button>
                 <mat-menu fxLayoutAlign="start center" #menuCaja="matMenu">
                     <button mat-menu-item class="button-list" (click)="openDialogAltaMovimientoCaja();">E/S manual</button>
                     <a mat-menu-item class="button-list" routerLink="">Consulta de movimientos</a>
@@ -191,7 +192,7 @@
                     <button mat-menu-item class="button-list" (click)="openDialogAltaMovimientoCaja();">E/S manual</button>
                     <button mat-menu-item class="button-list">Listado por período</button>
                 </mat-menu>
-                <button mat-button class="button-list" [matMenuTriggerFor]="menuDatos">Datos de referencia</button>
+                <button mat-button class="button-list" *ngIf="chequearFuncionUsuario(9)" [matMenuTriggerFor]="menuDatos">Datos de referencia</button>
                 <mat-menu fxLayoutAlign="start center" #menuDatos="matMenu">
                     <button mat-menu-item class="button-list"
                         [matMenuTriggerFor]="menuDatosProductos">Productos</button>
@@ -201,7 +202,6 @@
                         parámetros</button>
                 </mat-menu>
                 <mat-menu fxLayoutAlign="start center" #menuDatosProductos="matMenu">
-                    <!-- <a mat-menu-item class="button-list" routerLink="Lente/Listado">Lentes</a> -->
                     <a mat-menu-item class="button-list" routerLink="LimiteGrilla/Listado">Límites de grilla</a>
                     <a mat-menu-item class="button-list" routerLink="TipoArticulo/Listado">Tipos de artículos varios</a>
                     <a mat-menu-item class="button-list" routerLink="TipoServicio/Listado">Tipos de servicios</a>
@@ -219,7 +219,7 @@
                     <a mat-menu-item class="button-list" routerLink="TipoComprobante/Listado">Tipos de comprobantes</a>
                     <a mat-menu-item class="button-list" routerLink="TipoDescuento/Listado">Tipos de descuento</a>
                 </mat-menu>
-                <button mat-button class="button-list" [matMenuTriggerFor]="menuBanco">Banco</button>
+                <button mat-button class="button-list" *ngIf="chequearFuncionUsuario(10)" [matMenuTriggerFor]="menuBanco">Banco</button>
                 <mat-menu fxLayoutAlign="start center" #menuBanco="matMenu">
                     <a mat-menu-item class="button-list" routerLink="Banco/Listado">Listado de bancos</a>
                     <a mat-menu-item class="button-list" routerLink="CuentaBancaria/Listado">Cuentas bancarias</a>
@@ -233,7 +233,7 @@
                     <a mat-menu-item class="button-list" routerLink="">Cheques ventas</a>
                     <a mat-menu-item class="button-list" routerLink="">Cheques emitidos por Displa</a>
                 </mat-menu>
-                <a mat-button routerLink="Usuario/Listado" class="button-list" fxLayout="row">
+                <a mat-button *ngIf="chequearFuncionUsuario(11)" routerLink="Usuario/Listado" class="button-list" fxLayout="row">
                     Usuarios
                 </a>
                 <a mat-button class="button-list" fxLayout="row" (click)="logout();">
