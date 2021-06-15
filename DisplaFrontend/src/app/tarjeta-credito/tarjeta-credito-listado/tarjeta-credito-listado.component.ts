@@ -73,10 +73,6 @@ export class TarjetaCreditoListadoComponent implements OnInit {
     }
   }
 
-  getMovimientosTarjetaCredito(idTarjetaCredito) {
-    this.router.navigateByUrl('/MovimientoTarjetaCredito/Listado?idTarjetaCredito=' + idTarjetaCredito);
-  }
-
   agregarTarjetaCredito(): void {
     let tarjetaCredito = <TarjetaCredito>{};
     const dialogRef = this.dialog.open(TarjetaCreditoAltaComponent, {

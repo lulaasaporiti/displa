@@ -8,6 +8,7 @@ import { InformacionDetalleComponent } from './cliente-detalle/informacion-detal
 import { ClienteCuentaListadoComponent } from './cliente-cuenta-listado/cliente-cuenta-listado.component';
 import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
 import { ClienteBusquedaLista } from './cliente-busqueda-lista/cliente-busqueda-lista.component';
+import { AuthorizeRoleGuard } from 'src/guards/authorizeRole-guard';
 
 
 
@@ -15,13 +16,13 @@ const routes: Routes = [
   {
     path: '', canActivate: [LoggedInGuard],
     children: [
-      {path: 'Cliente/Listado', component: ClienteListadoComponent},
-      {path: 'Cuentas/Listado', component: ClienteCuentaListadoComponent},
-      {path: 'Cliente/Alta', component: ClienteAltaComponent},
-      {path: 'Cliente/Modificacion', component: InformacionModificacionComponent},
-      {path: 'Cliente/Detalle', component: InformacionDetalleComponent},
-      {path: 'Cliente/Cuenta', component: CuentaPorClienteComponent},
-      {path: 'Cliente/BusquedaLista', component: ClienteBusquedaLista}
+      {path: 'Cliente/Listado', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [72] }, component: ClienteListadoComponent},
+      {path: 'Cuentas/Listado', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [71] }, component: ClienteCuentaListadoComponent},
+      {path: 'Cliente/Alta', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [72] }, component: ClienteAltaComponent},
+      {path: 'Cliente/Modificacion', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [72] }, component: InformacionModificacionComponent},
+      {path: 'Cliente/Detalle', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [72] }, component: InformacionDetalleComponent},
+      {path: 'Cliente/Cuenta', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [70] }, component: CuentaPorClienteComponent},
+      {path: 'Cliente/BusquedaLista', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [69] }, component: ClienteBusquedaLista}
 
     ]
   }

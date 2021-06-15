@@ -9,8 +9,8 @@ import { MovimientoInternoDetalleComponent } from './movimiento-interno-detalle/
 // import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
-    entryComponents: [MovimientoInternoAltaComponent, MovimientoInternoDetalleComponent],
-    declarations: [MovimientoInternoAltaComponent, MovimientoInternoDetalleComponent],
+    entryComponents: [ MovimientoInternoAltaComponent, MovimientoInternoDetalleComponent ],
+    declarations: [ MovimientoInternoAltaComponent, MovimientoInternoDetalleComponent ],
     imports: [
         CommonModule,
         MaterialModule,

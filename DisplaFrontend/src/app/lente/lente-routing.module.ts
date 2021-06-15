@@ -14,11 +14,11 @@ const routes: Routes = [
     path: '', canActivate: [LoggedInGuard],
     children: [
       {path: 'Lente/Listado', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [17] }, component: LenteListadoComponent},
-      {path: 'Lente/Alta', component: LenteAltaComponent},
-      {path: 'Lente/Modificacion', component: LenteModificacionComponent},
-      {path: 'Lente/Detalle', component: LenteDetalleComponent},
-      {path: 'Lente/Stock', component: GrillaComponent},
-      {path: 'Lente/ActualizacionPrecio', component: ActualizacionPrecioLenteComponent},
+      {path: 'Lente/Alta', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [17] }, component: LenteAltaComponent},
+      {path: 'Lente/Modificacion', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [17] }, component: LenteModificacionComponent},
+      {path: 'Lente/Detalle', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [17] }, component: LenteDetalleComponent},
+      {path: 'Lente/Stock', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [17] }, component: GrillaComponent},
+      {path: 'Lente/ActualizacionPrecio', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [45] }, component: ActualizacionPrecioLenteComponent},
     ]
   }
 ];
