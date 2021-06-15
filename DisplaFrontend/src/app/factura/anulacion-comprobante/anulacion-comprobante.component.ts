@@ -241,7 +241,6 @@ export class AnulacionComprobanteComponent implements OnInit {
   }
 
   verComprobante(id: number, idTipoComprobante: string) {
-
     console.log(idTipoComprobante, "id comprobante")
     switch (idTipoComprobante) {
       case 'Factura': {

@@ -97,7 +97,7 @@
                 <div fxLayout="column" fxFlex="30" *ngIf="modelComprobanteItemLente[0].IdLenteNavigation != undefined && modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado; else cantidadNoFraccionado">
                     <!-- (blur)="validacionLenteService.divisionCantidad(modelComprobanteItemLente[0].Cantidad)" -->
                     <mat-form-field>
-                        <input matInput placeholder="Cantidad" id="cantidad0"
+                        <input matInput placeholder="Cantidad" id="cantidad0" [disabled]="modelComprobanteItemLente.length == 2"
                             (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
                             (keypress)="_keyPressCantidad($event)" pattern="[0-9]*.?[5]?"
                             [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
@@ -153,7 +153,7 @@
                 </mat-form-field>
                 <div fxLayout="column">
                     <mat-form-field fxFlex="50">
-                        <input matInput placeholder="Cantidad" id="cantidad1"
+                        <input matInput placeholder="Cantidad" id="cantidad1" [disabled]="modelComprobanteItemLente.length == 2"
                             (keyup.enter)="comprobanteItemLenteSelected(); tabInventado($event, 'calibrado')"
                             #cantidad1="ngModel" (keypress)="_keyPressCantidad($event)" pattern="[0-9]*.?[5]?"
                             [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1" required>

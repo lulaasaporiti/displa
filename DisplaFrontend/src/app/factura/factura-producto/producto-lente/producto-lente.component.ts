@@ -120,4 +120,21 @@ export class ProductoLenteComponent implements OnInit {
       }
     }
   }
+
+  private setFocus() {
+    let targetElem = document.getElementById('confirmar');
+    setTimeout(function waitTargetElem() {
+      if (document.body.contains(targetElem)) {
+        targetElem.focus();
+      } else {
+        setTimeout(waitTargetElem, 100);
+      }
+    }, 100);
+  }
+
+  onChange(event: any) {
+    if (event.selectedIndex === 3) {
+      this.setFocus();
+    }
+  }
 }

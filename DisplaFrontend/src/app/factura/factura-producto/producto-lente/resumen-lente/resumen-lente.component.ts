@@ -21,12 +21,12 @@ export class ResumenLenteComponent implements OnInit {
   modelRecargo: any[] = [];
   modelServicio: any[] = [];
 
-  constructor(private changeDetector: ChangeDetectorRef)  { 
-  } 
+  constructor(private changeDetector: ChangeDetectorRef) {
+  }
 
   ngOnInit() {
     this.changeDetector.detectChanges();
-   }
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     // console.log(this.modelServicio)
@@ -50,7 +50,7 @@ export class ResumenLenteComponent implements OnInit {
       // console.log(i)
     }
   }
-  
+
   _keyPress(event: any) {
     const pattern = /[0-9-]/;
     let inputChar = String.fromCharCode(event.charCode);
@@ -67,7 +67,4 @@ export class ResumenLenteComponent implements OnInit {
       document.getElementById(idElement).focus();
     }
   }
-
-
-
 }
