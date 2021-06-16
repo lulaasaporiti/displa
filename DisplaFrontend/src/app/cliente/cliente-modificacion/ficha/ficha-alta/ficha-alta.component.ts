@@ -40,10 +40,4 @@ export class FichaAltaComponent {
     this.dialogRef.close(false);
   }
 
-  handleChange(event) {
-    console.log(event)
-  }
-  log() {
-    console.log(document.getElementById('editor'))
-  }
 }

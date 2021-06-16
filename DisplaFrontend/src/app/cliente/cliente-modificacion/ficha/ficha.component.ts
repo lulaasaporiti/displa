@@ -9,7 +9,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import * as ClassicEditor from '@ckeditor/ckeditor5-angular';
 
 @Component({
   selector: 'app-ficha',
@@ -18,7 +17,6 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-angular';
 })
 export class FichaComponent implements OnInit {
   
-  public Editor = ClassicEditor;
   idCliente: number;
   
   displayedColumns: string[] = ['Fecha', 'Descripcion', 'Borrar'];
