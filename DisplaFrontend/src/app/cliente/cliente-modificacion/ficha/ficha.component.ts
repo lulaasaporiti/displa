@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ficha',
@@ -26,12 +27,15 @@ export class FichaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   
+  myStyle: SafeHtml;
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private sessionService: SessionService,
     private clienteService: ClienteService,
     private segment: ActivatedRoute,
+    private _sanitizer: DomSanitizer,
     private loadingSpinnerService: LoadingSpinnerService) {
     this.segment.queryParams.subscribe((params: Params) => {
     this.idCliente = +params['id']; // (+) converts string 'id' to a number;
@@ -41,7 +45,7 @@ export class FichaComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
   traerFicha(){
@@ -53,6 +57,11 @@ export class FichaComponent implements OnInit {
     })
   }
 
+  getRowDetail(row) {
+    // return row.Descripcion;
+    return this.myStyle =
+    this._sanitizer.bypassSecurityTrustHtml(row.Descripcion);
+  }
 
   cancelar(){
     this.router.navigateByUrl('Cliente/Listado')

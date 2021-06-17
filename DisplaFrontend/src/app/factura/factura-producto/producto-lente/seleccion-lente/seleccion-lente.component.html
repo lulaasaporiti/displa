@@ -65,7 +65,8 @@
                     <mat-form-field>
                         <input type="text" placeholder="Medida cilíndrico" matInput autocomplete="off"
                             [(ngModel)]="modelComprobanteItemLente[1].MedidaCilindrico" id="cilindrico1"
-                             (keyup.enter)="tabInventado($event, 'cantidad1')" name="cilindrico1"
+                             (keyup.enter)="comprobanteItemLenteSelected(); tabInventado($event, 'calibrado')"
+                             name="cilindrico1"
                             #cilindrico1="ngModel" (keypress)="_keyPress($event)" required
                             (blur)="cambiarSigno(1); compararLimiteGrilla($event.target.value, 1, 'cilindrico'); traerPrecio(1)">
                         <mat-error *ngIf="cilindrico1.invalid">Este campo es obligatorio</mat-error>
@@ -154,9 +155,7 @@
                 <div fxLayout="column">
                     <mat-form-field fxFlex="50">
                         <input matInput placeholder="Cantidad" id="cantidad1" [disabled]="modelComprobanteItemLente.length == 2"
-                            (keyup.enter)="comprobanteItemLenteSelected(); tabInventado($event, 'calibrado')"
-                            #cantidad1="ngModel" (keypress)="_keyPressCantidad($event)" pattern="[0-9]*.?[5]?"
-                            [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1" required>
+                            #cantidad1="ngModel" pattern="[0-9]*.?[5]?" [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1" required>
                         <mat-error *ngIf="cantidad1.hasError('required')">Este campo es obligatorio.</mat-error>
                         <mat-error *ngIf="cantidad1.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
                     </mat-form-field>

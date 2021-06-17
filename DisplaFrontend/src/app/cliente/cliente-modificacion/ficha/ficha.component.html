@@ -10,31 +10,31 @@
   </div>
 
   <mat-divider></mat-divider>
-  <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+  <mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
     <ng-container matColumnDef="Fecha">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15"> FECHA </th>
-      <td mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center"> {{row.Fecha | date:"dd/MM/yyyy"}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15"> FECHA </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start"> {{row.Fecha | date:"dd/MM/yyyy"}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Descripcion">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="60"> DESCRIPCIÓN </th>
-      <td mat-cell *matCellDef="let row" fxFlex="60" fxLayoutAlign="start center"> {{row.Descripcion}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> DESCRIPCIÓN </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start" [innerHTML]="getRowDetail(row)">  </mat-cell>
     </ng-container>
 
     
     <ng-container matColumnDef="Borrar">
-      <th mat-header-cell *matHeaderCellDef fxFlex> BORRAR </th>
-      <td mat-cell *matCellDef="let row" fxFlex>
-        <button mat-icon-button *ngIf="!row.EsFicha">
+      <mat-header-cell *matHeaderCellDef fxFlex="10"> BORRAR </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="10">
+        <button mat-icon-button *ngIf="!row.EsFicha" disabled>
         </button>
         <button mat-icon-button matTooltip="Borrar" *ngIf="row.EsFicha" (click)="rowBorrarFicha(row.Id)" [matTooltipPosition]="'above'" aria-label="Borrar">
           <mat-icon svgIcon="close" class="tabla_icono"></mat-icon>
         </button>
-      </td>
+      </mat-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
-  </table>
+    <mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></mat-row>
+  </mat-table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

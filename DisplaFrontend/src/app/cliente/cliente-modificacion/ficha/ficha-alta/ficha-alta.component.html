@@ -8,12 +8,13 @@
             #fecha="ngModel" readonly required>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="fecha.hasError('required')">Este campo es obligatorio.</mat-error>
         </mat-form-field>
-        <p class="msgError" *ngIf="fecha.hasError('required')">Este campo es obligatorio.</p>
+        <!-- <p class="msgError" *ngIf="fecha.hasError('required')">Este campo es obligatorio.</p> -->
       </div>
       
-      <ckeditor [(ngModel)]="data.modelFicha.Descripcion" [editor]="Editor" id="editor" name="descripcion"></ckeditor>
-      <!-- <ckeditor [(ngModel)]="data.modelFicha.Descripcion" id="editor" [editor]="Editor" name="descripcion"></ckeditor> -->
+      <!-- <ckeditor [(ngModel)]="data.modelFicha.Descripcion" #editor [editor]="Editor" id="editor" name="editor" (keyup)="lala()" (change)="onChange($event)"></ckeditor> -->
+      <ckeditor [(ngModel)]="data.modelFicha.Descripcion" id="editor" [editor]="Editor" name="descripcion" [config]="config"></ckeditor>
     </div>
 
     <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">
