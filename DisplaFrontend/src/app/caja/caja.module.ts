@@ -5,7 +5,6 @@ import { CajaRoutingModule } from './caja-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { MovimientoCajaAltaComponent } from './movimiento-caja-alta/movimiento-caja-alta.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MovimientoCajaDiariaAltaComponent } from './movimiento-caja-diaria-alta/movimiento-caja-diaria-alta.component';
 
 @NgModule({
@@ -15,7 +14,6 @@ import { MovimientoCajaDiariaAltaComponent } from './movimiento-caja-diaria-alta
         CommonModule,
         MaterialModule,
         CajaRoutingModule,
-        MatButtonToggleModule,
         LoadingSpinnerModule
     ]
 })

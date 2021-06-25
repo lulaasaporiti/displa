@@ -19,7 +19,6 @@ import { LenteVentaVirtualComponent } from './factura-producto/producto-lente/le
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ResumenLenteComponent } from './factura-producto/producto-lente/resumen-lente/resumen-lente.component';
 import { ComprobanteDetalleComponent } from './comprobante-detalle/comprobante-detalle.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
 import { AnulacionComprobanteComponent } from './anulacion-comprobante/anulacion-comprobante.component';
@@ -37,7 +36,6 @@ import { AnulacionComprobanteComponent } from './anulacion-comprobante/anulacion
         MaterialModule,
         MatListModule,
         MatTreeModule,
-        MatButtonToggleModule,
         FacturaRoutingModule,
         LoadingSpinnerModule,
         NgxMatSelectSearchModule

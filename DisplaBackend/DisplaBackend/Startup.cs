@@ -198,6 +198,8 @@ namespace DisplaBackend
             services.AddScoped<IClienteDAO, ClienteDAO>();
             services.AddScoped<IComprobanteClienteService, ComprobanteClienteService>();
             services.AddScoped<IComprobanteClienteDAO, ComprobanteClienteDAO>();
+            services.AddScoped<IComprobanteProveedorService, ComprobanteProveedorService>();
+            services.AddScoped<IComprobanteProveedorDAO, ComprobanteProveedorDAO>();
             services.AddScoped<ICondicionVentaService, CondicionVentaService>();
             services.AddScoped<ICondicionVentaDAO, CondicionVentaDAO>();
             services.AddScoped<ICuentaBancariaService, CuentaBancariaService>();

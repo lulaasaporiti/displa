@@ -16,10 +16,6 @@ export class GastoService {
         return this.http.get(`${this.baseUrl}/GetGastos`);
     }
     
-    // getGastosVigentesList(): Observable<any> {
-    //     return this.http.get(`${this.baseUrl}/GetGastosVigentes`);
-    // }
-    
     saveOrUpdateGasto(gasto: Object): Observable<object> {
         return this.http.post(`${this.baseUrl}/`, gasto);
     }
