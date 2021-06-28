@@ -22,8 +22,8 @@
                 <mat-error *ngIf="fechaImputacion.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="25">
-                <input matInput placeholder="Número" [(ngModel)]="modelFactura.Numero"
-                    name="numero" #numero="ngModel" required>
+                <input matInput placeholder="Número" [(ngModel)]="modelFactura.Numero" name="numero" #numero="ngModel"
+                    required>
                 <mat-error *ngIf="numero.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-button-toggle-group [(ngModel)]="modelFactura.Clase" name="clase">
@@ -39,8 +39,8 @@
             <mat-form-field fxFill>
                 <input type="text" placeholder="Proveedor" aria-label="Proveedor" matInput
                     [formControl]="proveedoresControl" [matAutocomplete]="auto" name="proveedor"
-                    (blur)="setIdProveedor(this.proveedoresControl)"
-                    [(ngModel)]="modelFactura.IdProveedorNavigation" required>
+                    (blur)="setIdProveedor(this.proveedoresControl)" [(ngModel)]="modelFactura.IdProveedorNavigation"
+                    required>
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProvedor">
                     <mat-option *ngFor="let p of filteredProveedores | async" [value]="p">
                         {{ p.Id }} - {{p.Nombre}}
@@ -51,30 +51,109 @@
         </div>
 
         <div fxLayout="row" fxLayoutGap="2vw">
-            <mat-form-field>
-                <input type="text" placeholder="Gasto" aria-label="Gasto" matInput
-                    [formControl]="gastosControl" [matAutocomplete]="auto2" name="gasto"
-                    (blur)="setIdGasto(this.gastosControl)"
+            <mat-form-field fxFlex="25">
+                <input type="text" placeholder="Gasto" aria-label="Gasto" matInput [formControl]="gastosControl"
+                    [matAutocomplete]="auto2" name="gasto" (blur)="setIdGasto(this.gastosControl)"
                     [(ngModel)]="modelFactura.IdGastoNavigation" required>
                 <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayProvedor">
                     <mat-option *ngFor="let g of filteredGastos | async" [value]="g">
-                        {{ g.Id }} - {{g.Nombre}}
+                        {{ g.Id }} - {{g.Descripcion}}
                     </mat-option>
                 </mat-autocomplete>
                 <mat-error *ngIf="gastosControl.hasError('required')">Este campo es obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="25">
-                <input matInput placeholder="Monto pesos" [(ngModel)]="modelFactura.Monto"
-                    name="monto" #monto="ngModel">
+                <input matInput placeholder="Monto pesos" [(ngModel)]="modelFactura.Monto" name="monto"
+                    #monto="ngModel">
             </mat-form-field>
+
+            <mat-slide-toggle color="accent" id="efectivo" name="efectivo">
+                Efectivo (genera recibo)
+            </mat-slide-toggle>
         </div>
         <div fxLayout="row" fxLayoutGap="2vw">
+            <mat-slide-toggle color="accent" id="tarjeta" name="tarjeta">
+                Con tarjeta
+            </mat-slide-toggle>
+            <mat-form-field fxFlex="25">
+                <mat-select placeholder="Tarjeta" [(ngModel)]="modelFactura.IdTarjeta" name="tarjetaCredito"
+                    #tarjetaCredito="ngModel">
+                    <mat-option *ngFor="let ta of tarjetas" [value]="ta.Id">
+                        {{ta.Id}} - {{ ta.Nombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <mat-divider fxFlexOffset="4"></mat-divider>
+
+        <div fxLayout="row" fxFlexOffset="4" fxFill>
+            <div fxLayout="column">
+                <p>IVA
+                    <button mat-icon-button color="primary" matTooltip="Agregar alícuota" (click)="agregarAlicuota()">
+                        <mat-icon svgIcon="add"></mat-icon>
+                    </button>
+                </p>
+                <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center"
+                    *ngFor="let a of modelAlicuota; let i = index">
+                    <mat-form-field>
+                        <mat-select placeholder="Alicuota" [(ngModel)]="modelAlicuota[i].Alicuota" name="alicuota" #alicuota="ngModel"
+                            required (selectionChange)="actualizarAlicuotas(i); calcularMontoIVA(i);">
+                            <mat-option *ngFor="let al of alicuotas" [value]="al">
+                                {{ al }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="alicuota.hasError('required')">Este campo es obligatorio.</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input type="number" placeholder="Neto" matInput #neto="ngModel" [(ngModel)]="a.Neto"
+                            id="neto{{i}}" name="neto{{i}}" (blur)="calcularMontoIVA(i);" required>
+                        <mat-error *ngIf="neto.invalid">Este campo es obligatorio</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input type="number" placeholder="Monto" matInput #montoIVA="ngModel" [(ngModel)]="a.MontoIva"
+                            id="montoIVA{{i}}" name="montoIVA{{i}}" disabled>
+                    </mat-form-field>
+
+                    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarAlicuota(i)"
+                        [disabled]="modelAlicuota.length < 1">
+                        <mat-icon svgIcon="close"></mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="2vw">
+            <mat-form-field>
+                <input type="number" placeholder="No gravados" matInput #nograv="ngModel" [(ngModel)]="modelFactura.ConceptosNoGravados"
+                    id="nograv" name="nograv">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="number" placeholder="Retención ganancias" matInput #ganancias="ngModel" [(ngModel)]="modelFactura.RetencionGanancias"
+                    id="ganancias" name="ganancias">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="number" placeholder="Retención IVA" matInput #retIVA="ngModel" [(ngModel)]="modelFactura.RetencionIva"
+                    id="retIVA" name="retIVA">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="number" placeholder="PIB" matInput #pib="ngModel" [(ngModel)]="modelFactura.Pib" id="pib" name="pib">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="number" placeholder="TSEH" matInput #neto="ngModel" [(ngModel)]="modelFactura.Tseh" id="tseh" name="tseh">
+            </mat-form-field>
+        </div>
+
+
+        <!-- <div fxLayout="row" fxLayoutGap="2vw">
             
             <mat-form-field fxFlex="25">
                 <input matInput placeholder="Cotización dólar" [(ngModel)]="modelFactura.CotizacionDolar"
                     name="cotizacion" #cotizacion="ngModel">
             </mat-form-field>
-        </div>
+        </div> -->
 
         <!-- <div fxLayout="row">
             <mat-form-field fxFill>
@@ -115,5 +194,4 @@
                 (click)="altaFactura()">Agregar</button>
         </div>
     </div>
-
 </form>

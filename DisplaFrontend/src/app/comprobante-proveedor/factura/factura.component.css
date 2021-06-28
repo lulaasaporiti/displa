@@ -14,3 +14,7 @@
 .mat-dialog-content {
     height: 65px;
 }
+
+mat-slide-toggle {
+    padding-top: 15px;
+}

@@ -14,6 +14,9 @@ import { ComprobanteProveedorService } from 'src/services/comprobanteProveedor.s
 import { combineLatest, Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
+import { ComprobanteIVA } from 'src/app/model/comprobanteIVA';
+import { TarjetaCredito } from 'src/app/model/tarjetaCredito';
+import { TarjetaCreditoService } from 'src/services/tarjeta.credito.service';
 
 @Component({
   selector: 'app-factura-proveedor-alta',
@@ -23,28 +26,37 @@ import { map, startWith } from 'rxjs/operators';
 export class FacturaProveedorComponent implements OnInit {
   modelFactura = <ComprobanteProveedor>{};
   gastos: Gasto[];
+  alicuotas = [21, 27, 10.5, 5, 2.5, 0]
   modelProveedor = <Proveedor>{};
   proveedores: Proveedor[];
   proveedoresControl = new FormControl();
   filteredProveedores: Observable<Proveedor[]>;
   gastosControl = new FormControl();
   filteredGastos: Observable<Gasto[]>;
-  
+  modelAlicuota: ComprobanteIVA[] = [];
+  selectedAlicuota = new EventEmitter<ComprobanteIVA[]>();
+  tarjetas: TarjetaCredito[];
   constructor(
     private router: Router,
     private gastoService: GastoService,
     private sessionService: SessionService,
     private proveedorService: ProveedorService,
+    private tarjetaService: TarjetaCreditoService,
     private comprobanteService: ComprobanteProveedorService) {
+      let item = <ComprobanteIVA>{};
+      item.Alicuota = 21;
+      this.modelAlicuota.push(item);
   }
 
   ngOnInit() {
     combineLatest([
       this.proveedorService.getProveedoresVigentesList(),
-      this.gastoService.getGastosList()
+      this.gastoService.getGastosList(),
+      this.tarjetaService.getTarjetasCreditoVigentesList()
     ]).subscribe(r => {
       this.proveedores = r[0];
       this.gastos = r[1];
+      this.tarjetas = r[2];
       this.filteredProveedores = this.proveedoresControl.valueChanges
         .pipe(
           startWith(''),
@@ -88,7 +100,7 @@ export class FacturaProveedorComponent implements OnInit {
   }
 
   displayGasto(g?: Gasto): string | undefined {
-    return g ? g.Id + ' - ' + g.Nombre : undefined;
+    return g ? g.Id + ' - ' + g.Descripcion : undefined;
   }
 
   filterGasto(nombre: any): Gasto[] {
@@ -101,34 +113,42 @@ export class FacturaProveedorComponent implements OnInit {
         s = nombre.nombre.toLowerCase();
       }
       return this.gastos.filter(gasto =>
-        gasto.Id.toString().indexOf(s) !== -1 || gasto.Nombre.toLowerCase().indexOf(s.toLowerCase()) !== -1);
+        gasto.Id.toString().indexOf(s) !== -1 || gasto.Descripcion.toLowerCase().indexOf(s.toLowerCase()) !== -1);
     } else {
       return [];
     }
   }
 
-  // agregarPrecio() {
-  //   let item = <PrecioArticulo>{};
-  //   item.IdArticulo = this.modelArticuloVario.Id;
-  //   this.modelPrecio.push(item);
-  // }
+  agregarAlicuota() {
+    let item = <ComprobanteIVA>{};
+    this.modelAlicuota.push(item);
+  }
 
-  // eliminarPrecio(index) {
-  //   this.modelPrecio.splice(index, 1);
-  //   this.updateStatePrecio();
-  // }
+  eliminarAlicuota(index) {
+    this.alicuotas.push(this.modelAlicuota[index].Alicuota);
+    this.modelAlicuota.splice(index, 1);
+    this.updateStateAlicuota();
+  }
+
+  actualizarAlicuotas(i) {
+    
+  }
+
+  calcularMontoIVA(i) {
+    if (this.modelAlicuota[i].Neto != undefined && this.modelAlicuota[i].Alicuota != undefined)
+      this.modelAlicuota[i].MontoIva = Math.round(((this.modelAlicuota[i].Neto * this.modelAlicuota[i].Alicuota) / 100 + Number.EPSILON) * 100) / 100;
+  }
+
 
 
   // precioSelected() {
   //   this.updateStatePrecio();
   // }
 
-  // updateStatePrecio() {
-  //   //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
-  //   //y el ngOnChanges() lo detecte
-  //   let modelPrecio = JSON.parse(JSON.stringify(this.modelArticuloVario.PrecioArticulo));
-  //   this.selectedPrecio.emit(modelPrecio);
-  // }
+  updateStateAlicuota() {
+    let modelAlicuota = JSON.parse(JSON.stringify(this.modelAlicuota));
+    this.selectedAlicuota.emit(modelAlicuota);
+  }
 
 
   altaFactura(){
