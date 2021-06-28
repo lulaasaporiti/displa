@@ -114,7 +114,6 @@ export class MovimientoInternoAltaComponent {
 
   setIdCliente(control) {
     // if (control.value != null) this.modelMovimientoInterno.IdCliente = control.value.Id;
-
     if (control.value != null) {
       if (control.value.Bloqueado == true) {
         this.deshabilitarSeleccionar = true;

@@ -4,7 +4,6 @@ import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { BusquedaItemComprobanteComponent } from './busqueda-item-facturado/busqueda-item-comprobante.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
 import { BusquedaItemRoutingModule } from './busqueda-item-routing.module';
@@ -19,7 +18,6 @@ import { ResultadoBusquedaComponent } from './resultado-busqueda/resultado-busqu
         MaterialModule,
         MatListModule,
         MatTreeModule,
-        MatButtonToggleModule,
         BusquedaItemRoutingModule,
         LoadingSpinnerModule,
         NgxMatSelectSearchModule

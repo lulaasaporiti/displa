@@ -6,7 +6,6 @@ import { NotaCreditoComponent } from './nota-credito-alta/nota-credito-alta.comp
 import { NotaCreditoConfirmarComponent } from './nota-credito-confirmar/nota-credito-confirmar.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NotaCreditoRoutingModule } from './nota-credito-routing.module';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
 import { MatTreeModule } from '@angular/material/tree';
 
@@ -23,7 +22,6 @@ import { MatTreeModule } from '@angular/material/tree';
         MatTreeModule,
         NotaCreditoRoutingModule,
         LoadingSpinnerModule,
-        MatButtonToggleModule,
         NgxMatSelectSearchModule
     ]
 })

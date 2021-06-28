@@ -22,7 +22,6 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { FichaAltaComponent } from './cliente-modificacion/ficha/ficha-alta/ficha-alta.component';
 import { ClienteBloqueoManualComponent } from './cliente-bloqueo-manual/cliente-bloqueo-manual.component';
 import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
-import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ClienteBusquedaLista } from './cliente-busqueda-lista/cliente-busqueda-lista.component';
 
@@ -36,7 +35,6 @@ import { ClienteBusquedaLista } from './cliente-busqueda-lista/cliente-busqueda-
         CommonModule,
         MaterialModule,
         DragDropModule,
-        MatButtonToggleModule,
         ClienteRoutingModule,
         LoadingSpinnerModule,
         CKEditorModule

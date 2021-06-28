@@ -32,6 +32,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTreeModule} from '@angular/material/tree';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [],
@@ -69,6 +70,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     MatChipsModule,
     MatTooltipModule,
     MomentDateModule,
+    MatButtonToggleModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -104,7 +106,8 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     MatCheckboxModule,
     MatChipsModule,
     MatTooltipModule,
-    MomentDateModule
+    MomentDateModule,
+    MatButtonToggleModule
   ]
 })
 export class MaterialModule { }

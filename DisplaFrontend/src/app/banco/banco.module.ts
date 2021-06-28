@@ -10,7 +10,6 @@ import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { TrasladoFondoComponent } from './traslado-fondo/traslado-fondo.component';
 import { MovimientoInternoBancoAltaComponent } from './movimiento-interno-banco-alta/movimiento-interno-banco-alta.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { OperacionCuentaBancariaComponent } from './operacion-bancaria/operacion-bancaria.component';
 
 @NgModule({
@@ -20,8 +19,7 @@ import { OperacionCuentaBancariaComponent } from './operacion-bancaria/operacion
         CommonModule,
         MaterialModule,
         BancoRoutingModule,
-        MatButtonToggleModule,
-        LoadingSpinnerModule
+        LoadingSpinnerModule,
     ]
 })
 export class BancoModule { }

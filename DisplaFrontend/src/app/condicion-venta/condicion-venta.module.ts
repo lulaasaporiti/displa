@@ -15,8 +15,8 @@ import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
     imports: [
         CommonModule,
         MaterialModule,
+        LoadingSpinnerModule,
         CondicionVentaRoutingModule,
-        LoadingSpinnerModule
     ]
 })
 export class CondicionVentaModule { }

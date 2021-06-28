@@ -66,6 +66,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ExportacionService } from 'src/services/exportacion.service';
 import { TipoDescuentoModule } from './tipo-descuento/tipo-descuento.module';
 import { AnulacionConfirmacionComponent } from './anulacion-confirmacion/anulacion-confirmacion.component';
+import { ComprobanteProveedorModule } from './comprobante-proveedor/comprobante-proveedor.module';
 
 
 
@@ -108,6 +109,7 @@ import { AnulacionConfirmacionComponent } from './anulacion-confirmacion/anulaci
     CategoriaIVAModule,
     ChequeModule,
     ClienteModule,
+    ComprobanteProveedorModule,
     CondicionVentaModule,
     CuentaBancariaModule,
     EstadisticaModule,

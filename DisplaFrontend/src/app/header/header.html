@@ -150,16 +150,15 @@
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(80)">IVA compras</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(81)">Consulta de comprobantes</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(82)" [matMenuTriggerFor]="menuCuentasProveedores">Cuentas corrientes</a>
-                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(83)" [matMenuTriggerFor]="menuComprobantes">Estadísticas</a>
-                    <a mat-menu-item class="button-list" [matMenuTriggerFor]="menuEstadisticasProveedores">Estadisticas</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(83)" [matMenuTriggerFor]="menuEstadisticasProveedores">Estadisticas</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(84)">Cálculo de retenciones</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(85)">Informe de retenciones</a>
                 </mat-menu>
 
                 <mat-menu fxLayoutAlign="start center" #menuComprobantes="matMenu">
-                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(86)">Factura</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(86)" routerLink="Proveedor/Factura">Factura</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(87)">Nota de débito</a>
-                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(88)" >Nota de crédito</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(88)">Nota de crédito</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(89)">Recibo</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(90)" (click)="openDialogAltaMovimientoInterno('proveedor');">Movimientos internos</a>
                 </mat-menu>
