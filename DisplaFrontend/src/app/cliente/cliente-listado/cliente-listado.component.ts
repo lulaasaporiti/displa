@@ -137,7 +137,6 @@ export class ClienteListadoComponent implements OnInit {
       this.clienteService.getClientesActivosList()
         .subscribe(r => {
           this.dataSource.data = r;
-          console.log(r)
           this.loadingSpinnerService.hide();
         })
     } else {
@@ -155,7 +154,6 @@ export class ClienteListadoComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != false) {
-        console.log(result)
         this.clienteService.deleteCliente(result).subscribe(
           data => {
             this.loadClientePage()

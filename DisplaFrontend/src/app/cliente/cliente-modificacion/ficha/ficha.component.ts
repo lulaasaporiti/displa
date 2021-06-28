@@ -88,7 +88,6 @@ export class FichaComponent implements OnInit {
       height: '500px'
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
       if (result != undefined && result != false) {
         this.clienteService.saveFicha(modelFicha).subscribe(
           data => {

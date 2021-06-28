@@ -17,45 +17,45 @@
   
   <mat-divider></mat-divider>
 
-  <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+  <mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
 
     <ng-container matColumnDef="Banco">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> BANCO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{row.IdBancoNavigation.Nombre}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> BANCO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{row.IdBancoNavigation.Nombre}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Numero">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> NÚMERO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Numero}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> NÚMERO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Numero}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Librador">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> LIBRADOR </th>
-      <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.IdClienteNavigation.Optica}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> LIBRADOR </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.IdClienteNavigation.Optica}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Fecha">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> FECHA </th>
-      <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.Fecha | date:"dd/MM/yyyy HH:mm:ss"}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> FECHA </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.Fecha | date:"dd/MM/yyyy HH:mm:ss"}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Importe">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> IMPORTE </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Importe}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> IMPORTE </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Importe}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Opciones">
-      <th mat-header-cell *matHeaderCellDef fxFlex></th>
-      <td mat-cell *matCellDef="let row" fxFlex>
+      <mat-header-cell *matHeaderCellDef fxFlex></mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex>
         <button mat-icon-button matTooltip="Eliminar" [matTooltipPosition]="'above'" aria-label="Eliminar"
           (click)="eliminarCheque(row)">
           <mat-icon svgIcon="delete_outline" class="tabla_icono"></mat-icon>
         </button>
-      </td>
+      </mat-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
-  </table>
+    <mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></mat-row>
+  </mat-table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

@@ -34,60 +34,60 @@
     </div>
   </form>
 
-  <table mat-table fxFill [dataSource]="dataSource" cdkDropList cdkDropListOrientation="horizontal"
+  <mat-table fxFill [dataSource]="dataSource" cdkDropList cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="drop($event)" fxFlexOffset="3" class="tabla">
 
     <ng-container matColumnDef="Codigo">
-      <th mat-header-cell *matHeaderCellDef fxFlex="5">  CODIGO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Id}} </td>
+      <mat-header-cell *matHeaderCellDef fxFlex="5">  CODIGO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Id}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Responsable">
-      <th mat-header-cell *matHeaderCellDef fxFlex> RESPONSABLE </th>
-      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Responsable}} </td>
+      <mat-header-cell *matHeaderCellDef fxFlex> RESPONSABLE </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Responsable}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Optica">
-      <th mat-header-cell *matHeaderCellDef fxFlex> OPTICA </th>
-      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Optica}} </td>
+      <mat-header-cell *matHeaderCellDef fxFlex> OPTICA </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Optica}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Domicilio">
-      <th mat-header-cell *matHeaderCellDef fxFlex> DOMICILIO </th>
-      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Direccion}} </td>
+      <mat-header-cell *matHeaderCellDef fxFlex> DOMICILIO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Direccion}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Telefonos">
-      <th mat-header-cell *matHeaderCellDef fxFlex> TELEFONOS </th>
-      <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Telefonos}} </td>
+      <mat-header-cell *matHeaderCellDef fxFlex> TELEFONOS </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center"> {{row.Telefonos}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Mail">
-      <th mat-header-cell *matHeaderCellDef fxFlex> MAIL </th>
-      <td mat-cell *matCellDef="let row" fxLayoutAlign="start center" fxFlex> {{row.Mail}} </td>
+      <mat-header-cell *matHeaderCellDef fxFlex> MAIL </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxLayoutAlign="start center" fxFlex> {{row.Mail}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="UtilizaIibb">
-      <th mat-header-cell *matHeaderCellDef fxFlex="8"> UTILIZA IIBB</th>
-      <td mat-cell *matCellDef="let row" fxFlex="8" fxLayoutAlign="start center">
-        {{row.UtilizaIibb == true ? 'Si' : 'No'}} </td>
+      <mat-header-cell *matHeaderCellDef fxFlex="8"> UTILIZA IIBB</mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="8" fxLayoutAlign="start center">
+        {{row.UtilizaIibb == true ? 'Si' : 'No'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Borrado">
-      <th mat-header-cell *matHeaderCellDef fxFlex="5"> BORRADO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}}
-      </td>
+      <mat-header-cell *matHeaderCellDef fxFlex="5"> BORRADO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}}
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Bloqueado">
-      <th mat-header-cell *matHeaderCellDef fxFlex="5"> BLOQUEADO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Bloqueado == true ? 'Si' : 'No'}}
-      </td>
+      <mat-header-cell *matHeaderCellDef fxFlex="5"> BLOQUEADO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center"> {{row.Bloqueado == true ? 'Si' : 'No'}}
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Opciones">
-      <th mat-header-cell *matHeaderCellDef fxFlex="5"></th>
-      <td mat-cell *matCellDef="let row" fxFlex="5">
+      <mat-header-cell *matHeaderCellDef fxFlex="5"></mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="5">
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Ver opciones">
           <mat-icon>more_vert</mat-icon>
         </button>
@@ -117,12 +117,12 @@
             <mat-icon svgIcon="restore_from_trash" class="tabla_icono"></mat-icon>
           </button>
         </mat-menu>
-        </td>
+        </mat-cell>
         </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()" fxFill sticky></tr>
-    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" fxFill></tr>
-  </table>
+    <mat-header-row *matHeaderRowDef="getDisplayedColumns()" fxFill sticky></mat-header-row>
+    <mat-row *matRowDef="let row; columns: getDisplayedColumns();" fxFill></mat-row>
+  </mat-table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
   <div fxLayoutAlign="start space-between">
     <button mat-raised-button (click)="exportar()">Exportar</button>

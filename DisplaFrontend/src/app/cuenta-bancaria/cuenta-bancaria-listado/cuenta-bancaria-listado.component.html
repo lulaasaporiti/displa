@@ -22,36 +22,36 @@
 
   <mat-divider></mat-divider>
 
-  <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+  <mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
 
     <ng-container matColumnDef="Numero">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> NÚMERO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{row.Numero}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> NÚMERO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{row.Numero}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="SaldoInicial">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> SALDO INICIAL </th>
-      <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.SaldoInicial}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> SALDO INICIAL </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.SaldoInicial}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="FechaApertura">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> FECHA APERTURA </th>
-      <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.FechaApertura | date:"dd/MM/yyyy"}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> FECHA APERTURA </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center"> {{row.FechaApertura | date:"dd/MM/yyyy"}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Banco">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> BANCO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.IdBancoNavigation.Nombre}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> BANCO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.IdBancoNavigation.Nombre}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Borrado">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> BORRADO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> BORRADO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Borrado == true ? 'Si' : 'No'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Opciones">
-      <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-      <td mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="end">
+      <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="end">
         <button mat-icon-button matTooltip="Editar" [matTooltipPosition]="'above'" aria-label="Editar"
           (click)="modificarCuentaBancaria(row)">
           <mat-icon svgIcon="edit_outline" class="tabla_icono"></mat-icon>
@@ -60,11 +60,11 @@
           (click)="eliminarCuentaBancaria(row)">
           <mat-icon svgIcon="delete_outline" class="tabla_icono"></mat-icon>
         </button>
-      </td>
+      </mat-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
-  </table>
+    <mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></mat-row>
+  </mat-table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

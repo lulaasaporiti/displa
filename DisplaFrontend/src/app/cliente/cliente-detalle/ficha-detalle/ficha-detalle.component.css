@@ -12,7 +12,8 @@ mat-paginator{
 
 /* /////////////////// */
 
-table {
+.mat-table {
+  width: 100%;
   width: 100%;
   padding: 0px !important;
 }
@@ -21,21 +22,23 @@ table {
   background-color: transparent;
 }
 
-tr.mat-header-row {
-  height: 10%;
-}
-th.mat-header-cell:first-of-type{
-  padding-left: 0px !important;
+mat-header-cell:first-of-type {
+  padding-left: 0px;
 }
 
-th.mat-header-cell:last-of-type{
+mat-header-cell:last-of-type {
   padding-right: 0px;
 }
 
-td {
-  margin-top: 10px;
-  margin-bottom: 10px;
+mat-cell:first-of-type {
+  padding: 12px;
+  padding-left: 0px;
 }
+
+mat-cell:last-of-type {
+  padding-right: 0px;
+}
+
 
 mat-checkbox {
   padding-bottom: 3px;

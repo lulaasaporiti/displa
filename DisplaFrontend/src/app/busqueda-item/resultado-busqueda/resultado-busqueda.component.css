@@ -28,7 +28,8 @@ mat-paginator{
 
 /* /////////////////// */
 
-table {
+.mat-table {
+  width: 100%;
   width: 100%;
   padding: 0px !important;
 }
@@ -37,20 +38,19 @@ table {
   background-color: transparent;
 }
 
-th.mat-header-cell:first-of-type{
+mat-header-cell:first-of-type {
   padding-left: 0px;
 }
 
-th.mat-header-cell:last-of-type{
+mat-header-cell:last-of-type {
   padding-right: 0px;
 }
 
-td.mat-cell:first-of-type{
+mat-cell:first-of-type {
   padding: 12px;
   padding-left: 0px;
 }
 
-td.mat-cell:last-of-type{
+mat-cell:last-of-type {
   padding-right: 0px;
 }
-

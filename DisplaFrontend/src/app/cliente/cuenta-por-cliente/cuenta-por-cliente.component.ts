@@ -67,17 +67,13 @@ export class CuentaPorClienteComponent implements OnInit {
   }
 
   traerCuentaCliente(event) {
-    console.log("entra");
 
-    console.log(this.since.toDateString())
     this.loadingSpinnerService.show();
     if (event != "desde")
       this.modelCliente = event;
-    console.log(this.modelCliente)
 
     this.comprobanteService.getCuentaPorCliente(this.modelCliente.Id, this.since.toDateString())
       .subscribe(cc => {
-        console.log(cc)
         this.dataSource.data = cc;
         // this.dataSource.data = vc.filter(v => new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) >= this.since && new Date(Date.parse(v.IdComprobanteNavigation.Fecha.toString())) <= this.today);
         this.loadingSpinnerService.hide();
