@@ -102,7 +102,7 @@
                             (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
                             (keypress)="_keyPressCantidad($event)" pattern="[0-9]*.?[5]?"
                             [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
-                        <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="cantidad0.hasError('required')">Campo obligatorio.</mat-error>
                         <!-- <mat-error *ngIf="cantidad0.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error> -->
                     </mat-form-field>
                     <p class="msjError" *ngIf="cantidad0.errors?.pattern && modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado">La cantidad no es múltiplo de 0.5.</p>
@@ -118,7 +118,7 @@
                                 (keyup.enter)="tabInventado($event, 'sobre')" #cantidad0="ngModel"
                                 (keypress)="_keyPressCantidad($event)" pattern="[0-9]*"
                                 [(ngModel)]="modelComprobanteItemLente[0].Cantidad" name="cantidad0" required>
-                            <mat-error *ngIf="cantidad0.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="cantidad0.hasError('required')">Campo obligatorio.</mat-error>
                         </mat-form-field>
                         <p class="msjError" *ngIf="cantidad0.errors?.pattern && !modelComprobanteItemLente[0].IdLenteNavigation.Fraccionado">La cantidad debe ser entero.</p>
                     </div>
@@ -129,7 +129,7 @@
                         <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
                             (keyup.enter)="tabInventado($event, 'remove')" #sobre="ngModel"
                             [(ngModel)]="modelComprobanteItemLente[0].Sobre" name="sobre" required>
-                        <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="sobre.hasError('required')">Campo obligatorio.</mat-error>
                     </mat-form-field>
                 </div>
 
@@ -138,7 +138,7 @@
                         <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"
                             (keyup.enter)="tabInventado($event, 'calibrado')" #sobre="ngModel"
                             [(ngModel)]="modelComprobanteItemLente[0].Sobre" name="sobre" required>
-                        <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="sobre.hasError('required')">Campo obligatorio.</mat-error>
                     </mat-form-field>
                 </ng-template>
             </div>
@@ -156,7 +156,7 @@
                     <mat-form-field fxFlex="50">
                         <input matInput placeholder="Cantidad" id="cantidad1" [disabled]="modelComprobanteItemLente.length == 2"
                             #cantidad1="ngModel" pattern="[0-9]*.?[5]?" [(ngModel)]="modelComprobanteItemLente[1].Cantidad" name="cantidad1" required>
-                        <mat-error *ngIf="cantidad1.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="cantidad1.hasError('required')">Campo obligatorio.</mat-error>
                         <mat-error *ngIf="cantidad1.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
                     </mat-form-field>
                 </div>

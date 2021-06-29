@@ -11,7 +11,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Código" [(ngModel)]="data.modelTipoComprobante.Codigo" name="codigo"
                     #codigo="ngModel" (keyup.enter)="onEnter();" required>
-                <mat-error *ngIf="codigo.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="codigo.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -19,7 +19,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Descripcion" [(ngModel)]="data.modelTipoComprobante.Descripcion" name="descripcion"
                     #descripcion="ngModel" (keyup.enter)="onEnter();" required>
-                <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="descripcion.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

@@ -11,14 +11,14 @@
                         <mat-form-field fxFill class="login-input">
                             <input matInput placeholder="Usuario" [(ngModel)]="usuario.UserName" #username="ngModel"
                                 name="user" required>
-                            <mat-error *ngIf="username.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="username.hasError('required')">Campo obligatorio.</mat-error>
                         </mat-form-field>
                         <mat-form-field fxFill class="login-input margin-top">
                             <input matInput placeholder="Contraseña" [(ngModel)]="usuario.Password" #password="ngModel"
                                 [type]="hidePassword ? 'password' : 'text'" name="password" required>
                             <mat-icon matSuffix (click)="hidePassword = !hidePassword">
                                 {{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                            <mat-error *ngIf="password.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="password.hasError('required')">Campo obligatorio.</mat-error>
                         </mat-form-field>
                         <div style="margin-top:10px"><a (click)="forgotPassword()" class="contraseña">¿Olvidaste tu
                                 contraseña?</a></div>

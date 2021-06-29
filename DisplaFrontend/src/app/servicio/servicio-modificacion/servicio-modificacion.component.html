@@ -9,7 +9,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Nombre" [(ngModel)]="data.modelServicio.Nombre" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -21,7 +21,7 @@
                         {{ tb.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="tipo.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="tipo.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -29,7 +29,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Descripción factura" [(ngModel)]="data.modelServicio.DescripcionFactura" name="descripcionFactura"
                     #descripcionFactura="ngModel" required>
-                <mat-error *ngIf="descripcionFactura.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="descripcionFactura.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

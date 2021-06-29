@@ -21,7 +21,7 @@
                                 [(ngModel)]="cargarStock[index].MedidaEsferico" id="esferico{{index}}"
                                 name="esferico{{index}}" #esferico="ngModel" (keypress)="_keyPress($event)"
                                 (blur)="compararLimiteGrilla($event.target.value, index, 'esferico'); this.validacionLenteService.divisionMedida(cargarStock[index], cargarStock[index].MedidaEsferico, 'esferico');">
-                            <mat-error *ngIf="esferico.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="esferico.hasError('required')">Campo obligatorio.</mat-error>
                         </mat-form-field>
                         <p class="msjError" *ngIf="msjLimiteEsferico[index]">
                             La medida no se encuentra dentro de los límites.</p>

@@ -10,7 +10,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Nombre" [(ngModel)]="data.modelTarjetaCredito.Nombre" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -22,7 +22,7 @@
                         {{ b.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="banco.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="banco.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

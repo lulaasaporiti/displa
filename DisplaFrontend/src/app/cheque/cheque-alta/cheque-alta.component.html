@@ -33,7 +33,7 @@
                         {{ b.Id }} - {{ b.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="banco.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="banco.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
         
@@ -46,7 +46,7 @@
                         {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                     </mat-option>
                 </mat-autocomplete>
-                <mat-error *ngIf="clientesControl.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="clientesControl.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="20">
                 <input matInput placeholder="Importe" [(ngModel)]="data.modelCheque.Importe" name="importe"

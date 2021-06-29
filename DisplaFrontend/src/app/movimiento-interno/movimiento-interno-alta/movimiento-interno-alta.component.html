@@ -16,7 +16,7 @@
                         {{ c.Id }} - {{c.Optica}} - {{c.Responsable}}
                     </mat-option>
                 </mat-autocomplete>
-                <mat-error *ngIf="clientesControl.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="clientesControl.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -35,7 +35,7 @@
                         {{ p.Id }} - {{p.Nombre}}
                     </mat-option>
                 </mat-autocomplete>
-                <mat-error *ngIf="proveedoresControl.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="proveedoresControl.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -56,7 +56,7 @@
             <mat-form-field fxFlex="50">
                 <input matInput type="number" placeholder="Monto" [(ngModel)]="modelMovimientoInterno.Monto" name="monto"
                     #monto="ngModel" required [disabled]="deshabilitarSeleccionar">
-                <mat-error *ngIf="monto.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="monto.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
                 <mat-select placeholder="Tipo comprobante" [(ngModel)]="modelMovimientoInterno.IdTipoComprobante" name="tipo"
@@ -65,7 +65,7 @@
                         {{ tc.Descripcion }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="tipo.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="tipo.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

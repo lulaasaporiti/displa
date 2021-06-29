@@ -36,6 +36,9 @@ export class FacturaProveedorComponent implements OnInit {
   modelAlicuota: ComprobanteIVA[] = [];
   selectedAlicuota = new EventEmitter<ComprobanteIVA[]>();
   tarjetas: TarjetaCredito[];
+  panelOpenState = false;
+  cuitValido = true;
+
   constructor(
     private router: Router,
     private gastoService: GastoService,
@@ -43,9 +46,9 @@ export class FacturaProveedorComponent implements OnInit {
     private proveedorService: ProveedorService,
     private tarjetaService: TarjetaCreditoService,
     private comprobanteService: ComprobanteProveedorService) {
-      let item = <ComprobanteIVA>{};
-      item.Alicuota = 21;
-      this.modelAlicuota.push(item);
+    let item = <ComprobanteIVA>{};
+    item.Alicuota = 21;
+    this.modelAlicuota.push(item);
   }
 
   ngOnInit() {
@@ -56,6 +59,7 @@ export class FacturaProveedorComponent implements OnInit {
     ]).subscribe(r => {
       this.proveedores = r[0];
       this.gastos = r[1];
+      console.log(this.gastos)
       this.tarjetas = r[2];
       this.filteredProveedores = this.proveedoresControl.valueChanges
         .pipe(
@@ -79,7 +83,7 @@ export class FacturaProveedorComponent implements OnInit {
   }
 
   filterProveedor(nombre: any): Proveedor[] {
-    if (nombre.length >= 0) {
+    if (nombre != undefined && nombre.length >= 0) {
       var s: string;
       try {
         s = nombre.toLowerCase();
@@ -93,7 +97,6 @@ export class FacturaProveedorComponent implements OnInit {
       return [];
     }
   }
-
 
   setIdGasto(control) {
     if (control.value != null) this.modelFactura.IdGasto = control.value.Id;
@@ -131,7 +134,7 @@ export class FacturaProveedorComponent implements OnInit {
   }
 
   actualizarAlicuotas(i) {
-    
+
   }
 
   calcularMontoIVA(i) {
@@ -150,8 +153,25 @@ export class FacturaProveedorComponent implements OnInit {
     this.selectedAlicuota.emit(modelAlicuota);
   }
 
+  agregar() {
+    this.modelFactura.ComprobanteIva = this.modelAlicuota;
+    if (this.modelProveedor != undefined) {
+      this.proveedorService.saveOrUpdateProveedor(this.modelProveedor).subscribe(
+        data => {
+          this.modelFactura.IdProveedor = +data;
+          this.altaFactura();
+        },
+        error => {
+          this.sessionService.showError("¡Error! El usuario no se agregó.");
+        }
+      );
+    } else {
+      this.altaFactura();
+    }
+  }
 
-  altaFactura(){
+
+  altaFactura() {
     this.comprobanteService.saveOrUpdateComprobanteProveedor(this.modelFactura)
     .subscribe( 
       data => {
@@ -166,7 +186,42 @@ export class FacturaProveedorComponent implements OnInit {
     )
   }
 
-  cancelar(){
+  //Cuando se ingresa un cuit se valida si es válido. En caso de que lo sea, comprueba
+  //si ya existe registrado en la base de datos.
+  validarCuit() {
+    this.cuitValido = true;
+    if (this.modelProveedor.Cuit != '' && this.modelProveedor.Cuit != undefined)
+      if (this.modelProveedor.Cuit.length == 11) {
+        let longitud = this.modelProveedor.Cuit.length;
+        let acumulado = 0;
+        let digitoVerificacion = parseInt(this.modelProveedor.Cuit.charAt(this.modelProveedor.Cuit.length - 1), 10);
+        for (let x = 0; x < longitud - 1; x++) {
+          let nro = parseInt(this.modelProveedor.Cuit.charAt(9 - x), 10);
+          acumulado += (nro * (2 + (x % 6)));
+        }
+
+        let verificacion = 11 - (acumulado % 11);
+        if (verificacion == 11) {
+          verificacion = 0
+        }
+
+        this.cuitValido = (verificacion == digitoVerificacion);
+      }
+      else {
+        this.cuitValido = false;
+      }
+  }
+
+  deshabilitarProveedor() {
+    if (this.modelProveedor.Nombre != undefined && this.modelProveedor.Nombre != '' && this.cuitValido == true && this.modelProveedor.Cuit != undefined) {
+      this.proveedoresControl.disable()
+    }
+    else {
+      this.proveedoresControl.enable()
+    }
+  }
+
+  cancelar() {
     this.router.navigateByUrl('Home')
   }
 }

@@ -9,7 +9,7 @@ namespace DisplaBackend.Services
     {
         List<Proveedor> GetProveedores();
         List<Proveedor> GetProveedoresVigentes();
-        bool SaveOrUpdate(Proveedor proveedor);
+        int SaveOrUpdate(Proveedor proveedor);
         bool Delete(Proveedor proveedor);
         Proveedor GetById(int idProveedor);
     }
@@ -33,7 +33,7 @@ namespace DisplaBackend.Services
             return _proveedorDAO.GetProveedoresVigentes();
         }
 
-        public bool SaveOrUpdate(Proveedor proveedor)
+        public int SaveOrUpdate(Proveedor proveedor)
         {
             return _proveedorDAO.SaveOrUpdate(proveedor);
 

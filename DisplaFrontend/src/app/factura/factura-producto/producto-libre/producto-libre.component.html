@@ -9,7 +9,7 @@
                 <input matInput placeholder="Descripcion" id="descripcion" [(ngModel)]="modelComprobanteItem.Descripcion" name="descripcion"
                     #descripcion="ngModel" (keydown.enter)="$event.stopImmediatePropagation()" (keypress)="_keyPressDescripcion($event)"
                     (keyup.enter)="tabInventado($event, 'precio')" required>
-                <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="descripcion.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -18,14 +18,14 @@
                 <input matInput placeholder="Precio" id="precio" [(ngModel)]="modelComprobanteItem.Monto" name="precio"
                     #precio="ngModel" pattern="^\d*(\.\d{0,2})?$" (keypress)="_keyPress($event)"
                     (keyup.enter)="tabInventado($event, 'cantidad')" required>
-                <mat-error *ngIf="precio.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="precio.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex="25">
                 <input matInput placeholder="Cantidad" id="cantidad" (keyup.enter)="tabInventado($event, 'sobre')"
                     (keypress)="_keyPress($event)" [(ngModel)]="modelComprobanteItem.Cantidad" #cantidad="ngModel"
                     name="cantidad" pattern="[0-9]*.?[5]?" required>
-                <mat-error *ngIf="cantidad.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="cantidad.hasError('required')">Campo obligatorio.</mat-error>
                 <mat-error *ngIf="cantidad.errors?.pattern">La cantidad no es múltiplo de 0.5.</mat-error>
             </mat-form-field>
 
@@ -33,7 +33,7 @@
                 <input matInput placeholder="Sobre" id="sobre" (keypress)="_keyPress($event)"  #sobre="ngModel"
                     (keyup.enter)="tabInventado($event, 'seleccionar')" [(ngModel)]="modelComprobanteItem.NumeroSobre"
                     name="sobre" required>
-                <mat-error *ngIf="sobre.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="sobre.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
