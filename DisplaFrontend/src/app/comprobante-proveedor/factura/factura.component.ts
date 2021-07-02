@@ -17,6 +17,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ComprobanteIVA } from 'src/app/model/comprobanteIVA';
 import { TarjetaCredito } from 'src/app/model/tarjetaCredito';
 import { TarjetaCreditoService } from 'src/services/tarjeta.credito.service';
+import { TipoComprobanteService } from 'src/services/tipo.comprobante.service';
 
 @Component({
   selector: 'app-factura-proveedor-alta',
@@ -36,8 +37,10 @@ export class FacturaProveedorComponent implements OnInit {
   modelAlicuota: ComprobanteIVA[] = [];
   selectedAlicuota = new EventEmitter<ComprobanteIVA[]>();
   tarjetas: TarjetaCredito[];
-  panelOpenState = false;
   cuitValido = true;
+  proveedorNuevo;
+  conTarjeta = false; 
+  sumaExcedida = false;
 
   constructor(
     private router: Router,
@@ -45,6 +48,7 @@ export class FacturaProveedorComponent implements OnInit {
     private sessionService: SessionService,
     private proveedorService: ProveedorService,
     private tarjetaService: TarjetaCreditoService,
+    private tipoComprobanteService: TipoComprobanteService,
     private comprobanteService: ComprobanteProveedorService) {
     let item = <ComprobanteIVA>{};
     item.Alicuota = 21;
@@ -55,12 +59,13 @@ export class FacturaProveedorComponent implements OnInit {
     combineLatest([
       this.proveedorService.getProveedoresVigentesList(),
       this.gastoService.getGastosList(),
-      this.tarjetaService.getTarjetasCreditoVigentesList()
+      this.tarjetaService.getTarjetasCreditoVigentesList(),
+      this.tipoComprobanteService.getTiposComprobantesList()
     ]).subscribe(r => {
       this.proveedores = r[0];
       this.gastos = r[1];
-      console.log(this.gastos)
       this.tarjetas = r[2];
+      this.modelFactura.IdTipoComprobante = r[3].find(t => t.Descripcion == "Factura").Id;
       this.filteredProveedores = this.proveedoresControl.valueChanges
         .pipe(
           startWith(''),
@@ -75,7 +80,7 @@ export class FacturaProveedorComponent implements OnInit {
   }
 
   setIdProveedor(control) {
-    if (control.value != null) this.modelFactura.IdProveedor = control.value.Id;
+    if (control.value != null && control.value != undefined) this.modelFactura.IdProveedor = control.value.Id;
   }
 
   displayProvedor(p?: Proveedor): string | undefined {
@@ -142,7 +147,16 @@ export class FacturaProveedorComponent implements OnInit {
       this.modelAlicuota[i].MontoIva = Math.round(((this.modelAlicuota[i].Neto * this.modelAlicuota[i].Alicuota) / 100 + Number.EPSILON) * 100) / 100;
   }
 
-
+  validarMonto() {
+    let sumatoriaNeto = 0;
+    this.modelAlicuota.forEach(al => {
+      sumatoriaNeto = sumatoriaNeto + ((al.Neto != undefined) ? al.Neto : 0);      
+    });
+    if (this.modelFactura.Monto != undefined && sumatoriaNeto > this.modelFactura.Monto) {
+      this.sumaExcedida = false;
+      this.sessionService.showError("La sumatoria de los neto supera al monto total.");
+    }
+  }
 
   // precioSelected() {
   //   this.updateStatePrecio();
@@ -154,8 +168,8 @@ export class FacturaProveedorComponent implements OnInit {
   }
 
   agregar() {
-    this.modelFactura.ComprobanteIva = this.modelAlicuota;
-    if (this.modelProveedor != undefined) {
+    if (this.modelProveedor == undefined) {
+      console.log("entra a insertar proveedor")
       this.proveedorService.saveOrUpdateProveedor(this.modelProveedor).subscribe(
         data => {
           this.modelFactura.IdProveedor = +data;
@@ -210,15 +224,6 @@ export class FacturaProveedorComponent implements OnInit {
       else {
         this.cuitValido = false;
       }
-  }
-
-  deshabilitarProveedor() {
-    if (this.modelProveedor.Nombre != undefined && this.modelProveedor.Nombre != '' && this.cuitValido == true && this.modelProveedor.Cuit != undefined) {
-      this.proveedoresControl.disable()
-    }
-    else {
-      this.proveedoresControl.enable()
-    }
   }
 
   cancelar() {

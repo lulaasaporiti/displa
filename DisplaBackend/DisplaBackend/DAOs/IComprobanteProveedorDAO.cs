@@ -47,6 +47,10 @@ namespace DisplaBackend.DAOs
             {
                 if (comprobante.Id == 0)
                 {
+                    comprobante.IdGastoNavigation = null;
+                    comprobante.IdProveedorNavigation = null;
+                    comprobante.IdTarjetaNavigation = null;
+                    comprobante.IdTipoComprobanteNavigation = null;
                     comprobante = _context.Add(comprobante).Entity;
                 }
                 else

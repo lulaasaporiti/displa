@@ -24,13 +24,16 @@ import { ClienteBloqueoManualComponent } from './cliente-bloqueo-manual/cliente-
 import { CuentaPorClienteComponent } from './cuenta-por-cliente/cuenta-por-cliente.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ClienteBusquedaLista } from './cliente-busqueda-lista/cliente-busqueda-lista.component';
+import { PorcentajeDescuentosComponent } from './porcentaje-descuentos/porcentaje-descuentos.component';
 
 
 @NgModule({
-    entryComponents: [ClienteBajaComponent, FichaAltaComponent, ClienteBloqueoManualComponent],
-    declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, InformacionModificacionComponent, InformacionDetalleComponent,
-        PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent, PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, CuentaPorClienteComponent,
-        FichaComponent, FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, FichaAltaComponent, ClienteBloqueoManualComponent, ClienteBusquedaLista],
+    entryComponents: [ClienteBajaComponent, FichaAltaComponent, ClienteBloqueoManualComponent, PorcentajeDescuentosComponent],
+    declarations: [ClienteListadoComponent, ClienteAltaComponent, ClienteBajaComponent, InformacionModificacionComponent, 
+        InformacionDetalleComponent, PorcentajeDescuentosComponent, PrecioLenteListadoComponent, PrecioLenteListadoDetalleComponent,
+        PrecioArticuloListadoComponent, PrecioArticuloListadoDetalleComponent, CuentaPorClienteComponent, FichaComponent,
+        FichaDetalleComponent, PrecioServicioListadoComponent, PrecioServicioListadoDetalleComponent, ClienteCuentaListadoComponent, 
+        FichaAltaComponent, ClienteBloqueoManualComponent, ClienteBusquedaLista],
     imports: [
         CommonModule,
         MaterialModule,
