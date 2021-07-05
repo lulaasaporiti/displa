@@ -48,7 +48,6 @@ export class AccountLoginComponent implements OnInit {
         //   if (r != undefined)
         //     this.sessionService.setFunciones(r)
         // })
-        console.log(this.sessionService.getPayload())
       },
       error => this.sessionService.showError("Usuario y/o contraseña incorrecta."),
       () => {

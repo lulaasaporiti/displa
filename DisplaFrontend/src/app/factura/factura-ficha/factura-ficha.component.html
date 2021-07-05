@@ -23,7 +23,7 @@
                 <textarea matInput placeholder="Descripción" rows="1" cols="54" [(ngModel)]="data.Descripcion"
                   name="descripcion" #descripcion="ngModel" required>
                 </textarea>
-                <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="descripcion.hasError('required')">Campo obligatorio.</mat-error>
               </mat-form-field>
             </div>
             <mat-action-row>

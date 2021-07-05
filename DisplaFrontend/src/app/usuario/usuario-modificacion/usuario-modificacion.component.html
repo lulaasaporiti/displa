@@ -24,7 +24,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Apellido" [(ngModel)]="data.modelUsuario.Apellido" name="apellido"
                     #apellido="ngModel" required>
-                <mat-error *ngIf="apellido.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="apellido.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -32,7 +32,7 @@
             <mat-select placeholder="Roles" [(ngModel)]="data.modelUsuario.Roles.Name" name="roles" #rols required>
                 <mat-option *ngFor="let rol of rolesList" [value]="rol.Name">{{rol.Name}}</mat-option>
             </mat-select>
-            <!-- <mat-error *ngIf="rols.hasError('required')">Este campo es obligatorio.</mat-error> -->
+            <!-- <mat-error *ngIf="rols.hasError('required')">Campo obligatorio.</mat-error> -->
         </mat-form-field>
 
         <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">

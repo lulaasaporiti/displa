@@ -10,7 +10,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Nombre" [(ngModel)]="data.modelProveedor.nombre" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -18,7 +18,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Domicilio" [(ngModel)]="data.modelProveedor.domicilio" name="domicilio"
                     #domicilio="ngModel" required>
-                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -26,7 +26,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Teléfonos" [(ngModel)]="data.modelProveedor.telefonos" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -34,7 +34,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Email" [(ngModel)]="data.modelProveedor.mail" id="email" name="email"
                     #email="ngModel" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                <mat-error *ngIf="email.invalid && !email.errors?.pattern">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="email.invalid && !email.errors?.pattern">Campo obligatorio.</mat-error>
             </mat-form-field>
             <p class="msgErrorUser" *ngIf="email.errors?.pattern">El formato del mail es inválido.</p>
         </div>
@@ -53,7 +53,7 @@
                         {{ l.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="localidad.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="localidad.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

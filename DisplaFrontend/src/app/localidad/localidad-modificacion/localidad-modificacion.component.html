@@ -10,7 +10,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Nombre" [(ngModel)]="data.modelLocalidad.Nombre" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -18,7 +18,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Código postal" [(ngModel)]="data.modelLocalidad.Cp" name="cp"
                     #cp="ngModel" required>
-                <mat-error *ngIf="cp.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="cp.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -30,7 +30,7 @@
                         {{ p.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="provincia.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="provincia.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

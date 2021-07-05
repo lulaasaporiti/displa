@@ -28,7 +28,6 @@ export class SessionService {
   }
 
   setTokenJWT(token: JSON) {
-    console.log(token)
     localStorage.setItem('token', token['token']);
   }
 

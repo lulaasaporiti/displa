@@ -51,7 +51,7 @@
                     (blur)="onBlurPassVerification($event, password.value, confirmpassword.value)" required>
                 <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
                     {{hideConfirmPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                <mat-error *ngIf="confirmpassword.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="confirmpassword.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
             <p class="msgErrorUser" *ngIf="msgErrorPass">Las contraseñas no coinciden.</p>
         </div>
@@ -62,7 +62,7 @@
 
                     <mat-option *ngFor="let rol of rolesList" [value]="rol.Name">{{rol.Name}}</mat-option>
                 </mat-select>
-                <!-- <mat-error *ngIf="rols.hasError('required')">Este campo es obligatorio.</mat-error> -->
+                <!-- <mat-error *ngIf="rols.hasError('required')">Campo obligatorio.</mat-error> -->
             </mat-form-field>
         </div>
 

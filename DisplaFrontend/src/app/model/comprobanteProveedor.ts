@@ -1,3 +1,5 @@
+import { ComprobanteImportacion } from "./comprobanteImportacion"
+import { ComprobanteIVA } from "./comprobanteIVA"
 import { Gasto } from "./Gasto"
 import { Proveedor } from "./Proveedor"
 import { TarjetaCredito } from "./tarjetaCredito"
@@ -41,4 +43,7 @@ export interface ComprobanteProveedor {
     IdProveedorNavigation: Proveedor,
     IdTarjetaNavigation: TarjetaCredito,
     IdTipoComprobanteNavigation: TipoComprobante,
+
+    ComprobanteImportacion: ComprobanteImportacion[];
+    ComprobanteIva: ComprobanteIVA[];
 }

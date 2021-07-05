@@ -9,7 +9,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Número" [(ngModel)]="data.modelCuentaBancaria.Numero" name="numero"
                     #numero="ngModel" (keyup.enter)="onEnter();" required>
-                <mat-error *ngIf="numero.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="numero.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -21,7 +21,7 @@
                         {{ b.Id }} - {{ b.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="banco.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="banco.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -29,13 +29,13 @@
             <mat-form-field fxFlex="50">
                 <input matInput placeholder="Saldo inicial" [(ngModel)]="data.modelCuentaBancaria.SaldoInicial"
                     name="inicial" #inicial="ngModel" required>
-                <mat-error *ngIf="inicial.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="inicial.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="50">
                 <input matInput [matDatepicker]="picker1" [(ngModel)]="data.modelCuentaBancaria.FechaApertura"
                     placeholder="Fecha de apertura" name="fecha" #fecha="ngModel" readonly required>
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-error *ngIf="fecha.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="fecha.hasError('required')">Campo obligatorio.</mat-error>
 
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>

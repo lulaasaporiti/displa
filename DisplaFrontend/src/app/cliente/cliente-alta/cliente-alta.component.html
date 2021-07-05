@@ -12,7 +12,7 @@
                         <mat-form-field fxFlex='40' fxLayout="column">
                             <input matInput placeholder="Óptica" [(ngModel)]="modelCliente.Optica" name="optica"
                                 #optica="ngModel" required>
-                            <mat-error *ngIf="optica.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="optica.hasError('required')">Campo obligatorio.</mat-error>
                         </mat-form-field>
 
                         <mat-form-field fxFlex='35' fxLayout="column">
@@ -24,7 +24,7 @@
                             <mat-form-field fxFlex='25' fxLayout="column">
                                 <input matInput placeholder="CUIT" [(ngModel)]="modelCliente.Cuit" name="cuit" (input)="validarCuit()"
                                     #cuit="ngModel" required >
-                                <mat-error *ngIf="cuit.hasError('required')">Este campo es obligatorio.</mat-error>                                      
+                                <mat-error *ngIf="cuit.hasError('required')">Campo obligatorio.</mat-error>                                      
                             </mat-form-field>
                             <p class="msgError" *ngIf="!cuitValido" style="margin: 0;position:absolute;margin-top:45px"> El CUIT ingresado no es válido.</p>
                             
@@ -70,7 +70,7 @@
                                     {{ ca.Descripcion }}
                                 </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="categoria.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="categoria.hasError('required')">Campo obligatorio.</mat-error>
                         </mat-form-field>
 
                         <mat-form-field fxFlex='30' fxLayout="column">
@@ -80,7 +80,7 @@
                                     {{ co.Descripcion }}
                                 </mat-option>
                             </mat-select>
-                            <mat-error *ngIf="condicion.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="condicion.hasError('required')">Campo obligatorio.</mat-error>
                         </mat-form-field>
                     </div>
 
@@ -88,7 +88,7 @@
                         <mat-form-field fxFlex='25' fxLayout="column">
                             <input matInput placeholder="Monto crédito" [(ngModel)]="modelCliente.MontoCredito"
                                 name="monto" #monto="ngModel" required>
-                            <mat-error *ngIf="monto.hasError('required')">Este campo es obligatorio.</mat-error>
+                            <mat-error *ngIf="monto.hasError('required')">Campo obligatorio.</mat-error>
                         </mat-form-field>
 
                         <mat-form-field fxFlex='25' fxLayout="column">
@@ -120,7 +120,7 @@
                     <!-- <mat-form-field fxFlex='25' fxLayout="column">
                         <input matInput placeholder="CUIT" [(ngModel)]="modelCliente.Cuit" name="cuit" #cuit="ngModel"
                             required>
-                        <mat-error *ngIf="cuit.hasError('required')">Este campo es obligatorio.</mat-error>
+                        <mat-error *ngIf="cuit.hasError('required')">Campo obligatorio.</mat-error>
                     </mat-form-field> -->
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between end" fxFlexOffset="8" style="margin-bottom: 2px;">

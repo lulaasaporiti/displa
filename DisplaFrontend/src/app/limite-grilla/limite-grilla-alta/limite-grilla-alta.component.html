@@ -9,7 +9,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Límite inferior esférico" [(ngModel)]="data.modelLimiteGrilla.LimiteInferiorEsferico" name="inferiorEsferico"
                     #inferiorEsferico="ngModel" required>
-                <mat-error *ngIf="inferiorEsferico.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="inferiorEsferico.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -17,7 +17,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Límite superior esférico" [(ngModel)]="data.modelLimiteGrilla.LimiteSuperiorEsferico" name="superiorEsferico"
                     #superiorEsferico="ngModel" required>
-                <mat-error *ngIf="superiorEsferico.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="superiorEsferico.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -25,7 +25,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Límite inferior cilíndrico" [(ngModel)]="data.modelLimiteGrilla.LimiteInferiorCilindrico" name="inferiorCilindrico"
                     #inferiorCilindrico="ngModel" required>
-                <mat-error *ngIf="inferiorCilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="inferiorCilindrico.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -33,7 +33,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Límite superior cilíndrico" [(ngModel)]="data.modelLimiteGrilla.LimiteSuperiorCilindrico" name="superiorCilindrico"
                     #superiorCilindrico="ngModel" required>
-                <mat-error *ngIf="superiorCilindrico.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="superiorCilindrico.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -45,7 +45,7 @@
                         {{ c }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="combinacion.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="combinacion.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

@@ -32,6 +32,7 @@ import { TrasladoFondoService } from 'src/services/traslado.fondo..service';
 import { MovimientoCajaAltaComponent } from '../caja/movimiento-caja-alta/movimiento-caja-alta.component';
 import { MovimientoCajaDiariaAltaComponent } from '../caja/movimiento-caja-diaria-alta/movimiento-caja-diaria-alta.component';
 import { PuestaEnCeroComponent } from '../lente/puesta-en-cero/puesta-en-cero.component';
+import { PorcentajeDescuentosComponent } from '../cliente/porcentaje-descuentos/porcentaje-descuentos.component';
 
 @Component({
   selector: 'app-header',
@@ -121,6 +122,12 @@ export class HeaderComponent {
             window.scrollTo(0, 0);
           });
       }
+    })
+  }
+
+  openDialogPorcentajeDescuentos() {
+    const dialogRef = this.dialog.open(PorcentajeDescuentosComponent, {
+      width: '600px'
     })
   }
 

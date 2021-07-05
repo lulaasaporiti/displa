@@ -18,7 +18,7 @@
       <textarea matInput placeholder="Motivo" rows="4" cols="54" [(ngModel)]="modelBloqueo.Motivo" name="motivo"
         #motivo="ngModel" required>
         </textarea>
-      <mat-error *ngIf="motivo.hasError('required')">Este campo es obligatorio.</mat-error>
+      <mat-error *ngIf="motivo.hasError('required')">Campo obligatorio.</mat-error>
     </mat-form-field>
   </div>
 

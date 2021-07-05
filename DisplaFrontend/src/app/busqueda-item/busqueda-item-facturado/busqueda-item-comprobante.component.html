@@ -84,7 +84,7 @@
             {{t.Id}} - {{ t.Nombre }}
           </mat-option>
         </mat-autocomplete>
-        <mat-error *ngIf="tipoArticulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
+        <mat-error *ngIf="tipoArticulosControl.hasError('required')">Campo obligatorio.</mat-error>
       </mat-form-field>
       <mat-form-field fxFlex>
         <input type="text" placeholder="Artículo" aria-label="Artículo" matInput [formControl]="articulosControl"
@@ -95,7 +95,7 @@
             {{a.Id}} - {{ a.Nombre }}
           </mat-option>
         </mat-autocomplete>
-        <mat-error *ngIf="articulosControl.hasError('required')">Este campo es obligatorio.</mat-error>
+        <mat-error *ngIf="articulosControl.hasError('required')">Campo obligatorio.</mat-error>
       </mat-form-field>
     </div>
 
@@ -103,7 +103,7 @@
       <mat-form-field fxFill>
         <input matInput placeholder="Descripcion" id="descripcion" name="descripcion" [(ngModel)]="libre"
           #descripcion="ngModel" required>
-        <mat-error *ngIf="descripcion.hasError('required')">Este campo es obligatorio.</mat-error>
+        <mat-error *ngIf="descripcion.hasError('required')">Campo obligatorio.</mat-error>
       </mat-form-field>
     </div>
 

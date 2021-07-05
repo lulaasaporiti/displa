@@ -11,7 +11,7 @@ namespace DisplaBackend.DAOs
     {
         List<Proveedor> GetProveedores();
         List<Proveedor> GetProveedoresVigentes();
-        bool SaveOrUpdate(Proveedor proveedor);
+        int SaveOrUpdate(Proveedor proveedor);
         bool Delete(Proveedor proveedor);
         Proveedor GetById(int idProveedor);
 
@@ -41,7 +41,7 @@ namespace DisplaBackend.DAOs
                 .ToList();
         }
 
-        public bool SaveOrUpdate(Proveedor proveedor)
+        public int SaveOrUpdate(Proveedor proveedor)
         {
             try
             {
@@ -54,12 +54,13 @@ namespace DisplaBackend.DAOs
                     proveedor = _context.Proveedor.Update(proveedor).Entity;
 
                 }
-                return _context.SaveChanges() >= 1;
+                _context.SaveChanges();
+                return proveedor.Id;
 
             }
             catch (Exception e)
             {
-                return false;
+                return -1;
             }
         }
 

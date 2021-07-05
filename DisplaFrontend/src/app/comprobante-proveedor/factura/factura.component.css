@@ -1,16 +1,10 @@
-.dialog-content {
-    padding: 15px 25px 30px 25px;
+mat-slide-toggle, mat-label {
+    padding-top: 15px;
 }
 
-.dialog-title {
-    font-family: "Chalet London" !important;
-    font-size: 18px;
-}
 
-.dialog-botones {
-    margin-top: 20px !important;
-}
-
-.mat-dialog-content {
-    height: 65px;
+.msgError {
+    color: #ff5722;
+    font-size: 75%;
+    /* margin-left: 14px; */
 }

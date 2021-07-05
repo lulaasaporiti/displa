@@ -116,7 +116,7 @@
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(65)">IVA ventas</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(66)">Ingresos brutos</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(67)">Valorización de stock</a>
-                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(68)">Porcentajes de descuentos</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(68)" (click)="openDialogPorcentajeDescuentos()">Porcentajes de descuentos</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(69)" routerLink="Cliente/BusquedaLista">Consulta de clientes fuera de lista</a>
                 </mat-menu>
 
@@ -145,7 +145,6 @@
                 <button mat-button class="button-menu" *ngIf="chequearFuncionUsuario(6)" [matMenuTriggerFor]="menuProveedores">Proveedores</button>
                 <mat-menu fxLayoutAlign="start center" #menuProveedores="matMenu">
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(77)" routerLink="Proveedor/Listado">Listado de proveedores</a>
-                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(78)" routerLink="Gasto/Listado">Gastos</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(79)" [matMenuTriggerFor]="menuComprobantes">Comprobantes</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(80)">IVA compras</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(81)">Consulta de comprobantes</a>

@@ -10,7 +10,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Nombre" [(ngModel)]="data.modelBlock.Nombre" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="nombre.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -18,7 +18,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Stock mínimo" [(ngModel)]="data.modelBlock.StockMinimo" name="stockMinimo"
                     #stockMinimo="ngModel" required>
-                <mat-error *ngIf="stockMinimo.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="stockMinimo.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -37,7 +37,7 @@
                         {{ tb.Nombre }}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="tipo.hasError('required')">Este campo es obligatorio.</mat-error>
+                <mat-error *ngIf="tipo.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
