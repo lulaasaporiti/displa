@@ -28,6 +28,7 @@ export class FacturaProveedorComponent implements OnInit {
   modelFactura = <ComprobanteProveedor>{};
   gastos: Gasto[];
   alicuotas = [21, 27, 10.5, 5, 2.5, 0]
+  originalAlicuotas = [21, 27, 10.5, 5, 2.5, 0]
   modelProveedor = <Proveedor>{};
   proveedores: Proveedor[];
   proveedoresControl = new FormControl();
@@ -41,6 +42,7 @@ export class FacturaProveedorComponent implements OnInit {
   proveedorNuevo;
   conTarjeta = false; 
   sumaExcedida = false;
+  validarAlicuotas = false
 
   constructor(
     private router: Router,
@@ -128,8 +130,12 @@ export class FacturaProveedorComponent implements OnInit {
   }
 
   agregarAlicuota() {
-    let item = <ComprobanteIVA>{};
-    this.modelAlicuota.push(item);
+    if (this.alicuotas.length <= this.modelAlicuota.length) {
+      this.sessionService.showWarning("Ya se ingresaron todos los módulos posibles.");
+    } else {
+      let item = <ComprobanteIVA>{};
+      this.modelAlicuota.push(item);
+    }
   }
 
   eliminarAlicuota(index) {
@@ -138,8 +144,27 @@ export class FacturaProveedorComponent implements OnInit {
     this.updateStateAlicuota();
   }
 
-  actualizarAlicuotas(i) {
+  actualizarAlicuotas() {
+      //Deep clone: crea una instancia nueva para que cambie la referencia en cualquier lado que implementemos este componente
+    //y el ngOnChanges() lo detecte
+    console.log('entra')
+    this.validarAlicuotas = false;
+    let modelAlicuotaVariable = JSON.parse(JSON.stringify(this.modelAlicuota));
+    console.log(modelAlicuotaVariable, "modelAlicuotaVariable")
+    this.selectedAlicuota.emit(modelAlicuotaVariable);
+    for (let index = 0; index < modelAlicuotaVariable.length; index++) {
+      for (let i = 0; i < modelAlicuotaVariable.length; i++) {
+        if (index != i && modelAlicuotaVariable[index].Alicuota == modelAlicuotaVariable[i].Alicuota && modelAlicuotaVariable[index].Alicuota != null) {
 
+          this.validarAlicuotas = true;
+          document.getElementById('neto' + i).setAttribute('disabled', 'true')
+          document.getElementById('neto' + i).setAttribute('required', 'false')
+
+
+        }
+      }
+    }
+    console.log('validar', this.validarAlicuotas)
   }
 
   calcularMontoIVA(i) {

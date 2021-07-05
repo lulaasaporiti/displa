@@ -126,23 +126,23 @@
                         <mat-icon svgIcon="add"></mat-icon>
                     </button>
                 </p>
-                <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center"
+                <div fxLayout="row" fxLayoutGap="2vw" fxFlexOffset="4" fxLayoutAlign="space-evenly center" (change)="actualizarAlicuotas()"
                     *ngFor="let a of modelAlicuota; let i = index">
                     <mat-form-field>
-                        <mat-select placeholder="Alicuota" [(ngModel)]="modelAlicuota[i].Alicuota" name="alicuota"
-                            #alicuota="ngModel" required
-                            (selectionChange)="actualizarAlicuotas(i); calcularMontoIVA(i);">
+                        <mat-select placeholder="Alícuota" [(ngModel)]="modelAlicuota[i].Alicuota" name="alicuota{{i}}"
+                            #alicuota{{i}}="ngModel" required
+                            (selectionChange)="actualizarAlicuotas();calcularMontoIVA(i);">
                             <mat-option *ngFor="let al of alicuotas" [value]="al">
                                 {{ al }}
                             </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="alicuota.hasError('required')">Campo obligatorio.</mat-error>
+                        <!-- <mat-error *ngIf="alicuota{{i}}.hasError('required')">Campo obligatorio.</mat-error> -->
                     </mat-form-field>
 
                     <mat-form-field>
                         <input type="number" placeholder="Neto" matInput #neto="ngModel" [(ngModel)]="a.Neto"
-                            id="neto{{i}}" name="neto{{i}}" (blur)="calcularMontoIVA(i); validarMonto()" required>
-                        <mat-error *ngIf="neto.invalid">Este campo es obligatorio</mat-error>
+                            id="neto{{i}}" name="neto{{i}}" (blur)="calcularMontoIVA(i); validarMonto()" [disabled]="modelFactura.Monto == undefined" required>
+                        <!-- <mat-error *ngIf="neto.invalid">Este campo es obligatorio</mat-error> -->
                     </mat-form-field>
 
                     <mat-form-field>
@@ -155,6 +155,8 @@
                         <mat-icon svgIcon="close"></mat-icon>
                     </button>
                 </div>
+                <p class="msgError" *ngIf="validarAlicuotas">El módulo ingresado ya existe.</p>
+
             </div>
         </div>
 
