@@ -81,7 +81,6 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -783,7 +782,7 @@ namespace DisplaBackend.Models
                     .HasColumnName("sobreTasaIVA")
                     .HasColumnType("decimal(10, 2)");
 
-                entity.Property(e => e.Sucursarl).HasColumnName("sucursarl");
+                entity.Property(e => e.Sucursal).HasColumnName("sucursal");
 
                 entity.Property(e => e.TasaIva)
                     .HasColumnName("tasaIVA")

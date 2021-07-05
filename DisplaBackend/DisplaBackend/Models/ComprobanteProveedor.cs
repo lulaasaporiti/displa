@@ -10,7 +10,7 @@ namespace DisplaBackend.Models
         public DateTime FechaImputacion { get; set; }
         public int? IdProveedor { get; set; }
         public int IdGasto { get; set; }
-        public int Sucursarl { get; set; }
+        public int Sucursal { get; set; }
         public int Numero { get; set; }
         public string Clase { get; set; }
         public decimal? Monto { get; set; }
