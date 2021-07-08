@@ -144,4 +144,16 @@ export class ClienteService {
         return this.http.get(`${this.baseUrl}/BloquearClientes`);
     }
     
+    getPreciosEspecialesLentes(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetPreciosEspecialesLentes`);
+    }
+
+    getPreciosEspecialesArticulos(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetPreciosEspecialesArticulos`);
+    }
+
+    getPreciosEspecialesServicios(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/GetPreciosEspecialesServicios`);
+    }
+    
 }

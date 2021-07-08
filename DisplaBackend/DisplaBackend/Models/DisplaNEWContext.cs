@@ -83,6 +83,7 @@ namespace DisplaBackend.Models
         public virtual DbSet<VentaVirtualMovimientos> VentaVirtualMovimientos { get; set; }
         public virtual DbSet<VirtualComprobante> VirtualComprobante { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -787,6 +788,10 @@ namespace DisplaBackend.Models
 
                 entity.Property(e => e.IdTipoComprobante).HasColumnName("idTipoComprobante");
 
+                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.Property(e => e.IdUsuarioAnulacion).HasColumnName("idUsuarioAnulacion");
+
                 entity.Property(e => e.MesTarjeta).HasColumnName("mesTarjeta");
 
                 entity.Property(e => e.Monto)
@@ -852,6 +857,17 @@ namespace DisplaBackend.Models
                     .HasForeignKey(d => d.IdTipoComprobante)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ComprobanteProveedor_TipoComprobante");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.ComprobanteProveedorIdUsuarioNavigation)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ComprobanteProveedor_AspNetUsers");
+
+                entity.HasOne(d => d.IdUsuarioAnulacionNavigation)
+                    .WithMany(p => p.ComprobanteProveedorIdUsuarioAnulacionNavigation)
+                    .HasForeignKey(d => d.IdUsuarioAnulacion)
+                    .HasConstraintName("FK_ComprobanteProveedor_AspNetUsers1");
             });
 
             modelBuilder.Entity<CondicionVenta>(entity =>

@@ -11,6 +11,8 @@ namespace DisplaBackend.Models
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             ComprobanteCliente = new HashSet<ComprobanteCliente>();
+            ComprobanteProveedorIdUsuarioAnulacionNavigation = new HashSet<ComprobanteProveedor>();
+            ComprobanteProveedorIdUsuarioNavigation = new HashSet<ComprobanteProveedor>();
             MovimientoBlock = new HashSet<MovimientoBlock>();
             MovimientoInsumo = new HashSet<MovimientoInsumo>();
             MovimientoInternoIdUsuarioAnulacionNavigation = new HashSet<MovimientoInterno>();
@@ -48,6 +50,8 @@ namespace DisplaBackend.Models
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<ComprobanteCliente> ComprobanteCliente { get; set; }
+        public virtual ICollection<ComprobanteProveedor> ComprobanteProveedorIdUsuarioAnulacionNavigation { get; set; }
+        public virtual ICollection<ComprobanteProveedor> ComprobanteProveedorIdUsuarioNavigation { get; set; }
         public virtual ICollection<MovimientoBlock> MovimientoBlock { get; set; }
         public virtual ICollection<MovimientoInsumo> MovimientoInsumo { get; set; }
         public virtual ICollection<MovimientoInterno> MovimientoInternoIdUsuarioAnulacionNavigation { get; set; }

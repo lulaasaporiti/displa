@@ -38,11 +38,15 @@ namespace DisplaBackend.Models
         public decimal? RetencionIva { get; set; }
         public decimal? Pib { get; set; }
         public decimal? Tseh { get; set; }
+        public int IdUsuario { get; set; }
+        public int? IdUsuarioAnulacion { get; set; }
 
         public virtual Gasto IdGastoNavigation { get; set; }
         public virtual Proveedor IdProveedorNavigation { get; set; }
         public virtual TarjetaCredito IdTarjetaNavigation { get; set; }
         public virtual TipoComprobante IdTipoComprobanteNavigation { get; set; }
+        public virtual AspNetUsers IdUsuarioAnulacionNavigation { get; set; }
+        public virtual AspNetUsers IdUsuarioNavigation { get; set; }
         public virtual ICollection<ComprobanteImportacion> ComprobanteImportacion { get; set; }
         public virtual ICollection<ComprobanteIva> ComprobanteIva { get; set; }
     }

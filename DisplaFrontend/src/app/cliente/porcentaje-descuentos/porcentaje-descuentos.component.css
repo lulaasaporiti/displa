@@ -5,8 +5,9 @@
 .dialog-title{
     font-family: "Chalet London" !important;
     font-size: 18px;
+    margin-top: 8px !important;
 }
 
 .dialog-botones{
-    margin-top: 10px !important;
+    margin-top: 8px !important;
   }

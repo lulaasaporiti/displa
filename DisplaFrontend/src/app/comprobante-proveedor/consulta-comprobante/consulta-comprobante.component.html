@@ -1,0 +1,132 @@
+<div class="content">
+  <app-loading-spinner></app-loading-spinner>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+    <h4 fxLayout="column" class="titulo" fxFlex>Consulta de comprobantes</h4>
+    <mat-form-field fxLayout="column" fxFlex="40" class="buscador">
+      <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus"
+        placeholder="Buscar">
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-accordion fxFill>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5 class="titulo" fxFlex>Filtros</h5>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxLayout="column" style="margin: 12px auto;">
+          <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
+            style="font-size: small; line-height: 38px !important;">
+            <div fxLayoutAlign="start center" fxLayoutGap="2vw">
+              <mat-form-field fxFill>
+                <input type="text" placeholder="Proveedor" aria-label="Proveedor" matInput
+                    [formControl]="proveedoresControl" [matAutocomplete]="auto" name="proveedor">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProvedor">
+                    <mat-option *ngFor="let p of filteredProveedores | async" [value]="p">
+                        {{ p.Id }} - {{p.Nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-slide-toggle color="accent" #todos="ngModel" id="todos" name="todos" [ngModel]="todo"
+                (click)="applyFilterAvanzados(todos, 'todos')">Todos los proveedores
+              </mat-slide-toggle>
+            </div>
+          </div>
+          <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
+            style="font-size: small; line-height: 38px !important;">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="since" placeholder="Desde" name="desde"
+                #desde="ngModel" (ngModelChange)="applyFilterAvanzados('', 'desde')" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker2" [(ngModel)]="today" placeholder="Hasta" name="hasta"
+                #hasta="ngModel" (ngModelChange)="applyFilterAvanzados('', 'hasta')" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
+            style="font-size: small; line-height: 38px !important;">
+            <mat-slide-toggle color="accent" #anulados="ngModel" id="anulados" name="anulados" [(ngModel)]="anulado"
+              (click)="applyFilterAvanzados(anulados, 'anulados')" [disabled]="valido || dataSource.data.length === 0">Solo anulados
+            </mat-slide-toggle>
+            <mat-slide-toggle color="accent" #validos="ngModel" id="validos" name="validos" [(ngModel)]="valido"
+              (click)="applyFilterAvanzados(validos, 'validos')" [disabled]="anulado || dataSource.data.length === 0">Solo válidos
+            </mat-slide-toggle>
+            <mat-slide-toggle color="accent" #remitos="ngModel" id="remitos" name="remitos" [(ngModel)]="remito"
+              (click)="applyFilterAvanzados(remitos, 'remitos')" [disabled]="dataSource.data.length === 0">Incluir remitos facturados
+            </mat-slide-toggle>
+            <mat-slide-toggle color="accent" #recibos="ngModel" id="recibos" name="recibos" [(ngModel)]="recibo"
+              (click)="applyFilterAvanzados(recibos, 'recibos')" [disabled]="dataSource.data.length === 0">Solo recibos
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-divider fxFlexOffset="2"></mat-divider>
+
+  <mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla"
+    [hidden]="dataSource.data.length === 0">
+    <ng-container matColumnDef="Cliente">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> CLIENTE </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{ row.IdClienteNavigation }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Tipo">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> TIPO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{ row.IdTipoComprobanteNavigation }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Letra">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> LETRA </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Letra}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Fecha">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> FECHA </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center">
+        {{row.Fecha | date:"dd/MM/yyyy HH:mm:ss"}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="NumeroComprobante">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15"> NÚMERO COMPROBANTE </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center"> {{row.Numero}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Monto">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15"> MONTO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center"> {{row.MontoTotal}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Estado">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15"> ESTADO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center"> {{ (row.FechaAnulado != undefined) ?
+        'Anulado' : '' }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" fxFill (click)="verComprobante(row.Id, row.IdTipoComprobanteNavigation)"></mat-row>
+  </mat-table>
+  <mat-paginator [ngStyle]="{display: dataSource.data.length > 0 ? 'block' : 'none'}" [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
+</div>
+
+
+<!-- mensajes sin resultados -->
+<div fxLayout="row" class="mensaje-inicial" fxLayoutAlign="center center" *ngIf="dataSource.data.length === 0">
+  <div fxFill fxLayout="column" fxLayoutAlign="center center">
+
+    <h1 class="poppins" style="color:#a6a4a4;">No se encontraron resultados para su búsqueda.</h1>
+  </div>
+</div>

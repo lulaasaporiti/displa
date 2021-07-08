@@ -1,0 +1,10 @@
+mat-slide-toggle, mat-label {
+    padding-top: 15px;
+}
+
+
+.msgError {
+    color: #ff5722;
+    font-size: 75%;
+    /* margin-left: 14px; */
+}

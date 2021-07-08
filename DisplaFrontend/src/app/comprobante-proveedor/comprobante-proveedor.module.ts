@@ -5,10 +5,13 @@ import { ComprobanteProveedorRoutingModule } from './comprobante-proveedor-routi
 import { MaterialModule } from '../material/material.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { FacturaProveedorComponent } from './factura/factura.component';
+import { NotaCreditoProveedorComponent } from './nota-credito/nota-credito.component';
+import { NotaDebitoProveedorComponent } from './nota-debito/nota-debito.component';
+import { ConsultaComprobanteProveedorComponent } from './consulta-comprobante/consulta-comprobante.component';
 
 @NgModule({
     entryComponents: [],
-    declarations: [ FacturaProveedorComponent ],
+    declarations: [ FacturaProveedorComponent, NotaCreditoProveedorComponent, NotaDebitoProveedorComponent, ConsultaComprobanteProveedorComponent ],
     imports: [
         CommonModule,
         MaterialModule,

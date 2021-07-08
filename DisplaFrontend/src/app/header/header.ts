@@ -76,7 +76,6 @@ export class HeaderComponent {
   ngOnInit() {
   }
 
-
   
   isAuthenticated() {
     let isLogged = this.sessionService.isAuthenticated();
@@ -87,7 +86,7 @@ export class HeaderComponent {
         }
     }
     return isLogged;
-}
+  }
 
   openDialogLentes(): void {
     let idLente;

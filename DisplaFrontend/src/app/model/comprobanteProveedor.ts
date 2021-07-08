@@ -4,6 +4,7 @@ import { Gasto } from "./Gasto"
 import { Proveedor } from "./Proveedor"
 import { TarjetaCredito } from "./tarjetaCredito"
 import { TipoComprobante } from "./tipoComprobante"
+import { Usuario } from "./usuario"
 
 export interface ComprobanteProveedor {
     Id: number,
@@ -38,11 +39,15 @@ export interface ComprobanteProveedor {
     MultiTasasIva: boolean,
     Tseh: number,
     NombreProveedor: string,
+    IdUsuario: number,
+    IdUsuarioAnulacion: number,
 
     IdGastoNavigation: Gasto,
     IdProveedorNavigation: Proveedor,
     IdTarjetaNavigation: TarjetaCredito,
     IdTipoComprobanteNavigation: TipoComprobante,
+    IdUsuarioNavigation: Usuario,
+    IdUsuarioAnulacionNavigation: Usuario, 
 
     ComprobanteImportacion: ComprobanteImportacion[];
     ComprobanteIva: ComprobanteIVA[];

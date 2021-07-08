@@ -26,7 +26,6 @@ export class AccountLoginComponent implements OnInit {
 
   ngOnInit() {
     this.dialog.closeAll();
-    // console.log(this.sessionService.isAuthenticated())
     if (this.sessionService.isAuthenticated()) {
       this.router.navigateByUrl('/Home');
     // } else {

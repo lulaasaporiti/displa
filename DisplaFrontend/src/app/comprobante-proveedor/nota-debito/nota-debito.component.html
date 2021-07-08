@@ -1,8 +1,7 @@
 <form #facturaForm="ngForm">
     <div class="content">
         <div fxLayout="row" fxLayoutGap="15px">
-            <!-- <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon> -->
-            <h4 class="titulo">Factura</h4>
+            <h4 class="titulo">Nota de débito</h4>
         </div>
 
         <div fxLayout="row" fxLayoutGap="2vw">
@@ -98,10 +97,6 @@
                     #monto="ngModel" (blur)="validarMonto()" required>
                 <mat-error *ngIf="monto.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
-
-            <mat-slide-toggle color="accent" id="efectivo" name="efectivo">
-                Efectivo (genera recibo)
-            </mat-slide-toggle>
         </div>
         <div fxLayout="row" fxLayoutGap="2vw">
             <mat-slide-toggle color="accent" id="tarjeta" name="tarjeta" (change)="conTarjeta = !conTarjeta">

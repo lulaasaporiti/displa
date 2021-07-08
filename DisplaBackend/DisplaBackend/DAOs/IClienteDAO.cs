@@ -39,6 +39,9 @@ namespace DisplaBackend.DAOs
         bool SaveClienteBloqueo(ClienteBloqueo bloqueo);
         double GetDiasPlazo(int idCliente);
         bool DeleteFicha(int idFicha);
+        List<PrecioLenteCliente> GetPreciosEspecialesLentes();
+        List<PrecioArticuloCliente> GetPreciosEspecialesArticulos();
+        List<PrecioServicioCliente> GetPreciosEspecialesServicios();
     }
 
     public class ClienteDAO : IClienteDAO
@@ -431,6 +434,7 @@ namespace DisplaBackend.DAOs
                     }
                     if (p.IdPrecioLente == 0 && p.Especial == true)
                     {
+                        p.IdPrecioLenteNavigation.Moneda = "$";
                         p.IdPrecioLenteNavigation = _context.PrecioLente.Add(p.IdPrecioLenteNavigation).Entity;
                         _context.SaveChanges();
                         p.IdPrecioLente = p.IdPrecioLenteNavigation.Id;
@@ -914,5 +918,31 @@ namespace DisplaBackend.DAOs
             }
             return preciosServicios;
         }
+
+        public List<PrecioLenteCliente> GetPreciosEspecialesLentes()
+        {
+            return _context.PrecioLenteCliente
+                .Include(pe => pe.IdPrecioLenteNavigation)
+                .Include(pe => pe.IdClienteNavigation)
+                .Where(pe => pe.Especial == true).ToList();
+        }
+
+        public List<PrecioArticuloCliente> GetPreciosEspecialesArticulos()
+        {
+            return _context.PrecioArticuloCliente
+                .Include(pe => pe.IdPrecioArticuloNavigation)
+                .Include(pe => pe.IdClienteNavigation)
+                .Where(pe => pe.Especial == true).ToList();
+        }
+
+        public List<PrecioServicioCliente> GetPreciosEspecialesServicios()
+        {
+            return _context.PrecioServicioCliente
+                .Include(pe => pe.IdPrecioServicioNavigation)
+                .Include(pe => pe.IdClienteNavigation)
+                .Where(pe => pe.Especial == true).ToList();
+        }
     }
+
+   
 }

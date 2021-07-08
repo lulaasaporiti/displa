@@ -102,10 +102,10 @@ export class AppComponent {
       'info',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/info_black_24dp.svg')
     );
-    this.matIconRegistry.addSvgIcon(
-      'block_black',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/block_black_24dp.svg')
-    );
+    // this.matIconRegistry.addSvgIcon(
+    //   'block_black',
+    //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/block_black_24dp.svg')
+    // );
     // this.matIconRegistry.addSvgIcon(
     //   'error_outline',
     //   this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/error_outline.svg')
@@ -113,6 +113,10 @@ export class AppComponent {
     this.matIconRegistry.addSvgIcon(
       'funciones_usuario',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/assignment_ind_black_24dp.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'reporte',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/description_black_24dp.svg')
     );
   }
 }

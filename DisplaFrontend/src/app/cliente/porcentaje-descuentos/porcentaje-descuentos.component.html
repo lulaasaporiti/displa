@@ -1,30 +1,36 @@
-<div class="dialog-content" fxLayout="column" fxLayoutGap="1vw">
+<div class="dialog-content" fxLayout="column" fxLayoutGap="15px">
     <div mat-dialog-title fxLayout="row" fxLayoutGap="15px">
-        <!-- <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="delete"></mat-icon> -->
-        <p class="dialog-title">Reportes a imprimir</p>
+        <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="reporte"></mat-icon>
+        <p class="dialog-title">Estadísticas de precios y descuentos</p>
     </div>
-    <mat-slide-toggle color="accent" id="especialLentes" name="especialLentes">
+    <mat-slide-toggle color="accent" [(ngModel)]="especialL" id="especialLentes" name="especialLentes">
         Precios especiales de lentes
     </mat-slide-toggle>
-    <mat-slide-toggle color="accent" id="especialArticulo" name="especialArticulo">
+    <mat-slide-toggle color="accent" [(ngModel)]="especialA" id="especialArticulo" name="especialArticulo">
         Precios especiales de artículos varios
     </mat-slide-toggle>
-    <mat-slide-toggle color="accent" id="descuentoLente" name="descuentoLente">
+    <mat-slide-toggle color="accent" [(ngModel)]="especialS" id="especialServicio" name="especialServicio">
+        Precios especiales de servicios
+    </mat-slide-toggle>
+    <mat-slide-toggle color="accent" [(ngModel)]="descuentoL" id="descuentoLente" name="descuentoLente">
         Descuentos por lente
     </mat-slide-toggle>
-    <mat-slide-toggle color="accent" id="descuentoArticulo" name="descuentoArticulo">
+    <mat-slide-toggle color="accent" [(ngModel)]="descuentoA" id="descuentoArticulo" name="descuentoArticulo">
         Descuentos por tipo de artículo
     </mat-slide-toggle>
-    <mat-slide-toggle color="accent" id="descuentoClientes" name="descuentoClientes">
+    <mat-slide-toggle color="accent" [(ngModel)]="descuentoS" id="descuentoServicio" name="descuentoServicio">
+        Descuentos por tipo de servicio
+    </mat-slide-toggle>
+    <mat-slide-toggle color="accent" [(ngModel)]="descuentoC" id="descuentoClientes" name="descuentoClientes">
         Descuentos a clientes
     </mat-slide-toggle>
-    <mat-slide-toggle color="accent" id="descuentoClientes" name="descuentoClientes" checked="true">
+    <mat-slide-toggle color="accent" [(ngModel)]="excluir0" id="excluirClientes" name="excluirClientes">
         Excluir clientes con descuento 0%
     </mat-slide-toggle>
 
     <mat-form-field>
         <mat-label>Además excluir porcentaje igual a </mat-label>
-        <input type="number" matInput id="excluir" name="excluir" value="0">
+        <input type="number" matInput id="excluir" name="excluir" value="0" [(ngModel)]="excluirPorcentaje">
     </mat-form-field>
 
     <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" class="dialog-botones">

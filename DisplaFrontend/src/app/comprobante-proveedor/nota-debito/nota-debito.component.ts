@@ -16,11 +16,11 @@ import { TarjetaCreditoService } from 'src/services/tarjeta.credito.service';
 import { TipoComprobanteService } from 'src/services/tipo.comprobante.service';
 
 @Component({
-  selector: 'app-factura-proveedor-alta',
-  templateUrl: './factura.component.html',
-  styleUrls: ['./factura.component.css']
+  selector: 'app-nota-debito-proveedor-alta',
+  templateUrl: './nota-debito.component.html',
+  styleUrls: ['./nota-debito.component.css']
 })
-export class FacturaProveedorComponent implements OnInit {
+export class NotaDebitoProveedorComponent implements OnInit {
   modelFactura = <ComprobanteProveedor>{};
   gastos: Gasto[];
   alicuotas = [21, 27, 10.5, 5, 2.5, 0]

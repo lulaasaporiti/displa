@@ -37,6 +37,9 @@ namespace DisplaBackend.Services
         JObject GetPrecioServicioFactura(int idCliente, int[] servicios);
         double GetDiasPlazo(int idCliente);
         bool DeleteFicha(int idFicha);
+        List<PrecioLenteCliente> GetPreciosEspecialesLentes();
+        List<PrecioArticuloCliente> GetPreciosEspecialesArticulos();
+        List<PrecioServicioCliente> GetPreciosEspecialesServicios();
     }
 
     public class ClienteService : IClienteService
@@ -209,5 +212,20 @@ namespace DisplaBackend.Services
             return _clienteDAO.GetPrecioServicioFactura(idCliente, servicios);
 
         }
+
+        public List<PrecioLenteCliente> GetPreciosEspecialesLentes()
+        {
+            return _clienteDAO.GetPreciosEspecialesLentes();
+        }
+
+        public List<PrecioArticuloCliente> GetPreciosEspecialesArticulos() {
+            return _clienteDAO.GetPreciosEspecialesArticulos();
+        }
+
+        public List<PrecioServicioCliente> GetPreciosEspecialesServicios()
+        {
+            return _clienteDAO.GetPreciosEspecialesServicios();
+        }
+
     }
 }

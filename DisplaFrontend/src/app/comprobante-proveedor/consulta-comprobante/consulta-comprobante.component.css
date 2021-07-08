@@ -1,0 +1,53 @@
+mat-paginator{
+  background: transparent;
+  font-size: 11px;
+}
+
+/* /////////////////// */
+
+.buscador{
+  font-size: 14px;
+}
+
+.menu-agregar{
+  padding: 8px 0;
+}
+
+.buttonFixed{
+  transform: scale(0.7);
+}
+
+.toggle-clientes{
+  font-size: small;
+  line-height: 38px !important;
+}
+
+::ng-deep .menu-clientes .mat-menu-content{    
+  background-color: transparent !important;
+}
+
+/* /////////////////// */
+
+mat-table {
+  width: 100%;
+  padding: 0px !important;
+  background-color: transparent;
+}
+
+mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+
+mat-cell:first-of-type {
+  padding: 12px;
+  padding-left: 0px;
+}
+
+mat-cell:last-of-type {
+  padding-right: 0px;
+}
+
