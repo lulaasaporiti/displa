@@ -47,21 +47,36 @@
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
+            <mat-form-field fxFlex="50">
+              <mat-select placeholder="Tipo de comprobante" [(ngModel)]="selectedTipoComprobante" name="tipoComprobante"
+                  #tipoComprobante="ngModel" (ngModelChange)="applyFilterAvanzados('', selectedTipoComprobante)" required>
+                  <mat-option [value]="0">
+                    Todos los comprobantes
+                  </mat-option>
+                  <mat-option *ngFor="let tipo of tiposComprobante; let i = index" [value]="tipo.Id">
+                      {{ tipo.Descripcion }}
+                  </mat-option>
+                  <mat-option [value]="6">
+                    Recibo
+                  </mat-option>
+              </mat-select>
+              <mat-error *ngIf="tipoComprobante.hasError('required')">Campo obligatorio.</mat-error>
+          </mat-form-field>
           </div>
           <div fxLayoutGap="2vw" fxFlexOffset="2" fxLayout="row" fxFill
             style="font-size: small; line-height: 38px !important;">
             <mat-slide-toggle color="accent" #anulados="ngModel" id="anulados" name="anulados" [(ngModel)]="anulado"
-              (click)="applyFilterAvanzados(anulados, 'anulados')" [disabled]="valido || dataSource.data.length === 0">Solo anulados
+              (click)="applyFilterAvanzados(anulados, 'anulados')" [disabled]="valido">Solo borrados
             </mat-slide-toggle>
             <mat-slide-toggle color="accent" #validos="ngModel" id="validos" name="validos" [(ngModel)]="valido"
-              (click)="applyFilterAvanzados(validos, 'validos')" [disabled]="anulado || dataSource.data.length === 0">Solo válidos
+              (click)="applyFilterAvanzados(validos, 'validos')" [disabled]="anulado">Solo válidos
             </mat-slide-toggle>
-            <mat-slide-toggle color="accent" #remitos="ngModel" id="remitos" name="remitos" [(ngModel)]="remito"
+            <!-- <mat-slide-toggle color="accent" #remitos="ngModel" id="remitos" name="remitos" [(ngModel)]="remito"
               (click)="applyFilterAvanzados(remitos, 'remitos')" [disabled]="dataSource.data.length === 0">Incluir remitos facturados
-            </mat-slide-toggle>
-            <mat-slide-toggle color="accent" #recibos="ngModel" id="recibos" name="recibos" [(ngModel)]="recibo"
-              (click)="applyFilterAvanzados(recibos, 'recibos')" [disabled]="dataSource.data.length === 0">Solo recibos
-            </mat-slide-toggle>
+            </mat-slide-toggle> -->
+            <!-- <mat-slide-toggle color="accent" #recibos="ngModel" id="recibos" name="recibos" [(ngModel)]="recibo"
+              (click)="applyFilterAvanzados(recibos, 'recibos')">Solo recibos
+            </mat-slide-toggle>  -->
           </div>
         </div>
       </mat-expansion-panel>
