@@ -1,140 +1,138 @@
 .dialog-content {
-    padding: 15px 25px 30px 25px;
+  padding: 15px 25px 30px 25px;
 }
 
 .dialog-title {
-    font-family: "Chalet London" !important;
-    font-size: 18px;
+  font-family: "Chalet London" !important;
+  font-size: 18px;
 }
 
 .dialog-botones {
-    margin-top: 20px !important;
+  margin-top: 20px !important;
 }
 
-.texto-explicativo{
+.texto-explicativo {
   font-family: "Chalet London" !important;
   color: gray;
 }
 
 .mat-dialog-content {
-    height: 80px;
+  height: 80px;
 }
+
 .radio-group {
-    padding-top: 10px;
-    padding-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .msjError {
-    color: #ff5722;
-    font-size: 90%;
-    margin-top: 8px;
+  color: #ff5722;
+  font-size: 90%;
+  margin-top: 8px;
 }
 
 
 :host /deep/ .mat-list-item-content {
-  padding: 0!important;
+  padding: 0 !important;
 }
 
-.mat-subheader{
-  padding-bottom: 0!important;
+.mat-subheader {
+  padding-bottom: 0 !important;
 
 }
 
 .link:link {
-    color: black;
-    font-weight: bold;
-    font-style: italic;
-    background-color: transparent;
-    text-decoration:none;
-  }
-  
-  .link:visited {
-    color: black;
-    font-weight: bold;
-    font-style: italic;
-    background-color: transparent;
-    text-decoration: none;
-  }
-  
-  .link:hover {
-    color: black;
-    font-weight: bold;
-    font-style: italic;
-    text-decoration: black;
-  }
+  color: black;
+  font-weight: bold;
+  font-style: italic;
+  background-color: transparent;
+  text-decoration: none;
+}
 
-  .link:active {
-    color: black;
-    font-weight: bold;
-    font-style: italic;
-    text-decoration: black;
-  }
+.link:visited {
+  color: black;
+  font-weight: bold;
+  font-style: italic;
+  background-color: transparent;
+  text-decoration: none;
+}
 
-   /* /////////////////// */
-  
-  
-   table {
-    width: 100%;
-    width: 100%;
-    padding: 0px !important;
-  }
-  
-  .mat-table{
-    background-color: transparent;
-  }
-  
-  th.mat-header-cell:first-of-type{
-    padding-left: 0px;
-  }
-  
-  th.mat-header-cell:last-of-type{
-    padding-right: 0px;
-  }
-  
-  td.mat-cell:first-of-type{
-    padding-left: 0px;
-  }
-  
-  td.mat-cell:last-of-type{
-    padding-right: 0px;
-  }
-  
-  td {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  mat-checkbox {
-    padding-bottom: 3px;
-  }
-  
-  tr.example-detail-row {
-    height: auto;
-  }
+.link:hover {
+  color: black;
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: black;
+}
 
-  tr.mat-header-row{
-    height: auto;
-  }
-  
-  .example-element-row td {
-    border-bottom-width: 0;
-  }
-  
-  .example-element-detail {
-    overflow: hidden;
-    display: flex;
-  }
-  
-  .example-element-description {
-    padding: 16px;
-  }
-  
-  .example-element-description-attribution {
-    opacity: 0.5;
-  }
-  
-  td.mat-cell.informacion{
-    padding-top: 0px;
-    padding-bottom: 8px;
-    
-  }
+.link:active {
+  color: black;
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: black;
+}
+
+/* /////////////////// */
+
+
+mat-table {
+  width: 100%;
+  width: 100%;
+  padding: 0px !important;
+  background-color: transparent;
+}
+
+mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+
+mat-cell:first-of-type {
+  padding-left: 0px;
+}
+
+mat-cell:last-of-type {
+  padding-right: 0px;
+}
+
+mat-cell {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+mat-checkbox {
+  padding-bottom: 3px;
+}
+
+tr.example-detail-row {
+  height: auto;
+}
+
+tr.mat-header-row {
+  height: auto;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+td.mat-cell.informacion {
+  padding-top: 0px;
+  padding-bottom: 8px;
+
+}

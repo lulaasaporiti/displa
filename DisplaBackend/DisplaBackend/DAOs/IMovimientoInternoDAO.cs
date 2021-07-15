@@ -15,6 +15,8 @@ namespace DisplaBackend.DAOs
         bool Delete(MovimientoInterno movimientoInterno);
         MovimientoInterno GetById(int idMovimientoInterno);
         List<dynamic> BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
+        List<dynamic> BuscarMovimientoProveedor(int idProveedor, DateTime fechaDesde, DateTime fechaHasta);
+
     }
 
     public class MovimientoInternoDAO : IMovimientoInternoDAO
@@ -126,5 +128,51 @@ namespace DisplaBackend.DAOs
                     .ToList<dynamic>();
             }
         }
+
+        public List<dynamic> BuscarMovimientoProveedor(int idProveedor, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            if (idProveedor > 0)
+            {
+                return _context.MovimientoInterno
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdProveedorNavigation)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && idProveedor == cc.IdProveedor)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       IdTipoComprobante = ca.IdTipoComprobante,
+                       IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
+                       IdProveedorNavigation = ca.IdProveedorNavigation.Nombre,
+                       Monto = ca.Monto
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            else
+            {
+                List<dynamic> pepe = _context.MovimientoInterno
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdProveedorNavigation)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && cc.IdProveedor != null)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       IdTipoComprobante = ca.IdTipoComprobante,
+                       IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaAnulado,
+                       IdProveedorNavigation = ca.IdProveedorNavigation.Nombre,
+                       Monto = ca.Monto
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+
+                return pepe;
+            }
+        }
     }
+
+
 }

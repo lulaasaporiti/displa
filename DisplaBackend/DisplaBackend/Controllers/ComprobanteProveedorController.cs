@@ -71,6 +71,13 @@ namespace DisplaBackend.Controllers
             return Ok(_comprobanteProveedorService.Delete(comprobanteProveedor));
         }
 
+        [HttpGet, Route("BuscarComprobante")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarComprobante(int idProveedor, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _comprobanteProveedorService.BuscarComprobante(idProveedor, fechaDesde, fechaHasta);
+        }
+
     }
 
 

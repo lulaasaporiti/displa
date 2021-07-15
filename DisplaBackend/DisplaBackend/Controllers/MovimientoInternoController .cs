@@ -84,6 +84,14 @@ namespace DisplaBackend.Controllers
             return _movimientoInternoService.BuscarMovimiento(idCliente, fechaDesde, fechaHasta);
         }
 
+        [HttpGet, Route("BuscarMovimientoProveedor")]
+        [EnableCors("DisplaAPIPolicy")]
+        public object BuscarMovimientoProveedor(int idProveedor, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _movimientoInternoService.BuscarMovimientoProveedor(idProveedor, fechaDesde, fechaHasta);
+        }
+
+
     }
 
 

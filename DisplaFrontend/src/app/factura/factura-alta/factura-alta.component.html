@@ -117,64 +117,65 @@
       </div>
 
       <mat-divider></mat-divider>
-      <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+      <mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
         <ng-container matColumnDef="Cantidad">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> CANTIDAD </th>
-          <td mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> CANTIDAD </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
             &nbsp;{{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Cantidad : (row.CantidadVendida != undefined) ? row.CantidadVendida : row.Cantidad }}
-          </td>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="Sobre">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> SOBRE </th>
-          <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center">
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> SOBRE </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="start center">
             {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.NumeroSobre : row.NumeroSobre }}
-          </td>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="Descripcion">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> DESCRIPCIÓN </th>
-          <td mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex> DESCRIPCIÓN </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex fxLayoutAlign="start center">
             <!-- : (row.CantidadVendida != undefined) ? row.IdLenteNavigation.Nombre + ' V. VIRTUAL' -->
             {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Descripcion : row.Descripcion }}
-          </td>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="Esferico / Cilindrico">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="14"> ESFÉRICO / CILÍNDRICO </th>
-          <td mat-cell *matCellDef="let row" fxFlex="14" fxLayoutAlign="start center">
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="14"> ESFÉRICO / CILÍNDRICO </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="14" fxLayoutAlign="start center">
             {{(row.ComprobanteItemLente != undefined) ? (row.ComprobanteItemLente[0].ConversionMedidas + ((row.ComprobanteItemLente.length == 2) ? ((row.ComprobanteItemLente[0].ConversionMedidas != row.ComprobanteItemLente[1].ConversionMedidas) ? ' y ' + row.ComprobanteItemLente[1].ConversionMedidas : '') : '')) : ''}}
+          </mat-cell>  
         </ng-container>
 
         <ng-container matColumnDef="Recargo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> RECARGO </th>
-          <td mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center">
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> RECARGO </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center">
             <div *ngFor="let r of row.ComprobanteItemRecargo; let j = index" fxLayout="row">
               {{row.ComprobanteItemRecargo[j].IdRecargoNavigation.Descripcion.split(' ')[0] + (j == row.ComprobanteItemRecargo.length -1 ? ' ' :  ', ')}}
             </div>
             <div *ngFor="let r of row.ComprobanteItemServicio; let j = index" fxLayout="row">
               {{row.ComprobanteItemServicio[j].IdServicioNavigation.DescripcionFactura + (j == row.ComprobanteItemServicio.length -1 ? ' ' :  ', ')}}
             </div>
-          </td>
+          </mat-cell>
           </ng-container>
 
         <ng-container matColumnDef="Importe">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> IMPORTE </th>
-          <td mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
-            {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Monto : row.Monto }}</td>
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7"> IMPORTE </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="7" fxLayoutAlign="start center">
+            {{(row.IdComprobanteItemNavigation != undefined) ? row.IdComprobanteItemNavigation.Monto : row.Monto }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="Borrar">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> BORRAR </th>
-          <td mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="center center">
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5"> BORRAR </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex="5" fxLayoutAlign="center center">
             <button mat-button type="button" (click)="rowBorrarProductos(row)">
               <mat-icon svgIcon="close" class="tabla_icono"></mat-icon>
             </button>
-          </td>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="footer">
-          <td mat-footer-cell *matFooterCellDef id="footers" [style.display]="'none'">
+          <mat-footer-cell *matFooterCellDef id="footers" [style.display]="'none'">
             <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="8px">
               <label style="font-weight: bold;">Subtotal:</label>
               <label> {{getSubtotales()}}</label>
@@ -190,13 +191,13 @@
               <label style="font-weight: bold; color: darkred;" *ngIf="this.remitos.length > 0">Total con remitos: </label>
               <label *ngIf="this.remitos.length > 0">{{(+getTotales() + +getTotalRemito())}}</label>
             </div>
-          </td>
+          </mat-footer-cell>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="validaciones(row)" fxFill></tr>
-        <tr mat-footer-row *matFooterRowDef="['footer']" class="example-second-footer-row"></tr>
-      </table>
+        <mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="validaciones(row)" fxFill></mat-row>
+        <mat-footer-row *matFooterRowDef="['footer']" class="example-second-footer-row"></mat-footer-row>
+      </mat-table>
       <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
     </div>
 

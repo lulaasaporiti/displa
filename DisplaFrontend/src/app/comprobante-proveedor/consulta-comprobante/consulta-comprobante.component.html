@@ -86,9 +86,9 @@
 
   <mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla"
     [hidden]="dataSource.data.length === 0">
-    <ng-container matColumnDef="Cliente">
-      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> CLIENTE </mat-header-cell>
-      <mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{ row.IdClienteNavigation }}
+    <ng-container matColumnDef="Proveedor">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30"> PROVEEDOR </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="30" fxLayoutAlign="start center"> {{ row.IdProveedorNavigation }}
       </mat-cell>
     </ng-container>
 
@@ -100,14 +100,14 @@
 
     <ng-container matColumnDef="Letra">
       <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10"> LETRA </mat-header-cell>
-      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Letra}}
+      <mat-cell *matCellDef="let row" fxFlex="10" fxLayoutAlign="start center"> {{row.Clase}}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Fecha">
       <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20"> FECHA </mat-header-cell>
       <mat-cell *matCellDef="let row" fxFlex="20" fxLayoutAlign="start center">
-        {{row.Fecha | date:"dd/MM/yyyy HH:mm:ss"}}
+        {{row.Fecha | date:"dd/MM/yyyy"}}
       </mat-cell>
     </ng-container>
 
@@ -119,14 +119,14 @@
 
     <ng-container matColumnDef="Monto">
       <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15"> MONTO </mat-header-cell>
-      <mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center"> {{row.MontoTotal}}
+      <mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center"> {{row.Monto}}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Estado">
       <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15"> ESTADO </mat-header-cell>
       <mat-cell *matCellDef="let row" fxFlex="15" fxLayoutAlign="start center"> {{ (row.FechaAnulado != undefined) ?
-        'Anulado' : '' }}
+        'Anulado' : '-' }}
       </mat-cell>
     </ng-container>
 

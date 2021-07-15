@@ -44,4 +44,12 @@ export class MovimientoInternoService {
             fechaHasta: fechaHasta
         });
     }
+
+    getBusquedaMovimientoProveedor(idProveedor, fechaDesde, fechaHasta): Observable<any> {
+        return this.mainService.get(`MovimientoInterno/BuscarMovimientoProveedor`, {
+            idProveedor: idProveedor,
+            fechaDesde: fechaDesde,
+            fechaHasta: fechaHasta
+        });
+    }
 }

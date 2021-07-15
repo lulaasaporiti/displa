@@ -16,6 +16,7 @@ import { Proveedor } from 'src/app/model/Proveedor';
 import { ProveedorService } from 'src/services/proveedor.service';
 import { TipoComprobanteService } from 'src/services/tipo.comprobante.service';
 import { TipoComprobante } from 'src/app/model/tipoComprobante';
+import { ComprobanteProveedorService } from 'src/services/comprobanteProveedor.service';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class ConsultaComprobanteProveedorComponent implements OnInit {
   today = new Date();
   since: Date;
   original: any[] = [];
-  displayedColumns = ['Cliente', 'Tipo', 'Letra', 'Fecha', 'NumeroComprobante', 'Monto', 'Estado'];
+  displayedColumns = ['Proveedor', 'Tipo', 'Letra', 'Fecha', 'NumeroComprobante', 'Monto', 'Estado'];
   proveedores: Proveedor[];
   proveedoresControl = new FormControl();
   filteredProveedores: Observable<Proveedor[]>;
@@ -49,9 +50,9 @@ export class ConsultaComprobanteProveedorComponent implements OnInit {
     public dialog: MatDialog,
     private reciboService: ReciboService,
     private proveedorService: ProveedorService,
+    private comprobanteProveedorService: ComprobanteProveedorService,
     private movimientoService: MovimientoInternoService,
     private loadingSpinnerService: LoadingSpinnerService,
-    private comprobanteClienteService: ComprobanteClienteService,
     private tipoComprobanteService: TipoComprobanteService) { }
 
   ngOnInit() {
@@ -61,6 +62,7 @@ export class ConsultaComprobanteProveedorComponent implements OnInit {
     this.anulado = false;
     this.valido = false;
     this.recibo = false;
+    this.proveedorId = 0;
     this.searchElement.nativeElement.focus();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -107,12 +109,13 @@ export class ConsultaComprobanteProveedorComponent implements OnInit {
     this.loadingSpinnerService.show();
     if (!this.todo) {
       combineLatest([
-        this.comprobanteClienteService.getBusquedaComprobante(0, this.since.toDateString(), this.today.toDateString()),
+        this.comprobanteProveedorService.getBusquedaComprobante(0, this.since.toDateString(), this.today.toDateString()),
         this.reciboService.buscarRecibo(0, this.since.toDateString(), this.today.toDateString()),
-        this.movimientoService.getBusquedaMovimiento(0, this.since.toDateString(), this.today.toDateString())
+        this.movimientoService.getBusquedaMovimientoProveedor(0, this.since.toDateString(), this.today.toDateString())
       ]).subscribe(vc => {
         this.original = ((vc[0].concat(vc[1])).concat(vc[2]));
         this.dataSource.data = this.original
+        console.log(this.dataSource.data)
         this.loadingSpinnerService.hide();
       })
     } else {
@@ -128,9 +131,9 @@ export class ConsultaComprobanteProveedorComponent implements OnInit {
       this.todo = true
     }
     combineLatest([
-      this.comprobanteClienteService.getBusquedaComprobante(this.proveedorId, this.since.toDateString(), this.today.toDateString()),
+      this.comprobanteProveedorService.getBusquedaComprobante(this.proveedorId, this.since.toDateString(), this.today.toDateString()),
       this.reciboService.buscarRecibo(this.proveedorId, this.since.toDateString(), this.today.toDateString()),
-      this.movimientoService.getBusquedaMovimiento(0, this.since.toDateString(), this.today.toDateString())
+      this.movimientoService.getBusquedaMovimientoProveedor(0, this.since.toDateString(), this.today.toDateString())
     ]).subscribe(vc => {
       this.original = (vc[0].concat(vc[1])).concat(vc[2]);
       this.dataSource.data = this.original
@@ -148,7 +151,6 @@ export class ConsultaComprobanteProveedorComponent implements OnInit {
         this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado != undefined)     
     }
     if (campo >= 1 && campo <= 5) {
-      console.log('entro entre 1 y 5')
       this.dataSource.data = this.original.filter(d => d.IdTipoComprobante == campo) 
       if (this.valido)
         this.dataSource.data = this.dataSource.data.filter(d => d.FechaAnulado == undefined)
@@ -166,8 +168,10 @@ export class ConsultaComprobanteProveedorComponent implements OnInit {
       if (this.todo) {
         this.traerTodos()
       }
-      else
+      else {
         this.traerCliente()
+      }
+        
     }
     if (campo == 'hasta') {
       if (this.todo)

@@ -14,6 +14,8 @@ namespace DisplaBackend.Services
         bool Delete(MovimientoInterno movimientoInterno);
         MovimientoInterno GetById(int idMovimientoInterno);
         List<dynamic> BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta);
+        List<dynamic> BuscarMovimientoProveedor(int idProveedor, DateTime fechaDesde, DateTime fechaHasta);
+
     }
 
     public class MovimientoInternoService : IMovimientoInternoService
@@ -51,10 +53,16 @@ namespace DisplaBackend.Services
             return _movimientoInternoDAO.GetById(idMovimientoInterno);
         }
 
-        public List<dynamic> BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta) {
+        public List<dynamic> BuscarMovimiento(int idCliente, DateTime fechaDesde, DateTime fechaHasta)
+        {
             return _movimientoInternoDAO.BuscarMovimiento(idCliente, fechaDesde, fechaHasta);
         }
 
-    }
 
+        public List<dynamic> BuscarMovimientoProveedor(int idProveedor, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _movimientoInternoDAO.BuscarMovimientoProveedor(idProveedor, fechaDesde, fechaHasta);
+        }
+
+    }
 }

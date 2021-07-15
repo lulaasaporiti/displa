@@ -4,8 +4,8 @@
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
     <div fxLayout="column">
       <h4 fxLayout="column" class="titulo" fxFlex>Movimientos de insumo</h4>
-      <h5 fxLayout="column" fxFlex>{{insumo.Id}} - {{insumo.Nombre}}</h5>
-      <h5 fxLayout="column" fxFlex>Stock actual: {{insumo.StockActual}}</h5>
+      <h5 fxLayout="column" fxFlex>{{insumo?.Id}} - {{insumo?.Nombre}}</h5>
+      <h5 fxLayout="column" fxFlex>Stock actual: {{insumo?.StockActual}}</h5>
     </div>
     <mat-form-field fxLayout="column" fxFlex="40" class="buscador" fxFlexOffset="35">
       <input matInput (keyup)="applyFilter($event.target.value)" #search id="search" autofocus="autofocus"
@@ -21,29 +21,29 @@
   </div>
   <mat-divider></mat-divider>
 
-  <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
+  <mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla">
     <ng-container matColumnDef="TipoMovimiento">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="60"> TIPO MOVIMIENTO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="60" fxLayoutAlign="start center"> {{row.TipoMovimiento}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="60"> TIPO MOVIMIENTO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="60" fxLayoutAlign="start center"> {{row.TipoMovimiento}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Fecha">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="14"> FECHA </th>
-      <td mat-cell *matCellDef="let row" fxFlex="14" fxLayoutAlign="start center"> {{row.Fecha | date:"dd/MM/yyyy"}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="14"> FECHA </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="14" fxLayoutAlign="start center"> {{row.Fecha | date:"dd/MM/yyyy"}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Cantidad">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="13"> CANTIDAD </th>
-      <td mat-cell *matCellDef="let row" fxFlex="13" fxLayoutAlign="start center"> {{row.Cantidad}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="13"> CANTIDAD </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="13" fxLayoutAlign="start center"> {{row.Cantidad}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Usuario">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="13"> USUARIO </th>
-      <td mat-cell *matCellDef="let row" fxFlex="13" fxLayoutAlign="start center"> {{row.IdUsuarioNavigation.UserName}} </td>
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="13"> USUARIO </mat-header-cell>
+      <mat-cell *matCellDef="let row" fxFlex="13" fxLayoutAlign="start center"> {{row.IdUsuarioNavigation.UserName}} </mat-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></tr>
-  </table>
+    <mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" fxFill></mat-row>
+  </mat-table>
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

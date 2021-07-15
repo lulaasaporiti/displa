@@ -1,5 +1,6 @@
 ﻿using DisplaBackend.DAOs;
 using DisplaBackend.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +13,8 @@ namespace DisplaBackend.Services
         bool SaveOrUpdate(ComprobanteProveedor comprobante);
         bool Delete(ComprobanteProveedor comprobante);
         ComprobanteProveedor GetById(int idComprobanteProveedor);
+        List<dynamic> BuscarComprobante(int idProveedor, DateTime fechaDesde, DateTime fechaHasta);
+
     }
 
     public class ComprobanteProveedorService : IComprobanteProveedorService
@@ -47,6 +50,11 @@ namespace DisplaBackend.Services
         public ComprobanteProveedor GetById(int idComprobanteProveedor)
         {
             return _comprobanteDAO.GetById(idComprobanteProveedor);
+        }
+
+        public List<dynamic> BuscarComprobante(int idProveedor, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            return _comprobanteDAO.BuscarComprobante(idProveedor, fechaDesde, fechaHasta);
         }
 
     }

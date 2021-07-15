@@ -14,6 +14,7 @@ namespace DisplaBackend.DAOs
         bool SaveOrUpdate(ComprobanteProveedor comprobante);
         bool Delete(ComprobanteProveedor comprobante);
         ComprobanteProveedor GetById(int idComprobanteProveedor);
+        List<dynamic> BuscarComprobante(int idProveedor, DateTime fechaDesde, DateTime fechaHasta);
 
     }
 
@@ -85,6 +86,54 @@ namespace DisplaBackend.DAOs
             {
                 //throw e;
                 return false;
+            }
+        }
+
+        public List<dynamic> BuscarComprobante(int idProveedor, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            if (idProveedor > 0)
+            {
+                return _context.ComprobanteProveedor
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdProveedorNavigation)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1) && idProveedor == cc.IdProveedor)
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       IdTipoComprobante = ca.IdTipoComprobante,
+                       IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaBorrado,
+                       Letra = ca.Clase,
+                       Numero = ca.Numero,
+                       IdProveedorNavigation = ca.IdProveedorNavigation.Nombre,
+                       Monto = ca.Monto,
+                       Sucursal = ca.Sucursal
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
+            }
+            else
+            {
+                return _context.ComprobanteProveedor
+                    .Include(c => c.IdTipoComprobanteNavigation)
+                    .Include(c => c.IdProveedorNavigation)
+                    .Where(cc => cc.Fecha >= fechaDesde && cc.Fecha <= fechaHasta.AddDays(1))
+                   .Select(ca => new
+                   {
+                       Id = ca.Id,
+                       IdTipoComprobante = ca.IdTipoComprobante,
+                       IdTipoComprobanteNavigation = ca.IdTipoComprobanteNavigation.Descripcion,
+                       Fecha = ca.Fecha,
+                       FechaAnulado = ca.FechaBorrado,
+                       Letra = ca.Clase,
+                       Numero = ca.Numero,
+                       IdProveedorNavigation = ca.IdProveedorNavigation.Nombre,
+                       Monto = ca.Monto,
+                       Sucursal = ca.Sucursal
+                   })
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList<dynamic>();
             }
         }
     }

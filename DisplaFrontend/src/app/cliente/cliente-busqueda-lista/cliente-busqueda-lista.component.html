@@ -67,7 +67,7 @@
   </div>
   <mat-divider fxFlexOffset="2"></mat-divider>
 
-  <!-- <table mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla"
+  <!-- <mat-table fxFill [dataSource]="dataSource" matSort fxFlexOffset="3" class="tabla"
     [hidden]="dataSource.data.length === 0">
     <ng-container matColumnDef="Cliente">
       <th mat-header-cell *matHeaderCellDef fxFlex="30"> CLIENTE </th>
@@ -104,7 +104,7 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns" fxFill sticky></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" fxFill (click)="verComprobante(row.Id)"></tr>
-  </table>
+  </mat-table>
   <mat-paginator [ngStyle]="{display: dataSource.data.length > 0 ? 'block' : 'none'}" [pageSize]="10"
     [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>
