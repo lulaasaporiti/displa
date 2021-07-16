@@ -30,7 +30,7 @@
                 <div fxLayoutGap="1vw" (change)="sobreSelected()" *ngFor="let s of sobres; let index = index">
                     <mat-form-field fxFlex="18">
                         <input matInput placeholder="Número" [(ngModel)]="s.Numero" id="numero{{index}}" name="numero{{index}}" #numero="ngModel" required>
-                        <mat-error *ngIf="numero.invalid">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="numero.invalid">Campo obligatorio.</mat-error>
     
                         <!-- <button mat-button matSuffix mat-icon-button aria-label="Clear"
                         (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1"
@@ -40,7 +40,7 @@
                     </mat-form-field>
                     <mat-form-field fxFlex="18">
                         <input matInput placeholder="Entregas" [(ngModel)]="s.Entregas" id="entregas{{index}}" name="entregas{{index}}" #entregas="ngModel" required>
-                        <mat-error *ngIf="entregas.invalid">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="entregas.invalid">Campo obligatorio.</mat-error>
                     </mat-form-field>
                     <mat-form-field fxFlex>
                         <input matInput placeholder="Observaciones" [(ngModel)]="s.Observaciones" id="observaciones{{index}}" name="observaciones{{index}}" #observaciones="ngModel">

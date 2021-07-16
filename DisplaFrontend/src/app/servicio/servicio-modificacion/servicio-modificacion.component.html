@@ -45,7 +45,7 @@
                     <mat-form-field (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index" 
                         floatLabel="never">
                         <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
-                        <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="precio.invalid">Campo obligatorio.</mat-error>
     
                         <button mat-button matSuffix mat-icon-button aria-label="Clear"
                         (click)="eliminarUltimoPrecio()" [disabled]="data.modelServicio.PrecioServicio.length < 1"
@@ -60,7 +60,7 @@
         <!-- <div mat-dialog-content xLayout="row" (change)="precioSelected()" *ngFor="let p of data.modelServicio.PrecioServicio; let index = index">
             <mat-form-field fxFill>
                 <input matInput placeholder="Precio" [(ngModel)]="data.modelServicio.PrecioServicio[index].Precio" id="precio{{index}}" name="precio{{index}}" #precio="ngModel" required>
-                <mat-error *ngIf="precio.invalid">Este campo es obligatorio</mat-error>
+                <mat-error *ngIf="precio.invalid">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutAlign="end end">

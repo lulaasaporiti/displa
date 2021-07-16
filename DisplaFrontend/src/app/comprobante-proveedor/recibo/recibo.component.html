@@ -1,7 +1,8 @@
 <form #facturaForm="ngForm">
     <div class="content">
         <div fxLayout="row" fxLayoutGap="15px">
-            <h4 class="titulo">Nota de débito</h4>
+            <!-- <mat-icon color="primary" style="width: 30px; height: 30px;" svgIcon="add_circle_outline"></mat-icon> -->
+            <h4 class="titulo">Recibo</h4>
         </div>
 
         <div fxLayout="row" fxLayoutGap="2vw">
@@ -12,22 +13,9 @@
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="fecha.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
-            <mat-form-field fxFlex="25">
-                <input matInput [matDatepicker]="picker2" placeholder="Fecha de imputación" required readonly
-                    [(ngModel)]="modelFactura.FechaImputacion" name="fechaImputacion" #fechaImputacion="ngModel">
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-                <mat-error *ngIf="fechaImputacion.hasError('required')">Campo obligatorio.</mat-error>
-            </mat-form-field>
             <div fxLayout="row" fxFlex="25" fxLayoutGap="3px">
-                <mat-label>Número *</mat-label>
-                <mat-form-field fxFlex="28">
-                    <input type="number" matInput [(ngModel)]="modelFactura.Sucursal" name="sucursal" #sucursal="ngModel" required>
-                    <mat-error *ngIf="sucursal.hasError('required')">Campo obligatorio.</mat-error>
-                </mat-form-field>
-                <mat-label>-</mat-label>
                 <mat-form-field fxFlex="38">
-                    <input type="number" matInput [(ngModel)]="modelFactura.Numero" name="numero" #numero="ngModel" required>
+                    <input type="number" placeholder="Número" matInput [(ngModel)]="modelFactura.Numero" name="numero" #numero="ngModel" required>
                     <mat-error *ngIf="numero.hasError('required')">Campo obligatorio.</mat-error>
                 </mat-form-field>
             </div>
@@ -38,19 +26,12 @@
                     <mat-button-toggle value="C" id="c"> C </mat-button-toggle>
                     <mat-button-toggle value="M" id="m"> M </mat-button-toggle>
                 </mat-button-toggle-group>
-                <p class="msgError" *ngIf="proveedorNuevo != undefined && clase.hasError('required')">Campo obligatorio.</p>
+                <p class="msgError" *ngIf="clase.hasError('required')">Campo obligatorio.</p>
             </div>
         </div>
 
-
         <div fxLayout="row" fxLayoutGap="2vw" style="margin-bottom: 5px;">
-            <mat-label>¿Es un proveedor nuevo?</mat-label>
-            <mat-button-toggle-group>
-                <mat-button-toggle (click)="proveedorNuevo = true">Sí</mat-button-toggle>
-                <mat-button-toggle (click)="proveedorNuevo = false">No</mat-button-toggle>
-            </mat-button-toggle-group>
-
-            <mat-form-field fxFlex="40" *ngIf="proveedorNuevo != undefined && !proveedorNuevo">
+            <mat-form-field fxFlex="40">
                 <input type="text" placeholder="Proveedor" aria-label="Proveedor" matInput required
                     [formControl]="proveedoresControl" [matAutocomplete]="auto" name="proveedor"
                     (blur)="setIdProveedor(this.proveedoresControl)" [(ngModel)]="modelFactura.IdProveedorNavigation">
@@ -61,23 +42,6 @@
                 </mat-autocomplete>
                 <mat-error *ngIf="proveedoresControl.hasError('required')">Campo obligatorio.</mat-error>
             </mat-form-field>
-
-            <div fxLayoutGap="16px" fxLayout="row" *ngIf="proveedorNuevo != undefined && proveedorNuevo" fxFlex="40">
-                <mat-form-field fxFlex="70">
-                    <input matInput placeholder="Nombre" [(ngModel)]="modelProveedor.Nombre" name="nombre"
-                        #nombre="ngModel" required>
-                    <mat-error *ngIf="nombre.hasError('required')">Campo obligatorio.</mat-error>
-                </mat-form-field>
-                <div fxLayout="column" fxFlex="30">
-                    <mat-form-field>
-                        <input matInput placeholder="CUIT" [(ngModel)]="modelProveedor.Cuit" name="cuit"
-                            (input)="validarCuit()" #cuit="ngModel" required>
-                        <mat-error *ngIf="cuit.hasError('required')">Campo obligatorio.</mat-error>
-                    </mat-form-field>
-                    <p class="msgError" *ngIf="!cuitValido" style="margin: 0;position:absolute;margin-top:45px">
-                        El CUIT ingresado no es válido.</p>
-                </div>
-            </div>
         </div>
 
         <div fxLayout="row" fxLayoutGap="2vw">
@@ -96,19 +60,6 @@
                 <input matInput type="number" placeholder="Monto pesos" [(ngModel)]="modelFactura.Monto" name="monto"
                     #monto="ngModel" (blur)="validarMonto()" required>
                 <mat-error *ngIf="monto.hasError('required')">Campo obligatorio.</mat-error>
-            </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutGap="2vw">
-            <mat-slide-toggle color="accent" id="tarjeta" name="tarjeta" (change)="conTarjeta = !conTarjeta">
-                Con tarjeta
-            </mat-slide-toggle>
-            <mat-form-field fxFlex="25">
-                <mat-select placeholder="Tarjeta" [(ngModel)]="modelFactura.IdTarjeta" name="tarjetaCredito"
-                    #tarjetaCredito="ngModel" [disabled]="!conTarjeta">
-                    <mat-option *ngFor="let ta of tarjetas" [value]="ta.Id">
-                        {{ta.Id}} - {{ ta.Nombre }}
-                    </mat-option>
-                </mat-select>
             </mat-form-field>
         </div>
 

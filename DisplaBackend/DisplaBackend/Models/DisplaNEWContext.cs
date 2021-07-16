@@ -1020,11 +1020,17 @@ namespace DisplaBackend.Models
                     .HasColumnName("id")
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.Borrado).HasColumnName("borrado");
+                entity.Property(e => e.Borrado)
+                    .HasColumnName("borrado")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Combinacion)
                     .HasColumnName("combinacion")
                     .HasMaxLength(10);
+
+                entity.Property(e => e.ControlaStock)
+                    .HasColumnName("controlaStock")
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.DescripcionFactura)
                     .HasColumnName("descripcionFactura")

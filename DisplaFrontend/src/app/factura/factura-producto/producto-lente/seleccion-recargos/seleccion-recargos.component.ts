@@ -37,9 +37,11 @@ export class SeleccionRecargosComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.selectedLente.currentValue.length > 0) {
+      console.log(changes.selectedLente.currentValue)
       this.modelLente = changes.selectedLente.currentValue;
       this.lenteService.getRecargoLente(changes.selectedLente.currentValue[0].IdLente)
         .subscribe(r => {
+          console.log(r)
           this.dataSource.data = r;
         })
     }

@@ -8,10 +8,11 @@ import { FacturaProveedorComponent } from './factura/factura.component';
 import { NotaCreditoProveedorComponent } from './nota-credito/nota-credito.component';
 import { NotaDebitoProveedorComponent } from './nota-debito/nota-debito.component';
 import { ConsultaComprobanteProveedorComponent } from './consulta-comprobante/consulta-comprobante.component';
+import { ReciboProveedorComponent } from './recibo/recibo.component';
 
 @NgModule({
     entryComponents: [],
-    declarations: [ FacturaProveedorComponent, NotaCreditoProveedorComponent, NotaDebitoProveedorComponent, ConsultaComprobanteProveedorComponent ],
+    declarations: [ FacturaProveedorComponent, NotaCreditoProveedorComponent, NotaDebitoProveedorComponent, ConsultaComprobanteProveedorComponent, ReciboProveedorComponent ],
     imports: [
         CommonModule,
         MaterialModule,

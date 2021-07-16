@@ -142,7 +142,7 @@
                     <mat-form-field>
                         <input type="number" placeholder="Neto" matInput #neto="ngModel" [(ngModel)]="a.Neto"
                             id="neto{{i}}" name="neto{{i}}" (blur)="calcularMontoIVA(i); validarMonto()" [disabled]="modelFactura.Monto == undefined || modelAlicuota.length === 1" required>
-                        <!-- <mat-error *ngIf="neto.invalid">Este campo es obligatorio</mat-error> -->
+                        <!-- <mat-error *ngIf="neto.invalid">Campo obligatorio.</mat-error> -->
                     </mat-form-field>
 
                     <mat-form-field>

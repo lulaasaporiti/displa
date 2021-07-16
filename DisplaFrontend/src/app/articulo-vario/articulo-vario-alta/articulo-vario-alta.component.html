@@ -59,7 +59,7 @@
                     <mat-form-field fxFill>
                         <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel" pattern="[0-9]+(\.[0-9][0-9]?)?"
                             [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}" required type="number">
-                        <mat-error *ngIf="inputPrecio.invalid">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="inputPrecio.invalid">Campo obligatorio.</mat-error>
                         <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarPrecio(i)"
                         [disabled]="modelPrecio.length < 1">
                         <mat-icon svgIcon="close"></mat-icon>

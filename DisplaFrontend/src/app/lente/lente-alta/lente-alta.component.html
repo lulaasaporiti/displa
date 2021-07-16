@@ -15,7 +15,7 @@
             <mat-form-field fxFlex='40' fxLayout="column">
                 <input placeholder="Descripción" matInput [(ngModel)]="modelLente.Nombre" name="descripcion"
                     #descripcion="ngModel" required>
-                <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio</mat-error>
+                <mat-error *ngIf="descripcion.invalid">Campo obligatorio.</mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex='30' fxLayout="column">
@@ -31,7 +31,7 @@
                     <mat-option value="+ +  / - +">+ + / - +</mat-option>
                     <mat-option value="+ -  / - -">+ - / - -</mat-option>
                 </mat-select>
-                <mat-error *ngIf="combinacion.invalid">Este campo es obligatorio</mat-error>
+                <mat-error *ngIf="combinacion.invalid">Campo obligatorio.</mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex='15'>
@@ -46,6 +46,10 @@
 
             <mat-checkbox fxFlex='15' class="radio-group" [(ngModel)]="modelLente.MediosPares" name="mediosPares"
                 #mediosPares="ngModel">Medios pares
+            </mat-checkbox>
+
+            <mat-checkbox fxFlex='15' class="radio-group" [(ngModel)]="modelLente.ControlaStock" name="controla"
+                #controla="ngModel">Controla stock
             </mat-checkbox>
 
             <mat-checkbox fxFlex='15' class="radio-group" [(ngModel)]="modelLente.Fraccionado" name="fraccionado"
@@ -94,7 +98,7 @@
                                 required (keypress)="_keyPress($event)"
                                 (blur)="this.validacionLenteService.divisionMedida(modelPrecio[i], modelPrecio[i].MedidaEsferico, 'esferico')"
                                 (input)="compararLimiteGrilla(i, 'esferico')">
-                            <mat-error *ngIf="inputEsferico.invalid">Este campo es obligatorio</mat-error>
+                            <mat-error *ngIf="inputEsferico.invalid">Campo obligatorio.</mat-error>
                         </mat-form-field>
                         <p class="msjError" style="margin:0; position: absolute; margin-top:45px" *ngIf="msjLimiteEsferico[i]">
                             La medida no se encuentra dentro<br> de los límites.</p>
@@ -106,7 +110,7 @@
                                 name="cilindrico{{i}}" required (keypress)="_keyPress($event)"
                                 (blur)="this.validacionLenteService.divisionMedida(modelPrecio[i], modelPrecio[i].MedidaCilindrico, 'cilindrico'); compararLimiteGrilla(i, 'cilindrico')"
                                 (keypress)="_keyPress($event)">
-                            <mat-error *ngIf="inputCilindrico.invalid">Este campo es obligatorio</mat-error>
+                            <mat-error *ngIf="inputCilindrico.invalid">Campo obligatorio.</mat-error>
                         </mat-form-field>
                         <p class="msjError" style="margin:0; position: absolute; margin-top:45px" *ngIf="msjLimiteCilindrico[i] && !inputCilindrico.invalid">
                             La medida no se encuentra dentro<br> de los límites.
@@ -116,7 +120,7 @@
                         <input type="text" placeholder="Precio" matInput #inputPrecio="ngModel"
                             pattern="[0-9]+(\.[0-9][0-9]?)?" [(ngModel)]="p.Precio" id="precio{{i}}" name="precio{{i}}"
                             required>
-                        <mat-error *ngIf="inputPrecio.hasError('required')">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="inputPrecio.hasError('required')">Campo obligatorio.</mat-error>
                         <mat-error *ngIf="inputPrecio.hasError('pattern')">Formato inválido</mat-error>
                     </mat-form-field>
 
@@ -161,13 +165,13 @@
                     <mat-form-field>
                         <input type="text" placeholder="Descripción" matInput #inputDescripcion="ngModel"
                             [(ngModel)]="r.Descripcion" id="descripcion{{i}}" name="descripcion{{i}}" required>
-                        <mat-error *ngIf="inputDescripcion.invalid">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="inputDescripcion.invalid">Campo obligatorio.</mat-error>
                     </mat-form-field>
 
                     <mat-form-field>
                         <input type="text" placeholder="Porcentaje" matInput #inputPorcentaje="ngModel"
                             [(ngModel)]="r.Porcentaje" id="porcentaje{{i}}" name="porcentaje{{i}}" required>
-                        <mat-error *ngIf="inputPorcentaje.invalid">Este campo es obligatorio</mat-error>
+                        <mat-error *ngIf="inputPorcentaje.invalid">Campo obligatorio.</mat-error>
                     </mat-form-field>
 
                     <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="eliminarRecargo(i)"

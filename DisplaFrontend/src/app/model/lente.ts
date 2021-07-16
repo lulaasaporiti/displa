@@ -17,5 +17,6 @@ export interface Lente {
     PrecioLente: PrecioLente[],
     RecargoLente: RecargoLente[],
     Iva: number,
-    Fraccionado: boolean
+    Fraccionado: boolean,
+    ControlaStock: boolean
 }

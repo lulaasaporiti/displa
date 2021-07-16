@@ -10,7 +10,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Descripcion" [(ngModel)]="data.modelTipoDescuento.Descripcion" name="descripcion"
                     #descripcion="ngModel" (keyup.enter)="onEnter();" required>
-                <mat-error *ngIf="descripcion.invalid">Este campo es obligatorio</mat-error>
+                <mat-error *ngIf="descripcion.invalid">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 

@@ -157,7 +157,7 @@
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(86)" routerLink="Proveedor/Factura">Factura</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(87)" routerLink="Proveedor/NotaDebito">Nota de débito</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(88)" routerLink="Proveedor/NotaCredito">Nota de crédito</a>
-                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(89)">Recibo</a>
+                    <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(89)" routerLink="Proveedor/Recibo">Recibo</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(90)" (click)="openDialogAltaMovimientoInterno('proveedor');">Movimientos internos</a>
                     <a mat-menu-item class="button-list" *ngIf="chequearFuncionUsuario(81)" routerLink="Proveedor/ConsultaComprobante">Consulta de comprobantes</a>
                 </mat-menu>
@@ -249,14 +249,13 @@
             <p fxLayout="row" fxFlexFill class="footer-p" fxLayoutAlign="space-between center">
                 <a mat-button class="title-list">Accesos directos:</a>
                 <a mat-button class="footer-list" *ngIf="chequearFuncionUsuario(50)" (click)="openDialogClientes('factura');">Factura</a>
-                <!-- <a mat-button class="button-list">Listado clientes</a> -->
                 <a mat-button class="footer-list" *ngIf="chequearFuncionUsuario(53)" (click)="openDialogAltaRecibo();">Recibos</a>
                 <a mat-button class="footer-list" *ngIf="chequearFuncionUsuario(31)" (click)="openDialogLentes();">Stock en uso</a>
                 <a mat-button class="footer-list" routerLink="">Stock depósito</a>
                 <a mat-button class="footer-list" routerLink="">Sacar lentes de depósito</a>
-                <a mat-button class="footer-list" routerLink="">Facturas proveedores</a>
+                <a mat-button class="footer-list" *ngIf="chequearFuncionUsuario(86)" routerLink="Proveedor/Factura">Facturas proveedores</a>
                 <a mat-button class="footer-list" routerLink="">Cuentas proveedores</a>
-                <a mat-button class="footer-list" routerLink="">Recibos proveedores</a>
+                <a mat-button class="footer-list" *ngIf="chequearFuncionUsuario(89)" routerLink="Proveedor/Recibo">Recibos proveedores</a>
                 <a mat-button class="footer-list" *ngIf="chequearFuncionUsuario(58)" (click)="openDialogAltaSobre();">Alta de sobres</a>
             </p>
         </div>

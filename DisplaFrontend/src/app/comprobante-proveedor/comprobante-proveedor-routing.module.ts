@@ -6,6 +6,7 @@ import { FacturaProveedorComponent } from './factura/factura.component';
 import { NotaCreditoProveedorComponent } from './nota-credito/nota-credito.component';
 import { NotaDebitoProveedorComponent } from './nota-debito/nota-debito.component';
 import { ConsultaComprobanteProveedorComponent } from './consulta-comprobante/consulta-comprobante.component';
+import { ReciboProveedorComponent } from './recibo/recibo.component';
 
 const routes: Routes = [
   {
@@ -15,8 +16,7 @@ const routes: Routes = [
       {path: 'Proveedor/Factura', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [86] }, component: FacturaProveedorComponent},
       {path: 'Proveedor/NotaDebito', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [87] }, component: NotaDebitoProveedorComponent},
       {path: 'Proveedor/NotaCredito', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [88] }, component: NotaCreditoProveedorComponent},
-
- //89 recibo
+      {path: 'Proveedor/Recibo', canActivate: [AuthorizeRoleGuard], data: { expectedRoles: [89] }, component: ReciboProveedorComponent},
     ]
   }
 ];

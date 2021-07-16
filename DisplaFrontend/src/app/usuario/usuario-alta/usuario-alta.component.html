@@ -9,7 +9,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Usuario" [(ngModel)]="data.modelUsuario.UserName" name="usuario"
                     #usuario="ngModel" required>
-                <mat-error *ngIf="usuario.invalid">Este campo es obligatorio</mat-error>
+                <mat-error *ngIf="usuario.invalid">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -17,7 +17,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Nombre" [(ngModel)]="data.modelUsuario.Nombre" name="nombre"
                     #nombre="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio</mat-error>
+                <mat-error *ngIf="nombre.invalid">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -25,7 +25,7 @@
             <mat-form-field fxFill>
                 <input matInput placeholder="Apellido" [(ngModel)]="data.modelUsuario.Apellido" name="apellido"
                     #usuario="ngModel" required>
-                <mat-error *ngIf="nombre.invalid">Este campo es obligatorio</mat-error>
+                <mat-error *ngIf="nombre.invalid">Campo obligatorio.</mat-error>
             </mat-form-field>
         </div>
 
@@ -38,7 +38,7 @@
                 <mat-icon matSuffix (click)="hidePassword = !hidePassword">
                     {{hidePassword ? 'visibility' : 'visibility_off'}}
                 </mat-icon>
-                <mat-error *ngIf="password.invalid">Este campo es obligatorio</mat-error>
+                <mat-error *ngIf="password.invalid">Campo obligatorio.</mat-error>
             </mat-form-field>
             <p class="msgErrorUser" *ngIf="msgErrorFormato">La contraseña tiene que tener mínimo 6 caracteres.</p>
         </div>

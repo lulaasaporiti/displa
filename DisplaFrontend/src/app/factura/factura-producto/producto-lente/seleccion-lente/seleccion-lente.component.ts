@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
-import { startWith, map, takeUntil, take } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 import { Lente } from 'src/app/model/lente';
 import { LenteService } from 'src/services/lente.service';
 import { LimiteGrilla } from 'src/app/model/limiteGrilla';

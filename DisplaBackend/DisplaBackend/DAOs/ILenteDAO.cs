@@ -71,6 +71,7 @@ namespace DisplaBackend.DAOs
                     DescripcionFactura = l.DescripcionFactura,
                     Borrado = l.Borrado,
                     Iva = l.Iva,
+                    ControlaStock = l.ControlaStock,
                     GraduacionesCilindricas = l.GraduacionesCilindricas,
                     Combinacion = l.Combinacion,
                     Fraccionado = l.Fraccionado,

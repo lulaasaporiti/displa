@@ -53,7 +53,7 @@
             <input type="text" placeholder="Medida esférico" matInput autocomplete="off" [(ngModel)]="stockLente.MedidaEsferico"
               id="esferi" name="esferi" #esferi="ngModel" required (keypress)="_keyPress($event)" 
               (blur)="compararLimiteGrilla($event.target.value, 'esferico'); this.validacionLenteService.divisionMedida(stockLente, stockLente.MedidaEsferico, 'esferico'); convertirMedidas()">
-            <mat-error *ngIf="esferi.invalid">Este campo es obligatorio</mat-error>
+            <mat-error *ngIf="esferi.invalid">Campo obligatorio.</mat-error>
           </mat-form-field>
           <p class="msjError" *ngIf="msjLimiteEsferico">
           La medida no se encuentra dentro de los límites.</p>
@@ -64,7 +64,7 @@
             <input type="text" placeholder="Medida cilíndrico" matInput autocomplete="off" [(ngModel)]="stockLente.MedidaCilindrico" 
               id="cilin" name="cilin" #cilin="ngModel" (keypress)="_keyPress($event)" required 
               (blur)="cambiarSigno(); compararLimiteGrilla($event.target.value, 'cilindrico'); convertirMedidas()">
-            <mat-error *ngIf="cilin.invalid">Este campo es obligatorio</mat-error>
+            <mat-error *ngIf="cilin.invalid">Campo obligatorio.</mat-error>
           </mat-form-field>
           <p class="msjError" *ngIf="msjLimiteCilindrico">
             La medida no se encuentra dentro de los límites.
